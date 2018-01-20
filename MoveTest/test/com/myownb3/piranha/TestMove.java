@@ -17,9 +17,10 @@ class TestMove {
     void testMoveForwardOneTime() {
 
 	// Given
-	SimpleMoveable moveable = new SimpleMoveable(new Position(0, 0));
+	Position expectedStartPosition = new Position(0, 0);
+	SimpleMoveable moveable = new SimpleMoveable(expectedStartPosition);
 
-	Position startPosition = moveable.getPosition();
+	Position effectStartPosition = moveable.getPosition();
 	Position erwarteteEndPosition = new Position(0, 1);
 
 	// When
@@ -28,7 +29,7 @@ class TestMove {
 	// Then
 	Position endPosition = moveable.getPosition();
 
-	Assert.assertThat(startPosition, CoreMatchers.is(new Position(0, 0)));
+	Assert.assertThat(effectStartPosition, CoreMatchers.is(expectedStartPosition));
 	Assert.assertThat(endPosition, CoreMatchers.is(erwarteteEndPosition));
     }
 }
