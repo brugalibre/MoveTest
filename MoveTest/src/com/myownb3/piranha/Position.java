@@ -11,37 +11,54 @@ public class Position {
 
     private int y;
     private int x;
-    private String direction;
+    private Direction direction = Direction.N;
 
     /**
      * @param x
      * @param y
      */
     public Position(int x, int y) {
+	this(Direction.N, x, y);
+    }
+
+    /**
+     * @param direction
+     * @param x
+     * @param y
+     */
+    public Position(Direction direction, int x, int y) {
+	this.direction = direction;
 	this.x = x;
 	this.y = y;
-	this.direction = "N";
+    }
+
+    public void turnRight() {
+	direction = direction.turnRight();
+    }
+
+    public void turnLeft() {
+	direction = direction.turnLeft();
+    }
+
+    public Position moveBackwarts() {
+
+	double newX = x + direction.getBackwardX();
+	double newY = y + direction.getBackwardY();
+	return new Position(direction, (int) newX, (int) newY);
+    }
+
+    public Position moveForward() {
+
+	double newX = x + direction.getForwardX();
+	double newY = y + direction.getForwardY();
+	return new Position(direction, (int) newX, (int) newY);
     }
 
     /**
      * @return the direction
      */
-    public final String getDirection() {
+    public final Direction getDirection() {
 	return this.direction;
-    }
-
-    /**
-     * @return the y
-     */
-    public int getY() {
-	return this.y;
-    }
-
-    /**
-     * @return the x
-     */
-    public int getX() {
-	return this.x;
     }
 
     @Override
@@ -71,6 +88,6 @@ public class Position {
 
     @Override
     public String toString() {
-	return "X-Axis: '" + x + "', Y-Axis: '" + y + "'";
+	return "Direction: '" + direction + "', X-Axis: '" + x + "', Y-Axis: '" + y + "'";
     }
 }

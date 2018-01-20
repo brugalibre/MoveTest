@@ -7,25 +7,20 @@ package com.myownb3.piranha;
  * @author Dominic
  *
  */
-public class SimpleMoveable {
+public class SimpleMoveable extends AbstractMovable {
 
-    private Position position;
+    /**
+     * @param position
+     */
+    public SimpleMoveable() {
+	this(new Position(0, 0));
+    }
 
     /**
      * @param position
      */
     public SimpleMoveable(Position position) {
+	super();
 	this.position = position;
-    }
-
-    /**
-     * @return
-     */
-    public Position getPosition() {
-	return position;
-    }
-
-    public void moveForward() {
-	position = new Position(position.getX(), position.getY() + 1);
     }
 }
