@@ -10,11 +10,11 @@ package com.myownb3.piranha;
 public abstract class AbstractMovable implements Moveable {
 
     protected Position position;
+    protected Grid grid;
 
     @Override
     public void moveForward() {
-
-	position = position.moveForward();
+	position = grid.moveForward(position);
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class AbstractMovable implements Moveable {
 
     @Override
     public void moveBackward() {
-	position = position.moveBackward();
+	position = grid.moveBackward(position);
     }
 
     @Override

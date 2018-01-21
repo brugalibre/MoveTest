@@ -37,34 +37,18 @@ public class Position {
     }
 
     /**
-     * Moves the position of this {@link Position} backward by 1 unit
-     * 
-     * @return the new Position
-     */
-    public Position moveBackward() {
-
-	double newX = x + direction.getBackwardX();
-	double newY = y + direction.getBackwardY();
-	return new Position(direction, newX, newY);
-    }
-
-    /**
-     * Moves the position of this {@link Position} forward by 1 unit
-     * 
-     * @return the new Position
-     */
-    public Position moveForward() {
-
-	double newX = x + direction.getForwardX();
-	double newY = y + direction.getForwardY();
-	return new Position(direction, newX, newY);
-    }
-
-    /**
      * @return the direction
      */
-    public final Direction getDirection() {
+    public Direction getDirection() {
 	return this.direction;
+    }
+
+    public final double getY() {
+	return this.y;
+    }
+
+    public final double getX() {
+	return this.x;
     }
 
     @Override
