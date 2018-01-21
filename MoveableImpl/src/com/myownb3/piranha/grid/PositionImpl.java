@@ -4,7 +4,7 @@
 package com.myownb3.piranha.grid;
 
 import com.myownb3.piranha.moveables.Direction;
-import com.myownb3.piranha.moveables.DirectionImpl;
+import com.myownb3.piranha.moveables.DirectionDefs;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -22,7 +22,7 @@ public class PositionImpl implements Position {
      * @param y
      */
     public PositionImpl(double x, double y) {
-	this(DirectionImpl.N, x, y);
+	this(DirectionDefs.N, x, y);
     }
 
     public PositionImpl(Direction direction, double x, double y) {
@@ -35,8 +35,8 @@ public class PositionImpl implements Position {
      * @param dregree
      */
     @Override
-    public void makeTurn(int dregree) {
-	direction = direction.makeTurn(dregree);
+    public void rotate(int dregree) {
+	direction = direction.rotate(dregree);
     }
 
     /**

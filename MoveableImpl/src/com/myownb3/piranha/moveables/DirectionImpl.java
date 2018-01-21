@@ -12,11 +12,6 @@ import java.util.Map;
  */
 public class DirectionImpl implements Direction {
 
-    public static final DirectionImpl N = new DirectionImpl(90, "N");
-    public static final DirectionImpl O = new DirectionImpl(0, "O");
-    public static final DirectionImpl S = new DirectionImpl(270, "S");
-    public static final DirectionImpl W = new DirectionImpl(180, "W");
-
     private static final Map<Integer, String> degree2DirectionMap;
     static {
 	degree2DirectionMap = getDegree2DirectionMap();
@@ -44,7 +39,7 @@ public class DirectionImpl implements Direction {
     }
 
     @Override
-    public Direction makeTurn(int degree) {
+    public Direction rotate(int degree) {
 	int rotationTmp = (this.rotation + degree) % 360;
 	if (rotationTmp < 0) {
 	    rotationTmp = 360 + rotationTmp;

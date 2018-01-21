@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.PositionImpl;
-import com.myownb3.piranha.moveables.DirectionImpl;
+import com.myownb3.piranha.moveables.DirectionDefs;
 
 /**
  * @author Dominic
@@ -22,10 +22,10 @@ class PositionTest {
     void testHashCode() {
 
 	// Given
-	PositionImpl pos = new PositionImpl(DirectionImpl.N, 0, 0);
+	PositionImpl pos = new PositionImpl(DirectionDefs.N, 0, 0);
 
 	// When
-	PositionImpl anotherPos = new PositionImpl(DirectionImpl.N, 0, 0);
+	PositionImpl anotherPos = new PositionImpl(DirectionDefs.N, 0, 0);
 
 	// Then
 	Assert.assertThat(anotherPos.hashCode(), is(pos.hashCode()));
@@ -35,12 +35,12 @@ class PositionTest {
     void testEquals() {
 
 	// Given
-	PositionImpl pos = new PositionImpl(DirectionImpl.N, 0, 0);
+	PositionImpl pos = new PositionImpl(DirectionDefs.N, 0, 0);
 
 	// When
-	PositionImpl anotherPos = new PositionImpl(DirectionImpl.N, 0, 0);
-	PositionImpl anotherNotExactlySamePos = new PositionImpl(DirectionImpl.N, 0, 1);
-	PositionImpl anotherNotExactlySamePos2 = new PositionImpl(DirectionImpl.S, 0, 1);
+	PositionImpl anotherPos = new PositionImpl(DirectionDefs.N, 0, 0);
+	PositionImpl anotherNotExactlySamePos = new PositionImpl(DirectionDefs.N, 0, 1);
+	PositionImpl anotherNotExactlySamePos2 = new PositionImpl(DirectionDefs.S, 0, 1);
 
 	// Then
 	Assert.assertThat(pos, CoreMatchers.is(anotherPos));
@@ -56,9 +56,9 @@ class PositionTest {
     void testToString() {
 
 	// Given
-	PositionImpl pos = new PositionImpl(DirectionImpl.N, 0, 0);
+	PositionImpl pos = new PositionImpl(DirectionDefs.N, 0, 0);
 	// When
-	PositionImpl anotherPos = new PositionImpl(DirectionImpl.N, 0, 0);
+	PositionImpl anotherPos = new PositionImpl(DirectionDefs.N, 0, 0);
 
 	// Then
 	Assert.assertThat(pos.toString(), is(anotherPos.toString()));

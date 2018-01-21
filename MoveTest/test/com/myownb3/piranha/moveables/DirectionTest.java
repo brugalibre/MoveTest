@@ -8,9 +8,6 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.moveables.Direction;
-import com.myownb3.piranha.moveables.DirectionImpl;
-
 /**
  * @author Dominic
  *
@@ -21,7 +18,7 @@ class DirectionTest {
     void testHashCode() {
 
 	// Given
-	Direction north = DirectionImpl.N;
+	Direction north = DirectionDefs.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90);
@@ -34,7 +31,7 @@ class DirectionTest {
     void testEquals() {
 
 	// Given
-	Direction north = DirectionImpl.N;
+	Direction north = DirectionDefs.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90, "N");
@@ -56,7 +53,7 @@ class DirectionTest {
 	// Given
 	String expectedToString = "N";
 	// When
-	DirectionImpl north = DirectionImpl.N;
+	Direction north = DirectionDefs.N;
 
 	// Then
 	Assert.assertThat(north.toString(), is(expectedToString));

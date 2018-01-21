@@ -73,8 +73,8 @@ class TestMove {
 
 	// Given
 	Moveable moveable = new SimpleMoveable();
-	Direction[] resultList = new DirectionImpl[] { DirectionImpl.O, DirectionImpl.S, DirectionImpl.W,
-		DirectionImpl.N };
+	Direction[] resultList = new DirectionImpl[] { DirectionDefs.O, DirectionDefs.S, DirectionDefs.W,
+		DirectionDefs.N };
 
 	// When
 	for (int i = 0; i < resultList.length; i++) {
@@ -83,7 +83,7 @@ class TestMove {
 
 	    // Then
 	    Position endPosition = moveable.getPosition();
-	    Position erwarteteEndPosition = new PositionImpl(DirectionImpl.N, 0, 0);
+	    Position erwarteteEndPosition = new PositionImpl(DirectionDefs.N, 0, 0);
 	    Direction expectedDirection = resultList[i];
 
 	    Assert.assertThat(endPosition, is(erwarteteEndPosition));
@@ -98,8 +98,8 @@ class TestMove {
 	Moveable moveable = new SimpleMoveable();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
-	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionImpl.O);
-	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionImpl.S);
+	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionDefs.O);
+	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionDefs.S);
 
 	// When
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
@@ -110,7 +110,7 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = new PositionImpl(DirectionImpl.S, 0, -1);
+	Position erwarteteEndPosition = new PositionImpl(DirectionDefs.S, 0, -1);
 
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
 
@@ -126,9 +126,9 @@ class TestMove {
 	Moveable moveable = new SimpleMoveable();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
-	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionImpl.O);
-	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionImpl.S);
-	expectedPositionToTurnMap.put(Integer.valueOf(2), DirectionImpl.W);
+	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionDefs.O);
+	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionDefs.S);
+	expectedPositionToTurnMap.put(Integer.valueOf(2), DirectionDefs.W);
 
 	// When
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
@@ -139,7 +139,7 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = new PositionImpl(DirectionImpl.W, -1, 0);
+	Position erwarteteEndPosition = new PositionImpl(DirectionDefs.W, -1, 0);
 
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
 
@@ -157,8 +157,8 @@ class TestMove {
 
 	// Given
 	Moveable moveable = new SimpleMoveable();
-	Direction[] resultList = new DirectionImpl[] { DirectionImpl.W, DirectionImpl.S, DirectionImpl.O,
-		DirectionImpl.N };
+	Direction[] resultList = new DirectionImpl[] { DirectionDefs.W, DirectionDefs.S, DirectionDefs.O,
+		DirectionDefs.N };
 
 	// When
 	for (int i = 0; i < resultList.length; i++) {
@@ -166,7 +166,7 @@ class TestMove {
 
 	    // Then
 	    Position endPosition = moveable.getPosition();
-	    Position erwarteteEndPosition = new PositionImpl(DirectionImpl.N, 0, 0);
+	    Position erwarteteEndPosition = new PositionImpl(DirectionDefs.N, 0, 0);
 	    Direction expectedDirection = resultList[i];
 
 	    Assert.assertThat(endPosition, is(erwarteteEndPosition));
@@ -190,7 +190,7 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = new PositionImpl(DirectionImpl.W, 1, 0);
+	Position erwarteteEndPosition = new PositionImpl(DirectionDefs.W, 1, 0);
 
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
     }
@@ -202,8 +202,8 @@ class TestMove {
 	Moveable moveable = new SimpleMoveable();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
-	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionImpl.W);
-	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionImpl.S);
+	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionDefs.W);
+	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionDefs.S);
 
 	// When
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
@@ -214,7 +214,7 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = new PositionImpl(DirectionImpl.S, 0, 1);
+	Position erwarteteEndPosition = new PositionImpl(DirectionDefs.S, 0, 1);
 
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
 
@@ -230,9 +230,9 @@ class TestMove {
 	Moveable moveable = new SimpleMoveable();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
-	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionImpl.W);
-	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionImpl.S);
-	expectedPositionToTurnMap.put(Integer.valueOf(2), DirectionImpl.O);
+	expectedPositionToTurnMap.put(Integer.valueOf(0), DirectionDefs.W);
+	expectedPositionToTurnMap.put(Integer.valueOf(1), DirectionDefs.S);
+	expectedPositionToTurnMap.put(Integer.valueOf(2), DirectionDefs.O);
 
 	// When
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
@@ -243,7 +243,7 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = new PositionImpl(DirectionImpl.O, -1, 0);
+	Position erwarteteEndPosition = new PositionImpl(DirectionDefs.O, -1, 0);
 
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
 
@@ -257,7 +257,7 @@ class TestMove {
 
 	// Given
 	Moveable moveable = new SimpleMoveable();
-	DirectionImpl expectedDirection = DirectionImpl.N;
+	DirectionImpl expectedDirection = DirectionDefs.N;
 
 	// When
 	moveable.moveBackward();
