@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha;
+package com.myownb3.piranha.moveables;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,12 +10,12 @@ import java.util.Map;
 /**
  * @author Dominic
  */
-public class Direction {
+public class DirectionImpl implements Direction {
 
-    public static final Direction N = new Direction(90, "N");
-    public static final Direction O = new Direction(0, "O");
-    public static final Direction S = new Direction(270, "S");
-    public static final Direction W = new Direction(180, "W");
+    public static final DirectionImpl N = new DirectionImpl(90, "N");
+    public static final DirectionImpl O = new DirectionImpl(0, "O");
+    public static final DirectionImpl S = new DirectionImpl(270, "S");
+    public static final DirectionImpl W = new DirectionImpl(180, "W");
 
     private static final Map<Integer, String> degree2DirectionMap;
     static {
@@ -29,7 +29,7 @@ public class Direction {
      * @param rotation
      * 
      */
-    private Direction(int rotation, String cardinalDirection) {
+    DirectionImpl(int rotation, String cardinalDirection) {
 	this.rotation = rotation;
 	this.cardinalDirection = cardinalDirection;
     }
@@ -38,43 +38,36 @@ public class Direction {
      * @param rotation
      * 
      */
-    /* package */ Direction(int rotation) {
+    DirectionImpl(int rotation) {
 	this.rotation = rotation;
 	setCardinalDirection();
     }
 
+    @Override
     public Direction makeTurn(int degree) {
 	int rotationTmp = (this.rotation + degree) % 360;
 	if (rotationTmp < 0) {
 	    rotationTmp = 360 + rotationTmp;
 	}
-	return new Direction(rotationTmp);
+	return new DirectionImpl(rotationTmp);
     }
 
-    /**
-     * @return
-     */
+    @Override
     public double getForwardX() {
 	return Math.cos(toRadian(rotation));
     }
 
-    /**
-     * @return
-     */
+    @Override
     public double getForwardY() {
 	return Math.sin(toRadian(rotation));
     }
 
-    /**
-     * @return
-     */
+    @Override
     public double getBackwardX() {
 	return -getForwardX();
     }
 
-    /**
-     * @return
-     */
+    @Override
     public double getBackwardY() {
 	return -getForwardY();
     }
@@ -126,18 +119,16 @@ public class Direction {
 	if (obj == null) {
 	    return false;
 	}
-	if (!(obj instanceof Direction)) {
+	if (!(obj instanceof DirectionImpl)) {
 	    return false;
 	}
-	Direction other = (Direction) obj;
-	if (this.cardinalDirection == null) {
-	    if (other.cardinalDirection != null) {
-		return false;
-	    }
-	} else if (!this.cardinalDirection.equals(other.cardinalDirection)) {
-	    return false;
-	}
+	DirectionImpl other = (DirectionImpl) obj;
 	if (this.rotation != other.rotation) {
+	    return false;
+	}
+	if (this.cardinalDirection == null && other.cardinalDirection != null) {
+	    return false;
+	} else if (!this.cardinalDirection.equals(other.cardinalDirection)) {
 	    return false;
 	}
 	return true;

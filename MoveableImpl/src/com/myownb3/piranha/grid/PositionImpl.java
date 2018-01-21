@@ -1,15 +1,17 @@
 /**
  * 
  */
-package com.myownb3.piranha;
+package com.myownb3.piranha.grid;
 
+import com.myownb3.piranha.moveables.Direction;
+import com.myownb3.piranha.moveables.DirectionImpl;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
  *
  */
-public class Position {
+public class PositionImpl implements Position {
 
     private double y;
     private double x;
@@ -19,11 +21,11 @@ public class Position {
      * @param x
      * @param y
      */
-    public Position(double x, double y) {
-	this(Direction.N, x, y);
+    public PositionImpl(double x, double y) {
+	this(DirectionImpl.N, x, y);
     }
 
-    public Position(Direction direction, double x, double y) {
+    public PositionImpl(Direction direction, double x, double y) {
 	this.direction = direction;
 	this.x = MathUtil.roundThreePlaces(x);
 	this.y = MathUtil.roundThreePlaces(y);
@@ -32,6 +34,7 @@ public class Position {
     /**
      * @param dregree
      */
+    @Override
     public void makeTurn(int dregree) {
 	direction = direction.makeTurn(dregree);
     }
@@ -39,14 +42,17 @@ public class Position {
     /**
      * @return the direction
      */
+    @Override
     public Direction getDirection() {
 	return this.direction;
     }
 
+    @Override
     public final double getY() {
 	return this.y;
     }
 
+    @Override
     public final double getX() {
 	return this.x;
     }
@@ -68,7 +74,7 @@ public class Position {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	Position other = (Position) obj;
+	PositionImpl other = (PositionImpl) obj;
 	if (this.x != other.x)
 	    return false;
 	if (this.y != other.y)
