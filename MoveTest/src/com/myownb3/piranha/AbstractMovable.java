@@ -26,22 +26,29 @@ public abstract class AbstractMovable implements Moveable {
 
     @Override
     public void moveBackward() {
-	position = position.moveBackwarts();
+	position = position.moveBackward();
+    }
+
+    @Override
+    public void moveBackward(int amount) {
+	for (int i = 0; i < amount; i++) {
+	    moveBackward();
+	}
     }
 
     @Override
     public void turnLeft() {
-	turnDegree(90);
+	makeTurn(90);
     }
 
     @Override
-    public void turnDegree(int dregree) {
-	position.turnDegree(dregree);
+    public void makeTurn(int dregree) {
+	position.makeTurn(dregree);
     }
 
     @Override
     public void turnRight() {
-	turnDegree(-90);
+	makeTurn(-90);
     }
 
     @Override

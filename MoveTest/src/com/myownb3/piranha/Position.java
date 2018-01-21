@@ -13,7 +13,7 @@ public class Position {
 
     private double y;
     private double x;
-    private Direction direction = Direction.N;
+    private Direction direction;
 
     /**
      * @param x
@@ -25,24 +25,34 @@ public class Position {
 
     public Position(Direction direction, double x, double y) {
 	this.direction = direction;
-	this.x = MathUtil.roundTwoPlaces(x);
-	this.y = MathUtil.roundTwoPlaces(y);
+	this.x = MathUtil.roundThreePlaces(x);
+	this.y = MathUtil.roundThreePlaces(y);
     }
 
     /**
      * @param dregree
      */
-    public void turnDegree(int dregree) {
-	direction = direction.turnDegree(dregree);
+    public void makeTurn(int dregree) {
+	direction = direction.makeTurn(dregree);
     }
 
-    public Position moveBackwarts() {
+    /**
+     * Moves the position of this {@link Position} backward by 1 unit
+     * 
+     * @return the new Position
+     */
+    public Position moveBackward() {
 
 	double newX = x + direction.getBackwardX();
 	double newY = y + direction.getBackwardY();
 	return new Position(direction, newX, newY);
     }
 
+    /**
+     * Moves the position of this {@link Position} forward by 1 unit
+     * 
+     * @return the new Position
+     */
     public Position moveForward() {
 
 	double newX = x + direction.getForwardX();

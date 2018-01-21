@@ -30,14 +30,28 @@ class MathUtilTest {
     }
 
     @Test
+    void testRoundUp2() {
+
+	// Given
+	double number = -3.53553;
+	double expectedRoundedNumber = -3.54;
+
+	// When
+	double roundetNumber = MathUtil.round(number, 2);
+
+	// Then
+	Assert.assertThat(roundetNumber, CoreMatchers.is(expectedRoundedNumber));
+    }
+
+    @Test
     void testRoundUp() {
 
 	// Given
-	double pi = 3.1264;
-	double expectedRoundedPi = 3.13;
+	double pi = 3.1265;
+	double expectedRoundedPi = 3.127;
 
 	// When
-	double roundetPi = MathUtil.roundTwoPlaces(pi);
+	double roundetPi = MathUtil.roundThreePlaces(pi);
 
 	// Then
 	Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));

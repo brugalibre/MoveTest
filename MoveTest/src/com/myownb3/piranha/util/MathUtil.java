@@ -22,7 +22,7 @@ public class MathUtil {
 	return bd.doubleValue();
     }
 
-    public static double roundTwoPlaces(double value) {
-	return round(value, 2);
+    public static double roundThreePlaces(double value) {
+	return round(value, 3);
     }
 }

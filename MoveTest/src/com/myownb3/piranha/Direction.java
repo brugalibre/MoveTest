@@ -43,7 +43,7 @@ public class Direction {
 	setCardinalDirection();
     }
 
-    public Direction turnDegree(int degree) {
+    public Direction makeTurn(int degree) {
 	int rotationTmp = (this.rotation + degree) % 360;
 	if (rotationTmp < 0) {
 	    rotationTmp = 360 + rotationTmp;
@@ -80,10 +80,10 @@ public class Direction {
     }
 
     /**
-     * Returns the radian for the given amount of degrees
+     * Returns the radiant for the given amount of degrees
      * 
      * @param rotation
-     * @return the radian for the given amount of degrees
+     * @return the radiant for the given amount of degrees
      */
     private double toRadian(int rotation) {
 	return rotation * (Math.PI / 180);

@@ -18,6 +18,9 @@ public interface Moveable {
     /**
      * Moves this {@link Moveable} for the given amount of times forward,
      * considering the current {@link Direction}
+     * 
+     * @param amount
+     *            the amount of units to move forward
      */
     void moveForward(int amount);
 
@@ -26,6 +29,15 @@ public interface Moveable {
      * {@link Direction}
      */
     void moveBackward();
+
+    /**
+     * Moves this {@link Moveable} for the given amount of times forward,
+     * considering the current {@link Direction}
+     * 
+     * @param amount
+     *            the amount of units to move backward
+     */
+    void moveBackward(int amount);
 
     /**
      * @return the current {@link Position} of this {@link Moveable}
@@ -47,5 +59,6 @@ public interface Moveable {
      * 
      * @param dregree
      */
-    void turnDegree(int dregree);
+    void makeTurn(int dregree);
+
 }
