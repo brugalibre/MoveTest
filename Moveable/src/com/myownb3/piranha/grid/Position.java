@@ -14,11 +14,11 @@ import com.myownb3.piranha.moveables.Direction;
 public interface Position {
 
     /**
-     * Turns this {@link Position} for the given amount of degrees
+     * Rotate this {@link Position} for the given amount of degrees
      * 
      * @param dregree
      */
-    void makeTurn(int dregree);
+    void rotate(int dregree);
 
     /**
      * @return the Direction in which this Positions shows

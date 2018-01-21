@@ -46,7 +46,7 @@ public abstract class AbstractMovable implements Moveable {
 
     @Override
     public void makeTurn(int dregree) {
-	position.makeTurn(dregree);
+	position.rotate(dregree);
     }
 
     @Override

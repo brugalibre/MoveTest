@@ -15,14 +15,20 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Grid {
 
     /**
+     * Moves the given Position backward by one unit
+     * 
      * @param position
-     * @return
+     *            the {@link Position} to move
+     * @return a new instance of the moved Position
      */
     Position moveBackward(Position position);
 
     /**
+     * Moves the given Position forward by one unit
+     * 
      * @param position
-     * @return
+     *            the {@link Position} to move
+     * @return a new instance of the moved Position
      */
     Position moveForward(Position position);
 

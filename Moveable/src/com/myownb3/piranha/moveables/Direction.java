@@ -35,10 +35,10 @@ public interface Direction {
     double getForwardX();
 
     /**
-     * Turns this Direction for the given amount of degrees
+     * Rotate this Direction for the given amount of degrees
      * 
      * @param degree
      * @return a new and turned instance of a {@link Direction}
      */
-    Direction makeTurn(int degree);
+    Direction rotate(int degree);
 }
