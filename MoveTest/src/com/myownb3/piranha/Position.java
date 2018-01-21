@@ -3,55 +3,51 @@
  */
 package com.myownb3.piranha;
 
+import com.myownb3.piranha.util.MathUtil;
+
 /**
  * @author Dominic
  *
  */
 public class Position {
 
-    private int y;
-    private int x;
+    private double y;
+    private double x;
     private Direction direction = Direction.N;
 
     /**
      * @param x
      * @param y
      */
-    public Position(int x, int y) {
+    public Position(double x, double y) {
 	this(Direction.N, x, y);
     }
 
-    /**
-     * @param direction
-     * @param x
-     * @param y
-     */
-    public Position(Direction direction, int x, int y) {
+    public Position(Direction direction, double x, double y) {
 	this.direction = direction;
-	this.x = x;
-	this.y = y;
+	this.x = MathUtil.roundTwoPlaces(x);
+	this.y = MathUtil.roundTwoPlaces(y);
     }
 
-    public void turnRight() {
-	direction = direction.turnRight();
-    }
-
-    public void turnLeft() {
-	direction = direction.turnLeft();
+    /**
+     * @param dregree
+     */
+    public void turnDegree(int dregree) {
+	direction = direction.turnDegree(dregree);
     }
 
     public Position moveBackwarts() {
 
 	double newX = x + direction.getBackwardX();
 	double newY = y + direction.getBackwardY();
-	return new Position(direction, (int) newX, (int) newY);
+	return new Position(direction, newX, newY);
     }
 
     public Position moveForward() {
 
 	double newX = x + direction.getForwardX();
 	double newY = y + direction.getForwardY();
-	return new Position(direction, (int) newX, (int) newY);
+	return new Position(direction, newX, newY);
     }
 
     /**
@@ -64,10 +60,10 @@ public class Position {
     @Override
     public int hashCode() {
 	final int prime = 31;
-	int result = 1;
+	double result = 1;
 	result = prime * result + this.x;
 	result = prime * result + this.y;
-	return result;
+	return (int) result;
     }
 
     @Override

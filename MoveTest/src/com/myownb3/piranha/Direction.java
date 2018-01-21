@@ -43,15 +43,7 @@ public class Direction {
 	setCardinalDirection();
     }
 
-    public Direction turnRight() {
-	return turnDegree(-90);
-    }
-
-    public Direction turnLeft() {
-	return turnDegree(+90);
-    }
-
-    private Direction turnDegree(int degree) {
+    public Direction turnDegree(int degree) {
 	int rotationTmp = (this.rotation + degree) % 360;
 	if (rotationTmp < 0) {
 	    rotationTmp = 360 + rotationTmp;

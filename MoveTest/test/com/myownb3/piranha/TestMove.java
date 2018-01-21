@@ -264,4 +264,21 @@ class TestMove {
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
 	Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
     }
+
+    @Test
+    public void testTurn45DegreeAndMoveForward() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable();
+
+	// When
+	moveable.turnDegree(45);
+	moveable.moveForward(10);
+
+	// Then
+	Position endPosition = moveable.getPosition();
+	Position erwarteteEndPosition = new Position(null, -7.1, 7.1);
+
+	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+    }
 }
