@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.util;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +16,40 @@ import org.junit.jupiter.api.function.Executable;
  *
  */
 class MathUtilTest {
+
+    @Test
+    public void testRadiant2Degree() {
+
+	// Given
+	int degree = 180;
+	int degree2 = 90;
+	double expectedResult = Math.PI;
+	double expectedResult2 = Math.PI / 2;
+
+	// When
+	double effectResult = MathUtil.toRadian(degree);
+	double effectResult2 = MathUtil.toRadian(degree2);
+	// Then
+	Assert.assertThat(expectedResult, is(effectResult));
+	Assert.assertThat(expectedResult2, is(effectResult2));
+    }
+
+    @Test
+    public void testDegree2Radiant() {
+
+	// Given
+	double radiant = Math.PI;
+	double expectedResult = 180;
+	double radiant2 = Math.PI * 2;
+	double expectedResult2 = 360;
+
+	// When
+	double effectResult = MathUtil.toDegree(radiant);
+	double effectResult2 = MathUtil.toDegree(radiant2);
+	// Then
+	Assert.assertThat(expectedResult, is(effectResult));
+	Assert.assertThat(expectedResult2, is(effectResult2));
+    }
 
     @Test
     void testRoundDown() {

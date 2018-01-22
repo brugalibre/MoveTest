@@ -4,7 +4,6 @@
 package com.myownb3.piranha.moveables;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Position;
 
 /**
  * A Moveable is an object which is able to move itself on a {@link Grid}
@@ -12,7 +11,7 @@ import com.myownb3.piranha.grid.Position;
  * @author Dominic
  *
  */
-public interface Moveable {
+public interface Moveable extends GridElement {
 
     /**
      * Moves this {@link Moveable} one unit forward, considering the current
@@ -45,11 +44,6 @@ public interface Moveable {
     void moveBackward(int amount);
 
     /**
-     * @return the current {@link Position} of this {@link Moveable}
-     */
-    Position getPosition();
-
-    /**
      * Turns this {@link Moveable} to the right
      */
     void turnRight();
@@ -62,8 +56,15 @@ public interface Moveable {
     /**
      * Turns this {@link Moveable} for the given amount of degrees
      * 
-     * @param dregree
+     * @param degree
      */
-    void makeTurn(int dregree);
+    void makeTurn(int degree);
+
+    /**
+     * Verify if this {@link Moveable} has recognized the given {@link GridElement}
+     * 
+     * @param gridElement
+     */
+    boolean hasObjectRecognized(GridElement gridElement);
 
 }

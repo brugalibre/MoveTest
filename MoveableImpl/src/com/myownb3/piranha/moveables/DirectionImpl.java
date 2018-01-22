@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
+import static com.myownb3.piranha.util.MathUtil.toRadian;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,34 +69,13 @@ public class DirectionImpl implements Direction {
 	return -getForwardY();
     }
 
-    /**
-     * Returns the radiant for the given amount of degrees
-     * 
-     * @param rotation
-     * @return the radiant for the given amount of degrees
-     */
-    private double toRadian(int rotation) {
-	return rotation * (Math.PI / 180);
+    @Override
+    public double getAngle() {
+	return this.rotation;
     }
 
     private void setCardinalDirection() {
 	this.cardinalDirection = degree2DirectionMap.get(rotation);
-    }
-
-    @Override
-    public String toString() {
-	return cardinalDirection;
-    }
-
-    private static Map<Integer, String> getDegree2DirectionMap() {
-	Map<Integer, String> degree2DirectionMap = new HashMap<>();
-
-	degree2DirectionMap.put(90, "N");
-	degree2DirectionMap.put(0, "O");
-	degree2DirectionMap.put(270, "S");
-	degree2DirectionMap.put(180, "W");
-
-	return Collections.unmodifiableMap(degree2DirectionMap);
     }
 
     @Override
@@ -129,4 +110,19 @@ public class DirectionImpl implements Direction {
 	return true;
     }
 
+    @Override
+    public String toString() {
+	return cardinalDirection;
+    }
+
+    private static Map<Integer, String> getDegree2DirectionMap() {
+	Map<Integer, String> degree2DirectionMap = new HashMap<>();
+
+	degree2DirectionMap.put(90, "N");
+	degree2DirectionMap.put(0, "O");
+	degree2DirectionMap.put(270, "S");
+	degree2DirectionMap.put(180, "W");
+
+	return Collections.unmodifiableMap(degree2DirectionMap);
+    }
 }

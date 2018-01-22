@@ -31,5 +31,4 @@ public interface Grid {
      * @return a new instance of the moved Position
      */
     Position moveForward(Position position);
-
 }

@@ -15,13 +15,6 @@ package com.myownb3.piranha.grid;
 public class SwappingGrid extends DefaultGrid {
 
     /**
-     * Creates a default Grid which has a size of 10 to 10
-     */
-    public SwappingGrid() {
-	super(10, 10);
-    }
-
-    /**
      * 
      * @param maxY
      * @param maxX

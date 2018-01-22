@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.moveables.DirectionImpl;
+import com.myownb3.piranha.moveables.DirectionDefs;
 
 /**
  * @author Dominic
@@ -21,12 +21,12 @@ class GridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10);
-	Position expectedPosition = new PositionImpl(DirectionImpl.N, 10, 1);
-	Position expectedPosition2 = new PositionImpl(DirectionImpl.O, 1, 10);
+	Position expectedPosition = Positions.of(DirectionDefs.N, 10, 1);
+	Position expectedPosition2 = Positions.of(DirectionDefs.O, 1, 10);
 
 	// When
-	Position createdPosition = grid.moveForward(new PositionImpl(DirectionImpl.N, 10, 10));
-	Position createdPosition2 = grid.moveForward(new PositionImpl(DirectionImpl.O, 10, 10));
+	Position createdPosition = grid.moveForward(Positions.of(DirectionDefs.N, 10, 10));
+	Position createdPosition2 = grid.moveForward(Positions.of(DirectionDefs.O, 10, 10));
 
 	// Then
 	Assert.assertThat(createdPosition, is(expectedPosition));
@@ -38,12 +38,12 @@ class GridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10);
-	Position expectedPosition = new PositionImpl(DirectionImpl.N, 4, 9);
-	Position expectedPosition2 = new PositionImpl(DirectionImpl.O, 9, 4);
+	Position expectedPosition = Positions.of(DirectionDefs.N, 4, 9);
+	Position expectedPosition2 = Positions.of(DirectionDefs.O, 9, 4);
 
 	// When
-	Position createdPosition = grid.moveBackward(new PositionImpl(DirectionImpl.N, 4, 0));
-	Position createdPosition2 = grid.moveBackward(new PositionImpl(DirectionImpl.O, 0, 4));
+	Position createdPosition = grid.moveBackward(Positions.of(DirectionDefs.N, 4, 0));
+	Position createdPosition2 = grid.moveBackward(Positions.of(DirectionDefs.O, 0, 4));
 
 	// Then
 	Assert.assertThat(createdPosition, is(expectedPosition));
@@ -55,14 +55,14 @@ class GridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10, 5, 5);
-	Position expectedPosition = new PositionImpl(DirectionImpl.N, 10, 6);
-	Position expectedPosition2 = new PositionImpl(DirectionImpl.O, 6, 10);
-	Position expectedPosition3 = new PositionImpl(DirectionImpl.S, 10, 9);
+	Position expectedPosition = Positions.of(DirectionDefs.N, 10, 6);
+	Position expectedPosition2 = Positions.of(DirectionDefs.O, 6, 10);
+	Position expectedPosition3 = Positions.of(DirectionDefs.S, 10, 9);
 
 	// When
-	Position createdPosition = grid.moveForward(new PositionImpl(DirectionImpl.N, 10, 10));
-	Position createdPosition2 = grid.moveForward(new PositionImpl(DirectionImpl.O, 10, 10));
-	Position createdPosition3 = grid.moveForward(new PositionImpl(DirectionImpl.S, 10, 5));
+	Position createdPosition = grid.moveForward(Positions.of(DirectionDefs.N, 10, 10));
+	Position createdPosition2 = grid.moveForward(Positions.of(DirectionDefs.O, 10, 10));
+	Position createdPosition3 = grid.moveForward(Positions.of(DirectionDefs.S, 10, 5));
 
 	// Then
 	Assert.assertThat(createdPosition, is(expectedPosition));
@@ -75,14 +75,14 @@ class GridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10, 5, 5);
-	Position expectedPosition = new PositionImpl(DirectionImpl.N, 9, 9);
-	Position expectedPosition2 = new PositionImpl(DirectionImpl.O, 9, 9);
-	Position expectedPosition3 = new PositionImpl(DirectionImpl.S, 5, 6);
+	Position expectedPosition = Positions.of(DirectionDefs.N, 9, 9);
+	Position expectedPosition2 = Positions.of(DirectionDefs.O, 9, 9);
+	Position expectedPosition3 = Positions.of(DirectionDefs.S, 5, 6);
 
 	// When
-	Position createdPosition = grid.moveBackward(new PositionImpl(DirectionImpl.N, 9, 5));
-	Position createdPosition2 = grid.moveBackward(new PositionImpl(DirectionImpl.O, 5, 9));
-	Position createdPosition3 = grid.moveBackward(new PositionImpl(DirectionImpl.S, 5, 10));
+	Position createdPosition = grid.moveBackward(Positions.of(DirectionDefs.N, 9, 5));
+	Position createdPosition2 = grid.moveBackward(Positions.of(DirectionDefs.O, 5, 9));
+	Position createdPosition3 = grid.moveBackward(Positions.of(DirectionDefs.S, 5, 10));
 
 	// Then
 	Assert.assertThat(createdPosition, is(expectedPosition));

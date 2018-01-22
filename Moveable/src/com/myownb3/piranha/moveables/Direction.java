@@ -41,4 +41,9 @@ public interface Direction {
      * @return a new and turned instance of a {@link Direction}
      */
     Direction rotate(int degree);
+
+    /**
+     * @return the angle of this Direction
+     */
+    double getAngle();
 }

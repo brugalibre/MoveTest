@@ -3,8 +3,10 @@
  */
 package com.myownb3.piranha.moveables;
 
+import com.myownb3.piranha.grid.AbstractMovable;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.PositionImpl;
 
 /**
@@ -23,9 +25,7 @@ public class SimpleMoveable extends AbstractMovable {
     /**
      * @param position
      */
-    public SimpleMoveable(Grid grid, PositionImpl position) {
-	super();
-	this.position = position;
-	this.grid = grid;
+    public SimpleMoveable(Grid grid, Position position) {
+	super(grid, position);
     }
 }

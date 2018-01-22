@@ -35,4 +35,17 @@ public interface Position {
      */
     double getX();
 
+    /**
+     * Calculates the distance between this and the given {@link Position}
+     * 
+     * @param position
+     * @return the calculated distance
+     */
+    double calcDistanceTo(Position position);
+
+    /**
+     * @return
+     */
+    double calcAbsolutAngle();
+
 }

@@ -25,4 +25,24 @@ public class MathUtil {
     public static double roundThreePlaces(double value) {
 	return round(value, 3);
     }
+
+    /**
+     * Returns the radiant for the given amount of degrees
+     * 
+     * @param degree
+     * @return the radiant for the given amount of degrees
+     */
+    public static double toRadian(int degree) {
+	return degree * (Math.PI / 180);
+    }
+
+    /**
+     * Returns the radiant for the given amount of degrees
+     * 
+     * @param degree
+     * @return the radiant for the given amount of degrees
+     */
+    public static double toDegree(double angleAsRadiant) {
+	return angleAsRadiant * (180 / Math.PI);
+    }
 }
