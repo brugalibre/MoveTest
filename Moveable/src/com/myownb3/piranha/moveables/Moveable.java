@@ -65,6 +65,14 @@ public interface Moveable extends GridElement {
      * 
      * @param gridElement
      */
-    boolean hasObjectRecognized(GridElement gridElement);
+    boolean hasObjectDetected(GridElement gridElement);
+
+    /**
+     * @param gridElement
+     * @return <code>true</code> if this {@link Moveable} is currently avoiding an
+     *         other {@link GridElement} which is visible
+     * 
+     */
+    boolean isAvoiding(GridElement gridElement);
 
 }

@@ -30,7 +30,7 @@ class ObstacleTest {
 	boolean isRecognized = true;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectRecognized(obstacle);
+	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(isRecognized));
@@ -46,7 +46,7 @@ class ObstacleTest {
 	boolean isRecognized = true;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectRecognized(obstacle);
+	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(isRecognized));
@@ -62,7 +62,7 @@ class ObstacleTest {
 	boolean notRecognized = false;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectRecognized(obstacle);
+	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(notRecognized));
@@ -78,7 +78,7 @@ class ObstacleTest {
 	boolean notRecognized = false;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectRecognized(obstacle);
+	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(notRecognized));

@@ -1,13 +1,11 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid;
+package com.myownb3.piranha.moveables;
 
+import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.moveables.AbstractGridElement;
-import com.myownb3.piranha.moveables.GridElement;
-import com.myownb3.piranha.moveables.Moveable;
 
 /**
  * @author Dominic
@@ -15,14 +13,23 @@ import com.myownb3.piranha.moveables.Moveable;
  */
 public abstract class AbstractMovable extends AbstractGridElement implements Moveable {
 
-    private int detectorReach = 8;
-    private int detectorAngle = 45;
+    private Detector detector;
 
     /**
      * @param position
      */
     public AbstractMovable(Grid grid, Position position) {
+	this(grid, position, new DetectorImpl());
+    }
+
+    /**
+     * @param grid
+     * @param position
+     * @param detector
+     */
+    public AbstractMovable(Grid grid, Position position, Detector detector) {
 	super(position, grid);
+	this.detector = detector;
     }
 
     @Override
@@ -65,18 +72,13 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     }
 
     @Override
-    public boolean hasObjectRecognized(GridElement gridElement) {
+    public boolean hasObjectDetected(GridElement gridElement) {
 
-	Position gridElemPos = gridElement.getPosition();
+	return detector.hasObjectDetected(gridElement, position);
+    }
 
-	double distance = gridElemPos.calcDistanceTo(position);
-	if (distance > detectorReach) {
-	    return false;
-	}
-
-	double gridElementAngle = gridElemPos.calcAbsolutAngle();
-	double ourAngle = position.getDirection().getAngle();
-
-	return ourAngle + (detectorAngle / 2) >= gridElementAngle && gridElementAngle >= ourAngle - (detectorAngle / 2);
+    @Override
+    public boolean isAvoiding(GridElement gridElement) {
+	return detector.isAvoiding(gridElement, position);
     }
 }
