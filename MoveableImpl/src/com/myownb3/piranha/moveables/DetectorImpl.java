@@ -16,6 +16,8 @@ public class DetectorImpl implements Detector {
     private int avoidingDistance;
     private int detectorAngle;
 
+    private boolean isAvoiding;
+
     public DetectorImpl() {
 	this(8, 45);
     }
@@ -38,15 +40,20 @@ public class DetectorImpl implements Detector {
 	double gridElementAngle = gridElemPos.calcAbsolutAngle();
 	double ourAngle = position.getDirection().getAngle();
 
+	setAvoiding(gridElement, position);
 	return ourAngle + (detectorAngle / 2) >= gridElementAngle && gridElementAngle >= ourAngle - (detectorAngle / 2);
     }
 
-    @Override
-    public boolean isAvoiding(GridElement gridElement, Position position) {
+    private void setAvoiding(GridElement gridElement, Position position) {
 
 	Position gridElemPos = gridElement.getPosition();
 	double distance = gridElemPos.calcDistanceTo(position);
 
-	return avoidingDistance >= distance;
+	this.isAvoiding = avoidingDistance >= distance;
+    }
+
+    @Override
+    public final boolean isAvoiding() {
+	return this.isAvoiding;
     }
 }

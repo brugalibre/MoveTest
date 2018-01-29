@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.grid;
 
+import com.myownb3.piranha.moveables.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**
@@ -31,4 +32,19 @@ public interface Grid {
      * @return a new instance of the moved Position
      */
     Position moveForward(Position position);
+
+    /**
+     * @param gridElement
+     *            the element to verify
+     * @return <code>true</code> if this {@link Grid} contains the given
+     *         {@link GridElement} or <code>false</code> if not
+     */
+    boolean containsElement(GridElement gridElement);
+
+    /**
+     * Adds the given {@link GridElement} to this {@link Grid}
+     * 
+     * @param abstractGridElement
+     */
+    void addElement(GridElement gridElement);
 }

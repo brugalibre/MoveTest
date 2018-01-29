@@ -4,11 +4,13 @@
 package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.moveables.DirectionDefs;
+import com.myownb3.piranha.moveables.SimpleMoveable;
 
 /**
  * @author Dominic
@@ -88,5 +90,59 @@ class GridTest {
 	Assert.assertThat(createdPosition, is(expectedPosition));
 	Assert.assertThat(createdPosition2, is(expectedPosition2));
 	Assert.assertThat(createdPosition3, is(expectedPosition3));
+    }
+
+    @Test
+    public void testAddElementOnGrid() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	boolean isElementOnGrid = true;
+
+	// When
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7.1));
+
+	boolean isElementEffectivelyOnGrid = grid.containsElement(obstacle);
+
+	// Then
+	Assert.assertThat(isElementEffectivelyOnGrid, is(isElementOnGrid));
+    }
+
+    @Test
+    public void testAddElementOnGridAndMove() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	boolean isElementOnGridBeforeMove = true;
+	boolean isElementOnGridAfterMove = true;
+
+	// When
+	SimpleMoveable moveable = new SimpleMoveable(grid, Positions.of(1, 7.1));
+	boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
+
+	moveable.moveForward(5);
+	boolean isElementEffectivelyOnGridBeforeMove = grid.containsElement(moveable);
+
+	// Then
+	Assert.assertThat(isElementEffectivelyOnGridBeforeMove, is(isElementOnGridBeforeMove));
+	Assert.assertThat(isElementEffectivelyOnGridAfterMove, is(isElementOnGridAfterMove));
+    }
+
+    @Test
+    public void testAddElementNotOnGrid() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	boolean isElementOnGrid = true;
+
+	// When
+	new ObstacleImpl(grid, Positions.of(1, 7.1));
+	Obstacle antoherObstacle = new ObstacleImpl(new DefaultGrid(), Positions.of(1, 7.1));
+
+	boolean isElementEffectivelyOnGrid = grid.containsElement(antoherObstacle);
+
+	// Then
+	Assert.assertThat(isElementEffectivelyOnGrid, is(not(isElementOnGrid)));
+
     }
 }

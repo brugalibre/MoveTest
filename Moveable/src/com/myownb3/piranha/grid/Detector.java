@@ -25,15 +25,9 @@ public interface Detector {
     boolean hasObjectDetected(GridElement gridElement, Position position);
 
     /**
-     * Returns <code>true</code> if this {@link Detector} has already detected the
-     * given Position and also has initiated an avoiding procedure
      * 
-     * @param gridElement
-     *            the {@link GridElement} to avoid
-     * @param position
-     *            the {@link Position}
-     * @return <code>true</code> if this {@link Detector} has initiated an avoiding
-     *         procedure otherwise <code>false</code>
+     * @returns <code>true</code> if this {@link Detector} has is avoiding a certain
+     *          {@link Obstacle} or <code>false</code> if not
      */
-    boolean isAvoiding(GridElement gridElement, Position position);
+    boolean isAvoiding();
 }

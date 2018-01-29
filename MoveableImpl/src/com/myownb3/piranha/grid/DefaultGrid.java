@@ -3,7 +3,11 @@
  */
 package com.myownb3.piranha.grid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.myownb3.piranha.moveables.Direction;
+import com.myownb3.piranha.moveables.GridElement;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -14,6 +18,7 @@ import com.myownb3.piranha.moveables.Direction;
  */
 public class DefaultGrid implements Grid {
 
+    private List<GridElement> gridElements;
     protected int maxX;
     protected int maxY;
     protected int minX;
@@ -24,6 +29,7 @@ public class DefaultGrid implements Grid {
      */
     public DefaultGrid() {
 	this(10, 10);
+	gridElements = new ArrayList<>();
     }
 
     /**
@@ -80,6 +86,16 @@ public class DefaultGrid implements Grid {
 	return new PositionImpl(direction, newX, newY);
     }
 
+    @Override
+    public boolean containsElement(GridElement gridElement) {
+	return gridElements.contains(gridElement);
+    }
+
+    @Override
+    public void addElement(GridElement gridElement) {
+	gridElements.add(gridElement);
+    }
+
     /**
      * @param position
      * @param forwardY
@@ -98,5 +114,9 @@ public class DefaultGrid implements Grid {
      */
     protected double getNewXValue(Position position, double forwardX) {
 	return position.getX() + forwardX;
+    }
+
+    public List<GridElement> getGridElements() {
+	return gridElements;
     }
 }

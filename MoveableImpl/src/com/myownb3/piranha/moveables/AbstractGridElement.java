@@ -19,6 +19,7 @@ public class AbstractGridElement implements GridElement {
 	super();
 	this.position = position;
 	this.grid = grid;
+	grid.addElement(this);
     }
 
     @Override
