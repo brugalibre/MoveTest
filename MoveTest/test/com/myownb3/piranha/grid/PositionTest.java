@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.moveables.DirectionDefs;
+import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
@@ -28,11 +29,11 @@ class PositionTest {
 	double effectAngle = pos.calcAbsolutAngle();
 
 	// Then
-	Assert.assertThat(expectedAngle, is(effectAngle));
+	Assert.assertThat(effectAngle, is(expectedAngle));
     }
 
     @Test
-    public void testAngleCalculationSecondQuadrant() {
+    public void testAngleCalculationSecondQuadrant1() {
 
 	// Given
 	Position pos = Positions.of(-5, 5);
@@ -42,7 +43,21 @@ class PositionTest {
 	double effectAngle = pos.calcAbsolutAngle();
 
 	// Then
-	Assert.assertThat(expectedAngle, is(effectAngle));
+	Assert.assertThat(effectAngle, is(expectedAngle));
+    }
+
+    @Test
+    public void testAngleCalculationSecondQuadrant2() {
+
+	// Given
+	Position pos = Positions.of(-1, 7);
+	double expectedAngle = 98.13;
+
+	// When
+	double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+
+	// Then
+	Assert.assertThat(effectAngle, is(expectedAngle));
     }
 
     @Test
@@ -56,11 +71,11 @@ class PositionTest {
 	double effectAngle = pos.calcAbsolutAngle();
 
 	// Then
-	Assert.assertThat(expectedAngle, is(effectAngle));
+	Assert.assertThat(effectAngle, is(expectedAngle));
     }
 
     @Test
-    public void testAngleCalculationForthQuadrant() {
+    public void testAngleCalculationForthQuadrant1() {
 
 	// Given
 	Position pos = Positions.of(5, -5);
@@ -70,7 +85,21 @@ class PositionTest {
 	double effectAngle = pos.calcAbsolutAngle();
 
 	// Then
-	Assert.assertThat(expectedAngle, is(effectAngle));
+	Assert.assertThat(effectAngle, is(expectedAngle));
+    }
+
+    @Test
+    public void testAngleCalculationForthQuadrant2() {
+
+	// Given
+	Position pos = Positions.of(1, -7);
+	double expectedAngle = 278.13;
+
+	// When
+	double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+
+	// Then
+	Assert.assertThat(effectAngle, is(expectedAngle));
     }
 
     @Test
@@ -84,7 +113,7 @@ class PositionTest {
 	// When
 	double effectDistance = endPoint.calcDistanceTo(startPoint);
 	// Then
-	Assert.assertThat(expectedDistance, is(effectDistance));
+	Assert.assertThat(effectDistance, is(expectedDistance));
     }
 
     @Test
@@ -98,7 +127,7 @@ class PositionTest {
 	// When
 	double effectDistance = endPoint.calcDistanceTo(startPoint);
 	// Then
-	Assert.assertThat(expectedDistance, is(effectDistance));
+	Assert.assertThat(effectDistance, is(expectedDistance));
     }
 
     @Test

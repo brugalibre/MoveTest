@@ -76,14 +76,14 @@ public class PositionImpl implements Position {
 	double angleAsRadiant = Math.atan(getY() / getX());
 	double angleAsDegree = MathUtil.toDegree(angleAsRadiant);
 
-	// x-axis is negativ -> absolut value of angle + 90 (since we are looking from
-	// the absolut zeor point
+	// x-axis is negative -> absolute value of angle + 90 (since we are looking from
+	// the absolute zero point)
 	angleAsDegree = getAbsolutAngle(angleAsDegree);
 	return angleAsDegree;
     }
 
     /*
-     * Calcualtes the absolut value depending on the quadrant this position is lying
+     * Calculates the absolute value depending on the quadrant this position is lying
      * on
      *
      *@formatter:off
@@ -107,7 +107,7 @@ public class PositionImpl implements Position {
 	    angleAsDegree = 180 + angleAsDegree;
 	} else if (y < 0) {
 	    // 4. Quadrant
-	    angleAsDegree = Math.abs(angleAsDegree) + 270;
+	    angleAsDegree = angleAsDegree + 360;
 	}
 	return angleAsDegree;
     }
