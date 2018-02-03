@@ -4,6 +4,7 @@
 package com.myownb3.piranha.grid;
 
 import com.myownb3.piranha.moveables.GridElement;
+import com.myownb3.piranha.moveables.Moveable;
 
 /**
  * @author Dominic
@@ -26,10 +27,10 @@ public interface Detector {
 
     /**
      * 
-     * @returns <code>true</code> if this {@link Detector} has is avoiding a certain
-     *          {@link Obstacle} or <code>false</code> if not
+     * @return <code>true</code> if this {@link Moveable} is currently avoiding the
+     *         given {@link GridElement}
      */
-    boolean isAvoiding();
+    boolean isAvoiding(GridElement gridElement);
 
     /**
      * Returns <code>true</code> if the given {@link GridElement} is currently

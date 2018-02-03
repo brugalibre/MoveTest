@@ -20,7 +20,7 @@ public class DetectorImpl implements Detector {
     private int detectorAngle;
 
     private Map<GridElement, Boolean> detectionMap;
-    private boolean isAvoiding;
+    private Map<GridElement, Boolean> isAvoidingMap;
 
     public DetectorImpl() {
 	this(8, 45);
@@ -31,6 +31,7 @@ public class DetectorImpl implements Detector {
 	this.detectorAngle = detectorAngle;
 	this.avoidingDistance = 2 * detectorReach / 3;
 	detectionMap = new HashMap<>();
+	isAvoidingMap = new HashMap<>();
     }
 
     @Override
@@ -50,17 +51,12 @@ public class DetectorImpl implements Detector {
 		    && gridElementAngle >= ourAngle - (detectorAngle / 2);
 	}
 	detectionMap.put(gridElement, isDetected);
-	setAvoiding(gridElement, distance);
-    }
-
-    private void setAvoiding(GridElement gridElement, double distance) {
-
-	this.isAvoiding = hasObjectDetected(gridElement) && avoidingDistance >= distance;
+	isAvoidingMap.put(gridElement, hasObjectDetected(gridElement) && avoidingDistance >= distance);
     }
 
     @Override
-    public final boolean isAvoiding() {
-	return this.isAvoiding;
+    public final boolean isAvoiding(GridElement gridElement) {
+	return isAvoidingMap.get(gridElement);
     }
 
     @Override

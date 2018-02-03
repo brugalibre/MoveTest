@@ -102,7 +102,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     }
 
     @Override
-    public boolean isAvoiding() {
-	return detector.isAvoiding();
+    public boolean isAvoiding(GridElement gridElement) {
+	return detector.isAvoiding(gridElement);
     }
 }

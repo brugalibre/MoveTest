@@ -68,9 +68,9 @@ public interface Moveable extends GridElement {
     boolean hasObjectDetected(GridElement gridElement);
 
     /**
-     * @return <code>true</code> if this {@link Moveable} is currently avoiding an
-     *         other {@link GridElement} which is visible
+     * @return <code>true</code> if this {@link Moveable} is currently avoiding the
+     *         given {@link GridElement}
      * 
      */
-    boolean isAvoiding();
+    boolean isAvoiding(GridElement gridElement);
 }
