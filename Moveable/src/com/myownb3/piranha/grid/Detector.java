@@ -22,7 +22,7 @@ public interface Detector {
      * @return <code>true</code> if the object was detected, <code>false</code> if
      *         not
      */
-    boolean hasObjectDetected(GridElement gridElement, Position position);
+    void detectObject(GridElement gridElement, Position position);
 
     /**
      * 
@@ -30,4 +30,14 @@ public interface Detector {
      *          {@link Obstacle} or <code>false</code> if not
      */
     boolean isAvoiding();
+
+    /**
+     * Returns <code>true</code> if the given {@link GridElement} is currently
+     * detected or <code>false</code> if not
+     * 
+     * @param gridElement
+     * @return <code>true</code> if the given {@link GridElement} is currently
+     *         detected or <code>false</code> if not
+     */
+    boolean hasObjectDetected(GridElement gridElement);
 }

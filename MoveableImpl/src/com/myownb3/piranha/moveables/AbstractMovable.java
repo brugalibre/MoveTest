@@ -62,7 +62,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
 
 	gridElements.stream()//
 		.filter(gridElement -> !gridElement.equals(this))//
-		.allMatch(gridElement -> detector.hasObjectDetected(gridElement, position));
+		.forEach(gridElement -> detector.detectObject(gridElement, position));
     }
 
     @Override
@@ -81,6 +81,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     @Override
     public void makeTurn(int degree) {
 	position.rotate(degree);
+	checkSurrounding();
     }
 
     @Override
@@ -97,7 +98,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     @Override
     public boolean hasObjectDetected(GridElement gridElement) {
 
-	return detector.hasObjectDetected(gridElement, position);
+	return detector.hasObjectDetected(gridElement);
     }
 
     @Override
