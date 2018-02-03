@@ -4,7 +4,6 @@
 package com.myownb3.piranha.moveables;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Detector;
@@ -45,6 +44,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
 
     @Override
     public void moveForward(int amount) {
+	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    moveForward();
 	}
@@ -67,6 +67,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
 
     @Override
     public void moveBackward(int amount) {
+	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    moveBackward();
 	}
@@ -85,6 +86,12 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     @Override
     public void turnRight() {
 	makeTurn(-90);
+    }
+
+    private void verifyAmount(int amount) {
+	if (amount <= 0) {
+	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
+	}
     }
 
     @Override

@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.PositionImpl;
@@ -40,6 +42,18 @@ class TestMove {
 
 	Assert.assertThat(effectStartPosition, is(new PositionImpl(0, 0)));
 	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+    }
+
+    @Test
+    void testMoveForwardNegativeValues() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable();
+
+	// When
+	Executable ex = () -> moveable.moveBackward(-3);
+	// Then
+	Assertions.assertThrows(IllegalArgumentException.class, ex);
     }
 
     @Test
