@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Obstacle;
 import com.myownb3.piranha.grid.ObstacleImpl;
@@ -26,11 +27,12 @@ class ObstacleTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(1, 1));
+	Detector detector = new DetectorImpl();
+	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
 	boolean isRecognized = true;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
+	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(isRecognized));
@@ -42,11 +44,12 @@ class ObstacleTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2, 7));
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(1, 1));
+	Detector detector = new DetectorImpl();
+	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
 	boolean isRecognized = true;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
+	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(isRecognized));
@@ -58,11 +61,12 @@ class ObstacleTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(3, 7));
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(1, 1));
+	Detector detector = new DetectorImpl();
+	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
 	boolean notRecognized = false;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
+	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(notRecognized));
@@ -74,11 +78,12 @@ class ObstacleTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(1, 1));
+	Detector detector = new DetectorImpl();
+	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
 	boolean notRecognized = false;
 
 	// When
-	boolean hasObjectRecognized = moveable.hasObjectDetected(obstacle);
+	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
 	// Then
 	Assert.assertThat(hasObjectRecognized, is(notRecognized));

@@ -59,18 +59,4 @@ public interface Moveable extends GridElement {
      * @param degree
      */
     void makeTurn(int degree);
-
-    /**
-     * Verify if this {@link Moveable} has recognized the given {@link GridElement}
-     * 
-     * @param gridElement
-     */
-    boolean hasObjectDetected(GridElement gridElement);
-
-    /**
-     * @return <code>true</code> if this {@link Moveable} is currently avoiding the
-     *         given {@link GridElement}
-     * 
-     */
-    boolean isAvoiding(GridElement gridElement);
 }

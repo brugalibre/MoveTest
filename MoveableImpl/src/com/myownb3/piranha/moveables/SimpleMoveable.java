@@ -4,7 +4,6 @@
 package com.myownb3.piranha.moveables;
 
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.PositionImpl;
@@ -27,14 +26,5 @@ public class SimpleMoveable extends AbstractMovable {
      */
     public SimpleMoveable(Grid grid, Position position) {
 	super(grid, position);
-    }
-
-    /**
-     * @param grid
-     * @param of
-     * @param detector
-     */
-    public SimpleMoveable(Grid grid, Position position, Detector detector) {
-	super(grid, position, detector);
     }
 }
