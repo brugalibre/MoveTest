@@ -19,14 +19,14 @@ public class DirectionImpl implements Direction {
 	degree2DirectionMap = getDegree2DirectionMap();
     }
 
-    private int rotation;
+    private double rotation;
     private String cardinalDirection;
 
     /**
      * @param rotation
      * 
      */
-    DirectionImpl(int rotation, String cardinalDirection) {
+    DirectionImpl(double rotation, String cardinalDirection) {
 	this.rotation = rotation;
 	this.cardinalDirection = cardinalDirection;
     }
@@ -35,14 +35,14 @@ public class DirectionImpl implements Direction {
      * @param rotation
      * 
      */
-    DirectionImpl(int rotation) {
+    DirectionImpl(double rotation) {
 	this.rotation = rotation;
 	setCardinalDirection();
     }
 
     @Override
-    public Direction rotate(int degree) {
-	int rotationTmp = (this.rotation + degree) % 360;
+    public Direction rotate(double degree) {
+	double rotationTmp = (this.rotation + degree) % 360;
 	if (rotationTmp < 0) {
 	    rotationTmp = 360 + rotationTmp;
 	}
@@ -75,7 +75,7 @@ public class DirectionImpl implements Direction {
     }
 
     private void setCardinalDirection() {
-	this.cardinalDirection = degree2DirectionMap.get(rotation);
+	this.cardinalDirection = degree2DirectionMap.get((int) rotation);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DirectionImpl implements Direction {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result + ((this.cardinalDirection == null) ? 0 : this.cardinalDirection.hashCode());
-	result = prime * result + this.rotation;
+	result = (prime * result + (int) this.rotation);
 	return result;
     }
 
@@ -104,8 +104,6 @@ public class DirectionImpl implements Direction {
 	}
 	if (this.cardinalDirection == null && other.cardinalDirection != null) {
 	    return false;
-	} else {
-	    System.err.println();
 	}
 	if (!this.cardinalDirection.equals(other.cardinalDirection)) {
 	    return false;

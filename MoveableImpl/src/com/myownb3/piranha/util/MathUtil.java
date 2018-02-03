@@ -32,7 +32,7 @@ public class MathUtil {
      * @param degree
      * @return the radiant for the given amount of degrees
      */
-    public static double toRadian(int degree) {
+    public static double toRadian(double degree) {
 	return degree * (Math.PI / 180);
     }
 

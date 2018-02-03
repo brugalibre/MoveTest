@@ -40,7 +40,7 @@ public interface Direction {
      * @param degree
      * @return a new and turned instance of a {@link Direction}
      */
-    Direction rotate(int degree);
+    Direction rotate(double degree);
 
     /**
      * @return the angle of this Direction

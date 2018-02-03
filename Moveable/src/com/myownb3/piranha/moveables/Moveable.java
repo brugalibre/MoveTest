@@ -58,5 +58,5 @@ public interface Moveable extends GridElement {
      * 
      * @param degree
      */
-    void makeTurn(int degree);
+    void makeTurn(double degree);
 }

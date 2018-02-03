@@ -18,7 +18,7 @@ public interface Position {
      * 
      * @param dregree
      */
-    void rotate(int dregree);
+    void rotate(double dregree);
 
     /**
      * @return the Direction in which this Positions shows

@@ -7,6 +7,9 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 
 /**
+ * The {@link AbstractMovable} is responsible for doing the basic move elements
+ * on a {@link Grid}
+ * 
  * @author Dominic
  *
  */
@@ -52,7 +55,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
     }
 
     @Override
-    public void makeTurn(int degree) {
+    public void makeTurn(double degree) {
 	position.rotate(degree);
     }
 

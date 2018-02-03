@@ -36,7 +36,7 @@ public class PositionImpl implements Position {
      * @param degree
      */
     @Override
-    public void rotate(int degree) {
+    public void rotate(double degree) {
 	direction = direction.rotate(degree);
     }
 
