@@ -30,7 +30,7 @@ public interface Detector {
      * @return <code>true</code> if this {@link Moveable} is currently avoiding the
      *         given {@link GridElement}
      */
-    boolean isAvoiding(GridElement gridElement);
+    boolean isEvasioning(GridElement gridElement);
 
     /**
      * Returns <code>true</code> if the given {@link GridElement} is currently
@@ -52,5 +52,5 @@ public interface Detector {
      *            the origin Position
      * @returns the avoiding angle increment
      */
-    double getAvoidAngleRelative2(Position position);
+    double getEvasioningAngleRelative2(Position position);
 }

@@ -28,16 +28,16 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
-	Detector detector = new DetectorImpl(5, 45);
+	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
-	boolean isAvoiding = true;
+	boolean isEvasioning = true;
 
 	// When
 	moveable.moveForward(5);
-	boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
+	boolean isEffectivelyAvoiding = detector.isEvasioning(obstacle);
 
 	// Then
-	Assert.assertThat(isAvoiding, is(isEffectivelyAvoiding));
+	Assert.assertThat(isEffectivelyAvoiding, is(isEvasioning));
     }
 
     @Test
@@ -46,16 +46,16 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7.1));
-	Detector detector = new DetectorImpl(5, 45);
+	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
-	boolean isAvoiding = true;
+	boolean isEvasioning = true;
 
 	// When
 	moveable.moveForward(3);// Only moving forward 3 - so the obstacle stays out of 'avoiding' range
-	boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
+	boolean isEffectivelyAvoiding = detector.isEvasioning(obstacle);
 
 	// Then
-	Assert.assertThat(isAvoiding, is(not(isEffectivelyAvoiding)));
+	Assert.assertThat(isEffectivelyAvoiding, is(not(isEvasioning)));
 	// The distance is effectively about 3.1 - just about 0.1 to far away
     }
 
@@ -67,14 +67,14 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -1));
 	Detector detector = new DetectorImpl();
 	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(1, 2), detector);
-	boolean isAvoiding = true;
+	boolean isEvasioning = true;
 
 	// When
 	moveable.moveBackward(3);
-	boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
+	boolean isEffectivelyAvoiding = detector.isEvasioning(obstacle);
 
 	// Then
-	Assert.assertThat(isAvoiding, is(not(isEffectivelyAvoiding)));
+	Assert.assertThat(isEffectivelyAvoiding, is(not(isEvasioning)));
     }
 
     @Test
@@ -85,18 +85,18 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -7));
 	Detector detector = new DetectorImpl();
 	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(1, 2), detector);
-	boolean isAvoidingAfterTurn = true;
-	boolean isAvoidingBeforeTurn = false;
+	boolean isEvasioningAfterTurn = true;
+	boolean isEvasioningBeforeTurn = false;
 
 	// When
 	moveable.moveBackward(6);
-	boolean isEffectivelyAvoidingBeforeTurn = detector.isAvoiding(obstacle);
+	boolean isEffectivelyAvoidingBeforeTurn = detector.isEvasioning(obstacle);
 	moveable.makeTurn(180);
-	boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
+	boolean isEffectivelyAvoiding = detector.isEvasioning(obstacle);
 
 	// Then
-	Assert.assertThat(isAvoidingBeforeTurn, is(isEffectivelyAvoidingBeforeTurn));
-	Assert.assertThat(isAvoidingAfterTurn, is(isEffectivelyAvoiding));
+	Assert.assertThat(isEffectivelyAvoidingBeforeTurn, is(isEvasioningBeforeTurn));
+	Assert.assertThat(isEffectivelyAvoiding, is(isEvasioningAfterTurn));
     }
 
     @Test
@@ -106,15 +106,15 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -7));
 	Detector detector = new DetectorImpl();
-	boolean isAvoiding = true;
+	boolean isEvasioning = true;
 	boolean hasDetected = true;
 
 	// When
-	boolean isEffectivAvoiding = detector.isAvoiding(obstacle);
+	boolean isEffectivAvoiding = detector.isEvasioning(obstacle);
 	boolean hasEffectivDetected = detector.hasObjectDetected(obstacle);
 
 	// Then
-	Assert.assertThat(isAvoiding, is(not(isEffectivAvoiding)));
+	Assert.assertThat(isEvasioning, is(not(isEffectivAvoiding)));
 	Assert.assertThat(hasDetected, is(not(hasEffectivDetected)));
     }
 
@@ -123,40 +123,66 @@ class ScannerTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	new ObstacleImpl(grid, Positions.of(0, 7.1));
-	Detector detector = new DetectorImpl(5, 45);
-	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 1), detector);
-	// boolean isAvoiding = true;
-	double expectedEndAngle = 22.5;
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
+	Detector detector = new DetectorImpl(5, 45, 5.625);
+	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 1), detector, true);
+	double expectedEndAngle = 67.5;
+	boolean expectedIsEvasioning = false;
 
 	// When
-	moveable.moveForward(5);
-	// boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
-	double effectEndAngle = detector.getAvoidAngleRelative2(moveable.getPosition());
+	moveable.moveForward(7);
+	Direction direction = moveable.getPosition().getDirection();
+	double effectEndAngle = direction.getAngle();
+	boolean effectIsEvasioning = detector.isEvasioning(obstacle);
 
 	// Then
-	// Assert.assertThat(isAvoiding, is(isEffectivelyAvoiding));
-	Assert.assertThat(expectedEndAngle, is(effectEndAngle));
+	Assert.assertThat(effectIsEvasioning, is(expectedIsEvasioning));
+	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
     }
 
     @Test
-    void testAvoiding_AvoidingAngle80DegreeDirection() {
+    void testAvoiding_AvoidingAngle90DegreeDirection_InLowerRange() {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	new ObstacleImpl(grid, Positions.of(0, 7.1));
-	Detector detector = new DetectorImpl(5, 45);
-	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 1), detector);
-	// boolean isAvoiding = true;
-	double expectedEndAngle = 22.5;
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1.8195117, 5));
+	Detector detector = new DetectorImpl(5, 45, 5.625);
+	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 1), detector, true);
+	double expectedEndAngle = 136.875;
+	boolean expectedIsEvasioning = false;
 
 	// When
+	moveable.makeTurn(30);
 	moveable.moveForward(5);
-	// boolean isEffectivelyAvoiding = detector.isAvoiding(obstacle);
-	double effectEndAngle = detector.getAvoidAngleRelative2(moveable.getPosition());
+	Direction direction = moveable.getPosition().getDirection();
+	double effectEndAngle = direction.getAngle();
+	boolean effectIsEvasioning = detector.isEvasioning(obstacle);
 
 	// Then
-	// Assert.assertThat(isAvoiding, is(isEffectivelyAvoiding));
-	Assert.assertThat(expectedEndAngle, is(effectEndAngle));
+	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
+	Assert.assertThat(effectIsEvasioning, is(expectedIsEvasioning));
+    }
+
+    @Test
+    void testAvoiding_AvoidingAngle100DegreeDirection_InUpperRange() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2.8867, 7));
+	Detector detector = new DetectorImpl(5, 45, 5.625);
+	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 0), detector, true);
+	double expectedEndAngle = 88.75;
+	boolean expectedIsEvasioning = false;
+
+	// When
+	moveable.makeTurn(10);
+	moveable.moveForward(7);
+	Direction direction = moveable.getPosition().getDirection();
+	double effectEndAngle = direction.getAngle();
+	boolean effectIsEvasioning = detector.isEvasioning(obstacle);
+
+	// Then
+	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
+	Assert.assertThat(effectIsEvasioning, is(expectedIsEvasioning));
     }
 }
