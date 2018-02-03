@@ -56,11 +56,13 @@ public class DetectorImpl implements Detector {
 
     @Override
     public final boolean isAvoiding(GridElement gridElement) {
-	return isAvoidingMap.get(gridElement);
+	Boolean isAvoiding = isAvoidingMap.get(gridElement);
+	return isAvoiding == null ? false : isAvoiding;
     }
 
     @Override
     public boolean hasObjectDetected(GridElement gridElement) {
-	return detectionMap.get(gridElement);
+	Boolean hasObjectDetected = detectionMap.get(gridElement);
+	return hasObjectDetected == null ? false : hasObjectDetected;
     }
 }
