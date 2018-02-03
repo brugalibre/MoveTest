@@ -4,6 +4,7 @@
 package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,19 @@ class DirectionTest {
     }
 
     @Test
+    void testHashCodeNoCardinalDirection() {
+
+	// Given
+	Direction north = DirectionDefs.N;
+
+	// When
+	Direction anotherNorth = new DirectionImpl(90, null);
+
+	// Then
+	Assert.assertThat(north.hashCode(), is(not(anotherNorth.hashCode())));
+    }
+
+    @Test
     void testEquals() {
 
 	// Given
@@ -45,6 +59,20 @@ class DirectionTest {
 	Assert.assertFalse(north.equals(new Object()));
 	Assert.assertFalse(north.equals(anotherNotExactlyNorth));
 	Assert.assertFalse(anotherNorth.equals(anotherNotExactlyNorth));
+    }
+
+    @Test
+    void testEquals_NoCardinalDirection() {
+
+	// Given
+	Direction north = DirectionDefs.N;
+
+	// When
+	Direction anotherNorth = new DirectionImpl(90, null);
+
+	// Then
+	Assert.assertThat(anotherNorth, is(not(north)));
+	Assert.assertThat(north, is(not(anotherNorth)));
     }
 
     @Test

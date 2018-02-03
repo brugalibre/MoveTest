@@ -104,7 +104,10 @@ public class DirectionImpl implements Direction {
 	}
 	if (this.cardinalDirection == null && other.cardinalDirection != null) {
 	    return false;
-	} else if (!this.cardinalDirection.equals(other.cardinalDirection)) {
+	} else {
+	    System.err.println();
+	}
+	if (!this.cardinalDirection.equals(other.cardinalDirection)) {
 	    return false;
 	}
 	return true;
