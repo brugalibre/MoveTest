@@ -4,7 +4,9 @@
 package com.myownb3.piranha.grid;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.moveables.Direction;
 import com.myownb3.piranha.moveables.GridElement;
@@ -116,7 +118,11 @@ public class DefaultGrid implements Grid {
 	return position.getX() + forwardX;
     }
 
-    public List<GridElement> getGridElements() {
-	return gridElements;
+    @Override
+    public List<GridElement> getSurroundingGridElements(GridElement gridElement) {
+	return gridElements.stream()//
+		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
+		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.grid;
 
+import java.util.List;
+
 import com.myownb3.piranha.moveables.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 
@@ -47,4 +49,12 @@ public interface Grid {
      * @param abstractGridElement
      */
     void addElement(GridElement gridElement);
+
+    /**
+     * Returns all surrounding {@link GridElement} for the given {@link GridElement}
+     * 
+     * @param gridElement
+     * @return all surrounding {@link GridElement} for the given {@link GridElement}
+     */
+    List<GridElement> getSurroundingGridElements(GridElement gridElement);
 }

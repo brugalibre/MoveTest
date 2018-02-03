@@ -47,11 +47,38 @@ public class DetectorImpl implements Detector {
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 	    double ourAngle = position.getDirection().getAngle();
 
-	    isDetected = ourAngle + (detectorAngle / 2) >= gridElementAngle
-		    && gridElementAngle >= ourAngle - (detectorAngle / 2);
+	    isDetected = getUpperAngleRange(ourAngle) >= gridElementAngle
+		    && gridElementAngle >= getLowerAngleRange(ourAngle);
 	}
 	detectionMap.put(gridElement, isDetected);
-	isAvoidingMap.put(gridElement, hasObjectDetected(gridElement) && avoidingDistance >= distance);
+	isAvoidingMap.put(gridElement, isDetected && avoidingDistance >= distance);
+    }
+
+    @Override
+    public double getAvoidAngleRelative2(Position position) {
+
+	double avoidAngle = 0;
+	double ourAngle = position.getDirection().getAngle();
+
+	for (GridElement gridElement : isAvoidingMap.keySet()) {
+	    Position gridElemPos = gridElement.getPosition();
+
+	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
+	    double upperRange = getUpperAngleRange(ourAngle);
+	    double lowerRange = getLowerAngleRange(ourAngle);
+
+	    double upperDiff = Math.abs(upperRange - gridElementAngle);
+	    double lowerDiff = Math.abs(lowerRange - gridElementAngle);
+
+	    if (upperDiff > lowerDiff) {
+		avoidAngle = 22.5;// Turn to the left
+	    } else if (upperDiff < lowerDiff) {
+		avoidAngle = -22.5;// Turn to the right
+	    } else {
+		avoidAngle = 22.5;// Turn to the left by default
+	    }
+	}
+	return avoidAngle;
     }
 
     @Override
@@ -65,4 +92,13 @@ public class DetectorImpl implements Detector {
 	Boolean hasObjectDetected = detectionMap.get(gridElement);
 	return hasObjectDetected == null ? false : hasObjectDetected;
     }
+
+    private double getLowerAngleRange(double ourAngle) {
+	return ourAngle - (detectorAngle / 2);
+    }
+
+    private double getUpperAngleRange(double ourAngle) {
+	return ourAngle + (detectorAngle / 2);
+    }
+
 }
