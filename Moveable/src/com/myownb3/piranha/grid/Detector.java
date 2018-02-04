@@ -27,10 +27,10 @@ public interface Detector {
 
     /**
      * 
-     * @return <code>true</code> if this {@link Moveable} is currently avoiding the
-     *         given {@link GridElement}
+     * @return <code>true</code> if this {@link Moveable} is currently evasion
+     *         the given {@link GridElement}
      */
-    boolean isEvasioning(GridElement gridElement);
+    boolean isEvasion(GridElement gridElement);
 
     /**
      * Returns <code>true</code> if the given {@link GridElement} is currently
@@ -46,11 +46,11 @@ public interface Detector {
      * Returns the angle increment for which a {@link Moveable} can make a turn in
      * order to avoid a {@link GridElement} which is is on a collision path. This
      * method will return <code>0</code> if this {@link Detector} is currently not
-     * avoiding any {@link GridElement}
+     * evasion any {@link GridElement}
      * 
      * @param position
      *            the origin Position
-     * @returns the avoiding angle increment
+     * @returns the evasion angle increment
      */
-    double getEvasioningAngleRelative2(Position position);
+    double getEvasionAngleRelative2(Position position);
 }

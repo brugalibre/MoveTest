@@ -23,7 +23,7 @@ public class DetectorImpl implements Detector {
     private double angleInc;
 
     private Map<GridElement, Boolean> detectionMap;
-    private Map<GridElement, Boolean> isEvasioningMap;
+    private Map<GridElement, Boolean> isEvasionMap;
 
     public DetectorImpl() {
 	this(8, 45, 11.25);
@@ -33,9 +33,9 @@ public class DetectorImpl implements Detector {
 	this.detectorReach = detectorReach;
 	this.detectorAngle = detectorAngle;
 	this.avoidingDistance = 2 * detectorReach / 3;
-	detectionMap = new HashMap<>();
-	isEvasioningMap = new HashMap<>();
 	this.angleInc = angleInc;
+	detectionMap = new HashMap<>();
+	isEvasionMap = new HashMap<>();
     }
 
     @Override
@@ -51,26 +51,25 @@ public class DetectorImpl implements Detector {
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 	    double ourAngle = position.getDirection().getAngle();
 
-	    isDetected = ourAngle + (detectorAngle / 2) >= gridElementAngle
+	    isDetected = isWithinUpperBorder(ourAngle, gridElementAngle)
 		    && gridElementAngle >= ourAngle - (detectorAngle / 2);
 	}
 	detectionMap.put(gridElement, isDetected);
-	isEvasioningMap.put(gridElement, isDetected && avoidingDistance >= distance);
+	isEvasionMap.put(gridElement, isDetected && avoidingDistance >= distance);
     }
 
     @Override
-    public double getEvasioningAngleRelative2(Position position) {
+    public double getEvasionAngleRelative2(Position position) {
 
 	double avoidAngle = 0;
 	double ourAngle = position.getDirection().getAngle();
 
-	for (GridElement gridElement : getEvasioningGridElements()) {
+	for (GridElement gridElement : getEvasionGridElements()) {
 
 	    Position gridElemPos = gridElement.getPosition();
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 
-	    boolean isInUppoerBounds = (ourAngle + detectorAngle / 2) >= gridElementAngle
-		    && gridElementAngle >= ourAngle;
+	    boolean isInUppoerBounds = isWithinUpperBorder(ourAngle, gridElementAngle) && gridElementAngle >= ourAngle;
 
 	    if (isInUppoerBounds /* && isInLowerBounds, might be true here as well */) {
 		avoidAngle = -angleInc;// Turn to the right
@@ -83,9 +82,9 @@ public class DetectorImpl implements Detector {
     }
 
     @Override
-    public final boolean isEvasioning(GridElement gridElement) {
-	Boolean isEvasioning = isEvasioningMap.get(gridElement);
-	return isEvasioning == null ? false : isEvasioning;
+    public final boolean isEvasion(GridElement gridElement) {
+	Boolean isEvasion = isEvasionMap.get(gridElement);
+	return isEvasion == null ? false : isEvasion;
     }
 
     @Override
@@ -94,10 +93,14 @@ public class DetectorImpl implements Detector {
 	return hasObjectDetected == null ? false : hasObjectDetected;
     }
 
-    private List<GridElement> getEvasioningGridElements() {
-	return isEvasioningMap.keySet()//
+    private List<GridElement> getEvasionGridElements() {
+	return isEvasionMap.keySet()//
 		.stream()//
-		.filter(gridElement -> isEvasioningMap.get(gridElement))//
+		.filter(gridElement -> isEvasionMap.get(gridElement))//
 		.collect(Collectors.toList());
+    }
+
+    private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle) {
+	return ourAngle + (detectorAngle / 2) >= gridElementAngle;
     }
 }

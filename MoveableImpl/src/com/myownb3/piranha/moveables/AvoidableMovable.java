@@ -16,7 +16,7 @@ import com.myownb3.piranha.grid.Position;
 public abstract class AvoidableMovable extends AbstractMovable implements AvoidableMoveable {
 
     private Detector detector;
-    private boolean isEvasioningProcedureEnabled;
+    private boolean isEvasionProcedureEnabled;
 
     /**
      * Creates a new {@link AvoidableMovable}
@@ -27,12 +27,12 @@ public abstract class AvoidableMovable extends AbstractMovable implements Avoida
      *            the initial {@link Position} of this {@link Moveable}
      * @param detector
      *            the {@link Detector}
-     * @param isEvasioningProcedureEnabled
+     * @param isEvasionProcedureEnabled
      *            <code>true</code> if avoiding procedure is enabled
      */
-    public AvoidableMovable(Grid grid, Position position, Detector detector, boolean isEvasioningProcedureEnabled) {
+    public AvoidableMovable(Grid grid, Position position, Detector detector, boolean isEvasionProcedureEnabled) {
 	super(grid, position);
-	this.isEvasioningProcedureEnabled = isEvasioningProcedureEnabled;
+	this.isEvasionProcedureEnabled = isEvasionProcedureEnabled;
 	this.detector = detector;
 	checkSurroundingAndHandleEvasionManeuve();
     }
@@ -79,10 +79,10 @@ public abstract class AvoidableMovable extends AbstractMovable implements Avoida
     private void handleEvasionManeuveIfNecessary() {
 
 	List<GridElement> gridElements = grid.getSurroundingGridElements(this);
-	boolean isEvasioning = gridElements.stream()//
-		.anyMatch(gridElement -> detector.isEvasioning(gridElement));
+	boolean isEvasion = gridElements.stream()//
+		.anyMatch(gridElement -> detector.isEvasion(gridElement));
 
-	if (isEvasioning && isEvasioningProcedureEnabled) {
+	if (isEvasion && isEvasionProcedureEnabled) {
 	    handleEvasionManeuve();
 	}
     }
@@ -98,7 +98,7 @@ public abstract class AvoidableMovable extends AbstractMovable implements Avoida
 
     private void handleEvasionManeuve() {
 
-	double avoidAngle = detector.getEvasioningAngleRelative2(position);
+	double avoidAngle = detector.getEvasionAngleRelative2(position);
 	super.makeTurn(avoidAngle);
 	checkSurrounding();
     }

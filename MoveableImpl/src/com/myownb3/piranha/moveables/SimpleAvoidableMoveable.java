@@ -27,7 +27,7 @@ public class SimpleAvoidableMoveable extends AvoidableMovable {
      * @param of
      * @param detector
      */
-    public SimpleAvoidableMoveable(Grid grid, Position position, Detector detector, boolean isEvasioningEnabled) {
-	super(grid, position, detector, isEvasioningEnabled);
+    public SimpleAvoidableMoveable(Grid grid, Position position, Detector detector, boolean isEvasionEnabled) {
+	super(grid, position, detector, isEvasionEnabled);
     }
 }
