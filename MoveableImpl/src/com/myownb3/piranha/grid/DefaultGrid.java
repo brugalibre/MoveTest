@@ -68,7 +68,7 @@ public class DefaultGrid implements Grid {
 	Direction direction = position.getDirection();
 	double newX = getNewXValue(position, direction.getBackwardX());
 	double newY = getNewYValue(position, direction.getBackwardY());
-	return new PositionImpl(direction, newX, newY);
+	return Positions.of(direction, newX, newY);
     }
 
     /**
@@ -85,7 +85,7 @@ public class DefaultGrid implements Grid {
 	double newX = getNewXValue(position, direction.getForwardX());
 	double newY = getNewYValue(position, direction.getForwardY());
 
-	return new PositionImpl(direction, newX, newY);
+	return Positions.of(direction, newX, newY);
     }
 
     @Override
