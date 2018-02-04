@@ -7,7 +7,8 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 
 /**
- * A {@link GridElement} is any element which can be placed on a {@link Grid}
+ * A {@link GridElement} is a most simple element which can be placed on a
+ * {@link Grid}
  * 
  * @author Dominic
  *

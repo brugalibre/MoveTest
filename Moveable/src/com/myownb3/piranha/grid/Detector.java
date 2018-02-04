@@ -7,6 +7,9 @@ import com.myownb3.piranha.moveables.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**
+ * A {@link Detector} is used to detect other {@link GridElement} on a
+ * {@link Grid}
+ * 
  * @author Dominic
  *
  */
@@ -27,8 +30,8 @@ public interface Detector {
 
     /**
      * 
-     * @return <code>true</code> if this {@link Moveable} is currently evasion
-     *         the given {@link GridElement}
+     * @return <code>true</code> if this {@link Moveable} is currently evasion the
+     *         given {@link GridElement}
      */
     boolean isEvasion(GridElement gridElement);
 

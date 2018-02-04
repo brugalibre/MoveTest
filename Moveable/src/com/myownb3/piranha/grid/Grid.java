@@ -10,7 +10,7 @@ import com.myownb3.piranha.moveables.Moveable;
 
 /**
  * The {@link Grid} defines the place where a {@link Moveable} can be moved and
- * {@link Position}s can be placed.
+ * {@link Position}s and {@link GridElement}s can be placed.
  * 
  * @author Dominic
  *
