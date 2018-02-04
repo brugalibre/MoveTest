@@ -14,9 +14,4 @@ import com.myownb3.piranha.grid.Grid;
  */
 public interface AvoidableMoveable extends Moveable {
 
-    // /**
-    // * If this {@link Moveable} is currently avoiding any {@link GridElement} then
-    // * this call will continue the avoiding protocol
-    // */
-    // public void continueAvoiding();
 }

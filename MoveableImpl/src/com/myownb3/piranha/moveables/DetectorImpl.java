@@ -77,6 +77,7 @@ public class DetectorImpl implements Detector {
 		avoidAngle = angleInc;// Turn to the left
 		assert (!isInUppoerBounds);
 	    }
+	    break;// no support for more than one GridElement to avoid
 	}
 	return avoidAngle;
     }

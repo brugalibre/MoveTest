@@ -16,7 +16,7 @@ import com.myownb3.piranha.grid.Position;
 public abstract class AvoidableMovable extends AbstractMovable implements AvoidableMoveable {
 
     private Detector detector;
-    private boolean isEvasionProcedureEnabled;
+    private boolean isEvasionManeuverEnabled;
 
     /**
      * Creates a new {@link AvoidableMovable}
@@ -27,14 +27,14 @@ public abstract class AvoidableMovable extends AbstractMovable implements Avoida
      *            the initial {@link Position} of this {@link Moveable}
      * @param detector
      *            the {@link Detector}
-     * @param isEvasionProcedureEnabled
-     *            <code>true</code> if avoiding procedure is enabled
+     * @param isEvasionManeuverEnabled
+     *            <code>true</code> if evasion maneuver is enabled
      */
-    public AvoidableMovable(Grid grid, Position position, Detector detector, boolean isEvasionProcedureEnabled) {
+    public AvoidableMovable(Grid grid, Position position, Detector detector, boolean isEvasionManeuverEnabled) {
 	super(grid, position);
-	this.isEvasionProcedureEnabled = isEvasionProcedureEnabled;
+	this.isEvasionManeuverEnabled = isEvasionManeuverEnabled;
 	this.detector = detector;
-	checkSurroundingAndHandleEvasionManeuve();
+	checkSurroundingAndHandleEvasionManeuver();
     }
 
     /**
@@ -55,56 +55,48 @@ public abstract class AvoidableMovable extends AbstractMovable implements Avoida
     @Override
     public void moveForward() {
 	super.moveForward();
-	checkSurroundingAndHandleEvasionManeuve();
+	checkSurroundingAndHandleEvasionManeuver();
     }
 
     @Override
     public void moveBackward() {
 	super.moveBackward();
-	checkSurroundingAndHandleEvasionManeuve();
+	checkSurroundingAndHandleEvasionManeuver();
     }
 
     @Override
     public void makeTurn(double degree) {
 	super.makeTurn(degree);
-	checkSurroundingAndHandleEvasionManeuve();
+	checkSurroundingAndHandleEvasionManeuver();
     }
 
-    private void checkSurroundingAndHandleEvasionManeuve() {
+    private void checkSurroundingAndHandleEvasionManeuver() {
 
 	checkSurrounding();
-	handleEvasionManeuveIfNecessary();
+	handleEvasionManeuverIfNecessary();
     }
 
-    private void handleEvasionManeuveIfNecessary() {
+    private void handleEvasionManeuverIfNecessary() {
 
 	List<GridElement> gridElements = grid.getSurroundingGridElements(this);
 	boolean isEvasion = gridElements.stream()//
 		.anyMatch(gridElement -> detector.isEvasion(gridElement));
 
-	if (isEvasion && isEvasionProcedureEnabled) {
-	    handleEvasionManeuve();
+	if (isEvasion && isEvasionManeuverEnabled) {
+	    handleEvasionManeuver();
 	}
     }
 
-    /**
-     * @param gridElements
-     */
     private void checkSurrounding() {
 	List<GridElement> gridElements = grid.getSurroundingGridElements(this);
 	gridElements.stream()//
 		.forEach(gridElement -> detector.detectObject(gridElement, position));
     }
 
-    private void handleEvasionManeuve() {
+    private void handleEvasionManeuver() {
 
 	double avoidAngle = detector.getEvasionAngleRelative2(position);
 	super.makeTurn(avoidAngle);
 	checkSurrounding();
     }
-
-    // @Override
-    // public void continueAvoiding() {
-    // // TODO Auto-generated method stub
-    // }
 }

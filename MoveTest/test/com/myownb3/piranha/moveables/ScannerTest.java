@@ -189,5 +189,11 @@ class ScannerTest {
     @Test
     public void testCompleteEvasionMeanuvre() {
 
+	// Given
+
+	// When
+
+	// Then
+
     }
 }
