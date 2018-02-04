@@ -5,7 +5,6 @@ package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
@@ -151,13 +150,24 @@ class PositionTest {
 
 	// When
 	Position anotherPos = Positions.of(DirectionDefs.N, 0, 0);
-	Position anotherNotExactlySamePos = Positions.of(DirectionDefs.N, 0, 1);
+
+	// Then
+	Assert.assertThat(pos, is(anotherPos));
+	Assert.assertTrue(pos.equals(anotherPos));
+	Assert.assertTrue(pos.equals(pos));
+    }
+
+    @Test
+    void testNotEquals() {
+
+	// Given
+	Position pos = Positions.of(DirectionDefs.N, 0, 0);
+
+	// When
+	Position anotherNotExactlySamePos = Positions.of(DirectionDefs.N, 1, 0);
 	Position anotherNotExactlySamePos2 = Positions.of(DirectionDefs.S, 0, 1);
 
 	// Then
-	Assert.assertThat(pos, CoreMatchers.is(anotherPos));
-	Assert.assertTrue(pos.equals(anotherPos));
-	Assert.assertTrue(pos.equals(pos));
 	Assert.assertFalse(pos.equals(null));
 	Assert.assertFalse(pos.equals(new Object()));
 	Assert.assertFalse(pos.equals(anotherNotExactlySamePos));
