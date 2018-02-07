@@ -185,15 +185,4 @@ class ScannerTest {
 	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
 	Assert.assertThat(effectIsEvasion, is(expectedIsEvasion));
     }
-
-    @Test
-    public void testCompleteEvasionMeanuvre() {
-
-	// Given
-
-	// When
-
-	// Then
-
-    }
 }
