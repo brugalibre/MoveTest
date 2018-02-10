@@ -1,11 +1,12 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
+package com.myownb3.piranha.moveables.helper;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.AbstractMoveable.Updater;
+import com.myownb3.piranha.moveables.Moveable;
 
 /**
  * @author Dominic
@@ -13,23 +14,21 @@ import com.myownb3.piranha.moveables.AbstractMoveable.Updater;
  */
 public class Helper {
 
-    protected Helper next;
-
     public void moveForward(Grid grid, Moveable movable, Updater updater) {
 	Position newPos = grid.moveForward(movable.getPosition());
 	updater.update(movable, newPos);
-	checkPostConditions(movable, grid);
+	checkPostConditions(grid, movable);
     }
 
     public void makeTurn(Grid grid, Moveable moveable, double degree) {
 	moveable.getPosition().rotate(degree);
-	checkPostConditions(moveable, grid);
+	checkPostConditions(grid, moveable);
     }
 
     public void moveBackward(Moveable movable, Grid grid, Updater updater) {
 	Position newPos = grid.moveBackward(movable.getPosition());
 	updater.update(movable, newPos);
-	checkPostConditions(movable, grid);
+	checkPostConditions(grid, movable);
     }
 
     public void moveBackward(Grid grid, Moveable movable, int amount, Updater updater) {
@@ -52,7 +51,7 @@ public class Helper {
 	}
     }
 
-    public void checkPostConditions(Moveable movable, Grid grid) {
+    public void checkPostConditions(Grid grid, Moveable movable) {
 	// nothing to do here
     }
 }

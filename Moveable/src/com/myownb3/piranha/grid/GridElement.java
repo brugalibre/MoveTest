@@ -1,10 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
-
-import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Position;
+package com.myownb3.piranha.grid;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a

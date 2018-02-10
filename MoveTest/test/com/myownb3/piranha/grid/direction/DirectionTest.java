@@ -1,13 +1,17 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
+package com.myownb3.piranha.grid.direction;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+
+import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.direction.DirectionDefs;
+import com.myownb3.piranha.grid.direction.DirectionImpl;
 
 /**
  * @author Dominic

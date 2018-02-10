@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.moveables.DirectionDefs;
+import com.myownb3.piranha.grid.direction.DirectionDefs;
 import com.myownb3.piranha.util.MathUtil;
 
 /**

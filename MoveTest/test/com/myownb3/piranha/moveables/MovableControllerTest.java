@@ -15,6 +15,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.moveables.detector.DetectorImpl;
 
 /**
  * @author Dominic

@@ -15,6 +15,9 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.direction.DirectionDefs;
+import com.myownb3.piranha.grid.direction.DirectionImpl;
 
 /**
  * @author Dominic

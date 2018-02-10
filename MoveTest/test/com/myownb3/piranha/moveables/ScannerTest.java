@@ -10,11 +10,13 @@ import static org.junit.Assert.assertThat;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Obstacle;
 import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.moveables.detector.Detector;
+import com.myownb3.piranha.moveables.detector.DetectorImpl;
 
 /**
  * @author Dominic

@@ -3,7 +3,7 @@
  */
 package com.myownb3.piranha.grid;
 
-import com.myownb3.piranha.moveables.Direction;
+import com.myownb3.piranha.grid.direction.Direction;
 
 /**
  * Defines a specific position on a {@link Grid}

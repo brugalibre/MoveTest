@@ -1,9 +1,10 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
+package com.myownb3.piranha.grid;
 
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
 
 /**
@@ -15,7 +16,7 @@ public class AbstractGridElement implements GridElement {
     protected Position position;
     protected Grid grid;
 
-    public AbstractGridElement(Position position, Grid grid) {
+    public AbstractGridElement(Grid grid, Position position) {
 	super();
 	this.position = position;
 	this.grid = grid;

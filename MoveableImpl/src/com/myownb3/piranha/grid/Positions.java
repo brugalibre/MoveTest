@@ -3,9 +3,8 @@
  */
 package com.myownb3.piranha.grid;
 
-import com.myownb3.piranha.moveables.Direction;
-import com.myownb3.piranha.moveables.DirectionDefs;
-import com.myownb3.piranha.moveables.GridElement;
+import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.direction.DirectionDefs;
 import com.myownb3.piranha.util.MathUtil;
 
 /**

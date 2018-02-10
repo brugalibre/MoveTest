@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
+package com.myownb3.piranha.moveables.detector;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.myownb3.piranha.grid.Detector;
+import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
 
 /**

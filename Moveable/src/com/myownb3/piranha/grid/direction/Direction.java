@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables;
+package com.myownb3.piranha.grid.direction;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;

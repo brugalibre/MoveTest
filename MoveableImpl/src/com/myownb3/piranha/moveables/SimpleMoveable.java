@@ -4,10 +4,12 @@
 package com.myownb3.piranha.moveables;
 
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.moveables.detector.Detector;
+import com.myownb3.piranha.moveables.helper.EnvasionHelper;
+import com.myownb3.piranha.moveables.helper.Helper;
 
 /**
  * @author Dominic
@@ -37,7 +39,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * Creates a new {@link SimpleMoveable} with the given {@link Grid},a
-     * {@link AvoidingHelper} which is <b>not</b> evasion anything and the given
+     * {@link EnvasionHelper} which is <b>not</b> evasion anything and the given
      * origin {@link Position}
      * 
      * @param grid
@@ -53,7 +55,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * * Creates a new {@link SimpleMoveable} with the given {@link Grid},a
-     * {@link AvoidingHelper} and the given origin {@link Position}
+     * {@link EnvasionHelper} and the given origin {@link Position}
      * 
      * @param grid
      *            the Grid
@@ -66,6 +68,6 @@ public class SimpleMoveable extends AbstractMoveable {
      *            <code>false</code> if not
      */
     public SimpleMoveable(Grid grid, Position position, Detector detector, boolean isEvasionEnabled) {
-	super(grid, position, new AvoidingHelper(detector, isEvasionEnabled));
+	super(grid, position, new EnvasionHelper(detector, isEvasionEnabled));
     }
 }

@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.grid.direction.DirectionDefs;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
-import com.myownb3.piranha.moveables.DirectionDefs;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.SimpleMoveable;
 

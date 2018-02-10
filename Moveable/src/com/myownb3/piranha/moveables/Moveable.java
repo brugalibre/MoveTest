@@ -4,6 +4,8 @@
 package com.myownb3.piranha.moveables;
 
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.GridElement;
+import com.myownb3.piranha.grid.direction.Direction;
 
 /**
  * A Moveable is an object which is able to move itself on a {@link Grid}

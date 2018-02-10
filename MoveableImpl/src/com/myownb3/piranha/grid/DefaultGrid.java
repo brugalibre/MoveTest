@@ -8,9 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
-import com.myownb3.piranha.moveables.Direction;
-import com.myownb3.piranha.moveables.GridElement;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
