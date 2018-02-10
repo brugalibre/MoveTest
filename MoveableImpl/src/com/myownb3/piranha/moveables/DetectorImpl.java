@@ -4,9 +4,8 @@
 package com.myownb3.piranha.moveables;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import com.myownb3.piranha.grid.Detector;
 import com.myownb3.piranha.grid.Position;
@@ -64,22 +63,32 @@ public class DetectorImpl implements Detector {
 	double avoidAngle = 0;
 	double ourAngle = position.getDirection().getAngle();
 
-	for (GridElement gridElement : getEvasionGridElements()) {
-
+	Optional<GridElement> evasionGridElement = getEvasionGridElement();
+	if (evasionGridElement.isPresent()) {
+	    GridElement gridElement = evasionGridElement.get();
 	    Position gridElemPos = gridElement.getPosition();
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 
-	    boolean isInUppoerBounds = isWithinUpperBorder(ourAngle, gridElementAngle) && gridElementAngle >= ourAngle;
+	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, gridElementAngle) && gridElementAngle >= ourAngle;
 
-	    if (isInUppoerBounds /* && isInLowerBounds, might be true here as well */) {
+	    if (isInUpperBounds /* && isInLowerBounds, might be true here as well */) {
 		avoidAngle = -angleInc;// Turn to the right
 	    } else {
 		avoidAngle = angleInc;// Turn to the left
-		assert (!isInUppoerBounds);
+		assert (!isInUpperBounds);
 	    }
-	    break;// no support for more than one GridElement to avoid
 	}
 	return avoidAngle;
+    }
+
+    /**
+     * @return
+     */
+    private Optional<GridElement> getEvasionGridElement() {
+	return isEvasionMap.keySet()//
+		.stream()//
+		.filter(gridElement -> isEvasionMap.get(gridElement))//
+		.findFirst();
     }
 
     @Override
@@ -92,13 +101,6 @@ public class DetectorImpl implements Detector {
     public boolean hasObjectDetected(GridElement gridElement) {
 	Boolean hasObjectDetected = detectionMap.get(gridElement);
 	return hasObjectDetected == null ? false : hasObjectDetected;
-    }
-
-    private List<GridElement> getEvasionGridElements() {
-	return isEvasionMap.keySet()//
-		.stream()//
-		.filter(gridElement -> isEvasionMap.get(gridElement))//
-		.collect(Collectors.toList());
     }
 
     private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle) {

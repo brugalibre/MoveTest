@@ -5,8 +5,8 @@ package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid;
@@ -37,7 +37,7 @@ class ScannerTest {
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(isEffectivelyEvasion, is(isEvasion));
+	assertThat(isEffectivelyEvasion, is(isEvasion));
     }
 
     @Test
@@ -55,7 +55,7 @@ class ScannerTest {
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(isEffectivelyEvasion, is(not(isEvasion)));
+	assertThat(isEffectivelyEvasion, is(not(isEvasion)));
 	// The distance is effectively about 3.1 - just about 0.1 to far away
     }
 
@@ -74,7 +74,7 @@ class ScannerTest {
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(isEffectivelyEvasion, is(not(isEvasion)));
+	assertThat(isEffectivelyEvasion, is(not(isEvasion)));
     }
 
     @Test
@@ -95,8 +95,8 @@ class ScannerTest {
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(isEffectivelyEvasionBeforeTurn, is(isEvasionBeforeTurn));
-	Assert.assertThat(isEffectivelyEvasion, is(isEvasionAfterTurn));
+	assertThat(isEffectivelyEvasionBeforeTurn, is(isEvasionBeforeTurn));
+	assertThat(isEffectivelyEvasion, is(isEvasionAfterTurn));
     }
 
     @Test
@@ -114,8 +114,8 @@ class ScannerTest {
 	boolean hasEffectivDetected = detector.hasObjectDetected(obstacle);
 
 	// Then
-	Assert.assertThat(isEvasion, is(not(isEffectivEvasion)));
-	Assert.assertThat(hasDetected, is(not(hasEffectivDetected)));
+	assertThat(isEvasion, is(not(isEffectivEvasion)));
+	assertThat(hasDetected, is(not(hasEffectivDetected)));
     }
 
     @Test
@@ -136,8 +136,8 @@ class ScannerTest {
 	boolean effectIsEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(effectIsEvasion, is(expectedIsEvasion));
-	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
+	assertThat(effectIsEvasion, is(expectedIsEvasion));
+	assertThat(effectEndAngle, is(expectedEndAngle));
     }
 
     @Test
@@ -159,8 +159,8 @@ class ScannerTest {
 	boolean effectIsEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
-	Assert.assertThat(effectIsEvasion, is(expectedIsEvasion));
+	assertThat(effectEndAngle, is(expectedEndAngle));
+	assertThat(effectIsEvasion, is(expectedIsEvasion));
     }
 
     @Test
@@ -182,7 +182,26 @@ class ScannerTest {
 	boolean effectIsEvasion = detector.isEvasion(obstacle);
 
 	// Then
-	Assert.assertThat(effectEndAngle, is(expectedEndAngle));
-	Assert.assertThat(effectIsEvasion, is(expectedIsEvasion));
+	assertThat(effectEndAngle, is(expectedEndAngle));
+	assertThat(effectIsEvasion, is(expectedIsEvasion));
+    }
+
+    @Test
+    public void testEvasionDegreeZero() {
+	// Given
+	Grid grid = new DefaultGrid(20, 20);
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 20));
+	Detector detector = new DetectorImpl();
+	new SimpleMoveable(grid, Positions.of(0, 0), detector, true);
+	double expectedEndAngle = 0;
+	boolean expectedEvasion = false;
+
+	// When
+	double effectEndAngle = detector.getEvasionAngleRelative2(obstacle.getPosition());
+	boolean effectIsEvasion = detector.isEvasion(obstacle);
+
+	// Then
+	assertThat(effectEndAngle, is(expectedEndAngle));
+	assertThat(effectIsEvasion, is(expectedEvasion));
     }
 }
