@@ -6,6 +6,7 @@ package com.myownb3.piranha.moveables;
 import java.util.List;
 
 import com.myownb3.piranha.grid.Detector;
+import com.myownb3.piranha.grid.Grid;
 
 /**
  * @author Dominic
@@ -26,33 +27,33 @@ public class AvoidingHelper extends Helper {
     }
 
     @Override
-    public void checkPostConditions(AbstractMoveable abstractMovable) {
+    public void checkPostConditions(Moveable moveable, Grid grid) {
 
-	checkSurrounding(abstractMovable);
-	handleEvasionManeuverIfNecessary(abstractMovable);
+	checkSurrounding(moveable, grid);
+	handleEvasionManeuverIfNecessary(moveable, grid);
     }
 
-    private void handleEvasionManeuverIfNecessary(AbstractMoveable avoidableMovable) {
+    private void handleEvasionManeuverIfNecessary(Moveable moveable, Grid grid) {
 
-	List<GridElement> gridElements = avoidableMovable.grid.getSurroundingGridElements(avoidableMovable);
+	List<GridElement> gridElements = grid.getSurroundingGridElements(moveable);
 	boolean isEvasion = gridElements.stream()//
 		.anyMatch(gridElement -> detector.isEvasion(gridElement));
 
 	if (isEvasion && isEvasionManeuverEnabled) {
-	    handleEvasionManeuver(avoidableMovable);
+	    handleEvasionManeuver(moveable, grid);
 	}
     }
 
-    private void checkSurrounding(AbstractMoveable avoidableMovable) {
-	List<GridElement> gridElements = avoidableMovable.grid.getSurroundingGridElements(avoidableMovable);
+    private void checkSurrounding(Moveable moveable, Grid grid) {
+	List<GridElement> gridElements = grid.getSurroundingGridElements(moveable);
 	gridElements.stream()//
-		.forEach(gridElement -> detector.detectObject(gridElement, avoidableMovable.position));
+		.forEach(gridElement -> detector.detectObject(gridElement, moveable.getPosition()));
     }
 
-    private void handleEvasionManeuver(AbstractMoveable avoidableMovable) {
+    private void handleEvasionManeuver(Moveable moveable, Grid grid) {
 
-	double avoidAngle = detector.getEvasionAngleRelative2(avoidableMovable.position);
-	avoidableMovable.makeTurn(avoidAngle);
-	checkSurrounding(avoidableMovable);
+	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+	moveable.makeTurn(avoidAngle);
+	checkSurrounding(moveable, grid);
     }
 }

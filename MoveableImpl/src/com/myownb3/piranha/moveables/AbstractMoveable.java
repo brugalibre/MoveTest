@@ -20,7 +20,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     public AbstractMoveable(Grid grid, Position position, Helper helper) {
 	super(position, grid);
 	this.helper = helper;
-	this.helper.checkPostConditions(this);
+	this.helper.checkPostConditions(this, grid);
     }
 
     public AbstractMoveable(Grid grid, Position position) {
@@ -29,22 +29,22 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void moveForward() {
-	helper.moveForward(this);
+	helper.moveForward(grid, this, getUpdater());
     }
 
     @Override
     public void moveForward(int amount) {
-	helper.moveForward(this, amount);
+	helper.moveForward(grid, this, amount, getUpdater());
     }
 
     @Override
     public void moveBackward() {
-	helper.moveBackward(this);
+	helper.moveBackward(this, grid, getUpdater());
     }
 
     @Override
     public void moveBackward(int amount) {
-	helper.moveBackward(this, amount);
+	helper.moveBackward(grid, this, amount, getUpdater());
     }
 
     @Override
@@ -54,11 +54,27 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void makeTurn(double degree) {
-	helper.makeTurn(this, degree);
+	helper.makeTurn(grid, this, degree);
     }
 
     @Override
     public void turnRight() {
 	makeTurn(-90);
+    }
+
+    @FunctionalInterface
+    public static interface Updater {
+	public void update(Moveable moveable, Position pos);
+    }
+
+    /**
+     * @return a Callback handler in order to update a {@link Moveable} after
+     *         certain operations are done. This is necessary because those
+     *         operations happening outside this immutable Moveable
+     */
+    private Updater getUpdater() {
+	return (moveable, pos) -> {
+	    ((AbstractMoveable) moveable).position = pos;
+	};
     }
 }
