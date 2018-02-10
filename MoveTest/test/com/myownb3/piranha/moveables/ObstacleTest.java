@@ -28,7 +28,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
 	Detector detector = new DetectorImpl();
-	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
+	new SimpleMoveable(grid, Positions.of(1, 1), detector);
 	boolean isRecognized = true;
 
 	// When
@@ -45,7 +45,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2, 7));
 	Detector detector = new DetectorImpl();
-	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
+	new SimpleMoveable(grid, Positions.of(1, 1), detector);
 	boolean isRecognized = true;
 
 	// When
@@ -62,7 +62,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(3, 7));
 	Detector detector = new DetectorImpl();
-	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
+	new SimpleMoveable(grid, Positions.of(1, 1), detector);
 	boolean notRecognized = false;
 
 	// When
@@ -79,7 +79,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
 	Detector detector = new DetectorImpl();
-	new SimpleAvoidableMoveable(grid, Positions.of(1, 1), detector);
+	new SimpleMoveable(grid, Positions.of(1, 1), detector);
 	boolean notRecognized = false;
 
 	// When

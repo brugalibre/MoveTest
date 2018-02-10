@@ -82,7 +82,7 @@ class MovableControllerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	new ObstacleImpl(grid, Positions.of(0, 5));
-	Moveable moveable = new SimpleAvoidableMoveable(grid, Positions.of(0, 0), new DetectorImpl(), true);
+	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0), new DetectorImpl(), true);
 
 	Position expectedEndPos = Positions.of(0, 12);
 	MovableController controller = new MovableController(moveable, expectedEndPos);

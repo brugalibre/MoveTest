@@ -15,38 +15,44 @@ import com.myownb3.piranha.grid.Position;
  */
 public abstract class AbstractMovable extends AbstractGridElement implements Moveable {
 
+    Helper helper;
+
+    /**
+     * @param grid
+     * @param position
+     */
+    public AbstractMovable(Grid grid, Position position, Helper helper) {
+	super(position, grid);
+	this.helper = helper;
+	this.helper.checkPostConditions(this);
+    }
+
     /**
      * @param grid
      * @param position
      */
     public AbstractMovable(Grid grid, Position position) {
-	super(position, grid);
+	this(grid, position, new Helper());
     }
 
     @Override
     public void moveForward() {
-	position = grid.moveForward(position);
+	helper.moveForward(this);
     }
 
     @Override
     public void moveForward(int amount) {
-	verifyAmount(amount);
-	for (int i = 0; i < amount; i++) {
-	    moveForward();
-	}
+	helper.moveForward(this, amount);
     }
 
     @Override
     public void moveBackward() {
-	position = grid.moveBackward(position);
+	helper.moveBackward(this);
     }
 
     @Override
     public void moveBackward(int amount) {
-	verifyAmount(amount);
-	for (int i = 0; i < amount; i++) {
-	    moveBackward();
-	}
+	helper.moveBackward(this, amount);
     }
 
     @Override
@@ -56,17 +62,11 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
 
     @Override
     public void makeTurn(double degree) {
-	position.rotate(degree);
+	helper.makeTurn(this, degree);
     }
 
     @Override
     public void turnRight() {
 	makeTurn(-90);
-    }
-
-    private void verifyAmount(int amount) {
-	if (amount <= 0) {
-	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
-	}
     }
 }
