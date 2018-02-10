@@ -11,29 +11,29 @@ public class Helper {
 
     protected Helper next;
 
-    public void moveForward(AbstractMovable abstractMovable) {
+    public void moveForward(AbstractMoveable abstractMovable) {
 	abstractMovable.position = abstractMovable.grid.moveForward(abstractMovable.position);
 	checkPostConditions(abstractMovable);
     }
 
-    public void makeTurn(AbstractMovable abstractMovable, double degree) {
+    public void makeTurn(AbstractMoveable abstractMovable, double degree) {
 	abstractMovable.position.rotate(degree);
 	checkPostConditions(abstractMovable);
     }
 
-    public void moveBackward(AbstractMovable abstractMovable) {
+    public void moveBackward(AbstractMoveable abstractMovable) {
 	abstractMovable.position = abstractMovable.grid.moveBackward(abstractMovable.position);
 	checkPostConditions(abstractMovable);
     }
 
-    public void moveBackward(AbstractMovable abstractMovable, int amount) {
+    public void moveBackward(AbstractMoveable abstractMovable, int amount) {
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    moveBackward(abstractMovable);
 	}
     }
 
-    public void moveForward(AbstractMovable abstractMovable, int amount) {
+    public void moveForward(AbstractMoveable abstractMovable, int amount) {
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    moveForward(abstractMovable);
@@ -46,7 +46,7 @@ public class Helper {
 	}
     }
 
-    public void checkPostConditions(AbstractMovable abstractMovable) {
+    public void checkPostConditions(AbstractMoveable abstractMovable) {
 
     }
 }

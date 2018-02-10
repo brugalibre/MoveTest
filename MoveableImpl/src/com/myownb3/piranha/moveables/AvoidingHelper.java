@@ -26,13 +26,13 @@ public class AvoidingHelper extends Helper {
     }
 
     @Override
-    public void checkPostConditions(AbstractMovable abstractMovable) {
+    public void checkPostConditions(AbstractMoveable abstractMovable) {
 
 	checkSurrounding(abstractMovable);
 	handleEvasionManeuverIfNecessary(abstractMovable);
     }
 
-    private void handleEvasionManeuverIfNecessary(AbstractMovable avoidableMovable) {
+    private void handleEvasionManeuverIfNecessary(AbstractMoveable avoidableMovable) {
 
 	List<GridElement> gridElements = avoidableMovable.grid.getSurroundingGridElements(avoidableMovable);
 	boolean isEvasion = gridElements.stream()//
@@ -43,13 +43,13 @@ public class AvoidingHelper extends Helper {
 	}
     }
 
-    private void checkSurrounding(AbstractMovable avoidableMovable) {
+    private void checkSurrounding(AbstractMoveable avoidableMovable) {
 	List<GridElement> gridElements = avoidableMovable.grid.getSurroundingGridElements(avoidableMovable);
 	gridElements.stream()//
 		.forEach(gridElement -> detector.detectObject(gridElement, avoidableMovable.position));
     }
 
-    private void handleEvasionManeuver(AbstractMovable avoidableMovable) {
+    private void handleEvasionManeuver(AbstractMoveable avoidableMovable) {
 
 	double avoidAngle = detector.getEvasionAngleRelative2(avoidableMovable.position);
 	avoidableMovable.makeTurn(avoidAngle);

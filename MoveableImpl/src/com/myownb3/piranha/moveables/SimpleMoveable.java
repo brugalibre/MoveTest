@@ -13,7 +13,7 @@ import com.myownb3.piranha.grid.Positions;
  * @author Dominic
  *
  */
-public class SimpleMoveable extends AbstractMovable {
+public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * @param position

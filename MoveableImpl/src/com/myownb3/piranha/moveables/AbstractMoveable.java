@@ -7,13 +7,13 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 
 /**
- * The {@link AbstractMovable} is responsible for doing the basic move elements
+ * The {@link AbstractMoveable} is responsible for doing the basic move elements
  * on a {@link Grid}
  * 
  * @author Dominic
  *
  */
-public abstract class AbstractMovable extends AbstractGridElement implements Moveable {
+public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
     Helper helper;
 
@@ -21,7 +21,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
      * @param grid
      * @param position
      */
-    public AbstractMovable(Grid grid, Position position, Helper helper) {
+    public AbstractMoveable(Grid grid, Position position, Helper helper) {
 	super(position, grid);
 	this.helper = helper;
 	this.helper.checkPostConditions(this);
@@ -31,7 +31,7 @@ public abstract class AbstractMovable extends AbstractGridElement implements Mov
      * @param grid
      * @param position
      */
-    public AbstractMovable(Grid grid, Position position) {
+    public AbstractMoveable(Grid grid, Position position) {
 	this(grid, position, new Helper());
     }
 
