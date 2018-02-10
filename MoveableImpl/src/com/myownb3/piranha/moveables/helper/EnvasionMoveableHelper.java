@@ -11,13 +11,13 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
 
 /**
- * An {@link EnvasionHelper} improves the default helper with functions for
- * evasion
+ * An {@link EnvasionMoveableHelper} improves the default helper with functions
+ * for evasion
  * 
  * @author Dominic
  *
  */
-public class EnvasionHelper extends Helper {
+public class EnvasionMoveableHelper extends MoveableHelper {
 
     private Detector detector;
     private boolean isEvasionManeuverEnabled;
@@ -25,7 +25,7 @@ public class EnvasionHelper extends Helper {
     /**
      * 
      */
-    public EnvasionHelper(Detector detector, boolean isEvasionManeuverEnabled) {
+    public EnvasionMoveableHelper(Detector detector, boolean isEvasionManeuverEnabled) {
 	super();
 	this.detector = detector;
 	this.isEvasionManeuverEnabled = isEvasionManeuverEnabled;
@@ -58,6 +58,7 @@ public class EnvasionHelper extends Helper {
     private void handleEvasionManeuver(Grid grid, Moveable moveable) {
 
 	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+
 	moveable.makeTurn(avoidAngle);
 	checkSurrounding(grid, moveable);
     }

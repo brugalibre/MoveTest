@@ -6,7 +6,7 @@ package com.myownb3.piranha.moveables;
 import com.myownb3.piranha.grid.AbstractGridElement;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.moveables.helper.Helper;
+import com.myownb3.piranha.moveables.helper.MoveableHelper;
 
 /**
  * The {@link AbstractMoveable} is responsible for doing the basic move elements
@@ -17,16 +17,16 @@ import com.myownb3.piranha.moveables.helper.Helper;
  */
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
-    private Helper helper;
+    private MoveableHelper helper;
 
-    public AbstractMoveable(Grid grid, Position position, Helper helper) {
+    public AbstractMoveable(Grid grid, Position position, MoveableHelper helper) {
 	super(grid, position);
 	this.helper = helper;
 	this.helper.checkPostConditions(grid, this);
     }
 
     public AbstractMoveable(Grid grid, Position position) {
-	this(grid, position, new Helper());
+	this(grid, position, new MoveableHelper());
     }
 
     @Override

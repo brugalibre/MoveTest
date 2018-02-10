@@ -8,8 +8,8 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.helper.EnvasionHelper;
-import com.myownb3.piranha.moveables.helper.Helper;
+import com.myownb3.piranha.moveables.helper.EnvasionMoveableHelper;
+import com.myownb3.piranha.moveables.helper.MoveableHelper;
 
 /**
  * @author Dominic
@@ -19,7 +19,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * Creates a new {@link SimpleMoveable} with a {@link DefaultGrid}, a default
-     * {@link Helper} and the default origin {@link Position} at x=0 and y=0
+     * {@link MoveableHelper} and the default origin {@link Position} at x=0 and y=0
      * 
      */
     public SimpleMoveable() {
@@ -28,7 +28,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * Creates a new {@link SimpleMoveable} with the given {@link Grid} a default
-     * {@link Helper} and the given origin {@link Position}
+     * {@link MoveableHelper} and the given origin {@link Position}
      * 
      * @param position
      *            the origin position
@@ -39,7 +39,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * Creates a new {@link SimpleMoveable} with the given {@link Grid},a
-     * {@link EnvasionHelper} which is <b>not</b> evasion anything and the given
+     * {@link EnvasionMoveableHelper} which is <b>not</b> evasion anything and the given
      * origin {@link Position}
      * 
      * @param grid
@@ -55,7 +55,7 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * * Creates a new {@link SimpleMoveable} with the given {@link Grid},a
-     * {@link EnvasionHelper} and the given origin {@link Position}
+     * {@link EnvasionMoveableHelper} and the given origin {@link Position}
      * 
      * @param grid
      *            the Grid
@@ -68,6 +68,6 @@ public class SimpleMoveable extends AbstractMoveable {
      *            <code>false</code> if not
      */
     public SimpleMoveable(Grid grid, Position position, Detector detector, boolean isEvasionEnabled) {
-	super(grid, position, new EnvasionHelper(detector, isEvasionEnabled));
+	super(grid, position, new EnvasionMoveableHelper(detector, isEvasionEnabled));
     }
 }

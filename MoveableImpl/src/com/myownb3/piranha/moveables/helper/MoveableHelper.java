@@ -12,7 +12,7 @@ import com.myownb3.piranha.moveables.Moveable;
  * @author Dominic
  *
  */
-public class Helper {
+public class MoveableHelper {
 
     public void moveForward(Grid grid, Moveable movable, Updater updater) {
 	Position newPos = grid.moveForward(movable.getPosition());
