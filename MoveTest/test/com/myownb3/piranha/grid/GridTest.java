@@ -133,6 +133,20 @@ class GridTest {
     }
 
     @Test
+    public void testOutOfBoundsWhenCreatingNewGridElement() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+
+	// When
+	Executable ex = () -> {
+	    new SimpleMoveable(grid, Positions.of(20, 20));
+	};
+	// Then
+	assertThrows(GridElementOutOfBoundsException.class, ex);
+    }
+
+    @Test
     public void testOutOfUpperBoundsXDefaultGrid() {
 
 	// Given
@@ -185,7 +199,7 @@ class GridTest {
 	// When
 	Executable ex = () -> {
 	    moveable.turnRight();
-	    moveable.moveBackward(3);// tutet nicht so
+	    moveable.moveBackward(3);
 	};
 	// Then
 	assertThrows(GridElementOutOfBoundsException.class, ex);

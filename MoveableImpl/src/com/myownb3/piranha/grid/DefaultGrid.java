@@ -113,6 +113,7 @@ public class DefaultGrid implements Grid {
 
     @Override
     public void addElement(GridElement gridElement) {
+	checkBounds(gridElement.getPosition());
 	gridElements.add(gridElement);
     }
 
@@ -142,6 +143,10 @@ public class DefaultGrid implements Grid {
 		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
 
+    }
+
+    private void checkBounds(Position position) {
+	checkBounds(position.getX(), position.getY());
     }
 
     /**

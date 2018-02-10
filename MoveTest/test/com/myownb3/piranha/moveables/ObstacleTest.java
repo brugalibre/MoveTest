@@ -76,7 +76,7 @@ class ObstacleTest {
     public void testMovebaleRecognizesObjectFalseOutOfReach() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = new DefaultGrid(100, 100);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
 	Detector detector = new DetectorImpl();
 	new SimpleMoveable(grid, Positions.of(1, 1), detector);
