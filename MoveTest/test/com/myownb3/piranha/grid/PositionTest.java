@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.grid.direction.DirectionDefs;
+import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -133,10 +133,10 @@ class PositionTest {
     void testHashCode() {
 
 	// Given
-	Position pos = Positions.of(DirectionDefs.N, 0, 0);
+	Position pos = Positions.of(Directions.N, 0, 0);
 
 	// When
-	Position anotherPos = Positions.of(DirectionDefs.N, 0, 0);
+	Position anotherPos = Positions.of(Directions.N, 0, 0);
 
 	// Then
 	Assert.assertThat(anotherPos.hashCode(), is(pos.hashCode()));
@@ -146,10 +146,10 @@ class PositionTest {
     void testEquals() {
 
 	// Given
-	Position pos = Positions.of(DirectionDefs.N, 0, 0);
+	Position pos = Positions.of(Directions.N, 0, 0);
 
 	// When
-	Position anotherPos = Positions.of(DirectionDefs.N, 0, 0);
+	Position anotherPos = Positions.of(Directions.N, 0, 0);
 
 	// Then
 	Assert.assertThat(pos, is(anotherPos));
@@ -161,11 +161,11 @@ class PositionTest {
     void testNotEquals() {
 
 	// Given
-	Position pos = Positions.of(DirectionDefs.N, 0, 0);
+	Position pos = Positions.of(Directions.N, 0, 0);
 
 	// When
-	Position anotherNotExactlySamePos = Positions.of(DirectionDefs.N, 1, 0);
-	Position anotherNotExactlySamePos2 = Positions.of(DirectionDefs.S, 0, 1);
+	Position anotherNotExactlySamePos = Positions.of(Directions.N, 1, 0);
+	Position anotherNotExactlySamePos2 = Positions.of(Directions.S, 0, 1);
 
 	// Then
 	Assert.assertFalse(pos.equals(null));
@@ -178,9 +178,9 @@ class PositionTest {
     void testToString() {
 
 	// Given
-	Position pos = Positions.of(DirectionDefs.N, 0, 0);
+	Position pos = Positions.of(Directions.N, 0, 0);
 	// When
-	Position anotherPos = Positions.of(DirectionDefs.N, 0, 0);
+	Position anotherPos = Positions.of(Directions.N, 0, 0);
 
 	// Then
 	Assert.assertThat(pos.toString(), is(anotherPos.toString()));

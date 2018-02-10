@@ -4,7 +4,7 @@
 package com.myownb3.piranha.grid;
 
 import com.myownb3.piranha.grid.direction.Direction;
-import com.myownb3.piranha.grid.direction.DirectionDefs;
+import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -39,6 +39,16 @@ public class Positions {
 	return new PositionImpl(direction, x, y);
     }
 
+    /**
+     * Creates a copy of the given {@link Position}
+     * 
+     * @param position
+     * @return a copy of the given {@link Position}
+     */
+    public static Position of(Position position) {
+	return Positions.of(Directions.of(position.getDirection()), position.getX(), position.getY());
+    }
+
     private static class PositionImpl implements Position {
 
 	private double y;
@@ -50,7 +60,7 @@ public class Positions {
 	 * @param y
 	 */
 	public PositionImpl(double x, double y) {
-	    this(DirectionDefs.N, x, y);
+	    this(Directions.N, x, y);
 	}
 
 	public PositionImpl(Direction direction, double x, double y) {

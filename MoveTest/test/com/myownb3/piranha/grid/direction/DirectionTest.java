@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.direction.Direction;
-import com.myownb3.piranha.grid.direction.DirectionDefs;
+import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 
 /**
@@ -23,7 +23,7 @@ class DirectionTest {
     void testHashCode() {
 
 	// Given
-	Direction north = DirectionDefs.N;
+	Direction north = Directions.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90);
@@ -36,7 +36,7 @@ class DirectionTest {
     void testHashCodeNoCardinalDirection() {
 
 	// Given
-	Direction north = DirectionDefs.N;
+	Direction north = Directions.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90, null);
@@ -49,7 +49,7 @@ class DirectionTest {
     void testEquals() {
 
 	// Given
-	Direction north = DirectionDefs.N;
+	Direction north = Directions.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90, "N");
@@ -69,7 +69,7 @@ class DirectionTest {
     void testEquals_NoCardinalDirection() {
 
 	// Given
-	Direction north = DirectionDefs.N;
+	Direction north = Directions.N;
 
 	// When
 	Direction anotherNorth = new DirectionImpl(90, null);
@@ -85,7 +85,7 @@ class DirectionTest {
 	// Given
 	String expectedToString = "N";
 	// When
-	Direction north = DirectionDefs.N;
+	Direction north = Directions.N;
 
 	// Then
 	Assert.assertThat(north.toString(), is(expectedToString));
