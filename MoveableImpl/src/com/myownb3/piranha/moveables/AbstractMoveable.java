@@ -15,22 +15,14 @@ import com.myownb3.piranha.grid.Position;
  */
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
-    Helper helper;
+    private Helper helper;
 
-    /**
-     * @param grid
-     * @param position
-     */
     public AbstractMoveable(Grid grid, Position position, Helper helper) {
 	super(position, grid);
 	this.helper = helper;
 	this.helper.checkPostConditions(this);
     }
 
-    /**
-     * @param grid
-     * @param position
-     */
     public AbstractMoveable(Grid grid, Position position) {
 	this(grid, position, new Helper());
     }
