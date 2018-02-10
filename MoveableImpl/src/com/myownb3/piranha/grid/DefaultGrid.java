@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.moveables.Direction;
 import com.myownb3.piranha.moveables.GridElement;
 
@@ -21,6 +22,7 @@ import com.myownb3.piranha.moveables.GridElement;
 public class DefaultGrid implements Grid {
 
     private List<GridElement> gridElements;
+    private boolean checkLowerBoundarys;
     protected int maxX;
     protected int maxY;
     protected int minX;
@@ -31,28 +33,42 @@ public class DefaultGrid implements Grid {
      */
     public DefaultGrid() {
 	this(10, 10);
-	gridElements = new ArrayList<>();
     }
 
     /**
+     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
+     * minimal -y values
      * 
      * @param maxY
+     *            the maximal y-axis value
      * @param maxX
+     *            the maximal x-axis value
      */
     public DefaultGrid(int maxY, int maxX) {
 	this(maxY, maxX, 0, 0);
+	this.checkLowerBoundarys = false;
     }
 
     /**
+     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
+     * minimal -y values
      * 
      * @param maxY
+     *            the maximal y-axis value
      * @param maxX
+     *            the maximal x-axis value
+     * @param minX
+     *            the minimal x-axis value
+     * @param minY
+     *            the minimal y-axis value
      */
     public DefaultGrid(int maxY, int maxX, int minX, int minY) {
 	this.maxY = maxY;
 	this.maxX = maxX;
 	this.minY = minY;
 	this.minX = minX;
+	this.checkLowerBoundarys = true;
+	gridElements = new ArrayList<>();
     }
 
     /**
@@ -68,6 +84,7 @@ public class DefaultGrid implements Grid {
 	Direction direction = position.getDirection();
 	double newX = getNewXValue(position, direction.getBackwardX());
 	double newY = getNewYValue(position, direction.getBackwardY());
+	checkBounds(newX, newY);
 	return Positions.of(direction, newX, newY);
     }
 
@@ -84,6 +101,7 @@ public class DefaultGrid implements Grid {
 	Direction direction = position.getDirection();
 	double newX = getNewXValue(position, direction.getForwardX());
 	double newY = getNewYValue(position, direction.getForwardY());
+	checkBounds(newX, newY);
 
 	return Positions.of(direction, newX, newY);
     }
@@ -124,5 +142,25 @@ public class DefaultGrid implements Grid {
 		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
 
+    }
+
+    /**
+     * Verifies weather or not the given coordinates are within the bounds
+     * 
+     * @param newX
+     * @param newY
+     */
+    private void checkBounds(double newX, double newY) {
+	if (outOfUpperBounds(newY, newX) || outOfLowerBounds(newY, newX)) {
+	    throw new GridElementOutOfBoundsException();
+	}
+    }
+
+    private boolean outOfLowerBounds(double newY, double newX) {
+	return checkLowerBoundarys && (newY < minY || newX < minX);
+    }
+
+    private boolean outOfUpperBounds(double newY, double newX) {
+	return newY > maxY || newX > maxX;
     }
 }

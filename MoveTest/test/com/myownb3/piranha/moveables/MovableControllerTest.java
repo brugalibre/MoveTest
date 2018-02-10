@@ -44,7 +44,7 @@ class MovableControllerTest {
     void test_MoveForward_North() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = new DefaultGrid(20, 20);
 	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0));
 
 	Position expectedEndPos = Positions.of(0, 12);
@@ -80,7 +80,7 @@ class MovableControllerTest {
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = new DefaultGrid(20, 20);
 	new ObstacleImpl(grid, Positions.of(0, 5));
 	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0), new DetectorImpl(), true);
 

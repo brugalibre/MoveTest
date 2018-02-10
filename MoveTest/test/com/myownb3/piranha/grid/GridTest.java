@@ -5,11 +5,15 @@ package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.moveables.DirectionDefs;
+import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.SimpleMoveable;
 
 /**
@@ -31,8 +35,8 @@ class GridTest {
 	Position createdPosition2 = grid.moveForward(Positions.of(DirectionDefs.O, 10, 10));
 
 	// Then
-	Assert.assertThat(createdPosition, is(expectedPosition));
-	Assert.assertThat(createdPosition2, is(expectedPosition2));
+	assertThat(createdPosition, is(expectedPosition));
+	assertThat(createdPosition2, is(expectedPosition2));
     }
 
     @Test
@@ -48,8 +52,8 @@ class GridTest {
 	Position createdPosition2 = grid.moveBackward(Positions.of(DirectionDefs.O, 0, 4));
 
 	// Then
-	Assert.assertThat(createdPosition, is(expectedPosition));
-	Assert.assertThat(createdPosition2, is(expectedPosition2));
+	assertThat(createdPosition, is(expectedPosition));
+	assertThat(createdPosition2, is(expectedPosition2));
     }
 
     @Test
@@ -67,9 +71,9 @@ class GridTest {
 	Position createdPosition3 = grid.moveForward(Positions.of(DirectionDefs.S, 10, 5));
 
 	// Then
-	Assert.assertThat(createdPosition, is(expectedPosition));
-	Assert.assertThat(createdPosition2, is(expectedPosition2));
-	Assert.assertThat(createdPosition3, is(expectedPosition3));
+	assertThat(createdPosition, is(expectedPosition));
+	assertThat(createdPosition2, is(expectedPosition2));
+	assertThat(createdPosition3, is(expectedPosition3));
     }
 
     @Test
@@ -87,9 +91,9 @@ class GridTest {
 	Position createdPosition3 = grid.moveBackward(Positions.of(DirectionDefs.S, 5, 10));
 
 	// Then
-	Assert.assertThat(createdPosition, is(expectedPosition));
-	Assert.assertThat(createdPosition2, is(expectedPosition2));
-	Assert.assertThat(createdPosition3, is(expectedPosition3));
+	assertThat(createdPosition, is(expectedPosition));
+	assertThat(createdPosition2, is(expectedPosition2));
+	assertThat(createdPosition3, is(expectedPosition3));
     }
 
     @Test
@@ -105,14 +109,14 @@ class GridTest {
 	boolean isElementEffectivelyOnGrid = grid.containsElement(obstacle);
 
 	// Then
-	Assert.assertThat(isElementEffectivelyOnGrid, is(isElementOnGrid));
+	assertThat(isElementEffectivelyOnGrid, is(isElementOnGrid));
     }
 
     @Test
     public void testAddElementOnGridAndMove() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = new DefaultGrid(20, 20);
 	boolean isElementOnGridBeforeMove = true;
 	boolean isElementOnGridAfterMove = true;
 
@@ -124,8 +128,79 @@ class GridTest {
 	boolean isElementEffectivelyOnGridBeforeMove = grid.containsElement(moveable);
 
 	// Then
-	Assert.assertThat(isElementEffectivelyOnGridBeforeMove, is(isElementOnGridBeforeMove));
-	Assert.assertThat(isElementEffectivelyOnGridAfterMove, is(isElementOnGridAfterMove));
+	assertThat(isElementEffectivelyOnGridBeforeMove, is(isElementOnGridBeforeMove));
+	assertThat(isElementEffectivelyOnGridAfterMove, is(isElementOnGridAfterMove));
+    }
+
+    @Test
+    public void testOutOfUpperBoundsXDefaultGrid() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable();
+
+	// When
+	moveable.turnRight();
+	Executable ex = () -> {
+	    moveable.moveForward(11);
+	};
+	// Then
+	assertThrows(GridElementOutOfBoundsException.class, ex);
+    }
+
+    @Test
+    public void testOutOfUpperBoundsYDefaultGrid() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable();
+
+	// When
+	Executable ex = () -> {
+	    moveable.moveForward(11);
+	};
+	// Then
+	assertThrows(GridElementOutOfBoundsException.class, ex);
+    }
+
+    @Test
+    public void testOutOfLowerBoundsDefaultGrid() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10, 0, 0), Positions.of(0, 0));
+
+	// When
+
+	Executable ex = () -> {
+	    moveable.moveBackward(1);
+	};
+	// Then
+	assertThrows(GridElementOutOfBoundsException.class, ex);
+    }
+
+    @Test
+    public void testOutOfLowerBoundsXDefaultGrid() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10, 0, 0), Positions.of(0, 0));
+
+	// When
+	Executable ex = () -> {
+	    moveable.turnRight();
+	    moveable.moveBackward(3);// tutet nicht so
+	};
+	// Then
+	assertThrows(GridElementOutOfBoundsException.class, ex);
+    }
+
+    @Test
+    public void testNotOutOfUpperBoundsYDefaultGrid() {
+
+	// Given
+	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10), Positions.of(0, 0));
+	Position expectedEndPosition = Positions.of(0, -1);
+	// When
+	moveable.moveBackward(1);
+	// Then
+	assertThat(moveable.getPosition(), is(expectedEndPosition));
     }
 
     @Test
@@ -142,7 +217,6 @@ class GridTest {
 	boolean isElementEffectivelyOnGrid = grid.containsElement(antoherObstacle);
 
 	// Then
-	Assert.assertThat(isElementEffectivelyOnGrid, is(not(isElementOnGrid)));
-
+	assertThat(isElementEffectivelyOnGrid, is(not(isElementOnGrid)));
     }
 }
