@@ -101,7 +101,7 @@ public class DetectorImpl implements Detector {
 	return avoidAngle;
     }
 
-    public Optional<GridElement> getEvasionGridElement() {
+    private Optional<GridElement> getEvasionGridElement() {
 	return isEvasionMap.keySet()//
 		.stream()//
 		.filter(gridElement -> isEvasionMap.get(gridElement))//

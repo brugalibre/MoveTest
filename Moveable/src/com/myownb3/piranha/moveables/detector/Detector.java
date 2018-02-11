@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.moveables.detector;
 
-import java.util.Optional;
-
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
@@ -65,10 +63,4 @@ public interface Detector {
      * @returns the increment for which an angle is incremented
      */
     double getAngleInc();
-
-    /**
-     * @return an {@link Optional} of a {@link GridElement} this {@link Detector} is
-     *         evasion
-     */
-    Optional<GridElement> getEvasionGridElement();
 }

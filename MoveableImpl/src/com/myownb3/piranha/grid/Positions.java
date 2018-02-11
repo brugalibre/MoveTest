@@ -150,7 +150,7 @@ public class Positions {
 	     */
 	private double getAbsolutAngle(double angleAsDegree) {
 
-	    if (y < 0 && x <= 0) {
+	    if (y < 0 && x < 0) {
 		// 3. Quadrant
 		angleAsDegree = angleAsDegree + 180;
 	    } else if (y >= 0 && x < 0) {

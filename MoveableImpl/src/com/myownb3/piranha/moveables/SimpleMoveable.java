@@ -5,10 +5,13 @@ package com.myownb3.piranha.moveables;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.helper.EnvasionMoveableHelper;
+import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
+import com.myownb3.piranha.moveables.helper.EvasionMoveableHelper;
+import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
 import com.myownb3.piranha.moveables.helper.MoveableHelper;
 
 /**
@@ -39,8 +42,9 @@ public class SimpleMoveable extends AbstractMoveable {
 
     /**
      * Creates a new {@link SimpleMoveable} with the given {@link Grid},a
-     * {@link EnvasionMoveableHelper} which is <b>not</b> evasion anything and the
-     * given origin {@link Position}
+     * {@link DetectableMoveableHelper} which is only able to detect other
+     * {@link GridElement} and to decide weather or not this {@link GridElement} is
+     * evaded
      * 
      * @param grid
      *            the Grid
@@ -50,7 +54,7 @@ public class SimpleMoveable extends AbstractMoveable {
      *            the {@link Detector}
      */
     public SimpleMoveable(Grid grid, Position position, Detector detector) {
-	this(grid, position, detector, false);
+	super(grid, position, new DetectableMoveableHelper(detector));
     }
 
     /**
@@ -68,7 +72,7 @@ public class SimpleMoveable extends AbstractMoveable {
      *            <code>false</code> if not
      */
     public SimpleMoveable(Grid grid, Position position, Detector detector, boolean isEvasionEnabled) {
-	super(grid, position, new EnvasionMoveableHelper(detector, isEvasionEnabled));
+	super(grid, position, new EvasionMoveableHelper(detector));
     }
 
     /**
@@ -88,7 +92,6 @@ public class SimpleMoveable extends AbstractMoveable {
      */
     public SimpleMoveable(Grid grid, Position position, Detector detector, boolean isEvasionEnabled,
 	    boolean isEvasionManeuvreCorrectionEnabled) {
-	super(grid, position,
-		new EnvasionMoveableHelper(detector, isEvasionEnabled, isEvasionManeuvreCorrectionEnabled));
+	super(grid, position, new EvasionStateMachine(detector));
     }
 }

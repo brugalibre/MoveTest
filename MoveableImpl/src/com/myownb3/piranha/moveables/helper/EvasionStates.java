@@ -19,7 +19,7 @@ public enum EvasionStates {
      * Describes the default or initial state of any {@link Moveable} which are
      * currently not evasion any {@link GridElement}
      */
-    NONE,
+    DEFAULT,
 
     /**
      * Describes the effectively state of evasion the detected {@link GridElement}

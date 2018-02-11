@@ -61,8 +61,9 @@ public class MoveableController {
 
 	// now move forward until we reach our end position
 	double distanceTo = endPos.calcDistanceTo(startPos);
-	for (int i = 0; i < distanceTo; i++) {
+	while (distanceTo >= 1) {
 	    moveable.moveForward();
+	    distanceTo = endPos.calcDistanceTo(moveable.getPosition());
 	}
     }
 

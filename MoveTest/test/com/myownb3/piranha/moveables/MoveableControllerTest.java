@@ -6,7 +6,6 @@ package com.myownb3.piranha.moveables;
 import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -17,6 +16,7 @@ import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
+import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
@@ -24,7 +24,7 @@ import com.myownb3.piranha.moveables.detector.DetectorImpl;
  */
 class MoveableControllerTest {
 
-    @Ignore
+    @Test
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
@@ -42,7 +42,7 @@ class MoveableControllerTest {
 	Assertions.assertThrows(IllegalArgumentException.class, ex);
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_North() {
 
 	// Given
@@ -60,11 +60,11 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_South() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = new DefaultGrid(20, 20);
 	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0));
 
 	Position expectedEndPos = Positions.of(0, -10);
@@ -95,6 +95,7 @@ class MoveableControllerTest {
 
 	// Then
 	Position effectEndPos = moveable.getPosition();
-	Assert.assertThat(effectEndPos, is(expectedEndPos));
+	Assert.assertThat(effectEndPos.getX(), is(expectedEndPos.getX()));
+	Assert.assertThat(MathUtil.round(effectEndPos.getY(), 0), is(expectedEndPos.getY()));
     }
 }
