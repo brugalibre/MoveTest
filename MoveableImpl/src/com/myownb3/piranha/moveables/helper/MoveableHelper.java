@@ -5,8 +5,8 @@ package com.myownb3.piranha.moveables.helper;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.moveables.AbstractMoveable.Updater;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.Updater;
 
 /**
  * @author Dominic

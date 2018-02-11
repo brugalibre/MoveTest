@@ -64,11 +64,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	makeTurn(-90);
     }
 
-    @FunctionalInterface
-    public static interface Updater {
-	public void update(Moveable moveable, Position pos);
-    }
-
     /**
      * @return a Callback handler in order to update a {@link Moveable} after
      *         certain operations are done. This is necessary because those
