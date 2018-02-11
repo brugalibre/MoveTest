@@ -20,8 +20,9 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
 
 /**
- * An {@link EvasionStateMachine} improves the default helper with functions for
- * evasion
+ * An {@link EvasionStateMachine} completes the {@link EvasionMoveableHelper}
+ * because the {@link EvasionStateMachine} can handle the complete evasion
+ * maneuvre evasion
  * 
  * @author Dominic
  *
@@ -29,16 +30,15 @@ import com.myownb3.piranha.moveables.detector.Detector;
 public class EvasionStateMachine extends EvasionMoveableHelper {
 
     private Position positionBeforeEvasion;
+    private int passingDistance;
+    private List<MoveableExecutor> reverseExecutors;
 
     private Map<EvasionStates, Integer> recursivCheck;
-    private List<MoveableExecutor> reversExecutors;
-
-    private int passingDistance;
 
     public EvasionStateMachine(Detector detector, int passingDistance) {
 	super(detector);
 	positionBeforeEvasion = null;
-	reversExecutors = new LinkedList<>();
+	reverseExecutors = new LinkedList<>();
 	recursivCheck = new HashMap<>();
 	this.passingDistance = passingDistance;
     }
@@ -112,7 +112,7 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	    return;
 	}
 	registerForRecursivCall(RETURNING);
-	reversExecutors.stream()//
+	reverseExecutors.stream()//
 		.forEach(MoveableExecutor::execute);
 	deregisterForRecursivCall(RETURNING);
     }
@@ -145,16 +145,10 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
     }
 
     protected void addExecutor(Moveable moveable, double avoidAngle) {
-	reversExecutors.add(() -> {
+	reverseExecutors.add(() -> {
 	    moveable.makeTurn(avoidAngle);
 	    moveable.moveForward();
 	});
-    }
-
-    @FunctionalInterface
-    private static interface MoveableExecutor {
-
-	public void execute();
     }
 
     private void registerForRecursivCall(EvasionStates state) {
@@ -170,5 +164,10 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
     private boolean isMethodCallAllowed(EvasionStates state) {
 	Integer counter = recursivCheck.get(state);
 	return counter != null ? counter.intValue() < 1 : true;
+    }
+
+    @FunctionalInterface
+    private static interface MoveableExecutor {
+	public void execute();
     }
 }

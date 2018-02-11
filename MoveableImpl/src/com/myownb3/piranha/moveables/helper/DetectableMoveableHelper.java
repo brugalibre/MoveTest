@@ -11,13 +11,15 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
 
 /**
- * An {@link DetectableMoveableHelper} improves the default helper with
- * functions for evasion
+ * An {@link DetectableMoveableHelper} implements the {@link MoveablePostActionHandler}
+ * with basic functions of detecting other {@link GridElement}. This includes
+ * the ability to identify weather or not a certain {@link GridElement} is
+ * evaded
  * 
  * @author Dominic
  *
  */
-public class DetectableMoveableHelper extends MoveableHelper {
+public class DetectableMoveableHelper implements MoveablePostActionHandler {
 
     protected Detector detector;
 
@@ -27,9 +29,8 @@ public class DetectableMoveableHelper extends MoveableHelper {
     }
 
     @Override
-    public void checkPostConditions(Grid grid, Moveable moveable) {
+    public void handlePostConditions(Grid grid, Moveable moveable) {
 
-	super.checkPostConditions(grid, moveable);
 	checkSurrounding(grid, moveable);
     }
 
