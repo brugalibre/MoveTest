@@ -4,6 +4,7 @@
 package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,34 @@ class PositionTest {
     }
 
     @Test
+    public void testNANAngleDirectionNorth() {
+
+	// Given
+	Position pos = Positions.of(0, 0);
+	double actualAngle = 90;
+
+	// When
+	double expectedAngle = pos.calcAbsolutAngle();
+
+	// Then
+	assertThat(actualAngle, is(expectedAngle));
+    }
+
+    @Test
+    public void testNANAngleDirectionSouth() {
+
+	// Given
+	Position pos = Positions.of(Directions.S, 0, 0);
+	double actualAngle = 270;
+
+	// When
+	double expectedAngle = pos.calcAbsolutAngle();
+
+	// Then
+	assertThat(actualAngle, is(expectedAngle));
+    }
+
+    @Test
     public void testAngleCalculationSecondQuadrant1() {
 
 	// Given
@@ -51,6 +80,20 @@ class PositionTest {
 	// Given
 	Position pos = Positions.of(-1, 7);
 	double expectedAngle = 98.13;
+
+	// When
+	double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+
+	// Then
+	Assert.assertThat(effectAngle, is(expectedAngle));
+    }
+
+    @Test
+    public void testAngleCalculationSecondQuadrant3_YIsZero() {
+
+	// Given
+	Position pos = Positions.of(-5, 0);
+	double expectedAngle = 180;
 
 	// When
 	double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());

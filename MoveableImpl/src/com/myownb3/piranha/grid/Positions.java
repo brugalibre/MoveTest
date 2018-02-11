@@ -46,7 +46,8 @@ public class Positions {
      * @return a copy of the given {@link Position}
      */
     public static Position of(Position position) {
-	return Positions.of(Directions.of(position.getDirection()), position.getX(), position.getY());
+	Direction direction = Directions.of(position.getDirection());
+	return Positions.of(direction, position.getX(), position.getY());
     }
 
     private static class PositionImpl implements Position {
@@ -110,18 +111,31 @@ public class Positions {
 	@Override
 	public double calcAbsolutAngle() {
 
-	    double angleAsRadiant = Math.atan(getY() / getX());
+	    double angleAsRadiant = getAngleAsRadiant();
 	    double angleAsDegree = MathUtil.toDegree(angleAsRadiant);
 
 	    // x-axis is negative -> absolute value of angle + 90 (since we are looking from
 	    // the absolute zero point)
 	    angleAsDegree = getAbsolutAngle(angleAsDegree);
-	    return angleAsDegree;
+	    return MathUtil.roundThreePlaces(angleAsDegree);
+	}
+
+	/**
+	 * @return the current angle of this position as radiant. Special case to
+	 *         handle: If this position is currently at 0.0, then we return PI/2 or
+	 *         -PI/2 since a calculation of {@link Math#atan(0/0)} returns a NAN
+	 * 
+	 */
+	private double getAngleAsRadiant() {
+
+	    if (getY() == 0 && getX() == 0) {
+		return MathUtil.toRadian(direction.getAngle());
+	    }
+	    return Math.atan(getY() / getX());
 	}
 
 	/*
-	     * Calculates the absolute value depending on the quadrant this position is lying
-	     * on
+	     * Calculates the absolute value depending on the quadrant this position is located
 	     *
 	     *@formatter:off
 	     *  ___________
@@ -136,10 +150,10 @@ public class Positions {
 	     */
 	private double getAbsolutAngle(double angleAsDegree) {
 
-	    if (y < 0 && x < 0) {
+	    if (y < 0 && x <= 0) {
 		// 3. Quadrant
 		angleAsDegree = angleAsDegree + 180;
-	    } else if (y > 0 && x < 0) {
+	    } else if (y >= 0 && x < 0) {
 		// 2. Quadrant
 		angleAsDegree = 180 + angleAsDegree;
 	    } else if (y < 0) {
