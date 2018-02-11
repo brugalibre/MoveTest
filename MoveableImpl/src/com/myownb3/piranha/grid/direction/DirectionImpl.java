@@ -74,6 +74,11 @@ public class DirectionImpl implements Direction {
 	return this.rotation;
     }
 
+    @Override
+    public final String getCardinalDirection() {
+	return this.cardinalDirection;
+    }
+
     private void setCardinalDirection() {
 	this.cardinalDirection = degree2DirectionMap.get((int) rotation);
     }
@@ -102,8 +107,8 @@ public class DirectionImpl implements Direction {
 	if (this.rotation != other.rotation) {
 	    return false;
 	}
-	if (this.cardinalDirection == null && other.cardinalDirection != null) {
-	    return false;
+	if (this.cardinalDirection == null) {
+	    return other.cardinalDirection == null;
 	}
 	if (!this.cardinalDirection.equals(other.cardinalDirection)) {
 	    return false;

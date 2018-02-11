@@ -46,4 +46,9 @@ public interface Direction {
      * @return the angle of this Direction
      */
     double getAngle();
+
+    /**
+     * @returns the cardinal direction of this {@link Direction}
+     */
+    String getCardinalDirection();
 }

@@ -80,6 +80,20 @@ class DirectionTest {
     }
 
     @Test
+    void testEquals_BothNoCardinalDirection() {
+
+	// Given
+	Direction north = new DirectionImpl(90, null);
+
+	// When
+	Direction anotherNorth = new DirectionImpl(90, null);
+
+	// Then
+	Assert.assertThat(anotherNorth, is(north));
+	Assert.assertThat(north, is(anotherNorth));
+    }
+
+    @Test
     void testToString() {
 
 	// Given
