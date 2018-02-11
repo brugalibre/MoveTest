@@ -43,6 +43,24 @@ class ScannerTest {
     }
 
     @Test
+    void testEvasion_DistanceCloseEnoughButButNotEvasion() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
+	Detector detector = new DetectorImpl(5, 45, 15, 5.625);
+	Moveable moveable = new SimpleMoveable(grid, Positions.of(3, 1), detector);
+	// GridElement angle is 81.87°
+
+	// When
+	moveable.moveForward(4);
+	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
+
+	// Then
+	assertThat(isEffectivelyEvasion, is(not(true)));
+    }
+
+    @Test
     void testEvasion_DistanceNotCloseEnough() {
 
 	// Given
@@ -128,7 +146,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 1), detector, true);
-	double expectedEndAngle = 67.5;
+	double expectedEndAngle = 61.875;
 	boolean expectedIsEvasion = false;
 
 	// When

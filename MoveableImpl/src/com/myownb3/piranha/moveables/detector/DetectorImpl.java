@@ -17,9 +17,10 @@ import com.myownb3.piranha.grid.Position;
 public class DetectorImpl implements Detector {
 
     private int detectorReach;
-    private int avoidingDistance;
-    private int detectorAngle;
+    private double detectorAngle;
     private double angleInc;
+    private int evasionDistance;
+    private double evasionAngle;
 
     private Map<GridElement, Boolean> detectionMap;
     private Map<GridElement, Boolean> isEvasionMap;
@@ -28,13 +29,18 @@ public class DetectorImpl implements Detector {
 	this(8, 45, 11.25);
     }
 
-    public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
+    public DetectorImpl(int detectorReach, int detectorAngle, int evasionAngle, double angleInc) {
 	this.detectorReach = detectorReach;
 	this.detectorAngle = detectorAngle;
-	this.avoidingDistance = 2 * detectorReach / 3;
+	this.evasionAngle = evasionAngle;
+	this.evasionDistance = 2 * detectorReach / 3;
 	this.angleInc = angleInc;
 	detectionMap = new HashMap<>();
 	isEvasionMap = new HashMap<>();
+    }
+
+    public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
+	this(detectorReach, detectorAngle, detectorAngle, angleInc);
     }
 
     @Override
@@ -44,17 +50,33 @@ public class DetectorImpl implements Detector {
 
 	Position gridElemPos = gridElement.getPosition();
 	double distance = gridElemPos.calcDistanceTo(position);
+	boolean isPotentialCollisionCourse = false;
 
-	if (distance <= detectorReach) {
+	if (detectorReach >= distance) {
 
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 	    double ourAngle = position.getDirection().getAngle();
 
-	    isDetected = isWithinUpperBorder(ourAngle, gridElementAngle)
-		    && gridElementAngle >= ourAngle - (detectorAngle / 2);
+	    isDetected = isDetected(gridElementAngle, ourAngle, detectorAngle);
+	    isPotentialCollisionCourse = isDetected && isPotentialCollisionCourse(distance, gridElementAngle, ourAngle);
 	}
 	detectionMap.put(gridElement, isDetected);
-	isEvasionMap.put(gridElement, isDetected && avoidingDistance >= distance);
+	isEvasionMap.put(gridElement, isDetected && isPotentialCollisionCourse);
+    }
+
+    private boolean isDetected(double gridElementAngle, double ourAngle, double detectorAngle) {
+	return isWithinUpperBorder(ourAngle, gridElementAngle, detectorAngle)
+		&& gridElementAngle >= ourAngle - (detectorAngle / 2);
+    }
+
+    /**
+     * @param distance
+     * @param gridElementAngle
+     * @param ourAngle
+     * @return
+     */
+    private boolean isPotentialCollisionCourse(double distance, double gridElementAngle, double ourAngle) {
+	return evasionDistance >= distance && isDetected(gridElementAngle, ourAngle, evasionAngle);
     }
 
     @Override
@@ -69,7 +91,8 @@ public class DetectorImpl implements Detector {
 	    Position gridElemPos = gridElement.getPosition();
 	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
 
-	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, gridElementAngle) && gridElementAngle >= ourAngle;
+	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, gridElementAngle, detectorAngle)
+		    && gridElementAngle >= ourAngle;
 
 	    if (isInUpperBounds /* && isInLowerBounds, might be true here as well */) {
 		avoidAngle = -angleInc;// Turn to the right
@@ -81,9 +104,6 @@ public class DetectorImpl implements Detector {
 	return avoidAngle;
     }
 
-    /**
-     * @return
-     */
     private Optional<GridElement> getEvasionGridElement() {
 	return isEvasionMap.keySet()//
 		.stream()//
@@ -103,7 +123,7 @@ public class DetectorImpl implements Detector {
 	return hasObjectDetected == null ? false : hasObjectDetected;
     }
 
-    private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle) {
+    private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
 	return ourAngle + (detectorAngle / 2) >= gridElementAngle;
     }
 }
