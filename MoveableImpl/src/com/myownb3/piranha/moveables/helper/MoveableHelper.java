@@ -14,10 +14,10 @@ import com.myownb3.piranha.moveables.Updater;
  */
 public class MoveableHelper {
 
-    public void moveForward(Grid grid, Moveable movable, Updater updater) {
-	Position newPos = grid.moveForward(movable.getPosition());
-	updater.update(movable, newPos);
-	checkPostConditions(grid, movable);
+    public void moveForward(Grid grid, Moveable moveable, Updater updater) {
+	Position newPos = grid.moveForward(moveable.getPosition());
+	updater.update(moveable, newPos);
+	checkPostConditions(grid, moveable);
     }
 
     public void makeTurn(Grid grid, Moveable moveable, double degree) {
@@ -25,23 +25,23 @@ public class MoveableHelper {
 	checkPostConditions(grid, moveable);
     }
 
-    public void moveBackward(Moveable movable, Grid grid, Updater updater) {
-	Position newPos = grid.moveBackward(movable.getPosition());
-	updater.update(movable, newPos);
-	checkPostConditions(grid, movable);
+    public void moveBackward(Moveable moveable, Grid grid, Updater updater) {
+	Position newPos = grid.moveBackward(moveable.getPosition());
+	updater.update(moveable, newPos);
+	checkPostConditions(grid, moveable);
     }
 
-    public void moveBackward(Grid grid, Moveable movable, int amount, Updater updater) {
+    public void moveBackward(Grid grid, Moveable moveable, int amount, Updater updater) {
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
-	    moveBackward(movable, grid, updater);
+	    moveBackward(moveable, grid, updater);
 	}
     }
 
-    public void moveForward(Grid grid, Moveable movable, int amount, Updater updater) {
+    public void moveForward(Grid grid, Moveable moveable, int amount, Updater updater) {
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
-	    moveForward(grid, movable, updater);
+	    moveForward(grid, moveable, updater);
 	}
     }
 
@@ -51,7 +51,7 @@ public class MoveableHelper {
 	}
     }
 
-    public void checkPostConditions(Grid grid, Moveable movable) {
+    public void checkPostConditions(Grid grid, Moveable moveable) {
 	// nothing to do here
     }
 }
