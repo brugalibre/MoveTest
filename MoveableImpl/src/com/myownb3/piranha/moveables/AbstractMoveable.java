@@ -3,9 +3,13 @@
  */
 package com.myownb3.piranha.moveables;
 
+import java.util.Objects;
+
 import com.myownb3.piranha.grid.AbstractGridElement;
+import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.helper.MoveableHelper;
 
 /**
@@ -73,5 +77,46 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	return (moveable, pos) -> {
 	    ((AbstractMoveable) moveable).position = pos;
 	};
+    }
+
+    public static class MoveableBuilder {
+
+	private Moveable moveable;
+
+	public static MoveableBuilder builder() {
+	    return new MoveableBuilder(new DefaultGrid(), Positions.of(0, 0));
+	}
+
+	public MoveableBuilder(Grid grid) {
+	    this(grid, Positions.of(0, 0));
+	}
+
+	public MoveableBuilder(Grid grid, Position position) {
+	    moveable = new SimpleMoveable(grid, position);
+	}
+
+	public MoveableBuilder withPosition(Position position) {
+	    ((AbstractMoveable) moveable).position = position;
+	    return this;
+	}
+
+	public MoveableBuilder withHelper(MoveableHelper helper) {
+	    ((AbstractMoveable) moveable).helper = helper;
+	    return this;
+	}
+
+	public Moveable build() {
+	    MoveableHelper helper = ((AbstractMoveable) moveable).helper;
+	    Objects.requireNonNull(helper, "A Moveable always needs a MoveableHelper!");
+	    helper.checkPostConditions(((AbstractMoveable) moveable).grid, moveable);
+	    return this.moveable;
+	}
+
+	private class SimpleMoveable extends AbstractMoveable {
+
+	    private SimpleMoveable(Grid grid, Position position) {
+		super(grid, position);
+	    }
+	}
     }
 }

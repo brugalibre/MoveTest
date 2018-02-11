@@ -13,8 +13,8 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
+import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.SimpleMoveable;
 
 /**
  * @author Dominic
@@ -121,7 +121,9 @@ class GridTest {
 	boolean isElementOnGridAfterMove = true;
 
 	// When
-	SimpleMoveable moveable = new SimpleMoveable(grid, Positions.of(1, 7.1));
+
+	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 7.1))//
+		.build();
 	boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
 
 	moveable.moveForward(5);
@@ -140,7 +142,8 @@ class GridTest {
 
 	// When
 	Executable ex = () -> {
-	    new SimpleMoveable(grid, Positions.of(20, 20));
+	    new MoveableBuilder(grid, Positions.of(20, 20))//
+		    .build();
 	};
 	// Then
 	assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -150,7 +153,8 @@ class GridTest {
     public void testOutOfUpperBoundsXDefaultGrid() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	moveable.turnRight();
@@ -165,7 +169,8 @@ class GridTest {
     public void testOutOfUpperBoundsYDefaultGrid() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	Executable ex = () -> {
@@ -179,7 +184,8 @@ class GridTest {
     public void testOutOfLowerBoundsDefaultGrid() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10, 0, 0), Positions.of(0, 0));
+	Moveable moveable = new MoveableBuilder(new DefaultGrid(10, 10, 0, 0))//
+		.build();
 
 	// When
 
@@ -194,7 +200,8 @@ class GridTest {
     public void testOutOfLowerBoundsXDefaultGrid() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10, 0, 0), Positions.of(0, 0));
+	Moveable moveable = new MoveableBuilder(new DefaultGrid(10, 10, 0, 0))//
+		.build();
 
 	// When
 	Executable ex = () -> {
@@ -209,7 +216,8 @@ class GridTest {
     public void testNotOutOfUpperBoundsYDefaultGrid() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable(new DefaultGrid(10, 10), Positions.of(0, 0));
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Position expectedEndPosition = Positions.of(0, -1);
 	// When
 	moveable.moveBackward(1);

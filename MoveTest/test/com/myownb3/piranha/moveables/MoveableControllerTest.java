@@ -15,7 +15,9 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
+import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -29,7 +31,8 @@ class MoveableControllerTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0));
+	Moveable moveable = new MoveableBuilder(grid)//
+		.build();
 
 	Position expectedEndPos = Positions.of(0, 12);
 	MoveableController controller = new MoveableController(moveable, expectedEndPos, MovingStrategie.BACKWARD);
@@ -47,7 +50,8 @@ class MoveableControllerTest {
 
 	// Given
 	Grid grid = new DefaultGrid(20, 20);
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0));
+	Moveable moveable = new MoveableBuilder(grid)//
+		.build();
 
 	Position expectedEndPos = Positions.of(0, 12);
 	MoveableController controller = new MoveableController(moveable, expectedEndPos);
@@ -65,7 +69,8 @@ class MoveableControllerTest {
 
 	// Given
 	Grid grid = new DefaultGrid(20, 20);
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0));
+	Moveable moveable = new MoveableBuilder(grid)//
+		.build();
 
 	Position expectedEndPos = Positions.of(0, -10);
 	MoveableController controller = new MoveableController(moveable, expectedEndPos);
@@ -85,7 +90,9 @@ class MoveableControllerTest {
 	Grid grid = new DefaultGrid(200, 200);
 	new ObstacleImpl(grid, Positions.of(0, 8));
 	DetectorImpl detector = new DetectorImpl(8, 45, 15, 11.25);
-	Moveable moveable = new SimpleMoveable(grid, Positions.of(0, 0), detector, true, true);
+	Moveable moveable = new MoveableBuilder(grid)//
+		.withHelper(new EvasionStateMachine(detector))//
+		.build();
 
 	Position expectedEndPos = Positions.of(0, 12);
 	MoveableController controller = new MoveableController(moveable, expectedEndPos);

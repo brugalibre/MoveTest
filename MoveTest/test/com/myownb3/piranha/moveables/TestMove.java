@@ -17,6 +17,7 @@ import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 
 /**
@@ -29,7 +30,8 @@ class TestMove {
     void testMoveBackwardNTimes() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	int maxMovements = 5;
 	Position effectStartPosition = moveable.getPosition();
@@ -51,7 +53,8 @@ class TestMove {
     void testMoveForwardNegativeValues() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	Executable ex = () -> moveable.moveBackward(-3);
@@ -63,7 +66,8 @@ class TestMove {
     void testMoveForwardNTimes() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	int maxMovements = 5;
 	Position effectStartPosition = moveable.getPosition();
@@ -89,9 +93,9 @@ class TestMove {
     public void testTurnRight() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
-	Direction[] resultList = new DirectionImpl[] { Directions.O, Directions.S, Directions.W,
-		Directions.N };
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
+	Direction[] resultList = new DirectionImpl[] { Directions.O, Directions.S, Directions.W, Directions.N };
 
 	// When
 	for (int i = 0; i < resultList.length; i++) {
@@ -112,7 +116,8 @@ class TestMove {
     public void testTurnRightTwoTimesAndMoveForwardOnce() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
 	expectedPositionToTurnMap.put(Integer.valueOf(0), Directions.O);
@@ -140,7 +145,8 @@ class TestMove {
     public void testTurnRightThreeTimesAndMoveForwardOnce() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
 	expectedPositionToTurnMap.put(Integer.valueOf(0), Directions.O);
@@ -173,9 +179,9 @@ class TestMove {
     public void testTurnLeft() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
-	Direction[] resultList = new DirectionImpl[] { Directions.W, Directions.S, Directions.O,
-		Directions.N };
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
+	Direction[] resultList = new DirectionImpl[] { Directions.W, Directions.S, Directions.O, Directions.N };
 
 	// When
 	for (int i = 0; i < resultList.length; i++) {
@@ -199,7 +205,8 @@ class TestMove {
     public void testTurnLeftOnceTimesAndMoveBackwardOnce() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	moveable.turnLeft();
@@ -216,7 +223,8 @@ class TestMove {
     public void testTurnLeftTwoTimesAndMoveBackwardOnce() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
 	expectedPositionToTurnMap.put(Integer.valueOf(0), Directions.W);
@@ -244,7 +252,8 @@ class TestMove {
     public void testTurnLeftThreeTimesAndMoveBackwardOnce() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
 	Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
 	expectedPositionToTurnMap.put(Integer.valueOf(0), Directions.W);
@@ -273,7 +282,8 @@ class TestMove {
     public void testMoveBackward() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	DirectionImpl expectedDirection = Directions.N;
 
 	// When
@@ -291,7 +301,8 @@ class TestMove {
     public void testTurn45DegreeAndMoveForward() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	moveable.makeTurn(45);
@@ -308,7 +319,8 @@ class TestMove {
     public void testTurnXDegreeAndMoveForward() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 	Position erwarteterZwischenStop1 = Positions.of(null, -3.535, 3.535);
 	Position erwarteterZwischenStop2 = Positions.of(null, -6.433, 4.312);
 	Position erwarteterZwischenStop3 = Positions.of(null, -5.397, 0.4483);
@@ -337,7 +349,8 @@ class TestMove {
     public void testTurnMinus30DegreeAndMoveBackward() {
 
 	// Given
-	Moveable moveable = new SimpleMoveable();
+	Moveable moveable = MoveableBuilder.builder()//
+		.build();
 
 	// When
 	moveable.makeTurn(-30);
