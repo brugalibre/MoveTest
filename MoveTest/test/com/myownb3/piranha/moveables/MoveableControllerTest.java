@@ -91,7 +91,7 @@ class MoveableControllerTest {
 	new ObstacleImpl(grid, Positions.of(0, 8));
 	DetectorImpl detector = new DetectorImpl(8, 45, 15, /* 11.25 */ 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
-		.withHelper(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector))//
 		.build();
 
 	Position expectedEndPos = Positions.of(0, 12);

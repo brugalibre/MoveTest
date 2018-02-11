@@ -10,7 +10,7 @@ import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
-import com.myownb3.piranha.moveables.helper.MoveableHelper;
+import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
 
 /**
  * The {@link AbstractMoveable} is responsible for doing the basic move elements
@@ -21,36 +21,45 @@ import com.myownb3.piranha.moveables.helper.MoveableHelper;
  */
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
-    private MoveableHelper helper;
+    private MoveablePostActionHandler handler;
 
-    public AbstractMoveable(Grid grid, Position position, MoveableHelper helper) {
+    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
 	super(grid, position);
-	this.helper = helper;
-	this.helper.checkPostConditions(grid, this);
+	this.handler = handler;
+	this.handler.handlePostConditions(grid, this);
     }
 
     public AbstractMoveable(Grid grid, Position position) {
-	this(grid, position, new MoveableHelper());
+	this(grid, position, (g, m) -> {/* This empty handler does nothing */
+	});
     }
 
     @Override
     public void moveForward() {
-	helper.moveForward(grid, this, getUpdater());
+	position = grid.moveForward(position);
+	handler.handlePostConditions(grid, this);
     }
 
     @Override
     public void moveForward(int amount) {
-	helper.moveForward(grid, this, amount, getUpdater());
+	verifyAmount(amount);
+	for (int i = 0; i < amount; i++) {
+	    moveForward();
+	}
     }
 
     @Override
     public void moveBackward() {
-	helper.moveBackward(this, grid, getUpdater());
+	position = grid.moveBackward(position);
+	handler.handlePostConditions(grid, this);
     }
 
     @Override
     public void moveBackward(int amount) {
-	helper.moveBackward(grid, this, amount, getUpdater());
+	verifyAmount(amount);
+	for (int i = 0; i < amount; i++) {
+	    moveBackward();
+	}
     }
 
     @Override
@@ -60,7 +69,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void makeTurn(double degree) {
-	helper.makeTurn(grid, this, degree);
+	position.rotate(degree);
+	handler.handlePostConditions(grid, this);
     }
 
     @Override
@@ -68,15 +78,10 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	makeTurn(-90);
     }
 
-    /**
-     * @return a Callback handler in order to update a {@link Moveable} after
-     *         certain operations are done. This is necessary because those
-     *         operations happening outside this immutable Moveable
-     */
-    private Updater getUpdater() {
-	return (moveable, pos) -> {
-	    ((AbstractMoveable) moveable).position = pos;
-	};
+    private void verifyAmount(int amount) {
+	if (amount <= 0) {
+	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
+	}
     }
 
     public static class MoveableBuilder {
@@ -95,15 +100,15 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	    moveable = new SimpleMoveable(grid, position);
 	}
 
-	public MoveableBuilder withHelper(MoveableHelper helper) {
-	    ((AbstractMoveable) moveable).helper = helper;
+	public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
+	    ((AbstractMoveable) moveable).handler = handler;
 	    return this;
 	}
 
 	public Moveable build() {
-	    MoveableHelper helper = ((AbstractMoveable) moveable).helper;
+	    MoveablePostActionHandler helper = ((AbstractMoveable) moveable).handler;
 	    Objects.requireNonNull(helper, "A Moveable always needs a MoveableHelper!");
-	    helper.checkPostConditions(((AbstractMoveable) moveable).grid, moveable);
+	    helper.handlePostConditions(((AbstractMoveable) moveable).grid, moveable);
 	    return this.moveable;
 	}
 
