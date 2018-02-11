@@ -25,6 +25,9 @@ public class DetectorImpl implements Detector {
     private Map<GridElement, Boolean> detectionMap;
     private Map<GridElement, Boolean> isEvasionMap;
 
+    /**
+     * Default Constructor, only used for Tests
+     */
     public DetectorImpl() {
 	this(8, 45, 11.25);
     }
@@ -69,12 +72,6 @@ public class DetectorImpl implements Detector {
 		&& gridElementAngle >= ourAngle - (detectorAngle / 2);
     }
 
-    /**
-     * @param distance
-     * @param gridElementAngle
-     * @param ourAngle
-     * @return
-     */
     private boolean isPotentialCollisionCourse(double distance, double gridElementAngle, double ourAngle) {
 	return evasionDistance >= distance && isDetected(gridElementAngle, ourAngle, evasionAngle);
     }
@@ -104,7 +101,7 @@ public class DetectorImpl implements Detector {
 	return avoidAngle;
     }
 
-    private Optional<GridElement> getEvasionGridElement() {
+    public Optional<GridElement> getEvasionGridElement() {
 	return isEvasionMap.keySet()//
 		.stream()//
 		.filter(gridElement -> isEvasionMap.get(gridElement))//
@@ -121,6 +118,11 @@ public class DetectorImpl implements Detector {
     public boolean hasObjectDetected(GridElement gridElement) {
 	Boolean hasObjectDetected = detectionMap.get(gridElement);
 	return hasObjectDetected == null ? false : hasObjectDetected;
+    }
+
+    @Override
+    public double getAngleInc() {
+	return angleInc;
     }
 
     private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
