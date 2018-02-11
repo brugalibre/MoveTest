@@ -95,11 +95,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	    moveable = new SimpleMoveable(grid, position);
 	}
 
-	public MoveableBuilder withPosition(Position position) {
-	    ((AbstractMoveable) moveable).position = position;
-	    return this;
-	}
-
 	public MoveableBuilder withHelper(MoveableHelper helper) {
 	    ((AbstractMoveable) moveable).helper = helper;
 	    return this;

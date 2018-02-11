@@ -34,16 +34,14 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
 
 	super.checkPostConditions(grid, moveable);
 
-	checkSurrounding(grid, moveable);
-	boolean isEvasion = check4Evasion(grid, moveable);
-
-	handleEvasionInternal(grid, moveable, isEvasion);
+	handleEvasion4CurrentState(grid, moveable);
     }
 
-    protected void handleEvasionInternal(Grid grid, Moveable moveable, boolean isEvasion) {
+    protected void handleEvasion4CurrentState(Grid grid, Moveable moveable) {
 
 	switch (evasionState) {
 	case DEFAULT:
+	    boolean isEvasion = check4Evasion(grid, moveable);
 	    handleDefaultState(grid, moveable, isEvasion);
 	    break;
 
@@ -51,16 +49,14 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
 	    handleEvasionState(grid, moveable);
 	    break;
 	case POST_ENVASION:
-	    handlePostEvasion(moveable);
-	    break;
+	    // Fall through
 	case PASSING:
-	    handlePassing(moveable);
+	    // Fall through
 	    break;
 	case RETURNING:
-	    handleReturning();
-	    break;
+	    // Fall through
 	default:
-	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
+	    // Nothing to do since we are not handling all events
 	}
     }
 
@@ -79,19 +75,6 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
 	    moveable.makeTurn(avoidAngle);
 	}
 	checkSurrounding(grid, moveable);
-    }
-
-    protected void handleReturning() {
-
-    }
-
-    protected void handlePassing(Moveable moveable) {
-	// Nothing to do here
-    }
-
-    protected void handlePostEvasion(Moveable moveable) {
-	// TODO Auto-generated method stub
-
     }
 
     protected void checkSurrounding(Grid grid, Moveable moveable) {

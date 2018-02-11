@@ -89,7 +89,7 @@ class MoveableControllerTest {
 	// Given
 	Grid grid = new DefaultGrid(200, 200);
 	new ObstacleImpl(grid, Positions.of(0, 8));
-	DetectorImpl detector = new DetectorImpl(8, 45, 15, 11.25);
+	DetectorImpl detector = new DetectorImpl(8, 45, 15, /* 11.25 */ 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
 		.withHelper(new EvasionStateMachine(detector))//
 		.build();
@@ -102,7 +102,7 @@ class MoveableControllerTest {
 
 	// Then
 	Position effectEndPos = moveable.getPosition();
-	Assert.assertThat(effectEndPos.getX(), is(expectedEndPos.getX()));
+	Assert.assertThat(MathUtil.round(effectEndPos.getX(), 0), is(expectedEndPos.getX()));
 	Assert.assertThat(MathUtil.round(effectEndPos.getY(), 0), is(expectedEndPos.getY()));
     }
 }

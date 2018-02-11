@@ -33,11 +33,43 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
     private Map<EvasionStates, Integer> recursivCheck;
     private List<MoveableExecutor> reversExecutors;
 
-    public EvasionStateMachine(Detector detector) {
+    private int passingDistance;
+
+    public EvasionStateMachine(Detector detector, int passingDistance) {
 	super(detector);
 	positionBeforeEvasion = null;
 	reversExecutors = new LinkedList<>();
 	recursivCheck = new HashMap<>();
+	this.passingDistance = passingDistance;
+    }
+
+    public EvasionStateMachine(Detector detector) {
+	this(detector, 4);
+    }
+
+    @Override
+    protected void handleEvasion4CurrentState(Grid grid, Moveable moveable) {
+	switch (evasionState) {
+	case DEFAULT:
+	    boolean isEvasion = check4Evasion(grid, moveable);
+	    handleDefaultState(grid, moveable, isEvasion);
+	    break;
+
+	case ENVASION:
+	    handleEvasionState(grid, moveable);
+	    break;
+	case POST_ENVASION:
+	    handlePostEvasion(moveable);
+	    break;
+	case PASSING:
+	    handlePassing(moveable);
+	    break;
+	case RETURNING:
+	    handleReturning();
+	    break;
+	default:
+	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
+	}
     }
 
     @Override
@@ -48,7 +80,6 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	super.handleDefaultState(grid, moveable, isEvasion);
     }
 
-    @Override
     protected void handlePostEvasion(Moveable moveable) {
 	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
 	if (isAngleCorrectionNecessary) {
@@ -59,7 +90,6 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	evasionState = isAngleCorrectionNecessary ? POST_ENVASION : PASSING;
     }
 
-    @Override
     protected void handlePassing(Moveable moveable) {
 
 	if (isPassingUnnecessary(moveable)) {
@@ -72,19 +102,19 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	Position position = moveable.getPosition();
 	boolean isSame = DirectionUtil.isSame(position.getDirection(), positionBeforeEvasion.getDirection());
 
-	boolean isDistanceFarEnough = positionBeforeEvasion.calcDistanceTo(position) > 5;
+	boolean isDistanceFarEnough = positionBeforeEvasion.calcDistanceTo(position) > passingDistance;
 	return isSame && isDistanceFarEnough;
     }
 
-    @Override
     protected void handleReturning() {
 
-	registerForRecursivCall(RETURNING);
 	if (!isMethodCallAllowed(RETURNING)) {
 	    return;
 	}
+	registerForRecursivCall(RETURNING);
 	reversExecutors.stream()//
 		.forEach(MoveableExecutor::execute);
+	deregisterForRecursivCall(RETURNING);
     }
 
     private boolean isAngleCorrectionNecessary(Position position, Moveable moveable) {
@@ -100,12 +130,7 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
     }
 
     private double getAngle2Turn(Moveable moveable, double calcAbsolutAngle) {
-	double effectAngle2Turn = moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle;
-	double signum = Math.signum(effectAngle2Turn);
-	if (Math.abs(effectAngle2Turn) > detector.getAngleInc()) {
-	    effectAngle2Turn = detector.getAngleInc() * signum;
-	}
-	return effectAngle2Turn;
+	return moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle;
     }
 
     @Override
@@ -137,8 +162,13 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	recursivCheck.put(RETURNING, counter == null ? 1 : counter + 1);
     }
 
+    private void deregisterForRecursivCall(EvasionStates state) {
+	Integer counter = recursivCheck.get(state);
+	recursivCheck.put(RETURNING, counter - 1);
+    }
+
     private boolean isMethodCallAllowed(EvasionStates state) {
 	Integer counter = recursivCheck.get(state);
-	return counter != null ? counter.intValue() <= 1 : true;
+	return counter != null ? counter.intValue() < 1 : true;
     }
 }

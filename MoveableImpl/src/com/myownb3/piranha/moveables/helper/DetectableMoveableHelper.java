@@ -30,9 +30,7 @@ public class DetectableMoveableHelper extends MoveableHelper {
     public void checkPostConditions(Grid grid, Moveable moveable) {
 
 	super.checkPostConditions(grid, moveable);
-
 	checkSurrounding(grid, moveable);
-	check4Evasion(grid, moveable);
     }
 
     protected boolean check4Evasion(Grid grid, GridElement moveable) {
