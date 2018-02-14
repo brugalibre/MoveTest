@@ -10,6 +10,8 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
+import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -142,6 +144,85 @@ class PositionTest {
 
 	// Then
 	Assert.assertThat(effectAngle, is(expectedAngle));
+    }
+
+    @Test
+    public void testAngleCalculation_ZeroZeroNorthRelative2Position() {
+
+	// Given
+	Position testPos1 = Positions.of(Directions.N, 0, 0);
+	Position testPos2 = Positions.of(0, 0);
+	testPos2.rotate(-45);
+	Position pos2ComparteWith = Positions.of(5, 5);
+	testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
+    }
+
+    @Test
+    public void testAngleCalculation_ZeroZeroWestRelative2Position() {
+
+	// Given
+	Position testPos1 = Positions.of(Directions.W, 0, 0);
+	Position testPos2 = Positions.of(0, 0);
+	testPos2.rotate(45);
+	Position pos2ComparteWith = Positions.of(-5, 5);
+	testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
+    }
+
+    private void testAngeCalculationRelative2PositionInternal(Position testPos1, double expectedAngle2Turn1,
+	    Position testPos2, double expectedAngle2Turn2, Position pos2ComparteWith) {
+
+	// When
+	double effectDeltaAngle1 = MathUtil.roundThreePlaces(testPos1.calcAngleRelativeTo(pos2ComparteWith));
+	double effectDeltaAngle2 = MathUtil.roundThreePlaces(testPos2.calcAngleRelativeTo(pos2ComparteWith));
+
+	// Then
+	Assert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
+	Assert.assertThat(effectDeltaAngle2, is(expectedAngle2Turn2));
+    }
+
+    @Test
+    public void testAngleCalculationRelative2Position_1Quadrant() {
+
+	// Given
+	Position testPos1 = Positions.of(Directions.N, 0, 10);
+	Position testPos2 = Positions.of(0, 10);
+	testPos2.rotate(-45);
+	Position pos2ComparteWith = Positions.of(5, 15);
+	testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
+    }
+
+    @Test
+    public void testAngleCalculationRelative2Position_2Quadrant() {
+
+	// Given
+	Position testPos1 = getTestPos1();// 243.435
+
+	Position pos2ComparteWith = Positions.of(-10, -5); // 206.565
+	double expectedAngle2Turn1 = -108.435;
+
+	// When
+	double effectDeltaAngle1 = MathUtil.roundThreePlaces(testPos1.calcAngleRelativeTo(pos2ComparteWith));
+
+	// Then
+	Assert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
+    }
+
+    /**
+     * Builds a Moveable at S:0:0 and moves to -5;-10. Additionally the moveable is
+     * turned, so that it looks into the direction of the angle at -5:-10
+     * 
+     * @return the Position at the moved coordinates
+     */
+    private Position getTestPos1() {
+	Grid grid = new DefaultGrid(10, 10, -20, -20);
+	Moveable moveable = new MoveableBuilder(grid, Positions.of(Directions.S, 0, 0))//
+		.build();
+	moveable.moveForward(10);
+	moveable.turnRight();
+	moveable.moveForward(5);
+	Position position = moveable.getPosition();
+	moveable.makeTurn(position.calcAbsolutAngle() - position.getDirection().getAngle());
+	return position;
     }
 
     @Test

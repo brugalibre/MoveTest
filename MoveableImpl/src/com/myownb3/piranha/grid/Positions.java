@@ -105,6 +105,16 @@ public class Positions {
 	    return MathUtil.roundThreePlaces(sqrt);
 	}
 
+	@Override
+	public double calcAngleRelativeTo(Position position) {
+
+	    double absDeltaX = position.getX() - x;
+	    double absDeltaY = position.getY() - y;
+	    Position distanceVector = Positions.of(absDeltaX, absDeltaY);
+
+	    return distanceVector.calcAbsolutAngle() - direction.getAngle();
+	}
+
 	/**
 	 * Returns the angle of the {@link GridElement}
 	 */
