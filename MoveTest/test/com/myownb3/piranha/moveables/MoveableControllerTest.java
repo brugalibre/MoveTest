@@ -5,6 +5,8 @@ package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -84,6 +86,27 @@ class MoveableControllerTest {
     }
 
     @Test
+    void test_MoveMultipleTargets() {
+
+	// Given
+	Grid grid = new DefaultGrid(300, 300, 0, 0);
+	Moveable moveable = new MoveableBuilder(grid)//
+		.build();
+
+	Position expectedEndPos1 = Positions.of(0, 10);
+	Position expectedEndPos2 = Positions.of(5, 15);
+	MoveableController controller = new MoveableController(moveable,
+		Arrays.asList(expectedEndPos1, expectedEndPos2));
+
+	// When
+	controller.leadMoveable();
+
+	// Then
+	Position effectEndPos = moveable.getPosition();
+	assertPositionCoordinates(expectedEndPos2, effectEndPos);
+    }
+
+    @Test
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
@@ -102,7 +125,15 @@ class MoveableControllerTest {
 
 	// Then
 	Position effectEndPos = moveable.getPosition();
-	Assert.assertThat(MathUtil.round(effectEndPos.getX(), 0), is(expectedEndPos.getX()));
+	assertPositionCoordinates(expectedEndPos, effectEndPos);
+    }
+
+    /**
+     * @param expectedEndPos
+     * @param effectEndPos
+     */
+    private void assertPositionCoordinates(Position expectedEndPos, Position effectEndPos) {
 	Assert.assertThat(MathUtil.round(effectEndPos.getY(), 0), is(expectedEndPos.getY()));
+	Assert.assertThat(MathUtil.round(effectEndPos.getX(), 0), is(expectedEndPos.getX()));
     }
 }
