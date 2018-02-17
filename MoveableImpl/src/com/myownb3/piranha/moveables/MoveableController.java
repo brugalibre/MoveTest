@@ -3,6 +3,9 @@
  */
 package com.myownb3.piranha.moveables;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 
@@ -15,7 +18,7 @@ public class MoveableController {
     private MovingStrategie strategie;
 
     private Moveable moveable;
-    private Position endPos;
+    private List<Position> endPosList;
 
     /**
      * @param moveable
@@ -23,7 +26,7 @@ public class MoveableController {
      */
     public MoveableController(Moveable moveable, Position endPos) {
 
-	this(moveable, endPos, MovingStrategie.FORWRD);
+	this(moveable, Collections.singletonList(endPos));
     }
 
     /**
@@ -32,9 +35,26 @@ public class MoveableController {
      */
     public MoveableController(Moveable moveable, Position endPos, MovingStrategie strategie) {
 
+	this(moveable, Collections.singletonList(endPos), strategie);
+    }
+
+    /**
+     * @param moveable
+     * @param endPos
+     */
+    public MoveableController(Moveable moveable, List<Position> endPosList, MovingStrategie strategie) {
+
 	this.moveable = moveable;
-	this.endPos = endPos;
+	this.endPosList = endPosList;
 	this.strategie = strategie;
+    }
+
+    /**
+     * @param moveable2
+     * @param asList
+     */
+    public MoveableController(Moveable moveable, List<Position> endPosList) {
+	this(moveable, endPosList, MovingStrategie.FORWARD);
     }
 
     /**
@@ -43,7 +63,7 @@ public class MoveableController {
     public void leadMoveable() {
 
 	switch (strategie) {
-	case FORWRD:
+	case FORWARD:
 	    leadMoveableByStrategieForward();
 	    break;
 
@@ -52,10 +72,20 @@ public class MoveableController {
 	}
     }
 
+    /**
+     * 
+     */
     private void leadMoveableByStrategieForward() {
 
+	for (Position position : endPosList) {
+	    leadMoveable2EndPos(position);
+	}
+    }
+
+    private void leadMoveable2EndPos(Position endPos) {
+
 	// First turn the moveable in the right direction
-	double diffAngle = calcDiffAngle(moveable.getPosition());
+	double diffAngle = moveable.getPosition().calcAngleRelativeTo(endPos);
 	moveable.makeTurn(diffAngle);
 	Position startPos = Positions.of(moveable.getPosition());
 
@@ -66,14 +96,5 @@ public class MoveableController {
 	    moveable.moveForward();
 	    distance = endPos.calcDistanceTo(moveable.getPosition());
 	}
-    }
-
-    /*
-     * calculate the angle in which direction the moveable has to be turned in order
-     * to reach the end position
-     */
-    private double calcDiffAngle(Position position) {
-	double endAngle = endPos.calcAbsolutAngle();
-	return endAngle - position.getDirection().getAngle();
     }
 }
