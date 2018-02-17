@@ -156,7 +156,7 @@ public class DefaultGrid implements Grid {
     private void checkBounds(double newX, double newY) {
 	if (outOfUpperBounds(newY, newX) || outOfLowerBounds(newY, newX)) {
 	    throw new GridElementOutOfBoundsException(
-		    "The bounds '" + newX + "', '" + newY + "' are out of bounds for this Grid '" + this);
+		    "The bounds '" + newX + "', '" + newY + "' are out of bounds for this Grid '\n" + this);
 	}
     }
 
@@ -171,6 +171,6 @@ public class DefaultGrid implements Grid {
     @Override
     public String toString() {
 
-	return "Max X:'" + maxX + "Min X:'" + minX + "Max Y:'" + maxY + "Min Y:'" + minY;
+	return "Max x:'" + maxX + ", Min x:'" + minX + "; Max y:'" + maxY + ", Min y:'" + minY;
     }
 }
