@@ -42,10 +42,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void moveForward(int amount) {
-	verifyAmount(amount);
-	for (int i = 0; i < amount; i++) {
-	    moveForward();
-	}
+	moveForwardOrBackwardInternal(amount, () -> moveForward());
     }
 
     @Override
@@ -56,9 +53,13 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void moveBackward(int amount) {
+	moveForwardOrBackwardInternal(amount, () -> moveBackward());
+    }
+
+    private void moveForwardOrBackwardInternal(int amount, Runnable runnable) {
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
-	    moveBackward();
+	    runnable.run();
 	}
     }
 
@@ -97,18 +98,21 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	}
 
 	public MoveableBuilder(Grid grid, Position position) {
+	    Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
+	    Objects.requireNonNull(position, "Attribute 'position' must not be null!");
 	    moveable = new SimpleMoveable(grid, position);
 	}
 
 	public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
-	    ((AbstractMoveable) moveable).handler = handler;
+	    ((AbstractMoveable) moveable).handler = Objects.requireNonNull(handler,
+		    "A Moveable always needs a MoveablePostActionHandler!");
 	    return this;
 	}
 
 	public Moveable build() {
-	    MoveablePostActionHandler helper = ((AbstractMoveable) moveable).handler;
-	    Objects.requireNonNull(helper, "A Moveable always needs a MoveableHelper!");
-	    helper.handlePostConditions(((AbstractMoveable) moveable).grid, moveable);
+	    MoveablePostActionHandler handler = ((AbstractMoveable) moveable).handler;
+	    Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
+	    handler.handlePostConditions(((AbstractMoveable) moveable).grid, moveable);
 	    return this.moveable;
 	}
 
