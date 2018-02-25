@@ -35,7 +35,7 @@ class TestMove {
 
 	int maxMovements = 5;
 	Position effectStartPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(0, -maxMovements);
+	Position expectedEndPosition = Positions.of(0, -maxMovements);
 
 	// When
 	for (int i = 0; i < maxMovements; i++) {
@@ -46,7 +46,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 
 	Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
 
     @Test
@@ -71,7 +71,7 @@ class TestMove {
 
 	int maxMovements = 5;
 	Position effectStartPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(0, maxMovements);
+	Position expectedEndPosition = Positions.of(0, maxMovements);
 
 	// When
 	for (int i = 0; i < maxMovements; i++) {
@@ -82,7 +82,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 
 	Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
 
     ///////////////////////////////////////////////
@@ -104,10 +104,10 @@ class TestMove {
 
 	    // Then
 	    Position endPosition = moveable.getPosition();
-	    Position erwarteteEndPosition = Positions.of(Directions.N, 0, 0);
+	    Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
 	    Direction expectedDirection = resultList[i];
 
-	    Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	    Assert.assertThat(endPosition, is(expectedEndPosition));
 	    Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
 	}
     }
@@ -132,9 +132,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(Directions.S, 0, -1);
+	Position expectedEndPosition = Positions.of(Directions.S, 0, -1);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -162,9 +162,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(Directions.W, -1, 0);
+	Position expectedEndPosition = Positions.of(Directions.W, -1, 0);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -189,10 +189,10 @@ class TestMove {
 
 	    // Then
 	    Position endPosition = moveable.getPosition();
-	    Position erwarteteEndPosition = Positions.of(Directions.N, 0, 0);
+	    Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
 	    Direction expectedDirection = resultList[i];
 
-	    Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	    Assert.assertThat(endPosition, is(expectedEndPosition));
 	    Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
 	}
     }
@@ -214,9 +214,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(Directions.W, 1, 0);
+	Position expectedEndPosition = Positions.of(Directions.W, 1, 0);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
 
     @Test
@@ -239,9 +239,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(Directions.S, 0, 1);
+	Position expectedEndPosition = Positions.of(Directions.S, 0, 1);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -269,9 +269,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(Directions.O, -1, 0);
+	Position expectedEndPosition = Positions.of(Directions.O, -1, 0);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -291,9 +291,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(0, -1);
+	Position expectedEndPosition = Positions.of(0, -1);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
 	Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
     }
 
@@ -310,9 +310,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(null, -7.07, 7.07);
+	Position expectedEndPosition = Positions.of(null, -7.07, 7.07);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
 
     @Test
@@ -321,28 +321,28 @@ class TestMove {
 	// Given
 	Moveable moveable = MoveableBuilder.builder()//
 		.build();
-	Position erwarteterZwischenStop1 = Positions.of(null, -3.535, 3.535);
-	Position erwarteterZwischenStop2 = Positions.of(null, -6.433, 4.312);
-	Position erwarteterZwischenStop3 = Positions.of(null, -5.397, 0.4483);
+	Position expectedStopover1 = Positions.of(null, -3.535, 3.535);
+	Position expectedStopover2 = Positions.of(null, -6.433, 4.312);
+	Position expectedStopover3 = Positions.of(null, -5.397, 0.4483);
 
 	// When
 	moveable.makeTurn(45); // 135; x:-0.7071 ; y:+0.7071
 	moveable.moveForward(5); // x:-3.54 ; y: +3.54
 
-	Position effectZwischenStop1 = moveable.getPosition();
+	Position effectStopover1 = moveable.getPosition();
 
 	moveable.makeTurn(30); // 165; x:-0.965925 ; y: 0.25882
 	moveable.moveForward(3); // x: -2.8978; y: 0.7764
-	Position effectZwischenStop2 = moveable.getPosition();
+	Position effectStopover2 = moveable.getPosition();
 
 	moveable.makeTurn(-60); // 105; x: -0.258819; y:0.965925
 	moveable.moveBackward(4); // x:1.035276 ; y=3.8637
-	Position effectZwischenStop3 = moveable.getPosition();
+	Position effectStopover3 = moveable.getPosition();
 
 	// Then
-	Assert.assertThat(effectZwischenStop1, is(erwarteterZwischenStop1));
-	Assert.assertThat(effectZwischenStop2, is(erwarteterZwischenStop2));
-	Assert.assertThat(effectZwischenStop3, is(erwarteterZwischenStop3));
+	Assert.assertThat(effectStopover1, is(expectedStopover1));
+	Assert.assertThat(effectStopover2, is(expectedStopover2));
+	Assert.assertThat(effectStopover3, is(expectedStopover3));
     }
 
     @Test
@@ -358,8 +358,8 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position erwarteteEndPosition = Positions.of(null, -5, -8.66);
+	Position expectedEndPosition = Positions.of(null, -5, -8.66);
 
-	Assert.assertThat(endPosition, is(erwarteteEndPosition));
+	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
 }
