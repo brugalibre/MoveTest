@@ -67,8 +67,22 @@ public class MoveableController {
 	    leadMoveableByStrategieForward();
 	    break;
 
+	case FORWARD_CURVED:
+	    leadMoveableByStrategieForwardCurved();
+	    break;
+
 	default:
-	    throw new IllegalArgumentException("Not supported Strategie '" + strategie + "'");
+	    throw new NotImplementedException("Not supported Strategie '" + strategie + "'");
+	}
+    }
+
+    /**
+     * 
+     */
+    private void leadMoveableByStrategieForwardCurved() {
+
+	for (Position position : endPosList) {
+	    leadMoveable2EndPosCurved(position);
 	}
     }
 
@@ -82,19 +96,78 @@ public class MoveableController {
 	}
     }
 
+    /*
+     * First turn the moveable in the right direction then move forward until we
+     * reach our end position.
+     */
     private void leadMoveable2EndPos(Position endPos) {
 
-	// First turn the moveable in the right direction
+	Position startPos = Positions.of(moveable.getPosition());
 	double diffAngle = moveable.getPosition().calcAngleRelativeTo(endPos);
 	moveable.makeTurn(diffAngle);
-	Position startPos = Positions.of(moveable.getPosition());
 
-	// now move forward until we reach our end position
-	final double distanceOring = endPos.calcDistanceTo(startPos);
-	double distance = distanceOring;
+	double distance = endPos.calcDistanceTo(startPos);
 	while (distance >= 1) {
 	    moveable.moveForward();
 	    distance = endPos.calcDistanceTo(moveable.getPosition());
+	}
+    }
+
+    /*
+     * move forward until we reach our end position. Make a slightly turn before
+     * each move
+     */
+    private void leadMoveable2EndPosCurved(Position endPos) {
+
+	double distance = endPos.calcDistanceTo(moveable.getPosition());
+	double origAngle2Turn = moveable.getPosition().calcAngleRelativeTo(endPos);
+
+	int turnFactor = (int) (distance / 2);
+
+	double angle2Turn = origAngle2Turn;
+	while (distance >= 1 || angle2Turn != 0) {
+
+	    angle2Turn = turnIfNecessary(endPos, origAngle2Turn, turnFactor);
+	    distance = moveForwardIfNecessary(endPos, distance);
+	}
+    }
+
+    private double turnIfNecessary(Position endPos, double origAngle2Turn, int turnFactor) {
+
+	double angle2Turn = moveable.getPosition().calcAngleRelativeTo(endPos);
+	if (angle2Turn != 0) {
+
+	    double diffAngle = getAngle2Turn(origAngle2Turn, angle2Turn, turnFactor);
+	    moveable.makeTurn(diffAngle);
+	    angle2Turn = angle2Turn - diffAngle;
+	}
+	return angle2Turn;
+    }
+
+    private double moveForwardIfNecessary(Position endPos, double distance) {
+	if (distance >= 1) {
+	    moveable.moveForward();
+	    distance = endPos.calcDistanceTo(moveable.getPosition());
+	}
+	return distance;
+    }
+
+    private double getAngle2Turn(double origAngle2Turn, double angle2Turn, int turnFactor) {
+
+	double diffAngle = (int) (origAngle2Turn / turnFactor);
+
+	if (Math.abs(diffAngle) >= Math.abs(angle2Turn)) {
+	    diffAngle = angle2Turn;
+	}
+	return diffAngle;
+    }
+
+    public static class NotImplementedException extends RuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
+	private NotImplementedException(String message) {
+	    super(message);
 	}
     }
 }

@@ -18,6 +18,7 @@ import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
+import com.myownb3.piranha.moveables.MoveableController.NotImplementedException;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
 import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
 
@@ -43,7 +44,7 @@ class MoveableControllerTest {
 	    controller.leadMoveable();
 	};
 	// Then
-	Assertions.assertThrows(IllegalArgumentException.class, ex);
+	Assertions.assertThrows(NotImplementedException.class, ex);
     }
 
     @Test
@@ -95,6 +96,28 @@ class MoveableControllerTest {
 	Position endPos1 = Positions.of(0, 10);
 	Position expectedEndPos = Positions.of(5, 15);
 	MoveableController controller = new MoveableController(moveable, Arrays.asList(endPos1, expectedEndPos));
+
+	// When
+	controller.leadMoveable();
+
+	// Then
+	Position effectEndPos = moveable.getPosition();
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
+    }
+
+    @Test
+    void test_MoveMultipleTargets_ForwardCurved() {
+
+	// Given
+	Grid grid = new DefaultGrid(15, 15);
+	Position endPos1 = Positions.of(0, 10);
+	Position expectedEndPos = Positions.of(5, 15);
+
+	Moveable moveable = new MoveableBuilder(grid)//
+		.build();
+
+	MoveableController controller = new MoveableController(moveable, Arrays.asList(endPos1, expectedEndPos),
+		MovingStrategie.FORWARD_CURVED);
 
 	// When
 	controller.leadMoveable();
