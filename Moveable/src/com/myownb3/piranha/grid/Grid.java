@@ -56,4 +56,10 @@ public interface Grid {
      * @return all surrounding {@link GridElement} for the given {@link GridElement}
      */
     List<GridElement> getSurroundingGridElements(GridElement gridElement);
+
+    /**
+     * 
+     * @returns a {@link Dimension} describing the dimension of this {@link Grid}
+     */
+    Dimension getDimension();
 }

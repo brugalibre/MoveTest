@@ -143,6 +143,11 @@ public class DefaultGrid implements Grid {
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
+    @Override
+    public Dimension getDimension() {
+	return new DimensionImpl(minX, minY, maxX - minX, maxY - minY);
+    }
+
     private void checkBounds(Position position) {
 	checkBounds(position.getX(), position.getY());
     }
