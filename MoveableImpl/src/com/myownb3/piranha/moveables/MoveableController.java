@@ -6,6 +6,7 @@ package com.myownb3.piranha.moveables;
 import java.util.Collections;
 import java.util.List;
 
+import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 
@@ -76,9 +77,6 @@ public class MoveableController {
 	}
     }
 
-    /**
-     * 
-     */
     private void leadMoveableByStrategieForwardCurved() {
 
 	for (Position position : endPosList) {
@@ -86,9 +84,6 @@ public class MoveableController {
 	}
     }
 
-    /**
-     * 
-     */
     private void leadMoveableByStrategieForward() {
 
 	for (Position position : endPosList) {
@@ -137,7 +132,7 @@ public class MoveableController {
 	double angle2Turn = moveable.getPosition().calcAngleRelativeTo(endPos);
 	if (angle2Turn != 0) {
 
-	    double diffAngle = getAngle2Turn(origAngle2Turn, angle2Turn, turnFactor);
+	    double diffAngle = getAngle2TurnIncrement(origAngle2Turn, angle2Turn, turnFactor);
 	    moveable.makeTurn(diffAngle);
 	    angle2Turn = angle2Turn - diffAngle;
 	}
@@ -147,12 +142,17 @@ public class MoveableController {
     private double moveForwardIfNecessary(Position endPos, double distance) {
 	if (distance >= 1) {
 	    moveable.moveForward();
-	    distance = endPos.calcDistanceTo(moveable.getPosition());
+	    return endPos.calcDistanceTo(moveable.getPosition());
 	}
 	return distance;
     }
 
-    private double getAngle2Turn(double origAngle2Turn, double angle2Turn, int turnFactor) {
+    /*
+     * Returns the next angle increment to turn the moveable around. If this
+     * increment is bigger than the delta to its origin angle, than this delta is
+     * returned
+     */
+    private double getAngle2TurnIncrement(double origAngle2Turn, double angle2Turn, int turnFactor) {
 
 	double diffAngle = (int) (origAngle2Turn / turnFactor);
 
@@ -160,14 +160,5 @@ public class MoveableController {
 	    diffAngle = angle2Turn;
 	}
 	return diffAngle;
-    }
-
-    public static class NotImplementedException extends RuntimeException {
-
-	private static final long serialVersionUID = 1L;
-
-	private NotImplementedException(String message) {
-	    super(message);
-	}
     }
 }
