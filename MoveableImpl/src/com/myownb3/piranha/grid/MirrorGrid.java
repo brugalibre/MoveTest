@@ -45,11 +45,11 @@ public class MirrorGrid extends DefaultGrid {
     public Position moveForward(Position position) {
 	Position movedPos = super.moveForward(position);
 
-	if (movedPos.getX() == minX) {
+	if (movedPos.getX() == minX || movedPos.getX() == maxX) {
 	    movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
-	} else if (movedPos.getX() == maxX) {
-
-	    movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
+	}
+	if (movedPos.getY() == minY || movedPos.getY() == maxY) {
+	    movedPos.rotate(360 - 2 * movedPos.getDirection().getAngle());
 	}
 
 	return movedPos;
@@ -71,11 +71,6 @@ public class MirrorGrid extends DefaultGrid {
 	} else if (newY <= minY) {
 	    return minY;
 	}
-	// if (newY >= maxY) {
-	// return newY - maxY;
-	// } else if (newY <= minY) {
-	// return position.getY();
-	// }
 	return newY;
     }
 
@@ -96,14 +91,6 @@ public class MirrorGrid extends DefaultGrid {
 	    return minX;
 	}
 	return newX;
-
-	// if (newX >= maxX) {
-	// // X-Wert negieren (+ -> -)
-	// return maxX - (newX - maxX);
-	// } else if (newX <= minX) {
-	// // X-Wert negieren (- -> +)
-	// return maxX - (newX - maxX);
-	// }
     }
 
 }
