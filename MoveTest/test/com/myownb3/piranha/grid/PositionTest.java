@@ -29,6 +29,22 @@ import com.myownb3.piranha.util.MathUtil;
 class PositionTest {
 
     @Test
+    public void testRandomPosition() {
+
+	// Given
+
+	// When
+	Position pos = Positions.getRandomPosition(new DimensionImpl(0, 0, 5, 5), 5, 5);
+
+	boolean lowerXThanExpected = pos.getX() <= 5;
+	boolean lowerYThanExpected = pos.getY() <= 5;
+
+	// Then
+	Assert.assertTrue(lowerYThanExpected);
+	Assert.assertTrue(lowerXThanExpected);
+    }
+
+    @Test
     public void testAngleCalculationFirstQuadrant() {
 
 	// Given

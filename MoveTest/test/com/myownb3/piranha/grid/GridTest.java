@@ -22,6 +22,31 @@ import com.myownb3.piranha.moveables.Moveable;
 class GridTest {
 
     @Test
+    public void testGridDimensionGrid() {
+
+	// Given
+	int minX = -5;
+	int minY = -5;
+	int maxX = 5;
+	int maxY = 5;
+
+	int expectedX = -5;
+	int expectedY = -5;
+	int expectedHeight = 10;
+	int expectedWidth = 10;
+
+	// When
+	Grid grid = new DefaultGrid(maxX, maxY, minX, minY);
+	Dimension dimension = grid.getDimension();
+
+	// Then
+	assertThat(dimension.getX(), is(expectedX));
+	assertThat(dimension.getY(), is(expectedY));
+	assertThat(dimension.getHeight(), is(expectedHeight));
+	assertThat(dimension.getWidth(), is(expectedWidth));
+    }
+
+    @Test
     public void testAddElementOnGrid() {
 
 	// Given
