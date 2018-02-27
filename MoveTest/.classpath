@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Impl"/>
+	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/powermock-easymock-junit-1.7.1/powermock-easymock-1.7.1-full.jar"/>
+	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/mockito-all-1.10.19.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

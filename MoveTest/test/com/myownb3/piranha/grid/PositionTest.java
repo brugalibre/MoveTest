@@ -5,9 +5,15 @@ package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.easymock.PowerMock.mockStatic;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.legacy.PowerMockRunner;
 
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
@@ -18,6 +24,8 @@ import com.myownb3.piranha.util.MathUtil;
  * @author Dominic
  *
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Positions.class)
 class PositionTest {
 
     @Test
@@ -298,6 +306,27 @@ class PositionTest {
 	Assert.assertFalse(pos.equals(anotherNotExactlySamePos2));
     }
 
+    // @Test
+    void testRandomPos() {
+
+	// Given
+	int maxWidth = 200;
+	int maxHeight = 200;
+	mockStatic(MathUtil.class);
+	Grid grid = new DefaultGrid(maxHeight, maxWidth);
+	int height = 5;
+	int width = 5;
+
+	// When
+	when(MathUtil.getRandom(Mockito.anyInt())).thenReturn((double) maxWidth);
+	Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
+
+	double expectedXCoordinates = maxWidth;
+	double effectXCoordindates = randomPosition.getX();
+	// Then
+	assertThat(effectXCoordindates, is(expectedXCoordinates));
+    }
+
     @Test
     void testToString() {
 
@@ -307,6 +336,6 @@ class PositionTest {
 	Position anotherPos = Positions.of(Directions.N, 0, 0);
 
 	// Then
-	Assert.assertThat(pos.toString(), is(anotherPos.toString()));
+	assertThat(pos.toString(), is(anotherPos.toString()));
     }
 }

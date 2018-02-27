@@ -3,7 +3,7 @@
  */
 package com.myownb3.piranha.ui.render.impl;
 
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 
 import com.myownb3.piranha.ui.render.RenderContext;
 
@@ -11,15 +11,15 @@ import com.myownb3.piranha.ui.render.RenderContext;
  * @author Dominic
  *
  */
-public class Graphics2DContext implements RenderContext {
+public class Graphicsontext implements RenderContext {
 
-    private Graphics2D graphics2d;
+    private Graphics graphics;
 
-    public Graphics2DContext(Graphics2D graphics2d) {
-	this.graphics2d = graphics2d;
+    public Graphicsontext(Graphics graphics) {
+	this.graphics = graphics;
     }
 
-    public final Graphics2D getGraphics2d() {
-	return this.graphics2d;
+    public final Graphics getGraphics() {
+	return this.graphics;
     }
 }

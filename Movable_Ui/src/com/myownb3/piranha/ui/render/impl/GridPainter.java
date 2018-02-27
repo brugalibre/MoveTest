@@ -4,7 +4,7 @@
 package com.myownb3.piranha.ui.render.impl;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.myownb3.piranha.grid.Dimension;
@@ -28,11 +28,11 @@ public class GridPainter extends Drawable<Grid> implements Renderer {
     @Override
     public void render(RenderContext graphicsCtx) {
 
-	Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+	Graphicsontext context = (Graphicsontext) graphicsCtx;
 
-	Graphics2D graphics2d = context.getGraphics2d();
+	Graphics graphics = context.getGraphics();
 
-	graphics2d.setColor(Color.BLACK);
-	graphics2d.drawOval(x, y, width, height);
+	graphics.setColor(Color.BLACK);
+	graphics.drawRect(x, y, width, height);
     }
 }

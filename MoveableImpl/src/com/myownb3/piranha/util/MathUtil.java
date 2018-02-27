@@ -45,4 +45,15 @@ public class MathUtil {
     public static double toDegree(double angleAsRadiant) {
 	return angleAsRadiant * (180 / Math.PI);
     }
+
+    /**
+     * Returns a random number considering the given offset
+     * 
+     * @param offset
+     *            the offset
+     * @return a random number
+     */
+    public static double getRandom(int offset) {
+	return Math.random() * offset;
+    }
 }

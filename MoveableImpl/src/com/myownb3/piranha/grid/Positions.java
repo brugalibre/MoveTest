@@ -50,6 +50,28 @@ public class Positions {
 	return Positions.of(direction, position.getX(), position.getY());
     }
 
+    /**
+     * Returns a new {@link PositionImpl} within the borders of the given
+     * {@link Dimension} considering the given height and width of the Position
+     * 
+     * @param dimension
+     * @param height
+     * @param width
+     * @return a new created Position
+     */
+    public static Position getRandomPosition(Dimension dimension, int height, int width) {
+
+	int minX = dimension.getX();
+	int maxX = minX + dimension.getWidth();
+	int minY = dimension.getY();
+	int maxY = minX + dimension.getHeight();
+
+	int x = (int) Math.min(MathUtil.getRandom(maxX) + minX, maxX - width / 2);
+	int y = (int) Math.min(MathUtil.getRandom(maxY) + minY, maxY - height / 2);
+
+	return Positions.of(x, y);
+    }
+
     private static class PositionImpl implements Position {
 
 	private double y;

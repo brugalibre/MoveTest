@@ -3,10 +3,12 @@
  */
 package com.myownb3.piranha.ui.render.impl;
 
-import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.myownb3.piranha.grid.GridElement;
+import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 
@@ -15,6 +17,20 @@ import com.myownb3.piranha.ui.render.Renderer;
  *
  */
 public class GridElementPainter extends Drawable<GridElement> implements Renderer {
+
+    private Color color;
+
+    public GridElementPainter(GridElement gridElement, Color color, int height, int width) {
+	super(gridElement);
+
+	this.color = color;
+	Position position = gridElement.getPosition();
+	setBounds(new Rectangle((int) position.getX(), (int) position.getY(), height, width));
+    }
+
+    public GridElementPainter(GridElement gridElement, int height, int width) {
+	this(gridElement, Color.BLACK, height, width);
+    }
 
     /**
      * @param value
@@ -27,9 +43,12 @@ public class GridElementPainter extends Drawable<GridElement> implements Rendere
     @Override
     public void render(RenderContext graphicsCtx) {
 
-	Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+	Graphicsontext context = (Graphicsontext) graphicsCtx;
+	Graphics graphics = context.getGraphics();
+	graphics.setColor(color);
 
-	Graphics2D graphics2d = context.getGraphics2d();
-	graphics2d.drawOval(x, y, width, height);
+	Position position = value.getPosition();
+	graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+	graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
     }
 }
