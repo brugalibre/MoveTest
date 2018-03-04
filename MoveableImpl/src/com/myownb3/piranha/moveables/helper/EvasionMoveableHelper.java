@@ -7,6 +7,8 @@ import static com.myownb3.piranha.moveables.helper.EvasionStates.DEFAULT;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.ENVASION;
 
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
 
@@ -21,10 +23,12 @@ import com.myownb3.piranha.moveables.detector.Detector;
 public class EvasionMoveableHelper extends DetectableMoveableHelper {
 
     protected EvasionStates evasionState;
+    protected Position positionBeforeEvasion;
 
     public EvasionMoveableHelper(Detector detector) {
 	super(detector);
 	evasionState = DEFAULT;
+	positionBeforeEvasion = null;
     }
 
     @Override
@@ -39,8 +43,7 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
 
 	switch (evasionState) {
 	case DEFAULT:
-	    boolean isEvasion = check4Evasion(grid, moveable);
-	    handleDefaultState(grid, moveable, isEvasion);
+	    handleDefaultState(grid, moveable);
 	    break;
 
 	case ENVASION:
@@ -58,9 +61,11 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
 	}
     }
 
-    protected void handleDefaultState(Grid grid, Moveable moveable, boolean isEvasion) {
+    protected void handleDefaultState(Grid grid, Moveable moveable) {
+	boolean isEvasion = check4Evasion(grid, moveable);
 	if (isEvasion) {
 	    evasionState = ENVASION;
+	    positionBeforeEvasion = Positions.of(moveable.getPosition());
 	    handleEvasionState(grid, moveable);
 	}
     }
@@ -68,10 +73,7 @@ public class EvasionMoveableHelper extends DetectableMoveableHelper {
     protected void handleEvasionState(Grid grid, Moveable moveable) {
 
 	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
-
-	if (avoidAngle != 0) {
-	    moveable.makeTurn(avoidAngle);
-	}
+	moveable.makeTurn(avoidAngle);
 	checkSurrounding(grid, moveable);
     }
 }
