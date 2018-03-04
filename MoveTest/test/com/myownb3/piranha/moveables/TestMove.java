@@ -4,6 +4,9 @@
 package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +16,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.direction.DirectionImpl;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
-import com.myownb3.piranha.grid.direction.DirectionImpl;
+import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
 
 /**
  * @author Dominic
@@ -316,6 +322,25 @@ class TestMove {
     }
 
     @Test
+    public void testTurn_ZeroDegree() {
+
+	// Given
+	int angle = 0;
+	Position pos = spy(Positions.of(0, 0));
+	MoveablePostActionHandler spyHandler = spy(new MoveablePostActionHandlerTest());
+	DefaultGrid grid = new DefaultGrid();
+	Moveable moveable = new SimpleTestMoveable(grid, pos, spyHandler);
+
+	// When
+	moveable.makeTurn(angle);
+
+	// Then
+	verify(spyHandler).handlePostConditions(grid, moveable);// one time, becaus creating a moveable calls
+	// this method
+	verify(pos, never()).rotate(angle);
+    }
+
+    @Test
     public void testTurnXDegreeAndMoveForward() {
 
 	// Given
@@ -361,5 +386,21 @@ class TestMove {
 	Position expectedEndPosition = Positions.of(null, -5, -8.66);
 
 	Assert.assertThat(endPosition, is(expectedEndPosition));
+    }
+
+    private static class MoveablePostActionHandlerTest implements MoveablePostActionHandler {
+
+	@Override
+	public void handlePostConditions(Grid grid, Moveable moveable) {
+	    // Nothing to do
+	}
+    }
+
+    private static class SimpleTestMoveable extends AbstractMoveable {
+
+	public SimpleTestMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
+	    super(grid, position, handler);
+
+	}
     }
 }

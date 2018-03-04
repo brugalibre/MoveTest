@@ -70,8 +70,10 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void makeTurn(double degree) {
-	position.rotate(degree);
-	handler.handlePostConditions(grid, this);
+	if (degree != 0) {
+	    position.rotate(degree);
+	    handler.handlePostConditions(grid, this);
+	}
     }
 
     @Override
