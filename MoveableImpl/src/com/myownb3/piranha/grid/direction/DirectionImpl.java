@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.grid.direction;
 
-import static com.myownb3.piranha.util.MathUtil.toRadian;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,12 +49,12 @@ public class DirectionImpl implements Direction {
 
     @Override
     public double getForwardX() {
-	return Math.cos(toRadian(rotation));
+	return Math.cos(Math.toRadians(rotation));
     }
 
     @Override
     public double getForwardY() {
-	return Math.sin(toRadian(rotation));
+	return Math.sin(Math.toRadians(rotation));
     }
 
     @Override

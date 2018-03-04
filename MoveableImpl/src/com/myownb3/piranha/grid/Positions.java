@@ -144,7 +144,7 @@ public class Positions {
 	public double calcAbsolutAngle() {
 
 	    double angleAsRadiant = getAngleAsRadiant();
-	    double angleAsDegree = MathUtil.toDegree(angleAsRadiant);
+	    double angleAsDegree = Math.toDegrees(angleAsRadiant);
 
 	    // x-axis is negative -> absolute value of angle + 90 (since we are looking from
 	    // the absolute zero point)
@@ -161,7 +161,7 @@ public class Positions {
 	private double getAngleAsRadiant() {
 
 	    if (getY() == 0 && getX() == 0) {
-		return MathUtil.toRadian(direction.getAngle());
+		return Math.toRadians(direction.getAngle());
 	    }
 	    return Math.atan(getY() / getX());
 	}

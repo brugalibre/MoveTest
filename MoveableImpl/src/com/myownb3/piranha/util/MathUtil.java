@@ -3,9 +3,6 @@
  */
 package com.myownb3.piranha.util;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 /**
  * @author Dominic
  *
@@ -13,37 +10,25 @@ import java.math.RoundingMode;
 public class MathUtil {
 
     public static double round(double value, int places) {
-	if (places < 0) {
-	    throw new IllegalArgumentException("No negativ values allowe for '" + places + "'!");
-	}
 
-	BigDecimal bd = new BigDecimal(value);
-	bd = bd.setScale(places, RoundingMode.HALF_UP);
-	return bd.doubleValue();
+	if (places < 0 || places > 10) {
+	    throw new IllegalArgumentException("The amount of decimal places must be between 0 and 10!");
+	}
+	double factor = calcFactor(places);
+	return (double) Math.round(value * factor) / factor;
+    }
+
+    private static double calcFactor(int places) {
+	double factor = 1;
+
+	for (int i = 1; i <= places; i++) {
+	    factor = factor * 10;
+	}
+	return factor;
     }
 
     public static double roundThreePlaces(double value) {
 	return round(value, 3);
-    }
-
-    /**
-     * Returns the radiant for the given amount of degrees
-     * 
-     * @param degree
-     * @return the radiant for the given amount of degrees
-     */
-    public static double toRadian(double degree) {
-	return degree * (Math.PI / 180);
-    }
-
-    /**
-     * Returns the radiant for the given amount of degrees
-     * 
-     * @param degree
-     * @return the radiant for the given amount of degrees
-     */
-    public static double toDegree(double angleAsRadiant) {
-	return angleAsRadiant * (180 / Math.PI);
     }
 
     /**
