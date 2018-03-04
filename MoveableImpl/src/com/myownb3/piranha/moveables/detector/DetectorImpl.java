@@ -120,11 +120,6 @@ public class DetectorImpl implements Detector {
 	return hasObjectDetected == null ? false : hasObjectDetected;
     }
 
-    @Override
-    public double getAngleInc() {
-	return angleInc;
-    }
-
     private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
 	return ourAngle + (detectorAngle / 2) >= gridElementAngle;
     }
