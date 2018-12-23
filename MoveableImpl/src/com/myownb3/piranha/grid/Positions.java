@@ -13,6 +13,10 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class Positions {
 
+    private Positions() {
+	// Do not instantiate
+    }
+
     /**
      * Creates a new {@link Position} with the given coordinates
      * 

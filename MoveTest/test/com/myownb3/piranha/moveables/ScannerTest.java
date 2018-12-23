@@ -48,6 +48,27 @@ class ScannerTest {
     }
 
     @Test
+    void testEvasion_DistanceCloseEnough_ButAlreadyOvertaken() {
+
+	// Given
+	Grid grid = new DefaultGrid();
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(7, 7));
+	Detector detector = new DetectorImpl(5, 45, 5.625);
+	new MoveableBuilder(grid, Positions.of(8, 8))//
+		.withHandler(new DetectableMoveableHelper(detector))//
+		.build();
+	// Since this moveable is placed 'in front' of the obstacle, it must not be
+	// detected
+	boolean evasion = true;
+
+	// When
+	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
+
+	// Then
+	assertThat(isEffectivelyEvasion, is(not(evasion)));
+    }
+
+    @Test
     void testEvasion_DistanceCloseEnoughButButNotEvasion() {
 
 	// Given
