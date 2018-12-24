@@ -102,9 +102,15 @@ public class MoveableController {
 	moveable.makeTurn(diffAngle);
 
 	double distance = endPos.calcDistanceTo(startPos);
+	double prevDistance = distance;
 	while (distance >= 1) {
 	    moveable.moveForward();
+	    prevDistance = distance;
 	    distance = endPos.calcDistanceTo(moveable.getPosition());
+
+	    if (distance >= prevDistance) {
+		break;// We are to late!
+	    }
 	}
     }
 
@@ -120,7 +126,8 @@ public class MoveableController {
 	int turnFactor = (int) (distance / 2);
 
 	double angle2Turn = origAngle2Turn;
-	while (distance >= 1 || angle2Turn != 0) {
+	double prevDistance = distance;
+	while ((distance >= 1 || angle2Turn != 0) && distance <= prevDistance) {
 
 	    angle2Turn = turnIfNecessary(endPos, origAngle2Turn, turnFactor);
 	    distance = moveForwardIfNecessary(endPos, distance);
@@ -161,4 +168,5 @@ public class MoveableController {
 	}
 	return diffAngle;
     }
+
 }

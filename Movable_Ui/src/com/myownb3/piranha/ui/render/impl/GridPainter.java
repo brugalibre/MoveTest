@@ -28,11 +28,12 @@ public class GridPainter extends Drawable<Grid> implements Renderer {
     @Override
     public void render(RenderContext graphicsCtx) {
 
+	int factor = 15;
 	Graphicsontext context = (Graphicsontext) graphicsCtx;
 
 	Graphics graphics = context.getGraphics();
 
 	graphics.setColor(Color.BLACK);
-	graphics.drawRect(x, y, width, height);
+	graphics.drawRect(x * factor, y * factor, width * factor, height * factor);
     }
 }

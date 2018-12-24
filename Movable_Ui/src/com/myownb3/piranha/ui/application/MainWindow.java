@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.ui.render.Renderer;
 
 /**
@@ -21,11 +22,11 @@ public class MainWindow {
     private JFrame mainWindow;
     private JPanel content;
 
-    public MainWindow(List<Renderer> renderer) {
+    public MainWindow(List<Renderer> renderer, int width, int height) {
 
 	content = new JPanel();
 	SpielFeld spielFeld = new SpielFeld(renderer);
-	spielFeld.setPreferredSize(new Dimension(205, 205));
+	spielFeld.setPreferredSize(new Dimension(width, height));
 	content.add(spielFeld);
 
 	mainWindow = new JFrame();
@@ -41,12 +42,6 @@ public class MainWindow {
 	mainWindow.setLocation(left, top);
     }
 
-    /**
-     * Lets the current shown window disappears. If the given boolean is true, the
-     * {@link BusinessDay} is checked for redundant entry
-     * 
-     * @param done
-     */
     public void dispose() {
 	mainWindow.dispose();
     }
@@ -57,10 +52,7 @@ public class MainWindow {
 	});
     }
 
-    /**
-     * 
-     */
     public void refresh() {
-	SwingUtilities.updateComponentTreeUI(mainWindow);
+	mainWindow.repaint();
     }
 }

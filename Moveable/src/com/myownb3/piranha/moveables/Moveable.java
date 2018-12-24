@@ -3,8 +3,11 @@
  */
 package com.myownb3.piranha.moveables;
 
+import java.util.List;
+
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.GridElement;
+import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.direction.Direction;
 
 /**
@@ -61,4 +64,18 @@ public interface Moveable extends GridElement {
      * @param degree
      */
     void makeTurn(double degree);
+
+    /**
+     * Moves this {@link Moveable} forward and makes a turn for the given amount of
+     * degrees as one atomic action
+     * 
+     * @param degree
+     */
+    void moveMakeTurnAndForward(double degree);
+
+    /**
+     * 
+     * @return a List with all the Points this {@link Moveable} has recently passed
+     */
+    List<Position> getPositionHistory();
 }

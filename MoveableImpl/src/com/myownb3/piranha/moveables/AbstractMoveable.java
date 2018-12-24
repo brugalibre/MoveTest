@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.myownb3.piranha.grid.AbstractGridElement;
@@ -22,11 +24,13 @@ import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
     private MoveablePostActionHandler handler;
+    private List<Position> positionHistory;
 
     public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
 	super(grid, position);
 	this.handler = handler;
 	this.handler.handlePostConditions(grid, this);
+	positionHistory = new ArrayList<>();
     }
 
     public AbstractMoveable(Grid grid, Position position) {
@@ -35,8 +39,15 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     }
 
     @Override
+    public void moveMakeTurnAndForward(double degree) {
+	makeTurnInternal(degree);
+	moveForward();
+    }
+
+    @Override
     public void moveForward() {
 	position = grid.moveForward(position);
+	trackPosition();
 	handler.handlePostConditions(grid, this);
     }
 
@@ -48,6 +59,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     @Override
     public void moveBackward() {
 	position = grid.moveBackward(position);
+	trackPosition();
 	handler.handlePostConditions(grid, this);
     }
 
@@ -64,15 +76,27 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     }
 
     @Override
+    public List<Position> getPositionHistory() {
+	return positionHistory;
+    }
+
+    @Override
     public void turnLeft() {
 	makeTurn(90);
     }
 
     @Override
     public void makeTurn(double degree) {
+	makeTurnInternal(degree);
+	if (degree != 0) {
+	    handler.handlePostConditions(grid, this);
+	}
+    }
+
+    private void makeTurnInternal(double degree) {
 	if (degree != 0) {
 	    position.rotate(degree);
-	    handler.handlePostConditions(grid, this);
+	    // trackPosition();
 	}
     }
 
@@ -85,6 +109,10 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	if (amount <= 0) {
 	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
 	}
+    }
+
+    private void trackPosition() {
+	positionHistory.add(position);
     }
 
     public static class MoveableBuilder {

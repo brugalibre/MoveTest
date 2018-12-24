@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Impl"/>
 	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/powermock-easymock-junit-1.7.1/powermock-easymock-1.7.1-full.jar"/>
 	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/mockito-all-1.10.19.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Movable_Ui"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -28,27 +28,16 @@ public class GridElementPainter extends Drawable<GridElement> implements Rendere
 	setBounds(new Rectangle((int) position.getX(), (int) position.getY(), height, width));
     }
 
-    public GridElementPainter(GridElement gridElement, int height, int width) {
-	this(gridElement, Color.BLACK, height, width);
-    }
-
-    /**
-     * @param value
-     */
-    public GridElementPainter(GridElement value, Rectangle bounds) {
-	super(value);
-	setBounds(bounds);
-    }
-
     @Override
     public void render(RenderContext graphicsCtx) {
 
+	int factor = 15;
 	Graphicsontext context = (Graphicsontext) graphicsCtx;
 	Graphics graphics = context.getGraphics();
 	graphics.setColor(color);
 
 	Position position = value.getPosition();
-	graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
-	graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+	graphics.drawRoundRect((int) position.getX() * factor, (int) position.getY() * factor, width, height, 2, 2);
+	graphics.fillRoundRect((int) position.getX() * factor, (int) position.getY() * factor, width, height, 2, 2);
     }
 }
