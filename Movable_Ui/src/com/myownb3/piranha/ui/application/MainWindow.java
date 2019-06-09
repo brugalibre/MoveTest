@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.ui.render.Renderer;
 
 /**

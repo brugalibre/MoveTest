@@ -47,7 +47,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     @Override
     public void moveForward() {
 	position = grid.moveForward(position);
-	trackPosition();
+	trackPosition(position);
 	handler.handlePostConditions(grid, this);
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     @Override
     public void moveBackward() {
 	position = grid.moveBackward(position);
-	trackPosition();
+	trackPosition(position);
 	handler.handlePostConditions(grid, this);
     }
 
@@ -96,7 +96,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     private void makeTurnInternal(double degree) {
 	if (degree != 0) {
 	    position.rotate(degree);
-	    // trackPosition();
+	    trackPosition(position);
 	}
     }
 
@@ -111,7 +111,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	}
     }
 
-    private void trackPosition() {
+    private void trackPosition(Position position) {
 	positionHistory.add(position);
     }
 

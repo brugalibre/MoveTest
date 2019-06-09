@@ -7,14 +7,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.MirrorGrid;
 import com.myownb3.piranha.grid.Obstacle;
 import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
@@ -61,17 +59,20 @@ public class MoveableLauncher {
 
     public static void visualizePositions(List<Position> posList, Obstacle obstacle) throws InterruptedException {
 
-	DefaultGrid grid = new SwappingGrid(500, 500);
+	DefaultGrid grid = new SwappingGrid(5000, 500);
 	int height = 5;
 	int width = 5;
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//
 		.collect(Collectors.toList());//
-	List<Renderer> renderers = getRenderers(gridElements, height, width);
 
+	List<Renderer> renderers = new ArrayList<>();
 	renderers.add(new GridElementPainter(obstacle, Color.RED, height, width));
 	renderers.add(new GridPainter(grid));
+
+	renderers.addAll(getRenderers(gridElements, height, width));
+
 	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(),
 		grid.getDimension().getHeight());
 	mainWindow.show();
