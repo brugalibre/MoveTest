@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Impl"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/libs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

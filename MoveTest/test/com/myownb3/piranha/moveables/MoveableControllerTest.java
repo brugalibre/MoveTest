@@ -32,7 +32,7 @@ import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
  */
 class MoveableControllerTest {
 
-    // @Test
+    // @Ignore
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
@@ -51,7 +51,7 @@ class MoveableControllerTest {
 	Assertions.assertThrows(NotImplementedException.class, ex);
     }
 
-    // @Test
+    // @Ignore
     void test_MoveForward_North() {
 
 	// Given
@@ -70,7 +70,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    // @Test
+    // @Ignore
     void test_MoveForward_South() {
 
 	// Given
@@ -89,7 +89,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    // @Test
+    // @Ignore
     void test_MoveMultipleTargets() {
 
 	// Given
@@ -109,7 +109,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    // @Test
+    // @Ignore
     void test_MoveMultipleTargets_ForwardCurved() {
 
 	// Given
@@ -131,7 +131,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    // @Test
+    // @Ignore
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
@@ -161,7 +161,7 @@ class MoveableControllerTest {
 	// Given
 	Grid grid = new DefaultGrid(100, 100);
 	ObstacleImpl obstacle = new ObstacleImpl(grid, Positions.of(10, 10));
-	DetectorImpl detector = new DetectorImpl(8, 45, 15, /* 11.25 */ 5.625);
+	DetectorImpl detector = new DetectorImpl(8, 45, 15, 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
 		.withHandler(new EvasionStateMachine(detector))//
 		.build();

@@ -8,10 +8,10 @@ import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.grid.GridElement;
+import com.myownb3.piranha.grid.Obstacle;
 
 /**
  * @author Dominic
@@ -19,18 +19,15 @@ import com.myownb3.piranha.ui.render.Renderer;
  */
 public class MainWindow {
     private JFrame mainWindow;
-    private JPanel content;
 
-    public MainWindow(List<Renderer> renderer, int width, int height) {
+    public MainWindow(List<Obstacle> obstacles, List<GridElement> gridElements, int width, int height) {
 
-	content = new JPanel();
-	SpielFeld spielFeld = new SpielFeld(renderer);
-	spielFeld.setPreferredSize(new Dimension(width, height));
-	content.add(spielFeld);
+	SpielFeld spielFeld = new SpielFeld(gridElements, obstacles);
 
 	mainWindow = new JFrame();
 	setLocation();
-	mainWindow.add(content);
+	mainWindow.add(spielFeld.getContent());
+	mainWindow.setPreferredSize(new Dimension(width, height));
 	mainWindow.pack();
 	mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

@@ -3,7 +3,7 @@
  */
 package com.myownb3.piranha.moveables;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	super(grid, position);
 	this.handler = handler;
 	this.handler.handlePostConditions(grid, this);
-	positionHistory = new ArrayList<>();
+	positionHistory = new LinkedList<>();
     }
 
     public AbstractMoveable(Grid grid, Position position) {
@@ -96,7 +96,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     private void makeTurnInternal(double degree) {
 	if (degree != 0) {
 	    position.rotate(degree);
-	    trackPosition(position);
 	}
     }
 

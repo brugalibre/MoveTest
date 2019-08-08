@@ -49,12 +49,12 @@ public class DirectionImpl implements Direction {
 
     @Override
     public double getForwardX() {
-	return Math.cos(Math.toRadians(rotation));
+	return Math.cos(Math.toRadians(rotation)) / 10;
     }
 
     @Override
     public double getForwardY() {
-	return Math.sin(Math.toRadians(rotation));
+	return Math.sin(Math.toRadians(rotation)) / 10;
     }
 
     @Override

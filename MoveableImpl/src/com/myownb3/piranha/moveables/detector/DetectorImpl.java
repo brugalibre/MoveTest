@@ -36,7 +36,7 @@ public class DetectorImpl implements Detector {
 	this.detectorReach = detectorReach;
 	this.detectorAngle = detectorAngle;
 	this.evasionAngle = evasionAngle;
-	this.evasionDistance = 2 * detectorReach / 3;
+	this.evasionDistance = 3 * detectorReach / 2;
 	this.angleInc = angleInc;
 	detectionMap = new HashMap<>();
 	isEvasionMap = new HashMap<>();
@@ -91,7 +91,7 @@ public class DetectorImpl implements Detector {
 	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, gridElementAngle, detectorAngle)
 		    && gridElementAngle >= ourAngle;
 
-	    if (isInUpperBounds /* && isInLowerBounds, might be true here as well */) {
+	    if (isInUpperBounds) {
 		avoidAngle = -angleInc;// Turn to the right
 	    } else {
 		avoidAngle = angleInc;// Turn to the left

@@ -8,6 +8,8 @@ import static com.myownb3.piranha.moveables.helper.EvasionStates.POST_ENVASION;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.RETURNING;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.myownb3.piranha.grid.Grid;
@@ -26,13 +28,13 @@ import com.myownb3.piranha.moveables.detector.Detector;
 public class EvasionStateMachine extends EvasionMoveableHelper {
 
     private int passingDistance;
-    private Map<Integer, MoveableExecutor> reverseExecutors;
+    private List<MoveableExecutor> reverseExecutors;
 
     private Map<EvasionStates, Integer> recursivCheck;
 
     public EvasionStateMachine(Detector detector, int passingDistance) {
 	super(detector);
-	reverseExecutors = new HashMap<>();
+	reverseExecutors = new LinkedList<>();
 	createAndInitMap();
 	this.passingDistance = passingDistance;
     }
@@ -54,7 +56,6 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	case DEFAULT:
 	    handleDefaultState(grid, moveable);
 	    break;
-
 	case ENVASION:
 	    System.err.println("ENVASION");
 	    handleEvasionState(grid, moveable);
@@ -65,11 +66,11 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	    break;
 	case PASSING:
 	    System.err.println("PASSING");
-	     handlePassing(moveable);
+	    handlePassing(moveable);
 	    break;
 	case RETURNING:
 	    System.err.println("RETURNING");
-	     handleReturning();
+	    handleReturning();
 	    break;
 	default:
 	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
@@ -102,16 +103,18 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	if (!isMethodCallAllowed(RETURNING)) {
 	    return;
 	}
+	handleReturningInternal();
+    }
+
+    private void handleReturningInternal() {
 	registerForRecursivCall(RETURNING);
-	// for (int i = 0; i < reverseExecutors.size(); i++) {
-	// MoveableExecutor moveableExecutor = reverseExecutors.get(i);
-	// moveableExecutor.execute();
-	// }
 	for (int i = reverseExecutors.size(); i > 0; i--) {
 	    MoveableExecutor moveableExecutor = reverseExecutors.get(i - 1);
 	    moveableExecutor.execute();
 	}
+	reverseExecutors.clear();
 	deregisterForRecursivCall(RETURNING);
+	evasionState = EvasionStates.DEFAULT;
     }
 
     private boolean isAngleCorrectionNecessary(Position position, Moveable moveable) {
@@ -122,31 +125,28 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 
     private void adjustDirection(Position startPos, Moveable moveable) {
 
-	double calcAbsolutAngle = startPos.getDirection().getAngle();// startPos.calcAbsolutAngle();
+	double calcAbsolutAngle = startPos.getDirection().getAngle();
 	double effectAngle2Turn = getAngle2Turn(moveable, calcAbsolutAngle);
-	addExecutor(moveable, effectAngle2Turn);
+	addExecutorIfNecessary(effectAngle2Turn, () -> moveable.moveMakeTurnAndForward(effectAngle2Turn));
 	moveable.moveMakeTurnAndForward(-effectAngle2Turn);
     }
 
     private double getAngle2Turn(Moveable moveable, double calcAbsolutAngle) {
-	return (moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
+	return -(moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
     }
 
     @Override
     protected void handleEvasionState(Grid grid, Moveable moveable) {
 
 	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
-	addExecutor(moveable, -avoidAngle);
+	addExecutorIfNecessary(avoidAngle, () -> moveable.makeTurn(-avoidAngle));
 	super.handleEvasionState(grid, moveable);
 	evasionState = POST_ENVASION;
     }
 
-    protected void addExecutor(Moveable moveable, double avoidAngle) {
-	if (avoidAngle != 0.0d) {
-	    int size = reverseExecutors.size();
-	    reverseExecutors.put(size++, () -> {
-		moveable.moveMakeTurnAndForward(avoidAngle);
-	    });
+    private void addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {
+	if (angle2Turn != 0.0d) {
+	    reverseExecutors.add(moveableExec);
 	}
     }
 
