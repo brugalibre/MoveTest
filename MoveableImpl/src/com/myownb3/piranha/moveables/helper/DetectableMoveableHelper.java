@@ -30,7 +30,6 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
 
     @Override
     public void handlePostConditions(Grid grid, Moveable moveable) {
-
 	checkSurrounding(grid, moveable);
     }
 

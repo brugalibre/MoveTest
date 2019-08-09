@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables.helper;
 
+import static com.myownb3.piranha.moveables.helper.EvasionStates.DEFAULT;
+import static com.myownb3.piranha.moveables.helper.EvasionStates.ENVASION;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.PASSING;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.POST_ENVASION;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.RETURNING;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
 
@@ -25,18 +28,22 @@ import com.myownb3.piranha.moveables.detector.Detector;
  * @author Dominic
  *
  */
-public class EvasionStateMachine extends EvasionMoveableHelper {
+public class EvasionStateMachine extends DetectableMoveableHelper {
 
+    private EvasionStates evasionState;
+
+    private Position positionBeforeEvasion;
     private int passingDistance;
     private List<MoveableExecutor> reverseExecutors;
-
     private Map<EvasionStates, Integer> recursivCheck;
 
     public EvasionStateMachine(Detector detector, int passingDistance) {
 	super(detector);
+	evasionState = DEFAULT;
+	positionBeforeEvasion = null;
+	this.passingDistance = passingDistance;
 	reverseExecutors = new LinkedList<>();
 	createAndInitMap();
-	this.passingDistance = passingDistance;
     }
 
     private void createAndInitMap() {
@@ -51,30 +58,49 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
     }
 
     @Override
-    protected void handleEvasion4CurrentState(Grid grid, Moveable moveable) {
+    public void handlePostConditions(Grid grid, Moveable moveable) {
+	super.handlePostConditions(grid, moveable);
 	switch (evasionState) {
 	case DEFAULT:
 	    handleDefaultState(grid, moveable);
 	    break;
 	case ENVASION:
-	    System.err.println("ENVASION");
+	    System.err.println("ENVASION (" + moveable.getPosition() + "'");
 	    handleEvasionState(grid, moveable);
 	    break;
 	case POST_ENVASION:
-	    System.err.println("POST_ENVASION");
+	    System.err.println("POST_ENVASION (" + moveable.getPosition() + "'");
 	    handlePostEvasion(moveable);
 	    break;
 	case PASSING:
-	    System.err.println("PASSING");
-	    handlePassing(moveable);
+	    System.err.println("PASSING (" + moveable.getPosition() + "'");
+	    handlePassing(grid, moveable);
 	    break;
 	case RETURNING:
-	    System.err.println("RETURNING");
+	    System.err.println("RETURNING (" + moveable.getPosition() + "'");
 	    handleReturning();
 	    break;
 	default:
 	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
 	}
+    }
+
+    private void handleDefaultState(Grid grid, Moveable moveable) {
+	boolean isEvasion = check4Evasion(grid, moveable);
+	if (isEvasion) {
+	    evasionState = ENVASION;
+	    positionBeforeEvasion = Positions.of(moveable.getPosition());
+	    handleEvasionState(grid, moveable);
+	}
+    }
+
+    private void handleEvasionState(Grid grid, Moveable moveable) {
+
+	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+	addExecutorIfNecessary(avoidAngle, () -> moveable.makeTurn(-avoidAngle));
+	moveable.makeTurn(avoidAngle);
+	checkSurrounding(grid, moveable);
+	evasionState = POST_ENVASION;
     }
 
     private void handlePostEvasion(Moveable moveable) {
@@ -85,17 +111,18 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 	evasionState = PASSING;
     }
 
-    private void handlePassing(Moveable moveable) {
+    private void handlePassing(Grid grid, Moveable moveable) {
 
-	if (isPassingUnnecessary(moveable)) {
+	if (isPassingUnnecessary(grid, moveable)) {
 	    // Since we are done with passing, lets go to the next state
 	    evasionState = RETURNING;
 	}
     }
 
-    private boolean isPassingUnnecessary(Moveable moveable) {
+    private boolean isPassingUnnecessary(Grid grid, Moveable moveable) {
 	Position position = moveable.getPosition();
-	return positionBeforeEvasion.calcDistanceTo(position) > passingDistance;
+	boolean isDistanceFarEnough = positionBeforeEvasion.calcDistanceTo(position) > passingDistance;
+	return isDistanceFarEnough && !check4Evasion(grid, moveable);
     }
 
     private void handleReturning() {
@@ -133,15 +160,6 @@ public class EvasionStateMachine extends EvasionMoveableHelper {
 
     private double getAngle2Turn(Moveable moveable, double calcAbsolutAngle) {
 	return -(moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
-    }
-
-    @Override
-    protected void handleEvasionState(Grid grid, Moveable moveable) {
-
-	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
-	addExecutorIfNecessary(avoidAngle, () -> moveable.makeTurn(-avoidAngle));
-	super.handleEvasionState(grid, moveable);
-	evasionState = POST_ENVASION;
     }
 
     private void addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {

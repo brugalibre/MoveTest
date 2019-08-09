@@ -36,7 +36,7 @@ public class DetectorImpl implements Detector {
 	this.detectorReach = detectorReach;
 	this.detectorAngle = detectorAngle;
 	this.evasionAngle = evasionAngle;
-	this.evasionDistance = 3 * detectorReach / 2;
+	this.evasionDistance = 2 * detectorReach / 3;
 	this.angleInc = angleInc;
 	detectionMap = new HashMap<>();
 	isEvasionMap = new HashMap<>();
