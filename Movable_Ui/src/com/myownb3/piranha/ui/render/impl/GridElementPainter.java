@@ -31,13 +31,12 @@ public class GridElementPainter extends Drawable<GridElement> implements Rendere
     @Override
     public void render(RenderContext graphicsCtx) {
 
-	int factor = 15;
-	Graphicsontext context = (Graphicsontext) graphicsCtx;
+	GraphicsContext context = (GraphicsContext) graphicsCtx;
 	Graphics graphics = context.getGraphics();
 	graphics.setColor(color);
 
 	Position position = value.getPosition();
-	graphics.drawRoundRect((int) position.getX() * factor, (int) position.getY() * factor, width, height, 2, 2);
-	graphics.fillRoundRect((int) position.getX() * factor, (int) position.getY() * factor, width, height, 2, 2);
+	graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+	graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
     }
 }

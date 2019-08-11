@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Obstacle;
+import com.myownb3.piranha.ui.render.Renderer;
 
 /**
  * @author Dominic
@@ -20,10 +21,21 @@ import com.myownb3.piranha.grid.Obstacle;
 public class MainWindow {
     private JFrame mainWindow;
 
+    public MainWindow(List<Renderer> renderer, int width, int height) {
+
+	SpielFeld spielFeld = new SpielFeld(renderer);
+	spielFeld.setPreferredSize(new Dimension(width, height));
+	mainWindow = new JFrame();
+	setLocation();
+	mainWindow.add(spielFeld);
+	mainWindow.pack();
+	mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
     public MainWindow(List<Obstacle> obstacles, List<GridElement> gridElements, int width, int height) {
-
-	SpielFeld spielFeld = new SpielFeld(gridElements, obstacles);
-
+	
+	ChartSpielFeld spielFeld = new ChartSpielFeld(gridElements, obstacles);
+	
 	mainWindow = new JFrame();
 	setLocation();
 	mainWindow.add(spielFeld.getContent());

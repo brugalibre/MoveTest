@@ -29,7 +29,7 @@ public class GridPainter extends Drawable<Grid> implements Renderer {
     public void render(RenderContext graphicsCtx) {
 
 	int factor = 15;
-	Graphicsontext context = (Graphicsontext) graphicsCtx;
+	GraphicsContext context = (GraphicsContext) graphicsCtx;
 
 	Graphics graphics = context.getGraphics();
 

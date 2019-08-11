@@ -178,6 +178,6 @@ class MoveableControllerTest {
 	assertThat(trackingList.isEmpty(), is(not(true)));
 	assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
-//	MoveableLauncher.visualizePositions(trackingList, obstacle);
+	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, obstacle);
     }
 }
