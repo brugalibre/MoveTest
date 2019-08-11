@@ -19,7 +19,7 @@ import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
-import com.myownb3.piranha.moveables.helper.EvasionMoveableHelper;
+import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
 
 /**
  * @author Dominic
@@ -40,7 +40,7 @@ class ScannerTest {
 	boolean isEvasion = true;
 
 	// When
-	moveable.moveForward(5);
+	moveable.moveForward(50);
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
 	// Then
@@ -144,7 +144,7 @@ class ScannerTest {
 	boolean isEvasionBeforeTurn = false;
 
 	// When
-	moveable.moveBackward(6);
+	moveable.moveBackward(60);
 	boolean isEffectivelyEvasionBeforeTurn = detector.isEvasion(obstacle);
 	moveable.makeTurn(180);
 	boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
@@ -181,13 +181,13 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
-		.withHandler(new EvasionMoveableHelper(detector))//
+		.withHandler(new EvasionStateMachine(detector))//
 		.build();
-	double expectedEndAngle = 61.875;
+	double expectedEndAngle = 90;
 	boolean expectedIsEvasion = false;
 
 	// When
-	moveable.moveForward(7);
+	moveable.moveForward(30);
 	Direction direction = moveable.getPosition().getDirection();
 	double effectEndAngle = direction.getAngle();
 	boolean effectIsEvasion = detector.isEvasion(obstacle);
@@ -203,16 +203,16 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1.8195117, 5));
-	Detector detector = new DetectorImpl(5, 45, 5.625);
+	Detector detector = new DetectorImpl(2, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
-		.withHandler(new EvasionMoveableHelper(detector))//
+		.withHandler(new EvasionStateMachine(detector))//
 		.build();
-	double expectedEndAngle = 136.875;
+	double expectedEndAngle = 120;
 	boolean expectedIsEvasion = false;
 
 	// When
 	moveable.makeTurn(30);
-	moveable.moveForward(5);
+	moveable.moveForward(15);
 	Direction direction = moveable.getPosition().getDirection();
 	double effectEndAngle = direction.getAngle();
 	boolean effectIsEvasion = detector.isEvasion(obstacle);
@@ -230,9 +230,9 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2.8867, 7));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
-		.withHandler(new EvasionMoveableHelper(detector))//
+		.withHandler(new EvasionStateMachine(detector))//
 		.build();
-	double expectedEndAngle = 88.75;
+	double expectedEndAngle = 100;
 	boolean expectedIsEvasion = false;
 
 	// When
@@ -254,7 +254,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 20));
 	Detector detector = new DetectorImpl();
 	new MoveableBuilder(grid)//
-		.withHandler(new EvasionMoveableHelper(detector))//
+		.withHandler(new EvasionStateMachine(detector))//
 		.build();
 	double expectedEndAngle = 0;
 	boolean expectedEvasion = false;
