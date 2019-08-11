@@ -54,7 +54,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     }
 
     public EvasionStateMachine(Detector detector) {
-	this(detector, 4);
+	this(detector, 2);
     }
 
     @Override
@@ -65,19 +65,15 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    handleDefaultState(grid, moveable);
 	    break;
 	case ENVASION:
-	    System.err.println("ENVASION (" + moveable.getPosition() + "'");
 	    handleEvasionState(grid, moveable);
 	    break;
 	case POST_ENVASION:
-	    System.err.println("POST_ENVASION (" + moveable.getPosition() + "'");
 	    handlePostEvasion(moveable);
 	    break;
 	case PASSING:
-	    System.err.println("PASSING (" + moveable.getPosition() + "'");
 	    handlePassing(grid, moveable);
 	    break;
 	case RETURNING:
-	    System.err.println("RETURNING (" + moveable.getPosition() + "'");
 	    handleReturning();
 	    break;
 	default:
@@ -93,16 +89,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    handleEvasionState(grid, moveable);
 	}
     }
-
-    private void handleEvasionState(Grid grid, Moveable moveable) {
-
-	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
-	addExecutorIfNecessary(avoidAngle, () -> moveable.makeTurn(-avoidAngle));
-	moveable.makeTurn(avoidAngle);
-	checkSurrounding(grid, moveable);
-	evasionState = POST_ENVASION;
-    }
-
+    
     private void handlePostEvasion(Moveable moveable) {
 	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
 	if (isAngleCorrectionNecessary) {
@@ -135,8 +122,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
     private void handleReturningInternal() {
 	registerForRecursivCall(RETURNING);
-	for (int i = reverseExecutors.size(); i > 0; i--) {
-	    MoveableExecutor moveableExecutor = reverseExecutors.get(i - 1);
+	for (MoveableExecutor moveableExecutor : reverseExecutors) {
 	    moveableExecutor.execute();
 	}
 	reverseExecutors.clear();
@@ -152,16 +138,26 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
     private void adjustDirection(Position startPos, Moveable moveable) {
 
-	double calcAbsolutAngle = startPos.getDirection().getAngle();
-	double effectAngle2Turn = getAngle2Turn(moveable, calcAbsolutAngle);
-	addExecutorIfNecessary(effectAngle2Turn, () -> moveable.moveMakeTurnAndForward(effectAngle2Turn));
-	moveable.moveMakeTurnAndForward(-effectAngle2Turn);
+	double effectAngle2Turn = getAngle2Turn(moveable, startPos.getDirection().getAngle());
+	addExecutorIfNecessary(-effectAngle2Turn, () -> moveable.moveMakeTurnAndForward(-effectAngle2Turn));
+	moveable.moveMakeTurnAndForward(effectAngle2Turn);
     }
 
     private double getAngle2Turn(Moveable moveable, double calcAbsolutAngle) {
-	return -(moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
+	return (moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
     }
 
+    private void handleEvasionState(Grid grid, Moveable moveable) {
+
+	double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+	if (avoidAngle != 0.0d) {
+	    addExecutorIfNecessary(-avoidAngle, () -> moveable.moveMakeTurnAndForward(-avoidAngle));
+	    moveable.moveMakeTurnAndForward(avoidAngle);
+	    checkSurrounding(grid, moveable);
+	}
+	evasionState = POST_ENVASION;
+    }
+    
     private void addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {
 	if (angle2Turn != 0.0d) {
 	    reverseExecutors.add(moveableExec);
