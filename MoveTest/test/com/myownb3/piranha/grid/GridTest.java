@@ -109,7 +109,7 @@ class GridTest {
 	// When
 	moveable.turnRight();
 	Executable ex = () -> {
-	    moveable.moveForward(11);
+	    moveable.moveForward(110);
 	};
 	// Then
 	assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -124,7 +124,7 @@ class GridTest {
 
 	// When
 	Executable ex = () -> {
-	    moveable.moveForward(11);
+	    moveable.moveForward(110);
 	};
 	// Then
 	assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -170,7 +170,7 @@ class GridTest {
 		.build();
 	Position expectedEndPosition = Positions.of(0, -1);
 	// When
-	moveable.moveBackward(1);
+	moveable.moveBackward(10);
 	// Then
 	assertThat(moveable.getPosition(), is(expectedEndPosition));
     }

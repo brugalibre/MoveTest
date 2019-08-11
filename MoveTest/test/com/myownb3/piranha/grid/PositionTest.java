@@ -241,9 +241,9 @@ class PositionTest {
 	Grid grid = new DefaultGrid(10, 10, -20, -20);
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(Directions.S, 0, 0))//
 		.build();
-	moveable.moveForward(10);
+	moveable.moveForward(100);
 	moveable.turnRight();
-	moveable.moveForward(5);
+	moveable.moveForward(50);
 	Position position = moveable.getPosition();
 	moveable.makeTurn(position.calcAbsolutAngle() - position.getDirection().getAngle());
 	return position;

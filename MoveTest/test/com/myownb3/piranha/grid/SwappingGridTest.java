@@ -21,8 +21,8 @@ class SwappingGridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10);
-	Position expectedPosition = Positions.of(Directions.N, 10, 1);
-	Position expectedPosition2 = Positions.of(Directions.O, 1, 10);
+	Position expectedPosition = Positions.of(Directions.N, 10, 0.1);
+	Position expectedPosition2 = Positions.of(Directions.O, 0.1, 10);
 
 	// When
 	Position createdPosition = grid.moveForward(Positions.of(Directions.N, 10, 10));
@@ -38,8 +38,8 @@ class SwappingGridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10);
-	Position expectedPosition = Positions.of(Directions.N, 4, 9);
-	Position expectedPosition2 = Positions.of(Directions.O, 9, 4);
+	Position expectedPosition = Positions.of(Directions.N, 4, 9.9);
+	Position expectedPosition2 = Positions.of(Directions.O, 9.9, 4);
 
 	// When
 	Position createdPosition = grid.moveBackward(Positions.of(Directions.N, 4, 0));
@@ -55,9 +55,9 @@ class SwappingGridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10, 5, 5);
-	Position expectedPosition = Positions.of(Directions.N, 10, 6);
-	Position expectedPosition2 = Positions.of(Directions.O, 6, 10);
-	Position expectedPosition3 = Positions.of(Directions.S, 10, 9);
+	Position expectedPosition = Positions.of(Directions.N, 10, 5.1);
+	Position expectedPosition2 = Positions.of(Directions.O, 5.1, 10);
+	Position expectedPosition3 = Positions.of(Directions.S, 10, 9.9);
 
 	// When
 	Position createdPosition = grid.moveForward(Positions.of(Directions.N, 10, 10));
@@ -75,9 +75,9 @@ class SwappingGridTest {
 
 	// Given
 	Grid grid = new SwappingGrid(10, 10, 5, 5);
-	Position expectedPosition = Positions.of(Directions.N, 9, 9);
-	Position expectedPosition2 = Positions.of(Directions.O, 9, 9);
-	Position expectedPosition3 = Positions.of(Directions.S, 5, 6);
+	Position expectedPosition = Positions.of(Directions.N, 9, 9.9);
+	Position expectedPosition2 = Positions.of(Directions.O, 9.9, 9);
+	Position expectedPosition3 = Positions.of(Directions.S, 5, 5.1);
 
 	// When
 	Position createdPosition = grid.moveBackward(Positions.of(Directions.N, 9, 5));

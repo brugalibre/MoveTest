@@ -38,7 +38,7 @@ class MirrorGridTest {
      */
     private void testMirrorInternal(Grid grid, Position position, Position position2, double expectedEndDegree) {
 	// When
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 150; i++) {
 	    position = grid.moveForward(position);
 	    position2 = grid.moveForward(position2);
 	}
@@ -54,7 +54,7 @@ class MirrorGridTest {
     public void testMirror2Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 10);
+	Grid grid = new MirrorGrid(20, 15);
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 4, 0);
 	position.rotate(45);
@@ -68,7 +68,7 @@ class MirrorGridTest {
     public void testMirror3Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 10, 0, -20);
+	Grid grid = new MirrorGrid(20, 15, 0, -20);
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);
@@ -124,7 +124,7 @@ class MirrorGridTest {
     public void testMirror3Quadrant_45_Y() {
 
 	// Given
-	Grid grid = new MirrorGrid(10, 200, -200, 0);
+	Grid grid = new MirrorGrid(15, 200, -200, 0);
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);

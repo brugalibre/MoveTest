@@ -39,9 +39,9 @@ class TestMove {
 	Moveable moveable = MoveableBuilder.builder()//
 		.build();
 
-	int maxMovements = 5;
+	int maxMovements = 50;
 	Position effectStartPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(0, -maxMovements);
+	Position expectedEndPosition = Positions.of(0, -maxMovements / Moveable.STEP_WITDH);
 
 	// When
 	for (int i = 0; i < maxMovements; i++) {
@@ -75,9 +75,9 @@ class TestMove {
 	Moveable moveable = MoveableBuilder.builder()//
 		.build();
 
-	int maxMovements = 5;
+	int maxMovements = 50;
 	Position effectStartPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(0, maxMovements);
+	Position expectedEndPosition = Positions.of(0, maxMovements / Moveable.STEP_WITDH);
 
 	// When
 	for (int i = 0; i < maxMovements; i++) {
@@ -134,7 +134,7 @@ class TestMove {
 	    moveable.turnRight();
 	    effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
 	}
-	moveable.moveForward();
+	moveable.moveForward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -164,7 +164,7 @@ class TestMove {
 	    moveable.turnRight();
 	    effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
 	}
-	moveable.moveForward();
+	moveable.moveForward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -216,7 +216,7 @@ class TestMove {
 
 	// When
 	moveable.turnLeft();
-	moveable.moveBackward();
+	moveable.moveBackward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -241,7 +241,7 @@ class TestMove {
 	    moveable.turnLeft();
 	    effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
 	}
-	moveable.moveBackward();
+	moveable.moveBackward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -271,7 +271,7 @@ class TestMove {
 	    moveable.turnLeft();
 	    effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
 	}
-	moveable.moveBackward();
+	moveable.moveBackward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -293,7 +293,7 @@ class TestMove {
 	DirectionImpl expectedDirection = Directions.N;
 
 	// When
-	moveable.moveBackward();
+	moveable.moveBackward(10);
 
 	// Then
 	Position endPosition = moveable.getPosition();
@@ -312,11 +312,11 @@ class TestMove {
 
 	// When
 	moveable.makeTurn(45);
-	moveable.moveForward(10);
+	moveable.moveForward(100);
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(null, -7.07, 7.07);
+	Position expectedEndPosition = Positions.of(null, -7.1, 7.1);
 
 	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
@@ -346,22 +346,22 @@ class TestMove {
 	// Given
 	Moveable moveable = MoveableBuilder.builder()//
 		.build();
-	Position expectedStopover1 = Positions.of(null, -3.535, 3.535);
-	Position expectedStopover2 = Positions.of(null, -6.433, 4.312);
-	Position expectedStopover3 = Positions.of(null, -5.397, 0.4483);
+	Position expectedStopover1 = Positions.of(null, -3.55, 3.55);
+	Position expectedStopover2 = Positions.of(null, -6.46, 4.33);
+	Position expectedStopover3 = Positions.of(null, -5.42, 0.45);
 
 	// When
 	moveable.makeTurn(45); // 135; x:-0.7071 ; y:+0.7071
-	moveable.moveForward(5); // x:-3.54 ; y: +3.54
+	moveable.moveForward(50); // x:-3.54 ; y: +3.54
 
 	Position effectStopover1 = moveable.getPosition();
 
 	moveable.makeTurn(30); // 165; x:-0.965925 ; y: 0.25882
-	moveable.moveForward(3); // x: -2.8978; y: 0.7764
+	moveable.moveForward(30); // x: -2.8978; y: 0.7764
 	Position effectStopover2 = moveable.getPosition();
 
 	moveable.makeTurn(-60); // 105; x: -0.258819; y:0.965925
-	moveable.moveBackward(4); // x:1.035276 ; y=3.8637
+	moveable.moveBackward(40); // x:1.035276 ; y=3.8637
 	Position effectStopover3 = moveable.getPosition();
 
 	// Then
@@ -379,11 +379,11 @@ class TestMove {
 
 	// When
 	moveable.makeTurn(-30);
-	moveable.moveBackward(10);
+	moveable.moveBackward(100);
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(null, -5, -8.66);
+	Position expectedEndPosition = Positions.of(null, -5, -8.7);
 
 	Assert.assertThat(endPosition, is(expectedEndPosition));
     }
