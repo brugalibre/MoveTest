@@ -32,7 +32,7 @@ import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
  */
 class MoveableControllerTest {
 
-    // @Ignore
+    @Test
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
@@ -51,7 +51,7 @@ class MoveableControllerTest {
 	Assertions.assertThrows(NotImplementedException.class, ex);
     }
 
-    // @Ignore
+    @Test
     void test_MoveForward_North() {
 
 	// Given
@@ -70,7 +70,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    // @Ignore
+    @Test
     void test_MoveForward_South() {
 
 	// Given
@@ -89,7 +89,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    // @Ignore
+    @Test
     void test_MoveMultipleTargets() {
 
 	// Given
@@ -109,7 +109,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    // @Ignore
+    @Test
     void test_MoveMultipleTargets_ForwardCurved() {
 
 	// Given
@@ -131,7 +131,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    // @Ignore
+    @Test
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
@@ -159,9 +159,9 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
 	// Given
-	Grid grid = new DefaultGrid(100, 100);
+	Grid grid = new DefaultGrid(200, 200);
 	ObstacleImpl obstacle = new ObstacleImpl(grid, Positions.of(10, 10));
-	DetectorImpl detector = new DetectorImpl(8, 45, 15, 5.625);
+	DetectorImpl detector = new DetectorImpl(5, 45, 15, 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
 		.withHandler(new EvasionStateMachine(detector))//
 		.build();
@@ -175,10 +175,10 @@ class MoveableControllerTest {
 	// Then
 	Position effectEndPos = moveable.getPosition();
 	List<Position> trackingList = moveable.getPositionHistory();
-	MoveableLauncher.visualizePositions(trackingList, obstacle);
 
 	assertThat(trackingList.isEmpty(), is(not(true)));
 	assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
+	MoveableLauncher.visualizePositions(trackingList, obstacle);
     }
 }

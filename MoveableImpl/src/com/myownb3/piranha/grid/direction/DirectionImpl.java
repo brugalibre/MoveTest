@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.myownb3.piranha.moveables.Moveable;
+
 /**
  * @author Dominic
  */
@@ -49,12 +51,12 @@ public class DirectionImpl implements Direction {
 
     @Override
     public double getForwardX() {
-	return Math.cos(Math.toRadians(rotation)) / 10;
+	return Math.cos(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
     }
 
     @Override
     public double getForwardY() {
-	return Math.sin(Math.toRadians(rotation)) / 10;
+	return Math.sin(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
     }
 
     @Override
