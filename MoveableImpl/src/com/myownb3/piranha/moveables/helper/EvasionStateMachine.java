@@ -30,7 +30,7 @@ import com.myownb3.piranha.moveables.detector.Detector;
  */
 public class EvasionStateMachine extends DetectableMoveableHelper {
 
-    private EvasionStates evasionState;
+    protected EvasionStates evasionState;
 
     private Position positionBeforeEvasion;
     private int passingDistance;

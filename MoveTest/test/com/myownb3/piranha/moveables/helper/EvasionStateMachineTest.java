@@ -34,10 +34,11 @@ class EvasionStateMachineTest {
 
 	EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl());
 	evasionStateMachine.evasionState = EvasionStates.NONE;
+	
 
 	// When
 	Executable ex = () -> {
-	    evasionStateMachine.handleEvasion4CurrentState(grid, moveable);
+	    evasionStateMachine.handlePostConditions(grid, moveable);
 	};
 
 	// Then
