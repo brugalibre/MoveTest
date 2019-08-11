@@ -4,9 +4,9 @@
 package com.myownb3.piranha.moveables.helper;
 
 import static com.myownb3.piranha.moveables.helper.EvasionStates.DEFAULT;
-import static com.myownb3.piranha.moveables.helper.EvasionStates.ENVASION;
+import static com.myownb3.piranha.moveables.helper.EvasionStates.EVASION;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.PASSING;
-import static com.myownb3.piranha.moveables.helper.EvasionStates.POST_ENVASION;
+import static com.myownb3.piranha.moveables.helper.EvasionStates.POST_EVASION;
 import static com.myownb3.piranha.moveables.helper.EvasionStates.RETURNING;
 
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private void createAndInitMap() {
 	recursivCheck = new HashMap<>();
 	recursivCheck.put(RETURNING, 0);
-	recursivCheck.put(POST_ENVASION, 0);
+	recursivCheck.put(POST_EVASION, 0);
 	recursivCheck.put(PASSING, 0);
     }
 
@@ -64,10 +64,10 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	case DEFAULT:
 	    handleDefaultState(grid, moveable);
 	    break;
-	case ENVASION:
+	case EVASION:
 	    handleEvasionState(grid, moveable);
 	    break;
-	case POST_ENVASION:
+	case POST_EVASION:
 	    handlePostEvasion(moveable);
 	    break;
 	case PASSING:
@@ -84,7 +84,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private void handleDefaultState(Grid grid, Moveable moveable) {
 	boolean isEvasion = check4Evasion(grid, moveable);
 	if (isEvasion) {
-	    evasionState = ENVASION;
+	    evasionState = EVASION;
 	    positionBeforeEvasion = Positions.of(moveable.getPosition());
 	    handleEvasionState(grid, moveable);
 	}
@@ -155,7 +155,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    moveable.moveMakeTurnAndForward(avoidAngle);
 	    checkSurrounding(grid, moveable);
 	}
-	evasionState = POST_ENVASION;
+	evasionState = POST_EVASION;
     }
     
     private void addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {

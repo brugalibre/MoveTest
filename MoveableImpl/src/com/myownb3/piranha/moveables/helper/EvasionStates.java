@@ -25,14 +25,14 @@ public enum EvasionStates {
     /**
      * Describes the effectively state of evasion the detected {@link GridElement}
      */
-    ENVASION,
+    EVASION,
 
     /**
      * Describes the state after a {@link GridElement} was evaded and the
      * {@link Moveable} is correcting it's direction bevore the {@link GridElement}
      * can be safely passed
      */
-    POST_ENVASION,
+    POST_EVASION,
 
     /**
      * Describes the state after a {@link Moveable} has evaded a {@link GridElement}
