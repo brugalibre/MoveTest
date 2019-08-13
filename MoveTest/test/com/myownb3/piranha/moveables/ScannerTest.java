@@ -19,7 +19,7 @@ import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
 import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.handler.EvasionStateMachine;
 
 /**
  * @author Dominic

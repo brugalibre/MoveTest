@@ -13,8 +13,6 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-<<<<<<< Upstream, based on origin/master
-import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
 =======
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
@@ -30,9 +28,9 @@ class EvasionStateMachineTest {
     /**
      * Test method for
 <<<<<<< Upstream, based on origin/master
-     * {@link com.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
+     * {@link com.myownb3.piranha.statemachine.impl.handler.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
 =======
-     * {@link com.myownb3.piranha.statemachine.impl.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
+     * {@link com.myownb3.piranha.statemachine.impl.handler.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
 >>>>>>> d27c863 Move EventStateMachine to new Package. Introduce new EventHandlers
      */
     @Test
