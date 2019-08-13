@@ -18,8 +18,8 @@ import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
-import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
+import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
 
 /**
  * @author Dominic

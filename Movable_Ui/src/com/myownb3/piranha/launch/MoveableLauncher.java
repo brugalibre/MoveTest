@@ -22,7 +22,7 @@ import com.myownb3.piranha.grid.SwappingGrid;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
+import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;

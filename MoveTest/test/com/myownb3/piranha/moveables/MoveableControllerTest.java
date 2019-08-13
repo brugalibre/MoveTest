@@ -23,7 +23,7 @@ import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-import com.myownb3.piranha.moveables.helper.EvasionStateMachine;
+import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
 
 /**
  * @author Dominic

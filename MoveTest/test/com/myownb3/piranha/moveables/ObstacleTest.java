@@ -16,7 +16,7 @@ import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
+import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
 
 /**
  * @author Dominic
