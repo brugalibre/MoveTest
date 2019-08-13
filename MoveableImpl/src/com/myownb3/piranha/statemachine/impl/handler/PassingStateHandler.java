@@ -1,15 +1,15 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler;
+package com.myownb3.piranha.statemachine.impl.handler;
 
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.POST_EVASION;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.moveables.statemachine.handler.EvenStateResult;
-import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.moveables.statemachine.impl.handler.input.PassingEventStateInput;
-import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.EvenStateResult;
+import com.myownb3.piranha.statemachine.handler.input.PassingEventStateInput;
+import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PassingStateHandler implements EvasionStatesHandler<PassingEventStateInput> {
 

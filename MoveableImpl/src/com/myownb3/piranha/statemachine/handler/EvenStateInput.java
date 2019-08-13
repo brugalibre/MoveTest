@@ -1,6 +1,6 @@
-package com.myownb3.piranha.moveables.statemachine.handler;
+package com.myownb3.piranha.statemachine.handler;
 
-import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
  * Any input values for a {@link EvasionStatesHandler} which handles a specific {@link EvasionStates}

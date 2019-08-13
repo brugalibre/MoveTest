@@ -1,4 +1,4 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler.result;
+package com.myownb3.piranha.statemachine.handler.output;
 
 import com.myownb3.piranha.grid.Position;
 

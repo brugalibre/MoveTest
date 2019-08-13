@@ -1,18 +1,18 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler;
+package com.myownb3.piranha.statemachine.impl.handler;
 
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.DEFAULT;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
 
 import java.util.Optional;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.moveables.statemachine.handler.EvenStateResult;
-import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
-import com.myownb3.piranha.moveables.statemachine.impl.handler.input.EvasionEventStateInput;
-import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.EvenStateResult;
+import com.myownb3.piranha.statemachine.handler.input.EvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class EvasionStateHandler implements EvasionStatesHandler<EvasionEventStateInput> {
 

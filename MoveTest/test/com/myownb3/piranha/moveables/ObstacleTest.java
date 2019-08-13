@@ -16,7 +16,11 @@ import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
+<<<<<<< Upstream, based on origin/master
 import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
+=======
+import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
+>>>>>>> d27c863 Move EventStateMachine to new Package. Introduce new EventHandlers
 
 /**
  * @author Dominic

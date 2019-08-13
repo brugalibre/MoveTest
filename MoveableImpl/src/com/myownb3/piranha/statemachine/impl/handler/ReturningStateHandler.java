@@ -1,15 +1,15 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler;
+package com.myownb3.piranha.statemachine.impl.handler;
 
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.RETURNING;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 
 import java.util.List;
 import java.util.Map;
 
-import com.myownb3.piranha.moveables.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.moveables.statemachine.handler.EvenStateResult;
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
-import com.myownb3.piranha.moveables.statemachine.impl.handler.input.ReturningEventStateInput;
-import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.EvenStateResult;
+import com.myownb3.piranha.statemachine.handler.input.ReturningEventStateInput;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class ReturningStateHandler implements EvasionStatesHandler<ReturningEventStateInput> {
 

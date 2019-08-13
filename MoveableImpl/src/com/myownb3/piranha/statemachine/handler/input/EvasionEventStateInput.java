@@ -1,10 +1,10 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler.input;
+package com.myownb3.piranha.statemachine.handler.input;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
 
 public class EvasionEventStateInput extends CommonEventStateInput {
 

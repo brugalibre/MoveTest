@@ -1,9 +1,9 @@
-package com.myownb3.piranha.moveables.statemachine.impl.handler.input;
+package com.myownb3.piranha.statemachine.handler.input;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.statemachine.handler.EvenStateInput;
-import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.handler.EvenStateInput;
+import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
 
 public class CommonEventStateInput implements EvenStateInput {
 
