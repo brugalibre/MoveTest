@@ -4,7 +4,6 @@
 package com.myownb3.piranha.statemachine.impl;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
-import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
@@ -86,9 +85,8 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private void handleDefaultState(Grid grid, Moveable moveable) {
 	boolean isEvasion = check4Evasion(grid, moveable);
 	if (isEvasion) {
-	    evasionState = EVASION;
+	    evasionState = EvasionStates.EVASION;
 	    positionBeforeEvasion = Positions.of(moveable.getPosition());
-	    handleEvasionState(grid, moveable);
 	}
     }
     

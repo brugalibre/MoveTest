@@ -5,6 +5,7 @@ package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
@@ -15,7 +16,7 @@ import com.myownb3.piranha.grid.Obstacle;
 import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
-import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 
 /**
  * @author Dominic
