@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.handler.output;
+package com.myownb3.piranha.statemachine.impl.handler.output;
 
 import com.myownb3.piranha.grid.Position;
 

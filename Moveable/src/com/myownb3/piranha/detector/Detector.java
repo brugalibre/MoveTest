@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables.detector;
+package com.myownb3.piranha.detector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.GridElement;

@@ -14,11 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 

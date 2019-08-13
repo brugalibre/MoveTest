@@ -1,5 +1,7 @@
 package com.myownb3.piranha.statemachine.handler;
 
+import com.myownb3.piranha.statemachine.handler.input.EvenStateInput;
+import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 

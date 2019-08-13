@@ -1,5 +1,6 @@
-package com.myownb3.piranha.statemachine.handler;
+package com.myownb3.piranha.statemachine.handler.input;
 
+import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**

@@ -7,8 +7,8 @@ import java.util.Map;
 
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.handler.EvenStateResult;
-import com.myownb3.piranha.statemachine.handler.input.ReturningEventStateInput;
+import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class ReturningStateHandler implements EvasionStatesHandler<ReturningEventStateInput> {

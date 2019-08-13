@@ -4,14 +4,14 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
 
 import java.util.Optional;
 
+import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.handler.EvenStateResult;
-import com.myownb3.piranha.statemachine.handler.input.EvasionEventStateInput;
+import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class EvasionStateHandler implements EvasionStatesHandler<EvasionEventStateInput> {

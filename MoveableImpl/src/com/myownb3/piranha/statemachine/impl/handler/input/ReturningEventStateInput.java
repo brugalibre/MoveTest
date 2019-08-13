@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.handler.input;
+package com.myownb3.piranha.statemachine.impl.handler.input;
 
 import java.util.List;
 

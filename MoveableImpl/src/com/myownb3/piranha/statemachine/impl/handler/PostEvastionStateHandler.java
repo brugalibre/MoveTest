@@ -8,8 +8,8 @@ import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.handler.EvenStateResult;
-import com.myownb3.piranha.statemachine.handler.input.CommonEventStateInput;
+import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PostEvastionStateHandler implements EvasionStatesHandler<CommonEventStateInput> {

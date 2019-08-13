@@ -1,24 +1,20 @@
-package com.myownb3.piranha.statemachine.handler.input;
+package com.myownb3.piranha.statemachine.impl.handler.input;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 
-public class EvasionEventStateInput extends CommonEventStateInput {
+public class PassingEventStateInput extends CommonEventStateInput {
 
     private Position positionBeforeEvasion;
-    private Detector detector;
     private int passingDistance;
 
-    public EvasionEventStateInput(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
+    public PassingEventStateInput(Grid grid, Moveable moveable, Position positionBeforeEvasion, int passingDistance,
+	    DetectableMoveableHelper helper) {
 	super(grid, moveable, helper);
-	this.detector = detector;
-    }
-
-    public Detector getDetector() {
-	return detector;
+	this.positionBeforeEvasion = positionBeforeEvasion;
+	this.passingDistance = passingDistance;
     }
 
     public Position getPositionBeforeEvasion() {
