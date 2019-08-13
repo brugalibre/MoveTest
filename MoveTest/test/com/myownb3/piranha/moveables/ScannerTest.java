@@ -18,13 +18,8 @@ import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.detector.Detector;
 import com.myownb3.piranha.moveables.detector.DetectorImpl;
-<<<<<<< Upstream, based on origin/master
 import com.myownb3.piranha.moveables.statemachine.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine;
-=======
-import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
->>>>>>> d27c863 Move EventStateMachine to new Package. Introduce new EventHandlers
 
 /**
  * @author Dominic

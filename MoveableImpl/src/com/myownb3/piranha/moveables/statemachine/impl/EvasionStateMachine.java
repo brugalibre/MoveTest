@@ -3,11 +3,12 @@
  */
 package com.myownb3.piranha.moveables.statemachine.impl;
 
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.DEFAULT;
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.EVASION;
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.PASSING;
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.POST_EVASION;
-import static com.myownb3.piranha.moveables.statemachine.states.EvasionStates.RETURNING;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
  * An {@link EvasionStateMachine} completes the {@link EvasionMoveableHelper}
