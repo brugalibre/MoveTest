@@ -5,7 +5,7 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import java.util.List;
 import java.util.Map;
 
-import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
+import com.myownb3.piranha.moveables.MoveableExecutor;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;

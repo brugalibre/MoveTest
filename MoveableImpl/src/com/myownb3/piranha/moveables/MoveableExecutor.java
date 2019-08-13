@@ -1,4 +1,4 @@
-package com.myownb3.piranha.moveables.statemachine.impl;
+package com.myownb3.piranha.moveables;
 
 @FunctionalInterface 
 public interface MoveableExecutor {
