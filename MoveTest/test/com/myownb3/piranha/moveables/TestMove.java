@@ -24,7 +24,7 @@ import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
-import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
+import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
  * @author Dominic

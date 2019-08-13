@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
@@ -22,7 +23,6 @@ import com.myownb3.piranha.grid.ObstacleImpl;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
-import com.myownb3.piranha.moveables.detector.DetectorImpl;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 
 /**

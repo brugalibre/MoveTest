@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables.helper;
+package com.myownb3.piranha.moveables.postaction;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;

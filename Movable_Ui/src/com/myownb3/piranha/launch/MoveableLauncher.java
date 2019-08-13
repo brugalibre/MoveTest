@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
@@ -21,7 +22,6 @@ import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.SwappingGrid;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.detector.DetectorImpl;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;

@@ -12,7 +12,7 @@ import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
-import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
+import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
  * The {@link AbstractMoveable} is responsible for doing the basic move elements

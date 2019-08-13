@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables.statemachine.impl;
+package com.myownb3.piranha.moveables.helper;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.detector.Detector;
-import com.myownb3.piranha.moveables.helper.MoveablePostActionHandler;
+import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
  * An {@link DetectableMoveableHelper} implements the {@link MoveablePostActionHandler}

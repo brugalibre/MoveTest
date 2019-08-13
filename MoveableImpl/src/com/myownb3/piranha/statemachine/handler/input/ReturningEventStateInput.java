@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.moveables.statemachine.impl.MoveableExecutor;
-import com.myownb3.piranha.statemachine.impl.DetectableMoveableHelper;
 
 public class ReturningEventStateInput extends CommonEventStateInput {
 

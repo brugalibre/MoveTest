@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.moveables.detector;
+package com.myownb3.piranha.detector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.moveables.detector.Detector;
 
 /**
  * @author Dominic
