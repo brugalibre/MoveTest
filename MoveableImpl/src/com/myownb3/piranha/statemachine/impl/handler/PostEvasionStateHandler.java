@@ -2,31 +2,41 @@ package com.myownb3.piranha.statemachine.impl.handler;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 
-import java.util.Optional;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableExecutor;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
-import com.myownb3.piranha.statemachine.states.EvasionStates;
+import com.myownb3.piranha.statemachine.impl.handler.input.PostEvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.output.PostEvasionEventStateResult;
 
-public class PostEvastionStateHandler implements EvasionStatesHandler<CommonEventStateInput> {
+public class PostEvasionStateHandler implements EvasionStatesHandler<PostEvasionEventStateInput> {
 
-    private Position positionBeforeEvasion;
+    private List<MoveableExecutor> executors;
 
-    @Override
-    public EvenStateResult handle(CommonEventStateInput evenStateInput) {
-	handlePostEvasion(evenStateInput.getMoveable());
-	return null;
+    public PostEvasionStateHandler() {
+	executors = new LinkedList<>();
     }
 
-    private void handlePostEvasion(Moveable moveable) {
+    @Override
+    public PostEvasionEventStateResult handle(PostEvasionEventStateInput evenStateInput) {
+	PostEvasionEventStateResult stateResult;
+	try {
+	    stateResult = handlePostEvasion(evenStateInput.getMoveable(), evenStateInput.getPositionBeforeEvasion());
+	} finally {
+	    cleanUp();
+	}
+	return stateResult;
+    }
+
+    private PostEvasionEventStateResult handlePostEvasion(Moveable moveable, Position positionBeforeEvasion) {
 	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
 	if (isAngleCorrectionNecessary) {
 	    adjustDirection(positionBeforeEvasion, moveable);
 	}
+	return PostEvasionEventStateResult.of(POST_EVASION.nextState(), new LinkedList<>(executors));
     }
 
     private boolean isAngleCorrectionNecessary(Position position, Moveable moveable) {
@@ -46,16 +56,17 @@ public class PostEvastionStateHandler implements EvasionStatesHandler<CommonEven
 	return (moveable.getPosition().getDirection().getAngle() - calcAbsolutAngle);
     }
 
-    private Optional<MoveableExecutor> addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {
+    private void addExecutorIfNecessary(double angle2Turn, MoveableExecutor moveableExec) {
 	if (angle2Turn != 0.0d) {
-	    return Optional.of(moveableExec);
+	    executors.add(moveableExec);
 	}
-	return Optional.empty();
     }
 
-    @Override
-    public EvasionStates getNextState() {
-	return POST_EVASION.nextState();
+    /*
+     * Clear all collected MoveableExecutors. Since as we leave this handle() Method
+     * we are done with all registered executors
+     */
+    private void cleanUp() {
+	executors.clear();
     }
-
 }

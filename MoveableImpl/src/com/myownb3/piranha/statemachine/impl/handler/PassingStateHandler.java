@@ -1,49 +1,50 @@
 package com.myownb3.piranha.statemachine.impl.handler;
 
-import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
-
-import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.handler.output.EvenStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.input.PassingEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PassingStateHandler implements EvasionStatesHandler<PassingEventStateInput> {
 
-    private DetectableMoveableHelper helper;
+    private int passingDistance;
 
-    public PassingStateHandler(DetectableMoveableHelper helper) {
-	this.helper = helper;
+    /**
+     * Creates a new {@link PassingStateHandler} with the given passing distance
+     * 
+     * @param passingDistance
+     *            the distance a {@link Moveable} passes its avoided
+     *            {@link GridElement}
+     */
+    public PassingStateHandler(int passingDistance) {
+	this.passingDistance = passingDistance;
     }
 
     @Override
-    public EvenStateResult handle(PassingEventStateInput evenStateInput) {
-	handlePassing(evenStateInput);
-	return null;
+    public CommonEventStateResult handle(PassingEventStateInput evenStateInput) {
+	return handlePassing(evenStateInput);
     }
 
-    private void handlePassing(PassingEventStateInput evenStateInput) {
+    private CommonEventStateResult handlePassing(PassingEventStateInput evenStateInput) {
 
-	if (isPassingUnnecessary(evenStateInput.getGrid(), evenStateInput.getMoveable(),
-		evenStateInput.getPositionBeforeEvasion(), evenStateInput.getPassingDistance())) {
+	if (isPassingUnnecessary(evenStateInput)) {
 	    // Since we are done with passing, lets go to the next state
-//	    evasionState = RETURNING;
+	    return CommonEventStateResult.of(EvasionStates.PASSING.nextState());
 	}
+	return CommonEventStateResult.of(EvasionStates.PASSING);
     }
 
-    private boolean isPassingUnnecessary(Grid grid, Moveable moveable, Position positionBeforeEvasion,
-	    int passingDistance) {
+    private boolean isPassingUnnecessary(PassingEventStateInput evenStateInput) {
+	Moveable moveable = evenStateInput.getMoveable();
+	DetectableMoveableHelper helper = evenStateInput.getHelper();
+
 	Position position = moveable.getPosition();
-	boolean isDistanceFarEnough = positionBeforeEvasion.calcDistanceTo(position) > passingDistance;
-	return isDistanceFarEnough && !helper.check4Evasion(grid, moveable);
-    }
+	boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion().calcDistanceTo(position) > passingDistance;
 
-    @Override
-    public EvasionStates getNextState() {
-	return POST_EVASION.nextState();
+	return isDistanceFarEnough && !helper.check4Evasion(evenStateInput.getGrid(), moveable);
     }
-
 }

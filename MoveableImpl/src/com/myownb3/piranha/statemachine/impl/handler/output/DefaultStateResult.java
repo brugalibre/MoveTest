@@ -1,17 +1,20 @@
 package com.myownb3.piranha.statemachine.impl.handler.output;
 
-import com.myownb3.piranha.grid.Position;
+import java.util.Optional;
 
-public class DefaultStateResult extends EmptyEvenStateResult {
+import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
+
+public class DefaultStateResult extends CommonEventStateResult {
 
     private Position positionBeforeEvasion;
 
-    public DefaultStateResult(Position positionBeforeEvasion) {
+    public DefaultStateResult(Position positionBeforeEvasion,EvasionStates nextState) {
+	super(nextState);
 	this.positionBeforeEvasion = positionBeforeEvasion;
     }
 
-    public Position getPositionBeforeEvasion() {
-	return positionBeforeEvasion;
+    public Optional<Position> getPositionBeforeEvasion() {
+	return Optional.ofNullable(positionBeforeEvasion);
     }
-
 }

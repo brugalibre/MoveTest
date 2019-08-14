@@ -8,6 +8,6 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  * @author DStalder
  *
  */
-public interface EvenStateInput {
+public interface EventStateInput {
     // Empty
 }

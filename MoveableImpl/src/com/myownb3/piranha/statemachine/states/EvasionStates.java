@@ -72,7 +72,7 @@ public enum EvasionStates {
     RETURNING {
 	@Override
 	public EvasionStates nextState() {
-	    return DEFAULT;
+	    return EvasionStates.NONE;
 	}
     };
     
