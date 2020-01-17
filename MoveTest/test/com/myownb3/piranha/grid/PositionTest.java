@@ -10,10 +10,8 @@ import static org.powermock.api.easymock.PowerMock.mockStatic;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.legacy.PowerMockRunner;
 
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
@@ -24,7 +22,6 @@ import com.myownb3.piranha.util.MathUtil;
  * @author Dominic
  *
  */
-@RunWith(PowerMockRunner.class)
 @PrepareForTest(Positions.class)
 class PositionTest {
 
