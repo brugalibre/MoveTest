@@ -129,7 +129,7 @@ public class MoveableController {
 
 	double angle2Turn = origAngle2Turn;
 	double prevDistance = distance;
-	while (has2MoveOr2Turn(distance, angle2Turn, prevDistance) && distance <= prevDistance) {
+	while (has2MoveOr2Turn(distance, angle2Turn, prevDistance)) {
 
 	    angle2Turn = turnIfNecessary(endPos, origAngle2Turn, turnFactor);
 	    distance = moveForwardIfNecessary(endPos, distance);
@@ -137,14 +137,13 @@ public class MoveableController {
     }
 
     private boolean has2MoveOr2Turn(double distance, double angle2Turn, double prevDistance) {
-	return distance >= moveable.getSmallestStepWith() || angle2Turn != 0;
+	return  distance <= prevDistance 
+		&& (distance >= moveable.getSmallestStepWith() || angle2Turn != 0);
     }
 
     private double turnIfNecessary(Position endPos, double origAngle2Turn, int turnFactor) {
-
 	double angle2Turn = moveable.getPosition().calcAngleRelativeTo(endPos);
 	if (angle2Turn != 0) {
-
 	    double diffAngle = getAngle2TurnIncrement(origAngle2Turn, angle2Turn, turnFactor);
 	    moveable.makeTurn(diffAngle);
 	    angle2Turn = angle2Turn - diffAngle;
