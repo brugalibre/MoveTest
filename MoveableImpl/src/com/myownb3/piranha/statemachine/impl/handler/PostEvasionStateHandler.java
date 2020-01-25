@@ -14,6 +14,7 @@ import com.myownb3.piranha.statemachine.impl.handler.output.PostEvasionEventStat
 
 public class PostEvasionStateHandler implements EvasionStatesHandler<PostEvasionEventStateInput> {
 
+    // The List of executors. This variable must be a member variable and can not be instantiated localy since the 'handle' methode is called recoursively
     private List<MoveableExecutor> executors;
 
     public PostEvasionStateHandler() {
