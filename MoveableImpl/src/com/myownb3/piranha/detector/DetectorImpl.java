@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
@@ -46,7 +46,7 @@ public class DetectorImpl implements Detector {
     public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
 	this(detectorReach, detectorAngle, detectorAngle, angleInc);
     }
-
+    
     @Override
     public void detectObject(GridElement gridElement, Position position) {
 
@@ -58,23 +58,14 @@ public class DetectorImpl implements Detector {
 
 	if (detectorReach >= distance) {
 
-	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
-	    double ourAngle = position.getDirection().getAngle();
-
-	    isDetected = isDetected(gridElementAngle, ourAngle, detectorAngle);
-	    isPotentialCollisionCourse = isDetected && isPotentialCollisionCourse(distance, gridElementAngle, ourAngle);
+	    int degValue = MathUtil.calcAngleBetweenVectors(position, gridElemPos);
+	    isDetected = degValue <= (detectorAngle / 2);
+	    if (isDetected && evasionDistance >= distance) {
+		isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
+	    }
 	}
 	detectionMap.put(gridElement, isDetected);
 	isEvasionMap.put(gridElement, isDetected && isPotentialCollisionCourse);
-    }
-
-    private boolean isDetected(double gridElementAngle, double ourAngle, double detectorAngle) {
-	return isWithinUpperBorder(ourAngle, gridElementAngle, detectorAngle)
-		&& gridElementAngle >= ourAngle - (detectorAngle / 2);
-    }
-
-    private boolean isPotentialCollisionCourse(double distance, double gridElementAngle, double ourAngle) {
-	return evasionDistance >= distance && isDetected(gridElementAngle, ourAngle, evasionAngle);
     }
 
     @Override

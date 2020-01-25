@@ -48,7 +48,7 @@ class ObstacleTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2, 7));
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
 	Detector detector = new DetectorImpl();
 	new MoveableBuilder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
@@ -67,7 +67,7 @@ class ObstacleTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(3, 7));
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
 	Detector detector = new DetectorImpl();
 
 	new MoveableBuilder(grid, Positions.of(1, 1))//
