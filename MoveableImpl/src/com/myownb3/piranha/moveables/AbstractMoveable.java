@@ -116,7 +116,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     public static class MoveableBuilder {
 
-	private Moveable moveable;
+	private AbstractMoveable moveable;
 
 	public static MoveableBuilder builder() {
 	    return new MoveableBuilder(new DefaultGrid(), Positions.of(0, 0));
@@ -133,15 +133,14 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	}
 
 	public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
-	    ((AbstractMoveable) moveable).handler = Objects.requireNonNull(handler,
-		    "A Moveable always needs a MoveablePostActionHandler!");
+	    moveable.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
 	    return this;
 	}
 
 	public Moveable build() {
-	    MoveablePostActionHandler handler = ((AbstractMoveable) moveable).handler;
+	    MoveablePostActionHandler handler = moveable.handler;
 	    Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-	    handler.handlePostConditions(((AbstractMoveable) moveable).grid, moveable);
+	    handler.handlePostConditions(moveable.grid, moveable);
 	    return this.moveable;
 	}
 
