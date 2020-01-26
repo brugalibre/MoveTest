@@ -36,6 +36,14 @@ public interface Moveable extends GridElement {
     void moveForward();
 
     /**
+     * Moves this {@link Moveable} one unit forward, considering the current. Note that there
+     * are no post-conditions checked e.g. checking for evasion
+     * 
+     * {@link Direction}
+     */
+    void moveForwardWithoutPostConditions();
+
+    /**
      * Moves this {@link Moveable} for the given amount of times forward,
      * considering the current {@link Direction}
      * 
@@ -77,12 +85,12 @@ public interface Moveable extends GridElement {
     void makeTurn(double degree);
 
     /**
-     * Moves this {@link Moveable} forward and makes a turn for the given amount of
-     * degrees as one atomic action
+     * Turns this {@link Moveable} for the given amount of degrees. Note that there
+     * are no post-conditions checked e.g. checking for evasion
      * 
      * @param degree
      */
-    void moveMakeTurnAndForward(double degree);
+    void makeTurnWithoutPostConditions(double degree);
 
     /**
      * 

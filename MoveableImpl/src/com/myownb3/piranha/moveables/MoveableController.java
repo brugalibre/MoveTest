@@ -108,7 +108,7 @@ public class MoveableController {
 	    prevDistance = distance;
 	    distance = endPos.calcDistanceTo(moveable.getPosition());
 
-	    if (distance >= prevDistance) {
+	    if (distance > prevDistance) {
 		break;// We are to late!
 	    }
 	}

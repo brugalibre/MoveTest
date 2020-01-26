@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.util;
 
+import static com.myownb3.piranha.grid.vector.VectorUtil.getVector;
 import static java.lang.Math.toDegrees;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -53,6 +54,25 @@ public class MathUtil {
     }
 
     /**
+     * Calculates the (ortogonal) distance from {@link Position} Q to the line which
+     * is created by the {@link Position} P and the vector a
+     * 
+     * @param posQ
+     *            the {@link Position} Q
+     * @param posPOnVector
+     *            the {@link Position} P placed on the vector
+     * @param a
+     *            the vector itself
+     * @return the distance between the point Q and the line 'PosQ' and vector
+     */
+    public static double calcDistanceFromPositionToLine(Position posQ, Position posPOnVector, Float64Vector a) {
+
+	Float64Vector posQVector = getVector(posQ);
+	Float64Vector posPVector = getVector(posPOnVector);
+	return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
+    }
+    
+    /**
      * Calculates the angle between the two Vectors which can be created between the given {@link Position}s.
      * The direection of the {@link Moveable}s position is considered.
      * 
@@ -63,10 +83,21 @@ public class MathUtil {
     public static double calcAngleBetweenPositions(Position moveablePosition, Position gridElementPos) {
 	Float64Vector moveable2GridElemVector = getVectorFromMoveable2GridElement(moveablePosition, gridElementPos);
 	Float64Vector moveableDirectionVector = getMoveableDirectionVector(moveablePosition.getDirection());
+	return calcAngleBetweenVectors(moveable2GridElemVector, moveableDirectionVector);
+    }
 
-	double moveableVectorTimesGridElemVector = moveableDirectionVector.times(moveable2GridElemVector).doubleValue();
-
-	return calcAngleBetweenVectors(moveableVectorTimesGridElemVector, moveable2GridElemVector.normValue(),  moveableDirectionVector.normValue());
+    /**
+     * Calculates the angle between the two vectors
+     * 
+     * @param vector1
+     *            the first vector
+     * @param vector2
+     *            the second vector
+     * @return the angle in degree between thos two vectors
+     */
+    public static double calcAngleBetweenVectors(Float64Vector vector1, Float64Vector vector2) {
+	double v1TimesV2 = vector2.times(vector1).doubleValue();
+	return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(),  vector2.normValue());
     }
 
     private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector, double moveable2GridElemVectorLenght, double moveableVectorLenght) {

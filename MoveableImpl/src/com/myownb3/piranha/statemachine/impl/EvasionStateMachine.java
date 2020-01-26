@@ -10,15 +10,12 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.MoveableExecutor;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.DefaultStateHandler;
@@ -33,7 +30,6 @@ import com.myownb3.piranha.statemachine.impl.handler.input.PostEvasionEventState
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.output.DefaultStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.output.EvasionEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.output.PostEvasionEventStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -52,23 +48,25 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private Map<EvasionStates, EvasionStatesHandler<?>> evasionStatesHandler2StateMap;
 
     private Position positionBeforeEvasion;
-    private List<MoveableExecutor> reverseExecutors;
 
     public EvasionStateMachine(Detector detector) {
+	this(detector, null);
+    }
+    
+    public EvasionStateMachine(Detector detector, Position endPos) {
 	super(detector);
-	createAndInitHandlerMap();
+	createAndInitHandlerMap(endPos);
 	evasionState = DEFAULT;
 	positionBeforeEvasion = null;
-	reverseExecutors = new LinkedList<>();
     }
 
-    private void createAndInitHandlerMap() {
+    private void createAndInitHandlerMap(Position endPos) {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
 	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler());
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler());
-	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler());
+	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos));
     }
 
     @Override
@@ -83,14 +81,12 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case EVASION:
 	    EvasionStateHandler evasionStateHandler = getHandler(EvasionStateHandler.class);
-	    EvasionEventStateResult evasionStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
+	    CommonEventStateResult evasionStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
 	    evasionState = evasionStateResult.getNextState();
-	    reverseExecutors = evasionStateResult.getExecutors();
 	    break;
 	case POST_EVASION:
 	    PostEvasionStateHandler postEvastionStateHandler = getHandler(PostEvasionStateHandler.class);
 	    PostEvasionEventStateResult postEvasionEventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(positionBeforeEvasion, moveable));
-	    reverseExecutors.addAll(postEvasionEventStateResult.getExecutors());
 	    evasionState = postEvasionEventStateResult.getNextState();
 	    break;
 	case PASSING:
@@ -100,7 +96,8 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case RETURNING:
 	    ReturningStateHandler returningStateHandler = getHandler(ReturningStateHandler.class);
-	    returningStateHandler.handle(ReturningEventStateInput.of(reverseExecutors));
+	    CommonEventStateResult eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(detector, positionBeforeEvasion, moveable));
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	default:
 	    throw new IllegalStateException("Unknown state'" + evasionState + "'");

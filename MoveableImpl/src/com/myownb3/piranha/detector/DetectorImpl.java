@@ -48,6 +48,11 @@ public class DetectorImpl implements Detector {
     }
     
     @Override
+    public double getAngleInc() {
+	return angleInc;
+    }
+    
+    @Override
     public int getEvasionDistance() {
         return evasionDistance;
     }
