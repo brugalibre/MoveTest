@@ -9,21 +9,15 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.StateFullEvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
 import com.myownb3.piranha.util.MathUtil;
 
-public class ReturningStateHandler implements EvasionStatesHandler<ReturningEventStateInput> {
+public class ReturningStateHandler implements StateFullEvasionStatesHandler<ReturningEventStateInput> {
 
-    /**
-     * 
-     */
-    private static final int ANGLE_INC_MULTIPLIER = 4;
-    /**
-     * 
-     */
-    private static final double MIN_DISTANCE = 0.032d;
+    private int angleIncMultiplier;
+    private double minDistance;
     private Position endPos;
     private boolean wasOrdinal;	// as soon as the moveable has a 90deg angle to the 'returning' vector this flag is set to true
 
@@ -33,13 +27,25 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
      * 
      * @param endPos
      *            the final end position
+     * @param angleIncMultiplier
+     *            the multiplier used to calculate the angle for correction maneuver
+     * @param minDistance
+     *            the minimal distance to the vector which shows the direction to
+     *            the end-point (a {@link Moveable} has to reach
      */
-    public ReturningStateHandler(Position endPos) {
+    public ReturningStateHandler(Position endPos, int angleIncMultiplier, double minDistance) {
 	super();
 	this.endPos = endPos;
 	this.wasOrdinal = false;
+	this.angleIncMultiplier = angleIncMultiplier;
+	this.minDistance = minDistance;
     }
 
+    @Override
+    public void init() {
+	this.wasOrdinal = false;	
+    }
+    
     @Override
     public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
 	requireEndPosNonNull();
@@ -69,7 +75,7 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
 
     private static double calcAngle(Moveable moveable, Float64Vector endPosLine) {
 	Float64Vector moveableVector = getVector(moveable.getPosition().getDirection());
-	return MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector);
+	return MathUtil.round(MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector), 10);
     }
 
     private void makeDirectionCorretions(Detector detector, Moveable moveable, double currentAngle) {
@@ -79,10 +85,10 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
 	double angle2Turn;
 	if (!wasOrdinal) {
 	    double actualDiff = 90.0d - currentAngle;
-	    angle2Turn = Math.min(actualDiff, detector.getAngleInc() * ANGLE_INC_MULTIPLIER);
+	    angle2Turn = Math.min(actualDiff, detector.getAngleInc() * angleIncMultiplier);
 	} else {
 	    double actualDiff = 0 - currentAngle;
-	    angle2Turn = Math.max(actualDiff, -detector.getAngleInc() * ANGLE_INC_MULTIPLIER);
+	    angle2Turn = Math.max(actualDiff, -detector.getAngleInc() * angleIncMultiplier);
 	}
 	moveable.makeTurnWithoutPostConditions(angle2Turn);
     }
@@ -104,9 +110,9 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
      * and 'the final end-position'
      * 
      */
-    private boolean isMoveableOnEndPosDirection(Float64Vector endPosDirectionVector, Position positionBeforeEvasion, Position movebalePos) {
-	double distance = MathUtil.calcDistanceFromPositionToLine(movebalePos, positionBeforeEvasion, endPosDirectionVector);
-	return distance <= MIN_DISTANCE;
+    private boolean isMoveableOnEndPosDirection(Float64Vector endPosDirectionVector, Position positionBeforeEvasion, Position moveablePos) {
+	double distance = MathUtil.calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosDirectionVector);
+	return distance <= minDistance;
     }
 
     /*

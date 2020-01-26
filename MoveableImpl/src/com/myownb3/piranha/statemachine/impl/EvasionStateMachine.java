@@ -14,10 +14,12 @@ import java.util.Map;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.Obstacle;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.StateFullEvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.DefaultStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.EvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.PassingStateHandler;
@@ -38,35 +40,38 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  * because the {@link EvasionStateMachine} can handle the complete evasion
  * maneuvre evasion
  * 
+ * The minimum distance to correctly recognize an {@link Obstacle} and handle an evasion maneuvre
+ * is three ints. So e.g the first Obstacle is placed at Position (5, 5) and
+ * that means, the second can be placed the earliest at Position (8, 8)
+ * 
  * @author Dominic
  *
  */
 public class EvasionStateMachine extends DetectableMoveableHelper {
 
     /*Visible4Testing*/ EvasionStates evasionState;
-
     private Map<EvasionStates, EvasionStatesHandler<?>> evasionStatesHandler2StateMap;
 
     private Position positionBeforeEvasion;
 
     public EvasionStateMachine(Detector detector) {
-	this(detector, null);
+	this(detector, null, 4, 0.05);
     }
     
-    public EvasionStateMachine(Detector detector, Position endPos) {
+    public EvasionStateMachine(Detector detector, Position endPos, int angleIncMultiplier, double minDistance) {
 	super(detector);
-	createAndInitHandlerMap(endPos);
+	createAndInitHandlerMap(endPos, angleIncMultiplier, minDistance);
 	evasionState = DEFAULT;
 	positionBeforeEvasion = null;
     }
 
-    private void createAndInitHandlerMap(Position endPos) {
+    private void createAndInitHandlerMap(Position endPos, int angleIncMultiplier, double minDistance) {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
 	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler());
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler());
-	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos));
+	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos, angleIncMultiplier, minDistance));
     }
 
     @Override
@@ -99,11 +104,25 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    CommonEventStateResult eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(detector, positionBeforeEvasion, moveable));
 	    evasionState = eventStateResult.getNextState();
 	    break;
+	case RE_INIT:
+	    reInit();
+	    handlePostConditions(grid, moveable);
+	    break;
 	default:
 	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
 	}
     }
 
+    private void reInit() {
+	evasionStatesHandler2StateMap.values()
+		.stream()
+		.filter(StateFullEvasionStatesHandler.class::isInstance)
+		.map(StateFullEvasionStatesHandler.class::cast)
+		.forEach(StateFullEvasionStatesHandler::init);
+	positionBeforeEvasion = null;
+	evasionState = EvasionStates.DEFAULT;
+    }
+    
     private Position setPositionBeforeEvasion(DefaultStateResult evenStateResult) {
 	return positionBeforeEvasion = evenStateResult.getPositionBeforeEvasion().orElse(positionBeforeEvasion);
     }
