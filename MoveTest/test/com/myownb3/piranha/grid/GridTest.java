@@ -14,6 +14,7 @@ import org.junit.jupiter.api.function.Executable;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.test.Assert;
 
 /**
  * @author Dominic
@@ -172,7 +173,7 @@ class GridTest {
 	// When
 	moveable.moveBackward(10);
 	// Then
-	assertThat(moveable.getPosition(), is(expectedEndPosition));
+	Assert.assertThatPosition(moveable.getPosition(), is(expectedEndPosition), 3);
     }
 
     @Test

@@ -52,7 +52,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 
 	Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
     }
 
     @Test
@@ -88,7 +88,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 
 	Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
     }
 
     ///////////////////////////////////////////////
@@ -140,7 +140,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(Directions.S, 0, -1);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -170,7 +170,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(Directions.W, -1, 0);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -222,7 +222,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(Directions.W, 1, 0);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
     }
 
     @Test
@@ -247,7 +247,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(Directions.S, 0, 1);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -277,7 +277,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(Directions.O, -1, 0);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
 	for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
 	    Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
@@ -299,7 +299,7 @@ class TestMove {
 	Position endPosition = moveable.getPosition();
 	Position expectedEndPosition = Positions.of(0, -1);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 	Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
     }
 
@@ -316,9 +316,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(null, -7.1, 7.1);
+	Position expectedEndPosition = Positions.of(null, -7.071, 7.071);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
     }
 
     @Test
@@ -346,9 +346,9 @@ class TestMove {
 	// Given
 	Moveable moveable = MoveableBuilder.builder()//
 		.build();
-	Position expectedStopover1 = Positions.of(null, -3.55, 3.55);
-	Position expectedStopover2 = Positions.of(null, -6.46, 4.33);
-	Position expectedStopover3 = Positions.of(null, -5.42, 0.45);
+	Position expectedStopover1 = Positions.of(null, -3.536, 3.536);
+	Position expectedStopover2 = Positions.of(null, -6.433, 4.312);
+	Position expectedStopover3 = Positions.of(null, -5.398, 0.448);
 
 	// When
 	moveable.makeTurn(45); // 135; x:-0.7071 ; y:+0.7071
@@ -365,9 +365,9 @@ class TestMove {
 	Position effectStopover3 = moveable.getPosition();
 
 	// Then
-	Assert.assertThat(effectStopover1, is(expectedStopover1));
-	Assert.assertThat(effectStopover2, is(expectedStopover2));
-	Assert.assertThat(effectStopover3, is(expectedStopover3));
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectStopover1, is(expectedStopover1), 3);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectStopover2, is(expectedStopover2), 3);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectStopover3, is(expectedStopover3), 3);
     }
 
     @Test
@@ -383,9 +383,9 @@ class TestMove {
 
 	// Then
 	Position endPosition = moveable.getPosition();
-	Position expectedEndPosition = Positions.of(null, -5, -8.7);
+	Position expectedEndPosition = Positions.of(null, -5, -8.66);
 
-	Assert.assertThat(endPosition, is(expectedEndPosition));
+	com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
     }
 
     private static class MoveablePostActionHandlerTest implements MoveablePostActionHandler {

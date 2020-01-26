@@ -60,14 +60,17 @@ public class MoveableLauncher {
     }
 
     public static void visualizePositionsWithJFreeChart(List<Position> posList, Obstacle obstacle) throws InterruptedException {
+	visualizePositionsWithJFreeChart(posList, Collections.singletonList(obstacle));
+    }
 
+    public static void visualizePositionsWithJFreeChart(List<Position> posList, List<Obstacle> obstacles) throws InterruptedException {
 	DefaultGrid grid = new SwappingGrid(500, 500);
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//
 		.collect(Collectors.toList());//
 
-	MainWindow mainWindow = new MainWindow(Collections.singletonList(obstacle), gridElements, grid.getDimension().getWidth(), grid.getDimension().getHeight());
+	MainWindow mainWindow = new MainWindow(obstacles, gridElements, grid.getDimension().getWidth(), grid.getDimension().getHeight());
 	mainWindow.show();
 	Thread.sleep(Integer.MAX_VALUE);
     }

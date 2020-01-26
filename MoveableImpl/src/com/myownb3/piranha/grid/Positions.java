@@ -83,17 +83,33 @@ public class Positions {
 	private Direction direction;
 
 	/**
+	 * Creates a new {@link PositionImpl} with the given coordinates The
+	 * {@link Direction} is set to {@link Directions#N} by default
+	 * 
 	 * @param x
+	 *            the x axis value
 	 * @param y
+	 *            the y axis value
 	 */
 	public PositionImpl(double x, double y) {
 	    this(Directions.N, x, y);
 	}
 
+	/**
+	 * Creates a new {@link PositionImpl} with the given coordinates and
+	 * {@link Direction}
+	 * 
+	 * @param direction
+	 *            the desired direction
+	 * @param x
+	 *            the x axis value
+	 * @param y
+	 *            the y axis value
+	 */
 	public PositionImpl(Direction direction, double x, double y) {
 	    this.direction = direction;
-	    this.x = MathUtil.roundThreePlaces(x);
-	    this.y = MathUtil.roundThreePlaces(y);
+	    this.x = MathUtil.round(x, 10);
+	    this.y = MathUtil.round(y, 10);
 	}
 
 	/**
@@ -124,11 +140,9 @@ public class Positions {
 
 	@Override
 	public double calcDistanceTo(Position position) {
-
 	    Position distanceVector = Positions.of(position.getX() - x, position.getY() - y);
-	    double sqrt = Math.sqrt(
+	    return Math.sqrt(
 		    distanceVector.getX() * distanceVector.getX() + distanceVector.getY() * distanceVector.getY());
-	    return MathUtil.roundThreePlaces(sqrt);
 	}
 
 	@Override

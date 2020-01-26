@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.test.Assert;
 
 /**
  * @author Dominic
@@ -29,8 +30,8 @@ class SwappingGridTest {
 	Position createdPosition2 = grid.moveForward(Positions.of(Directions.O, 10, 10));
 
 	// Then
-	assertThat(createdPosition, is(expectedPosition));
-	assertThat(createdPosition2, is(expectedPosition2));
+	Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
+	Assert.assertThatPosition(createdPosition2, is(expectedPosition2), 3);
     }
 
     @Test

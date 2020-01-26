@@ -118,7 +118,7 @@ public class DirectionImpl implements Direction {
 
     @Override
     public String toString() {
-	return cardinalDirection;
+	return "Cardinal-Direction:" + cardinalDirection + ", Rotation: " + rotation;
     }
 
     private static Map<Integer, String> getDegree2DirectionMap() {

@@ -22,8 +22,8 @@ public class MathUtil {
 
     public static double round(double value, int places) {
 
-	if (places < 0 || places > 10) {
-	    throw new IllegalArgumentException("The amount of decimal places must be between 0 and 10!");
+	if (places < 0 || places > 30) {
+	    throw new IllegalArgumentException("The amount of decimal places must be between 0 and 30!");
 	}
 	double factor = calcFactor(places);
 	return (double) Math.round(value * factor) / factor;
@@ -102,7 +102,7 @@ public class MathUtil {
 
     private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector, double moveable2GridElemVectorLenght, double moveableVectorLenght) {
 	double radValue = Math.acos(moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght));
-	return roundThreePlaces(toDegrees(radValue));
+	return toDegrees(radValue);
     }
 
     private static Float64Vector getMoveableDirectionVector(Direction moveableDirection) {

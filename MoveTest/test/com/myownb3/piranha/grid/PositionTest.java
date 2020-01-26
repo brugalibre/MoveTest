@@ -271,7 +271,7 @@ class PositionTest {
 	// When
 	double effectDistance = endPoint.calcDistanceTo(startPoint);
 	// Then
-	Assert.assertThat(effectDistance, is(expectedDistance));
+	Assert.assertThat(MathUtil.roundThreePlaces(effectDistance), is(expectedDistance));
     }
 
     @Test

@@ -27,4 +27,9 @@ public class AbstractGridElement implements GridElement {
     public Position getPosition() {
 	return position;
     }
+    
+    @Override
+    public String toString() {
+        return "Position: " + position + "\n" + grid;
+    }
 }

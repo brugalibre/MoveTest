@@ -149,7 +149,7 @@ class MathUtilTest {
 
 	// When
 	Executable ex = () -> {
-	    MathUtil.round(pi, 11);
+	    MathUtil.round(pi, 31);
 	};
 	// Then
 	Assertions.assertThrows(IllegalArgumentException.class, ex);
