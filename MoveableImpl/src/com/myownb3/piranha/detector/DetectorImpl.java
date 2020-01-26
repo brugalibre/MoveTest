@@ -63,7 +63,7 @@ public class DetectorImpl implements Detector {
 
 	if (detectorReach >= distance) {
 
-	    int degValue = MathUtil.calcAngleBetweenVectors(position, gridElemPos);
+	    double degValue = MathUtil.calcAngleBetweenPositions(position, gridElemPos);
 	    isDetected = degValue <= (detectorAngle / 2);
 	    if (isDetected && evasionDistance >= distance) {
 		isPotentialCollisionCourse = degValue <= (evasionAngle / 2);

@@ -3,17 +3,73 @@
  */
 package com.myownb3.piranha.util;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.direction.Directions;
+
 /**
  * @author Dominic
  *
  */
 class MathUtilTest {
+
+    @Test
+    void testCalcAngle_SecondSector() {
+
+	// Given
+	double expectedCalcAngleBetweenVectors = 26.565;
+	
+	Position gridElementPos = Positions.of(-2, 7);
+	Position moveablePosition = Positions.of(1, 1);
+	
+	// When
+	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+
+	// Then
+	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+    }
+
+    @Test
+    void testCalcAngle_FirstAndForthSector() {
+	
+	// Given
+	double expectedCalcAngleBetweenVectors = 54.462;
+	
+	Position gridElementPos = Positions.of(8, -4);
+	Position moveablePosition = Positions.of(Directions.S, 1, 1);
+	
+	// When
+	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+	
+	// Then
+	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+    }
+    
+    @Test
+    void testCalcAngle_ThirdAndForthSector() {
+	
+	// Given
+	double expectedCalcAngleBetweenVectors = 52.12;
+
+	Position gridElementPos = Positions.of(8, -4);
+	Position moveablePosition = Positions.of(Directions.S, -2, -2);
+	moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
+	
+	// When
+	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+	
+	// Then
+	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+    }
 
     @Test
     void testRoundDown_ToDecimals() {

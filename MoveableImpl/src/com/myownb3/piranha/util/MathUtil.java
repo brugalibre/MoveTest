@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.util;
 
+import static java.lang.Math.toDegrees;
+
 import org.jscience.mathematics.number.Float64;
 import org.jscience.mathematics.vector.Float64Vector;
 import org.jscience.mathematics.vector.Vector;
@@ -54,12 +56,13 @@ public class MathUtil {
 
     /**
      * Calculates the angle between the two Vectors which can be created between the given {@link Position}s.
-     * The direection of the {@link Moveable}s position is considered
+     * The direection of the {@link Moveable}s position is considered.
+     * 
      * @param moveablePosition the position from a {@link Moveable}
      * @param gridElementPos the position of a {@link GridElement} on a {@link Grid} 
-     * @return the calculated angle
+     * @return the calculated angle with a precision of three decimal places
      */
-    public static int calcAngleBetweenVectors(Position moveablePosition, Position gridElementPos) {
+    public static double calcAngleBetweenPositions(Position moveablePosition, Position gridElementPos) {
 	Vector<Float64> moveable2GridElemVector = getVectorFromMoveable2GridElement(moveablePosition, gridElementPos);
 	Vector<Float64> moveableDirectionVector = getMoveableDirectionVector(moveablePosition.getDirection());
 
@@ -70,9 +73,9 @@ public class MathUtil {
 	return calcAngleBetweenVectors(moveableVectorTimesGridElemVector, moveable2GridElemVectorLenght, moveableVectorLenght);
     }
 
-    private static int calcAngleBetweenVectors(double moveableVectorTimesGridElemVector, double moveable2GridElemVectorLenght, double moveableVectorLenght) {
+    private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector, double moveable2GridElemVectorLenght, double moveableVectorLenght) {
 	double radValue = Math.acos(moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght));
-	return (int) Math.toDegrees(radValue);
+	return roundThreePlaces(toDegrees(radValue));
     }
 
     private static Vector<Float64> getMoveableDirectionVector(Direction moveableDirection) {
