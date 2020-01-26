@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
+
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
@@ -265,6 +266,27 @@ class ScannerTest {
 
 	// Then
 	assertThat(effectEndAngle, is(expectedEndAngle));
+	assertThat(effectIsEvasion, is(expectedEvasion));
+    }
+
+    @Test
+    public void testNotEvasionObstactleAlreadyPassed() {
+	
+	// Given
+	Grid grid = new DefaultGrid(10, 10);
+	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(5, 5));
+	Detector detector = new DetectorImpl();
+	Moveable moveable = new MoveableBuilder(grid, Positions.of(6, 6))//
+		.withHandler(new EvasionStateMachine(detector))//
+		.build();
+	// Must not be an evasion since we are placed 'in front' of the obstacle
+	boolean expectedEvasion = false;
+
+	// When
+	moveable.makeTurn(-45);
+
+	// Then
+	boolean effectIsEvasion = detector.isEvasion(obstacle);
 	assertThat(effectIsEvasion, is(expectedEvasion));
     }
 }
