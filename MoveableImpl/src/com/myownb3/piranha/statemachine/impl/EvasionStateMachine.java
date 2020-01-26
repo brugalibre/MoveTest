@@ -54,25 +54,21 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private Position positionBeforeEvasion;
     private List<MoveableExecutor> reverseExecutors;
 
-    public EvasionStateMachine(Detector detector, int passingDistance) {
+    public EvasionStateMachine(Detector detector) {
 	super(detector);
-	createAndInitHandlerMap(passingDistance);
+	createAndInitHandlerMap();
 	evasionState = DEFAULT;
 	positionBeforeEvasion = null;
 	reverseExecutors = new LinkedList<>();
     }
 
-    private void createAndInitHandlerMap(int passingDistance) {
+    private void createAndInitHandlerMap() {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
 	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler());
-	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(passingDistance));
+	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler());
 	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler());
-    }
-
-    public EvasionStateMachine(Detector detector) {
-	this(detector, 2);
     }
 
     @Override
@@ -99,7 +95,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case PASSING:
 	    PassingStateHandler passingStateHandler = getHandler(PassingStateHandler.class);
-	    CommonEventStateResult passingStateResult = passingStateHandler.handle(PassingEventStateInput.of(grid, moveable, positionBeforeEvasion, this));
+	    CommonEventStateResult passingStateResult = passingStateHandler.handle(PassingEventStateInput.of(grid, moveable, positionBeforeEvasion, this, detector.getEvasionDistance()));
 	    evasionState = passingStateResult.getNextState();
 	    break;
 	case RETURNING:

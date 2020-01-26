@@ -18,6 +18,12 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Detector {
 
     /**
+     * Returns the range in within this detector detects an evasion 
+     * @return
+     */
+    int getEvasionDistance();
+    
+    /**
      * Evaluates if the given {@link GridElement} has been detected by this Detector
      * 
      * @param gridElement

@@ -1,6 +1,5 @@
 package com.myownb3.piranha.statemachine.impl.handler;
 
-import com.myownb3.piranha.grid.GridElement;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
@@ -10,19 +9,6 @@ import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResu
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PassingStateHandler implements EvasionStatesHandler<PassingEventStateInput> {
-
-    private int passingDistance;
-
-    /**
-     * Creates a new {@link PassingStateHandler} with the given passing distance
-     * 
-     * @param passingDistance
-     *            the distance a {@link Moveable} passes its avoided
-     *            {@link GridElement}
-     */
-    public PassingStateHandler(int passingDistance) {
-	this.passingDistance = passingDistance;
-    }
 
     @Override
     public CommonEventStateResult handle(PassingEventStateInput evenStateInput) {
@@ -43,7 +29,7 @@ public class PassingStateHandler implements EvasionStatesHandler<PassingEventSta
 	DetectableMoveableHelper helper = evenStateInput.getHelper();
 
 	Position position = moveable.getPosition();
-	boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion().calcDistanceTo(position) > passingDistance;
+	boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion().calcDistanceTo(position) > evenStateInput.getPassingDistance();
 
 	return isDistanceFarEnough && !helper.check4Evasion(evenStateInput.getGrid(), moveable);
     }

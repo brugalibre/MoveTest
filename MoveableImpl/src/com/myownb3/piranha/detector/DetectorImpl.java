@@ -48,6 +48,11 @@ public class DetectorImpl implements Detector {
     }
     
     @Override
+    public int getEvasionDistance() {
+        return evasionDistance;
+    }
+    
+    @Override
     public void detectObject(GridElement gridElement, Position position) {
 
 	boolean isDetected = false;
