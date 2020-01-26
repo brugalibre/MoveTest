@@ -72,10 +72,13 @@ public class DetectorImpl implements Detector {
 	    isDetected = degValue <= (detectorAngle / 2);
 	    if (isDetected && evasionDistance >= distance) {
 		isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
+		isEvasionMap.put(gridElement, isDetected && isPotentialCollisionCourse);
 	    }
+	    detectionMap.put(gridElement, isDetected);
+	    return;
 	}
-	detectionMap.put(gridElement, isDetected);
-	isEvasionMap.put(gridElement, isDetected && isPotentialCollisionCourse);
+	detectionMap.remove(gridElement);
+	isEvasionMap.remove(gridElement);
     }
 
     @Override

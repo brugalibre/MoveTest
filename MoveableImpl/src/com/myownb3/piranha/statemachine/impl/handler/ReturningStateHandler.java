@@ -2,7 +2,7 @@ package com.myownb3.piranha.statemachine.impl.handler;
 
 import static com.myownb3.piranha.grid.vector.VectorUtil.getVector;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -48,7 +48,9 @@ public class ReturningStateHandler implements StateFullEvasionStatesHandler<Retu
     
     @Override
     public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
-	requireEndPosNonNull();
+	if (isNull(endPos)) {
+	    return CommonEventStateResult.of(RETURNING.nextState());
+	}
 	return handleReturning(evenStateInput.getDetector(), evenStateInput.getPositionBeforeEvasion(), evenStateInput.getMoveable());
     }
 
@@ -132,9 +134,4 @@ public class ReturningStateHandler implements StateFullEvasionStatesHandler<Retu
 
 	return endPosVector.minus(posBeforEvasionVector);
     }
-    
-    private void requireEndPosNonNull() {
-	requireNonNull(endPos, "For handling the Evasion-State 'Returning' an End-Position is required!");
-    }
-
 }
