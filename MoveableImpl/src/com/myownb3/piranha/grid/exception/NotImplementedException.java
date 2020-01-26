@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.exception;
+package com.myownb3.piranha.grid.exception;
 
 /**
  * @author Dominic

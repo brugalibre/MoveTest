@@ -6,9 +6,9 @@ package com.myownb3.piranha.moveables;
 import java.util.Collections;
 import java.util.List;
 
-import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.exception.NotImplementedException;
 
 /**
  * @author Dominic
