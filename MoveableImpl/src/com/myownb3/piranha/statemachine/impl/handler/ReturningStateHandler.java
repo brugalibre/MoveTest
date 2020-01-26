@@ -56,7 +56,8 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
 	    makeDirectionCorretions(detector, moveable, angle);
 	}
 
-	setWasOrdinal(moveable, endPosLine);
+	angle = calcAngle(moveable, endPosLine);
+	setWasOrdinal(angle);
 	// The moveable is on the endPosLine and faces into the right direction
 	// -> we are done here
 	if (isMoveableOnEndPosDirection(endPosLine, positionBeforeEvasion, moveable.getPosition()) && facesSameDirection(angle)) {
@@ -115,8 +116,7 @@ public class ReturningStateHandler implements EvasionStatesHandler<ReturningEven
 	return !wasOrdinal && angle == 0d && !isMoveableOnEndPosDirection;
     }
 
-    private void setWasOrdinal(Moveable moveable, Float64Vector endPosLine) {
-	double angle = calcAngle(moveable, endPosLine);
+    private void setWasOrdinal(double angle) {
 	wasOrdinal = wasOrdinal || angle == 90.0d;
     }
     

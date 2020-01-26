@@ -159,8 +159,8 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
 	// Given
-	Grid grid = new DefaultGrid(300, 300);
-	Position expectedEndPos = Positions.of(56, 56);
+	Grid grid = new DefaultGrid(200, 200);
+	Position expectedEndPos = Positions.of(28, 28);
 	ObstacleImpl obstacle = new ObstacleImpl(grid, Positions.of(10, 10));
 	DetectorImpl detector = new DetectorImpl(5, 60, 50, 5);
 	Moveable moveable = new MoveableBuilder(grid)//

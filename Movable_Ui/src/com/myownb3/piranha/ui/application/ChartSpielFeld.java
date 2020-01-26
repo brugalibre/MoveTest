@@ -14,7 +14,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.DefaultXYItemRenderer;
+import org.jfree.chart.renderer.xy.XYDotRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -63,7 +63,9 @@ public class ChartSpielFeld {
 		PlotOrientation.VERTICAL, true, true, false);
 
 	XYPlot plot = chart.getXYPlot();
-	XYItemRenderer xyItemRenderer = new DefaultXYItemRenderer();
+	XYItemRenderer xyItemRenderer = new XYDotRenderer();
+	((XYDotRenderer)xyItemRenderer).setDotHeight(5);
+	((XYDotRenderer)xyItemRenderer).setDotWidth(5);
 	plot.setRenderer(xyItemRenderer);
 	ValueAxis rangeAxis = plot.getRangeAxis();
 	rangeAxis.setAutoRange(true);

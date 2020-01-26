@@ -43,7 +43,7 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 public class EvasionStateMachine extends DetectableMoveableHelper {
 
-    protected EvasionStates evasionState;
+    /*Visible4Testing*/ EvasionStates evasionState;
 
     private Map<EvasionStates, EvasionStatesHandler<?>> evasionStatesHandler2StateMap;
 
