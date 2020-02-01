@@ -36,14 +36,6 @@ public interface Moveable extends GridElement {
     void moveForward();
 
     /**
-     * Moves this {@link Moveable} one unit forward, considering the current. Note that there
-     * are no post-conditions checked e.g. checking for evasion
-     * 
-     * {@link Direction}
-     */
-    void moveForwardWithoutPostConditions();
-
-    /**
      * Moves this {@link Moveable} for the given amount of times forward,
      * considering the current {@link Direction}
      * 

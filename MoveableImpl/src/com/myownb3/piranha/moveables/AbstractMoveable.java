@@ -39,11 +39,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     }
 
     @Override
-    public void moveForwardWithoutPostConditions() {
-	moveForwardInternal();
-    }
-    
-    @Override
     public void moveForward() {
 	moveForwardInternal();
 	handler.handlePostConditions(grid, this);
@@ -56,7 +51,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public void moveForward(int amount) {
-	moveForwardOrBackwardInternal(amount, () -> moveForward());
+	moveForwardOrBackwardInternal(amount, () -> moveForwardInternal());
+	handler.handlePostConditions(grid, this);
     }
 
     @Override
