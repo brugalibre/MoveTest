@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.util;
 
+import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -32,7 +33,7 @@ class MathUtilTest {
 	Position moveablePosition = Positions.of(1, 1);
 	
 	// When
-	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+	double actualCalcAngleBetweenVectors = round(MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 
 	// Then
 	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
@@ -48,7 +49,7 @@ class MathUtilTest {
 	Position moveablePosition = Positions.of(Directions.S, 1, 1);
 	
 	// When
-	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+	double actualCalcAngleBetweenVectors =  round(MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 	
 	// Then
 	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
@@ -65,7 +66,7 @@ class MathUtilTest {
 	moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
 	
 	// When
-	double actualCalcAngleBetweenVectors = MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos);
+	double actualCalcAngleBetweenVectors =  round(MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 	
 	// Then
 	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));

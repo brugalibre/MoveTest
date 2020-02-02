@@ -97,7 +97,7 @@ class DirectionTest {
     void testToString() {
 
 	// Given
-	String expectedToString = "N";
+	String expectedToString = "Cardinal-Direction:N, Rotation: 90.0";
 	// When
 	Direction north = Directions.N;
 
