@@ -3,46 +3,38 @@ package com.myownb3.piranha.statemachine.impl.handler.input;
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.statemachine.handler.input.EventStateInput;
+import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
 
-public class ReturningEventStateInput implements EventStateInput {
+public class ReturningEventStateInput extends CommonEventStateInput {
 
     private Position positionBeforeEvasion;
-    private Moveable moveable;
-    private Detector detector;
 
-    private ReturningEventStateInput(Detector detector, Position positionBeforeEvasion, Moveable moveable) {
-	this.detector = requireNonNull(detector);
+    private ReturningEventStateInput(DetectableMoveableHelper helper, Grid grid, Position positionBeforeEvasion, Moveable moveable) {
+	super(grid, moveable, helper);
 	this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
-	this.moveable = requireNonNull(moveable);
     }
 
     /**
      * Creates a new {@link ReturningEventStateInput}
      * 
-     * @param detector
-     *            the Detector
-     * @param positionBeforeEvasion
-     *            the {@link Position} when the {@link Detector} detected an evasion
+     * @param helper
+     *            the {@link DetectableMoveableHelper}
+     * @param grid
+     *            the {@link Grid}
      * @param moveable
      *            the {@link Moveable}
+     * @param positionBeforeEvasion
+     *            the {@link Position} when the {@link Detector} detected an evasion
      * @return a new {@link ReturningEventStateInput}
      */
-    public static ReturningEventStateInput of(Detector detector, Position positionBeforeEvasion, Moveable moveable) {
-	return new ReturningEventStateInput(detector, positionBeforeEvasion, moveable);
-    }
-
-    public final Detector getDetector() {
-	return this.detector;
+    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable, Position positionBeforeEvasion) {
+	return new ReturningEventStateInput(helper, grid, positionBeforeEvasion, moveable);
     }
 
     public final Position getPositionBeforeEvasion() {
 	return this.positionBeforeEvasion;
-    }
-
-    public final Moveable getMoveable() {
-	return this.moveable;
     }
 }

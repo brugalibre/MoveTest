@@ -8,11 +8,10 @@ import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.DefaultStateResult;
 
-public class DefaultStateHandler implements EvasionStatesHandler<CommonEventStateInput> {
+public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventStateInput> {
 
     @Override
     public DefaultStateResult handle(CommonEventStateInput evenStateInput) {

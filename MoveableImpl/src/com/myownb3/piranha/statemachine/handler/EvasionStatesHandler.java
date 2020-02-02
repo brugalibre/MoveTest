@@ -14,6 +14,11 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 public interface EvasionStatesHandler<T extends EventStateInput> {
 
     /**
+     * Initializes this {@link EvasionStatesHandler}
+     */
+    void init ();
+    
+    /**
      * Does the necessary action this {@link EvasionStatesHandler} implements
      * 
      * @param evenStateInput

@@ -24,6 +24,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
     private MoveablePostActionHandler handler;
+    public boolean throttle;
     private List<Position> positionHistory;
 
     public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
@@ -71,6 +72,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    runnable.run();
+	    if (throttle)break;
 	}
     }
 

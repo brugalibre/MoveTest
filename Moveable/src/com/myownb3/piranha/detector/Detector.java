@@ -18,21 +18,6 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Detector {
 
     /**
-     * Returns the angle increment a {@link Moveable} turns whenever there is an
-     * evasion
-     * 
-     * @return the angle increment a {@link Moveable} turns whenever there is an
-     *         evasion
-     */
-    double getAngleInc();
-    
-    /**
-     * Returns the range in within this detector detects an evasion 
-     * @return
-     */
-    int getEvasionDistance();
-    
-    /**
      * Evaluates if the given {@link GridElement} has been detected by this Detector
      * 
      * @param gridElement

@@ -20,7 +20,9 @@ import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 
 /**
  * @author Dominic
@@ -179,10 +181,11 @@ class ScannerTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 75, 45, 5.625);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
-		.withHandler(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 90;
 	boolean expectedIsEvasion = false;
@@ -204,9 +207,10 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1.8195117, 5));
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 2, 45, 45, 5.625);
 	Detector detector = new DetectorImpl(2, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
-		.withHandler(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 120;
 	boolean expectedIsEvasion = false;
@@ -229,9 +233,10 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2.8867, 7));
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 45, 45, 5.625);
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = new MoveableBuilder(grid)//
-		.withHandler(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 100;
 	boolean expectedIsEvasion = false;
@@ -253,9 +258,10 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid(20, 20);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 20));
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
 	Detector detector = new DetectorImpl();
 	new MoveableBuilder(grid)//
-		.withHandler(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 0;
 	boolean expectedEvasion = false;
@@ -275,9 +281,10 @@ class ScannerTest {
 	// Given
 	Grid grid = new DefaultGrid(10, 10);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(5, 5));
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
 	Detector detector = new DetectorImpl();
 	Moveable moveable = new MoveableBuilder(grid, Positions.of(6, 6))//
-		.withHandler(new EvasionStateMachine(detector))//
+		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	// Must not be an evasion since we are placed 'in front' of the obstacle
 	boolean expectedEvasion = false;

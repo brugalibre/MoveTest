@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
+import static com.myownb3.piranha.util.MathUtil.round;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -104,13 +106,13 @@ public class MoveableController {
 	double distance = endPos.calcDistanceTo(startPos);
 	double prevDistance = distance;
 	while (distance >= moveable.getSmallestStepWith()) {
-	    moveable.moveForward();
-	    prevDistance = distance;
+	    moveable.moveForward(2);
 	    distance = endPos.calcDistanceTo(moveable.getPosition());
 
-	    if (distance > prevDistance) {
+	    if (round(distance, 5) > round(prevDistance, 5)) {
 		break;// We are to late!
 	    }
+	    prevDistance = distance;
 	}
     }
 

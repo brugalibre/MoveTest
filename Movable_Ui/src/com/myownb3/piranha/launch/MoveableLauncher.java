@@ -22,7 +22,9 @@ import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.SwappingGrid;
 import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -38,7 +40,7 @@ public class MoveableLauncher {
     /**
      * 
      */
-    private static final DetectorImpl DETECTOR =  new DetectorImpl(10, 90, 15, 5.625);
+    private static final DetectorImpl DETECTOR =  new DetectorImpl(40, 80, 70, 5);
     private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
@@ -79,7 +81,7 @@ public class MoveableLauncher {
 
 	List<GridElement> allGridElement = new ArrayList<>(moveables);
 
-	int amount = 20;//(int) (Math.random() * 10 + 3);
+	int amount = 40;//(int) (Math.random() * 10 + 3);
 	for (int i = 0; i < amount; i++) {
 	    Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
 	    Obstacle obstacle = new ObstacleImpl(grid, randomPosition);
@@ -98,12 +100,14 @@ public class MoveableLauncher {
 
 	while (true) {
 	    moveables.stream()//
-		    .forEach(moveable -> moveable.moveForward(10));
-	    mainWindow.refresh();
+		    .forEach(moveable -> {
+//			for (int i = 0; i <= 10; i++) {
+			    moveable.moveForward();
+			    mainWindow.refresh();
+//			}
+		    });
 
-	    boolean isEvasion = GRID_ELEMENTS.stream().anyMatch(obstacle -> DETECTOR.isEvasion(obstacle));
-	    boolean hasDetected = GRID_ELEMENTS.stream().anyMatch(obstacle -> DETECTOR.hasObjectDetected(obstacle));
-	    int timer = (isEvasion || hasDetected) ? 200 : 20;
+	    int timer =/* isEvasion ? 150 :*/ 1;
 	    Thread.sleep(timer);
 	}
     }
@@ -122,13 +126,13 @@ public class MoveableLauncher {
     private static List<Moveable> getMoveables(Grid grid, int height, int width) {
 
 	Dimension dimension = grid.getDimension();
-
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 80, 70, 11.25);
 	List<Moveable> moveables = new ArrayList<>();
 	int amount = 1;// (int) (Math.random() * 10 + 5);
 	for (int i = 0; i < amount; i++) {
 	    Position pos = Positions.getRandomPosition(dimension, height, width);
 	    Moveable moveable = new MoveableBuilder(grid, pos)//
-		    .withHandler(new EvasionStateMachine(DETECTOR))//
+		    .withHandler(new EvasionStateMachine(DETECTOR, config))//
 		    .build();
 	    moveables.add(moveable);
 	}

@@ -14,7 +14,7 @@ import com.myownb3.piranha.grid.Position;
 public class AbstractGridElement implements GridElement {
 
     protected Position position;
-    protected Grid grid;
+    public Grid grid;
 
     public AbstractGridElement(Grid grid, Position position) {
 	super();

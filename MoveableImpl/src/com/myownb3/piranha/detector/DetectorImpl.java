@@ -48,16 +48,6 @@ public class DetectorImpl implements Detector {
     }
     
     @Override
-    public double getAngleInc() {
-	return angleInc;
-    }
-    
-    @Override
-    public int getEvasionDistance() {
-        return evasionDistance;
-    }
-    
-    @Override
     public void detectObject(GridElement gridElement, Position position) {
 
 	boolean isDetected = false;
@@ -67,14 +57,15 @@ public class DetectorImpl implements Detector {
 	boolean isPotentialCollisionCourse = false;
 
 	if (detectorReach >= distance) {
-
 	    double degValue = MathUtil.calcAngleBetweenPositions(position, gridElemPos);
+	    boolean isEvasion = false;
 	    isDetected = degValue <= (detectorAngle / 2);
 	    if (isDetected && evasionDistance >= distance) {
 		isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
-		isEvasionMap.put(gridElement, isDetected && isPotentialCollisionCourse);
+		isEvasion = isDetected && isPotentialCollisionCourse;
 	    }
 	    detectionMap.put(gridElement, isDetected);
+	    isEvasionMap.put(gridElement, isEvasion);
 	    return;
 	}
 	detectionMap.remove(gridElement);
