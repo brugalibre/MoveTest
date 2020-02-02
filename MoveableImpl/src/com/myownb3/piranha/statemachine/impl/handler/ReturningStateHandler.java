@@ -22,7 +22,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private double distanceMargin;
     private double angleMargin;
 
-    private double prevDistance;
     private ReturnStates state;
     private int signum;
 
@@ -54,14 +53,13 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     @Override
     public void init() {
 	super.init();
-	signum = 1;
-	prevDistance = 0;
+	signum = 0;
 	state = ReturnStates.ENTER_RETURNING;
     }
 
     @Override
     public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
-	if (isNull(endPos)) {
+	if (isReturningNotNecessary()) {
 	    return CommonEventStateResult.of(evalNextState(evenStateInput, RETURNING.nextState()));
 	}
 	EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(), evenStateInput.getMoveable());
@@ -78,9 +76,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	    break;
 	case ANGLE_CORRECTION:
 	    handleStateAngleCorrection(moveable, positionBeforeEvasion, endPosLine);
-	    break;
-	case GETTING_CLOSER:
-	    handleStateGettingCloser(moveable, positionBeforeEvasion, endPosLine);
 	    break;
 	default:
 	    break;
@@ -99,27 +94,14 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private void handleStateAngleCorrection(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
 	double angleBetweenMoveableAndStartPos = calcAngleBetweenMoveableAndStartPos(moveable, positionBeforeEvasion.getDirection().getAngle());
 	double angle2Turn = evasionAngleInc / angleIncMultiplier;
-	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion, endPosLine);
 	if (angleBetweenMoveableAndStartPos < 0) {
 	    moveable.makeTurnWithoutPostConditions(Math.max(angleBetweenMoveableAndStartPos, -angle2Turn));
 	} else if (angleBetweenMoveableAndStartPos > 0) {
 	    moveable.makeTurnWithoutPostConditions(Math.min(angleBetweenMoveableAndStartPos, angle2Turn));
 	} else {
-	    state = ReturnStates.GETTING_CLOSER;
+	    angle2Turn = calcAngle(moveable, endPosLine);
+	    moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
 	}
-	prevDistance = currentDistance;
-    }
-    
-    private void handleStateGettingCloser(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
-	double angle2Turn;
-	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion, endPosLine);
-	if (currentDistance <= prevDistance) {
-	    angle2Turn = -evasionAngleInc / angleIncMultiplier;
-	} else {
-	    angle2Turn = evasionAngleInc / angleIncMultiplier;
-	}
-	moveable.makeTurnWithoutPostConditions(angle2Turn);
-	prevDistance = currentDistance;
     }
 
     private double calcAngleBetweenMoveableAndStartPos(Moveable moveable, double startPosAngle) {
@@ -140,7 +122,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion, endPosLine);
 	makeAngleCorrection(moveable, angle, currentDistance);
 
-	prevDistance = initialDistance;
 	state = ReturnStates.ANGLE_CORRECTION;
     }
 
@@ -195,6 +176,14 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
         this.signum = signum;
     }
 
+    /*
+     * If the do not have an end-position of if the signum is 0 then we don't have anything to do here
+     * note that if signum is 0, than there was never an evasion. If there was no evasion, than there is no need to correct any angle or distance
+     */
+    private boolean isReturningNotNecessary() {
+	return isNull(endPos) || signum == 0;
+    }
+    
     private static enum ReturnStates {
 
 	/**
@@ -208,13 +197,5 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	 * the angle of the {@link Moveable} is corrected
 	 */
 	ANGLE_CORRECTION,
-
-	/**
-	 * After the angle of the {@link Moveable} is corrected we need to get closer to
-	 * the line created until the target position and the position the
-	 * {@link Moveable} detected the evasion the last time the angle of the
-	 * {@link Moveable} is corrected
-	 */
-	GETTING_CLOSER;
     }
 }

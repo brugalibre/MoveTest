@@ -38,14 +38,13 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
     }
 
     private void adjustDirection(Position startPos, Moveable moveable) {
-
-	double effectAngle2Turn = getAngle2Turn(moveable, startPos.getDirection().getAngle());
+	double effectAngle2Turn = getAngle2Turn(moveable.getPosition(), startPos.getDirection().getAngle());
 	moveable.makeTurnWithoutPostConditions(effectAngle2Turn);
     }
 
-    private double getAngle2Turn(Moveable moveable, double startPosAngle) {
-	double angleDiff = startPosAngle - moveable.getPosition().getDirection().getAngle();
-	if (angleDiff > stepWidth) {
+    /* Visible4Testing */double getAngle2Turn(Position moveablePos, double startPosAngle) {
+	double angleDiff = startPosAngle - moveablePos.getDirection().getAngle();
+	if (Math.abs(angleDiff) > stepWidth) {
 	    return angleDiff / stepWidth;
 	}
 	return angleDiff;

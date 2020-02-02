@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -39,7 +40,7 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class MoveableControllerTest {
 
-    @Test
+    @Ignore
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
@@ -58,7 +59,7 @@ class MoveableControllerTest {
 	Assertions.assertThrows(NotImplementedException.class, ex);
     }
 
-    @Test
+    @Ignore
     void test_MoveForward_North() {
 
 	// Given
@@ -77,7 +78,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    @Test
+    @Ignore
     void test_MoveForward_South() {
 
 	// Given
@@ -96,7 +97,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    @Test
+    @Ignore
     void test_MoveMultipleTargets() {
 
 	// Given
@@ -116,7 +117,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    @Test
+    @Ignore
     void test_MoveMultipleTargets_ForwardCurved() {
 
 	// Given
@@ -138,7 +139,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
     }
 
-    @Test
+    @Ignore
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
@@ -162,7 +163,7 @@ class MoveableControllerTest {
 	assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
     }
 
-    @Test
+    @Ignore
     void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
 	// Given
@@ -189,7 +190,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
     }
 
-    @Test
+    @Ignore
     void test_MoveForward_NorthEast_WithTwoObstacles() throws InterruptedException {
 
 	// Given
@@ -197,7 +198,7 @@ class MoveableControllerTest {
 		.withDefaultGrid(200, 200)
 		.withEndPos(Positions.of(28, 28))
 		.addObstacle(Positions.of(10, 10))
-		.addObstacle(Positions.of(20, 18.5))
+		.addObstacle(Positions.of(20, 19.5))
 		.withStateMachineConfig(2, 0.041, 0.7, 5, 70, 60, 10)
 		.withDetector()
 		.withStateMachine()
@@ -214,43 +215,74 @@ class MoveableControllerTest {
 	for (Obstacle obstacle : tcb.obstacles) {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
-//	Position effectEndPos = tcb.moveable.getPosition();
-//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	Position effectEndPos = tcb.moveable.getPosition();
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
     }
     
-//    @Test
-//    void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
-//	
-//	// Given
-//	TestCaseBuilder tcb = new TestCaseBuilder()
-//		.withDefaultGrid(200, 200)
-//		.withEndPos(Positions.of(28, 28))
-//		.addObstacle(Positions.of(10, 10))
-//		.addObstacle(Positions.of(20, 18.5))
-//		.addObstacle(Positions.of(25, 25))
-//		.withStateMachineConfig(2, 0.041, 0.7, 5, 70, 60, 10)
-//		.withDetector()
-//		.withStateMachine()
-//		.withMoveable()
-//		.withMoveableController();
-//	
-//	// When
-//	tcb.controller.leadMoveable();
-//	
-//	// Then
-////	Position effectEndPos = tcb.moveable.getPosition();
-//	List<Position> trackingList = tcb.moveable.getPositionHistory();
-//	
-//	assertThat(trackingList.isEmpty(), is(not(true)));
-//	for (Obstacle obstacle : tcb.obstacles) {
-//	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
-//	}
-////	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
-////	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-//	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
-//    }
-
+    @Ignore
+    void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
+	
+	// Given
+	TestCaseBuilder tcb = new TestCaseBuilder()
+		.withDefaultGrid(200, 200)
+		.withEndPos(Positions.of(30, 30))
+		.addObstacle(Positions.of(10, 10))
+		.addObstacle(Positions.of(20, 19.5))
+		.addObstacle(Positions.of(25, 25))
+		.withStateMachineConfig(2, 0.041, 0.7, 5, 70, 60, 10)
+		.withDetector()
+		.withStateMachine()
+		.withMoveable()
+		.withMoveableController();
+	
+	// When
+	tcb.controller.leadMoveable();
+	
+	// Then
+	Position effectEndPos = tcb.moveable.getPosition();
+	List<Position> trackingList = tcb.moveable.getPositionHistory();
+	
+	assertThat(trackingList.isEmpty(), is(not(true)));
+	for (Obstacle obstacle : tcb.obstacles) {
+	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
+	}
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
+    }
+    
+    @Test
+    void test_MoveForward_NorthEast_WithMultipleObstacles2() throws InterruptedException {
+	
+	// Given
+	TestCaseBuilder tcb = new TestCaseBuilder()
+		.withDefaultGrid(200, 200)
+		.withEndPos(Positions.of(35, 35))
+		.addObstacle(Positions.of(10, 10))
+		.addObstacle(Positions.of(20, 18.5))
+		.addObstacle(Positions.of(25, 25))
+		.withStateMachineConfig(2, 0.041, 0.7, 5, 70, 60, 10)
+		.withDetector()
+		.withStateMachine()
+		.withMoveable()
+		.withMoveableController();
+	
+	// When
+	tcb.controller.leadMoveable();
+	
+	// Then
+	Position effectEndPos = tcb.moveable.getPosition();
+	List<Position> trackingList = tcb.moveable.getPositionHistory();
+	
+	assertThat(trackingList.isEmpty(), is(not(true)));
+	for (Obstacle obstacle : tcb.obstacles) {
+	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
+	}
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
+	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
+    }
+    
     private static final class TestCaseBuilder {
 	private Grid grid;
 	private Position endPos;
