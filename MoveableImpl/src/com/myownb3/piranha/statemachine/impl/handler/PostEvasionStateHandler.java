@@ -2,7 +2,7 @@ package com.myownb3.piranha.statemachine.impl.handler;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.handler.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;

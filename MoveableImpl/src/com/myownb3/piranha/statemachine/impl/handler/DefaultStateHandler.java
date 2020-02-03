@@ -4,10 +4,10 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
+import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.DefaultStateResult;
 

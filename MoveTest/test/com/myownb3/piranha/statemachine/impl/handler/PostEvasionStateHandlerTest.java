@@ -8,8 +8,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 
 /**
  * @author Dominic

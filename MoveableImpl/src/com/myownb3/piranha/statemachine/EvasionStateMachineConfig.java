@@ -4,7 +4,7 @@
 package com.myownb3.piranha.statemachine;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.grid.GridElement;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;

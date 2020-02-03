@@ -2,7 +2,7 @@ package com.myownb3.piranha.statemachine.impl.handler.output;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class DefaultStateResult extends CommonEventStateResult {

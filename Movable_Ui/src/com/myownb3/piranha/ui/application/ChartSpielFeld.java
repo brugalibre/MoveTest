@@ -19,9 +19,9 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.Obstacle;
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Obstacle;
+import com.myownb3.piranha.grid.gridelement.Position;
 
 /**
  * @author Dominic

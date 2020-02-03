@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid;
+package com.myownb3.piranha.grid.gridelement;
 
 /**
  * @author Dominic

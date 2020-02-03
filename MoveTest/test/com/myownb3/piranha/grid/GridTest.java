@@ -12,8 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
-import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
+import com.myownb3.piranha.grid.gridelement.Obstacle;
+import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.test.Assert;
 
 /**

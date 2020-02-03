@@ -1,7 +1,9 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid;
+package com.myownb3.piranha.grid.gridelement;
+
+import com.myownb3.piranha.grid.Grid;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a

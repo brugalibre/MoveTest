@@ -10,8 +10,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.Obstacle;
+import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.ui.render.Renderer;
 
 /**

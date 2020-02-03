@@ -1,12 +1,12 @@
 package com.myownb3.piranha.statemachine.impl.handler;
 
-import static com.myownb3.piranha.grid.vector.VectorUtil.getVector;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
+import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;

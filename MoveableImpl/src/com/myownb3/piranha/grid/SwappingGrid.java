@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.grid;
 
+import com.myownb3.piranha.grid.gridelement.Position;
+
 /**
  * 
  * A {@link SwappingGrid} makes sure, that {@link PositionImpl} are not

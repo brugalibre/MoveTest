@@ -1,8 +1,9 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid;
+package com.myownb3.piranha.grid.gridelement;
 
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Direction;
 
 /**

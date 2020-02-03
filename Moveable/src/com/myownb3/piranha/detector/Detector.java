@@ -4,8 +4,8 @@
 package com.myownb3.piranha.detector;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**

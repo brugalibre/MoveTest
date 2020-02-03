@@ -18,12 +18,11 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 import com.myownb3.piranha.grid.direction.Directions;
-import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**

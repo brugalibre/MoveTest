@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 
 /**
  * @author Dominic

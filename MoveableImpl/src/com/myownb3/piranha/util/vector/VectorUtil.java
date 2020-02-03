@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid.vector;
+package com.myownb3.piranha.util.vector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.gridelement.Position;
 
 /**
  * Contains some useful methods for creating {@link Float64Vector} from

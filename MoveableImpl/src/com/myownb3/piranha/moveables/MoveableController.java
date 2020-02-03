@@ -8,9 +8,9 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import java.util.Collections;
 import java.util.List;
 
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
-import com.myownb3.piranha.grid.exception.NotImplementedException;
+import com.myownb3.piranha.exception.NotImplementedException;
+import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 
 /**
  * @author Dominic

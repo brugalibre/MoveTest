@@ -12,11 +12,10 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Obstacle;
-import com.myownb3.piranha.grid.ObstacleImpl;
-import com.myownb3.piranha.grid.Positions;
-import com.myownb3.piranha.moveables.AbstractMoveable.MoveableBuilder;
-import com.myownb3.piranha.moveables.helper.DetectableMoveableHelper;
+import com.myownb3.piranha.grid.gridelement.Obstacle;
+import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 
 /**
  * @author Dominic

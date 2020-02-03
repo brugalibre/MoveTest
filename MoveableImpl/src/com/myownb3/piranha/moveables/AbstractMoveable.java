@@ -5,13 +5,10 @@ package com.myownb3.piranha.moveables;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
-import com.myownb3.piranha.grid.AbstractGridElement;
-import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.Position;
-import com.myownb3.piranha.grid.Positions;
+import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
@@ -24,7 +21,6 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
     private MoveablePostActionHandler handler;
-    public boolean throttle;
     private List<Position> positionHistory;
 
     public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
@@ -72,7 +68,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	verifyAmount(amount);
 	for (int i = 0; i < amount; i++) {
 	    runnable.run();
-	    if (throttle)break;
 	}
     }
 
@@ -119,43 +114,5 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     private void trackPosition(Position position) {
 	positionHistory.add(position);
-    }
-
-    public static class MoveableBuilder {
-
-	private AbstractMoveable moveable;
-
-	public static MoveableBuilder builder() {
-	    return new MoveableBuilder(new DefaultGrid(), Positions.of(0, 0));
-	}
-
-	public MoveableBuilder(Grid grid) {
-	    this(grid, Positions.of(0, 0));
-	}
-
-	public MoveableBuilder(Grid grid, Position position) {
-	    Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
-	    Objects.requireNonNull(position, "Attribute 'position' must not be null!");
-	    moveable = new SimpleMoveable(grid, position);
-	}
-
-	public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
-	    moveable.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-	    return this;
-	}
-
-	public Moveable build() {
-	    MoveablePostActionHandler handler = moveable.handler;
-	    Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-	    handler.handlePostConditions(moveable.grid, moveable);
-	    return this.moveable;
-	}
-
-	private class SimpleMoveable extends AbstractMoveable {
-
-	    private SimpleMoveable(Grid grid, Position position) {
-		super(grid, position);
-	    }
-	}
     }
 }

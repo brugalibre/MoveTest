@@ -3,15 +3,15 @@
  */
 package com.myownb3.piranha.util;
 
-import static com.myownb3.piranha.grid.vector.VectorUtil.getVector;
+import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.lang.Math.toDegrees;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.Position;
 import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**

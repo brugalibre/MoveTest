@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.myownb3.piranha.grid.GridElement;
-import com.myownb3.piranha.grid.Position;
+import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
