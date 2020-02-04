@@ -76,7 +76,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     public void turnLeft() {
 	makeTurn(90);
     }
-    
+
     @Override
     public void makeTurnWithoutPostConditions(double degree) {
 	makeTurnInternal(degree);
@@ -94,7 +94,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	    handler.handlePostConditions(grid, this);
 	}
     }
-    
+
     private void makeTurnInternal(double degree) {
 	if (degree != 0) {
 	    position.rotate(degree);
@@ -104,20 +104,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public List<Position> getPositionHistory() {
-	synchronized (positionHistory) {
-	    return Collections.unmodifiableList(positionHistory);
-	}
+	return Collections.unmodifiableList(positionHistory);
     }
-    
-    @Override
-    public List<Position> popPositionHistory() {
-	synchronized (positionHistory) {
-	    List<Position> positionHistoryResult = Collections.unmodifiableList(positionHistory);
-	    positionHistory.clear();
-	    return positionHistoryResult;
-	}
-    }
-    
+
     private void verifyAmount(int amount) {
 	if (amount <= 0) {
 	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");

@@ -91,12 +91,6 @@ public interface Moveable extends GridElement {
     List<Position> getPositionHistory();
     
     /**
-     * 
-     * @return and clear all the Points this {@link Moveable} has recently passed
-     */
-    List<Position> popPositionHistory();
-    
-    /**
      * Returns the smallest unit this Moveable can move forward or backward
      * @return
      */
