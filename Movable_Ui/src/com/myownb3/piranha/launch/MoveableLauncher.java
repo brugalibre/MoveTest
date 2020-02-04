@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.SwingUtilities;
+
+import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
@@ -16,6 +19,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid;
 import com.myownb3.piranha.grid.SwappingGrid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -29,6 +33,7 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
+import com.myownb3.piranha.ui.render.impl.MoveablePainter;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -37,10 +42,6 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class MoveableLauncher {
 
-    /**
-     * 
-     */
-    private static final DetectorImpl DETECTOR =  new DetectorImpl(40, 80, 70, 5);
     private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
@@ -49,16 +50,18 @@ public class MoveableLauncher {
 	int height = 5;
 	int width = 5;
 
-	List<Moveable> moveables = getMoveables(grid, height, width);
-	List<GridElement> gridElements = getAllGridElements(moveables, grid, height, width);
+	Moveable moveable = getMoveable(grid, height, width);
+	List<GridElement> gridElements = getAllGridElements(grid, height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
+	MoveablePainter moveablePainter = new MoveablePainter(moveable, getColor(moveable), height, width);
+
+	renderers.add(moveablePainter);
 	renderers.add(new GridPainter(grid));
 
-	
 	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(), grid.getDimension().getHeight());
-	mainWindow.show();
+	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	prepareAndMoveMoveables(moveables, mainWindow);
+	prepareAndMoveMoveables(moveable, moveablePainter, mainWindow);
     }
 
     public static void visualizePositionsWithJFreeChart(List<Position> posList, Obstacle obstacle) throws InterruptedException {
@@ -77,14 +80,14 @@ public class MoveableLauncher {
 	Thread.sleep(Integer.MAX_VALUE);
     }
 
-    private static List<GridElement> getAllGridElements(List<Moveable> moveables, DefaultGrid grid, int height, int width) {
+    private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
 
-	List<GridElement> allGridElement = new ArrayList<>(moveables);
+	List<GridElement> allGridElement = new ArrayList<>();
 
-	int amount = 40;//(int) (Math.random() * 10 + 3);
+	int amount = 80;
 	for (int i = 0; i < amount; i++) {
 	    Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
-	    Obstacle obstacle = new ObstacleImpl(grid, randomPosition);
+	    Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition);
 
 	    allGridElement.add(obstacle);
 	    GRID_ELEMENTS.add(obstacle);
@@ -93,23 +96,40 @@ public class MoveableLauncher {
 	return allGridElement;
     }
 
-    private static void prepareAndMoveMoveables(List<Moveable> moveables, MainWindow mainWindow) throws InterruptedException {
+    private static void prepareAndMoveMoveables(Moveable moveable, MoveablePainter moveablePainter, MainWindow mainWindow) throws InterruptedException {
 
-	moveables.stream()//
-		.forEach(moveable -> moveable.makeTurn(MathUtil.getRandom(360)));
+	moveable.makeTurn(MathUtil.getRandom(360));
+	turnGridElements();
 
+	int counter = 0;
 	while (true) {
-	    moveables.stream()//
-		    .forEach(moveable -> {
-//			for (int i = 0; i <= 10; i++) {
-			    moveable.moveForward();
-			    mainWindow.refresh();
-//			}
-		    });
+	    moveable.moveForward();
 
-	    int timer =/* isEvasion ? 150 :*/ 1;
-	    Thread.sleep(timer);
+	    if (counter % 5 == 0) {
+		moveGridElementsForward();
+	    }
+
+	    counter++;
+	    if (counter == 20) {
+		List<Position> positionHistory = moveable.popPositionHistory();
+		moveablePainter.addPositions2Paint(positionHistory);
+		mainWindow.refresh();
+		counter = 0;
+	    }
+	    Thread.sleep(1);
 	}
+    }
+
+    private static void turnGridElements() {
+	GRID_ELEMENTS.stream()//
+		.map(MoveableObstacleImpl.class::cast)//
+		.forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
+    }
+
+    private static void moveGridElementsForward() {
+	GRID_ELEMENTS.stream()//
+		.map(MoveableObstacleImpl.class::cast)//
+		.forEach(obstacle -> obstacle.moveForward());
     }
 
     private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height, int width) {
@@ -120,23 +140,17 @@ public class MoveableLauncher {
     }
 
     private static Color getColor(GridElement gridElement) {
-	return gridElement instanceof Moveable ? Color.RED : Color.BLACK;
+	return gridElement instanceof Obstacle ? Color.BLACK : Color.RED;
     }
 
-    private static List<Moveable> getMoveables(Grid grid, int height, int width) {
+    private static Moveable getMoveable(Grid grid, int height, int width) {
 
 	Dimension dimension = grid.getDimension();
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 80, 70, 11.25);
-	List<Moveable> moveables = new ArrayList<>();
-	int amount = 1;// (int) (Math.random() * 10 + 5);
-	for (int i = 0; i < amount; i++) {
-	    Position pos = Positions.getRandomPosition(dimension, height, width);
-	    Moveable moveable = new MoveableBuilder(grid, pos)//
-		    .withHandler(new EvasionStateMachine(DETECTOR, config))//
-		    .build();
-	    moveables.add(moveable);
-	}
-
-	return moveables;
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 40, 80, 70, 5);
+	Position pos = Positions.getRandomPosition(dimension, height, width);
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
+	return new MoveableBuilder(grid, pos)//
+		.withHandler(new EvasionStateMachine(detector, config))//
+		.build();
     }
 }

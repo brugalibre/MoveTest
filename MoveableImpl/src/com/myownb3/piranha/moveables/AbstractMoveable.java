@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.moveables;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,7 +74,18 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
     @Override
     public List<Position> getPositionHistory() {
-	return positionHistory;
+	synchronized (positionHistory) {
+	    return Collections.unmodifiableList(positionHistory);
+	}
+    }
+    
+    @Override
+    public List<Position> popPositionHistory() {
+	synchronized (positionHistory) {
+	    List<Position> positionHistoryResult = Collections.unmodifiableList(positionHistory);
+	    positionHistory.clear();
+	    return positionHistoryResult;
+	}
     }
 
     @Override
@@ -113,6 +125,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     }
 
     private void trackPosition(Position position) {
-	positionHistory.add(position);
+	synchronized (positionHistory) {
+	    positionHistory.add(position);
+	}
     }
 }
