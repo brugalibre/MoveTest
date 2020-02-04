@@ -73,6 +73,36 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
     }
 
     @Override
+    public void turnLeft() {
+	makeTurn(90);
+    }
+    
+    @Override
+    public void makeTurnWithoutPostConditions(double degree) {
+	makeTurnInternal(degree);
+    }
+
+    @Override
+    public void turnRight() {
+	makeTurn(-90);
+    }
+
+    @Override
+    public void makeTurn(double degree) {
+	makeTurnInternal(degree);
+	if (degree != 0) {
+	    handler.handlePostConditions(grid, this);
+	}
+    }
+    
+    private void makeTurnInternal(double degree) {
+	if (degree != 0) {
+	    position.rotate(degree);
+	    trackPosition(position);
+	}
+    }
+
+    @Override
     public List<Position> getPositionHistory() {
 	synchronized (positionHistory) {
 	    return Collections.unmodifiableList(positionHistory);
@@ -87,37 +117,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 	    return positionHistoryResult;
 	}
     }
-
-    @Override
-    public void turnLeft() {
-	makeTurn(90);
-    }
-
-    @Override
-    public void makeTurn(double degree) {
-	makeTurnInternal(degree);
-	if (degree != 0) {
-	    handler.handlePostConditions(grid, this);
-	}
-    }
     
-    @Override
-    public void makeTurnWithoutPostConditions(double degree) {
-	makeTurnInternal(degree);
-    }
-
-    private void makeTurnInternal(double degree) {
-	if (degree != 0) {
-	    position.rotate(degree);
-	    trackPosition(position);
-	}
-    }
-
-    @Override
-    public void turnRight() {
-	makeTurn(-90);
-    }
-
     private void verifyAmount(int amount) {
 	if (amount <= 0) {
 	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
