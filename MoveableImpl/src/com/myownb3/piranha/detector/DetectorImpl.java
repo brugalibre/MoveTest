@@ -3,9 +3,12 @@
  */
 package com.myownb3.piranha.detector;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -78,7 +81,7 @@ public class DetectorImpl implements Detector {
 	double avoidAngle = 0;
 	double ourAngle = position.getDirection().getAngle();
 
-	Optional<GridElement> evasionGridElement = getEvasionGridElement();
+	Optional<GridElement> evasionGridElement = getNearestEvasionGridElement(position);
 	if (evasionGridElement.isPresent()) {
 	    GridElement gridElement = evasionGridElement.get();
 	    Position gridElemPos = gridElement.getPosition();
@@ -97,11 +100,43 @@ public class DetectorImpl implements Detector {
 	return avoidAngle;
     }
 
-    private Optional<GridElement> getEvasionGridElement() {
+    private Optional<GridElement> getNearestEvasionGridElement(Position position) {
+	List<GridElement> gridElements = getEvasionGridElements();
+	return getNearestEvasionGridElement(position, gridElements);
+    }
+
+    /* Visible4Testing */ Optional<GridElement> getNearestEvasionGridElement(Position position,
+	    List<GridElement> gridElements) {
+	Map<GridElement, Double> gridElement2DistanceMap = fillupMap(position, gridElements);
+	return gridElement2DistanceMap.keySet()
+		.stream()
+		.sorted(sort4Distance(gridElement2DistanceMap))
+		.findFirst();
+    }
+
+    private Map<GridElement, Double> fillupMap(Position position, List<GridElement> gridElements) {
+	Map<GridElement, Double> gridElement2DistanceMap = new HashMap<>();
+	for (GridElement gridElement : gridElements) {
+	    Position gridElemPos = gridElement.getPosition();
+	    double distance = gridElemPos.calcDistanceTo(position);
+	    gridElement2DistanceMap.put(gridElement, Double.valueOf(distance));
+	}
+	return gridElement2DistanceMap;
+    }
+
+    private static Comparator<? super GridElement> sort4Distance(Map<GridElement, Double> gridElement2DistanceMap) {
+	return (g1, g2) -> {
+	    Double distanceGridElem1ToPoint = gridElement2DistanceMap.get(g1);
+	    Double distanceGridElem2ToPoint = gridElement2DistanceMap.get(g2);
+	    return distanceGridElem1ToPoint.compareTo(distanceGridElem2ToPoint);
+	};
+    }
+
+    private List<GridElement> getEvasionGridElements() {
 	return isEvasionMap.keySet()//
 		.stream()//
 		.filter(gridElement -> isEvasionMap.get(gridElement))//
-		.findFirst();
+		.collect(Collectors.toList());
     }
 
     @Override
