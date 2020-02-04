@@ -33,7 +33,6 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
-import com.myownb3.piranha.ui.render.impl.MoveablePainter;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -46,36 +45,40 @@ public class MoveableLauncher {
 
     public static void main(String[] args) throws InterruptedException {
 
-	DefaultGrid grid = new MirrorGrid(800, 800);
-	int height = 5;
-	int width = 5;
+	DefaultGrid grid = new MirrorGrid(700, 700);
+	int height = 4;
+	int width = 4;
 
 	Moveable moveable = getMoveable(grid, height, width);
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
-	MoveablePainter moveablePainter = new MoveablePainter(moveable, getColor(moveable), height, width);
+	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 
 	renderers.add(moveablePainter);
 	renderers.add(new GridPainter(grid));
 
-	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(), grid.getDimension().getHeight());
+	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(),
+		grid.getDimension().getHeight());
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	prepareAndMoveMoveables(moveable, moveablePainter, mainWindow);
+	prepareAndMoveMoveables(moveable, mainWindow);
     }
 
-    public static void visualizePositionsWithJFreeChart(List<Position> posList, Obstacle obstacle) throws InterruptedException {
+    public static void visualizePositionsWithJFreeChart(List<Position> posList, Obstacle obstacle)
+	    throws InterruptedException {
 	visualizePositionsWithJFreeChart(posList, Collections.singletonList(obstacle));
     }
 
-    public static void visualizePositionsWithJFreeChart(List<Position> posList, List<Obstacle> obstacles) throws InterruptedException {
+    public static void visualizePositionsWithJFreeChart(List<Position> posList, List<Obstacle> obstacles)
+	    throws InterruptedException {
 	DefaultGrid grid = new SwappingGrid(500, 500);
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//
 		.collect(Collectors.toList());//
 
-	MainWindow mainWindow = new MainWindow(obstacles, gridElements, grid.getDimension().getWidth(), grid.getDimension().getHeight());
+	MainWindow mainWindow = new MainWindow(obstacles, gridElements, grid.getDimension().getWidth(),
+		grid.getDimension().getHeight());
 	mainWindow.show();
 	Thread.sleep(Integer.MAX_VALUE);
     }
@@ -96,7 +99,7 @@ public class MoveableLauncher {
 	return allGridElement;
     }
 
-    private static void prepareAndMoveMoveables(Moveable moveable, MoveablePainter moveablePainter, MainWindow mainWindow) throws InterruptedException {
+    private static void prepareAndMoveMoveables(Moveable moveable, MainWindow mainWindow) throws InterruptedException {
 
 	moveable.makeTurn(MathUtil.getRandom(360));
 	turnGridElements();
@@ -108,14 +111,8 @@ public class MoveableLauncher {
 	    if (counter % 5 == 0) {
 		moveGridElementsForward();
 	    }
-
 	    counter++;
-	    if (counter == 20) {
-		List<Position> positionHistory = moveable.popPositionHistory();
-		moveablePainter.addPositions2Paint(positionHistory);
-		mainWindow.refresh();
-		counter = 0;
-	    }
+	    mainWindow.refresh();
 	    Thread.sleep(1);
 	}
     }
@@ -132,8 +129,8 @@ public class MoveableLauncher {
 		.forEach(obstacle -> obstacle.moveForward());
     }
 
-    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height, int width) {
-
+    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height,
+	    int width) {
 	return gridElements.stream()//
 		.map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))//
 		.collect(Collectors.toList());
@@ -148,7 +145,8 @@ public class MoveableLauncher {
 	Dimension dimension = grid.getDimension();
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 40, 80, 70, 5);
 	Position pos = Positions.getRandomPosition(dimension, height, width);
-	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+		config.getEvasionAngle(), config.getEvasionAngleInc() + height);
 	return new MoveableBuilder(grid, pos)//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
