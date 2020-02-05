@@ -8,12 +8,10 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -27,7 +25,7 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
-import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.moveables.MovingStrategie;
@@ -40,16 +38,18 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class MoveableControllerTest {
 
-    @Ignore
+    @Test
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	Moveable moveable = new MoveableBuilder(grid)//
-		.build();
-
 	Position expectedEndPos = Positions.of(0, 12);
-	MoveableController controller = new MoveableController(moveable, expectedEndPos, MovingStrategie.BACKWARD);
+	EndPointMoveable moveable = new MoveableBuilder(grid)//
+		.widthEndPosition(expectedEndPos)
+		.withHandler((g, m) -> {})
+		.buildEndPointMoveable();
+
+	MoveableController controller = new MoveableController(moveable, MovingStrategie.BACKWARD);
 
 	// When
 	Executable ex = () -> {
@@ -59,16 +59,18 @@ class MoveableControllerTest {
 	Assertions.assertThrows(NotImplementedException.class, ex);
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_North() {
 
 	// Given
 	Grid grid = new DefaultGrid(20, 20);
-	Moveable moveable = new MoveableBuilder(grid)//
-		.build();
-
 	Position expectedEndPos = Positions.of(0, 12);
-	MoveableController controller = new MoveableController(moveable, expectedEndPos);
+	EndPointMoveable moveable = new MoveableBuilder(grid)//
+		.widthEndPosition(expectedEndPos)
+		.withHandler((g, m) -> {})
+		.buildEndPointMoveable();
+
+	MoveableController controller = new MoveableController(moveable);
 
 	// When
 	controller.leadMoveable();
@@ -78,16 +80,18 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_South() {
 
 	// Given
 	Grid grid = new DefaultGrid(20, 20);
-	Moveable moveable = new MoveableBuilder(grid)//
-		.build();
-
 	Position expectedEndPos = Positions.of(0, -10);
-	MoveableController controller = new MoveableController(moveable, expectedEndPos);
+	EndPointMoveable moveable = new MoveableBuilder(grid)//
+		.withHandler((g, m) -> {})
+		.widthEndPosition(expectedEndPos)
+		.buildEndPointMoveable();
+
+	MoveableController controller = new MoveableController(moveable);
 
 	// When
 	controller.leadMoveable();
@@ -97,49 +101,7 @@ class MoveableControllerTest {
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
     }
 
-    @Ignore
-    void test_MoveMultipleTargets() {
-
-	// Given
-	Grid grid = new DefaultGrid(300, 300, 0, 0);
-	Moveable moveable = new MoveableBuilder(grid)//
-		.build();
-
-	Position endPos1 = Positions.of(0, 10);
-	Position expectedEndPos = Positions.of(5, 15);
-	MoveableController controller = new MoveableController(moveable, Arrays.asList(endPos1, expectedEndPos));
-
-	// When
-	controller.leadMoveable();
-
-	// Then
-	Position effectEndPos = moveable.getPosition();
-	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
-    }
-
-    @Ignore
-    void test_MoveMultipleTargets_ForwardCurved() {
-
-	// Given
-	Grid grid = new DefaultGrid(15, 15);
-	Position endPos1 = Positions.of(0, 10);
-	Position expectedEndPos = Positions.of(5, 15);
-
-	Moveable moveable = new MoveableBuilder(grid)//
-		.build();
-
-	MoveableController controller = new MoveableController(moveable, Arrays.asList(endPos1, expectedEndPos), 
-		MovingStrategie.FORWARD_CURVED);
-
-	// When
-	controller.leadMoveable();
-
-	// Then
-	Position effectEndPos = moveable.getPosition();
-	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(expectedEndPos), 0);
-    }
-
-    @Ignore
+    @Test
     void test_MoveForward_North_WithObstacle() {
 
 	// Given
@@ -163,7 +125,7 @@ class MoveableControllerTest {
 	assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
 	// Given
@@ -190,7 +152,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
     }
 
-    @Ignore
+    @Test
     void test_MoveForward_NorthEast_WithTwoObstacles() throws InterruptedException {
 
 	// Given
@@ -220,7 +182,7 @@ class MoveableControllerTest {
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
     }
     
-    @Ignore
+    @Test
     void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
 	
 	// Given
@@ -247,12 +209,13 @@ class MoveableControllerTest {
 	for (Obstacle obstacle : tcb.obstacles) {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
-	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+//	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
     }
     
     @Test
-    void test_MoveForward_NorthEast_WithMultipleObstacles2() throws InterruptedException {
+    void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
 	
 	// Given
 	TestCaseBuilder tcb = new TestCaseBuilder()
@@ -280,7 +243,6 @@ class MoveableControllerTest {
 	}
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
     }
     
     private static final class TestCaseBuilder {
@@ -289,17 +251,19 @@ class MoveableControllerTest {
 	private Obstacle obstacle;
 	private List<Obstacle> obstacles;
 	private Detector detector;
-	private Moveable moveable;
+	private EndPointMoveable moveable;
 	private EvasionStateMachine stateMachine;
 	private MoveableController controller;
 	private EvasionStateMachineConfig config;
+	private int movingIncrement;
 	
 	private TestCaseBuilder() {
 	    obstacles = new ArrayList<>();
+	    movingIncrement = 2;
 	}
 
 	public TestCaseBuilder withMoveableController() {
-	    this.controller = new MoveableController(moveable, endPos);
+	    this.controller = new MoveableController(moveable);
 	    return this;
 	}
 
@@ -340,10 +304,13 @@ class MoveableControllerTest {
 	    stateMachine = new EvasionStateMachine(detector, endPos, config);
 	    return this;
 	}
+	
 	public TestCaseBuilder withMoveable() {
 	    moveable = new MoveableBuilder(grid)//
 		    .withHandler(stateMachine)//
-		    .build();
+		    .widthEndPosition(endPos)
+		    .withMovingIncrement(movingIncrement)
+		    .buildEndPointMoveable();
 	    return this;
 	}
     }

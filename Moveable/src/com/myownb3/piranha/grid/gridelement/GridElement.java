@@ -18,4 +18,9 @@ public interface GridElement {
      * @return the current {@link Position} of this {@link GridElement}
      */
     Position getPosition();
+
+    /**
+     * @return the Grid of this {@link GridElement}
+     */
+    Grid getGrid();
 }

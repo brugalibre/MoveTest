@@ -12,7 +12,7 @@ import com.myownb3.piranha.grid.Grid;
 public class AbstractGridElement implements GridElement {
 
     protected Position position;
-    public Grid grid;
+    protected Grid grid;
 
     public AbstractGridElement(Grid grid, Position position) {
 	super();
@@ -24,6 +24,11 @@ public class AbstractGridElement implements GridElement {
     @Override
     public Position getPosition() {
 	return position;
+    }
+    
+    @Override
+    public Grid getGrid() {
+	return grid;
     }
     
     @Override
