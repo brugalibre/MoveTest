@@ -6,13 +6,13 @@ public class EvasionStateResult extends CommonEventStateResult {
 
     private double avoidAngle;
 
-    private EvasionStateResult(EvasionStates resultState, double avoidAngle) {
-	super(resultState);
+    private EvasionStateResult(EvasionStates prevState, EvasionStates resultState, double avoidAngle) {
+	super(prevState, resultState, null);
 	this.avoidAngle = avoidAngle;
     }
 
-    public static EvasionStateResult of(EvasionStates resultState, double avoidAngle) {
-	return new EvasionStateResult(resultState, avoidAngle);
+    public static EvasionStateResult of(EvasionStates prevState, EvasionStates resultState, double avoidAngle) {
+	return new EvasionStateResult(prevState, resultState, avoidAngle);
     }
 
     public final double getAvoidAngle() {

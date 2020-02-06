@@ -19,7 +19,7 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
     @Override
     public CommonEventStateResult handle(PostEvasionEventStateInput evenStateInput) {
 	EvasionStates nextState = handlePostEvasion(evenStateInput.getMoveable(), evenStateInput.getPositionBeforeEvasion());
-	return evalNextStateAndBuildResult(evenStateInput, nextState);
+	return evalNextStateAndBuildResult(evenStateInput, POST_EVASION, nextState);
     }
 
     private EvasionStates handlePostEvasion(Moveable moveable, Position positionBeforeEvasion) {

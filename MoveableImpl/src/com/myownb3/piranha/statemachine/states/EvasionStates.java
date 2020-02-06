@@ -5,7 +5,6 @@ package com.myownb3.piranha.statemachine.states;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 
 /**
  * Describes the different states when a {@link Moveable} is envasion any
@@ -73,20 +72,9 @@ public enum EvasionStates {
     RETURNING {
 	@Override
 	public EvasionStates nextState() {
-	    return EvasionStates.RE_INIT;
-	}
-    },
-
-    /**
-     * Describes the state after the {@link EvasionStateMachine} returns from the state {@link EvasionStates#RETURNING}
-     * This inidacates that the {@link EvasionStateMachine} has to re-initializes itself
-     */
-    RE_INIT {
-	@Override
-	public EvasionStates nextState() {
 	    return EvasionStates.DEFAULT;
 	}
     };
-    
+
     public abstract EvasionStates nextState();
 }

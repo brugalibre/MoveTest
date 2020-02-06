@@ -13,21 +13,24 @@ public class EvasionStateHandler extends CommonStateHandlerImpl<EvasionEventStat
 
     @Override
     public EvasionStateResult handle(EvasionEventStateInput evenStateInput) {
-	return handleEvasionState(evenStateInput.getGrid(), evenStateInput.getMoveable(), evenStateInput.getDetector(), evenStateInput.getHelper());
+	return handleEvasionState(evenStateInput.getGrid(), evenStateInput.getMoveable(), evenStateInput.getDetector(),
+		evenStateInput.getHelper());
     }
 
-    private EvasionStateResult handleEvasionState(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
+    private EvasionStateResult handleEvasionState(Grid grid, Moveable moveable, Detector detector,
+	    DetectableMoveableHelper helper) {
+	double avoidAngle = 0;
 	if (helper.check4Evasion(grid, moveable)) {
-	    double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+	    avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
 	    if (avoidAngle != 0.0d) {
 		moveable.makeTurnWithoutPostConditions(avoidAngle);
 		helper.checkSurrounding(grid, moveable);
 		if (helper.check4Evasion(grid, moveable)) {
-		    return EvasionStateResult.of(EVASION, avoidAngle);
+		    return EvasionStateResult.of(EVASION, EVASION, avoidAngle);
 		}
 	    }
 	}
-	return EvasionStateResult.of(EVASION.nextState(), 0);
+	return EvasionStateResult.of(EVASION, EVASION.nextState(), avoidAngle);
     }
 
 }

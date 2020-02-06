@@ -9,12 +9,13 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.output.DefaultStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventStateInput> {
 
     @Override
-    public DefaultStateResult handle(CommonEventStateInput evenStateInput) {
+    public CommonEventStateResult handle(CommonEventStateInput evenStateInput) {
 	Position positionBeforeEvasion = handleDefaultState(evenStateInput.getGrid(), evenStateInput.getMoveable(), evenStateInput.getHelper());
 	return buildAndReturnResult(positionBeforeEvasion);
     }
@@ -27,7 +28,8 @@ public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventState
 	return null;
     }
 
-    private DefaultStateResult buildAndReturnResult(Position positionBeforeEvasion) {
-	return new DefaultStateResult(positionBeforeEvasion, positionBeforeEvasion == null ? DEFAULT : EVASION);
+    private CommonEventStateResult buildAndReturnResult(Position positionBeforeEvasion) {
+	EvasionStates nextState = positionBeforeEvasion == null ? DEFAULT : EVASION;
+	return CommonEventStateResult.of(DEFAULT, nextState, positionBeforeEvasion);
     }
 }

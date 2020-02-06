@@ -1,5 +1,8 @@
 package com.myownb3.piranha.statemachine.impl.handler;
 
+import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
+
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -18,15 +21,15 @@ public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStat
     @Override
     public CommonEventStateResult handle(PassingEventStateInput evenStateInput) {
 	EvasionStates nextState = handlePassing(evenStateInput);
-	return evalNextStateAndBuildResult(evenStateInput, nextState);
+	return evalNextStateAndBuildResult(evenStateInput, PASSING, nextState);
     }
 
     private EvasionStates handlePassing(PassingEventStateInput evenStateInput) {
 	if (isPassingUnnecessary(evenStateInput)) {
 	    // Since we are done with passing, lets go to the next state
-	    return EvasionStates.RETURNING;
+	    return RETURNING;
 	}
-	return EvasionStates.PASSING;
+	return PASSING;
     }
 
     private boolean isPassingUnnecessary(PassingEventStateInput evenStateInput) {

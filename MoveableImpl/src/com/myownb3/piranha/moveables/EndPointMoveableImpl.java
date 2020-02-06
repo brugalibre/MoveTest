@@ -32,11 +32,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 	double diffAngle = position.calcAngleRelativeTo(endPos);
 	makeTurn(diffAngle);
     }
-
-    /*
-     * First turn the moveable in the right direction then move forward until we
-     * reach our end position.
-     */
+ 
     @Override
     public MoveResult moveForward2EndPos() {
 	double distance = endPos.calcDistanceTo(position);
@@ -51,41 +47,4 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 	}
 	return new MoveResultImpl(distance, prevDistance, true);
     }
-
-//    private boolean has2MoveOr2Turn(double distance, double angle2Turn) {
-//	return (distance >= getSmallestStepWith() || angle2Turn != 0);
-//    }
-//
-//    private double turnIfNecessary(Position endPos, double origAngle2Turn, int turnFactor) {
-//	double angle2Turn = position.calcAngleRelativeTo(endPos);
-//	if (angle2Turn != 0) {
-//	    double diffAngle = getAngle2TurnIncrement(origAngle2Turn, angle2Turn, turnFactor);
-//	    makeTurn(diffAngle);
-//	    angle2Turn = angle2Turn - diffAngle;
-//	}
-//	return angle2Turn;
-//    }
-//
-//    private double moveForwardIfNecessary(Position endPos, double distance) {
-//	if (distance >= getSmallestStepWith()) {
-//	    moveForward();
-//	    return endPos.calcDistanceTo(position);
-//	}
-//	return distance;
-//    }
-//
-//    /*
-//     * Returns the next angle increment to turn the moveable around. If this
-//     * increment is bigger than the delta to its origin angle, than this delta is
-//     * returned
-//     */
-//    private double getAngle2TurnIncrement(double origAngle2Turn, double angle2Turn, int turnFactor) {
-//
-//	double diffAngle = (int) (origAngle2Turn / turnFactor);
-//
-//	if (Math.abs(diffAngle) >= Math.abs(angle2Turn)) {
-//	    diffAngle = angle2Turn;
-//	}
-//	return diffAngle;
-//    }
 }

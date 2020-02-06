@@ -32,8 +32,6 @@ import com.myownb3.piranha.statemachine.impl.handler.input.PassingEventStateInpu
 import com.myownb3.piranha.statemachine.impl.handler.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.output.DefaultStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.output.EvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -79,60 +77,61 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
     @Override
     public void handlePostConditions(Grid grid, Moveable moveable) {
-	super.handlePostConditions(grid, moveable);
+	beforePostConditions(grid, moveable);
+	CommonEventStateResult eventStateResult = handlePostConditionsInternal(grid, moveable);
+	afterPostConditions (eventStateResult);
+    }
 
+    private CommonEventStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
+	CommonEventStateResult eventStateResult = null;
 	switch (evasionState) {
 	case DEFAULT:
 	    DefaultStateHandler defaultStateHandler = getHandler(DefaultStateHandler.class);
-	    DefaultStateResult defaultStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
-	    setPositionBeforeEvasion(defaultStateResult.getPositionBeforeEvasion());
-	    evasionState = defaultStateResult.getNextState();
+	    eventStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	case EVASION:
 	    EvasionStateHandler evasionStateHandler = getHandler(EvasionStateHandler.class);
-	    EvasionStateResult evasionStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
-	    evasionState = evasionStateResult.getNextState();
-	    setSignum(evasionStateResult);
+	    eventStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	case POST_EVASION:
 	    PostEvasionStateHandler postEvastionStateHandler = getHandler(PostEvasionStateHandler.class);
-	    CommonEventStateResult postEvasionEventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
-	    evasionState = postEvasionEventStateResult.getNextState();
+	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	case PASSING:
 	    PassingStateHandler passingStateHandler = getHandler(PassingStateHandler.class);
-	    CommonEventStateResult passingStateResult = passingStateHandler.handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
-	    evasionState = passingStateResult.getNextState();
+	    eventStateResult = passingStateHandler.handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	case RETURNING:
 	    ReturningStateHandler returningStateHandler = getHandler(ReturningStateHandler.class);
-	    CommonEventStateResult eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
-	    break;
-	case RE_INIT:
-	    reInit();
-	    handlePostConditions(grid, moveable); // Triggers the handling of the default state
 	    break;
 	default:
 	    throw new IllegalStateException("Unknown state'" + evasionState + "'");
 	}
+	return eventStateResult;
     }
 
-    private void setSignum(EvasionStateResult evasionStateResult) {
-	ReturningStateHandler tmpReturningStatHandler = getHandler4State(RETURNING);
-	if (evasionStateResult.getAvoidAngle() > 0) {
-	    tmpReturningStatHandler.setSignum(1);
-	} else if (evasionStateResult.getAvoidAngle() < 0) {
-	    tmpReturningStatHandler.setSignum(-1);
+    private void afterPostConditions(CommonEventStateResult eventStateResult) {
+	boolean isEvadingNow = eventStateResult.getPrevState() != EVASION && evasionState == EVASION;
+	if (isEvadingNow) {
+	    setPositionBeforeEvasion(eventStateResult.getPositionBeforeEvasion());
+	    initHandlers();
 	}
     }
 
-    private void reInit() {
+    private void beforePostConditions(Grid grid, Moveable moveable) {
+	super.handlePostConditions(grid, moveable);
+    }
+
+    private void initHandlers() {
 	evasionStatesHandler2StateMap.values()
 		.stream()
 		.forEach(EvasionStatesHandler::init);
-	positionBeforeEvasion = null;
-	evasionState = EvasionStates.DEFAULT;
     }
     
     private Position setPositionBeforeEvasion(Optional<Position> optionalPos) {

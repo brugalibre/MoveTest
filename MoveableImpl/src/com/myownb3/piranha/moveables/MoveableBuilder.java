@@ -29,7 +29,12 @@ public class MoveableBuilder {
     public static MoveableBuilder builder() {
 	return new MoveableBuilder(new DefaultGrid(), Positions.of(0, 0));
     }
+    
+    public static MoveableBuilder builder(Grid grid) {
+	return new MoveableBuilder(grid, Positions.of(0, 0));
+    }
 
+    @Deprecated
     public MoveableBuilder(Grid grid) {
 	this(grid, Positions.of(0, 0));
     }
