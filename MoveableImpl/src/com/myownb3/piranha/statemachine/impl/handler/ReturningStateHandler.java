@@ -18,7 +18,6 @@ import com.myownb3.piranha.util.MathUtil;
 public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEventStateInput> {
 
     private Position endPos;
-    private int angleIncMultiplier;
     private double returningAngle;
     private double distanceMargin;
     private double angleMargin;
@@ -45,8 +44,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	    double evasionAngleInc) {
 	super();
 	this.endPos = endPos;
-	this.angleIncMultiplier = angleIncMultiplier;
-	this.returningAngle = evasionAngleInc;
+	this.returningAngle = evasionAngleInc * angleIncMultiplier;
 	this.distanceMargin = distanceMargin;
 	this.angleMargin = angleMargin;
 	init();
@@ -110,7 +108,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	    return;
 	}
 	int signum = calcSignum(moveable, endPosLine, currentAngle);
-	double angle2Turn = -signum * returningAngle * angleIncMultiplier;
+	double angle2Turn = signum * returningAngle;
 	moveable.makeTurnWithoutPostConditions(angle2Turn);
     }
 
@@ -125,10 +123,10 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	boolean wasOrdinal = currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d;
 	if (!wasOrdinal) {
 	    double actualDiff = 90.0d - currentAngle;
-	    angle2Turn = Math.min(actualDiff, -signum * returningAngle * angleIncMultiplier);
+	    angle2Turn = Math.min(actualDiff, -signum * returningAngle);
 	} else {
 	    double actualDiff = 0 - currentAngle;
-	    angle2Turn = Math.max(actualDiff, signum * returningAngle * angleIncMultiplier);
+	    angle2Turn = Math.max(actualDiff, signum * returningAngle);
 	}
 	moveable.makeTurnWithoutPostConditions(angle2Turn);
     }
@@ -172,23 +170,21 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     private int calcSignum(Moveable moveable, Float64Vector endPosLine, double currentAngle) {
 
-	Position moveablePos = Positions.of(moveable.getPosition());
-	double returninAngle = returningAngle * angleIncMultiplier;
+	double returninAngle = returningAngle;
 
 	// Rotate negativ and calc diff
-	moveablePos.rotate(-returninAngle);
-	double angleAfterTurnNegativ = calcAngle(moveablePos, endPosLine);
-	double diffNegativ = MathUtil.round(Math.abs(currentAngle - angleAfterTurnNegativ), 10);
+	Position moveablePosTurnNegativ = Positions.of(moveable.getPosition());
+	moveablePosTurnNegativ.rotate(-returninAngle);
+	double angleAfterTurnNegativ = calcAngle(moveablePosTurnNegativ, endPosLine);
 
 	// Rotate positiv and calc diff
-	moveablePos = Positions.of(moveable.getPosition());
-	moveablePos.rotate(returninAngle);
-	double angleAfterTurnPositiv = calcAngle(moveablePos, endPosLine);
-	double diffPositiv = MathUtil.round(Math.abs(currentAngle - angleAfterTurnPositiv), 10);
+	Position moveablePosTurnPositiv = Positions.of(moveable.getPosition());
+	moveablePosTurnPositiv.rotate(returninAngle);
+	double angleAfterTurnPositiv = calcAngle(moveablePosTurnPositiv, endPosLine);
 
 	// Wenn wir uns nach links (minus) drehen, wird der winkel grösser -> dann
 	// lieber nach rechts drehen
-	if (angleAfterTurnNegativ > angleAfterTurnPositiv && diffNegativ > diffPositiv) {
+	if (angleAfterTurnNegativ > angleAfterTurnPositiv) {
 	    return 1;
 	} else /* if (angleAfterTurnNegativ <= currentAngle) */ {
 	    return -1;
