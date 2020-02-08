@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -30,9 +30,9 @@ class DetectorImplTest {
 	Position positionG2 = Positions.of(49, 49);
 	Position positionG3 = Positions.of(90, 90);
 
-	GridElement g1 = new AbstractGridElement(grid, positionG1);
-	GridElement g2 = new AbstractGridElement(grid, positionG2);
-	GridElement g3 = new AbstractGridElement(grid, positionG3);
+	GridElement g1 = new SimpleGridElement(grid, positionG1);
+	GridElement g2 = new SimpleGridElement(grid, positionG2);
+	GridElement g3 = new SimpleGridElement(grid, positionG3);
 	List<GridElement> gridElements = Arrays.asList(g1, g2, g3);
 	Collections.shuffle(gridElements);
 	

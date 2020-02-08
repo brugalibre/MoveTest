@@ -9,12 +9,12 @@ import com.myownb3.piranha.grid.Grid;
  * @author Dominic
  *
  */
-public class AbstractGridElement implements GridElement {
+public class SimpleGridElement implements GridElement {
 
     protected Position position;
     protected Grid grid;
 
-    public AbstractGridElement(Grid grid, Position position) {
+    public SimpleGridElement(Grid grid, Position position) {
 	super();
 	this.position = position;
 	this.grid = grid;

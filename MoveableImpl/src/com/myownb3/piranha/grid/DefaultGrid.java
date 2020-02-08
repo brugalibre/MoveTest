@@ -156,7 +156,7 @@ public class DefaultGrid implements Grid {
     }
 
     /**
-     * Verifies weather or not the given coordinates are within the bounds
+     * Verifies whether or not the given coordinates are within the bounds
      * 
      * @param newX
      * @param newY

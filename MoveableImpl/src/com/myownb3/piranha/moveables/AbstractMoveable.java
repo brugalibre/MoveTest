@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -19,7 +19,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  * @author Dominic
  *
  */
-public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
+public abstract class AbstractMoveable extends SimpleGridElement implements Moveable {
 
     private MoveablePostActionHandler handler;
     private List<Position> positionHistory;
