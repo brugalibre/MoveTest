@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -57,7 +58,7 @@ class EvasionStateHandlerTest {
 	Grid grid = mock(Grid.class);
 	double expectedAngle = 0.0d;
 	Detector detector = spy(Detector.class);
-	Moveable moveable = spy(Moveable.class);
+	Moveable moveable = spyMoveable();
 	
 	DetectableMoveableHelper helper = new OneTimeDetectableMoveableHelper(detector);
 	
@@ -81,7 +82,7 @@ class EvasionStateHandlerTest {
 	Grid grid = mock(Grid.class);
 	double expectedAngle = 10;
 	Detector detector = mockDetector(expectedAngle);
-	Moveable moveable = spy(Moveable.class);
+	Moveable moveable = spyMoveable();
 	
 	DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
 
@@ -94,7 +95,7 @@ class EvasionStateHandlerTest {
 	// Then
 	assertThat(evasionStateResult.getAvoidAngle(), is(expectedAngle));
 	assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION.nextState()));
-	verify(moveable).makeTurnWithoutPostConditions(Mockito.anyDouble());
+	verify(moveable, times(2)).makeTurnWithoutPostConditions(Mockito.anyDouble());
 	verify(helper).checkSurrounding(eq(grid), eq(moveable));
 	verify(helper, times(2)).check4Evasion(eq(grid), eq(moveable));
     }
@@ -106,7 +107,7 @@ class EvasionStateHandlerTest {
 	Grid grid = mock(Grid.class);
 	double expectedAngle = 10;
 	Detector detector = mockDetector(expectedAngle);
-	Moveable moveable = spy(Moveable.class);
+	Moveable moveable = spyMoveable();
 	
 	DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(detector));
 	
@@ -128,6 +129,12 @@ class EvasionStateHandlerTest {
 	Detector detector = mock(Detector.class);
 	when(detector.getEvasionAngleRelative2(any())).thenReturn(expectedAngle);
 	return detector;
+    }
+
+    private Moveable spyMoveable() {
+	Moveable moveable = spy(Moveable.class);
+	Mockito.when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
+	return moveable;
     }
     
     private static class AlwaysEvasionDetectableMoveableHelper extends DetectableMoveableHelper {

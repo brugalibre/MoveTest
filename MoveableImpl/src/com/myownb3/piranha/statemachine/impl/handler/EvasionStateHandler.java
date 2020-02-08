@@ -27,6 +27,9 @@ public class EvasionStateHandler extends CommonStateHandlerImpl<EvasionEventStat
 		helper.checkSurrounding(grid, moveable);
 		if (helper.check4Evasion(grid, moveable)) {
 		    return EvasionStateResult.of(EVASION, EVASION, avoidAngle);
+		}else {
+		    // Since we are not evading anymore, turn one more time
+		    moveable.makeTurnWithoutPostConditions(avoidAngle);
 		}
 	    }
 	}
