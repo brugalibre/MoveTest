@@ -39,7 +39,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 	if (distance >= getSmallestStepWith()) {
 	    moveForward(movingIncrement);
 	    distance = endPos.calcDistanceTo(position);
-	    if (round(distance, 5) > round(prevDistance, 5)) {
+	    if (round(distance, 0) > round(prevDistance, 0)) {
 		return new MoveResultImpl(distance, prevDistance, true);
 	    }
 	    prevDistance = distance;

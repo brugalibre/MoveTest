@@ -39,7 +39,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      * @param angleMargin        margin between the actual angle from the
      *                           {@link Moveable} to it's position before the
      *                           evasion
-     * @param evasionAngleInc    the angle used to turn the {@link Moveable} back to it's origin rout
+     * @param evasionAngleInc    the angle used to turn the {@link Moveable} back to
+     *                           it's origin rout
      */
     public ReturningStateHandler(Position endPos, int angleIncMultiplier, double distanceMargin, double angleMargin,
 	    double evasionAngleInc) {
@@ -72,64 +73,58 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion);
-	handleReturning(positionBeforeEvasion, moveable, endPosLine);
-	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
+	return handleReturning(positionBeforeEvasion, moveable, endPosLine);
     }
 
-    private void handleReturning(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
+    private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
 	switch (state) {
 	case ENTER_RETURNING:
 	    handleFirstAngleCorrection(positionBeforeEvasion, moveable, endPosLine);
 	    state = ReturnStates.ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL;
-	    break;
+	    return RETURNING;
 	case ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL:
 	    doCorrectionPhase1(moveable, positionBeforeEvasion, endPosLine);
-	    evalNextState4StateUntilOrdonal(positionBeforeEvasion, moveable, endPosLine);
-	    break;
+	    return evalNextState4StateUntilOrdonal(positionBeforeEvasion, moveable, endPosLine);
 	case ANGLE_CORRECTION_PHASE_FROM_ORDONAL:
 	    doCorrectionPhase2(moveable, positionBeforeEvasion, endPosLine);
-	    evalNextState4StateFromOrdonal(positionBeforeEvasion, moveable, endPosLine);
-	    break;
+	    return evalNextState4StateFromOrdonal(positionBeforeEvasion, moveable, endPosLine);
 	default:
-	    break;
+	    throw new IllegalStateException("Unhandled State '" + state + "'");
 	}
     }
 
-    private void evalNextState4StateFromOrdonal(Position positionBeforeEvasion, Moveable moveable,
+    private EvasionStates evalNextState4StateFromOrdonal(Position positionBeforeEvasion, Moveable moveable,
 	    Float64Vector endPosLine) {
 	if (facesSameDirection(moveable, endPosLine)) {
-	    state = ReturnStates.NONE;
+	    return RETURNING.nextState();
 	}
+	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
     }
 
-    private void evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable,
+    private EvasionStates evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable,
 	    Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
 		endPosLine);
-	if (currentDistance <= (initialDistance / 2) || currentAngle >= 45.0d) {
+	if (currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d) {
 	    state = ReturnStates.ANGLE_CORRECTION_PHASE_FROM_ORDONAL;
+	    return RETURNING;
 	}
+	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
     }
 
     private void doCorrectionPhase1(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	double actualDiff = 90.0d - currentAngle;
-	    double angle2Turn = Math.min(actualDiff, getAngle2Turn());
+	double angle2Turn = Math.min(actualDiff, getAngle2Turn());
 	moveable.makeTurnWithoutPostConditions(angle2Turn);
     }
 
     private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
-		endPosLine);
-	if (currentAngle >= 45.0d  && currentDistance > (initialDistance / 2)) {
-	    return;
-	}
 	double actualDiff = 0 - currentAngle;
-	double angle2Turn = Math.max(actualDiff, -getAngle2Turn());
-	moveable.makeTurnWithoutPostConditions(angle2Turn);
-	
+	double angle2Turn = Math.max(actualDiff, getAngle2Turn());
+	moveable.makeTurnWithoutPostConditions(-angle2Turn);
     }
 
     private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
@@ -148,6 +143,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	this.initialDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
 		endPosLine);
+	
 	signum = calcSignum(moveable, endPosLine, currentAngle);
 	if (facesSameDirection(moveable, endPosLine)) {
 	    return;
@@ -159,22 +155,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private double getAngle2Turn() {
 	return signum * returningAngle / 1;
     }
-
-//    private void doAngleCorrection(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
-//	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
-//		endPosLine);
-//	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-//	double angle2Turn;
-//	boolean wasOrdinal = currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d;
-//	if (!wasOrdinal) {
-//	    double actualDiff = 90.0d - currentAngle;
-//	    angle2Turn = Math.min(actualDiff, getAngle2Turn());
-//	} else {
-//	    double actualDiff = 0 - currentAngle;
-//	    angle2Turn = Math.max(actualDiff, -getAngle2Turn());
-//	}
-//	moveable.makeTurnWithoutPostConditions(angle2Turn);
-//    }
 
     private static double calcAngle(Position moveablePos, Float64Vector endPosLine) {
 	Float64Vector moveableVector = getVector(moveablePos.getDirection());
@@ -209,29 +189,22 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private Float64Vector getEndPosLine(Position positionBeforeEvasion) {
 	Float64Vector posBeforEvasionVector = getVector(positionBeforeEvasion);
 	Float64Vector endPosVector = getVector(endPos);
-
 	return endPosVector.minus(posBeforEvasionVector);
     }
 
     private int calcSignum(Moveable moveable, Float64Vector endPosLine, double currentAngle) {
-
-	// Rotate negativ and calc diff
+	// Rotate negative and calculate angle
 	Position moveablePosTurnNegativ = Positions.of(moveable.getPosition());
 	moveablePosTurnNegativ.rotate(-returningAngle);
 	double angleAfterTurnNegativ = calcAngle(moveablePosTurnNegativ, endPosLine);
 
-	// Rotate positiv and calc diff
+	// Rotate positive and calculate angle
 	Position moveablePosTurnPositiv = Positions.of(moveable.getPosition());
 	moveablePosTurnPositiv.rotate(returningAngle);
 	double angleAfterTurnPositiv = calcAngle(moveablePosTurnPositiv, endPosLine);
 
-	// Wenn wir uns nach links (minus) drehen, wird der winkel grösser -> dann
-	// lieber nach rechts drehen
-	if (angleAfterTurnNegativ >= angleAfterTurnPositiv) {
-	    return 1;
-	} else /* if (angleAfterTurnNegativ < currentAngle) */ {
-	    return -1;
-	}
+	// The angle after a turn with a positiv number brings us closer to the end-position-line -> positiv signum
+	return angleAfterTurnNegativ >= angleAfterTurnPositiv ? 1 : -1;
     }
 
     /*
@@ -255,9 +228,9 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	 * the angle of the {@link Moveable} is corrected
 	 */
 	ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL,
-	
+
 	ANGLE_CORRECTION_PHASE_FROM_ORDONAL,
-	
+
 	NONE,
     }
 }

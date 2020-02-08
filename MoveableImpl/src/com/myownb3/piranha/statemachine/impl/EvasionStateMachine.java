@@ -86,27 +86,27 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	CommonEventStateResult eventStateResult = null;
 	switch (evasionState) {
 	case DEFAULT:
-	    DefaultStateHandler defaultStateHandler = getHandler(DefaultStateHandler.class);
+	    DefaultStateHandler defaultStateHandler = getHandler();
 	    eventStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case EVASION:
-	    EvasionStateHandler evasionStateHandler = getHandler(EvasionStateHandler.class);
+	    EvasionStateHandler evasionStateHandler = getHandler();
 	    eventStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case POST_EVASION:
-	    PostEvasionStateHandler postEvastionStateHandler = getHandler(PostEvasionStateHandler.class);
+	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
 	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case PASSING:
-	    PassingStateHandler passingStateHandler = getHandler(PassingStateHandler.class);
+	    PassingStateHandler passingStateHandler = getHandler();
 	    eventStateResult = passingStateHandler.handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case RETURNING:
-	    ReturningStateHandler returningStateHandler = getHandler(ReturningStateHandler.class);
+	    ReturningStateHandler returningStateHandler = getHandler();
 	    eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
@@ -138,7 +138,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
     }
 
-    private <T extends EvasionStatesHandler<?>> T getHandler(Class<T> eventStateInputClass) {
+    private <T extends EvasionStatesHandler<?>> T getHandler() {
 	return getHandler4State(evasionState);
     }
 
