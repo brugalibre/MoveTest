@@ -10,6 +10,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
@@ -29,28 +30,15 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     /**
      * Creates a new {@link ReturningStateHandler} with the given
-     * end-{@link Position}
+     * {@link EvasionStateMachineConfig} and ent-position
      * 
-     * @param endPos             the final end position
-     * @param angleIncMultiplier the multiplier used to calculate the angle for
-     *                           correction maneuver
-     * @param distanceMargin     the minimal distance to the vector which shows the
-     *                           direction to the end-point (a {@link Moveable} has
-     *                           to reach
-     * @param angleMargin        margin between the actual angle from the
-     *                           {@link Moveable} to it's position before the
-     *                           evasion
-     * @param evasionAngleInc    the angle used to turn the {@link Moveable} back to
-     *                           it's origin rout
+     * @param endPos
+     *            the final end position
+     * @param config
+     *            the {@link EvasionStateMachineConfig}
      */
-    public ReturningStateHandler(Position endPos, int angleIncMultiplier, double distanceMargin, double angleMargin,
-	    double evasionAngleInc) {
-	super();
-	this.endPos = endPos;
-	this.returningAngle = evasionAngleInc * angleIncMultiplier;
-	this.distanceMargin = distanceMargin;
-	this.angleMargin = angleMargin;
-	init();
+    public ReturningStateHandler(Position endPos, EvasionStateMachineConfig config) {
+	this(endPos, config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(), config.getReturningAngleMargin(), config.getEvasionAngleInc());
     }
 
     @Override
@@ -59,6 +47,16 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	state = ReturnStates.ENTER_RETURNING;
 	this.initialDistance = 0;
 	this.signum = 0;
+    }
+    
+    private ReturningStateHandler(Position endPos, int angleIncMultiplier, double distanceMargin, double angleMargin,
+	    double evasionAngleInc) {
+	super();
+	this.endPos = endPos;
+	this.returningAngle = evasionAngleInc * angleIncMultiplier;
+	this.distanceMargin = distanceMargin;
+	this.angleMargin = angleMargin;
+	init();
     }
 
     @Override
