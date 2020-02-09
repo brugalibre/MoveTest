@@ -5,6 +5,7 @@ package com.myownb3.piranha.launch;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.moveables.EndPointMoveable;
+import com.myownb3.piranha.moveables.MoveResult;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -31,6 +33,7 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
+import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 
 /**
  * @author Dominic
@@ -58,7 +61,13 @@ public class EndPointMoveableLauncher {
 	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(),
 		grid.getDimension().getHeight());
 	showGuiAndStartPainter(mainWindow);
-	prepareAndMoveMoveables(moveable, mainWindow);
+	List<Position> positions = prepareAndMoveMoveables(moveable, mainWindow);
+	preparePositionListPainter(renderers, positions);
+    }
+
+    private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
+	PositionListPainter renderer = renderers.stream().filter(PositionListPainter.class::isInstance).map(PositionListPainter.class::cast).findFirst().get();
+	renderer.setPositions (positions);
     }
 
     private static void showGuiAndStartPainter(MainWindow mainWindow) {
@@ -99,12 +108,16 @@ public class EndPointMoveableLauncher {
 	return allGridElement;
     }
 
-    private static void prepareAndMoveMoveables(EndPointMoveable endPointMoveable, MainWindow mainWindow)
+    private static List<Position> prepareAndMoveMoveables(EndPointMoveable endPointMoveable, MainWindow mainWindow)
 	    throws InterruptedException {
 	while (true) {
-	    endPointMoveable.moveForward2EndPos();
+	    MoveResult moveResult = endPointMoveable.moveForward2EndPos();
+	    if (moveResult.isDone()) {
+		break;
+	    }
 	    Thread.sleep(2);
 	}
+	return endPointMoveable.getPositionHistory();
     }
 
     private static int calcSignum() {
@@ -123,6 +136,7 @@ public class EndPointMoveableLauncher {
 		.collect(Collectors.toList());
 	renderers.add(moveablePainter);
 	renderers.add(new GridPainter(grid));
+	renderers.add(new PositionListPainter(Collections.emptyList(), Color.GREEN, height, width));
 	return renderers;
     }
 
