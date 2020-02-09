@@ -20,7 +20,9 @@ import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.moveables.EndPointMoveable;
+import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
@@ -29,7 +31,6 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
-import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
@@ -41,13 +42,15 @@ public class EndPointMoveableLauncher {
 
     public static void main(String[] args) throws InterruptedException {
 
-	Position endPos = Positions.of(700, 700);
-	DefaultGrid grid = new MirrorGrid((int) endPos.getX(), (int) endPos.getY());
+	Position endPos = Positions.of(500, 500);
+	DefaultGrid grid = new MirrorGrid(510, 510);
+	GridElement endPosMarker = new SimpleGridElement(grid, endPos);
 	int height = 4;
 	int width = 4;
 
 	EndPointMoveable moveable = getMoveable(endPos, grid, 200, 200);
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
+	gridElements.add(endPosMarker);
 	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 
 	List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveablePainter);
@@ -60,13 +63,15 @@ public class EndPointMoveableLauncher {
 
     private static void showGuiAndStartPainter(MainWindow mainWindow) {
 	SwingUtilities.invokeLater(() -> mainWindow.show());
-	new Thread(() ->{	while (true) {
-	    SwingUtilities.invokeLater(() -> mainWindow.refresh());
-	    try {
-		Thread.sleep(2);
-	    } catch (InterruptedException e) {
+	new Thread(() -> {
+	    while (true) {
+		SwingUtilities.invokeLater(() -> mainWindow.refresh());
+		try {
+		    Thread.sleep(2);
+		} catch (InterruptedException e) {
+		}
 	    }
-	}}).start();
+	}).start();
     }
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
@@ -84,8 +89,8 @@ public class EndPointMoveableLauncher {
 	    } else {
 		obstacle.makeTurn(angle - 180);
 	    }
-	    int factor = Math.max(1, (int) MathUtil.getRandom(10));
-	    int randomNo = Math.max(1, (int) MathUtil.getRandom(50));
+//	    int factor = Math.max(1, (int) MathUtil.getRandom(10));
+//	    int randomNo = Math.max(1, (int) MathUtil.getRandom(50));
 //	    obstacle.moveForward(randomNo * factor);
 
 	    allGridElement.add(obstacle);
@@ -122,11 +127,12 @@ public class EndPointMoveableLauncher {
     }
 
     private static Color getColor(GridElement gridElement) {
-	return gridElement instanceof Obstacle ? Color.BLACK : Color.RED;
+	return gridElement instanceof Obstacle ? Color.BLACK : 
+	    gridElement instanceof Moveable ? Color.RED : Color.BLUE;
     }
 
     private static EndPointMoveable getMoveable(Position endPos, Grid grid, int height, int width) {
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.05, 0.7d, 60, 150, 70, 50, 15);
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.05, 0.7d, 60, 150, 70, 50, 10);
 	Position pos = Positions.of(height, width);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());
