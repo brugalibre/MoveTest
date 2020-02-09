@@ -33,17 +33,11 @@ public interface EvasionStateMachineConfig {
     double getEvasionAngleInc();
 
     /**
-     * @return the angle increment a {@link Moveable} turns in order to avoid an
-     *         evasion in State {@link EvasionStates#EVASION}
-     */
-    int getEvasionAngleRelative2Increment();
-
-    /**
      * @returns the Step-width for the angle in State
      *          {@link EvasionStates#POST_EVASION}
      */
     int getPostEvasionAngleAdjustStepWidth();
-
+    
     /**
      * @return the value which is used to multiply the angle to turn a
      *         {@link Moveable} in order to return to it's previous direction in

@@ -13,7 +13,6 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 
     // Attributes of the different EvasionStateHandlerse
     private int postEvasionAngleAdjustStepWidth;
-    private int evasionAngleRelative2Increment;
     private double returningMinDistance;
     private int returningAngleIncMultiplier;
     private int passingDistance;
@@ -63,11 +62,6 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
     @Override
     public final int getReturningAngleIncMultiplier() {
 	return this.returningAngleIncMultiplier;
-    }
-
-    @Override
-    public final int getEvasionAngleRelative2Increment() {
-	return this.evasionAngleRelative2Increment;
     }
 
     @Override
