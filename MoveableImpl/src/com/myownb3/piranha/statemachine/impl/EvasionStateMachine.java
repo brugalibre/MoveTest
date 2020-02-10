@@ -24,14 +24,14 @@ import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.DefaultStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.EvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.PassingStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.PostEvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.ReturningStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.input.PassingEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.postevasion.PostEvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.postevasion.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -69,7 +69,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
-	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth()));
+	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler(endPos, config.getPostEvasionAngleAdjustStepWidth()));
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
 	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos, config));
     }
