@@ -102,12 +102,12 @@ class MoveableControllerTest {
     }
 
     @Test
-    void test_MoveForward_North_WithObstacle() {
+    void test_MoveForward_North_WithObstacle() throws InterruptedException {
 
 	// Given
 	TestCaseBuilder tcb = new TestCaseBuilder()
 		.withDefaultGrid(200, 200)
-		.withEndPos(Positions.of(0, 12))
+		.withEndPos(Positions.of(0, 11))
 		.withObstacle(Positions.of(0, 8))
 		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)
 		.withDetector()
@@ -120,7 +120,7 @@ class MoveableControllerTest {
 
 	// Then
 	Position effectEndPos = tcb.moveable.getPosition();
-	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
 	assertThat(tcb.moveable.getPositionHistory().contains(tcb.obstacle.getPosition()), is(not(true)));
 	assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
     }
@@ -149,7 +149,7 @@ class MoveableControllerTest {
 	assertThat(trackingList.isEmpty(), is(not(true)));
 	assertThat(trackingList.contains(tcb.obstacle.getPosition()), is(not(true)));
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
     }
 
     @Test
@@ -158,7 +158,7 @@ class MoveableControllerTest {
 	// Given
 	TestCaseBuilder tcb = new TestCaseBuilder()
 		.withDefaultGrid(200, 200)
-		.withEndPos(Positions.of(28, 28))
+		.withEndPos(Positions.of(25, 25))
 		.addObstacle(Positions.of(10, 10))
 		.addObstacle(Positions.of(20, 19.5))
 		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
@@ -179,10 +179,10 @@ class MoveableControllerTest {
 	}
 	Position effectEndPos = tcb.moveable.getPosition();
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
     }
     
-    @Test
+//    @Test
     void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
 	
 	// Given
@@ -211,9 +211,10 @@ class MoveableControllerTest {
 	}
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
 //	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
+	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(tcb.moveable.getPositionHistory(), tcb.obstacles);
     }
     
-    @Test 
+    @Test
     void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
 	
 	// Given
@@ -242,8 +243,8 @@ class MoveableControllerTest {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
-//	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
+//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
+	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
     }
     
     private static final class TestCaseBuilder {
@@ -281,6 +282,7 @@ class MoveableControllerTest {
 	public TestCaseBuilder withObstacle(Position obstaclePos) {
 	    Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
 	    obstacle = new ObstacleImpl(grid, obstaclePos);
+	    obstacles.add(obstacle);
 	    return this;
 	}
 

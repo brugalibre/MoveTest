@@ -86,7 +86,7 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
     private int calcSignum(Position moveablePos, Position positionBeforeEvasion) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
 	double angle2Turn = getAngle2Turn(moveablePos, endPosLine);
-	return calcSignum(moveablePos, endPosLine, angle2Turn);
+	return calcSignum(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
     }
 
     private double getAngle2Turn(Position moveablePos, Float64Vector endPosLine) {

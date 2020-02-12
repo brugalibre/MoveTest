@@ -1,5 +1,7 @@
 package com.myownb3.piranha.statemachine.impl.handler;
 
+import static com.myownb3.piranha.grid.gridelement.Positions.movePositionForward;
+import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -15,6 +17,8 @@ import com.myownb3.piranha.util.MathUtil;
 
 public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput> implements EvasionStatesHandler<T> {
    
+    private static final int ANGLE_PRECISION = 5;
+
     @Override
     public void init() {
 	// Nothing to do
@@ -34,31 +38,35 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput> im
 	return CommonEventStateResult.of(prevState, evaluatedNextState, evenStateInput.getMoveablePosBefore());
     }
     
-
     protected Float64Vector getEndPosLine(Position positionBeforeEvasion, Position endPos) {
 	Float64Vector posBeforEvasionVector = getVector(positionBeforeEvasion);
 	Float64Vector endPosVector = getVector(endPos);
 	return endPosVector.minus(posBeforEvasionVector);
     }
   
-    protected int calcSignum(Position moveablePos, Float64Vector endPosLine, double returningAngle) {
+    protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+	    double testTurnAngle) {
 	// Rotate negative and calculate angle
 	Position moveablePosTurnNegative = Positions.of(moveablePos);
-	moveablePosTurnNegative.rotate(-returningAngle);
-	double angleAfterTurnNegative = calcAngle(moveablePosTurnNegative, endPosLine);
+	moveablePosTurnNegative.rotate(-testTurnAngle);
+	moveablePosTurnNegative = movePositionForward(moveablePosTurnNegative);
+	double distanceAfterTurnNegative = calcDistanceFromPositionToLine(moveablePosTurnNegative,
+		positionBeforeEvasion, endPosLine);
 
 	// Rotate positive and calculate angle
 	Position moveablePosTurnPositive = Positions.of(moveablePos);
-	moveablePosTurnPositive.rotate(returningAngle);
-	double angleAfterTurnPositive = calcAngle(moveablePosTurnPositive, endPosLine);
+	moveablePosTurnPositive.rotate(testTurnAngle);
+	moveablePosTurnPositive = movePositionForward(moveablePosTurnPositive);
+	double distanceAfterTurnPositive = calcDistanceFromPositionToLine(moveablePosTurnPositive,
+		positionBeforeEvasion, endPosLine);
 
 	// The angle after a turn with a positive number brings us closer to the
 	// end-position-line -> positive signum
-	return angleAfterTurnNegative >= angleAfterTurnPositive ? 1 : -1;
+	return distanceAfterTurnNegative > distanceAfterTurnPositive ? 1 : -1;
     }
 
     protected double calcAngle(Position moveablePos, Float64Vector endPosLine) {
 	Float64Vector moveableVector = getVector(moveablePos.getDirection());
-	return MathUtil.round(MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector), 10);
+	return MathUtil.round(MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector), ANGLE_PRECISION);
     }
 }

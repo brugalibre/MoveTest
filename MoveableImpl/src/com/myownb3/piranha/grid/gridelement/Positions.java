@@ -56,6 +56,21 @@ public class Positions {
     }
 
     /**
+     * Creates a new {@link Position} with the new x-axis value =
+     * {@link Direction#getForwardX()} + {@link Position#getX()} and the new y-axis
+     * value = {@link Direction#getForwardY()} + {@link Position#getY()}
+     * 
+     * @param position the position
+     * @return a new {@link Position}
+     */
+    public static Position movePositionForward(Position position) {
+	Direction direction = position.getDirection();
+	double newX = position.getX() + direction.getForwardX();
+	double newY = position.getY() + direction.getForwardY();
+	return Positions.of(direction, newX, newY);
+    }
+    
+    /**
      * Returns a new {@link PositionImpl} within the borders of the given
      * {@link Dimension} considering the given height and width of the Position
      * 

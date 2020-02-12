@@ -28,7 +28,7 @@ public class MoveableLauncher {
 
     public static void visualizePositionsWithJFreeChart(List<Position> posList, List<Obstacle> obstacles)
 	    throws InterruptedException {
-	DefaultGrid grid = new SwappingGrid(500, 500);
+	DefaultGrid grid = new SwappingGrid(500, 500, -5, -5);
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//

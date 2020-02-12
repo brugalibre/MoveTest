@@ -135,7 +135,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	    Float64Vector endPosLine) {
 	Position moveablePos = moveable.getPosition();
 	this.initialDistance = calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosLine);
-	signum = calcSignum(moveablePos, endPosLine, returningAngle);
+	signum = calcSignum(moveablePos, positionBeforeEvasion, endPosLine, returningAngle);
 	if (facesSameDirection(moveable, endPosLine)) {
 	    return;
 	}
