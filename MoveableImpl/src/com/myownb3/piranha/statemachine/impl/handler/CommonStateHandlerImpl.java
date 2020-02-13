@@ -39,7 +39,7 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput> im
     }
     
     protected Float64Vector getEndPosLine(Position positionBeforeEvasion, Position endPos) {
-	Float64Vector posBeforEvasionVector = getVector(positionBeforeEvasion);
+	Float64Vector posBeforEvasionVector = getVector(positionBeforeEvasion.getDirection());
 	Float64Vector endPosVector = getVector(endPos);
 	return endPosVector.minus(posBeforEvasionVector);
     }

@@ -74,12 +74,6 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
     private void adjustDirection(Position positionBeforeEvasion, Moveable moveable) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
 	double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
-	
-	double angleDiff = positionBeforeEvasion.getDirection().getAngle() - moveable.getPosition().getDirection().getAngle();
-	if (Math.abs(angleDiff) > stepWidth) {
-	    angleDiff = angleDiff / stepWidth;
-	}
-	
 	moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
     }
     

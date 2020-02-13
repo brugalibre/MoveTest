@@ -43,6 +43,8 @@ public class MoveableBuilder {
 	this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
 	this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
 	movingIncrement = 1;
+	handler = (a, b) -> {
+	};
     }
 
     public MoveableBuilder withHandler(MoveablePostActionHandler handler) {

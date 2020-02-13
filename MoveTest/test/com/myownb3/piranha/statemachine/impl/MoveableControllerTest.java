@@ -182,7 +182,7 @@ class MoveableControllerTest {
 	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
     }
     
-//    @Test
+    @Test
     void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
 	
 	// Given
@@ -211,10 +211,9 @@ class MoveableControllerTest {
 	}
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
 //	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos), 0);
-	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(tcb.moveable.getPositionHistory(), tcb.obstacles);
     }
     
-    @Test
+//    @Test
     void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
 	
 	// Given
@@ -243,8 +242,7 @@ class MoveableControllerTest {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-//	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
-	com.myownb3.piranha.launch.MoveableLauncher.visualizePositionsWithJFreeChart(trackingList, tcb.obstacles);
+	com.myownb3.piranha.test.Assert.assertThatPosition(effectEndPos, is(tcb.endPos));
     }
     
     private static final class TestCaseBuilder {
