@@ -33,13 +33,13 @@ class PostEvasionStateHandlerTest {
 	Grid grid = mock(Grid.class);
 	Moveable moveable = mock(Moveable.class);
 
-	PostEvasionStateHandler handler = new PostEvasionStateHandler(endPos, stepWidth );
+	PostEvasionStateHandler handler = new PostEvasionStateHandler(endPos, stepWidth);
 
 	PostEvasionEventStateInput evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion);
 
 	// When
 	handler.handle(evenStateInput);
-	
+
 	// Then
     }
 
