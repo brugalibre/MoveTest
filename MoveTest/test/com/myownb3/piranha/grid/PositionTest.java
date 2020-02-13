@@ -238,7 +238,7 @@ class PositionTest {
      */
     private Position getTestPos1() {
 	Grid grid = new DefaultGrid(10, 10, -20, -20);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(Directions.S, 0, 0))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(Directions.S, 0, 0))//
 		.build();
 	moveable.moveForward(100);
 	moveable.turnRight();

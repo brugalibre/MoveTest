@@ -36,7 +36,7 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 1))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isEvasion = true;
@@ -56,7 +56,7 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(7, 7));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
-	new MoveableBuilder(grid, Positions.of(8, 8))//
+	MoveableBuilder.builder(grid, Positions.of(8, 8))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	// Since this moveable is placed 'in front' of the obstacle, it must not be
@@ -77,7 +77,7 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
 	Detector detector = new DetectorImpl(5, 45, 15, 5.625);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(3, 2))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(3, 2))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	// GridElement angle is 81.87°
@@ -97,7 +97,7 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7.1));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 1))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isEvasion = true;
@@ -118,7 +118,7 @@ class ScannerTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -1));
 	Detector detector = new DetectorImpl();
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 2))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 2))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isEvasion = true;
@@ -139,7 +139,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -7));
 	Detector detector = new DetectorImpl();
 
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 2))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 2))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isEvasionAfterTurn = true;
@@ -183,7 +183,7 @@ class ScannerTest {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 75, 45, 5.625);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(0, 1))//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 90;
@@ -208,7 +208,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1.8195117, 5));
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 2, 45, 45, 5.625);
 	Detector detector = new DetectorImpl(2, 45, 5.625);
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(0, 1))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(0, 1))//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 120;
@@ -234,7 +234,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2.8867, 7));
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 45, 45, 5.625);
 	Detector detector = new DetectorImpl(5, 45, 5.625);
-	Moveable moveable = new MoveableBuilder(grid)//
+	Moveable moveable = MoveableBuilder.builder(grid)//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 100;
@@ -259,7 +259,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 20));
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
 	Detector detector = new DetectorImpl();
-	new MoveableBuilder(grid)//
+	MoveableBuilder.builder(grid)//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	double expectedEndAngle = 0;
@@ -282,7 +282,7 @@ class ScannerTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(5, 5));
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
 	Detector detector = new DetectorImpl();
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(6, 6))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(6, 6))//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
 	// Must not be an evasion since we are placed 'in front' of the obstacle

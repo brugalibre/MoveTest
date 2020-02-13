@@ -125,7 +125,7 @@ public class RandomMoveableLauncher {
 	Position pos = Positions.getRandomPosition(dimension, height, width);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc() + height);
-	return new MoveableBuilder(grid, pos)//
+	return MoveableBuilder.builder(grid, pos)//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
     }

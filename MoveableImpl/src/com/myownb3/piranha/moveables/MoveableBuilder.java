@@ -27,19 +27,18 @@ public class MoveableBuilder {
     private int movingIncrement;
 
     public static MoveableBuilder builder() {
-	return new MoveableBuilder(new DefaultGrid(), Positions.of(0, 0));
+	return MoveableBuilder.builder(new DefaultGrid(), Positions.of(0, 0));
     }
     
     public static MoveableBuilder builder(Grid grid) {
-	return new MoveableBuilder(grid, Positions.of(0, 0));
+	return MoveableBuilder.builder(grid, Positions.of(0, 0));
     }
 
-    @Deprecated
-    public MoveableBuilder(Grid grid) {
-	this(grid, Positions.of(0, 0));
+    public static MoveableBuilder builder(Grid grid, Position position) {
+	return MoveableBuilder.builder(grid, position);
     }
-
-    public MoveableBuilder(Grid grid, Position position) {
+    
+    private MoveableBuilder(Grid grid, Position position) {
 	this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
 	this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
 	movingIncrement = 1;

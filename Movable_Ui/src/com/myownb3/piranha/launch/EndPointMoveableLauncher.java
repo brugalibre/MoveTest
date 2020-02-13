@@ -66,7 +66,10 @@ public class EndPointMoveableLauncher {
     }
 
     private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
-	PositionListPainter renderer = renderers.stream().filter(PositionListPainter.class::isInstance).map(PositionListPainter.class::cast).findFirst().get();
+	PositionListPainter renderer = renderers.stream().filter(PositionListPainter.class::isInstance)//
+		.map(PositionListPainter.class::cast)//
+		.findFirst()//
+		.get();
 	renderer.setPositions (positions);
     }
 
@@ -150,7 +153,7 @@ public class EndPointMoveableLauncher {
 	Position pos = Positions.of(height, width);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());
-	EndPointMoveable moveable = new MoveableBuilder(grid, pos)//
+	EndPointMoveable moveable = MoveableBuilder.builder(grid, pos)//
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
 		.buildEndPointMoveable();

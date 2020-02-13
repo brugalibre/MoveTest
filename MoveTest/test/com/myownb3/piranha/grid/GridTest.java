@@ -77,7 +77,7 @@ class GridTest {
 
 	// When
 
-	Moveable moveable = new MoveableBuilder(grid, Positions.of(1, 7.1))//
+	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 7.1))//
 		.build();
 	boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
 
@@ -97,7 +97,7 @@ class GridTest {
 
 	// When
 	Executable ex = () -> {
-	    new MoveableBuilder(grid, Positions.of(20, 20))//
+	    MoveableBuilder.builder(grid, Positions.of(20, 20))//
 		    .build();
 	};
 	// Then
@@ -139,7 +139,7 @@ class GridTest {
     public void testOutOfLowerBoundsDefaultGrid() {
 
 	// Given
-	Moveable moveable = new MoveableBuilder(new DefaultGrid(10, 10, 0, 0))//
+	Moveable moveable = MoveableBuilder.builder(new DefaultGrid(10, 10, 0, 0))//
 		.build();
 
 	// When
@@ -155,7 +155,7 @@ class GridTest {
     public void testOutOfLowerBoundsXDefaultGrid() {
 
 	// Given
-	Moveable moveable = new MoveableBuilder(new DefaultGrid(10, 10, 0, 0))//
+	Moveable moveable = MoveableBuilder.builder(new DefaultGrid(10, 10, 0, 0))//
 		.build();
 
 	// When

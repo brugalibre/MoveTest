@@ -14,7 +14,6 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -32,7 +31,7 @@ class EvasionStateMachineTest {
 
 	// Given
 	Grid grid = new DefaultGrid();
-	Moveable moveable = new MoveableBuilder(grid)//
+	Moveable moveable = MoveableBuilder.builder(grid)//
 		.build();
 
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);

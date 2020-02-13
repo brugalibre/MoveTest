@@ -30,7 +30,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
 	Detector detector = new DetectorImpl();
-	new MoveableBuilder(grid, Positions.of(1, 1))//
+	MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isRecognized = true;
@@ -49,7 +49,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
 	Detector detector = new DetectorImpl();
-	new MoveableBuilder(grid, Positions.of(1, 1))//
+	MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean isRecognized = true;
@@ -69,7 +69,7 @@ class ObstacleTest {
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
 	Detector detector = new DetectorImpl();
 
-	new MoveableBuilder(grid, Positions.of(1, 1))//
+	MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 
@@ -89,7 +89,7 @@ class ObstacleTest {
 	Grid grid = new DefaultGrid(100, 100);
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
 	Detector detector = new DetectorImpl();
-	new MoveableBuilder(grid, Positions.of(1, 1))//
+	MoveableBuilder.builder(grid, Positions.of(1, 1))//
 		.withHandler(new DetectableMoveableHelper(detector))//
 		.build();
 	boolean notRecognized = false;
