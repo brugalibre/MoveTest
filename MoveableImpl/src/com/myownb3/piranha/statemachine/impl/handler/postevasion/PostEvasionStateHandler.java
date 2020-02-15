@@ -5,8 +5,10 @@ import static java.lang.Math.max;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.postevasion.input.PostEvasionEventStateInput;
@@ -34,32 +36,34 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
     
     @Override
     public CommonEventStateResult handle(PostEvasionEventStateInput evenStateInput) {
-	EvasionStates nextState = handlePostEvasion(evenStateInput.getMoveable(),
-		evenStateInput.getPositionBeforeEvasion());
+	EvasionStates nextState = handlePostEvasion(evenStateInput);
 	return evalNextStateAndBuildResult(evenStateInput, POST_EVASION, nextState);
     }
 
-    private EvasionStates handlePostEvasion(Moveable moveable, Position positionBeforeEvasion) {
+    private EvasionStates handlePostEvasion(PostEvasionEventStateInput evenStateInput) {
 	switch (state) {
 	case ENTERING_POST_EVASION:
-	    return handleFirstTimePostEvasion(moveable, positionBeforeEvasion);
+	    return handleFirstTimePostEvasion(evenStateInput);
 	case POST_EVASION:
-	    return handlePostEvasionState(moveable, positionBeforeEvasion);
+	    return handlePostEvasionState(evenStateInput);
 	default:
 	    throw new IllegalStateException("Unsupported state ' " + state + "!'");
 	}
     }
 
-    private EvasionStates handleFirstTimePostEvasion(Moveable moveable, Position positionBeforeEvasion) {
-	this.signum = calcSignum(moveable.getPosition(), positionBeforeEvasion);
+    private EvasionStates handleFirstTimePostEvasion(PostEvasionEventStateInput evenStateInput) {
+	Moveable moveable = evenStateInput.getMoveable();
+	this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion());
 	state = PostEvasionStates.POST_EVASION;
-	return handlePostEvasionState(moveable, positionBeforeEvasion);
+	return handlePostEvasionState(evenStateInput);
     }
 
-    private EvasionStates handlePostEvasionState(Moveable moveable, Position positionBeforeEvasion) {
+    private EvasionStates handlePostEvasionState(PostEvasionEventStateInput evenStateInput) {
+	Position positionBeforeEvasion = evenStateInput.getPositionBeforeEvasion();
+	Moveable moveable = evenStateInput.getMoveable();
 	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
 	if (isAngleCorrectionNecessary) {
-	    adjustDirection(positionBeforeEvasion, moveable);
+	    adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), evenStateInput.getGrid());
 	    return POST_EVASION;
 	}
 	return POST_EVASION.nextState();
@@ -71,10 +75,25 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
 	return angle != 0.0d;
     }
 
-    private void adjustDirection(Position positionBeforeEvasion, Moveable moveable) {
+    private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,
+	    Grid grid) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
 	double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
 	moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
+
+	checkSurroundingsAndTurnBackIfNecessary(moveable, helper, grid, signum * -angle2Turn / 2);
+    }
+
+    /*
+     * If the moveable has detected an evasion, revert the turn
+     */
+    private static void checkSurroundingsAndTurnBackIfNecessary(Moveable moveable, DetectableMoveableHelper helper,
+	    Grid grid, double angle2Turn) {
+	helper.checkSurrounding(grid, moveable);
+	if (helper.check4Evasion(grid, moveable)) {
+	    moveable.makeTurnWithoutPostConditions(angle2Turn);
+	}
+	helper.checkSurrounding(grid, moveable);
     }
     
     private int calcSignum(Position moveablePos, Position positionBeforeEvasion) {
