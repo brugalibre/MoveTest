@@ -35,7 +35,7 @@ public class MoveableBuilder {
     }
 
     public static MoveableBuilder builder(Grid grid, Position position) {
-	return MoveableBuilder.builder(grid, position);
+	return new MoveableBuilder(grid, position);
     }
     
     private MoveableBuilder(Grid grid, Position position) {
