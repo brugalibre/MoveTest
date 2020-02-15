@@ -30,6 +30,11 @@ public class MainWindow {
 	mainWindow.add(spielFeld);
 	mainWindow.pack();
 	mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int y = (screenSize.height / 2) - height / 2;
+	int x = (screenSize.width / 2) - width / 2;
+	mainWindow.setBounds(x, y , width, height);
     }
     
     public MainWindow(List<Obstacle> obstacles, List<GridElement> gridElements, int width, int height) {
