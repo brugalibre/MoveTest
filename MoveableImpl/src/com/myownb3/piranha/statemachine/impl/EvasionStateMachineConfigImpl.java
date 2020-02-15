@@ -30,7 +30,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 		evasionAngle, evasionAngleInc);
     }
 
-    public EvasionStateMachineConfigImpl(int angleIncMultiplier, double minDistance, double angleMargin,
+    private EvasionStateMachineConfigImpl(int angleIncMultiplier, double minDistance, double angleMargin,
 	    int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
 	this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
 	this.returningAngleIncMultiplier = angleIncMultiplier;
