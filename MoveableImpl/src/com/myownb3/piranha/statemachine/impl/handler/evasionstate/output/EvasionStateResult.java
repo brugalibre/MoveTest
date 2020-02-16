@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.evasion.output;
+package com.myownb3.piranha.statemachine.impl.handler.evasionstate.output;
 
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;

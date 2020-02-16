@@ -21,9 +21,9 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.evasion.EvasionStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.evasion.input.EvasionEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.evasion.output.EvasionStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.EvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 class EvasionStateHandlerTest {
