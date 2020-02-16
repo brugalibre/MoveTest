@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.statemachine.impl.handler.postevasion;
+package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -25,7 +25,9 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.postevasion.input.PostEvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStates;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
