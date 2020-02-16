@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler;
+package com.myownb3.piranha.statemachine.impl.handler.evasion;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -21,8 +21,9 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.input.EvasionEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.output.EvasionStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.evasion.EvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.evasion.input.EvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.evasion.output.EvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 class EvasionStateHandlerTest {

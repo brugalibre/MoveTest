@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.input;
+package com.myownb3.piranha.statemachine.impl.handler.evasion.input;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,6 +8,7 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
 
 public class EvasionEventStateInput extends CommonEventStateInput {
 
