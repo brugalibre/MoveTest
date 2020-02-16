@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.output;
+package com.myownb3.piranha.statemachine.impl.handler.common.output;
 
 import java.util.Optional;
 

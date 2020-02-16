@@ -6,7 +6,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 
 public class PostEvasionEventStateInput extends CommonEventStateInput {
 

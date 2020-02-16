@@ -6,7 +6,7 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.CommonStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.EvasionStateResult;
 

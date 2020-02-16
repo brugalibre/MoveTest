@@ -8,9 +8,9 @@ import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.input.CommonEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventStateInput> {
