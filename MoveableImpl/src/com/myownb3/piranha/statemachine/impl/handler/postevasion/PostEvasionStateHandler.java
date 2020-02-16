@@ -5,6 +5,7 @@ import static java.lang.Math.max;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
@@ -16,7 +17,10 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionEventStateInput> {
 
-    private PostEvasionStates state;
+    @Visible4Testing
+    static final double MIN_ANGLE_TO_TURN = 4.0;
+    @Visible4Testing
+    PostEvasionStates state;
     private double stepWidth;
     private Position endPos;
     private int signum;
@@ -106,7 +110,7 @@ public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionE
 	double effectAngle2Turn = calcAngle(moveablePos, endPosLine);
 	if (Math.abs(effectAngle2Turn) > stepWidth) {
 	    effectAngle2Turn = effectAngle2Turn / stepWidth;
-	    return max(4, effectAngle2Turn);
+	    return max(MIN_ANGLE_TO_TURN, effectAngle2Turn);
 	}
 	return effectAngle2Turn;
     }
