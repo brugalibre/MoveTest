@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -48,7 +49,8 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 public class EvasionStateMachine extends DetectableMoveableHelper {
 
-    /*Visible4Testing*/ EvasionStates evasionState;
+    @Visible4Testing
+    EvasionStates evasionState;
     private Map<EvasionStates, EvasionStatesHandler<?>> evasionStatesHandler2StateMap;
     private EvasionStateMachineConfig config;
     private Position positionBeforeEvasion;

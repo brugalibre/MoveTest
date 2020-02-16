@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.MathUtil;
@@ -105,7 +106,8 @@ public class DetectorImpl implements Detector {
 	return getNearestEvasionGridElement(position, gridElements);
     }
 
-    /* Visible4Testing */ Optional<GridElement> getNearestEvasionGridElement(Position position,
+    @Visible4Testing
+    Optional<GridElement> getNearestEvasionGridElement(Position position,
 	    List<GridElement> gridElements) {
 	Map<GridElement, Double> gridElement2DistanceMap = fillupMap(position, gridElements);
 	return gridElement2DistanceMap.keySet()
