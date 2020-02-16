@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.returning;
+package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
@@ -11,7 +11,7 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.handler.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.returning.input.ReturningEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 

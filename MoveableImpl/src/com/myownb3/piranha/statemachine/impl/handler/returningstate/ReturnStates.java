@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.statemachine.impl.handler.returning;
+package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;

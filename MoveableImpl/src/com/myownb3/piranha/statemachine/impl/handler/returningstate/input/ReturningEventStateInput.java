@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.returning.input;
+package com.myownb3.piranha.statemachine.impl.handler.returningstate.input;
 
 import static java.util.Objects.requireNonNull;
 
