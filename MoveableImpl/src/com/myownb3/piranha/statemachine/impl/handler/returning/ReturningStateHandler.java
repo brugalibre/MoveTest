@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler;
+package com.myownb3.piranha.statemachine.impl.handler.returning;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
@@ -9,9 +9,9 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.handler.input.ReturningEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.returning.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
@@ -170,26 +170,5 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      */
     private boolean isReturningNotNecessary() {
 	return isNull(endPos);
-    }
-
-    private static enum ReturnStates {
-
-	/**
-	 * This is the default state. The first time the {@link EvasionStateMachine}
-	 * handles the {@link EvasionStates#RETURNING} this state is set
-	 */
-	ENTER_RETURNING,
-
-	/**
-	 * After the second time we enter the {@link EvasionStates#RETURNING} and until
-	 * the angle of the {@link Moveable} is corrected
-	 */
-	ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL,
-
-	/**
-	 * As soon as the {@link Moveable} has a 90 angle to it's target-position-line
-	 * or if it reached half the distance, we enter this state
-	 */
-	ANGLE_CORRECTION_PHASE_FROM_ORDONAL,
     }
 }
