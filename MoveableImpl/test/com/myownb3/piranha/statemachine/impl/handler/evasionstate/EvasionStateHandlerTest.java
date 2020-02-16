@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.evasion;
+package com.myownb3.piranha.statemachine.impl.handler.evasionstate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
