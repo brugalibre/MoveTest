@@ -29,7 +29,7 @@ import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHa
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.PassingStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.postevasion.PostEvasionStateHandlerWithEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
@@ -71,7 +71,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
-	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandler(endPos, config.getPostEvasionAngleAdjustStepWidth()));
+	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandlerWithEndPos(endPos, config.getPostEvasionAngleAdjustStepWidth()));
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
 	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos, config));
     }
@@ -97,7 +97,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case POST_EVASION:
-	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
+	    PostEvasionStateHandlerWithEndPos postEvastionStateHandler = getHandler();
 	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
