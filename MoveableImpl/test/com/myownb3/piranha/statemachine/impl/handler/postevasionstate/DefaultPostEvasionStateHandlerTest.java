@@ -34,7 +34,7 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  * @author Dominic
  *
  */
-class PostEvasionStateHandlerTest {
+class DefaultPostEvasionStateHandlerTest {
 
     @Test
     public void testHandlePostEvasion_AngleCorrectionNotNecessary() {
