@@ -10,7 +10,7 @@ import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerIm
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.EvasionStateResult;
 
-public class EvasionStateHandler extends CommonStateHandlerImpl<EvasionEventStateInput> {
+public class EvasionStateHandler extends CommonStateHandlerImpl<EvasionEventStateInput, EvasionStateResult> {
 
     @Override
     public EvasionStateResult handle(EvasionEventStateInput evenStateInput) {

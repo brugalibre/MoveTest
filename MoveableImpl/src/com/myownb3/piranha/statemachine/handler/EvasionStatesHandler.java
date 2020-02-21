@@ -11,7 +11,7 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
  * @author DStalder
  *
  */
-public interface EvasionStatesHandler<T extends EventStateInput> {
+public interface EvasionStatesHandler<T extends EventStateInput, R extends EventStateResult> {
 
     /**
      * Initializes this {@link EvasionStatesHandler}
@@ -25,5 +25,5 @@ public interface EvasionStatesHandler<T extends EventStateInput> {
      *            the input values
      * @return an {@link EventStateResult}
      */
-    public EventStateResult handle(T evenStateInput);
+    public R handle(T evenStateInput);
 }

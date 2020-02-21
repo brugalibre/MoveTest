@@ -8,6 +8,7 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
+import static java.util.Objects.nonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.defaultstate.DefaultStateHandler;
@@ -29,6 +31,7 @@ import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHa
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.PassingStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.postevasion.DefaultPostEvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.postevasion.PostEvasionStateHandlerWithEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandler;
@@ -51,7 +54,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
     @Visible4Testing
     EvasionStates evasionState;
-    private Map<EvasionStates, EvasionStatesHandler<?>> evasionStatesHandler2StateMap;
+    private Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap;
     private EvasionStateMachineConfig config;
     private Position positionBeforeEvasion;
 
@@ -71,7 +74,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
-	evasionStatesHandler2StateMap.put(POST_EVASION, new PostEvasionStateHandlerWithEndPos(endPos, config.getPostEvasionAngleAdjustStepWidth()));
+	evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler(endPos));
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
 	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos, config));
     }
@@ -97,7 +100,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case POST_EVASION:
-	    PostEvasionStateHandlerWithEndPos postEvastionStateHandler = getHandler();
+	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
 	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
@@ -139,12 +142,19 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
     }
 
-    private <T extends EvasionStatesHandler<?>> T getHandler() {
+    private PostEvasionStateHandler getPostEvasionStateHandler(Position endPos) {
+	if (nonNull(endPos)) {
+	    return new PostEvasionStateHandlerWithEndPos(endPos, config.getPostEvasionAngleAdjustStepWidth());
+	}
+	return new DefaultPostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth());
+    }
+
+    private <T extends EvasionStatesHandler<?, ?>> T getHandler() {
 	return getHandler4State(evasionState);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends EvasionStatesHandler<?>> T getHandler4State(EvasionStates state) {
+    private <T extends EvasionStatesHandler<?, ?>> T getHandler4State(EvasionStates state) {
 	if (evasionStatesHandler2StateMap.containsKey(state)) {
 	    return (T) evasionStatesHandler2StateMap.get(state);
 	}

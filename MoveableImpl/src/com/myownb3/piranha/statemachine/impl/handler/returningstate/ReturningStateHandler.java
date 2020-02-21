@@ -15,7 +15,7 @@ import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.Return
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
-public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEventStateInput> {
+public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEventStateInput, CommonEventStateResult> {
 
     private Position endPos;
     private double returningAngle;

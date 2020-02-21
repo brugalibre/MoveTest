@@ -10,6 +10,7 @@ import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
+import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStates;
@@ -24,7 +25,8 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  * @author Dominic
  *
  */
-public class PostEvasionStateHandlerWithEndPos extends CommonStateHandlerImpl<PostEvasionEventStateInput>{
+public class PostEvasionStateHandlerWithEndPos extends
+	CommonStateHandlerImpl<PostEvasionEventStateInput, CommonEventStateResult> implements PostEvasionStateHandler {
 
     private PostEvasionStates state;
     private double stepWidth;

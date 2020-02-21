@@ -15,7 +15,8 @@ import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventSt
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
-public class PostEvasionStateHandler extends CommonStateHandlerImpl<PostEvasionEventStateInput> {
+public class PostEvasionStateHandler
+	extends CommonStateHandlerImpl<PostEvasionEventStateInput, CommonEventStateResult> {
 
     @Visible4Testing
     static final double MIN_ANGLE_TO_TURN = 4.0;

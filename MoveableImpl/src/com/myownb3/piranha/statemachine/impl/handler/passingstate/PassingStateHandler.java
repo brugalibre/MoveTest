@@ -11,7 +11,7 @@ import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventSt
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
-public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStateInput> {
+public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStateInput, CommonEventStateResult> {
 
     private int passingDistance;
 

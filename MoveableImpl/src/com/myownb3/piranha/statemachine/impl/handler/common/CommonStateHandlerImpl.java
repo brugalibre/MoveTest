@@ -15,7 +15,8 @@ import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventSt
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
-public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput> implements EvasionStatesHandler<T> {
+public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R extends CommonEventStateResult>
+implements EvasionStatesHandler<T, R> {
    
     private static final int ANGLE_PRECISION = 5;
 
