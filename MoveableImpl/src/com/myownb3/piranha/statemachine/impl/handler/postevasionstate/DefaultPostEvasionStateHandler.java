@@ -1,4 +1,4 @@
-package com.myownb3.piranha.statemachine.impl.handler.postevasion;
+package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 

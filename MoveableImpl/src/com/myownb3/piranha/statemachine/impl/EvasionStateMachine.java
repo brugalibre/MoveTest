@@ -31,8 +31,8 @@ import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHa
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.PassingStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.postevasion.DefaultPostEvasionStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.postevasion.PostEvasionStateHandlerWithEndPos;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.DefaultPostEvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandlerWithEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;

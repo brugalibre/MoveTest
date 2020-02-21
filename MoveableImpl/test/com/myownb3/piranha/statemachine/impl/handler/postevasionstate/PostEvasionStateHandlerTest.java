@@ -25,7 +25,7 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandlerWithEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStates;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
@@ -78,7 +78,7 @@ class PostEvasionStateHandlerTest {
 	// Then
 	assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
 	assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
-	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * PostEvasionStateHandler.MIN_ANGLE_TO_TURN));
+	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * PostEvasionStateHandlerWithEndPos.MIN_ANGLE_TO_TURN));
 	verify(tcb.helper, times(3)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
 	verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
     }
@@ -209,7 +209,7 @@ class PostEvasionStateHandlerTest {
 	}
     }
     
-    private static class TestPostEvasionStateHandler extends PostEvasionStateHandler {
+    private static class TestPostEvasionStateHandler extends PostEvasionStateHandlerWithEndPos {
 
 	private Float64Vector endPosLine;
 	private int testSignum;
