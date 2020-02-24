@@ -47,7 +47,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	this.signum = 0;
     }
 
-    private ReturningStateHandler(Position endPos, int angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
+    private ReturningStateHandler(Position endPos, double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
 	super();
 	this.endPos = endPos;
 	this.returningAngle = evasionAngleInc * angleIncMultiplier;
@@ -138,7 +138,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     }
 
     private double getAngle2Turn() {
-	return signum * returningAngle / 1;
+	return signum * returningAngle;
     }
 
     /*

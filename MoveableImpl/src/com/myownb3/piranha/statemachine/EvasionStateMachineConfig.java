@@ -43,7 +43,7 @@ public interface EvasionStateMachineConfig {
      *         {@link Moveable} in order to return to it's previous direction in
      *         State {@link EvasionStates#RETURNING}
      */
-    int getReturningAngleIncMultiplier();
+    double getReturningAngleIncMultiplier();
 
     /**
      * @return the minimal distance a {@link Moveable} has to approximate to it's
