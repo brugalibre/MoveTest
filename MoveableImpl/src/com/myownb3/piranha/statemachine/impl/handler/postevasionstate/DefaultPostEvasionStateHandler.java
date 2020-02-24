@@ -62,7 +62,7 @@ public class DefaultPostEvasionStateHandler extends
 	helper.checkSurrounding(grid, moveable);
     }
 
-    /* Visible4Testing */double getAngle2Turn(Position moveablePos, double startPosAngle) {
+    private double getAngle2Turn(Position moveablePos, double startPosAngle) {
 	double angleDiff = startPosAngle - moveablePos.getDirection().getAngle();
 	if (Math.abs(angleDiff) > stepWidth) {
 	    return angleDiff / stepWidth;
