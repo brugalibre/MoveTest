@@ -26,14 +26,4 @@ public class Assert {
 	Position value2BeTested = Positions.of(actualPos.getDirection(), roundedX, roundedY);
 	org.junit.Assert.assertThat(value2BeTested, matcher);
     }
-
-    /**
-     * @param actualPos
-     * @param matcher
-     * @param decimalPlaces
-     */
-    public static void assertThatPosition(Position actualPos, Matcher<? super Position> matcher) {
-	Position value2BeTested = Positions.of(actualPos.getDirection(), (int) actualPos.getX(), (int) actualPos.getY());
-	org.junit.Assert.assertThat(value2BeTested, matcher);
-    }
 }
