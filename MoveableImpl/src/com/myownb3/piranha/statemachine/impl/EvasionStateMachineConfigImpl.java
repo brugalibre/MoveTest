@@ -22,16 +22,24 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
     private int detectorAngle;
     private int evasionAngle;
     private double evasionAngleInc;
+
     private double returningAngleMargin;
+    private int returingMovingForwardIncrement;
 
     public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
 	    int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
 	this(angleIncMultiplier, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, detectorAngle,
-		evasionAngle, evasionAngleInc);
+		evasionAngle, evasionAngleInc, 0);
+    }
+    
+    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
+	    int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc, int returingMovingForwardIncrement) {
+	this(angleIncMultiplier, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, detectorAngle,
+		evasionAngle, evasionAngleInc, returingMovingForwardIncrement);
     }
 
     private EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
-	    int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
+	    int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc, int returingMovingForwardIncrement) {
 	this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
 	this.returningAngleIncMultiplier = angleIncMultiplier;
 	this.returningMinDistance = minDistance;
@@ -42,6 +50,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 	this.detectorReach = detectorReach;
 	this.detectorAngle = detectorAngle;
 	this.evasionAngle = evasionAngle;
+	this.returingMovingForwardIncrement = returingMovingForwardIncrement;
     }
 
     @Override
@@ -62,6 +71,11 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
     @Override
     public final double getReturningAngleIncMultiplier() {
 	return this.returningAngleIncMultiplier;
+    }
+    
+    @Override
+    public int getReturingMovingForwardIncrement() {
+        return returingMovingForwardIncrement;
     }
 
     @Override
