@@ -7,7 +7,6 @@ import static java.util.Objects.isNull;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.moveables.AbstractMoveable;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
@@ -26,7 +25,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private ReturnStates state;
     private double initialDistance;
     private int signum;
-    private int movingForwardIncrement;
 
     /**
      * Creates a new {@link ReturningStateHandler} with the given
@@ -38,9 +36,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      *            the {@link EvasionStateMachineConfig}
      */
     public ReturningStateHandler(Position endPos, EvasionStateMachineConfig config) {
-	this(endPos, config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(),
-		config.getReturningAngleMargin(), config.getEvasionAngleInc(),
-		config.getReturingMovingForwardIncrement());
+	this(endPos, config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(), config.getReturningAngleMargin(), config.getEvasionAngleInc());
     }
 
     @Override
@@ -51,13 +47,12 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	this.signum = 0;
     }
 
-    private ReturningStateHandler(Position endPos, double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc, int movingForwardIncrement) {
+    private ReturningStateHandler(Position endPos, double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
 	super();
 	this.endPos = endPos;
 	this.returningAngle = evasionAngleInc * angleIncMultiplier;
 	this.distanceMargin = distanceMargin;
 	this.angleMargin = angleMargin;
-	this.movingForwardIncrement = movingForwardIncrement;
 	init();
     }
 
@@ -98,27 +93,11 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private EvasionStates evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion, endPosLine);
-	if (isNextState(currentAngle, currentDistance)) {
+	if (currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d) {
 	    state = ReturnStates.ANGLE_CORRECTION_PHASE_FROM_ORDONAL;
 	    return RETURNING;
 	}
 	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
-    }
-
-    /*
-     * We need to enter the next state if
-     * 	- we have done half the work, that means
-     * 		- the moveable has a 90deg angle to the end-position-line
-     * 		- the current distance is half the distance it was at the beginning
-     * 	- or the current distance is getting bigger than the distance at the beginning
-     */
-    private boolean isNextState(double currentAngle, double currentDistance) {
-	return hasDoneHalfOfWork(currentAngle, currentDistance)
-		|| currentDistance > initialDistance;
-    }
-
-    private boolean hasDoneHalfOfWork(double currentAngle, double currentDistance) {
-	return currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d;
     }
 
     private void doCorrectionPhase1(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
@@ -126,7 +105,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	double actualDiff = 90.0d - currentAngle;
 	double angle2Turn = Math.min(actualDiff, getAngle2Turn());
 	moveable.makeTurnWithoutPostConditions(angle2Turn);
-	moveForward(moveable);
     }
 
     private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
@@ -134,13 +112,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	double actualDiff = 0 - currentAngle;
 	double angle2Turn = Math.max(actualDiff, getAngle2Turn());
 	moveable.makeTurnWithoutPostConditions(-angle2Turn);
-	moveForward(moveable);
-    }
-    
-    private void moveForward(Moveable moveable) {
-	for (int i = 0; i < movingForwardIncrement; i++) {
-	    ((AbstractMoveable) moveable).moveForwardInternal();
-	}
     }
 
     private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {

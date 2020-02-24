@@ -37,7 +37,7 @@ public interface EvasionStateMachineConfig {
      *          {@link EvasionStates#POST_EVASION}
      */
     int getPostEvasionAngleAdjustStepWidth();
-
+    
     /**
      * @return the value which is used to multiply the angle to turn a
      *         {@link Moveable} in order to return to it's previous direction in
@@ -46,24 +46,10 @@ public interface EvasionStateMachineConfig {
     double getReturningAngleIncMultiplier();
 
     /**
-     * Returns the amount of steps a {@link Moveable} is moved forward after it had
-     * done one increment of an angle correction
-     * 
-     * @return the amount of steps a {@link Moveable} is moved forward after it had
-     *         done one increment of an angle correction
-     */
-    int getReturingMovingForwardIncrement();
-
-    /**
      * @return the minimal distance a {@link Moveable} has to approximate to it's
      *         previous direction in State {@link EvasionStates#RETURNING}
      */
     double getReturningMinDistance();
-
-    /**
-     * @return the margin which is tolerated between the actual angle and 0 degrees
-     */
-    double getReturningAngleMargin();
 
     /**
      * @return the angle to detect an evasion with a {@link GridElement}
@@ -86,4 +72,8 @@ public interface EvasionStateMachineConfig {
      */
     int getPassingDistance();
 
+    /**
+     * @return the margin which is tolerated between the actual angle and 0 degrees
+     */
+    double getReturningAngleMargin();
 }

@@ -42,7 +42,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
 	handler.handlePostConditions(getGrid(), this);
     }
 
-    public void moveForwardInternal() {
+    private void moveForwardInternal() {
 	position = getGrid().moveForward(position);
 	trackPosition(position);
     }
