@@ -47,7 +47,7 @@ public class EndPointMoveableLauncher {
 
 	Position endPos = Positions.of(400, 400);
 	DefaultGrid grid = new MirrorGrid(510, 510);
-	GridElement endPosMarker = new SimpleGridElement(new DefaultGrid(400, 400), endPos);
+	GridElement endPosMarker = new SimpleGridElement(grid, endPos);
 	int height = 4;
 	int width = 4;
 

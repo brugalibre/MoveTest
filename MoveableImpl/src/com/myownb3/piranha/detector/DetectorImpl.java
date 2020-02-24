@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.MathUtil;
 
@@ -27,8 +27,8 @@ public class DetectorImpl implements Detector {
     private int evasionDistance;
     private double evasionAngle;
 
-    private Map<GridElement, Boolean> detectionMap;
-    private Map<GridElement, Boolean> isEvasionMap;
+    private Map<Avoidable, Boolean> detectionMap;
+    private Map<Avoidable, Boolean> isEvasionMap;
 
     /**
      * Default Constructor, only used for Tests
@@ -52,11 +52,11 @@ public class DetectorImpl implements Detector {
     }
     
     @Override
-    public void detectObject(GridElement gridElement, Position position) {
+    public void detectObject(Avoidable avoidable, Position position) {
 
 	boolean isDetected = false;
 
-	Position gridElemPos = gridElement.getPosition();
+	Position gridElemPos = avoidable.getPosition();
 	double distance = gridElemPos.calcDistanceTo(position);
 	boolean isPotentialCollisionCourse = false;
 
@@ -68,12 +68,12 @@ public class DetectorImpl implements Detector {
 		isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
 		isEvasion = isDetected && isPotentialCollisionCourse;
 	    }
-	    detectionMap.put(gridElement, isDetected);
-	    isEvasionMap.put(gridElement, isEvasion);
+	    detectionMap.put(avoidable, isDetected);
+	    isEvasionMap.put(avoidable, isEvasion);
 	    return;
 	}
-	detectionMap.remove(gridElement);
-	isEvasionMap.remove(gridElement);
+	detectionMap.remove(avoidable);
+	isEvasionMap.remove(avoidable);
     }
 
     @Override
@@ -82,14 +82,14 @@ public class DetectorImpl implements Detector {
 	double avoidAngle = 0;
 	double ourAngle = position.getDirection().getAngle();
 
-	Optional<GridElement> evasionGridElement = getNearestEvasionGridElement(position);
-	if (evasionGridElement.isPresent()) {
-	    GridElement gridElement = evasionGridElement.get();
-	    Position gridElemPos = gridElement.getPosition();
-	    double gridElementAngle = gridElemPos.calcAbsolutAngle();
+	Optional<Avoidable> evasionAvoidable = getNearestEvasionAvoidable(position);
+	if (evasionAvoidable.isPresent()) {
+	    Avoidable avoidable = evasionAvoidable.get();
+	    Position gridElemPos = avoidable.getPosition();
+	    double avoidableAngle = gridElemPos.calcAbsolutAngle();
 
-	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, gridElementAngle, detectorAngle)
-		    && gridElementAngle >= ourAngle;
+	    boolean isInUpperBounds = isWithinUpperBorder(ourAngle, avoidableAngle, detectorAngle)
+		    && avoidableAngle >= ourAngle;
 
 	    if (isInUpperBounds) {
 		avoidAngle = -angleInc;// Turn to the right
@@ -101,55 +101,55 @@ public class DetectorImpl implements Detector {
 	return avoidAngle;
     }
 
-    private Optional<GridElement> getNearestEvasionGridElement(Position position) {
-	List<GridElement> gridElements = getEvasionGridElements();
-	return getNearestEvasionGridElement(position, gridElements);
+    private Optional<Avoidable> getNearestEvasionAvoidable(Position position) {
+	List<Avoidable> avoidables = getEvasionAvoidables();
+	return getNearestEvasionAvoidable(position, avoidables);
     }
 
     @Visible4Testing
-    Optional<GridElement> getNearestEvasionGridElement(Position position,
-	    List<GridElement> gridElements) {
-	Map<GridElement, Double> gridElement2DistanceMap = fillupMap(position, gridElements);
-	return gridElement2DistanceMap.keySet()
+    Optional<Avoidable> getNearestEvasionAvoidable(Position position,
+	    List<Avoidable> avoidables) {
+	Map<Avoidable, Double> avoidable2DistanceMap = fillupMap(position, avoidables);
+	return avoidable2DistanceMap.keySet()
 		.stream()
-		.sorted(sort4Distance(gridElement2DistanceMap))
+		.sorted(sort4Distance(avoidable2DistanceMap))
 		.findFirst();
     }
 
-    private Map<GridElement, Double> fillupMap(Position position, List<GridElement> gridElements) {
-	Map<GridElement, Double> gridElement2DistanceMap = new HashMap<>();
-	for (GridElement gridElement : gridElements) {
-	    Position gridElemPos = gridElement.getPosition();
+    private Map<Avoidable, Double> fillupMap(Position position, List<Avoidable> avoidables) {
+	Map<Avoidable, Double> avoidable2DistanceMap = new HashMap<>();
+	for (Avoidable avoidable : avoidables) {
+	    Position gridElemPos = avoidable.getPosition();
 	    double distance = gridElemPos.calcDistanceTo(position);
-	    gridElement2DistanceMap.put(gridElement, Double.valueOf(distance));
+	    avoidable2DistanceMap.put(avoidable, Double.valueOf(distance));
 	}
-	return gridElement2DistanceMap;
+	return avoidable2DistanceMap;
     }
 
-    private static Comparator<? super GridElement> sort4Distance(Map<GridElement, Double> gridElement2DistanceMap) {
+    private static Comparator<? super Avoidable> sort4Distance(Map<Avoidable, Double> avoidable2DistanceMap) {
 	return (g1, g2) -> {
-	    Double distanceGridElem1ToPoint = gridElement2DistanceMap.get(g1);
-	    Double distanceGridElem2ToPoint = gridElement2DistanceMap.get(g2);
+	    Double distanceGridElem1ToPoint = avoidable2DistanceMap.get(g1);
+	    Double distanceGridElem2ToPoint = avoidable2DistanceMap.get(g2);
 	    return distanceGridElem1ToPoint.compareTo(distanceGridElem2ToPoint);
 	};
     }
 
-    private List<GridElement> getEvasionGridElements() {
+    private List<Avoidable> getEvasionAvoidables() {
 	return isEvasionMap.keySet()//
 		.stream()//
-		.filter(gridElement -> isEvasionMap.get(gridElement))//
+		.filter(avoidable -> isEvasionMap.get(avoidable))//
 		.collect(Collectors.toList());
     }
 
     @Override
-    public final boolean isEvasion(GridElement gridElement) {
-	Boolean isEvasion = isEvasionMap.get(gridElement);
+    public final boolean isEvasion(Avoidable avoidable) {
+	Boolean isEvasion = isEvasionMap.get(avoidable);
 	return isEvasion == null ? false : isEvasion;
     }
 
     @Override
-    public boolean hasObjectDetected(GridElement gridElement) {
-	Boolean hasObjectDetected = detectionMap.get(gridElement);
+    public boolean hasObjectDetected(Avoidable avoidable) {
+	Boolean hasObjectDetected = detectionMap.get(avoidable);
 	return hasObjectDetected == null ? false : hasObjectDetected;
     }
 
