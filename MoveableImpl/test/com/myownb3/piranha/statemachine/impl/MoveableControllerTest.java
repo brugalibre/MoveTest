@@ -110,7 +110,7 @@ class MoveableControllerTest {
 		.withDefaultGrid(200, 200)
 		.withEndPos(Positions.of(0, 11))
 		.withObstacle(Positions.of(0, 8))
-		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)
+		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10, 15)
 		.withDetector()
 		.withStateMachine()
 		.withMoveable()
@@ -135,7 +135,7 @@ class MoveableControllerTest {
 		.withDefaultGrid(200, 200)
 		.withEndPos(Positions.of(28, 28))
 		.withObstacle(Positions.of(10, 10))
-		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)
+		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10, 15)
 		.withDetector()
 		.withStateMachine()
 		.withMoveable()
@@ -164,7 +164,7 @@ class MoveableControllerTest {
 		.withEndPos(Positions.of(25, 25))
 		.addObstacle(Positions.of(10, 10))
 		.addObstacle(Positions.of(20, 19.5))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10, 15)
 		.withDetector()
 		.withStateMachine()
 		.withMoveable()
@@ -196,7 +196,7 @@ class MoveableControllerTest {
 		.addObstacle(Positions.of(10, 10))
 		.addObstacle(Positions.of(20, 19.5))
 		.addObstacle(Positions.of(23, 23))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10, 15)
 		.withDetector()
 		.withStateMachine()
 		.withMoveable()
@@ -228,7 +228,7 @@ class MoveableControllerTest {
 		.addObstacle(Positions.of(10, 10))
 		.addObstacle(Positions.of(20, 18.5))
 		.addObstacle(Positions.of(25, 25))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10, 15)
 		.withDetector()
 		.withStateMachine()
 		.withMovingIncrement(1)
@@ -247,7 +247,7 @@ class MoveableControllerTest {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
-	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+	org.junit.Assert.assertThat(round(effectEndPos.getY() - 1, 0), is(round(tcb.endPos.getY(), 0)));
 	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
     }
     
@@ -302,11 +302,13 @@ class MoveableControllerTest {
 	    return this;
 	}
 	
-	public TestCaseBuilder withStateMachineConfig(int angleIncMultiplier, double minDistance, double angleMargin, int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-	    config = new EvasionStateMachineConfigImpl(angleIncMultiplier, minDistance, angleMargin, detectorReach, detectorAngle, evasionAngle, evasionAngleInc);
+	public TestCaseBuilder withStateMachineConfig(int angleIncMultiplier, double minDistance, double angleMargin,
+		int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc, int returingMovingForwardIncrement) {
+	    config = new EvasionStateMachineConfigImpl(angleIncMultiplier, minDistance, angleMargin, detectorReach,
+		    detectorAngle, evasionAngle, evasionAngleInc, returingMovingForwardIncrement);
 	    return this;
 	}
-	
+
 	public TestCaseBuilder withStateMachine(){
 	    stateMachine = new EvasionStateMachine(detector, endPos, config);
 	    return this;
