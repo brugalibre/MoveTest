@@ -6,8 +6,8 @@ package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -19,14 +19,13 @@ import org.mockito.Mockito;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
-import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandlerWithEndPos;
-import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStates;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -221,7 +220,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 	}
 
 	@Override
-	protected Float64Vector getEndPosLine(Position positionBeforeEvasion, Position endPos) {
+	protected Float64Vector getEndPosLine(Direction posBeforeEvasionDirection, Position endPos) {
 	    return endPosLine;
 	}
 

@@ -76,14 +76,14 @@ public class PostEvasionStateHandlerWithEndPos extends
     }
 
     private boolean isAngleCorrectionNecessary(Position positionBeforeEvasion, Moveable moveable) {
-	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
+	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle = calcAngle(moveable.getPosition(), endPosLine);
 	return angle != 0.0d;
     }
 
     private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,
 	    Grid grid) {
-	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
+	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
 	moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
 
@@ -103,7 +103,7 @@ public class PostEvasionStateHandlerWithEndPos extends
     }
     
     private int calcSignum(Position moveablePos, Position positionBeforeEvasion) {
-	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
+	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveablePos, endPosLine);
 	return calcSignum(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
     }

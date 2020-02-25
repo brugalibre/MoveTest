@@ -19,6 +19,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     private Position endPos;
     private double returningAngle;
+    private double initReturningAngle;
     private double distanceMargin;
     private double angleMargin;
 
@@ -45,12 +46,13 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	state = ReturnStates.ENTER_RETURNING;
 	this.initialDistance = 0;
 	this.signum = 0;
+	this.returningAngle = initReturningAngle;
     }
 
     private ReturningStateHandler(Position endPos, double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
 	super();
 	this.endPos = endPos;
-	this.returningAngle = evasionAngleInc * angleIncMultiplier;
+	this.initReturningAngle = evasionAngleInc * angleIncMultiplier;
 	this.distanceMargin = distanceMargin;
 	this.angleMargin = angleMargin;
 	init();
@@ -84,8 +86,11 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     }
 
     private EvasionStates evalNextState4StateFromOrdonal(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
-	if (facesSameDirection(moveable, endPosLine)) {
-	    return RETURNING.nextState();
+	if (facesSameDirection(moveable, endPosLine)
+		&& !isMoveableOnEndPosDirection(endPosLine, positionBeforeEvasion, moveable.getPosition())) {
+	    state = ReturnStates.ENTER_RETURNING;
+	    returningAngle = returningAngle / 2;
+	    return RETURNING;
 	}
 	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
     }
@@ -129,7 +134,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
 	Position moveablePos = moveable.getPosition();
 	this.initialDistance = calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosLine);
-	signum = calcSignum(moveablePos, positionBeforeEvasion, endPosLine, returningAngle);
+	signum = calcSignum(moveablePos, positionBeforeEvasion, endPosLine, initReturningAngle);
 	if (facesSameDirection(moveable, endPosLine)) {
 	    return;
 	}

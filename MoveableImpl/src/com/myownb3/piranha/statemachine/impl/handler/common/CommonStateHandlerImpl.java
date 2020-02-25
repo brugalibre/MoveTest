@@ -6,6 +6,7 @@ import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -39,12 +40,21 @@ implements EvasionStatesHandler<T, R> {
 	return CommonEventStateResult.of(prevState, evaluatedNextState, evenStateInput.getMoveablePosBefore());
     }
     
-    protected Float64Vector getEndPosLine(Position positionBeforeEvasion, Position endPos) {
-	Float64Vector posBeforEvasionVector = getVector(positionBeforeEvasion.getDirection());
+    protected Float64Vector getEndPosLine(Direction posBeforeEvasionDirection, Position endPos) {
+	Float64Vector posBeforEvasionVector = getVector(posBeforeEvasionDirection);
+	return getEndPosLineInternal(endPos, posBeforEvasionVector);
+    }
+
+    protected Float64Vector getEndPosLine(Position posBeforeEvasion, Position endPos) {
+	Float64Vector posBeforEvasionVector = getVector(posBeforeEvasion);
+	return getEndPosLineInternal(endPos, posBeforEvasionVector);
+    }
+
+    private Float64Vector getEndPosLineInternal(Position endPos, Float64Vector posBeforEvasionVector) {
 	Float64Vector endPosVector = getVector(endPos);
 	return endPosVector.minus(posBeforEvasionVector);
     }
-  
+    
     protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
 	    double testTurnAngle) {
 	// Rotate negative and calculate angle
