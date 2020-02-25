@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.statemachine.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assume.assumeThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,7 @@ class EvasionStateMachineTest {
 	};
 
 	// Then
+	assumeThat(EvasionStates.NONE.nextState(), is(EvasionStates.NONE));
 	assertThrows(IllegalStateException.class, ex);
     }
 }
