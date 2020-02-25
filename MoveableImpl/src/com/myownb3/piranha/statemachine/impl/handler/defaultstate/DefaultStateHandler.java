@@ -1,7 +1,6 @@
 package com.myownb3.piranha.statemachine.impl.handler.defaultstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
-import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -30,7 +29,7 @@ public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventState
     }
 
     private CommonEventStateResult buildAndReturnResult(Position positionBeforeEvasion) {
-	EvasionStates nextState = positionBeforeEvasion == null ? DEFAULT : EVASION;
+	EvasionStates nextState = positionBeforeEvasion == null ? DEFAULT : DEFAULT.nextState();
 	return CommonEventStateResult.of(DEFAULT, nextState, positionBeforeEvasion);
     }
 }
