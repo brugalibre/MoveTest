@@ -17,6 +17,10 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public class VectorUtil {
 
+    private VectorUtil() {
+	// private
+    }
+    
     /**
      * Creates a {@link Float64Vector} for the given {@link Position} and its x,-
      * and y-coordinates
