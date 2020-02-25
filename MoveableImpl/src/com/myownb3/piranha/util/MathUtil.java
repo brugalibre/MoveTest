@@ -20,6 +20,10 @@ import com.myownb3.piranha.moveables.Moveable;
  */
 public class MathUtil {
 
+    private MathUtil() {
+	// private
+    }
+    
     public static double round(double value, int places) {
 
 	if (places < 0 || places > 30) {
