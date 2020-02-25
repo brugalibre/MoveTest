@@ -115,7 +115,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	double actualDiff = 0 - currentAngle;
-	double angle2Turn = Math.max(actualDiff, getAngle2Turn());
+	double angle2Turn = Math.min(Math.abs(actualDiff), getAngle2Turn());
 	moveable.makeTurnWithoutPostConditions(-angle2Turn);
     }
 
