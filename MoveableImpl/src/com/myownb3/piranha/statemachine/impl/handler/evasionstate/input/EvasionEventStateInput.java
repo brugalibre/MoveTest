@@ -5,16 +5,13 @@ import static java.util.Objects.requireNonNull;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 
 public class EvasionEventStateInput extends CommonEventStateInput {
 
-    private Position positionBeforeEvasion;
     private Detector detector;
-    private int passingDistance;
 
     public EvasionEventStateInput(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
 	super(grid, moveable, helper);
@@ -23,14 +20,6 @@ public class EvasionEventStateInput extends CommonEventStateInput {
 
     public Detector getDetector() {
 	return detector;
-    }
-
-    public Position getPositionBeforeEvasion() {
-	return positionBeforeEvasion;
-    }
-
-    public int getPassingDistance() {
-	return passingDistance;
     }
 
     /**
