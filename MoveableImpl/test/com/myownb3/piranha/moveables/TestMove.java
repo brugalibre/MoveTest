@@ -18,6 +18,7 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 import com.myownb3.piranha.grid.direction.Directions;
@@ -327,7 +328,8 @@ class TestMove {
 	int angle = 0;
 	Position pos = spy(Positions.of(0, 0));
 	MoveablePostActionHandler spyHandler = spy(new MoveablePostActionHandlerTest());
-	DefaultGrid grid = new DefaultGrid();
+	DefaultGrid grid = GridBuilder.builder()//
+		.build();
 	Moveable moveable = new SimpleTestMoveable(grid, pos, spyHandler);
 
 	// When

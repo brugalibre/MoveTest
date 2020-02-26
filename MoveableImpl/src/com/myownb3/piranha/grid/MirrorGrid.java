@@ -3,6 +3,10 @@
  */
 package com.myownb3.piranha.grid;
 
+import static java.util.Objects.isNull;
+
+import java.util.Objects;
+
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
@@ -17,22 +21,22 @@ public class MirrorGrid extends DefaultGrid {
 
     /**
      * 
-     * @param maxY
      * @param maxX
+     * @param maxY
      */
-    public MirrorGrid(int maxY, int maxX) {
-	super(maxY, maxX, 0, 0);
+    private  MirrorGrid(int maxX, int maxY) {
+	super(maxX, maxY, 0, 0);
     }
 
     /**
      * 
-     * @param maxY
      * @param maxX
+     * @param maxY
      * @param minX
      * @param minY
      */
-    public MirrorGrid(int maxY, int maxX, int minX, int minY) {
-	super(maxY, maxX, minX, minY);
+    private MirrorGrid(int maxX, int maxY, int minX, int minY) {
+	super(maxX, maxY, minX, minY);
     }
 
     /*
@@ -94,4 +98,43 @@ public class MirrorGrid extends DefaultGrid {
 	return newX;
     }
 
+    /**
+     * The {@link MirrorGridBuilder} helps to build a {@link MirrorGrid}
+     * 
+     * @author Dominic
+     *
+     */
+    public static class MirrorGridBuilder extends AbstractGridBuilder<MirrorGrid> {
+
+	public static MirrorGridBuilder builder() {
+	    return new MirrorGridBuilder()//
+		    .withMaxX(10)//
+		    .withMaxY(10);
+	}
+
+	public static MirrorGridBuilder builder(int maxX, int maxY) {
+	    return new MirrorGridBuilder()//
+		    .withMaxX(maxX)//
+		    .withMaxY(maxY);
+	}
+	
+	/**
+	 * Creates a new {@link MirrorGrid}
+	 * 
+	 * @return a new {@link MirrorGrid}
+	 */
+	@Override
+	public MirrorGrid build() {
+	    Objects.requireNonNull(maxX, "We need a max x value!");
+	    Objects.requireNonNull(maxY, "We need a max y value!");
+	    MirrorGrid mirrorGrid;
+	    if (isNull(minX) || isNull(minY)) {
+		mirrorGrid = new MirrorGrid(maxX, maxY);
+	    } else {
+		mirrorGrid = new MirrorGrid(maxX, maxY, minX, minY);
+	    }
+	    setDetector(mirrorGrid);
+	    return mirrorGrid;
+	}
+    }
 }

@@ -16,6 +16,7 @@ import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid;
+import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -42,7 +43,10 @@ public class RandomMoveableLauncher {
 
     public static void main(String[] args) throws InterruptedException {
 
-	DefaultGrid grid = new MirrorGrid(700, 700);
+	MirrorGrid grid = MirrorGridBuilder.builder()
+		.withMaxX(700)
+		.withMaxY(700)//
+		.build();
 	int height = 4;
 	int width = 4;
 

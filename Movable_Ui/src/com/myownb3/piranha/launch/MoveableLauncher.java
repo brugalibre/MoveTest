@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.SwappingGrid;
+import com.myownb3.piranha.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
@@ -28,7 +28,11 @@ public class MoveableLauncher {
 
     public static void visualizePositionsWithJFreeChart(List<Position> posList, List<Obstacle> obstacles)
 	    throws InterruptedException {
-	DefaultGrid grid = new SwappingGrid(500, 500, -5, -5);
+	SwappingGrid grid = SwappingGridBuilder.builder()//
+		.withMaxX(500)//
+		.withMaxY(500).withMinX(-5)//
+		.withMinY(-5)
+		.build();
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//

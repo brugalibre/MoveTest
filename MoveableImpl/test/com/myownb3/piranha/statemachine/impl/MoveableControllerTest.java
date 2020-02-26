@@ -21,7 +21,6 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.detector.collision.CollisionDetectedException;
 import com.myownb3.piranha.exception.NotImplementedException;
-import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -45,7 +44,8 @@ class MoveableControllerTest {
     void test_MoveForward_NorthUnknownStrategie() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Position expectedEndPos = Positions.of(0, 12);
 	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
 		.widthEndPosition(expectedEndPos)
@@ -66,7 +66,8 @@ class MoveableControllerTest {
     void test_MoveForward_North() {
 
 	// Given
-	Grid grid = new DefaultGrid(20, 20);
+	Grid grid = GridBuilder.builder(20, 20)//
+		.build();;
 	Position expectedEndPos = Positions.of(0, 12);
 	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
 		.widthEndPosition(expectedEndPos)
@@ -91,7 +92,7 @@ class MoveableControllerTest {
 		.withMaxX(20)//
 		.withMaxY(20)//
 		.withDefaultCollisionDetectionHandler()//
-		.buildDefaultGrid();
+		.build();
 	Position expectedEndPos = Positions.of(0, 12);
 	new ObstacleImpl(grid,  Positions.of(0, 10));
 	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
@@ -114,7 +115,8 @@ class MoveableControllerTest {
     void test_MoveForward_South() {
 
 	// Given
-	Grid grid = new DefaultGrid(20, 20);
+	Grid grid = GridBuilder.builder(20, 20)//
+		.build();
 	Position expectedEndPos = Positions.of(0, -10);
 	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
 		.withHandler((g, m) -> {})
@@ -304,7 +306,8 @@ class MoveableControllerTest {
 	}
 
 	public TestCaseBuilder withDefaultGrid(int maxY, int maxX) {
-	    this.grid = new DefaultGrid(maxY, maxX);
+	    this.grid = GridBuilder.builder(maxY, maxX)//
+			.build();
 	    return this;
 	}
 

@@ -328,7 +328,7 @@ class PositionTest {
 	int maxWidth = 200;
 	int maxHeight = 200;
 	mockStatic(MathUtil.class);
-	Grid grid = new DefaultGrid(maxHeight, maxWidth);
+	Grid grid = new DefaultGrid(maxWidth, maxHeight);
 	int height = 5;
 	int width = 5;
 

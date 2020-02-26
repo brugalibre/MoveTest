@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -22,7 +23,12 @@ class MirrorGridTest {
     public void testMirror1Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 10, 0, 0);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(20)//
+		.withMaxY(10)//
+		.withMinX(0)//
+		.withMinY(0)//
+		.build();
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 6, 0);
 	position.rotate(-45);
@@ -56,7 +62,8 @@ class MirrorGridTest {
     public void testMirror2Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 15);
+	Grid grid = MirrorGridBuilder.builder(15, 20)//
+		.build();
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 4, 0);
 	position.rotate(45);
@@ -70,7 +77,12 @@ class MirrorGridTest {
     public void testMirror3Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 15, 0, -20);
+	Grid grid = MirrorGridBuilder.builder()//
+			.withMaxX(20)//
+			.withMaxY(15)//
+			.withMinX(0)//
+			.withMinY(-20)//
+			.build();
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);
@@ -84,7 +96,12 @@ class MirrorGridTest {
     public void testMirror4Quadrant_45_X() {
 
 	// Given
-	Grid grid = new MirrorGrid(20, 10, 0, -20);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(20)//
+		.withMaxY(10)//
+		.withMinX(0)//
+		.withMinY(-20)//
+		.build();
 	Position position = Positions.of(Directions.S, 0, 0);
 	Position position2 = Positions.of(Directions.S, 7.4, 0);
 	position.rotate(45);
@@ -98,7 +115,12 @@ class MirrorGridTest {
     public void testMirror1Quadrant_45_Y() {
 
 	// Given
-	Grid grid = new MirrorGrid(10, 200, -200, 0);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(10)//
+		.withMaxY(200)//
+		.withMinX(-200)//
+		.withMinY(0)//
+		.build(); 
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 7.4, 0);
 	position.rotate(-45);
@@ -112,7 +134,12 @@ class MirrorGridTest {
     public void testMirror2Quadrant_45_Y() {
 
 	// Given
-	Grid grid = new MirrorGrid(10, 200, -200, 0);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(10)//
+		.withMaxY(200)//
+		.withMinX(-200)//
+		.withMinY(0)//
+		.build();  
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 4, 0);
 	position.rotate(45);
@@ -126,7 +153,12 @@ class MirrorGridTest {
     public void testMirror3Quadrant_45_Y() {
 
 	// Given
-	Grid grid = new MirrorGrid(15, 200, -200, 0);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(15)//
+		.withMaxY(200)//
+		.withMinX(-200)//
+		.withMinY(0)//
+		.build(); 
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);
@@ -140,7 +172,12 @@ class MirrorGridTest {
     public void testMirror4Quadrant_45_Y() {
 
 	// Given
-	Grid grid = new MirrorGrid(2010, 200, -200, 0);
+	Grid grid = MirrorGridBuilder.builder()//
+		.withMaxX(2010)//
+		.withMaxY(200)//
+		.withMinX(-200)//
+		.withMinY(0)//
+		.build();
 	Position position = Positions.of(Directions.S, 0, 0);
 	Position position2 = Positions.of(Directions.S, 7.4, 0);
 	position.rotate(45);

@@ -14,8 +14,9 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.MirrorGrid;
+import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -46,8 +47,9 @@ public class EndPointMoveableLauncher {
     public static void main(String[] args) throws InterruptedException {
 
 	Position endPos = Positions.of(400, 400);
-	DefaultGrid grid = new MirrorGrid(510, 510);
-	GridElement endPosMarker = new SimpleGridElement(new DefaultGrid(400, 400), endPos);
+	DefaultGrid grid = MirrorGridBuilder.builder(510, 510).build();
+	GridElement endPosMarker = new SimpleGridElement(GridBuilder.builder(400, 400)//
+		.build(), endPos);
 	int height = 4;
 	int width = 4;
 

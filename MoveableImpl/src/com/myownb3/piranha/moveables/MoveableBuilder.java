@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
@@ -27,7 +28,9 @@ public class MoveableBuilder {
     private int movingIncrement;
 
     public static MoveableBuilder builder() {
-	return MoveableBuilder.builder(new DefaultGrid(), Positions.of(0, 0));
+	DefaultGrid defGrid = GridBuilder.builder()//
+		.build();
+	return MoveableBuilder.builder(defGrid, Positions.of(0, 0));
     }
     
     public static MoveableBuilder builder(Grid grid) {

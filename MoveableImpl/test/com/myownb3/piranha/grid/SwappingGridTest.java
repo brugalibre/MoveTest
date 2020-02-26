@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -23,7 +24,8 @@ class SwappingGridTest {
     public void testDefaultGridBoundsMoveForward() {
 
 	// Given
-	Grid grid = new SwappingGrid(10, 10);
+	Grid grid = SwappingGridBuilder.builder(10, 10)//
+		.build();
 	Position expectedPosition = Positions.of(Directions.N, 10, 0.1);
 	Position expectedPosition2 = Positions.of(Directions.O, 0.1, 10);
 
@@ -40,7 +42,8 @@ class SwappingGridTest {
     public void testDefaultGridBoundsMoveBackward() {
 
 	// Given
-	Grid grid = new SwappingGrid(10, 10);
+	Grid grid = SwappingGridBuilder.builder(10, 10)//
+		.build();
 	Position expectedPosition = Positions.of(Directions.N, 4, 9.9);
 	Position expectedPosition2 = Positions.of(Directions.O, 9.9, 4);
 
@@ -57,7 +60,12 @@ class SwappingGridTest {
     public void testOffsetGridBoundsMoveForward() {
 
 	// Given
-	Grid grid = new SwappingGrid(10, 10, 5, 5);
+	Grid grid = SwappingGridBuilder.builder()//
+		.withMaxX(10)//
+		.withMaxY(10)//
+		.withMinX(5)//
+		.withMinY(5)//
+		.build();
 	Position expectedPosition = Positions.of(Directions.N, 10, 5.1);
 	Position expectedPosition2 = Positions.of(Directions.O, 5.1, 10);
 	Position expectedPosition3 = Positions.of(Directions.S, 10, 9.9);
@@ -77,7 +85,12 @@ class SwappingGridTest {
     public void testOffsetGridBoundsMoveBackward() {
 
 	// Given
-	Grid grid = new SwappingGrid(10, 10, 5, 5);
+	Grid grid = SwappingGridBuilder.builder()//
+		.withMaxX(10)//
+		.withMaxY(10)//
+		.withMinX(5)//
+		.withMinY(5)//
+		.build();
 	Position expectedPosition = Positions.of(Directions.N, 9, 9.9);
 	Position expectedPosition2 = Positions.of(Directions.O, 9.9, 9);
 	Position expectedPosition3 = Positions.of(Directions.S, 5, 5.1);

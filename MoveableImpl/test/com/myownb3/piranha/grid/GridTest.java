@@ -41,7 +41,7 @@ class GridTest {
 	int expectedWidth = 10;
 
 	// When
-	Grid grid = new DefaultGrid(maxX, maxY, minX, minY);
+	Grid grid = new DefaultGrid(maxY, maxX, minX, minY);
 	Dimension dimension = grid.getDimension();
 
 	// Then

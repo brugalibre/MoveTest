@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
-import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
@@ -27,7 +27,8 @@ class ObstacleTest {
     public void testMovebaleRecognizesObjectTrueRightSideOfNorht() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
 	Detector detector = new DetectorImpl();
 	MoveableBuilder.builder(grid, Positions.of(1, 1))//
@@ -46,7 +47,8 @@ class ObstacleTest {
     public void testMovebaleRecognizesObjectTrueLeftSideOfNorht() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
 	Detector detector = new DetectorImpl();
 	MoveableBuilder.builder(grid, Positions.of(1, 1))//
@@ -65,7 +67,8 @@ class ObstacleTest {
     public void testMovebaleRecognizesObjectFalseWrongAngle() {
 
 	// Given
-	Grid grid = new DefaultGrid();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
 	Detector detector = new DetectorImpl();
 
@@ -86,7 +89,8 @@ class ObstacleTest {
     public void testMovebaleRecognizesObjectFalseOutOfReach() {
 
 	// Given
-	Grid grid = new DefaultGrid(100, 100);
+	Grid grid = GridBuilder.builder(100, 100)//
+		.build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
 	Detector detector = new DetectorImpl();
 	MoveableBuilder.builder(grid, Positions.of(1, 1))//

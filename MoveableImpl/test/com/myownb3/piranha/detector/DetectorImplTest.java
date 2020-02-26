@@ -10,7 +10,7 @@ import java.util.Optional;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -25,7 +25,8 @@ class DetectorImplTest {
 
 	// Given
 	DetectorImpl detector = new DetectorImpl();
-	Grid grid = new DefaultGrid(100, 100);
+	Grid grid = GridBuilder.builder(100, 100)//
+		.build();
 	Position position = Positions.of(0, 0);
 	Position positionG1 = Positions.of(50, 50);
 	Position positionG2 = Positions.of(49, 49);
