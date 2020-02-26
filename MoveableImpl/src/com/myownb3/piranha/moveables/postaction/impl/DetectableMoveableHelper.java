@@ -3,11 +3,8 @@
  */
 package com.myownb3.piranha.moveables.postaction.impl;
 
-import java.util.List;
-
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
@@ -47,10 +44,8 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      *         if not
      */
     public boolean check4Evasion(Grid grid, GridElement moveable) {
-	List<GridElement> gridElements = grid.getSurroundingGridElements(moveable);
-	return gridElements.stream()//
-		.filter(Avoidable.class::isInstance)
-		.map(Avoidable.class::cast)
+	return grid.getSurroundingAvoidables(moveable)
+		.stream()
 		.anyMatch(gridElement -> detector.isEvasion(gridElement));
     }
 
@@ -64,10 +59,7 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      *            the given {@link Moveable}
      */
     public void checkSurrounding(Grid grid, Moveable moveable) {
-	List<GridElement> gridElements = grid.getSurroundingGridElements(moveable);
-	gridElements.stream()//
-		.filter(Avoidable.class::isInstance)
-		.map(Avoidable.class::cast)
+	grid.getSurroundingAvoidables(moveable)
 		.forEach(gridElement -> detector.detectObject(gridElement, moveable.getPosition()));
     }
 }

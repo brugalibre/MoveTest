@@ -5,6 +5,7 @@ package com.myownb3.piranha.grid;
 
 import java.util.List;
 
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
@@ -52,12 +53,12 @@ public interface Grid {
     void addElement(GridElement gridElement);
 
     /**
-     * Returns all surrounding {@link GridElement} for the given {@link GridElement}
+     * Returns all surrounding {@link Avoidable}s for the given {@link GridElement}
      * 
      * @param gridElement
-     * @return all surrounding {@link GridElement} for the given {@link GridElement}
+     * @return all surrounding {@link Avoidable}s for the given {@link GridElement}
      */
-    List<GridElement> getSurroundingGridElements(GridElement gridElement);
+    List<Avoidable> getSurroundingAvoidables(GridElement gridElement);
 
     /**
      * 

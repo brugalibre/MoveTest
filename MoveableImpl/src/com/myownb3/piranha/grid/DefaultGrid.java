@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -87,6 +88,7 @@ public class DefaultGrid implements Grid {
 	double newX = getNewXValue(position, direction.getBackwardX());
 	double newY = getNewYValue(position, direction.getBackwardY());
 	checkBounds(newX, newY);
+	
 	return Positions.of(direction, newX, newY);
     }
 
@@ -104,7 +106,7 @@ public class DefaultGrid implements Grid {
 	double newX = getNewXValue(position, direction.getForwardX());
 	double newY = getNewYValue(position, direction.getForwardY());
 	checkBounds(newX, newY);
-
+	
 	return Positions.of(direction, newX, newY);
     }
 
@@ -140,9 +142,11 @@ public class DefaultGrid implements Grid {
     }
 
     @Override
-    public List<GridElement> getSurroundingGridElements(GridElement gridElement) {
+    public List<Avoidable> getSurroundingAvoidables(GridElement gridElement) {
 	return gridElements.stream()//
 		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
+		.filter(Avoidable.class::isInstance)
+		.map(Avoidable.class::cast)
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
