@@ -19,8 +19,10 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.collision.CollisionDetectedException;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
@@ -79,6 +81,33 @@ class MoveableControllerTest {
 	// Then
 	Position effectEndPos = moveable.getPosition();
 	Assert.assertThat(effectEndPos, is(expectedEndPos));
+    }
+    
+    @Test
+    void test_MoveForward_WithObstacleAndCollision() {
+
+	// Given
+	Grid grid = GridBuilder.builder()//
+		.withMaxX(20)//
+		.withMaxY(20)//
+		.withDefaultCollisionDetectionHandler()//
+		.buildDefaultGrid();
+	Position expectedEndPos = Positions.of(0, 12);
+	new ObstacleImpl(grid,  Positions.of(0, 10));
+	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
+		.widthEndPosition(expectedEndPos)//
+		.withHandler((g, m) -> {})
+		.buildEndPointMoveable();
+
+	MoveableController controller = new MoveableController(moveable);
+
+	// When
+	Executable ex = () -> {
+	    controller.leadMoveable();
+	};
+
+	// Then
+	Assertions.assertThrows(CollisionDetectedException.class, ex);
     }
 
     @Test
@@ -183,7 +212,7 @@ class MoveableControllerTest {
 	Position effectEndPos = tcb.moveable.getPosition();
 	assertThat(tcb.stateMachine.evasionState, is (EvasionStates.DEFAULT));
 	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	org.junit.Assert.assertThat(round(effectEndPos.getX() - 1, 0), is(round(tcb.endPos.getX(), 0)));
+	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
     }
     
     @Test

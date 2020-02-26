@@ -3,11 +3,17 @@
  */
 package com.myownb3.piranha.grid;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.detector.collision.CollisionDetector.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
@@ -30,6 +36,7 @@ public class DefaultGrid implements Grid {
     protected int maxY;
     protected int minX;
     protected int minY;
+    private CollisionDetector detector;
 
     /**
      * Creates a default Grid which has a size of 10 to 10
@@ -72,6 +79,9 @@ public class DefaultGrid implements Grid {
 	this.minX = minX;
 	this.checkLowerBoundarys = true;
 	gridElements = new ArrayList<>();
+	detector = CollisionDetectorBuilder.builder()//
+		.withDefaultCollisionHandler()
+		.build();
     }
 
     /**
@@ -88,8 +98,15 @@ public class DefaultGrid implements Grid {
 	double newX = getNewXValue(position, direction.getBackwardX());
 	double newY = getNewYValue(position, direction.getBackwardY());
 	checkBounds(newX, newY);
+	Position newPosition = Positions.of(direction, newX, newY);
+	checkCollision(position, newPosition);
 	
-	return Positions.of(direction, newX, newY);
+	return newPosition;
+    }
+
+    private void checkCollision(Position oldPosition, Position newPosition) {
+	List<Avoidable> allAvoidables = getAllAvoidables(oldPosition);
+	detector.checkCollision(oldPosition, newPosition, allAvoidables);
     }
 
     /**
@@ -106,8 +123,10 @@ public class DefaultGrid implements Grid {
 	double newX = getNewXValue(position, direction.getForwardX());
 	double newY = getNewYValue(position, direction.getForwardY());
 	checkBounds(newX, newY);
-	
-	return Positions.of(direction, newX, newY);
+	Position newPosition = Positions.of(direction, newX, newY);
+	checkCollision(position, newPosition);
+
+	return newPosition;
     }
 
     @Override
@@ -150,6 +169,14 @@ public class DefaultGrid implements Grid {
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
+    public List<Avoidable> getAllAvoidables(Position position) {
+	return gridElements.stream()//
+		.filter(Avoidable.class::isInstance)
+		.map(Avoidable.class::cast)
+		.filter(avoidable -> avoidable.getPosition() != position)//
+		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+    }
+
     @Override
     public Dimension getDimension() {
 	return new DimensionImpl(minX, minY, maxX - minX, maxY - minY);
@@ -182,7 +209,74 @@ public class DefaultGrid implements Grid {
 
     @Override
     public String toString() {
-
 	return "Max x:'" + maxX + ", Min x:'" + minX + "; Max y:'" + maxY + ", Min y:'" + minY;
+    }
+    
+    public static class GridBuilder {
+
+	protected Integer maxX;
+	protected Integer maxY;
+	protected Integer minX;
+	protected Integer minY;
+	protected CollisionDetector collisionDetector;
+
+	protected GridBuilder() {
+	    // private
+	}
+
+	public static GridBuilder builder() {
+	    return new GridBuilder();
+	}
+
+	public GridBuilder withMaxX(int maxX) {
+	    this.maxX = maxX;
+	    return this;
+	}
+
+	public GridBuilder withMinX(int minX) {
+	    this.minX = minX;
+	    return this;
+	}
+
+	public GridBuilder withMaxY(int maxY) {
+	    this.maxY = maxY;
+	    return this;
+	}
+
+	public GridBuilder withMinY(int minY) {
+	    this.minY = minY;
+	    return this;
+	}
+
+	public GridBuilder withDefaultCollisionDetectionHandler() {
+	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withDefaultCollisionHandler()//
+		    .build();
+	    return this;
+	}
+	public GridBuilder withCollisionDetectionHandler(CollisionDetector collisionDetector) {
+	    this.collisionDetector = collisionDetector;
+	    return this;
+	}
+
+	public DefaultGrid buildDefaultGrid() {
+	    Objects.requireNonNull(maxX, "We need a max x value!");
+	    Objects.requireNonNull(maxY, "We need a max y value!");
+	    DefaultGrid defaultGrid;
+	    if (isNull(minX) || isNull(minY)) {
+		defaultGrid = new DefaultGrid(maxY, maxX);
+	    } else {
+		defaultGrid = new DefaultGrid(maxY, maxX, minX, minY);
+	    }
+	    setDetector(defaultGrid);
+	    return defaultGrid;
+	}
+
+	protected void setDetector(DefaultGrid defaultGrid) {
+	    if (nonNull(collisionDetector)) {
+		defaultGrid.detector = collisionDetector;
+	    }
+		
+	}
     }
 }
