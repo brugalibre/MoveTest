@@ -60,8 +60,9 @@ public class EndPointMoveableLauncher {
 
 	List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveablePainter);
 
-	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(),
+	MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(),
 		grid.getDimension().getHeight());
+	mainWindow.addSpielfeld(renderers, width, height);
 	showGuiAndStartPainter(mainWindow);
 	List<Position> positions = prepareAndMoveMoveables(moveable, mainWindow);
 	preparePositionListPainter(renderers, positions);

@@ -57,6 +57,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     private Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap;
     private EvasionStateMachineConfig config;
     private Position positionBeforeEvasion;
+    private Position endPosition;
 
     public EvasionStateMachine(Detector detector, EvasionStateMachineConfig config) {
 	this(detector, null, config);
@@ -65,18 +66,19 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     public EvasionStateMachine(Detector detector, Position endPos, EvasionStateMachineConfig config) {
 	super(detector);
 	this.config = config;
-	createAndInitHandlerMap(endPos);
-	evasionState = DEFAULT;
-	positionBeforeEvasion = null;
+	this.endPosition = endPos;
+	this.evasionState = DEFAULT;
+	this.positionBeforeEvasion = null;
+	createAndInitHandlerMap();
     }
 
-    private void createAndInitHandlerMap(Position endPos) {
+    private void createAndInitHandlerMap() {
 	evasionStatesHandler2StateMap = new HashMap<>();
 	evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
 	evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
-	evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler(endPos));
+	evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
 	evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
-	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(endPos, config));
+	evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(config));
     }
 
     @Override
@@ -92,7 +94,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	case DEFAULT:
 	    DefaultStateHandler defaultStateHandler = getHandler();
 	    eventStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
-	    evasionState = eventStateResult.getNextState();
+//	    evasionState = eventStateResult.getNextState();
 	    break;
 	case EVASION:
 	    EvasionStateHandler evasionStateHandler = getHandler();
@@ -101,7 +103,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case POST_EVASION:
 	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
-	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case PASSING:
@@ -111,7 +113,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case RETURNING:
 	    ReturningStateHandler returningStateHandler = getHandler();
-	    eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	default:
@@ -142,9 +144,9 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
     }
 
-    private PostEvasionStateHandler getPostEvasionStateHandler(Position endPos) {
-	if (nonNull(endPos)) {
-	    return new PostEvasionStateHandlerWithEndPos(endPos, config.getPostEvasionAngleAdjustStepWidth());
+    private PostEvasionStateHandler getPostEvasionStateHandler() {
+	if (nonNull(endPosition)) {
+	    return new PostEvasionStateHandlerWithEndPos(config.getPostEvasionAngleAdjustStepWidth());
 	}
 	return new DefaultPostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth());
     }

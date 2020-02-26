@@ -215,7 +215,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 	private double angle;
 
 	public TestPostEvasionStateHandler(Position endPos, double stepWidth) {
-	    super(endPos, stepWidth);
+	    super(stepWidth);
 	    endPosLine = Float64Vector.valueOf(1, 2);
 	}
 

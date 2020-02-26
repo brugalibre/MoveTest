@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
@@ -40,29 +41,39 @@ import com.myownb3.piranha.util.MathUtil;
 public class RandomMoveableLauncher {
 
     private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
+    private static boolean has2Run = true;
 
     public static void main(String[] args) throws InterruptedException {
 
+	int height = 4;
+	int width = 4;
+	MainWindow mainWindow = new MainWindow(700, 700);
+
+	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
 	MirrorGrid grid = MirrorGridBuilder.builder()
 		.withMaxX(700)
 		.withMaxY(700)//
+		.withCollisionDetectionHandler(collisionDetector)
 		.build();
-	int height = 4;
-	int width = 4;
 
 	Moveable moveable = getMoveable(grid, height, width);
+	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
-	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
-
 	renderers.add(moveablePainter);
 	renderers.add(new GridPainter(grid));
 
-	MainWindow mainWindow = new MainWindow(renderers, grid.getDimension().getWidth(),
-		grid.getDimension().getHeight());
+	mainWindow.addSpielfeld(renderers, width, height);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
 	prepareAndMoveMoveables(moveable, mainWindow);
+    }
+
+    private static CollisionDetectionHandler getCollisionDetectionHandler(MainWindow mainWindow) {
+	return (a, b) -> {
+	    SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
+	    has2Run = false;
+	};
     }
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
@@ -87,7 +98,7 @@ public class RandomMoveableLauncher {
 	turnGridElements();
 
 	int counter = 0;
-	while (true) {
+	while (has2Run) {
 	    moveable.moveForward();
 
 	    if (counter % 5 == 0) {

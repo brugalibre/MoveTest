@@ -17,7 +17,6 @@ import com.myownb3.piranha.util.MathUtil;
 
 public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEventStateInput, CommonEventStateResult> {
 
-    private Position endPos;
     private double returningAngle;
     private double initReturningAngle;
     private double distanceMargin;
@@ -29,15 +28,13 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     /**
      * Creates a new {@link ReturningStateHandler} with the given
-     * {@link EvasionStateMachineConfig} and ent-position
+     * {@link EvasionStateMachineConfig}
      * 
-     * @param endPos
-     *            the final end position
      * @param config
      *            the {@link EvasionStateMachineConfig}
      */
-    public ReturningStateHandler(Position endPos, EvasionStateMachineConfig config) {
-	this(endPos, config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(), config.getReturningAngleMargin(), config.getEvasionAngleInc());
+    public ReturningStateHandler(EvasionStateMachineConfig config) {
+	this(config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(), config.getReturningAngleMargin(), config.getEvasionAngleInc());
     }
 
     @Override
@@ -49,9 +46,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	this.returningAngle = initReturningAngle;
     }
 
-    private ReturningStateHandler(Position endPos, double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
+    private ReturningStateHandler(double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
 	super();
-	this.endPos = endPos;
 	this.initReturningAngle = evasionAngleInc * angleIncMultiplier;
 	this.distanceMargin = distanceMargin;
 	this.angleMargin = angleMargin;
@@ -60,15 +56,16 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
     @Override
     public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
-	if (isReturningNotNecessary()) {
+	Position endPosition = evenStateInput.getEndPosition();
+	if (isReturningNotNecessary(endPosition)) {
 	    init();
 	    return CommonEventStateResult.of(RETURNING, evalNextState(evenStateInput, RETURNING.nextState()), null);
 	}
-	EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(), evenStateInput.getMoveable());
+	EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(), evenStateInput.getMoveable(), endPosition);
 	return evalNextStateAndBuildResult(evenStateInput, RETURNING, nextState);
     }
 
-    private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable) {
+    private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
 	switch (state) {
 	case ENTER_RETURNING:
@@ -173,7 +170,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      * If there is no end-point, then we can't really return anywhere. Thats why
      * we're done here
      */
-    private boolean isReturningNotNecessary() {
+    private static boolean isReturningNotNecessary(Object endPos) {
 	return isNull(endPos);
     }
 }

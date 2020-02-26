@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.detector.collision.CollisionDetector.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.direction.Direction;
@@ -218,7 +219,7 @@ public class DefaultGrid implements Grid {
    	protected Integer maxY;
    	protected Integer minX;
    	protected Integer minY;
-   	protected CollisionDetector collisionDetector;
+   	private CollisionDetector collisionDetector;
 
    	protected AbstractGridBuilder() {
    	}
@@ -249,19 +250,21 @@ public class DefaultGrid implements Grid {
 
    	@SuppressWarnings("unchecked")
    	public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
-   	    this.collisionDetector = CollisionDetectorBuilder.builder()//
-   		    .withDefaultCollisionHandler()//
-   		    .build();
+	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withDefaultCollisionHandler()//
+		    .build();
    	    return (B) this;
    	}
    	
    	public abstract T build();
    	
-   	@SuppressWarnings("unchecked")
-   	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(CollisionDetector collisionDetector) {
-   	    this.collisionDetector = collisionDetector;
-   	    return (B) this;
-   	}
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(CollisionDetectionHandler collisionDetectionHandler) {
+	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withCollisionHandler(collisionDetectionHandler)//
+		    .build();
+	    return (B) this;
+	}
    	
 	protected void setDetector(DefaultGrid defaultGrid) {
 	    if (nonNull(collisionDetector)) {

@@ -97,6 +97,11 @@ public class CollisionDetector {
 	    return this;
 	}
 	
+	public CollisionDetectorBuilder withCollisionHandler(CollisionDetectionHandler collisionDetectionHandler) {
+	    handler = collisionDetectionHandler;
+	    return this;
+	}
+
 	public CollisionDetector build() {
 	    return new CollisionDetector(handler);
 	}

@@ -24,12 +24,10 @@ public class PostEvasionStateHandlerWithEndPos extends
     @Visible4Testing
     PostEvasionStates state;
     private double stepWidth;
-    private Position endPos;
     private int signum;
 
-    public PostEvasionStateHandlerWithEndPos(Position endPos, double stepWidth) {
+    public PostEvasionStateHandlerWithEndPos(double stepWidth) {
 	this.stepWidth = stepWidth;
-	this.endPos = endPos;
 	init();
     }
 
@@ -59,7 +57,7 @@ public class PostEvasionStateHandlerWithEndPos extends
 
     private EvasionStates handleFirstTimePostEvasion(PostEvasionEventStateInput evenStateInput) {
 	Moveable moveable = evenStateInput.getMoveable();
-	this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion());
+	this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion(), evenStateInput.getEndPosition());
 	state = PostEvasionStates.POST_EVASION;
 	return handlePostEvasionState(evenStateInput);
     }
@@ -67,22 +65,23 @@ public class PostEvasionStateHandlerWithEndPos extends
     private EvasionStates handlePostEvasionState(PostEvasionEventStateInput evenStateInput) {
 	Position positionBeforeEvasion = evenStateInput.getPositionBeforeEvasion();
 	Moveable moveable = evenStateInput.getMoveable();
-	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
+	Position endPosition = evenStateInput.getEndPosition ();
+	boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable, endPosition);
 	if (isAngleCorrectionNecessary) {
-	    adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), evenStateInput.getGrid());
+	    adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), evenStateInput.getGrid(), endPosition);
 	    return POST_EVASION;
 	}
 	return POST_EVASION.nextState();
     }
 
-    private boolean isAngleCorrectionNecessary(Position positionBeforeEvasion, Moveable moveable) {
+    private boolean isAngleCorrectionNecessary(Position positionBeforeEvasion, Moveable moveable, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle = calcAngle(moveable.getPosition(), endPosLine);
 	return angle != 0.0d;
     }
 
     private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,
-	    Grid grid) {
+	    Grid grid, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
 	moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
@@ -102,7 +101,7 @@ public class PostEvasionStateHandlerWithEndPos extends
 	helper.checkSurrounding(grid, moveable);
     }
     
-    private int calcSignum(Position moveablePos, Position positionBeforeEvasion) {
+    private int calcSignum(Position moveablePos, Position positionBeforeEvasion, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveablePos, endPosLine);
 	return calcSignum(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);

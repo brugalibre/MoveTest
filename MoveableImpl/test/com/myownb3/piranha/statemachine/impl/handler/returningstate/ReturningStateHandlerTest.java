@@ -31,7 +31,7 @@ class ReturningStateHandlerTest {
 
 	// Given
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
-	ReturningStateHandler handler = new ReturningStateHandler(null, config);
+	ReturningStateHandler handler = new ReturningStateHandler(config);
 	ReturningEventStateInput evenStateInput = mockInput();
 
 	// When
