@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -48,8 +47,7 @@ public class EndPointMoveableLauncher {
 
 	Position endPos = Positions.of(400, 400);
 	DefaultGrid grid = MirrorGridBuilder.builder(510, 510).build();
-	GridElement endPosMarker = new SimpleGridElement(GridBuilder.builder(400, 400)//
-		.build(), endPos);
+	GridElement endPosMarker = new SimpleGridElement(grid, endPos);
 	int height = 4;
 	int width = 4;
 
@@ -60,8 +58,7 @@ public class EndPointMoveableLauncher {
 
 	List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveablePainter);
 
-	MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(),
-		grid.getDimension().getHeight());
+	MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight());
 	mainWindow.addSpielfeld(renderers, width, height);
 	showGuiAndStartPainter(mainWindow);
 	List<Position> positions = prepareAndMoveMoveables(moveable, mainWindow);
@@ -69,7 +66,8 @@ public class EndPointMoveableLauncher {
     }
 
     private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
-	PositionListPainter renderer = renderers.stream().filter(PositionListPainter.class::isInstance)//
+	PositionListPainter renderer = renderers.stream()//
+		.filter(PositionListPainter.class::isInstance)//
 		.map(PositionListPainter.class::cast)//
 		.findFirst()//
 		.get();
@@ -147,8 +145,7 @@ public class EndPointMoveableLauncher {
     }
 
     private static Color getColor(GridElement gridElement) {
-	return gridElement instanceof Obstacle ? Color.BLACK : 
-	    gridElement instanceof Moveable ? Color.RED : Color.BLUE;
+	return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
     }
 
     private static EndPointMoveable getMoveable(Position endPos, Grid grid, int height, int width) {
