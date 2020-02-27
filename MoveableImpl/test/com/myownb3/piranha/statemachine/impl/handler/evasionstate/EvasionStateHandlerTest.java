@@ -28,7 +28,7 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 class EvasionStateHandlerTest {
 
-    @Test
+    @Test 
     void testHandleEvasionState_NonEvasionAtAll() {
 	
 	// Given

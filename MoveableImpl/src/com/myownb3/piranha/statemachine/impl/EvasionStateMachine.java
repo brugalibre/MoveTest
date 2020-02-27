@@ -94,7 +94,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	case DEFAULT:
 	    DefaultStateHandler defaultStateHandler = getHandler();
 	    eventStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
-//	    evasionState = eventStateResult.getNextState();
+	    evasionState = eventStateResult.getNextState();
 	    break;
 	case EVASION:
 	    EvasionStateHandler evasionStateHandler = getHandler();
@@ -156,7 +156,8 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends EvasionStatesHandler<?, ?>> T getHandler4State(EvasionStates state) {
+    @Visible4Testing
+    <T extends EvasionStatesHandler<?, ?>> T getHandler4State(EvasionStates state) {
 	if (evasionStatesHandler2StateMap.containsKey(state)) {
 	    return (T) evasionStatesHandler2StateMap.get(state);
 	}

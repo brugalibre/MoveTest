@@ -81,6 +81,7 @@ public class DefaultGrid implements Grid {
 	this.checkLowerBoundarys = true;
 	gridElements = new ArrayList<>();
 	detector = CollisionDetectorBuilder.builder()//
+		.withCollisionDistance(2)
 		.withDefaultCollisionHandler()
 		.build();
     }
@@ -170,7 +171,7 @@ public class DefaultGrid implements Grid {
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
-    public List<Avoidable> getAllAvoidables(Position position) {
+    private List<Avoidable> getAllAvoidables(Position position) {
 	return gridElements.stream()//
 		.filter(Avoidable.class::isInstance)
 		.map(Avoidable.class::cast)
@@ -251,6 +252,7 @@ public class DefaultGrid implements Grid {
    	@SuppressWarnings("unchecked")
    	public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
 	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withCollisionDistance(2)
 		    .withDefaultCollisionHandler()//
 		    .build();
    	    return (B) this;
@@ -261,6 +263,7 @@ public class DefaultGrid implements Grid {
 	@SuppressWarnings("unchecked")
 	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(CollisionDetectionHandler collisionDetectionHandler) {
 	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withCollisionDistance(2)
 		    .withCollisionHandler(collisionDetectionHandler)//
 		    .build();
 	    return (B) this;

@@ -6,7 +6,7 @@ package com.myownb3.piranha.statemachine.impl.handler.postevasion;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;

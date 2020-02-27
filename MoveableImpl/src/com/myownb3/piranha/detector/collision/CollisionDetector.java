@@ -27,10 +27,12 @@ import com.myownb3.piranha.util.vector.VectorUtil;
 public class CollisionDetector {
 
     private Optional<CollisionDetectionHandler> collisionDetectionHandlerOpt;
-
-    private CollisionDetector(CollisionDetectionHandler collisionDetectionHandler) {
+    private int collisionDistance;
+    
+    private CollisionDetector(CollisionDetectionHandler collisionDetectionHandler, int collisionDistance) {
 	super();
 	collisionDetectionHandlerOpt = Optional.of(collisionDetectionHandler);
+	this.collisionDistance = collisionDistance;
     }
 
     /**
@@ -45,9 +47,7 @@ public class CollisionDetector {
      *            all {@link Avoidable} on the Grid
      */
     public void checkCollision(Position oldPosition, Position newPosition, List<Avoidable> allAvoidables) {
-	Float64Vector newPosVector = Float64Vector.valueOf(newPosition.getX(), newPosition.getY(), 0.0);
-	Float64Vector oldPosVector = VectorUtil.getVector(oldPosition.getDirection());
-	Float64Vector lineFromOldToNew = newPosVector.minus(oldPosVector);
+	Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
 	allAvoidables.forEach(checkCollisionWithAvoidable(oldPosition, newPosition, lineFromOldToNew));
     }
 
@@ -60,14 +60,21 @@ public class CollisionDetector {
 	};
     }
 
-    private static boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
+    private boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
+	if (hasSameCoordinates(newPosition, avoidable.getPosition())){
+	    return true;
+	}
 	boolean isPositionOnLine = isPositionOnLine(oldPosition, lineFromOldToNew, avoidable);
 	boolean isCloseEnoughToAvoidable = isCloseEnoughToAvoidable(newPosition, avoidable);
 	return isPositionOnLine && isCloseEnoughToAvoidable;
     }
 
-    private static boolean isCloseEnoughToAvoidable(Position newPosition, Avoidable avoidable) {
-	return newPosition.calcDistanceTo(avoidable.getPosition()) == 0;
+    private boolean hasSameCoordinates(Position newPosition, Position avoidablePosition) {
+	return newPosition.getX() == avoidablePosition.getX() && newPosition.getY() == avoidablePosition.getY();
+    }
+
+    private boolean isCloseEnoughToAvoidable(Position newPosition, Avoidable avoidable) {
+	return newPosition.calcDistanceTo(avoidable.getPosition()) <= collisionDistance;
     }
 
     private static boolean isPositionOnLine(Position oldPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
@@ -75,15 +82,14 @@ public class CollisionDetector {
 	return avoidableDistanceToLine == 0.0d;
     }
 
-    public final void setCollisionDetectionHandlerOpt(CollisionDetectionHandler collisionDetectionHandler) {
-	this.collisionDetectionHandlerOpt = Optional.ofNullable(collisionDetectionHandler);
-    }
-
     public static class CollisionDetectorBuilder {
 
 	private CollisionDetectionHandler handler;
+	private int collisionDistance;
+	
 	private CollisionDetectorBuilder() {
 	    super();
+	    collisionDistance = 2;
 	}
 
 	public static CollisionDetectorBuilder builder() {
@@ -102,8 +108,13 @@ public class CollisionDetector {
 	    return this;
 	}
 
+	public CollisionDetectorBuilder withCollisionDistance(int collisionDistance) {
+	    this.collisionDistance = collisionDistance;
+	    return this;
+	}
+
 	public CollisionDetector build() {
-	    return new CollisionDetector(handler);
+	    return new CollisionDetector(handler, collisionDistance);
 	}
     }
 }

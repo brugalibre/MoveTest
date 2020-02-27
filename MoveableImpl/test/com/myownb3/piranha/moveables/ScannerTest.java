@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Direction;
@@ -32,7 +33,10 @@ class ScannerTest {
     void testEvasion_DistanceCloseEnough() {
 
 	// Given
+	// We do not care about the detection handler, since this is not part of this test
+	CollisionDetectionHandler collisionDetectionHandler = (a, b) -> {};
 	Grid grid = GridBuilder.builder()//
+		.withCollisionDetectionHandler(collisionDetectionHandler)
 		.build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
