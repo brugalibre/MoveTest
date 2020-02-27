@@ -89,35 +89,41 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	afterPostConditions(eventStateResult);
     }
 
+    private void beforePostConditions(Grid grid, Moveable moveable) {
+	super.handlePostConditions(grid, moveable);
+    }
+
     private CommonEventStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
 	CommonEventStateResult eventStateResult = null;
 	switch (evasionState) {
 	case DEFAULT:
-	    DefaultStateHandler defaultStateHandler = getHandler();
-	    eventStateResult = defaultStateHandler.handle(CommonEventStateInput.of(grid, moveable, this));
+	    DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
+	    CommonEventStateInput commonEventStateInput = CommonEventStateInput.of(grid, moveable, this);
+	    eventStateResult = defaultStateHandler.handle(commonEventStateInput);
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case EVASION:
-	    EvasionStateHandler evasionStateHandler = getHandler();
-	    eventStateResult = evasionStateHandler.handle(EvasionEventStateInput.of(grid, moveable, detector, this));
+	    EvasionStateHandler evasionStateHandler = getHandler4State(evasionState);
+	    EvasionEventStateInput evasionEventStateInput = buildEvasionEventStateInput(grid, moveable);
+	    eventStateResult = evasionStateHandler.handle(evasionEventStateInput);
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case POST_EVASION:
-	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
-	    eventStateResult = postEvastionStateHandler
-		    .handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
+	    PostEvasionStateHandler postEvastionStateHandler = getHandler4State(evasionState);
+	    PostEvasionEventStateInput postEvasionStateInput = buildPostEvasionEventStateInput(grid, moveable);
+	    eventStateResult = postEvastionStateHandler.handle(postEvasionStateInput);
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case PASSING:
-	    PassingStateHandler passingStateHandler = getHandler();
-	    eventStateResult = passingStateHandler
-		    .handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    PassingStateHandler passingStateHandler = getHandler4State(evasionState);
+	    PassingEventStateInput passingEventStateInput = buildPassingEventStateInput(grid, moveable);
+	    eventStateResult = passingStateHandler.handle(passingEventStateInput);
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case RETURNING:
-	    ReturningStateHandler returningStateHandler = getHandler();
-	    eventStateResult = returningStateHandler
-		    .handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
+	    ReturningStateHandler returningStateHandler = getHandler4State(evasionState);
+	    ReturningEventStateInput returingStateInput = buildReturningEventStateInput(grid, moveable);
+	    eventStateResult = returningStateHandler.handle(returingStateInput);
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	default:
@@ -134,12 +140,10 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	}
     }
 
-    private void beforePostConditions(Grid grid, Moveable moveable) {
-	super.handlePostConditions(grid, moveable);
-    }
-
     private void initHandlers() {
-	evasionStatesHandler2StateMap.values().stream().forEach(EvasionStatesHandler::init);
+	evasionStatesHandler2StateMap.values()//
+		.stream()//
+		.forEach(EvasionStatesHandler::init);
     }
 
     private Position setPositionBeforeEvasion(Optional<Position> optionalPos) {
@@ -153,10 +157,6 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	return new DefaultPostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth());
     }
 
-    private <T extends EvasionStatesHandler<?, ?>> T getHandler() {
-	return getHandler4State(evasionState);
-    }
-
     @SuppressWarnings("unchecked")
     @Visible4Testing
     <T extends EvasionStatesHandler<?, ?>> T getHandler4State(EvasionStates state) {
@@ -164,5 +164,23 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    return (T) evasionStatesHandler2StateMap.get(state);
 	}
 	throw new IllegalStateException("No EvasionStatesHandler registered for state '" + state + "'");
+    }
+    
+
+    private PassingEventStateInput buildPassingEventStateInput(Grid grid, Moveable moveable) {
+	return PassingEventStateInput.of(this, grid, moveable,
+	    positionBeforeEvasion);
+    }
+
+    private EvasionEventStateInput buildEvasionEventStateInput(Grid grid, Moveable moveable) {
+	return EvasionEventStateInput.of(grid, moveable, detector, this);
+    }
+
+    private PostEvasionEventStateInput buildPostEvasionEventStateInput(Grid grid, Moveable moveable) {
+	return PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
+    }
+
+    private ReturningEventStateInput buildReturningEventStateInput(Grid grid, Moveable moveable) {
+	return ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
     }
 }
