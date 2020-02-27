@@ -244,10 +244,9 @@ class MoveableControllerTest {
 	for (Obstacle obstacle : tcb.obstacles) {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
-	// XXX FIXME
-//	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-//	org.junit.Assert.assertThat(round(effectEndPos.getY() - 1, 0), is(round(tcb.endPos.getY(), 0)));
-//	org.junit.Assert.assertThat(round(effectEndPos.getX() - 1, 0), is(round(tcb.endPos.getX(), 0)));
+	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
+	assertThat(round(effectEndPos.getY() - 1, 0), is(round(tcb.endPos.getY(), 0)));
+	assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
     }
     
     @Test
