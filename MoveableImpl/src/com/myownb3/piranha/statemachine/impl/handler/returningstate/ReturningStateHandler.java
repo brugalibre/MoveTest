@@ -30,11 +30,11 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      * Creates a new {@link ReturningStateHandler} with the given
      * {@link EvasionStateMachineConfig}
      * 
-     * @param config
-     *            the {@link EvasionStateMachineConfig}
+     * @param config the {@link EvasionStateMachineConfig}
      */
     public ReturningStateHandler(EvasionStateMachineConfig config) {
-	this(config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(), config.getReturningAngleMargin(), config.getEvasionAngleInc());
+	this(config.getReturningAngleIncMultiplier(), config.getReturningMinDistance(),
+		config.getReturningAngleMargin(), config.getEvasionAngleInc());
     }
 
     @Override
@@ -46,7 +46,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	this.returningAngle = initReturningAngle;
     }
 
-    private ReturningStateHandler(double angleIncMultiplier, double distanceMargin, double angleMargin, double evasionAngleInc) {
+    private ReturningStateHandler(double angleIncMultiplier, double distanceMargin, double angleMargin,
+	    double evasionAngleInc) {
 	super();
 	this.initReturningAngle = evasionAngleInc * angleIncMultiplier;
 	this.distanceMargin = distanceMargin;
@@ -61,7 +62,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	    init();
 	    return CommonEventStateResult.of(RETURNING, evalNextState(evenStateInput, RETURNING.nextState()), null);
 	}
-	EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(), evenStateInput.getMoveable(), endPosition);
+	EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(),
+		evenStateInput.getMoveable(), endPosition);
 	return evalNextStateAndBuildResult(evenStateInput, RETURNING, nextState);
     }
 
@@ -82,7 +84,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	}
     }
 
-    private EvasionStates evalNextState4StateFromOrdonal(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
+    private EvasionStates evalNextState4StateFromOrdonal(Position positionBeforeEvasion, Moveable moveable,
+	    Float64Vector endPosLine) {
 	if (facesSameDirection(moveable, endPosLine)
 		&& !isMoveableOnEndPosDirection(endPosLine, positionBeforeEvasion, moveable.getPosition())) {
 	    state = ReturnStates.ENTER_RETURNING;
@@ -92,9 +95,11 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 	return evalNextState(positionBeforeEvasion, moveable, endPosLine);
     }
 
-    private EvasionStates evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
+    private EvasionStates evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable,
+	    Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion, endPosLine);
+	double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
+		endPosLine);
 	if (currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d) {
 	    state = ReturnStates.ANGLE_CORRECTION_PHASE_FROM_ORDONAL;
 	    return RETURNING;
@@ -119,14 +124,16 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
 	// The moveable is on the endPosLine and faces into the right direction -> we
 	// are done here
-	if (isMoveableOnEndPosDirection(endPosLine, positionBeforeEvasion, moveable.getPosition()) && facesSameDirection(moveable, endPosLine)) {
+	if (isMoveableOnEndPosDirection(endPosLine, positionBeforeEvasion, moveable.getPosition())
+		&& facesSameDirection(moveable, endPosLine)) {
 	    init();
 	    return RETURNING.nextState();
 	}
 	return RETURNING;
     }
 
-    private void handleFirstAngleCorrection(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
+    private void handleFirstAngleCorrection(Position positionBeforeEvasion, Moveable moveable,
+	    Float64Vector endPosLine) {
 	state = ReturnStates.ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL;
 
 	Position moveablePos = moveable.getPosition();
@@ -161,8 +168,10 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
      * and 'the final end-position'
      * 
      */
-    private boolean isMoveableOnEndPosDirection(Float64Vector endPosDirectionVector, Position positionBeforeEvasion, Position moveablePos) {
-	double distance = MathUtil.calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosDirectionVector);
+    private boolean isMoveableOnEndPosDirection(Float64Vector endPosDirectionVector, Position positionBeforeEvasion,
+	    Position moveablePos) {
+	double distance = MathUtil.calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion,
+		endPosDirectionVector);
 	return distance <= distanceMargin;
     }
 

@@ -14,7 +14,8 @@ public class ReturningEventStateInput extends CommonEventStateInput {
     private Position positionBeforeEvasion;
     private Position endPosition;
 
-    private ReturningEventStateInput(DetectableMoveableHelper helper, Grid grid, Position positionBeforeEvasion, Moveable moveable, Position endPosition) {
+    private ReturningEventStateInput(DetectableMoveableHelper helper, Grid grid, Position positionBeforeEvasion,
+	    Moveable moveable, Position endPosition) {
 	super(grid, moveable, helper);
 	this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
 	this.endPosition = endPosition;
@@ -23,36 +24,32 @@ public class ReturningEventStateInput extends CommonEventStateInput {
     /**
      * Creates a new {@link ReturningEventStateInput}
      * 
-     * @param helper
-     *            the {@link DetectableMoveableHelper}
-     * @param grid
-     *            the {@link Grid}
-     * @param moveable
-     *            the {@link Moveable}
-     * @param positionBeforeEvasion
-     *            the {@link Position} when the {@link Detector} detected an evasion
-     * @param endPosition
-     *            the {@link Position} the {@link Moveable} is heading to
+     * @param helper                the {@link DetectableMoveableHelper}
+     * @param grid                  the {@link Grid}
+     * @param moveable              the {@link Moveable}
+     * @param positionBeforeEvasion the {@link Position} when the {@link Detector}
+     *                              detected an evasion
+     * @param endPosition           the {@link Position} the {@link Moveable} is
+     *                              heading to
      * @return a new {@link ReturningEventStateInput}
      */
-    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable, Position positionBeforeEvasion, Position endPosition) {
+    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+	    Position positionBeforeEvasion, Position endPosition) {
 	return new ReturningEventStateInput(helper, grid, positionBeforeEvasion, moveable, endPosition);
     }
 
     /**
      * Creates a new {@link ReturningEventStateInput} without an end position
      * 
-     * @param helper
-     *            the {@link DetectableMoveableHelper}
-     * @param grid
-     *            the {@link Grid}
-     * @param moveable
-     *            the {@link Moveable}
-     * @param positionBeforeEvasion
-     *            the {@link Position} when the {@link Detector} detected an evasion
+     * @param helper                the {@link DetectableMoveableHelper}
+     * @param grid                  the {@link Grid}
+     * @param moveable              the {@link Moveable}
+     * @param positionBeforeEvasion the {@link Position} when the {@link Detector}
+     *                              detected an evasion
      * @return a new {@link ReturningEventStateInput}
      */
-    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable, Position positionBeforeEvasion) {
+    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+	    Position positionBeforeEvasion) {
 	return new ReturningEventStateInput(helper, grid, positionBeforeEvasion, moveable, null);
     }
 

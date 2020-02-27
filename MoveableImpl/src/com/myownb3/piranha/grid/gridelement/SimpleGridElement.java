@@ -25,14 +25,14 @@ public class SimpleGridElement implements GridElement {
     public Position getPosition() {
 	return position;
     }
-    
+
     @Override
     public Grid getGrid() {
 	return grid;
     }
-    
+
     @Override
     public String toString() {
-        return "Position: " + position + "\n" + grid;
+	return "Position: " + position + "\n" + grid;
     }
 }

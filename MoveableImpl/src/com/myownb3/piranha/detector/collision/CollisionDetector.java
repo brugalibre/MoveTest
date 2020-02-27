@@ -18,8 +18,7 @@ import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
- * The {@link CollisionDetector} helps to detect collisions on the
- * {@link Grid}
+ * The {@link CollisionDetector} helps to detect collisions on the {@link Grid}
  * 
  * @author Dominic
  *
@@ -28,7 +27,7 @@ public class CollisionDetector {
 
     private Optional<CollisionDetectionHandler> collisionDetectionHandlerOpt;
     private int collisionDistance;
-    
+
     private CollisionDetector(CollisionDetectionHandler collisionDetectionHandler, int collisionDistance) {
 	super();
 	collisionDetectionHandlerOpt = Optional.of(collisionDetectionHandler);
@@ -39,29 +38,29 @@ public class CollisionDetector {
      * Checks for every given {@link Avoidable} if there is a collision when moving
      * from the old to the new Position
      * 
-     * @param oldPosition
-     *            the Position before the movement
-     * @param newPosition
-     *            the new Position after the movement
-     * @param allAvoidables
-     *            all {@link Avoidable} on the Grid
+     * @param oldPosition   the Position before the movement
+     * @param newPosition   the new Position after the movement
+     * @param allAvoidables all {@link Avoidable} on the Grid
      */
     public void checkCollision(Position oldPosition, Position newPosition, List<Avoidable> allAvoidables) {
 	Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
 	allAvoidables.forEach(checkCollisionWithAvoidable(oldPosition, newPosition, lineFromOldToNew));
     }
 
-    private Consumer<? super Avoidable> checkCollisionWithAvoidable(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {
+    private Consumer<? super Avoidable> checkCollisionWithAvoidable(Position oldPosition, Position newPosition,
+	    Float64Vector lineFromOldToNew) {
 	return avoidable -> {
 	    boolean isCollision = isCollision(oldPosition, newPosition, lineFromOldToNew, avoidable);
 	    if (isCollision) {
-		collisionDetectionHandlerOpt.ifPresent(collisionDetectionHandler -> collisionDetectionHandler.handleCollision(avoidable, newPosition));
+		collisionDetectionHandlerOpt.ifPresent(
+			collisionDetectionHandler -> collisionDetectionHandler.handleCollision(avoidable, newPosition));
 	    }
 	};
     }
 
-    private boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
-	if (hasSameCoordinates(newPosition, avoidable.getPosition())){
+    private boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew,
+	    Avoidable avoidable) {
+	if (hasSameCoordinates(newPosition, avoidable.getPosition())) {
 	    return true;
 	}
 	boolean isPositionOnLine = isPositionOnLine(oldPosition, lineFromOldToNew, avoidable);
@@ -78,7 +77,8 @@ public class CollisionDetector {
     }
 
     private static boolean isPositionOnLine(Position oldPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
-	double avoidableDistanceToLine = round(calcDistanceFromPositionToLine(avoidable.getPosition(), oldPosition, lineFromOldToNew), 10);
+	double avoidableDistanceToLine = round(
+		calcDistanceFromPositionToLine(avoidable.getPosition(), oldPosition, lineFromOldToNew), 10);
 	return avoidableDistanceToLine == 0.0d;
     }
 
@@ -86,7 +86,7 @@ public class CollisionDetector {
 
 	private CollisionDetectionHandler handler;
 	private int collisionDistance;
-	
+
 	private CollisionDetectorBuilder() {
 	    super();
 	    collisionDistance = 2;
@@ -95,14 +95,15 @@ public class CollisionDetector {
 	public static CollisionDetectorBuilder builder() {
 	    return new CollisionDetectorBuilder();
 	}
-	
+
 	public CollisionDetectorBuilder withDefaultCollisionHandler() {
 	    handler = (avoidable, newPosition) -> {
-		throw new CollisionDetectedException("Collision with Avoidable '" + avoidable.getPosition() + "', on Position x='" + newPosition.getX() + "', y='" + newPosition.getY() + "'");
+		throw new CollisionDetectedException("Collision with Avoidable '" + avoidable.getPosition()
+			+ "', on Position x='" + newPosition.getX() + "', y='" + newPosition.getY() + "'");
 	    };
 	    return this;
 	}
-	
+
 	public CollisionDetectorBuilder withCollisionHandler(CollisionDetectionHandler collisionDetectionHandler) {
 	    handler = collisionDetectionHandler;
 	    return this;

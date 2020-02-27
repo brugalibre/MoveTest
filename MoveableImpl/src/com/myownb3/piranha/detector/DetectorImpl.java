@@ -50,7 +50,7 @@ public class DetectorImpl implements Detector {
     public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
 	this(detectorReach, detectorAngle, detectorAngle, angleInc);
     }
-    
+
     @Override
     public void detectObject(Avoidable avoidable, Position position) {
 
@@ -107,13 +107,9 @@ public class DetectorImpl implements Detector {
     }
 
     @Visible4Testing
-    Optional<Avoidable> getNearestEvasionAvoidable(Position position,
-	    List<Avoidable> avoidables) {
+    Optional<Avoidable> getNearestEvasionAvoidable(Position position, List<Avoidable> avoidables) {
 	Map<Avoidable, Double> avoidable2DistanceMap = fillupMap(position, avoidables);
-	return avoidable2DistanceMap.keySet()
-		.stream()
-		.sorted(sort4Distance(avoidable2DistanceMap))
-		.findFirst();
+	return avoidable2DistanceMap.keySet().stream().sorted(sort4Distance(avoidable2DistanceMap)).findFirst();
     }
 
     private Map<Avoidable, Double> fillupMap(Position position, List<Avoidable> avoidables) {

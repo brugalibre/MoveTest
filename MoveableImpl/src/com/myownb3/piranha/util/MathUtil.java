@@ -23,7 +23,7 @@ public class MathUtil {
     private MathUtil() {
 	// private
     }
-    
+
     public static double round(double value, int places) {
 
 	if (places < 0 || places > 30) {
@@ -49,8 +49,7 @@ public class MathUtil {
     /**
      * Returns a random number considering the given offset
      * 
-     * @param offset
-     *            the offset
+     * @param offset the offset
      * @return a random number
      */
     public static double getRandom(int offset) {
@@ -61,12 +60,9 @@ public class MathUtil {
      * Calculates the (ortogonal) distance from {@link Position} Q to the line which
      * is created by the {@link Position} P and the vector a
      * 
-     * @param posQ
-     *            the {@link Position} Q
-     * @param posPOnVector
-     *            the {@link Position} P placed on the vector
-     * @param a
-     *            the vector itself
+     * @param posQ         the {@link Position} Q
+     * @param posPOnVector the {@link Position} P placed on the vector
+     * @param a            the vector itself
      * @return the distance between the point Q and the line 'PosQ' and vector
      */
     public static double calcDistanceFromPositionToLine(Position posQ, Position posPOnVector, Float64Vector a) {
@@ -75,13 +71,15 @@ public class MathUtil {
 	Float64Vector posPVector = getVector(posPOnVector);
 	return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
     }
-    
+
     /**
-     * Calculates the angle between the two Vectors which can be created between the given {@link Position}s.
-     * The direection of the {@link Moveable}s position is considered.
+     * Calculates the angle between the two Vectors which can be created between the
+     * given {@link Position}s. The direection of the {@link Moveable}s position is
+     * considered.
      * 
      * @param moveablePosition the position from a {@link Moveable}
-     * @param gridElementPos the position of a {@link GridElement} on a {@link Grid} 
+     * @param gridElementPos   the position of a {@link GridElement} on a
+     *                         {@link Grid}
      * @return the calculated angle with a precision of three decimal places
      */
     public static double calcAngleBetweenPositions(Position moveablePosition, Position gridElementPos) {
@@ -93,19 +91,19 @@ public class MathUtil {
     /**
      * Calculates the angle between the two vectors
      * 
-     * @param vector1
-     *            the first vector
-     * @param vector2
-     *            the second vector
+     * @param vector1 the first vector
+     * @param vector2 the second vector
      * @return the angle in degree between thos two vectors
      */
     public static double calcAngleBetweenVectors(Float64Vector vector1, Float64Vector vector2) {
 	double v1TimesV2 = vector2.times(vector1).doubleValue();
-	return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(),  vector2.normValue());
+	return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(), vector2.normValue());
     }
 
-    private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector, double moveable2GridElemVectorLenght, double moveableVectorLenght) {
-	double radValue = Math.acos(moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght));
+    private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,
+	    double moveable2GridElemVectorLenght, double moveableVectorLenght) {
+	double radValue = Math
+		.acos(moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght));
 	return toDegrees(radValue);
     }
 

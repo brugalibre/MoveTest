@@ -78,10 +78,10 @@ class DefaultPostEvasionStateHandlerTest {
 	assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
 	verify(tcb.moveable).makeTurnWithoutPostConditions(anyDouble());
     }
-    
+
     @Test
     public void testHandlePostEvasion_AngleCorrectionNecessaryWithEvasion() {
-	
+
 	// Given
 	DetectableMoveableHelper helper = new OneTimeEvasionDetectableMoveableHelper();
 	Position positionBeforeEvasion = Positions.of(9, 9);
@@ -94,10 +94,10 @@ class DefaultPostEvasionStateHandlerTest {
 		.withMoveable(moveablePos)//
 		.withEventStateInput()//
 		.withPostEvasionStateHandler();
-	
+
 	// When
 	CommonEventStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
-	
+
 	// Then
 	assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
 	verify(tcb.moveable, times(2)).makeTurnWithoutPostConditions(anyDouble());
@@ -155,17 +155,17 @@ class DefaultPostEvasionStateHandlerTest {
     }
 
     private static class NeverEvasionDetectableMoveableHelper extends DetectableMoveableHelper {
-	
+
 	public NeverEvasionDetectableMoveableHelper() {
 	    super(mock(Detector.class));
 	}
-	
+
 	@Override
 	public boolean check4Evasion(Grid grid, GridElement moveable) {
 	    return false;
 	}
     }
-    
+
     private static class OneTimeEvasionDetectableMoveableHelper extends DetectableMoveableHelper {
 
 	private boolean isCheck4EvasionTrue;

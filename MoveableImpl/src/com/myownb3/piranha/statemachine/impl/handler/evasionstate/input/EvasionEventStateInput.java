@@ -25,19 +25,16 @@ public class EvasionEventStateInput extends CommonEventStateInput {
     /**
      * Creates a new {@link EvasionEventStateInput}
      * 
-     * @param grid
-     *            the {@link Grid} on which the moveable moves
+     * @param grid     the {@link Grid} on which the moveable moves
      * 
-     * @param moveable
-     *            the {@link Moveable}
-     * @param detector
-     *            the {@link Detector} which helps detecting other
-     *            {@link GridElement}s
-     * @param helper
-     *            the {@link DetectableMoveableHelper}
+     * @param moveable the {@link Moveable}
+     * @param detector the {@link Detector} which helps detecting other
+     *                 {@link GridElement}s
+     * @param helper   the {@link DetectableMoveableHelper}
      * @return a new {@link EvasionEventStateInput}
      */
-    public static EvasionEventStateInput of(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
+    public static EvasionEventStateInput of(Grid grid, Moveable moveable, Detector detector,
+	    DetectableMoveableHelper helper) {
 	return new EvasionEventStateInput(grid, moveable, detector, helper);
     }
 }

@@ -19,8 +19,8 @@ import com.myownb3.piranha.grid.gridelement.Position;
 public interface Moveable extends GridElement {
 
     /**
-     * The stepwitdh is used by the {@link Direction} as a divisor for dividing the 'move-forward-unit' that any
-     * {@link Moveable} can move forward
+     * The stepwitdh is used by the {@link Direction} as a divisor for dividing the
+     * 'move-forward-unit' that any {@link Moveable} can move forward
      * 
      * @see Direction#getForwardX()
      * @see Direction#getForwardY()
@@ -28,7 +28,7 @@ public interface Moveable extends GridElement {
      * @see Direction#getBackwardY()
      */
     public static final int STEP_WITDH = 10;
-    
+
     /**
      * Moves this {@link Moveable} one unit forward, considering the current
      * {@link Direction}
@@ -39,8 +39,7 @@ public interface Moveable extends GridElement {
      * Moves this {@link Moveable} for the given amount of times forward,
      * considering the current {@link Direction}
      * 
-     * @param amount
-     *            the amount of units to move forward
+     * @param amount the amount of units to move forward
      */
     void moveForward(int amount);
 
@@ -54,8 +53,7 @@ public interface Moveable extends GridElement {
      * Moves this {@link Moveable} for the given amount of times forward,
      * considering the current {@link Direction}
      * 
-     * @param amount
-     *            the amount of units to move backward
+     * @param amount the amount of units to move backward
      */
     void moveBackward(int amount);
 
@@ -89,9 +87,10 @@ public interface Moveable extends GridElement {
      * @return a List with all the Points this {@link Moveable} has recently passed
      */
     List<Position> getPositionHistory();
-    
+
     /**
      * Returns the smallest unit this Moveable can move forward or backward
+     * 
      * @return
      */
     default double getSmallestStepWith() {

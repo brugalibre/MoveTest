@@ -12,12 +12,14 @@ public class PassingEventStateInput extends CommonEventStateInput {
 
     private Position positionBeforeEvasion;
 
-    private PassingEventStateInput(Grid grid, Moveable moveable, Position positionBeforeEvasion, DetectableMoveableHelper helper) {
+    private PassingEventStateInput(Grid grid, Moveable moveable, Position positionBeforeEvasion,
+	    DetectableMoveableHelper helper) {
 	super(grid, moveable, helper);
 	this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
     }
 
-    public static PassingEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable, Position positionBeforeEvasion) {
+    public static PassingEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+	    Position positionBeforeEvasion) {
 	return new PassingEventStateInput(grid, moveable, positionBeforeEvasion, helper);
     }
 

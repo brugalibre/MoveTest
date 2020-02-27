@@ -34,62 +34,56 @@ class GridTest {
 
     @Test
     public void test_BuildGridOnlyWithMaxXAndMaxY() {
-	
+
 	// Given
 	int maxX = 15;
 	int maxY = 15;
 	int minX = -15;
-	
+
 	// When
 	DefaultGrid defaultGrid = GridBuilder.builder()//
 		.withMaxX(maxX)//
 		.withMaxY(maxY)//
 		.withMinX(minX)//
 		.build();//
-	
-	// Then 
-	assertThat(defaultGrid.minX, is (0));
-	assertThat(defaultGrid.minY, is (0));
+
+	// Then
+	assertThat(defaultGrid.minX, is(0));
+	assertThat(defaultGrid.minY, is(0));
     }
-    
+
     @Test
     public void testBuildGridWithCollisionHandler_SamePos() {
-	
+
 	// Given
-	CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
-		.withMoveablePos( Positions.of(0, 0))
+	CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder().withMoveablePos(Positions.of(0, 0))
 		.withObstaclePos(Positions.of(0, 0.1))
-		.withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
-		.withGrid()
-		.withMoveable()
+		.withCollisionDetectionHandler(spy(CollisionDetectionHandler.class)).withGrid().withMoveable()
 		.withObstacle();
 
 	// When
 	tcb.moveable.moveForward();
-	
+
 	// Then
 	verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), any());
     }
 
     @Test
     public void testBuildGridWithCollisionHandler_DifferentPos() {
-	
+
 	// Given
-	CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
-		.withMoveablePos( Positions.of(0, 0))
+	CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder().withMoveablePos(Positions.of(0, 0))
 		.withObstaclePos(Positions.of(0, 0.2))
-		.withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
-		.withGrid()
-		.withMoveable()
+		.withCollisionDetectionHandler(spy(CollisionDetectionHandler.class)).withGrid().withMoveable()
 		.withObstacle();
-	
+
 	// When
 	tcb.moveable.moveForward();
-	
+
 	// Then
 	verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), any());
     }
-    
+
     @Test
     public void testGridDimensionGrid() {
 
@@ -303,14 +297,14 @@ class GridTest {
 	    return this;
 	}
 
-	public CollisionTestCaseBuilder withCollisionDetectionHandler (CollisionDetectionHandler collisionDetectionHandler) {
+	public CollisionTestCaseBuilder withCollisionDetectionHandler(
+		CollisionDetectionHandler collisionDetectionHandler) {
 	    this.collisionDetectionHandler = collisionDetectionHandler;
 	    return this;
 	}
-	
+
 	public CollisionTestCaseBuilder withGrid() {
-	    this.grid = GridBuilder.builder()
-		    .withCollisionDetectionHandler(collisionDetectionHandler)//
+	    this.grid = GridBuilder.builder().withCollisionDetectionHandler(collisionDetectionHandler)//
 		    .build();
 	    return this;
 	}

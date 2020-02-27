@@ -43,8 +43,8 @@ class PostEvasionStateHandlerWithEndPosTest {
 		.withStepWidth(10)//
 		.withEndPos(Positions.of(10, 10))//
 		.withPositionBeforeEvasion(Positions.of(9, 9))//
-			.withEvasionStateHandler()//
-			.build()//
+		.withEvasionStateHandler()//
+		.build()//
 		.withEventStateInput();
 
 	// When
@@ -64,12 +64,9 @@ class PostEvasionStateHandlerWithEndPosTest {
 		.withStepWidth(10)//
 		.withEndPos(Positions.of(10, 10))//
 		.withPositionBeforeEvasion(Positions.of(9, 9))//
-			.withEvasionStateHandler()//
-			.withHandlerAngle(15)
-			.withSignum(-1)
-			.build()//
+		.withEvasionStateHandler()//
+		.withHandlerAngle(15).withSignum(-1).build()//
 		.withEventStateInput();
-
 
 	// When
 	CommonEventStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
@@ -77,38 +74,36 @@ class PostEvasionStateHandlerWithEndPosTest {
 	// Then
 	assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
 	assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
-	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * PostEvasionStateHandlerWithEndPos.MIN_ANGLE_TO_TURN));
+	verify(tcb.moveable).makeTurnWithoutPostConditions(
+		Mockito.eq(tcb.handler.testSignum * PostEvasionStateHandlerWithEndPos.MIN_ANGLE_TO_TURN));
 	verify(tcb.helper, times(3)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
 	verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
     }
-    
+
     @Test
     public void testHandlePostEvasion_AngleCorrectionNecessary_WithEvasionOnSecondCall() {
-	
+
 	// Given
 	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withHelper(spy(new TestDetectableMoveableHelper()))
-		.withStepWidth(10)//
+		.withHelper(spy(new TestDetectableMoveableHelper())).withStepWidth(10)//
 		.withEndPos(Positions.of(10, 10))//
 		.withPositionBeforeEvasion(Positions.of(9, 9))//
-			.withEvasionStateHandler()//
-			.withHandlerAngle(10)
-			.withSignum(-1)
-			.build()//
+		.withEvasionStateHandler()//
+		.withHandlerAngle(10).withSignum(-1).build()//
 		.withEventStateInput();
-	
-	
+
 	// When
 	CommonEventStateResult firstCEventStateResult = tcb.handler.handle(tcb.evenStateInput);
 
 	// during the second call we're getting an evasion
 	((TestDetectableMoveableHelper) tcb.helper).isCheck4EvasionTrue = true;
 	tcb.handler.handle(tcb.evenStateInput);
-	
+
 	// Then
 	assertThat(firstCEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
 	assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
-	verify(tcb.moveable, times(2)).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * tcb.handler.angle));
+	verify(tcb.moveable, times(2))
+		.makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * tcb.handler.angle));
 	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * -tcb.handler.angle / 2));
 	verify(tcb.helper, times(6)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
 	verify(tcb.helper, times(4)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
@@ -135,7 +130,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 	    this.helper = helper;
 	    return this;
 	}
-	
+
 	private TestCaseBuilder withStepWidth(double stepWidth) {
 	    this.stepWidth = stepWidth;
 	    return this;
@@ -194,20 +189,21 @@ class PostEvasionStateHandlerWithEndPosTest {
 	}
     }
 
-    private static class TestDetectableMoveableHelper extends DetectableMoveableHelper{
+    private static class TestDetectableMoveableHelper extends DetectableMoveableHelper {
 
 	private boolean isCheck4EvasionTrue;
+
 	public TestDetectableMoveableHelper() {
 	    super(mock(Detector.class));
 	    isCheck4EvasionTrue = false;
 	}
-	
+
 	@Override
 	public boolean check4Evasion(Grid grid, GridElement moveable) {
 	    return isCheck4EvasionTrue;
 	}
     }
-    
+
     private static class TestPostEvasionStateHandler extends PostEvasionStateHandlerWithEndPos {
 
 	private Float64Vector endPosLine;
@@ -225,7 +221,8 @@ class PostEvasionStateHandlerWithEndPosTest {
 	}
 
 	@Override
-	protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine, double testTurnAngle) {
+	protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+		double testTurnAngle) {
 	    return testSignum;
 	}
 

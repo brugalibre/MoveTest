@@ -11,7 +11,7 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
  * @author Dominic
  *
  */
-public class GridElementPainter extends AbstractGridElementPainter<GridElement>{
+public class GridElementPainter extends AbstractGridElementPainter<GridElement> {
 
     /**
      * @param gridElement

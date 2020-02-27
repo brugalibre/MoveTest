@@ -20,7 +20,7 @@ class MoveableObstacleImplTest {
 	// When
 
 	boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
-	
+
 	// Then
 	assertThat(isObstacle, is(true));
     }

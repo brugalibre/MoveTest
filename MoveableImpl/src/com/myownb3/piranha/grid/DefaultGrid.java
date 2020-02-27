@@ -50,10 +50,8 @@ public class DefaultGrid implements Grid {
      * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
      * minimal -y values
      * 
-     * @param maxY
-     *            the maximal y-axis value
-     * @param maxX
-     *            the maximal x-axis value
+     * @param maxY the maximal y-axis value
+     * @param maxX the maximal x-axis value
      */
     protected DefaultGrid(int maxY, int maxX) {
 	this(maxY, maxX, 0, 0);
@@ -64,14 +62,10 @@ public class DefaultGrid implements Grid {
      * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
      * minimal -y values
      * 
-     * @param maxY
-     *            the maximal y-axis value
-     * @param maxX
-     *            the maximal x-axis value
-     * @param minX
-     *            the minimal x-axis value
-     * @param minY
-     *            the minimal y-axis value
+     * @param maxY the maximal y-axis value
+     * @param maxX the maximal x-axis value
+     * @param minX the minimal x-axis value
+     * @param minY the minimal y-axis value
      */
     protected DefaultGrid(int maxY, int maxX, int minX, int minY) {
 	this.maxY = maxY;
@@ -81,16 +75,13 @@ public class DefaultGrid implements Grid {
 	this.checkLowerBoundarys = true;
 	gridElements = new ArrayList<>();
 	detector = CollisionDetectorBuilder.builder()//
-		.withCollisionDistance(2)
-		.withDefaultCollisionHandler()
-		.build();
+		.withCollisionDistance(2).withDefaultCollisionHandler().build();
     }
 
     /**
      * Moves the position of this {@link Position} backward by 1 unit
      * 
-     * @param position
-     *            the current Position to move backward
+     * @param position the current Position to move backward
      * @return the new moved Position
      */
     @Override
@@ -102,7 +93,7 @@ public class DefaultGrid implements Grid {
 	checkBounds(newX, newY);
 	Position newPosition = Positions.of(direction, newX, newY);
 	checkCollision(position, newPosition);
-	
+
 	return newPosition;
     }
 
@@ -114,8 +105,7 @@ public class DefaultGrid implements Grid {
     /**
      * Moves the position of this {@link Position} forward by 1 unit
      * 
-     * @param position
-     *            the current Position to move forward
+     * @param position the current Position to move forward
      * @return the new moved Position
      */
     @Override
@@ -144,8 +134,7 @@ public class DefaultGrid implements Grid {
 
     /**
      * @param position
-     * @param forwardY
-     *            the amount of forward units for the y-axis
+     * @param forwardY the amount of forward units for the y-axis
      * @return
      */
     protected double getNewYValue(Position position, double forwardY) {
@@ -154,8 +143,7 @@ public class DefaultGrid implements Grid {
 
     /**
      * @param position
-     * @param forwardX
-     *            the amount of forward units for the x-axis
+     * @param forwardX the amount of forward units for the x-axis
      * @return the new x-value
      */
     protected double getNewXValue(Position position, double forwardX) {
@@ -166,15 +154,13 @@ public class DefaultGrid implements Grid {
     public List<Avoidable> getSurroundingAvoidables(GridElement gridElement) {
 	return gridElements.stream()//
 		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
-		.filter(Avoidable.class::isInstance)
-		.map(Avoidable.class::cast)
+		.filter(Avoidable.class::isInstance).map(Avoidable.class::cast)
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
     private List<Avoidable> getAllAvoidables(Position position) {
 	return gridElements.stream()//
-		.filter(Avoidable.class::isInstance)
-		.map(Avoidable.class::cast)
+		.filter(Avoidable.class::isInstance).map(Avoidable.class::cast)
 		.filter(avoidable -> avoidable.getPosition() != position)//
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
@@ -213,70 +199,69 @@ public class DefaultGrid implements Grid {
     public String toString() {
 	return "Max x:'" + maxX + ", Min x:'" + minX + "; Max y:'" + maxY + ", Min y:'" + minY;
     }
-    
+
     public abstract static class AbstractGridBuilder<T> {
 
-   	protected Integer maxX;
-   	protected Integer maxY;
-   	protected Integer minX;
-   	protected Integer minY;
-   	private CollisionDetector collisionDetector;
+	protected Integer maxX;
+	protected Integer maxY;
+	protected Integer minX;
+	protected Integer minY;
+	private CollisionDetector collisionDetector;
 
-   	protected AbstractGridBuilder() {
-   	}
+	protected AbstractGridBuilder() {
+	}
 
-   	@SuppressWarnings("unchecked")
-	public <B extends AbstractGridBuilder<T>> B withMaxX(int maxX) {
-   	    this.maxX = maxX;
-   	    return (B) this;
-   	}
-
-   	@SuppressWarnings("unchecked")
-   	public <B extends AbstractGridBuilder<T>> B withMinX(int minX) {
-   	    this.minX = minX;
-   	    return (B) this;
-   	}
-
-   	@SuppressWarnings("unchecked")
-   	public <B extends AbstractGridBuilder<T>> B  withMaxY(int maxY) {
-   	    this.maxY = maxY;
-   	    return (B) this;
-   	}
-
-   	@SuppressWarnings("unchecked")
-   	public <B extends AbstractGridBuilder<T>> B  withMinY(int minY) {
-   	    this.minY = minY;
-   	    return (B) this;
-   	}
-
-   	@SuppressWarnings("unchecked")
-   	public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
-	    this.collisionDetector = CollisionDetectorBuilder.builder()//
-		    .withCollisionDistance(2)
-		    .withDefaultCollisionHandler()//
-		    .build();
-   	    return (B) this;
-   	}
-   	
-   	public abstract T build();
-   	
 	@SuppressWarnings("unchecked")
-	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(CollisionDetectionHandler collisionDetectionHandler) {
+	public <B extends AbstractGridBuilder<T>> B withMaxX(int maxX) {
+	    this.maxX = maxX;
+	    return (B) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withMinX(int minX) {
+	    this.minX = minX;
+	    return (B) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withMaxY(int maxY) {
+	    this.maxY = maxY;
+	    return (B) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withMinY(int minY) {
+	    this.minY = minY;
+	    return (B) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
 	    this.collisionDetector = CollisionDetectorBuilder.builder()//
-		    .withCollisionDistance(2)
-		    .withCollisionHandler(collisionDetectionHandler)//
+		    .withCollisionDistance(2).withDefaultCollisionHandler()//
 		    .build();
 	    return (B) this;
 	}
-   	
+
+	public abstract T build();
+
+	@SuppressWarnings("unchecked")
+	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(
+		CollisionDetectionHandler collisionDetectionHandler) {
+	    this.collisionDetector = CollisionDetectorBuilder.builder()//
+		    .withCollisionDistance(2).withCollisionHandler(collisionDetectionHandler)//
+		    .build();
+	    return (B) this;
+	}
+
 	protected void setDetector(DefaultGrid defaultGrid) {
 	    if (nonNull(collisionDetector)) {
 		defaultGrid.detector = collisionDetector;
 	    }
 	}
     }
-    
-    public static class GridBuilder extends AbstractGridBuilder<DefaultGrid>{
+
+    public static class GridBuilder extends AbstractGridBuilder<DefaultGrid> {
 
 	protected GridBuilder() {
 	    super();

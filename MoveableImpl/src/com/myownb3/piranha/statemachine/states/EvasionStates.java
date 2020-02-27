@@ -21,7 +21,7 @@ public enum EvasionStates {
 	    return NONE;
 	}
     },
-    
+
     /**
      * Describes the default or initial state of any {@link Moveable} which are
      * currently not evasion any {@link GridElement}

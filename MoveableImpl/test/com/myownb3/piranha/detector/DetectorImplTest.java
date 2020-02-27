@@ -37,7 +37,7 @@ class DetectorImplTest {
 	Obstacle g3 = new ObstacleImpl(grid, positionG3);
 	List<Avoidable> obstacles = Arrays.asList(g1, g2, g3);
 	Collections.shuffle(obstacles);
-	
+
 	// When
 	Optional<Avoidable> actualNearestGridElem = detector.getNearestEvasionAvoidable(position, obstacles);
 

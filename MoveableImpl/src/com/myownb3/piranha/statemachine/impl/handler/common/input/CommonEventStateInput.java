@@ -36,19 +36,16 @@ public class CommonEventStateInput implements EventStateInput {
     }
 
     public Position getMoveablePosBefore() {
-        return moveablePosBefore;
+	return moveablePosBefore;
     }
-    
+
     /**
      * Creates a new {@link CommonEventStateInput}
      * 
-     * @param grid
-     *            the {@link Grid} on which the moveable moves
+     * @param grid     the {@link Grid} on which the moveable moves
      * 
-     * @param moveable
-     *            the {@link Moveable}
-     * @param helper
-     *            the {@link DetectableMoveableHelper}
+     * @param moveable the {@link Moveable}
+     * @param helper   the {@link DetectableMoveableHelper}
      * @return a new {@link CommonEventStateInput}
      */
     public static CommonEventStateInput of(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {

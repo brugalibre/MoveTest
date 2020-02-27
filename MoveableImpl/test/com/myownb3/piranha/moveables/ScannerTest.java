@@ -33,11 +33,12 @@ class ScannerTest {
     void testEvasion_DistanceCloseEnough() {
 
 	// Given
-	// We do not care about the detection handler, since this is not part of this test
-	CollisionDetectionHandler collisionDetectionHandler = (a, b) -> {};
+	// We do not care about the detection handler, since this is not part of this
+	// test
+	CollisionDetectionHandler collisionDetectionHandler = (a, b) -> {
+	};
 	Grid grid = GridBuilder.builder()//
-		.withCollisionDetectionHandler(collisionDetectionHandler)
-		.build();
+		.withCollisionDetectionHandler(collisionDetectionHandler).build();
 	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
 	Detector detector = new DetectorImpl(5, 45, 5.625);
 	Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))//
@@ -290,7 +291,7 @@ class ScannerTest {
 
     @Test
     public void testNotEvasionObstactleAlreadyPassed() {
-	
+
 	// Given
 	Grid grid = GridBuilder.builder(10, 10)//
 		.build();

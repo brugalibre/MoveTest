@@ -16,13 +16,12 @@ public interface EvasionStatesHandler<T extends EventStateInput, R extends Event
     /**
      * Initializes this {@link EvasionStatesHandler}
      */
-    void init ();
-    
+    void init();
+
     /**
      * Does the necessary action this {@link EvasionStatesHandler} implements
      * 
-     * @param evenStateInput
-     *            the input values
+     * @param evenStateInput the input values
      * @return an {@link EventStateResult}
      */
     public R handle(T evenStateInput);

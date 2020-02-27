@@ -43,9 +43,10 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  * because the {@link EvasionStateMachine} can handle the complete evasion
  * maneuvre evasion
  * 
- * The minimum distance to correctly recognize an {@link Obstacle} and handle an evasion maneuvre
- * is three ints. So e.g the first Obstacle is placed at Position (5, 5) and
- * that means, the second can be placed the earliest at Position (8, 8)
+ * The minimum distance to correctly recognize an {@link Obstacle} and handle an
+ * evasion maneuvre is three ints. So e.g the first Obstacle is placed at
+ * Position (5, 5) and that means, the second can be placed the earliest at
+ * Position (8, 8)
  * 
  * @author Dominic
  *
@@ -85,7 +86,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     public void handlePostConditions(Grid grid, Moveable moveable) {
 	beforePostConditions(grid, moveable);
 	CommonEventStateResult eventStateResult = handlePostConditionsInternal(grid, moveable);
-	afterPostConditions (eventStateResult);
+	afterPostConditions(eventStateResult);
     }
 
     private CommonEventStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
@@ -103,17 +104,20 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	    break;
 	case POST_EVASION:
 	    PostEvasionStateHandler postEvastionStateHandler = getHandler();
-	    eventStateResult = postEvastionStateHandler.handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
+	    eventStateResult = postEvastionStateHandler
+		    .handle(PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case PASSING:
 	    PassingStateHandler passingStateHandler = getHandler();
-	    eventStateResult = passingStateHandler.handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
+	    eventStateResult = passingStateHandler
+		    .handle(PassingEventStateInput.of(this, grid, moveable, positionBeforeEvasion));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	case RETURNING:
 	    ReturningStateHandler returningStateHandler = getHandler();
-	    eventStateResult = returningStateHandler.handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
+	    eventStateResult = returningStateHandler
+		    .handle(ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition));
 	    evasionState = eventStateResult.getNextState();
 	    break;
 	default:
@@ -135,11 +139,9 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
     }
 
     private void initHandlers() {
-	evasionStatesHandler2StateMap.values()
-		.stream()
-		.forEach(EvasionStatesHandler::init);
+	evasionStatesHandler2StateMap.values().stream().forEach(EvasionStatesHandler::init);
     }
-    
+
     private Position setPositionBeforeEvasion(Optional<Position> optionalPos) {
 	return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
     }

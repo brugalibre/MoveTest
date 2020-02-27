@@ -12,8 +12,7 @@ import com.myownb3.piranha.ui.render.Renderer;
  * instantiated object on the {@link MainUserInterface} component
  * 
  * @author Dominic
- * @param <E>
- *            the value this Drawable represents on the
+ * @param <E> the value this Drawable represents on the
  *            {@link MainUserInterface}
  * 
  */
@@ -30,8 +29,7 @@ public abstract class Drawable<E> implements Renderer {
     /**
      * Creates a new {@link Drawable} with the given parent and value
      * 
-     * @param parent,
-     *            the parent of this component
+     * @param parent, the parent of this component
      * @param value
      */
     public Drawable(E value) {
@@ -42,8 +40,7 @@ public abstract class Drawable<E> implements Renderer {
      * Sets the bounds the layout manager has assigned to this {@link Drawable}.
      * Those, of course, have to be considered in the rendering process.
      * 
-     * @param bounds
-     *            the new bounds for the Drawable.
+     * @param bounds the new bounds for the Drawable.
      */
     @Override
     public void setBounds(Rectangle bounds) {

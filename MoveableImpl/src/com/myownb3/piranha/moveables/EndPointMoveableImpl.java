@@ -32,7 +32,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 	double diffAngle = position.calcAngleRelativeTo(endPos);
 	makeTurn(diffAngle);
     }
- 
+
     @Override
     public MoveResult moveForward2EndPos() {
 	double distance = endPos.calcDistanceTo(position);
@@ -49,9 +49,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
     }
 
     /*
-     * We are done, when we
-     * 	- a) reach the destination
-     * 	- b) have already reached the destination and now we are getting further away again
+     * We are done, when we - a) reach the destination - b) have already reached the
+     * destination and now we are getting further away again
      */
     private boolean isDone(double distance) {
 	return distance <= 5 && distance >= -5 && isCurrentDistanceGreaterThanPrev(distance);

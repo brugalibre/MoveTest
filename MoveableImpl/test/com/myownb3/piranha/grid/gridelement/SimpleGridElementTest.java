@@ -18,17 +18,18 @@ import com.myownb3.piranha.grid.Grid;
 class SimpleGridElementTest {
 
     /**
-     * Test method for {@link com.myownb3.piranha.grid.gridelement.SimpleGridElement#toString()}.
+     * Test method for
+     * {@link com.myownb3.piranha.grid.gridelement.SimpleGridElement#toString()}.
      */
     @Test
     void testToString() {
 	// Given
 	Position position = Positions.of(1, 1);
-	Grid grid = GridBuilder.builder(5,5)//
+	Grid grid = GridBuilder.builder(5, 5)//
 		.build();
-	SimpleGridElement element = new SimpleGridElement(grid, position );
+	SimpleGridElement element = new SimpleGridElement(grid, position);
 	String expectedToString = "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";
-	
+
 	// When
 	String toString = element.toString();
 

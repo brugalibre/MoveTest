@@ -22,8 +22,7 @@ public interface Grid {
     /**
      * Moves the given Position backward by one unit
      * 
-     * @param position
-     *            the {@link Position} to move
+     * @param position the {@link Position} to move
      * @return a new instance of the moved Position
      */
     Position moveBackward(Position position);
@@ -31,15 +30,13 @@ public interface Grid {
     /**
      * Moves the given Position forward by one unit
      * 
-     * @param position
-     *            the {@link Position} to move
+     * @param position the {@link Position} to move
      * @return a new instance of the moved Position
      */
     Position moveForward(Position position);
 
     /**
-     * @param gridElement
-     *            the element to verify
+     * @param gridElement the element to verify
      * @return <code>true</code> if this {@link Grid} contains the given
      *         {@link GridElement} or <code>false</code> if not
      */

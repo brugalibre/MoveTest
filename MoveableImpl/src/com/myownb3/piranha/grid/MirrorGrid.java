@@ -24,7 +24,7 @@ public class MirrorGrid extends DefaultGrid {
      * @param maxX
      * @param maxY
      */
-    private  MirrorGrid(int maxX, int maxY) {
+    private MirrorGrid(int maxX, int maxY) {
 	super(maxX, maxY, 0, 0);
     }
 
@@ -117,7 +117,7 @@ public class MirrorGrid extends DefaultGrid {
 		    .withMaxX(maxX)//
 		    .withMaxY(maxY);
 	}
-	
+
 	/**
 	 * Creates a new {@link MirrorGrid}
 	 * 

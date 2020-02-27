@@ -37,7 +37,7 @@ public interface EvasionStateMachineConfig {
      *          {@link EvasionStates#POST_EVASION}
      */
     int getPostEvasionAngleAdjustStepWidth();
-    
+
     /**
      * @return the value which is used to multiply the angle to turn a
      *         {@link Moveable} in order to return to it's previous direction in

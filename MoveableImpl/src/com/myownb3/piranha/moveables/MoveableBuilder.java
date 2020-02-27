@@ -32,7 +32,7 @@ public class MoveableBuilder {
 		.build();
 	return MoveableBuilder.builder(defGrid, Positions.of(0, 0));
     }
-    
+
     public static MoveableBuilder builder(Grid grid) {
 	return MoveableBuilder.builder(grid, Positions.of(0, 0));
     }
@@ -40,7 +40,7 @@ public class MoveableBuilder {
     public static MoveableBuilder builder(Grid grid, Position position) {
 	return new MoveableBuilder(grid, position);
     }
-    
+
     private MoveableBuilder(Grid grid, Position position) {
 	this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
 	this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
@@ -59,12 +59,12 @@ public class MoveableBuilder {
 	handler.handlePostConditions(moveable.getGrid(), moveable);
 	return this.moveable;
     }
-    
+
     public MoveableBuilder withMovingIncrement(int movingIncrement) {
 	this.movingIncrement = movingIncrement;
 	return this;
     }
-    
+
     public EndPointMoveable buildEndPointMoveable() {
 	Objects.requireNonNull(endPos, "Attribute 'endPos' must not be null!");
 	moveable = new EndPointMoveableImpl(grid, position, handler, endPos, movingIncrement);

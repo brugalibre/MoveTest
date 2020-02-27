@@ -10,10 +10,10 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
- * An {@link DetectableMoveableHelper} implements the {@link MoveablePostActionHandler}
- * with basic functions of detecting other {@link GridElement}. This includes
- * the ability to identify weather or not a certain {@link GridElement} is
- * evaded
+ * An {@link DetectableMoveableHelper} implements the
+ * {@link MoveablePostActionHandler} with basic functions of detecting other
+ * {@link GridElement}. This includes the ability to identify weather or not a
+ * certain {@link GridElement} is evaded
  * 
  * @author Dominic
  *
@@ -33,19 +33,16 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
     }
 
     /**
-     * Verifies if there is any {@link GridElement} on the {@link Grid} for
-     * which there is currently an evasion with the given {@link GridElement}
+     * Verifies if there is any {@link GridElement} on the {@link Grid} for which
+     * there is currently an evasion with the given {@link GridElement}
      * 
-     * @param grid
-     *            the {@link Grid}
-     * @param moveable
-     *            the {@link GridElement} for which the evasion is checked
-     * @return <code>true</code> if there is any evasion or <code>false</code>
-     *         if not
+     * @param grid     the {@link Grid}
+     * @param moveable the {@link GridElement} for which the evasion is checked
+     * @return <code>true</code> if there is any evasion or <code>false</code> if
+     *         not
      */
     public boolean check4Evasion(Grid grid, GridElement moveable) {
-	return grid.getSurroundingAvoidables(moveable)
-		.stream()
+	return grid.getSurroundingAvoidables(moveable).stream()
 		.anyMatch(gridElement -> detector.isEvasion(gridElement));
     }
 
@@ -53,10 +50,8 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      * Checks the surrounding of the given {@link Moveable} on the given
      * {@link Grid}
      * 
-     * @param grid
-     *            the {@link Grid}
-     * @param moveable
-     *            the given {@link Moveable}
+     * @param grid     the {@link Grid}
+     * @param moveable the given {@link Moveable}
      */
     public void checkSurrounding(Grid grid, Moveable moveable) {
 	grid.getSurroundingAvoidables(moveable)

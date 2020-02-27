@@ -16,7 +16,8 @@ public class DefaultStateHandler extends CommonStateHandlerImpl<CommonEventState
 
     @Override
     public CommonEventStateResult handle(CommonEventStateInput evenStateInput) {
-	Position positionBeforeEvasion = handleDefaultState(evenStateInput.getGrid(), evenStateInput.getMoveable(), evenStateInput.getHelper());
+	Position positionBeforeEvasion = handleDefaultState(evenStateInput.getGrid(), evenStateInput.getMoveable(),
+		evenStateInput.getHelper());
 	return buildAndReturnResult(positionBeforeEvasion);
     }
 

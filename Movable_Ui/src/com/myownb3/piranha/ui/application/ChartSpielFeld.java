@@ -64,8 +64,8 @@ public class ChartSpielFeld {
 
 	XYPlot plot = chart.getXYPlot();
 	XYItemRenderer xyItemRenderer = new XYDotRenderer();
-	((XYDotRenderer)xyItemRenderer).setDotHeight(5);
-	((XYDotRenderer)xyItemRenderer).setDotWidth(5);
+	((XYDotRenderer) xyItemRenderer).setDotHeight(5);
+	((XYDotRenderer) xyItemRenderer).setDotWidth(5);
 	plot.setRenderer(xyItemRenderer);
 	ValueAxis rangeAxis = plot.getRangeAxis();
 	rangeAxis.setAutoRange(true);

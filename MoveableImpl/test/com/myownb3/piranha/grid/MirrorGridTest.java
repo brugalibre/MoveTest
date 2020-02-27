@@ -78,11 +78,11 @@ class MirrorGridTest {
 
 	// Given
 	Grid grid = MirrorGridBuilder.builder()//
-			.withMaxX(20)//
-			.withMaxY(15)//
-			.withMinX(0)//
-			.withMinY(-20)//
-			.build();
+		.withMaxX(20)//
+		.withMaxY(15)//
+		.withMinX(0)//
+		.withMinY(-20)//
+		.build();
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);
@@ -120,7 +120,7 @@ class MirrorGridTest {
 		.withMaxY(200)//
 		.withMinX(-200)//
 		.withMinY(0)//
-		.build(); 
+		.build();
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 7.4, 0);
 	position.rotate(-45);
@@ -139,7 +139,7 @@ class MirrorGridTest {
 		.withMaxY(200)//
 		.withMinX(-200)//
 		.withMinY(0)//
-		.build();  
+		.build();
 	Position position = Positions.of(Directions.N, 0, 0);
 	Position position2 = Positions.of(Directions.N, 4, 0);
 	position.rotate(45);
@@ -158,7 +158,7 @@ class MirrorGridTest {
 		.withMaxY(200)//
 		.withMinX(-200)//
 		.withMinY(0)//
-		.build(); 
+		.build();
 	Position position = Positions.of(Directions.W, 0, 0);
 	Position position2 = Positions.of(Directions.W, 6.5, 0);
 	position.rotate(45);

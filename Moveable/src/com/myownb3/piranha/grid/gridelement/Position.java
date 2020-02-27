@@ -54,8 +54,7 @@ public interface Position {
      * Calculates the angle between this point relatively to their coordinates on
      * the {@link Grid}
      * 
-     * @param position
-     *            the position
+     * @param position the position
      * @return the relatively angle between this and the other position
      */
     double calcAngleRelativeTo(Position position);

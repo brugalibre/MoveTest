@@ -28,7 +28,7 @@ class EvasionStateMachineTest {
 
     @Test
     void testHandleEvasionState_NoRegisteredStateHandler() {
-	
+
 	// Given
 	EvasionStateMachineConfig config = mock(EvasionStateMachineConfig.class);
 	Detector detector = mock(Detector.class);
@@ -42,7 +42,7 @@ class EvasionStateMachineTest {
 	// Then
 	assertThrows(IllegalStateException.class, ex);
     }
-    
+
     /**
      * Test method for
      * {@link com.myownb3.piranha.statemachine.impl.handler.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
@@ -59,7 +59,6 @@ class EvasionStateMachineTest {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
 	EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(), config);
 	evasionStateMachine.evasionState = EvasionStates.NONE;
-	
 
 	// When
 	Executable ex = () -> {

@@ -21,10 +21,8 @@ public class Positions {
     /**
      * Creates a new {@link Position} with the given coordinates
      * 
-     * @param x
-     *            the x-axis coordinate
-     * @param y
-     *            the y-axis coordinate
+     * @param x the x-axis coordinate
+     * @param y the y-axis coordinate
      * @return a new created Position
      */
     public static Position of(double x, double y) {
@@ -34,10 +32,8 @@ public class Positions {
     /**
      * Creates a new {@link Position} with the given coordinates
      * 
-     * @param x
-     *            the x-axis coordinate
-     * @param y
-     *            the y-axis coordinate
+     * @param x the x-axis coordinate
+     * @param y the y-axis coordinate
      * @return a new created Position
      */
     public static Position of(Direction direction, double x, double y) {
@@ -69,7 +65,7 @@ public class Positions {
 	double newY = position.getY() + direction.getForwardY();
 	return Positions.of(direction, newX, newY);
     }
-    
+
     /**
      * Returns a new {@link PositionImpl} within the borders of the given
      * {@link Dimension} considering the given height and width of the Position
@@ -102,10 +98,8 @@ public class Positions {
 	 * Creates a new {@link PositionImpl} with the given coordinates The
 	 * {@link Direction} is set to {@link Directions#N} by default
 	 * 
-	 * @param x
-	 *            the x axis value
-	 * @param y
-	 *            the y axis value
+	 * @param x the x axis value
+	 * @param y the y axis value
 	 */
 	public PositionImpl(double x, double y) {
 	    this(Directions.N, x, y);
@@ -115,12 +109,9 @@ public class Positions {
 	 * Creates a new {@link PositionImpl} with the given coordinates and
 	 * {@link Direction}
 	 * 
-	 * @param direction
-	 *            the desired direction
-	 * @param x
-	 *            the x axis value
-	 * @param y
-	 *            the y axis value
+	 * @param direction the desired direction
+	 * @param x         the x axis value
+	 * @param y         the y axis value
 	 */
 	public PositionImpl(Direction direction, double x, double y) {
 	    this.direction = direction;
@@ -201,19 +192,14 @@ public class Positions {
 	}
 
 	/*
-	     * Calculates the absolute value depending on the quadrant this position is located
-	     *
-	     *@formatter:off
-	     *  ___________
-	     * |     |     |
-	     * |  2. |  1. |
-	     * |____ |_____|
-	     * |     |     |
-	     * |  3. |  4. |
-	     * |_____|_____|
-	     * 
-	     *@formatter:on
-	     */
+	 * Calculates the absolute value depending on the quadrant this position is
+	 * located
+	 *
+	 * @formatter:off ___________ | | | | 2. | 1. | |____ |_____| | | | | 3. | 4. |
+	 * |_____|_____|
+	 * 
+	 * @formatter:on
+	 */
 	private double getAbsolutAngle(double angleAsDegree) {
 
 	    if (y < 0 && x < 0) {

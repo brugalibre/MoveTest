@@ -20,13 +20,12 @@ public class VectorUtil {
     private VectorUtil() {
 	// private
     }
-    
+
     /**
      * Creates a {@link Float64Vector} for the given {@link Position} and its x,-
      * and y-coordinates
      * 
-     * @param pos
-     *            the {@link Position}
+     * @param pos the {@link Position}
      * @return a {@link Float64Vector}
      */
     public static Float64Vector getVector(Position pos) {
@@ -37,8 +36,7 @@ public class VectorUtil {
      * Creates a {@link Float64Vector} for the given {@link Position} and its x,-
      * and y-forwarding coordinates
      * 
-     * @param direction
-     *            the {@link Direction}
+     * @param direction the {@link Direction}
      * @return a {@link Float64Vector}
      * 
      * @see Direction#getForwardX()

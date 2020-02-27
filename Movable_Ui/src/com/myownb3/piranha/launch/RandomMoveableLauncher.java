@@ -50,11 +50,8 @@ public class RandomMoveableLauncher {
 	MainWindow mainWindow = new MainWindow(700, 700);
 
 	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
-	MirrorGrid grid = MirrorGridBuilder.builder()
-		.withMaxX(700)
-		.withMaxY(700)//
-		.withCollisionDetectionHandler(collisionDetector)
-		.build();
+	MirrorGrid grid = MirrorGridBuilder.builder().withMaxX(700).withMaxY(700)//
+		.withCollisionDetectionHandler(collisionDetector).build();
 
 	Moveable moveable = getMoveable(grid, height, width);
 	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);

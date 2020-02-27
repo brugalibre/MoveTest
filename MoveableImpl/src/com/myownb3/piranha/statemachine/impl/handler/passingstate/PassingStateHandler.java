@@ -37,7 +37,8 @@ public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStat
 	DetectableMoveableHelper helper = evenStateInput.getHelper();
 
 	Position position = moveable.getPosition();
-	boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion().calcDistanceTo(position) > passingDistance;
+	boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion()
+		.calcDistanceTo(position) > passingDistance;
 
 	return isDistanceFarEnough && !helper.check4Evasion(evenStateInput.getGrid(), moveable);
     }

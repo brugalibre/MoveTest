@@ -44,7 +44,8 @@ class ReturningStateHandlerTest {
     private ReturningEventStateInput mockInput() {
 	Moveable moveable = mock(Moveable.class);
 	when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
-	return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable, Positions.of(0, 0));
+	return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
+		Positions.of(0, 0));
     }
 
 }

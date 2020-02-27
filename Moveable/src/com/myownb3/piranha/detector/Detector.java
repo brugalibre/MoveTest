@@ -20,11 +20,9 @@ public interface Detector {
     /**
      * Evaluates if the given {@link Avoidable} has been detected by this Detector
      * 
-     * @param avoidable
-     *            the {@link Avoidable} to detect
-     * @param position
-     *            the current Position from which the {@link Detector} trys to
-     *            detect
+     * @param avoidable the {@link Avoidable} to detect
+     * @param position  the current Position from which the {@link Detector} trys to
+     *                  detect
      * @return <code>true</code> if the object was detected, <code>false</code> if
      *         not
      */
@@ -53,8 +51,7 @@ public interface Detector {
      * method will return <code>0</code> if this {@link Detector} is currently not
      * evasion any {@link Avoidable}
      * 
-     * @param position
-     *            the origin Position
+     * @param position the origin Position
      * @returns the evasion angle increment
      */
     double getEvasionAngleRelative2(Position position);
