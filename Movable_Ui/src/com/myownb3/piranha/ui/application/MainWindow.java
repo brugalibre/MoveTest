@@ -28,7 +28,7 @@ public class MainWindow {
 	setLocation();
 	mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	mainWindow.setPreferredSize(new Dimension(width, height));
-
+	mainWindow.setAlwaysOnTop(true);
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int y = (screenSize.height / 2) - height / 2;
 	int x = (screenSize.width / 2) - width / 2;
