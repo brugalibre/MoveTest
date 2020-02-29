@@ -15,6 +15,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMoveable {
 
+    private static double DISTANCE_PRECISION = 0.001;
     private Position endPos;
     private int movingIncrement;
     private double prevDistance;
@@ -53,10 +54,10 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
      * destination and now we are getting further away again
      */
     private boolean isDone(double distance) {
-	return distance <= 5 && distance >= -5 && isCurrentDistanceGreaterThanPrev(distance);
+	return distance <= DISTANCE_PRECISION && distance >= -DISTANCE_PRECISION || isCurrentDistanceGreaterThanPrev(distance);
     }
 
     private boolean isCurrentDistanceGreaterThanPrev(double distance) {
-	return round(distance, 0) > round(prevDistance, 0);
+	return round(distance, 1) > round(prevDistance, 1);
     }
 }
