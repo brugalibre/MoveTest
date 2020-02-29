@@ -106,12 +106,12 @@ public class PostEvasionStateHandlerWithEndPos extends
     private int calcSignum(Position moveablePos, Position positionBeforeEvasion, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveablePos, endPosLine);
-	return calcSignum(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
+	return calcSignumWithAngle(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
     }
 
     private double getAngle2Turn(Position moveablePos, Float64Vector endPosLine) {
 	double effectAngle2Turn = calcAngle(moveablePos, endPosLine);
-	if (Math.abs(effectAngle2Turn) > stepWidth) {
+	if (effectAngle2Turn > stepWidth) {
 	    effectAngle2Turn = effectAngle2Turn / stepWidth;
 	    return max(MIN_ANGLE_TO_TURN, effectAngle2Turn);
 	}

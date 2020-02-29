@@ -212,7 +212,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 
 	public TestPostEvasionStateHandler(Position endPos, double stepWidth) {
 	    super(stepWidth);
-	    endPosLine = Float64Vector.valueOf(1, 2);
+	    endPosLine = Float64Vector.valueOf(1, 2, 0);
 	}
 
 	@Override
@@ -221,8 +221,8 @@ class PostEvasionStateHandlerWithEndPosTest {
 	}
 
 	@Override
-	protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
-		double testTurnAngle) {
+	protected int calcSignumWithDistance(Position moveablePos, Position positionBeforeEvasion,
+		Float64Vector endPosLine, double testTurnAngle) {
 	    return testSignum;
 	}
 

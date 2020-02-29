@@ -117,8 +117,25 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
     private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
 	double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
 	double actualDiff = 0 - currentAngle;
-	double angle2Turn = Math.min(Math.abs(actualDiff), getAngle2Turn());
+	double angle2Turn = getAngle2Turn4CorrectionPhase2(actualDiff);
 	moveable.makeTurnWithoutPostConditions(-angle2Turn);
+    }
+
+    private double getAngle2Turn4CorrectionPhase2(double actualDiff) {
+	double angle2Turn = getAngle2Turn();
+	if (angle2Turn <= 0) {
+	    angle2Turn = Math.max(Math.abs(actualDiff), angle2Turn);
+	} else {
+	    angle2Turn = Math.min(actualDiff, angle2Turn);
+	}
+	return correctAngle2TurnSignum(actualDiff, angle2Turn);
+    }
+
+    private static double correctAngle2TurnSignum(double actualDiff, double angle2Turn) {
+	if (actualDiff <= 0) {
+	    angle2Turn = -angle2Turn;
+	}
+	return angle2Turn;
     }
 
     private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
@@ -138,7 +155,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
 
 	Position moveablePos = moveable.getPosition();
 	this.initialDistance = calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosLine);
-	signum = calcSignum(moveablePos, positionBeforeEvasion, endPosLine, initReturningAngle);
+	signum = calcSignumWithDistance(moveablePos, positionBeforeEvasion, endPosLine, initReturningAngle);
 	if (facesSameDirection(moveable, endPosLine)) {
 	    return;
 	}

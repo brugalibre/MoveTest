@@ -6,7 +6,9 @@ package com.myownb3.piranha.launch;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
@@ -41,27 +43,36 @@ import com.myownb3.piranha.ui.render.impl.PositionListPainter;
  */
 public class EndPointMoveableLauncher {
 
-    private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
-
     public static void main(String[] args) throws InterruptedException {
 
-	Position endPos = Positions.of(400, 400);
+	Position endPos = Positions.of(400, 10);
+	Position endPos2 = Positions.of(400, 400);
 	DefaultGrid grid = MirrorGridBuilder.builder(510, 510).build();
 	GridElement endPosMarker = new SimpleGridElement(grid, endPos);
+	GridElement endPosMarker2 = new SimpleGridElement(grid, endPos2);
 	int height = 4;
 	int width = 4;
 
+	List<EndPointMoveable> moveables = new ArrayList<>(2);
 	EndPointMoveable moveable = getMoveable(endPos, grid, 200, 200);
+	EndPointMoveable moveable2 = getMoveable(endPos2, grid, 200, 200);
+	moveables.add(moveable);
+	moveables.add(moveable2);
+	
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
 	gridElements.add(endPosMarker);
+	gridElements.add(endPosMarker2);
 	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
+	GridElementPainter moveablePainter2 = new GridElementPainter(moveable2, getColor(moveable2), height, width);
 
-	List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveablePainter);
+	List<Renderer> renderers = getRenderers(grid, height, width, gridElements);
+	renderers.add(moveablePainter);
+	renderers.add(moveablePainter2);
 
 	MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight());
 	mainWindow.addSpielfeld(renderers, width, height);
 	showGuiAndStartPainter(mainWindow);
-	List<Position> positions = prepareAndMoveMoveables(moveable, mainWindow);
+	List<Position> positions = prepareAndMoveMoveables(moveables, mainWindow);
 	preparePositionListPainter(renderers, positions);
     }
 
@@ -71,7 +82,7 @@ public class EndPointMoveableLauncher {
 		.map(PositionListPainter.class::cast)//
 		.findFirst()//
 		.get();
-	renderer.setPositions (positions);
+	renderer.setPositions(positions);
     }
 
     private static void showGuiAndStartPainter(MainWindow mainWindow) {
@@ -91,37 +102,55 @@ public class EndPointMoveableLauncher {
 
 	List<GridElement> allGridElement = new ArrayList<>();
 
-	int amount = 1;
 	int angle = 45;
-	for (int i = 0; i < amount; i++) {
-	    int signum = calcSignum();
-	    Position randomPosition = Positions.of(300, 300);
-	    MoveableObstacleImpl obstacle = new MoveableObstacleImpl(grid, randomPosition);
-	    if (signum < 0) {
-		obstacle.makeTurn(angle);
-	    } else {
-		obstacle.makeTurn(angle - 180);
-	    }
-//	    int factor = Math.max(1, (int) MathUtil.getRandom(10));
-//	    int randomNo = Math.max(1, (int) MathUtil.getRandom(50));
-//	    obstacle.moveForward(randomNo * factor);
-
-	    allGridElement.add(obstacle);
-	    GRID_ELEMENTS.add(obstacle);
+	int signum = calcSignum();
+	Position randomPosition = Positions.of(300, 110);
+	Position randomPosition2 = Positions.of(300, 300);
+	MoveableObstacleImpl obstacle = new MoveableObstacleImpl(grid, randomPosition);
+	MoveableObstacleImpl obstacle2 = new MoveableObstacleImpl(grid, randomPosition2);
+	if (signum < 0) {
+	    obstacle.makeTurn(angle);
+	    obstacle2.makeTurn(angle);
+	} else {
+	    obstacle.makeTurn(angle - 180);
+	    obstacle2.makeTurn(angle - 180);
 	}
+
+	allGridElement.add(obstacle);
+	allGridElement.add(obstacle2);
 	return allGridElement;
     }
 
-    private static List<Position> prepareAndMoveMoveables(EndPointMoveable endPointMoveable, MainWindow mainWindow)
-	    throws InterruptedException {
+    private static List<Position> prepareAndMoveMoveables(List<EndPointMoveable> endPointMoveables,
+	    MainWindow mainWindow) throws InterruptedException {
+	Map<Moveable, Boolean> isMoveableDoneMap = new HashMap<>();
+	for (EndPointMoveable endPointMoveable : endPointMoveables) {
+	    isMoveableDoneMap.put(endPointMoveable, false);
+	}
 	while (true) {
-	    MoveResult moveResult = endPointMoveable.moveForward2EndPos();
-	    if (moveResult.isDone()) {
+	    List<EndPointMoveable> filterDoneMoveables = filterDoneMoveables(endPointMoveables, isMoveableDoneMap);
+	    for (EndPointMoveable endPointMoveable : filterDoneMoveables) {
+		MoveResult moveResult = endPointMoveable.moveForward2EndPos();
+		isMoveableDoneMap.put(endPointMoveable, moveResult.isDone());
+		Thread.sleep(2);
+	    }
+	    if (filterDoneMoveables.isEmpty()) {
 		break;
 	    }
-	    Thread.sleep(2);
 	}
-	return endPointMoveable.getPositionHistory();
+	return endPointMoveables.stream().map(Moveable::getPositionHistory).flatMap(List::stream)
+		.collect(Collectors.toList());
+    }
+
+    private static List<EndPointMoveable> filterDoneMoveables(List<EndPointMoveable> endPointMoveables,
+	    Map<Moveable, Boolean> isMoveableDoneMap) {
+	List<EndPointMoveable> filteredPointMoveables = new ArrayList<EndPointMoveable>();
+	for (EndPointMoveable endPointMoveable : endPointMoveables) {
+	    if (!isMoveableDoneMap.get(endPointMoveable)) {
+		filteredPointMoveables.add(endPointMoveable);
+	    }
+	}
+	return filteredPointMoveables;
     }
 
     private static int calcSignum() {
@@ -133,12 +162,11 @@ public class EndPointMoveableLauncher {
 	return signum;
     }
 
-    private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width, List<GridElement> gridElements,
-	    GridElementPainter moveablePainter) {
+    private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width,
+	    List<GridElement> gridElements) {
 	List<Renderer> renderers = gridElements.stream()//
 		.map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))//
 		.collect(Collectors.toList());
-	renderers.add(moveablePainter);
 	renderers.add(new GridPainter(grid));
 	renderers.add(new PositionListPainter(Collections.emptyList(), Color.GREEN, height, width));
 	return renderers;

@@ -57,25 +57,51 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R 
 	return endPosVector.minus(posBeforEvasionVector);
     }
 
-    protected int calcSignum(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+    protected int calcSignumWithDistance(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
 	    double testTurnAngle) {
 	// Rotate negative and calculate angle
+	CalcSignumRes res = calSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
+
+	// The angle after a turn with a positive number brings us closer to the
+	// end-position-line -> positive signum
+	return res.distanceAfterTurnNegative > res.distanceAfterTurnPositive ? 1 : -1;
+    }
+
+    protected int calcSignumWithAngle(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+	    double testTurnAngle) {
+	// Rotate negative and calculate angle
+	CalcSignumRes res = calSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
+
+	// The angle after a turn with a positive number brings us closer to the
+	// end-position-line -> positive signum
+	return res.angleAfterTurnNegative > res.angleAfterTurnPositive ? 1 : -1;
+    }
+
+    private CalcSignumRes calSignumRes(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+	    double testTurnAngle) {
+	CalcSignumRes res = new CalcSignumRes();
 	Position moveablePosTurnNegative = Positions.of(moveablePos);
 	moveablePosTurnNegative.rotate(-testTurnAngle);
 	moveablePosTurnNegative = movePositionForward(moveablePosTurnNegative);
-	double distanceAfterTurnNegative = calcDistanceFromPositionToLine(moveablePosTurnNegative,
-		positionBeforeEvasion, endPosLine);
+	res.distanceAfterTurnNegative = calcDistanceFromPositionToLine(moveablePosTurnNegative, positionBeforeEvasion,
+		endPosLine);
+	res.angleAfterTurnNegative = calcAngle(moveablePosTurnNegative, endPosLine);
 
 	// Rotate positive and calculate angle
 	Position moveablePosTurnPositive = Positions.of(moveablePos);
 	moveablePosTurnPositive.rotate(testTurnAngle);
 	moveablePosTurnPositive = movePositionForward(moveablePosTurnPositive);
-	double distanceAfterTurnPositive = calcDistanceFromPositionToLine(moveablePosTurnPositive,
-		positionBeforeEvasion, endPosLine);
+	res.distanceAfterTurnPositive = calcDistanceFromPositionToLine(moveablePosTurnPositive, positionBeforeEvasion,
+		endPosLine);
+	res.angleAfterTurnPositive = calcAngle(moveablePosTurnPositive, endPosLine);
+	return res;
+    }
 
-	// The angle after a turn with a positive number brings us closer to the
-	// end-position-line -> positive signum
-	return distanceAfterTurnNegative > distanceAfterTurnPositive ? 1 : -1;
+    private static class CalcSignumRes{
+	private double distanceAfterTurnNegative;
+	private double angleAfterTurnNegative;  
+	private double distanceAfterTurnPositive;
+	private double angleAfterTurnPositive;  
     }
 
     protected double calcAngle(Position moveablePos, Float64Vector endPosLine) {
