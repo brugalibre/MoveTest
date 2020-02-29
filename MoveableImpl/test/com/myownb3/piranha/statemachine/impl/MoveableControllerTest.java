@@ -135,16 +135,22 @@ class MoveableControllerTest {
     void test_MoveForward_North_WithObstacle() throws InterruptedException {
 
 	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder().withDefaultGrid(200, 200).withEndPos(Positions.of(0, 11))
-		.withObstacle(Positions.of(0, 8)).withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10).withDetector()
-		.withStateMachine().withMoveable().withMoveableController();
+	TestCaseBuilder tcb = new TestCaseBuilder()//
+		.withDefaultGrid(200, 200)//
+		.withEndPos(Positions.of(0, 11))//
+		.withObstacle(Positions.of(0, 8))//
+		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)//
+		.withDetector()
+		.withStateMachine()//
+		.withMoveable()//
+		.withMoveableController();
 
 	// When
 	tcb.controller.leadMoveable();
 
 	// Then
 	Position effectEndPos = tcb.moveable.getPosition();
-	org.junit.Assert.assertThat(round(effectEndPos.getY() - 1, 0), is(round(tcb.endPos.getY(), 0)));
+	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
 	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
 	assertThat(tcb.moveable.getPositionHistory().contains(tcb.obstacle.getPosition()), is(not(true)));
 	assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
@@ -154,9 +160,15 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
 	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder().withDefaultGrid(200, 200).withEndPos(Positions.of(28, 28))
-		.withObstacle(Positions.of(10, 10)).withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10).withDetector()
-		.withStateMachine().withMoveable().withMoveableController();
+	TestCaseBuilder tcb = new TestCaseBuilder()//
+		.withDefaultGrid(200, 200)//
+		.withEndPos(Positions.of(28, 28))//
+		.withObstacle(Positions.of(10, 10))//
+		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)//
+		.withDetector()//
+		.withStateMachine()//
+		.withMoveable()//
+		.withMoveableController();
 
 	// When
 	tcb.controller.leadMoveable();
@@ -176,9 +188,15 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithTwoObstacles() throws InterruptedException {
 
 	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder().withDefaultGrid(200, 200).withEndPos(Positions.of(25, 25))
-		.addObstacle(Positions.of(10, 10)).addObstacle(Positions.of(20, 19.5))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10).withDetector().withStateMachine().withMoveable()
+	TestCaseBuilder tcb = new TestCaseBuilder()//
+		.withDefaultGrid(200, 200)//
+		.withEndPos(Positions.of(25, 25))//
+		.addObstacle(Positions.of(10, 10))//
+		.addObstacle(Positions.of(20, 19.5))//
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
+		.withDetector()//
+		.withStateMachine()//
+		.withMoveable()//
 		.withMoveableController();
 
 	// When
@@ -201,9 +219,16 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
 
 	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder().withDefaultGrid(200, 200).withEndPos(Positions.of(30, 30))
-		.addObstacle(Positions.of(10, 10)).addObstacle(Positions.of(20, 19.5)).addObstacle(Positions.of(23, 23))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10).withDetector().withStateMachine().withMoveable()
+	TestCaseBuilder tcb = new TestCaseBuilder()//
+		.withDefaultGrid(200, 200)//
+		.withEndPos(Positions.of(30, 30))//
+		.addObstacle(Positions.of(10, 10))//
+		.addObstacle(Positions.of(20, 19.5))//
+		.addObstacle(Positions.of(23, 23))//
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
+		.withDetector()//
+		.withStateMachine()//
+		.withMoveable()//
 		.withMoveableController();
 
 	// When
@@ -218,7 +243,7 @@ class MoveableControllerTest {
 	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
 	}
 	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-	assertThat(round(effectEndPos.getY() - 1, 0), is(round(tcb.endPos.getY(), 0)));
+	assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
 	assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
     }
 
@@ -226,10 +251,18 @@ class MoveableControllerTest {
     void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
 
 	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder().withDefaultGrid(200, 200).withEndPos(Positions.of(34, 34))
-		.addObstacle(Positions.of(10, 10)).addObstacle(Positions.of(20, 18.5)).addObstacle(Positions.of(25, 25))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10).withDetector().withStateMachine()
-		.withMovingIncrement(1).withMoveable().withMoveableController();
+	TestCaseBuilder tcb = new TestCaseBuilder()//
+		.withDefaultGrid(200, 200)//
+		.withEndPos(Positions.of(34, 34))//
+		.addObstacle(Positions.of(10, 10))//
+		.addObstacle(Positions.of(20, 18.5))//
+		.addObstacle(Positions.of(25, 25))
+		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
+		.withDetector()//
+		.withStateMachine()
+		.withMovingIncrement(1)//
+		.withMoveable()//
+		.withMoveableController();
 
 	// When
 	tcb.controller.leadMoveable();
