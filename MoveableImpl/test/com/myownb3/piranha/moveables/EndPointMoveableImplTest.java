@@ -19,20 +19,44 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 class EndPointMoveableImplTest {
 
     @Test
-    void testIsDone() {
-	Position endPos = Positions.of(0, 1);
+    void testIsNotDone() {
+	Position endPos = Positions.of(0, 10);
 	Position pos = Positions.of(0, 0.9);
-	Grid grid = GridBuilder.builder().build();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Detector detector = mock(Detector.class);
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
 	// Given
-	EndPointMoveable moveable = EndPointMoveableBuilder.builder()
-		.withGrid(grid)
-		.withPosition(pos)
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
 		.build();
+	moveable.prepare();
+	
+	// When
+	MoveResult moveResult = moveable.moveForward2EndPos();
+
+	// Then
+	assertThat(moveResult.isDone(), is(false));
+    }
+
+    @Test
+    void testIsDone() {
+	Position endPos = Positions.of(0, 1);
+	Position pos = Positions.of(0, 0.9);
+	Grid grid = GridBuilder.builder()//
+		.build();
+	Detector detector = mock(Detector.class);
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
+
+	// Given
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
+		.withHandler(new EvasionStateMachine(detector, endPos, config))//
+		.widthEndPosition(endPos)//
+		.build();
+	moveable.prepare();
+	
 	// When
 	MoveResult moveResult = moveable.moveForward2EndPos();
 
@@ -44,18 +68,19 @@ class EndPointMoveableImplTest {
     void testIsDone_BecauseAlreadyToFar() {
 	Position endPos = Positions.of(0, 1);
 	Position pos = Positions.of(0, 0.9);
-	Grid grid = GridBuilder.builder().build();
+	Grid grid = GridBuilder.builder()//
+		.build();
 	Detector detector = mock(Detector.class);
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
 	// Given
-	EndPointMoveable moveable = EndPointMoveableBuilder.builder ()
-		.withGrid(grid)
-		.withPosition(pos)
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
 		.withMovingIncrement(4)//
 		.build();
+	moveable.prepare();
+	
 	// When
 	MoveResult moveResult = moveable.moveForward2EndPos();
 

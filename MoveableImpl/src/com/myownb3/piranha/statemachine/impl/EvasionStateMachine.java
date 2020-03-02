@@ -165,7 +165,6 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 	}
 	throw new IllegalStateException("No EvasionStatesHandler registered for state '" + state + "'");
     }
-    
 
     private PassingEventStateInput buildPassingEventStateInput(Grid grid, Moveable moveable) {
 	return PassingEventStateInput.of(this, grid, moveable,
@@ -182,5 +181,10 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
     private ReturningEventStateInput buildReturningEventStateInput(Grid grid, Moveable moveable) {
 	return ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
+    }
+    
+    public void setEndPosition(Position endPos) {
+	this.endPosition = endPos;
+	evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
     }
 }

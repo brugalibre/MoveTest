@@ -3,12 +3,17 @@
  */
 package com.myownb3.piranha.moveables;
 
+import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 import static java.util.Objects.requireNonNull;
+
+import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
  * @author Dominic
@@ -30,7 +35,10 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
     @Override
     public void setEndPosition(Position position) {
-	this.endPos = requireNonNull(position, "End-pos must not be null!");   
+	this.endPos = requireNonNull(position, "End-pos must not be null!");
+	if (handler instanceof EvasionStateMachine) {
+	    ((EvasionStateMachine) handler).setEndPosition(endPos);
+	}
     }
     
     @Override
@@ -60,10 +68,20 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
      * destination and now we are getting further away again
      */
     private boolean isDone(double distance) {
-	return distance <= DISTANCE_PRECISION && distance >= -DISTANCE_PRECISION || isCurrentDistanceGreaterThanPrev(distance);
+	return hasReachedEndPos(distance) || isBeyond(distance);
     }
 
-    private boolean isCurrentDistanceGreaterThanPrev(double distance) {
-	return round(distance, 1) > round(prevDistance, 1);
+    private boolean isBeyond(double distance) {
+	return round(distance, 1) > round(prevDistance, 1) && isPositionOnLine();
+    }
+
+    private boolean hasReachedEndPos(double distance) {
+	return distance <= DISTANCE_PRECISION && distance >= -DISTANCE_PRECISION;
+    }
+
+    private boolean isPositionOnLine() {
+	Float64Vector lineFromOldToNew = VectorUtil.getVector(position.getDirection());
+	double avoidableDistanceToLine = round(calcDistanceFromPositionToLine(endPos, position, lineFromOldToNew), 10);
+	return avoidableDistanceToLine == 0.0d;
     }
 }

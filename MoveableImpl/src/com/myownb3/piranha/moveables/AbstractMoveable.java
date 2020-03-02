@@ -21,7 +21,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public abstract class AbstractMoveable extends SimpleGridElement implements Moveable {
 
-    private MoveablePostActionHandler handler;
+    protected MoveablePostActionHandler handler;
     private List<Position> positionHistory;
 
     public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
