@@ -46,11 +46,16 @@ public class RandomMoveableLauncherWithEndPoint {
 
 	int height = 4;
 	int width = 4;
-	MainWindow mainWindow = new MainWindow(700, 700);
+	int mainWindowWidth = 700;
+	int mainWindowHeight = 700;
+	MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight);
 
 	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
-	MirrorGrid grid = MirrorGridBuilder.builder().withMaxX(700).withMaxY(700)//
-		.withCollisionDetectionHandler(collisionDetector).build();
+	MirrorGrid grid = MirrorGridBuilder.builder()//
+		.withMaxX(mainWindowWidth)//
+		.withMaxY(mainWindowWidth)//
+		.withCollisionDetectionHandler(collisionDetector)//
+		.build();
 
 	Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
 	List<Position> endPosList = getEndPosList(height, width, grid);
@@ -60,22 +65,30 @@ public class RandomMoveableLauncherWithEndPoint {
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());
 
-	MoveableController moveableController = MoveableControllerBuilder.builder()//
+	PostMoveForwardHandler postMoveFowardHandler = getPostMoveFowardHandler(mainWindow, gridElements);
+	MoveableController moveableController = buildMoveableController(grid, startPos, endPosList, config, detector,
+		postMoveFowardHandler);
+	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
+
+	mainWindow.addSpielfeld(renderers, mainWindowWidth, mainWindowHeight);
+	SwingUtilities.invokeLater(() -> mainWindow.show());
+
+	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
+    }
+
+    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
+	    List<Position> endPosList, EvasionStateMachineConfig config, Detector detector,
+	    PostMoveForwardHandler postMoveFowardHandler) {
+	return MoveableControllerBuilder.builder()//
 		.withStrategie(MovingStrategie.FORWARD)//
 		.withEndPositions(endPosList)//
-		.withPostMoveForwardHandler(getPostMoveFowardHandler(mainWindow, gridElements))//
+		.withPostMoveForwardHandler(postMoveFowardHandler)//
         		.withEndPointMoveable()//
         		.withGrid(grid)//
         		.withStartPosition(startPos)//
         		.withHandler(new EvasionStateMachine(detector, config))//
-        		.buildAndReturnParentBuilder()//
-		.build();
-	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
-
-	mainWindow.addSpielfeld(renderers, 700, 700);
-	SwingUtilities.invokeLater(() -> mainWindow.show());
-
-	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
+        		.buildAndReturnParentBuilder()
+        	.build();//
     }
 
     private static List<Position> getEndPosList(int height, int width, MirrorGrid grid) {
