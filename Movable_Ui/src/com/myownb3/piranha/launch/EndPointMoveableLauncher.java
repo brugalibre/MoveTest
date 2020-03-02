@@ -138,7 +138,9 @@ public class EndPointMoveableLauncher {
 		break;
 	    }
 	}
-	return endPointMoveables.stream().map(Moveable::getPositionHistory).flatMap(List::stream)
+	return endPointMoveables.stream()//
+		.map(Moveable::getPositionHistory)//
+		.flatMap(List::stream)//
 		.collect(Collectors.toList());
     }
 
@@ -184,7 +186,7 @@ public class EndPointMoveableLauncher {
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder()
 		.withEndPosition(endPos)//
 		.withGrid(grid)//
-		.withPosition(pos)
+		.withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
 		.build();

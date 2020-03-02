@@ -49,7 +49,7 @@ class MoveableControllerTest {
 	Position expectedEndPos = Positions.of(0, 12);
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
 		.withGrid(grid)//
-		.withPosition(Positions.of(0, 0))//
+		.withStartPosition(Positions.of(0, 0))//
 		.widthEndPosition(expectedEndPos)//
 		.withHandler((g, m) -> {
 		})//
@@ -74,7 +74,7 @@ class MoveableControllerTest {
 	Position expectedEndPos = Positions.of(0, 12);
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
 		.withGrid(grid)
-		.withPosition(Positions.of(0, 0))
+		.withStartPosition(Positions.of(0, 0))
 		.widthEndPosition(expectedEndPos).withHandler((g, m) -> {
 		}).build();
 
@@ -101,7 +101,7 @@ class MoveableControllerTest {
 	new ObstacleImpl(grid, Positions.of(0, 10));
 	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
 		.withGrid(grid)//
-		.withPosition(Positions.of(0, 0))//
+		.withStartPosition(Positions.of(0, 0))//
 		.widthEndPosition(expectedEndPos)//
 		.withHandler((g, m) -> {
 		}).build();
@@ -126,7 +126,7 @@ class MoveableControllerTest {
 	Position expectedEndPos = Positions.of(0, -10);
 	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
 		.withGrid(grid)//
-		.withPosition(Positions.of(0, 0))//
+		.withStartPosition(Positions.of(0, 0))//
 		.withHandler((g, m) -> {
 		}).widthEndPosition(expectedEndPos)//
 		.build();
@@ -363,7 +363,7 @@ class MoveableControllerTest {
 	public TestCaseBuilder withMoveable() {
 	    moveable = EndPointMoveableBuilder.builder()//
 		    .withGrid(grid)//
-		    .withPosition(Positions.of(0, 0))
+		    .withStartPosition(Positions.of(0, 0))
 		    .widthEndPosition(endPos)//
 		    .withHandler(stateMachine)//
 		    .withMovingIncrement(movingIncrement)//

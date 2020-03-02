@@ -133,7 +133,7 @@ public class MoveableController {
 	    private MoveableControllerBuilder controllerBuilder;
 	    private EndPointMoveable moveable;
 	    private MoveablePostActionHandler handler;
-	    private Position position;
+	    private Position startPosition;
 	    private Grid grid;
 	    private Position endPos;
 	    private int movingIncrement;
@@ -148,7 +148,7 @@ public class MoveableController {
 		};
 	    }
 
-	    public EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
+	    private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
 		this();
 		this.controllerBuilder = moveableControllerBuilder;
 	    }
@@ -158,8 +158,8 @@ public class MoveableController {
 		return this;
 	    }
 	    
-	    public EndPointMoveableBuilder withPosition(Position position) {
-		this.position = position;
+	    public EndPointMoveableBuilder withStartPosition(Position position) {
+		this.startPosition = position;
 		return this;
 	    }
 
@@ -180,15 +180,15 @@ public class MoveableController {
 
 	    public EndPointMoveable build() {
 		Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
-		Objects.requireNonNull(position, "Attribute 'position' must not be null!");
-		Objects.requireNonNull(endPos, "Attribute 'endPos' must not be null!");
-		moveable = new EndPointMoveableImpl(grid, position, handler, endPos, movingIncrement);
+		Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
+		moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
 		handler.handlePostConditions(moveable.getGrid(), moveable);
 		return this.moveable;
 	    }
 	    
 	    public MoveableControllerBuilder buildAndReturnParentBuilder() {
 		build();
+		controllerBuilder.endPointMoveable = moveable;
 		return controllerBuilder;
 	    }
 
