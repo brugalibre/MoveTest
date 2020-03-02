@@ -238,7 +238,8 @@ public class DefaultGrid implements Grid {
 	@SuppressWarnings("unchecked")
 	public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
 	    this.collisionDetector = CollisionDetectorBuilder.builder()//
-		    .withCollisionDistance(2).withDefaultCollisionHandler()//
+		    .withCollisionDistance(2)//
+		    .withDefaultCollisionHandler()//
 		    .build();
 	    return (B) this;
 	}
@@ -249,7 +250,8 @@ public class DefaultGrid implements Grid {
 	public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(
 		CollisionDetectionHandler collisionDetectionHandler) {
 	    this.collisionDetector = CollisionDetectorBuilder.builder()//
-		    .withCollisionDistance(2).withCollisionHandler(collisionDetectionHandler)//
+		    .withCollisionDistance(2)//
+		    .withCollisionHandler(collisionDetectionHandler)//
 		    .build();
 	    return (B) this;
 	}
