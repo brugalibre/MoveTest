@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
+import com.myownb3.piranha.grid.gridelement.Position;
+
 /**
  * A {@link EndPointMoveable} is a {@link Moveable} which has an final end-Point
  * as destination
@@ -24,4 +26,10 @@ public interface EndPointMoveable extends Moveable {
      * @return a {@link MoveResult}
      */
     MoveResult moveForward2EndPos();
+
+    /**
+     * Sets the given {@link Position} as it's end-position
+     * @param position
+     */
+    void setEndPosition(Position position);
 }

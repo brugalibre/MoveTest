@@ -4,6 +4,7 @@
 package com.myownb3.piranha.moveables;
 
 import static com.myownb3.piranha.util.MathUtil.round;
+import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -25,13 +26,18 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 	super(grid, position, handler);
 	this.movingIncrement = movingIncrement;
 	this.endPos = endPosition;
-	prevDistance = endPos.calcDistanceTo(position);
     }
 
+    @Override
+    public void setEndPosition(Position position) {
+	this.endPos = requireNonNull(position, "End-pos must not be null!");   
+    }
+    
     @Override
     public void prepare() {
 	double diffAngle = position.calcAngleRelativeTo(endPos);
 	makeTurn(diffAngle);
+	prevDistance = endPos.calcDistanceTo(position);
     }
 
     @Override
