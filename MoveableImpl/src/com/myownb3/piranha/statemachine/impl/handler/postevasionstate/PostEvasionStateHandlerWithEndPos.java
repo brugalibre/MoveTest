@@ -2,6 +2,7 @@ package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 import static java.lang.Math.max;
+import static java.util.Objects.requireNonNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -57,8 +58,8 @@ public class PostEvasionStateHandlerWithEndPos extends
 
     private EvasionStates handleFirstTimePostEvasion(PostEvasionEventStateInput evenStateInput) {
 	Moveable moveable = evenStateInput.getMoveable();
-	this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion(),
-		evenStateInput.getEndPosition());
+	Position endPosition = requireNonNull(evenStateInput.getEndPosition(), "We need an end-position here!");
+	this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion(), endPosition);
 	state = PostEvasionStates.POST_EVASION;
 	return handlePostEvasionState(evenStateInput);
     }
