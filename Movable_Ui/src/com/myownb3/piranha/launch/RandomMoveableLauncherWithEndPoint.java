@@ -72,7 +72,7 @@ public class RandomMoveableLauncherWithEndPoint {
 		.build();
 	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
 
-	mainWindow.addSpielfeld(renderers, width, height);
+	mainWindow.addSpielfeld(renderers, 700, 700);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
 	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
