@@ -24,8 +24,6 @@ public class MoveableBuilder {
     private MoveablePostActionHandler handler;
     private Position position;
     private Grid grid;
-    private Position endPos;
-    private int movingIncrement;
 
     public static MoveableBuilder builder() {
 	DefaultGrid defGrid = GridBuilder.builder()//
@@ -44,7 +42,6 @@ public class MoveableBuilder {
     private MoveableBuilder(Grid grid, Position position) {
 	this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
 	this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
-	movingIncrement = 1;
 	handler = (a, b) -> {
 	};
     }
@@ -60,26 +57,9 @@ public class MoveableBuilder {
 	return this.moveable;
     }
 
-    public MoveableBuilder withMovingIncrement(int movingIncrement) {
-	this.movingIncrement = movingIncrement;
-	return this;
-    }
-
-    public EndPointMoveable buildEndPointMoveable() {
-	Objects.requireNonNull(endPos, "Attribute 'endPos' must not be null!");
-	moveable = new EndPointMoveableImpl(grid, position, handler, endPos, movingIncrement);
-	handler.handlePostConditions(moveable.getGrid(), moveable);
-	return (EndPointMoveable) this.moveable;
-    }
-
     private class SimpleMoveable extends AbstractMoveable {
 	private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
 	    super(grid, position, handler);
 	}
-    }
-
-    public MoveableBuilder widthEndPosition(Position endPos) {
-	this.endPos = endPos;
-	return this;
     }
 }

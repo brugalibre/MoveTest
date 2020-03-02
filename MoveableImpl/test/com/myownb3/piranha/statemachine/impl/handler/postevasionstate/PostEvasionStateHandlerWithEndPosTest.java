@@ -85,7 +85,8 @@ class PostEvasionStateHandlerWithEndPosTest {
 
 	// Given
 	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withHelper(spy(new TestDetectableMoveableHelper())).withStepWidth(10)//
+		.withHelper(spy(new TestDetectableMoveableHelper()))//
+		.withStepWidth(10)//
 		.withEndPos(Positions.of(10, 10))//
 		.withPositionBeforeEvasion(Positions.of(9, 9))//
 		.withEvasionStateHandler()//
@@ -147,7 +148,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 	}
 
 	private TestCaseBuilder withEventStateInput() {
-	    evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion);
+	    evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion, Positions.of(1, 1));
 	    return this;
 	}
 

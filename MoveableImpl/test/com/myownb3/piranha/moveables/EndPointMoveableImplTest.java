@@ -11,6 +11,7 @@ import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
@@ -26,10 +27,12 @@ class EndPointMoveableImplTest {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
 	// Given
-	EndPointMoveable moveable = MoveableBuilder.builder(grid, pos)//
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+		.withGrid(grid)
+		.withPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
-		.buildEndPointMoveable();
+		.build();
 	// When
 	MoveResult moveResult = moveable.moveForward2EndPos();
 
@@ -46,11 +49,13 @@ class EndPointMoveableImplTest {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
 	// Given
-	EndPointMoveable moveable = MoveableBuilder.builder(grid, pos)//
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder ()
+		.withGrid(grid)
+		.withPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
 		.withMovingIncrement(4)//
-		.buildEndPointMoveable();
+		.build();
 	// When
 	MoveResult moveResult = moveable.moveForward2EndPos();
 

@@ -28,8 +28,8 @@ import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.EndPointMoveable;
-import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.MoveableController;
+import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.moveables.MovingStrategie;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
@@ -47,9 +47,13 @@ class MoveableControllerTest {
 	Grid grid = GridBuilder.builder()//
 		.build();
 	Position expectedEndPos = Positions.of(0, 12);
-	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
-		.widthEndPosition(expectedEndPos).withHandler((g, m) -> {
-		}).buildEndPointMoveable();
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
+		.withGrid(grid)//
+		.withPosition(Positions.of(0, 0))//
+		.widthEndPosition(expectedEndPos)//
+		.withHandler((g, m) -> {
+		})//
+		.build();
 
 	MoveableController controller = new MoveableController(moveable, MovingStrategie.BACKWARD);
 
@@ -67,11 +71,12 @@ class MoveableControllerTest {
 	// Given
 	Grid grid = GridBuilder.builder(20, 20)//
 		.build();
-	;
 	Position expectedEndPos = Positions.of(0, 12);
-	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
+		.withGrid(grid)
+		.withPosition(Positions.of(0, 0))
 		.widthEndPosition(expectedEndPos).withHandler((g, m) -> {
-		}).buildEndPointMoveable();
+		}).build();
 
 	MoveableController controller = new MoveableController(moveable);
 
@@ -94,10 +99,12 @@ class MoveableControllerTest {
 		.build();
 	Position expectedEndPos = Positions.of(0, 12);
 	new ObstacleImpl(grid, Positions.of(0, 10));
-	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
+	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
+		.withGrid(grid)//
+		.withPosition(Positions.of(0, 0))//
 		.widthEndPosition(expectedEndPos)//
 		.withHandler((g, m) -> {
-		}).buildEndPointMoveable();
+		}).build();
 
 	MoveableController controller = new MoveableController(moveable);
 
@@ -117,9 +124,12 @@ class MoveableControllerTest {
 	Grid grid = GridBuilder.builder(20, 20)//
 		.build();
 	Position expectedEndPos = Positions.of(0, -10);
-	EndPointMoveable moveable = MoveableBuilder.builder(grid)//
+	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
+		.withGrid(grid)//
+		.withPosition(Positions.of(0, 0))//
 		.withHandler((g, m) -> {
-		}).widthEndPosition(expectedEndPos).buildEndPointMoveable();
+		}).widthEndPosition(expectedEndPos)//
+		.build();
 
 	MoveableController controller = new MoveableController(moveable);
 
@@ -351,9 +361,13 @@ class MoveableControllerTest {
 	}
 
 	public TestCaseBuilder withMoveable() {
-	    moveable = MoveableBuilder.builder(grid)//
+	    moveable = EndPointMoveableBuilder.builder()//
+		    .withGrid(grid)//
+		    .withPosition(Positions.of(0, 0))
+		    .widthEndPosition(endPos)//
 		    .withHandler(stateMachine)//
-		    .widthEndPosition(endPos).withMovingIncrement(movingIncrement).buildEndPointMoveable();
+		    .withMovingIncrement(movingIncrement)//
+		    .build();
 	    return this;
 	}
     }

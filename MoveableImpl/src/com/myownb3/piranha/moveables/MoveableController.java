@@ -5,9 +5,12 @@ package com.myownb3.piranha.moveables;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.myownb3.piranha.exception.NotImplementedException;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
  * @author Dominic
@@ -98,11 +101,10 @@ public class MoveableController {
 	    return this;
 	}
 	
-	public MoveableControllerBuilder withEndPointMoveable(EndPointMoveable endPointMoveable) {
-	    this.endPointMoveable = endPointMoveable;
-	    return this;
+	public EndPointMoveableBuilder withEndPointMoveable() {
+	    return new EndPointMoveableBuilder(this);
 	}
-
+	
 	public MoveableControllerBuilder withEndPositions(List<Position> endPosList) {
 	    this.endPosList = endPosList;
 	    return this;
@@ -125,5 +127,79 @@ public class MoveableController {
 	    moveableController.handler = postMoveForwardHandler;
 	    return moveableController;
 	}
+	
+	public static final class EndPointMoveableBuilder {
+
+	    private MoveableControllerBuilder controllerBuilder;
+	    private EndPointMoveable moveable;
+	    private MoveablePostActionHandler handler;
+	    private Position position;
+	    private Grid grid;
+	    private Position endPos;
+	    private int movingIncrement;
+
+	    public static EndPointMoveableBuilder builder() {
+		return new EndPointMoveableBuilder();
+	    }
+	    
+	    private EndPointMoveableBuilder() {
+		movingIncrement = 1;
+		handler = (a, b) -> {
+		};
+	    }
+
+	    public EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
+		this();
+		this.controllerBuilder = moveableControllerBuilder;
+	    }
+
+	    public EndPointMoveableBuilder withGrid(Grid grid) {
+		this.grid = grid;
+		return this;
+	    }
+	    
+	    public EndPointMoveableBuilder withPosition(Position position) {
+		this.position = position;
+		return this;
+	    }
+
+	    public EndPointMoveableBuilder withEndPosition(Position position) {
+		this.endPos = position;
+		return this;
+	    }
+
+	    public EndPointMoveableBuilder withHandler(MoveablePostActionHandler handler) {
+		this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
+		return this;
+	    }
+
+	    public EndPointMoveableBuilder withMovingIncrement(int movingIncrement) {
+		this.movingIncrement = movingIncrement;
+		return this;
+	    }
+
+	    public EndPointMoveable build() {
+		Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
+		Objects.requireNonNull(position, "Attribute 'position' must not be null!");
+		Objects.requireNonNull(endPos, "Attribute 'endPos' must not be null!");
+		moveable = new EndPointMoveableImpl(grid, position, handler, endPos, movingIncrement);
+		handler.handlePostConditions(moveable.getGrid(), moveable);
+		return this.moveable;
+	    }
+	    
+	    public MoveableControllerBuilder buildAndReturnParentBuilder() {
+		build();
+		return controllerBuilder;
+	    }
+
+	    public EndPointMoveableBuilder widthEndPosition(Position endPos) {
+		this.endPos = endPos;
+		return this;
+	    }
+	}
+    }
+
+    public Moveable getMoveable() {
+	return moveable;
     }
 }

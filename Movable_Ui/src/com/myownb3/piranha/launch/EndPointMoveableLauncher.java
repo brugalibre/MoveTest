@@ -27,7 +27,7 @@ import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.MoveResult;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.MoveableBuilder;
+import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
@@ -181,10 +181,13 @@ public class EndPointMoveableLauncher {
 	Position pos = Positions.of(height, width);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());
-	EndPointMoveable moveable = MoveableBuilder.builder(grid, pos)//
+	EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+		.withEndPosition(endPos)//
+		.withGrid(grid)//
+		.withPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.widthEndPosition(endPos)//
-		.buildEndPointMoveable();
+		.build();
 	moveable.prepare();
 	return moveable;
     }
