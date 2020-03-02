@@ -5,7 +5,6 @@ package com.myownb3.piranha.launch;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -24,9 +22,7 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
-import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.moveables.MovingStrategie;
@@ -46,8 +42,6 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class RandomMoveableLauncherWithEndPoint {
 
-    private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
-
     public static void main(String[] args) throws InterruptedException {
 
 	int height = 4;
@@ -58,33 +52,45 @@ public class RandomMoveableLauncherWithEndPoint {
 	MirrorGrid grid = MirrorGridBuilder.builder().withMaxX(700).withMaxY(700)//
 		.withCollisionDetectionHandler(collisionDetector).build();
 
-	Position pos = Positions.getRandomPosition(grid.getDimension(), height, width);
-	Position pos1 = Positions.getRandomPosition(grid.getDimension(), height, width);
-	Position pos2 = Positions.getRandomPosition(grid.getDimension(), height, width);
-	List<Position> endPosList = Arrays.asList(pos, pos1, pos2);
-	EndPointMoveable moveable = getMoveable(pos, grid, height, width);
-	   
-	MoveableController moveableController = MoveableControllerBuilder.builder()//
-		.withStrategie(MovingStrategie.FORWARD)
-		.withEndPointMoveable(moveable)//
-		.withEndPositions(endPosList)//
-		.withPostMoveForwardHandler(getPostMoveFowardHandler(mainWindow))//
-		.build();
-	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
+	Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
+	List<Position> endPosList = getEndPosList(height, width, grid);
 	List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
-	List<Renderer> renderers = getRenderers(gridElements, height, width);
-	renderers.add(moveablePainter);
-	renderers.add(new GridPainter(grid));
+
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+		config.getEvasionAngle(), config.getEvasionAngleInc());
+
+	MoveableController moveableController = MoveableControllerBuilder.builder()//
+		.withStrategie(MovingStrategie.FORWARD)//
+		.withEndPositions(endPosList)//
+		.withPostMoveForwardHandler(getPostMoveFowardHandler(mainWindow, gridElements))//
+        		.withEndPointMoveable()//
+        		.withGrid(grid)//
+        		.withStartPosition(startPos)//
+        		.withHandler(new EvasionStateMachine(detector, config))//
+        		.buildAndReturnParentBuilder()//
+		.build();
+	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
 
 	mainWindow.addSpielfeld(renderers, width, height);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	prepareAndMoveMoveables(moveableController, mainWindow);
+	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
     }
 
-    private static PostMoveForwardHandler getPostMoveFowardHandler(MainWindow mainWindow) {
+    private static List<Position> getEndPosList(int height, int width, MirrorGrid grid) {
+	int amountOfEndPos = 3;
+	List<Position> endPosList = new ArrayList<>(amountOfEndPos);
+	for (int i = 0; i < amountOfEndPos; i++) {
+	    endPosList.add(Positions.getRandomPosition(grid.getDimension(), height, width));
+	}
+	return endPosList;
+    }
+
+    private static PostMoveForwardHandler getPostMoveFowardHandler(MainWindow mainWindow,
+	    List<GridElement> gridElements) {
 	return moveableRes -> {
-	    moveGridElementsForward();
+	    moveGridElementsForward(gridElements);
 	    SwingUtilities.invokeLater(() -> mainWindow.refresh());
 	    try {
 		Thread.sleep(1);
@@ -106,36 +112,50 @@ public class RandomMoveableLauncherWithEndPoint {
 		.map(endPos -> new SimpleGridElement(grid, endPos))//
 		.collect(Collectors.toList());
 
-	int amount = 0;//80;
+//	int amount = 0;
+	int amount = 80;
 	for (int i = 0; i < amount; i++) {
 	    Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
 	    Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition);
 
 	    allGridElement.add(obstacle);
-	    GRID_ELEMENTS.add(obstacle);
 	}
 
 	return allGridElement;
     }
 
-    private static void prepareAndMoveMoveables(MoveableController moveableController, MainWindow mainWindow)
-	    throws InterruptedException {
-	turnGridElements();
-	moveableController.leadMoveable();
+    private static void prepareAndMoveMoveables(MoveableController moveableController, MainWindow mainWindow,
+	    List<GridElement> allGridElements) throws InterruptedException {
+	turnGridElements(allGridElements);
+	while (true) {
+	    moveableController.leadMoveable();
+	    Thread.sleep(5);
+	}
     }
 
-    private static void turnGridElements() {
-	GRID_ELEMENTS.stream()//
+    private static void turnGridElements(List<GridElement> allGridElements) {
+	allGridElements.stream()//
+		.filter(MoveableObstacleImpl.class::isInstance)
 		.map(MoveableObstacleImpl.class::cast)//
 		.forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
     }
 
-    private static void moveGridElementsForward() {
-	GRID_ELEMENTS.stream()//
+    private static void moveGridElementsForward(List<GridElement> allGridElements) {
+	allGridElements.stream()//
+		.filter(MoveableObstacleImpl.class::isInstance)
 		.map(MoveableObstacleImpl.class::cast)//
 		.forEach(obstacle -> obstacle.moveForward());
     }
 
+    private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
+	    Moveable moveable) {
+	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
+	List<Renderer> renderers = getRenderers(gridElements, height, width);
+	renderers.add(moveablePainter);
+	renderers.add(new GridPainter(grid));
+	return renderers;
+    }
+    
     private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height,
 	    int width) {
 	return gridElements.stream()//
@@ -144,18 +164,7 @@ public class RandomMoveableLauncherWithEndPoint {
     }
 
     private static Color getColor(GridElement gridElement) {
-	return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
-	   
-    }
-
-    private static EndPointMoveable getMoveable(Position initEndPos, Grid grid, int height, int width) {
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
-	Position pos = Positions.of(height, width);
-	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-		config.getEvasionAngle(), config.getEvasionAngleInc());
-	return MoveableBuilder.builder(grid, pos)//
-		.withHandler(new EvasionStateMachine(detector, initEndPos, config))//
-		.widthEndPosition(initEndPos)//
-		.buildEndPointMoveable();
+	return gridElement instanceof Obstacle ? Color.BLACK
+		: gridElement instanceof Moveable ? Color.RED : Color.GREEN.darker();
     }
 }
