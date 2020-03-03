@@ -31,7 +31,6 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
-import com.myownb3.piranha.ui.render.impl.GridPainter;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -42,25 +41,30 @@ public class RandomMoveableLauncher {
 
     private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
     private static boolean has2Run = true;
-
+    private static int padding = 30;
+    
     public static void main(String[] args) throws InterruptedException {
 
 	int height = 4;
 	int width = 4;
-	MainWindow mainWindow = new MainWindow(700, 700);
+	MainWindow mainWindow = new MainWindow(700, 700, padding, height);
 
 	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
-	MirrorGrid grid = MirrorGridBuilder.builder().withMaxX(700).withMaxY(700)//
-		.withCollisionDetectionHandler(collisionDetector).build();
+	MirrorGrid grid = MirrorGridBuilder.builder()//
+		.withMaxX(700)//
+		.withMaxY(700)//
+		.withMinX(padding)//
+		.withMinY(padding)//
+		.withCollisionDetectionHandler(collisionDetector)//
+		.build();
 
 	Moveable moveable = getMoveable(grid, height, width);
 	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
 	renderers.add(moveablePainter);
-	renderers.add(new GridPainter(grid));
 
-	mainWindow.addSpielfeld(renderers, width, height);
+	mainWindow.addSpielfeld(renderers, grid);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
 	prepareAndMoveMoveables(moveable, mainWindow);

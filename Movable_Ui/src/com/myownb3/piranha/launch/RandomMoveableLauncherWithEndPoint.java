@@ -33,7 +33,6 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
-import com.myownb3.piranha.ui.render.impl.GridPainter;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -41,19 +40,22 @@ import com.myownb3.piranha.util.MathUtil;
  *
  */
 public class RandomMoveableLauncherWithEndPoint {
-
+    private static int padding = 30;
+    
     public static void main(String[] args) throws InterruptedException {
 
 	int height = 4;
 	int width = 4;
 	int mainWindowWidth = 700;
 	int mainWindowHeight = 700;
-	MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight);
+	MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
 
 	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
 	MirrorGrid grid = MirrorGridBuilder.builder()//
-		.withMaxX(mainWindowWidth)//
-		.withMaxY(mainWindowWidth)//
+		.withMaxX(mainWindowWidth - padding)//
+		.withMaxY(mainWindowWidth - padding)//
+		.withMinY(padding)//
+		.withMinX(padding)//
 		.withCollisionDetectionHandler(collisionDetector)//
 		.build();
 
@@ -70,7 +72,7 @@ public class RandomMoveableLauncherWithEndPoint {
 		postMoveFowardHandler);
 	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
 
-	mainWindow.addSpielfeld(renderers, mainWindowWidth, mainWindowHeight);
+	mainWindow.addSpielfeld(renderers, grid);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
 	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
@@ -165,7 +167,6 @@ public class RandomMoveableLauncherWithEndPoint {
 	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
 	renderers.add(moveablePainter);
-	renderers.add(new GridPainter(grid));
 	return renderers;
     }
     

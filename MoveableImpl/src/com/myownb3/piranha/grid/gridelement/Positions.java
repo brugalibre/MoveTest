@@ -192,10 +192,15 @@ public class Positions {
 	}
 
 	/*
-	 * Calculates the absolute value depending on the quadrant this position is
-	 * located
+	 * Calculates the absolute value depending on the quadrant this position is located
 	 *
-	 * @formatter:off ___________ | | | | 2. | 1. | |____ |_____| | | | | 3. | 4. |
+	 * @formatter:off
+	 *  ___________
+	 * |     |     |
+	 * |  2. |  1. |
+	 * |____ |_____|
+	 * |     |     |
+	 * |  3. |  4. |
 	 * |_____|_____|
 	 * 
 	 * @formatter:on

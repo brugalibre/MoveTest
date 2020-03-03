@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -21,10 +22,14 @@ import com.myownb3.piranha.ui.render.Renderer;
  */
 public class MainWindow {
     private JFrame mainWindow;
-
-    public MainWindow(int width, int height) {
+    private int padding; 
+    private int pointWidth; 
+    
+    public MainWindow(int width, int height, int padding, int pointWidth) {
 
 	mainWindow = new JFrame();
+	this.padding = padding;
+	this.pointWidth = pointWidth;
 	setLocation();
 	mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	mainWindow.setPreferredSize(new Dimension(width, height));
@@ -42,9 +47,15 @@ public class MainWindow {
 	mainWindow.pack();
     }
 
-    public void addSpielfeld(List<Renderer> renderer, int width, int height) {
-	SpielFeld spielFeld = new SpielFeld(renderer);
-	spielFeld.setPreferredSize(new Dimension(width, height));
+    public void addSpielfeld(List<Renderer> renderers, Grid grid) {
+	com.myownb3.piranha.grid.Dimension gridDimension = grid.getDimension();
+	Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 3 * padding,
+		gridDimension.getHeight() + 3 * padding);
+	SpielFeld spielFeld = new SpielFeld(grid, renderers, padding, pointWidth);
+	spielFeld.setPreferredSize(spielfeldDimension);
+	spielFeld.setSize(spielfeldDimension);
+	mainWindow.setPreferredSize(spielfeldDimension);
+	mainWindow.setMinimumSize(spielfeldDimension);
 	mainWindow.add(spielFeld);
 	mainWindow.pack();
     }

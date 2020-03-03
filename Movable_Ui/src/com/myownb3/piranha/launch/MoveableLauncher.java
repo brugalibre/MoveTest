@@ -30,8 +30,10 @@ public class MoveableLauncher {
 	    throws InterruptedException {
 	SwappingGrid grid = SwappingGridBuilder.builder()//
 		.withMaxX(500)//
-		.withMaxY(500).withMinX(-5)//
-		.withMinY(-5).build();
+		.withMaxY(500)//
+		.withMinX(-5)//
+		.withMinY(-5)//
+		.build();
 
 	List<GridElement> gridElements = posList.stream()//
 		.map(pos -> new ObstacleImpl(grid, pos))//
