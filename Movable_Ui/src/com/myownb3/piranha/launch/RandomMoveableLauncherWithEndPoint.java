@@ -164,9 +164,8 @@ public class RandomMoveableLauncherWithEndPoint {
 
     private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
 	    Moveable moveable) {
-	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
 	List<Renderer> renderers = getRenderers(gridElements, height, width);
-	renderers.add(moveablePainter);
+	renderers.add(new GridElementPainter(moveable, getColor(moveable), height, width));
 	return renderers;
     }
     
