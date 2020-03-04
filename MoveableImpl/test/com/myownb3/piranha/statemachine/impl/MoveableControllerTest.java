@@ -265,7 +265,7 @@ class MoveableControllerTest {
 		.withDefaultGrid(200, 200)//
 		.withEndPos(Positions.of(34, 34))//
 		.addObstacle(Positions.of(10, 10))//
-		.addObstacle(Positions.of(20, 18.5))//
+		.addObstacle(Positions.of(20, 17))//
 		.addObstacle(Positions.of(25, 25))
 		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
 		.withDetector()//
