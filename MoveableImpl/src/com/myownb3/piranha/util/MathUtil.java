@@ -101,8 +101,8 @@ public class MathUtil {
 
     private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,
 	    double moveable2GridElemVectorLenght, double moveableVectorLenght) {
-	double radValue = Math
-		.acos(moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght));
+	double vectorAngle = moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght);
+	double radValue = Math.acos(Math.min(vectorAngle, 1));
 	return toDegrees(radValue);
     }
 
