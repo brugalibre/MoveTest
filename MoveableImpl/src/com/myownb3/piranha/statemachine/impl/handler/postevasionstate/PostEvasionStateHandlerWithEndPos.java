@@ -1,6 +1,7 @@
 package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
+import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -106,13 +107,14 @@ public class PostEvasionStateHandlerWithEndPos extends
     private int calcSignum(Position moveablePos, Position positionBeforeEvasion, Position endPos) {
 	Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion.getDirection(), endPos);
 	double angle2Turn = getAngle2Turn(moveablePos, endPosLine);
-	return calcSignumWithDistance(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
+	return calcSignumWithAngle(moveablePos, positionBeforeEvasion, endPosLine, angle2Turn);
     }
 
     private double getAngle2Turn(Position moveablePos, Float64Vector endPosLine) {
 	double effectAngle2Turn = calcAngle(moveablePos, endPosLine);
 	if (effectAngle2Turn > stepWidth) {
-	    return MIN_ANGLE_TO_TURN;
+	    effectAngle2Turn = effectAngle2Turn / stepWidth;
+	    return max(MIN_ANGLE_TO_TURN, effectAngle2Turn);
 	}
 	return effectAngle2Turn;
     }
