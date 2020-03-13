@@ -48,28 +48,15 @@ public class RandomMoveableLauncherWithEndPoint {
 	int width = 4;
 	int mainWindowWidth = 700;
 	int mainWindowHeight = 700;
+	
 	MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
-
-	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
-	MirrorGrid grid = MirrorGridBuilder.builder()//
-		.withMaxX(mainWindowWidth - padding)//
-		.withMaxY(mainWindowWidth - padding)//
-		.withMinY(padding)//
-		.withMinX(padding)//
-		.withCollisionDetectionHandler(collisionDetector)//
-		.build();
-
+	MirrorGrid grid = buildMirrorGrid(mainWindow, mainWindowWidth);
 	Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
 	List<Position> endPosList = getEndPosList(height, width, grid);
 	List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
 
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
-	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-		config.getEvasionAngle(), config.getEvasionAngleInc());
-
-	PostMoveForwardHandler postMoveFowardHandler = getPostMoveFowardHandler(mainWindow, gridElements);
-	MoveableController moveableController = buildMoveableController(grid, startPos, endPosList, config, detector,
-		postMoveFowardHandler);
+	MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
+		getPostMoveFowardHandler(mainWindow, gridElements));
 	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
 
 	mainWindow.addSpielfeld(renderers, grid);
@@ -78,9 +65,22 @@ public class RandomMoveableLauncherWithEndPoint {
 	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
     }
 
+    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth) {
+	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
+	return MirrorGridBuilder.builder()//
+		.withMaxX(mainWindowWidth - padding)//
+		.withMaxY(mainWindowWidth - padding)//
+		.withMinY(padding)//
+		.withMinX(padding)//
+		.withCollisionDetectionHandler(collisionDetector)//
+		.build();
+    }
+
     private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
-	    List<Position> endPosList, EvasionStateMachineConfig config, Detector detector,
-	    PostMoveForwardHandler postMoveFowardHandler) {
+	    List<Position> endPosList, PostMoveForwardHandler postMoveFowardHandler) {
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+		config.getEvasionAngle(), config.getEvasionAngleInc());
 	return MoveableControllerBuilder.builder()//
 		.withStrategie(MovingStrategie.FORWARD)//
 		.withEndPositions(endPosList)//
