@@ -22,6 +22,7 @@ public class MoveableController {
     private EndPointMoveable moveable;
     private List<Position> endPosList;
     private PostMoveForwardHandler handler;
+    private boolean isRunning;
 
     /**
      * @param moveable
@@ -34,6 +35,7 @@ public class MoveableController {
      * @param moveable
      */
     public MoveableController(EndPointMoveable moveable, MovingStrategie strategie) {
+	isRunning = true;
 	this.moveable = moveable;
 	this.strategie = strategie;
 	this.endPosList = Collections.emptyList();
@@ -73,13 +75,21 @@ public class MoveableController {
      */
     private void leadMoveable2EndPos() {
 	moveable.prepare();
-	while (true) {
+	while (isRunning) {
 	    MoveResult moveResult = moveable.moveForward2EndPos();
 	    handler.handlePostMoveForward(moveResult);
 	    if (moveResult.isDone()) {
 		break;// We are done
 	    }
 	}
+    }
+    
+
+    /**
+     * Stops this {@link MoveableController}
+     */
+    public void stop() {
+	isRunning = false;
     }
     
     public static final class MoveableControllerBuilder {

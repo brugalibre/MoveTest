@@ -16,6 +16,7 @@ import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.MirrorGrid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -41,6 +42,7 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class RandomMoveableLauncherWithEndPoint {
     private static int padding = 30;
+    private static boolean isRunning = true;
     
     public static void main(String[] args) throws InterruptedException {
 
@@ -50,13 +52,15 @@ public class RandomMoveableLauncherWithEndPoint {
 	int mainWindowHeight = 700;
 	
 	MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
-	MirrorGrid grid = buildMirrorGrid(mainWindow, mainWindowWidth);
+	CollisionDetectionHandlerImpl collisionDetectionHandler = new CollisionDetectionHandlerImpl(mainWindow);
+	MirrorGrid grid = buildMirrorGrid(mainWindow, mainWindowWidth, collisionDetectionHandler);
 	Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
 	List<Position> endPosList = getEndPosList(height, width, grid);
 	List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
 
 	MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
 		getPostMoveFowardHandler(mainWindow, gridElements));
+	collisionDetectionHandler.moveableController = moveableController;
 	List<Renderer> renderers = getRenderers(height, width, grid, gridElements, moveableController.getMoveable());
 
 	mainWindow.addSpielfeld(renderers, grid);
@@ -65,8 +69,7 @@ public class RandomMoveableLauncherWithEndPoint {
 	prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
     }
 
-    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth) {
-	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
+    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth, CollisionDetectionHandler collisionDetector) {
 	return MirrorGridBuilder.builder()//
 		.withMaxX(mainWindowWidth - padding)//
 		.withMaxY(mainWindowWidth - padding)//
@@ -78,7 +81,7 @@ public class RandomMoveableLauncherWithEndPoint {
 
     private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
 	    List<Position> endPosList, PostMoveForwardHandler postMoveFowardHandler) {
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 60, 70, 50, 15);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());
 	return MoveableControllerBuilder.builder()//
@@ -115,10 +118,25 @@ public class RandomMoveableLauncherWithEndPoint {
 	};
     }
 
-    private static CollisionDetectionHandler getCollisionDetectionHandler(MainWindow mainWindow) {
-	return (a, b) -> {
-	    SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
-	};
+    private static class CollisionDetectionHandlerImpl implements CollisionDetectionHandler{
+	
+	private MainWindow mainWindow;
+	private MoveableController moveableController;
+
+	public CollisionDetectionHandlerImpl(MainWindow mainWindow) {
+	    this.mainWindow = mainWindow;
+	}
+
+	@Override
+	public void handleCollision(Avoidable avoidable, Position newPosition) {
+	    if (isRunning) {
+		isRunning = false;
+		if (moveableController != null) {
+		    moveableController.stop();
+		}
+		SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
+	    }
+	}
     }
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, List<Position> endPosList, int height,
@@ -142,7 +160,7 @@ public class RandomMoveableLauncherWithEndPoint {
     private static void prepareAndMoveMoveables(MoveableController moveableController, MainWindow mainWindow,
 	    List<GridElement> allGridElements) throws InterruptedException {
 	turnGridElements(allGridElements);
-	while (true) {
+	while (isRunning) {
 	    moveableController.leadMoveable();
 	    Thread.sleep(5);
 	}

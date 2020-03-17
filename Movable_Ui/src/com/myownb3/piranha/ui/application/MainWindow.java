@@ -3,12 +3,15 @@
  */
 package com.myownb3.piranha.ui.application;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.grid.Grid;
@@ -22,6 +25,7 @@ import com.myownb3.piranha.ui.render.Renderer;
  */
 public class MainWindow {
     private JFrame mainWindow;
+    private Container content;
     private int padding; 
     private int pointWidth; 
     
@@ -37,13 +41,15 @@ public class MainWindow {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int y = (screenSize.height / 2) - height / 2;
 	int x = (screenSize.width / 2) - width / 2;
+	
+	content = new JPanel(new BorderLayout());
+	mainWindow.add(content);
 	mainWindow.setBounds(x, y, width, height);
     }
 
     public void showCollisionInfo() {
-	mainWindow.removeAll();
 	JLabel label = new JLabel("Kollision!");
-	mainWindow.add(label);
+	content.add(label, BorderLayout.PAGE_END);
 	mainWindow.pack();
     }
 
@@ -54,9 +60,9 @@ public class MainWindow {
 	SpielFeld spielFeld = new SpielFeld(grid, renderers, padding, pointWidth);
 	spielFeld.setPreferredSize(spielfeldDimension);
 	spielFeld.setSize(spielfeldDimension);
+	content.add(spielFeld, BorderLayout.CENTER);
 	mainWindow.setPreferredSize(spielfeldDimension);
 	mainWindow.setMinimumSize(spielfeldDimension);
-	mainWindow.add(spielFeld);
 	mainWindow.pack();
     }
 
