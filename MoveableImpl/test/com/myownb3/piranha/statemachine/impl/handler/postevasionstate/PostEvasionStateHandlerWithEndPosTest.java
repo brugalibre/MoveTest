@@ -19,7 +19,6 @@ import org.mockito.Mockito;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -105,7 +104,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 	assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
 	verify(tcb.moveable, times(2))
 		.makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * tcb.handler.angle));
-	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * -tcb.handler.angle / 2));
+	verify(tcb.moveable).makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * -tcb.handler.angle));
 	verify(tcb.helper, times(6)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
 	verify(tcb.helper, times(4)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
     }
@@ -207,18 +206,11 @@ class PostEvasionStateHandlerWithEndPosTest {
 
     private static class TestPostEvasionStateHandler extends PostEvasionStateHandlerWithEndPos {
 
-	private Float64Vector endPosLine;
 	private int testSignum;
 	private double angle;
 
 	public TestPostEvasionStateHandler(Position endPos, double stepWidth) {
 	    super(stepWidth);
-	    endPosLine = Float64Vector.valueOf(1, 2, 0);
-	}
-
-	@Override
-	protected Float64Vector getEndPosLine(Direction posBeforeEvasionDirection, Position endPos) {
-	    return endPosLine;
 	}
 
 	@Override

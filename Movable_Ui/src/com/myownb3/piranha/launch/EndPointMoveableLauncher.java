@@ -199,7 +199,7 @@ public class EndPointMoveableLauncher {
     }
 
     private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY) {
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 70, 50, 15);
+	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 60, 70, 50, 15);
 	Position pos = Positions.of(posX + padding, posY + padding);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
 		config.getEvasionAngle(), config.getEvasionAngleInc());

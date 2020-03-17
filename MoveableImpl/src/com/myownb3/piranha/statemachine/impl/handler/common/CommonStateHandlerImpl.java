@@ -6,7 +6,6 @@ import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -40,11 +39,6 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R 
 	    EvasionStates prevState, EvasionStates nextState) {
 	EvasionStates evaluatedNextState = evalNextState(evenStateInput, nextState);
 	return CommonEventStateResult.of(prevState, evaluatedNextState, evenStateInput.getMoveablePosBefore());
-    }
-
-    protected Float64Vector getEndPosLine(Direction posBeforeEvasionDirection, Position endPos) {
-	Float64Vector posBeforEvasionVector = getVector(posBeforeEvasionDirection);
-	return getEndPosLineInternal(endPos, posBeforEvasionVector);
     }
 
     protected Float64Vector getEndPosLine(Position posBeforeEvasion, Position endPos) {
