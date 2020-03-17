@@ -39,10 +39,9 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class RandomMoveableLauncher {
 
-    private static final List<Obstacle> GRID_ELEMENTS = new ArrayList<>();
     private static boolean has2Run = true;
     private static int padding = 30;
-    
+
     public static void main(String[] args) throws InterruptedException {
 
 	int height = 4;
@@ -67,7 +66,7 @@ public class RandomMoveableLauncher {
 	mainWindow.addSpielfeld(renderers, grid);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	prepareAndMoveMoveables(moveable, mainWindow);
+	prepareAndMoveMoveables(moveable, gridElements, mainWindow);
     }
 
     private static CollisionDetectionHandler getCollisionDetectionHandler(MainWindow mainWindow) {
@@ -79,31 +78,30 @@ public class RandomMoveableLauncher {
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
 
-	List<GridElement> allGridElement = new ArrayList<>();
+	List<GridElement> gridelements = new ArrayList<>();
 
 	int amount = 80;
 	for (int i = 0; i < amount; i++) {
 	    Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
 	    Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition);
 
-	    allGridElement.add(obstacle);
-	    GRID_ELEMENTS.add(obstacle);
+	    gridelements.add(obstacle);
 	}
 
-	return allGridElement;
+	return gridelements;
     }
 
-    private static void prepareAndMoveMoveables(Moveable moveable, MainWindow mainWindow) throws InterruptedException {
+    private static void prepareAndMoveMoveables(Moveable moveable, List<GridElement> gridelements, MainWindow mainWindow) throws InterruptedException {
 
 	moveable.makeTurn(MathUtil.getRandom(360));
-	turnGridElements();
+	turnGridElements(gridelements);
 
 	int counter = 0;
 	while (has2Run) {
 	    moveable.moveForward();
 
 	    if (counter % 5 == 0) {
-		moveGridElementsForward();
+		moveGridElementsForward(gridelements);
 	    }
 	    counter++;
 	    mainWindow.refresh();
@@ -111,20 +109,21 @@ public class RandomMoveableLauncher {
 	}
     }
 
-    private static void turnGridElements() {
-	GRID_ELEMENTS.stream()//
+    private static void turnGridElements(List<GridElement> gridelements) {
+	gridelements.stream()//
+		.filter(MoveableObstacleImpl.class::isInstance)//
 		.map(MoveableObstacleImpl.class::cast)//
 		.forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
     }
 
-    private static void moveGridElementsForward() {
-	GRID_ELEMENTS.stream()//
+    private static void moveGridElementsForward(List<GridElement> gridelements) {
+	gridelements.stream()//
+		.filter(MoveableObstacleImpl.class::isInstance)//
 		.map(MoveableObstacleImpl.class::cast)//
 		.forEach(obstacle -> obstacle.moveForward());
     }
 
-    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height,
-	    int width) {
+    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height, int width) {
 	return gridElements.stream()//
 		.map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))//
 		.collect(Collectors.toList());
@@ -139,8 +138,7 @@ public class RandomMoveableLauncher {
 	Dimension dimension = grid.getDimension();
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 40, 80, 70, 5);
 	Position pos = Positions.getRandomPosition(dimension, height, width);
-	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-		config.getEvasionAngle(), config.getEvasionAngleInc() + height);
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
 	return MoveableBuilder.builder(grid, pos)//
 		.withHandler(new EvasionStateMachine(detector, config))//
 		.build();
