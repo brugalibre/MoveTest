@@ -107,7 +107,8 @@ public class MoveableController {
 	    return new MoveableControllerBuilder();
 	}
 
-	public MoveableControllerBuilder withMoveable(Moveable moveable) {
+	public MoveableControllerBuilder withMoveable(EndPointMoveable endPointMoveable) {
+	    this.endPointMoveable = endPointMoveable;
 	    return this;
 	}
 	

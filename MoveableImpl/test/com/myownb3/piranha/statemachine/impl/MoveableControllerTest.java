@@ -7,8 +7,16 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,19 +24,25 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mockito;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.detector.collision.CollisionDetectedException;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.moveables.EndPointMoveable;
+import com.myownb3.piranha.moveables.EndPointMoveableImpl;
+import com.myownb3.piranha.moveables.MoveResult;
+import com.myownb3.piranha.moveables.MoveResultImpl;
 import com.myownb3.piranha.moveables.MoveableController;
+import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.moveables.MovingStrategie;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -40,6 +54,86 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class MoveableControllerTest {
 
+    @Test
+    void testBuilder() {
+	
+	// Given
+	Position startPos = Positions.of(0, 12);
+	
+	// When
+	MoveableController moveableController = MoveableControllerBuilder.builder()//
+		.withStrategie(MovingStrategie.FORWARD)//
+		.withEndPositions(Collections.emptyList())//
+		.withPostMoveForwardHandler(res -> {})//
+        		.withEndPointMoveable()//
+        		.withGrid(mock(DefaultGrid.class))//
+        		.withStartPosition( startPos)//
+        		.withHandler((a,b) -> {})//
+        		.buildAndReturnParentBuilder()
+        	.build();//
+	
+	// Then
+	assertThat(moveableController.getMoveable().getPosition(), is (startPos));
+    }
+    
+    @Test
+    void test_leadForwardWith2Points() {
+	
+	// given
+	Position endPos1 = Positions.of(0, 12);
+	Position endPos2 = Positions.of(12, 24);
+	EndPointMoveable moveable = spy(new EndPointMoveableImpl(mock(DefaultGrid.class), endPos1, (a,b) -> {}, endPos1, 10));
+	MoveResult result = new MoveResultImpl(0, 0, true);
+	when(moveable.moveForward2EndPos()).thenReturn(result);
+
+	MoveableController controller = MoveableControllerBuilder.builder()//
+		.withStrategie(MovingStrategie.FORWARD)//
+		.withEndPositions(Arrays.asList(endPos1, endPos2))//
+		.withMoveable(moveable)//
+		.withPostMoveForwardHandler(res -> {
+		})
+        	.build();//
+
+	// When
+	controller.leadMoveable();
+
+	// Then
+	verify(moveable, times(2)).prepare();
+	verify(moveable).setEndPosition(eq(endPos1));
+	verify(moveable).setEndPosition(eq(endPos2));
+	verify(moveable, times(3)).moveForward2EndPos(); // + 1 because of the 'when()-Statement'
+    }
+    
+    @Test
+    void test_leadForwardWith2PointsAbortAfterTheFirstOne() {
+
+	// given
+	Position endPos1 = Positions.of(0, 12);
+	Position endPos2 = Positions.of(12, 24);
+	EndPointMoveable moveable = Mockito.mock(EndPointMoveable.class);
+	MoveResult result = new MoveResultImpl(0, 0, true);
+	when(moveable.moveForward2EndPos()).thenReturn(result);
+
+	List<MoveableController> moveContrList = new ArrayList<>();
+	MoveableController  	controller = MoveableControllerBuilder.builder()//
+		.withStrategie(MovingStrategie.FORWARD)//
+		.withEndPositions(Arrays.asList(endPos1, endPos2))//
+		.withMoveable(moveable)//
+		.withPostMoveForwardHandler(res -> {
+		    moveContrList.get(0).stop();
+		}).build();//
+	moveContrList.add(controller);
+
+	// When
+	controller.leadMoveable();
+
+	// Then
+	verify(moveable, times(2)).prepare();
+	verify(moveable).setEndPosition(eq(endPos1));
+	verify(moveable).setEndPosition(eq(endPos2));
+	verify(moveable).moveForward2EndPos();
+    }
+    
     @Test
     void test_MoveForward_NorthUnknownStrategie() {
 
