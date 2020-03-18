@@ -83,11 +83,12 @@ class MoveableControllerTest {
     void test_leadForwardWith2Points() {
 	
 	// given
+	double endPosDistance = 10;
 	Position endPos1 = Positions.of(0, 12);
 	Position endPos2 = Positions.of(12, 24);
 	EvasionStateMachine handler = spy(new EvasionStateMachine(mock(Detector.class), mock(EvasionStateMachineConfig.class)));
 	EndPointMoveable moveable = spy(new EndPointMoveableImpl(mock(DefaultGrid.class), endPos1, handler, endPos1, 10));
-	MoveResult result = new MoveResultImpl(0, 0, true);
+	MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
 	when(moveable.moveForward2EndPos()).thenReturn(result);
 
 	MoveableController controller = MoveableControllerBuilder.builder()//
@@ -102,6 +103,7 @@ class MoveableControllerTest {
 	controller.leadMoveable();
 
 	// Then
+	assertThat(result.getEndPosDistance(), is(endPosDistance));
 	verify(moveable, times(2)).prepare();
 	verify(moveable).setEndPosition(eq(endPos1));
 	verify(moveable).setEndPosition(eq(endPos2));
