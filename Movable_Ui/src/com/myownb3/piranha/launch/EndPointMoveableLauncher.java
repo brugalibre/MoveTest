@@ -24,6 +24,8 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.MoveResult;
 import com.myownb3.piranha.moveables.Moveable;
@@ -45,8 +47,8 @@ public class EndPointMoveableLauncher {
 
     public static void main(String[] args) throws InterruptedException {
 
-	int height = 4;
-	int width = 4;
+	int height = 6;
+	int width = 6;
 	DefaultGrid grid = MirrorGridBuilder.builder()//
 		.withMaxX(510)//
 		.withMaxY(510)//
@@ -55,7 +57,7 @@ public class EndPointMoveableLauncher {
 		.build();
 	List<Position> endPositions = getEndPositions();
 	List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
-	List<EndPointMoveable> moveables = getMoveables(grid, endPositions);
+	List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width);
 	List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables);
 
 	MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding,
@@ -66,9 +68,9 @@ public class EndPointMoveableLauncher {
 	preparePositionListPainter(renderers, positions);
     }
 
-    private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<Position> endPositions) {
+    private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<Position> endPositions, int width) {
 	return endPositions.stream()//
-		.map(endPos -> getMoveable(endPos, grid, 200, 200))//
+		.map(endPos -> getMoveable(endPos, grid, 200, 200, width))//
 		.collect(Collectors.toList());
     }
 
@@ -111,10 +113,10 @@ public class EndPointMoveableLauncher {
 	Position randomPosition2 = Positions.of(300 + padding, 300 + padding);
 	Position randomPosition3 = Positions.of(110 + padding, 110 + padding);
 	Position randomPosition4 = Positions.of(110 + padding, 300 + padding);
-	MoveableObstacleImpl obstacle = new MoveableObstacleImpl(grid, randomPosition);
-	MoveableObstacleImpl obstacle2 = new MoveableObstacleImpl(grid, randomPosition2);
-	MoveableObstacleImpl obstacle3 = new MoveableObstacleImpl(grid, randomPosition3);
-	MoveableObstacleImpl obstacle4 = new MoveableObstacleImpl(grid, randomPosition4);
+	MoveableObstacleImpl obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(width, randomPosition));
+	MoveableObstacleImpl obstacle2 = new MoveableObstacleImpl(grid, randomPosition2, buildCircle(width, randomPosition2));
+	MoveableObstacleImpl obstacle3 = new MoveableObstacleImpl(grid, randomPosition3, buildCircle(width, randomPosition3));
+	MoveableObstacleImpl obstacle4 = new MoveableObstacleImpl(grid, randomPosition4, buildCircle(width, randomPosition4));
 	if (signum < 0) {
 	    obstacle.makeTurn(angle);
 	    obstacle2.makeTurn(angle);
@@ -133,7 +135,7 @@ public class EndPointMoveableLauncher {
 	allGridElement.add(obstacle4);
 	
 	for (Position endPos : endPositions) {
-	    allGridElement.add(new SimpleGridElement(grid, endPos));
+	    allGridElement.add(new SimpleGridElement(grid, endPos, buildCircle(width, endPos)));
 	}
 	return allGridElement;
     }
@@ -198,17 +200,26 @@ public class EndPointMoveableLauncher {
 	return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
     }
 
-    private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY) {
+    private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY, int width) {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 60, 70, 50, 15);
 	Position pos = Positions.of(posX + padding, posY + padding);
-	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), 
 		config.getEvasionAngle(), config.getEvasionAngleInc());
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withEndPosition(endPos)//
 		.withGrid(grid)//
-		.withStartPosition(pos).withHandler(new EvasionStateMachine(detector, endPos, config))//
+		.withStartPosition(pos)//
+		.withHandler(new EvasionStateMachine(detector, endPos, config))//
 		.withEndPosition(endPos)//
+		.withShape(buildCircle(width, pos))//
 		.build();
 	moveable.prepare();
 	return moveable;
+    }
+
+    private static Shape buildCircle(int width, Position pos) {
+	return new CircleBuilder(width)//
+		.withAmountOfPoints(5)//
+		.withCenter(pos)//
+		.build();//
     }
 }

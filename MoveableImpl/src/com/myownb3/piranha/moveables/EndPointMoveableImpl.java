@@ -11,6 +11,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.util.vector.VectorUtil;
@@ -25,6 +26,13 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
     private Position endPos;
     private int movingIncrement;
     private double prevDistance;
+    
+    EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, Position endPosition,
+	    int movingIncrement, Shape shape) {
+	super(grid, position, handler, shape);
+	this.movingIncrement = movingIncrement;
+	this.endPos = endPosition;
+    }
 
     public EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, Position endPosition,
 	    int movingIncrement) {

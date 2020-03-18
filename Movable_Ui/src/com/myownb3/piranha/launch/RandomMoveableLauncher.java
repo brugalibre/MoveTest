@@ -39,18 +39,18 @@ import com.myownb3.piranha.util.MathUtil;
  * @author Dominic
  *
  */
-public class RandomMoveableLauncher {
+public class RandomMoveableLauncher implements Stoppable{
 
-    private static boolean has2Run = true;
+    private boolean has2Run = true;
     private static int padding = 30;
 
     public static void main(String[] args) throws InterruptedException {
 
-	int height = 4;
-	int width = 4;
+	int height = 6;
+	int width = 6;
 	MainWindow mainWindow = new MainWindow(700, 700, padding, height);
 
-	CollisionDetectionHandler collisionDetector = getCollisionDetectionHandler(mainWindow);
+	CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(mainWindow);
 	MirrorGrid grid = MirrorGridBuilder.builder()//
 		.withMaxX(700)//
 		.withMaxY(700)//
@@ -68,14 +68,7 @@ public class RandomMoveableLauncher {
 	mainWindow.addSpielfeld(renderers, grid);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	prepareAndMoveMoveables(moveable, gridElements, mainWindow);
-    }
-
-    private static CollisionDetectionHandler getCollisionDetectionHandler(MainWindow mainWindow) {
-	return (a, b) -> {
-	    SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
-	    has2Run = false;
-	};
+	new RandomMoveableLauncher().prepareAndMoveMoveables(moveable, gridElements, mainWindow);
     }
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
@@ -93,7 +86,7 @@ public class RandomMoveableLauncher {
 	return gridelements;
     }
 
-    private static void prepareAndMoveMoveables(Moveable moveable, List<GridElement> gridelements, MainWindow mainWindow) throws InterruptedException {
+    private void prepareAndMoveMoveables(Moveable moveable, List<GridElement> gridelements, MainWindow mainWindow) throws InterruptedException {
 
 	moveable.makeTurn(MathUtil.getRandom(360));
 	turnGridElements(gridelements);
@@ -153,5 +146,15 @@ public class RandomMoveableLauncher {
 		.withAmountOfPoints(5)//
 		.withCenter(pos)//
 		.build();//
+    }
+
+    @Override
+    public boolean isRunning() {
+	return has2Run;
+    }
+
+    @Override
+    public void stop() {
+	has2Run = false;	
     }
 }

@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
+import static java.util.Objects.nonNull;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +12,7 @@ import java.util.Objects;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
@@ -148,6 +151,7 @@ public class MoveableController {
 	    private Grid grid;
 	    private Position endPos;
 	    private int movingIncrement;
+	    private Shape shape;
 
 	    public static EndPointMoveableBuilder builder() {
 		return new EndPointMoveableBuilder();
@@ -187,7 +191,11 @@ public class MoveableController {
 	    public EndPointMoveable build() {
 		Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
 		Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
-		moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
+		if (nonNull(shape)) {
+		    moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement, shape);
+		}else {
+		    moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
+		}
 		handler.handlePostConditions(moveable.getGrid(), moveable);
 		return this.moveable;
 	    }
@@ -200,6 +208,11 @@ public class MoveableController {
 
 	    public EndPointMoveableBuilder withEndPosition(Position endPos) {
 		this.endPos = endPos;
+		return this;
+	    }
+
+	    public EndPointMoveableBuilder withShape(Shape shape) {
+		this.shape = shape;
 		return this;
 	    }
 	}
