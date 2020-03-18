@@ -8,8 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
@@ -24,13 +25,27 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
     protected MoveablePostActionHandler handler;
     private List<Position> positionHistory;
 
+    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+	super(grid, position, shape);
+	init(grid, handler);
+    }
+    
     public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
 	super(grid, position);
+	init(grid, handler);
+    }
+
+    private void init(Grid grid, MoveablePostActionHandler handler) {
 	this.handler = handler;
 	this.handler.handlePostConditions(grid, this);
 	positionHistory = new LinkedList<>();
     }
 
+    public AbstractMoveable(Grid grid, Position position, Shape shape) {
+	this(grid, position, (g, m) -> {/* This empty handler does nothing */
+	}, shape);
+    }
+    
     public AbstractMoveable(Grid grid, Position position) {
 	this(grid, position, (g, m) -> {/* This empty handler does nothing */
 	});
@@ -44,6 +59,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
 
     private void moveForwardInternal() {
 	position = grid.moveForward(position);
+	shape.transform(position);
 	trackPosition(position);
     }
 
@@ -57,6 +73,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
     public void moveBackward() {
 	position = grid.moveBackward(position);
 	trackPosition(position);
+	shape.transform(position);
 	handler.handlePostConditions(grid, this);
     }
 

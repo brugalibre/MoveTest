@@ -3,9 +3,14 @@
  */
 package com.myownb3.piranha.moveables.postaction.impl;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -55,6 +60,13 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      */
     public void checkSurrounding(Grid grid, Moveable moveable) {
 	grid.getSurroundingAvoidables(moveable)
-		.forEach(gridElement -> detector.detectObject(gridElement, moveable.getPosition()));
+		.forEach(checkDetection4Avoidable(moveable));
+    }
+
+    private Consumer<? super Avoidable> checkDetection4Avoidable(Moveable moveable) {
+	return gridElement -> {
+	    List<Position> path = moveable.getShape().getPath();
+	    path.forEach(moveablePos -> detector.detectObject(gridElement, moveablePos));
+	};
     }
 }

@@ -3,13 +3,16 @@
  */
 package com.myownb3.piranha.moveables;
 
+import static java.util.Objects.isNull;
+
 import java.util.Objects;
 
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
 /**
@@ -24,6 +27,7 @@ public class MoveableBuilder {
     private MoveablePostActionHandler handler;
     private Position position;
     private Grid grid;
+    private Shape shape;
 
     public static MoveableBuilder builder() {
 	DefaultGrid defGrid = GridBuilder.builder()//
@@ -46,13 +50,22 @@ public class MoveableBuilder {
 	};
     }
 
+    public MoveableBuilder withShape(Shape shape) {
+	this.shape = shape;
+	return this;
+    }
+
     public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
 	this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
 	return this;
     }
 
     public Moveable build() {
-	moveable = new SimpleMoveable(grid, position, handler);
+	if (isNull(shape)) {
+	    moveable = new SimpleMoveable(grid, position, handler);
+	}else {
+	    moveable = new SimpleMoveable(grid, position, handler, shape);
+	}
 	handler.handlePostConditions(moveable.getGrid(), moveable);
 	return this.moveable;
     }
@@ -60,6 +73,10 @@ public class MoveableBuilder {
     private class SimpleMoveable extends AbstractMoveable {
 	private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
 	    super(grid, position, handler);
+	}
+	
+	private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+	    super(grid, position, handler, shape);
 	}
     }
 }

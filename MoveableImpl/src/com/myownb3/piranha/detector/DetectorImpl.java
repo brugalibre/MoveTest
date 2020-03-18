@@ -53,10 +53,13 @@ public class DetectorImpl implements Detector {
 
     @Override
     public void detectObject(Avoidable avoidable, Position position) {
+	for (Position gridElemPos : avoidable.getShape().getPath()) {
+	    checkIfAvoidablePosIsDetected(avoidable, position, gridElemPos);
+	}
+    }
 
+    private void checkIfAvoidablePosIsDetected(Avoidable avoidable, Position position, Position gridElemPos) {
 	boolean isDetected = false;
-
-	Position gridElemPos = avoidable.getPosition();
 	double distance = gridElemPos.calcDistanceTo(position);
 	boolean isPotentialCollisionCourse = false;
 

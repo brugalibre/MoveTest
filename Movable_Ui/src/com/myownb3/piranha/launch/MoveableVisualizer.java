@@ -19,7 +19,7 @@ import com.myownb3.piranha.ui.application.MainWindow;
  * @author Dominic
  *
  */
-public class MoveableLauncher {
+public class MoveableVisualizer {
 
     public static void visualizePositionsWithJFreeChart(List<Position> posList, Obstacle obstacle)
 	    throws InterruptedException {
