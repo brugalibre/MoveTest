@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.test.Assert;
 
 /**
@@ -30,8 +32,8 @@ class SwappingGridTest {
 	Position expectedPosition2 = Positions.of(Directions.O, 0.1, 10);
 
 	// When
-	Position createdPosition = grid.moveForward(Positions.of(Directions.N, 10, 10));
-	Position createdPosition2 = grid.moveForward(Positions.of(Directions.O, 10, 10));
+	Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10)));
+	Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10)));
 
 	// Then
 	Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
@@ -48,8 +50,8 @@ class SwappingGridTest {
 	Position expectedPosition2 = Positions.of(Directions.O, 9.9, 4);
 
 	// When
-	Position createdPosition = grid.moveBackward(Positions.of(Directions.N, 4, 0));
-	Position createdPosition2 = grid.moveBackward(Positions.of(Directions.O, 0, 4));
+	Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 4, 0)));
+	Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 0, 4)));
 
 	// Then
 	assertThat(createdPosition, is(expectedPosition));
@@ -71,9 +73,9 @@ class SwappingGridTest {
 	Position expectedPosition3 = Positions.of(Directions.S, 10, 9.9);
 
 	// When
-	Position createdPosition = grid.moveForward(Positions.of(Directions.N, 10, 10));
-	Position createdPosition2 = grid.moveForward(Positions.of(Directions.O, 10, 10));
-	Position createdPosition3 = grid.moveForward(Positions.of(Directions.S, 10, 5));
+	Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10)));
+	Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10)));
+	Position createdPosition3 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.S, 10, 5)));
 
 	// Then
 	assertThat(createdPosition, is(expectedPosition));
@@ -96,14 +98,18 @@ class SwappingGridTest {
 	Position expectedPosition3 = Positions.of(Directions.S, 5, 5.1);
 
 	// When
-	Position createdPosition = grid.moveBackward(Positions.of(Directions.N, 9, 5));
-	Position createdPosition2 = grid.moveBackward(Positions.of(Directions.O, 5, 9));
-	Position createdPosition3 = grid.moveBackward(Positions.of(Directions.S, 5, 10));
+	Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 9, 5)));
+	Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 5, 9)));
+	Position createdPosition3 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.S, 5, 10)));
 
 	// Then
 	assertThat(createdPosition, is(expectedPosition));
 	assertThat(createdPosition2, is(expectedPosition2));
 	assertThat(createdPosition3, is(expectedPosition3));
+    }
+
+    private static GridElement buildGridElement(Grid grid, Position position) {
+	return new SimpleGridElement(grid, position);
     }
 
 }

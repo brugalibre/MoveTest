@@ -10,8 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 
 /**
  * @author Dominic
@@ -47,8 +49,8 @@ class MirrorGridTest {
     private void testMirrorInternal(Grid grid, Position position, Position position2, double expectedEndDegree) {
 	// When
 	for (int i = 0; i < 150; i++) {
-	    position = grid.moveForward(position);
-	    position2 = grid.moveForward(position2);
+	    position = grid.moveForward(buildGridElement(grid, position));
+	    position2 = grid.moveForward(buildGridElement(grid, position2));
 	}
 	double actualEndDegree = position.getDirection().getAngle();
 	double actualEndDegree2 = position2.getDirection().getAngle();
@@ -58,6 +60,10 @@ class MirrorGridTest {
 	assertThat(actualEndDegree2, is(expectedEndDegree));
     }
 
+    private static GridElement buildGridElement(Grid grid, Position position) {
+	return new SimpleGridElement(grid, position);
+    }
+    
     @Test
     public void testMirror2Quadrant_45_X() {
 

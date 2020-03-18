@@ -20,20 +20,20 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Grid {
 
     /**
-     * Moves the given Position backward by one unit
+     * Moves the given {@link GridElement} backward by one unit
      * 
-     * @param position the {@link Position} to move
+     * @param gridElement the {@link GridElement} to move
      * @return a new instance of the moved Position
      */
-    Position moveBackward(Position position);
+    Position moveBackward(GridElement gridElement);
 
     /**
-     * Moves the given Position forward by one unit
+     * Moves the given {@link GridElement} forward by one unit
      * 
-     * @param position the {@link Position} to move
+     * @param gridElement the {@link Position} to move
      * @return a new instance of the moved Position
      */
-    Position moveForward(Position position);
+    Position moveForward(GridElement gridElement);
 
     /**
      * @param gridElement the element to verify

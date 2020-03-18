@@ -58,7 +58,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
     }
 
     private void moveForwardInternal() {
-	position = grid.moveForward(position);
+	position = grid.moveForward(this);
 	shape.transform(position);
 	trackPosition(position);
     }
@@ -71,7 +71,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
 
     @Override
     public void moveBackward() {
-	position = grid.moveBackward(position);
+	position = grid.moveBackward(this);
 	trackPosition(position);
 	shape.transform(position);
 	handler.handlePostConditions(grid, this);

@@ -85,8 +85,9 @@ public class DefaultGrid implements Grid {
      * @return the new moved Position
      */
     @Override
-    public Position moveBackward(Position position) {
+    public Position moveBackward(GridElement gridElement) {
 
+	Position position = gridElement.getPosition();
 	Direction direction = position.getDirection();
 	double newX = getNewXValue(position, direction.getBackwardX());
 	double newY = getNewYValue(position, direction.getBackwardY());
@@ -109,8 +110,9 @@ public class DefaultGrid implements Grid {
      * @return the new moved Position
      */
     @Override
-    public Position moveForward(Position position) {
+    public Position moveForward(GridElement gridElement) {
 
+	Position position = gridElement.getPosition();
 	Direction direction = position.getDirection();
 	double newX = getNewXValue(position, direction.getForwardX());
 	double newY = getNewYValue(position, direction.getForwardY());

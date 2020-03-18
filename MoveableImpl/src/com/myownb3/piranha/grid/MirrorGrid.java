@@ -7,6 +7,7 @@ import static java.util.Objects.isNull;
 
 import java.util.Objects;
 
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
@@ -47,8 +48,9 @@ public class MirrorGrid extends DefaultGrid {
      * Position)
      */
     @Override
-    public Position moveForward(Position position) {
-	Position movedPos = super.moveForward(position);
+    public Position moveForward(GridElement gridElement) {
+	
+	Position movedPos = super.moveForward(gridElement);
 
 	if (movedPos.getX() == minX || movedPos.getX() == maxX) {
 	    movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
