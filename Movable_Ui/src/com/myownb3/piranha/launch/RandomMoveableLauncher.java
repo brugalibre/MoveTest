@@ -23,6 +23,8 @@ import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -58,9 +60,9 @@ public class RandomMoveableLauncher {
 		.build();
 
 	Moveable moveable = getMoveable(grid, height, width);
-	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), height, width);
+	GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), 1, 1);
 	List<GridElement> gridElements = getAllGridElements(grid, height, width);
-	List<Renderer> renderers = getRenderers(gridElements, height, width);
+	List<Renderer> renderers = getRenderers(gridElements);
 	renderers.add(moveablePainter);
 
 	mainWindow.addSpielfeld(renderers, grid);
@@ -83,7 +85,7 @@ public class RandomMoveableLauncher {
 	int amount = 80;
 	for (int i = 0; i < amount; i++) {
 	    Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
-	    Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition);
+	    Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(height, randomPosition));
 
 	    gridelements.add(obstacle);
 	}
@@ -123,9 +125,9 @@ public class RandomMoveableLauncher {
 		.forEach(obstacle -> obstacle.moveForward());
     }
 
-    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements, int height, int width) {
+    private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements) {
 	return gridElements.stream()//
-		.map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))//
+		.map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))//
 		.collect(Collectors.toList());
     }
 
@@ -139,8 +141,17 @@ public class RandomMoveableLauncher {
 	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 40, 80, 70, 5);
 	Position pos = Positions.getRandomPosition(dimension, height, width);
 	Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
+	Shape circleShape = buildCircle(width, pos);
 	return MoveableBuilder.builder(grid, pos)//
 		.withHandler(new EvasionStateMachine(detector, config))//
+		.withShape(circleShape)
 		.build();
+    }
+
+    private static Shape buildCircle(int width, Position pos) {
+	return new CircleBuilder(width)//
+		.withAmountOfPoints(5)//
+		.withCenter(pos)//
+		.build();//
     }
 }
