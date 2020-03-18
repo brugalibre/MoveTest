@@ -38,8 +38,8 @@ public class CirclePainter extends Drawable<Circle> implements Renderer {
     private void renderPosition(Graphics graphics) {
 	graphics.setColor(color);
 	Position position = value.getCenter();
-	int yCoordinate = (int) position.getY() - (value.getRadius() / 2);
-	int xCoordinate = (int) position.getX() - (value.getRadius() / 2);
+	int yCoordinate = (int) (position.getY() - 0);
+	int xCoordinate = (int) (position.getX() - 0);
 	graphics.fillOval(xCoordinate, yCoordinate, value.getRadius(), value.getRadius());
     }
 }

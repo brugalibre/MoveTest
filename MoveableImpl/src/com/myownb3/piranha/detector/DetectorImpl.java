@@ -54,11 +54,13 @@ public class DetectorImpl implements Detector {
     @Override
     public void detectObject(Avoidable avoidable, Position position) {
 	for (Position gridElemPos : avoidable.getShape().getPath()) {
-	    checkIfAvoidablePosIsDetected(avoidable, position, gridElemPos);
+	    if (checkIfAvoidablePosIsDetected(avoidable, position, gridElemPos)) {
+		break;
+	    }
 	}
     }
 
-    private void checkIfAvoidablePosIsDetected(Avoidable avoidable, Position position, Position gridElemPos) {
+    private boolean checkIfAvoidablePosIsDetected(Avoidable avoidable, Position position, Position gridElemPos) {
 	boolean isDetected = false;
 	double distance = gridElemPos.calcDistanceTo(position);
 	boolean isPotentialCollisionCourse = false;
@@ -73,10 +75,11 @@ public class DetectorImpl implements Detector {
 	    }
 	    detectionMap.put(avoidable, isDetected);
 	    isEvasionMap.put(avoidable, isEvasion);
-	    return;
+	    return isEvasion;
 	}
 	detectionMap.remove(avoidable);
 	isEvasionMap.remove(avoidable);
+	return false;
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -89,18 +90,26 @@ public class DefaultGrid implements Grid {
 
 	Position position = gridElement.getPosition();
 	Direction direction = position.getDirection();
-	double newX = getNewXValue(position, direction.getBackwardX());
-	double newY = getNewYValue(position, direction.getBackwardY());
+	double newX = getNewXValue(gridElement, direction.getBackwardX());
+	double newY = getNewYValue(gridElement, direction.getBackwardY());
 	checkBounds(newX, newY);
 	Position newPosition = Positions.of(direction, newX, newY);
-	checkCollision(position, newPosition);
+	checkCollision(gridElement, newPosition);
 
 	return newPosition;
     }
 
-    private void checkCollision(Position oldPosition, Position newPosition) {
-	List<Avoidable> allAvoidables = getAllAvoidables(oldPosition);
-	detector.checkCollision(oldPosition, newPosition, allAvoidables);
+    private void checkCollision(GridElement gridElement, Position newPosition) {
+	List<Avoidable> allAvoidables = getSurroundingAvoidables(gridElement);
+	Shape shape = gridElement.getShape();
+	shape.getPath()//
+		.forEach(oldPosition -> detector.checkCollision(oldPosition, newPosition, allAvoidables));
+    }
+
+    private List<Avoidable> getSurroundingAvoidables(GridElement gridElement) {
+	return getAllAvoidables(gridElement).stream()//
+		.filter(avoidable -> gridElement.hasDetected(avoidable))//
+		.collect(Collectors.toList());
     }
 
     /**
@@ -114,11 +123,11 @@ public class DefaultGrid implements Grid {
 
 	Position position = gridElement.getPosition();
 	Direction direction = position.getDirection();
-	double newX = getNewXValue(position, direction.getForwardX());
-	double newY = getNewYValue(position, direction.getForwardY());
+	double newX = getNewXValue(gridElement, direction.getForwardX());
+	double newY = getNewYValue(gridElement, direction.getForwardY());
 	checkBounds(newX, newY);
 	Position newPosition = Positions.of(direction, newX, newY);
-	checkCollision(position, newPosition);
+	checkCollision(gridElement, newPosition);
 
 	return newPosition;
     }
@@ -135,10 +144,15 @@ public class DefaultGrid implements Grid {
     }
 
     /**
-     * @param position
+     * @param gridElement
      * @param forwardY the amount of forward units for the y-axis
      * @return
      */
+    protected double getNewYValue(GridElement gridElement, double forwardY) {
+	Position position = gridElement.getPosition();
+	return getNewYValue(position, forwardY);
+    }
+
     protected double getNewYValue(Position position, double forwardY) {
 	return position.getY() + forwardY;
     }
@@ -148,22 +162,21 @@ public class DefaultGrid implements Grid {
      * @param forwardX the amount of forward units for the x-axis
      * @return the new x-value
      */
+    protected double getNewXValue(GridElement gridElement, double forwardX) {
+	Position position = gridElement.getPosition();
+	return getNewXValue(position, forwardX);
+    }
+
     protected double getNewXValue(Position position, double forwardX) {
 	return position.getX() + forwardX;
     }
 
     @Override
-    public List<Avoidable> getSurroundingAvoidables(GridElement gridElement) {
+    public List<Avoidable> getAllAvoidables(GridElement gridElement) {
 	return gridElements.stream()//
 		.filter(currenGridEl -> !currenGridEl.equals(gridElement))//
-		.filter(Avoidable.class::isInstance).map(Avoidable.class::cast)
-		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-    }
-
-    private List<Avoidable> getAllAvoidables(Position position) {
-	return gridElements.stream()//
-		.filter(Avoidable.class::isInstance).map(Avoidable.class::cast)
-		.filter(avoidable -> avoidable.getPosition() != position)//
+		.filter(Avoidable.class::isInstance)//
+		.map(Avoidable.class::cast)//
 		.collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 

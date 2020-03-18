@@ -50,12 +50,14 @@ public interface Grid {
     void addElement(GridElement gridElement);
 
     /**
-     * Returns all surrounding {@link Avoidable}s for the given {@link GridElement}
+     * Returns all {@link Avoidable}s but the given {@link GridElement} which are
+     * currently placed on this {@link Grid}
      * 
      * @param gridElement
-     * @return all surrounding {@link Avoidable}s for the given {@link GridElement}
+     * @return all {@link Avoidable}s but the given {@link GridElement} which are
+     *         currently placed on this {@link Grid}
      */
-    List<Avoidable> getSurroundingAvoidables(GridElement gridElement);
+    List<Avoidable> getAllAvoidables(GridElement gridElement);
 
     /**
      * 

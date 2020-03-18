@@ -7,7 +7,7 @@ import static java.util.Objects.isNull;
 
 import java.util.Objects;
 
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 
 /**
  * 
@@ -46,12 +46,13 @@ public class SwappingGrid extends DefaultGrid {
      * @return the new y-Value within grid bounds
      */
     @Override
-    protected double getNewYValue(Position position, double forwardY) {
-	double newY = super.getNewYValue(position, forwardY);
-	if (newY > maxY) {
-	    newY = (newY - maxY) + minY;
-	} else if (newY < minY) {
-	    newY = maxY - (minY - newY);
+    protected double getNewYValue(GridElement gridElement, double forwardY) {
+	double newY = super.getNewYValue(gridElement, forwardY);
+	double newYValue = getNewYValue(gridElement.getFurthermostFrontPosition(), forwardY);
+	if (newYValue > maxY) {
+	    newY = (newYValue - maxY) + minY;
+	} else if (newYValue < minY) {
+	    newY = maxY - (minY - newYValue);
 	}
 	return newY;
     }
@@ -64,12 +65,13 @@ public class SwappingGrid extends DefaultGrid {
      * @return the new x-Value within grid bounds
      */
     @Override
-    protected double getNewXValue(Position position, double forwardX) {
-	double newX = super.getNewXValue(position, forwardX);
-	if (newX > maxX) {
-	    newX = (newX - maxX) + minX;
-	} else if (newX < minX) {
-	    newX = maxX - (minX - newX);
+    protected double getNewXValue(GridElement gridElement, double forwardX) {
+	double newX = super.getNewXValue(gridElement, forwardX);
+	double newXValue = getNewXValue(gridElement.getFurthermostFrontPosition(), forwardX);
+	if (newXValue > maxX) {
+	    newX = (newXValue - maxX) + minX;
+	} else if (newXValue < minX) {
+	    newX = maxX - (minX - newXValue);
 	}
 	return newX;
     }
@@ -77,11 +79,17 @@ public class SwappingGrid extends DefaultGrid {
     /**
      * @formatter:off
      * 
-     *                10 ___________ |__|__|__|__| |__|__|__|__| |__|__|__|__|
-     *                |__|__|__|__| 5|__|__|__|__| 5 10
+     *10 ___________ 
+     * 	|__|__|__|__|
+     * 	|__|__|__|__|
+     * 	|__|__|__|__|
+     * 	|__|__|__|__|
+     * 5|__|__|__|__|
+     *  5	     10 
      * 
      * @formatter:on
      */
+
 
     /**
      * The {@link SwappingGridBuilder} helps to build a {@link SwappingGrid}

@@ -55,6 +55,23 @@ public class SimpleGridElement implements GridElement {
     }
 
     @Override
+    public Position getFurthermostFrontPosition() {
+        return shape.getPositionOnPathFor(position);
+    }
+    
+    @Override
+    public Position getFurthermostBackPosition() {
+	Position posInverted = Positions.of(position);
+	posInverted.rotate(180);
+	return shape.getPositionOnPathFor(posInverted);
+    }
+    
+    @Override
+    public boolean hasDetected(Avoidable avoidable) {
+        return false;
+    }
+    
+    @Override
     public Grid getGrid() {
 	return grid;
     }

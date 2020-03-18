@@ -7,8 +7,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.PointShape;
+import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 
 /**
@@ -17,6 +20,37 @@ import com.myownb3.piranha.grid.Grid;
  */
 class SimpleGridElementTest {
 
+
+    @Test
+    void testGetFurthermostBackPosition() {
+	// Given
+	Position gridElemPos = Positions.of(4, 4);
+	Position expectedBackPos = Positions.of(gridElemPos);
+	expectedBackPos.rotate(180);
+	PointShape pointShape = new PointShape(gridElemPos);
+	GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class),gridElemPos, pointShape);
+	
+	// When
+	Position positionOnPathFor = gridElement.getFurthermostBackPosition();
+	
+	// Then
+	assertThat(positionOnPathFor, is(expectedBackPos));
+    }
+    
+    @Test
+    void testGetFurthermostFrontPosition() {
+	// Given
+	Position gridElemPos = Positions.of(4, 4);
+	PointShape pointShape = new PointShape(gridElemPos);
+	GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class),gridElemPos, pointShape);
+
+	// When
+	Position positionOnPathFor = gridElement.getFurthermostFrontPosition();
+
+	// Then
+	assertThat(positionOnPathFor, is(gridElemPos));
+    }
+    
     /**
      * Test method for
      * {@link com.myownb3.piranha.grid.gridelement.SimpleGridElement#toString()}.

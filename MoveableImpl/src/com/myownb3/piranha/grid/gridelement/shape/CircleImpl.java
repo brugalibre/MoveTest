@@ -5,7 +5,7 @@ package com.myownb3.piranha.grid.gridelement.shape;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -39,6 +39,11 @@ public class CircleImpl extends AbstractShape implements Circle {
 	return amountOfPoints;
     }
 
+    @Override
+    public Position getPositionOnPathFor(Position position) {
+        return getNextCirclePos(position, radius, 0);
+    }
+    
     @Override
     public int getRadius() {
         return radius;
@@ -83,7 +88,7 @@ public class CircleImpl extends AbstractShape implements Circle {
     }
 
     private static List<Position> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
-	List<Position> path = new ArrayList<>();
+	List<Position> path = new LinkedList<>();
 	double degInc = 360 / amountOfPoints;
 	double deg = 0;
 	for (int i = 0; i < amountOfPoints; i++) {

@@ -5,6 +5,7 @@ package com.myownb3.piranha.moveables.postaction.impl;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
@@ -41,13 +42,15 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      * Verifies if there is any {@link GridElement} on the {@link Grid} for which
      * there is currently an evasion with the given {@link GridElement}
      * 
-     * @param grid     the {@link Grid}
-     * @param moveable the {@link GridElement} for which the evasion is checked
+     * @param grid
+     *            the {@link Grid}
+     * @param moveable
+     *            the {@link GridElement} for which the evasion is checked
      * @return <code>true</code> if there is any evasion or <code>false</code> if
      *         not
      */
     public boolean check4Evasion(Grid grid, GridElement moveable) {
-	return grid.getSurroundingAvoidables(moveable).stream()
+	return grid.getAllAvoidables(moveable).stream()
 		.anyMatch(gridElement -> detector.isEvasion(gridElement));
     }
 
@@ -59,8 +62,31 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
      * @param moveable the given {@link Moveable}
      */
     public void checkSurrounding(Grid grid, Moveable moveable) {
-	grid.getSurroundingAvoidables(moveable)
+	grid.getAllAvoidables(moveable)
 		.forEach(checkDetection4Avoidable(moveable));
+    }
+    
+    /**
+     * Returns <code>true</code> if the given {@link Avoidable} is detected by this
+     * {@link DetectableMoveableHelper}
+     * 
+     * @param grid
+     *            the {@link Grid}
+     * @param avoidable
+     *            the {@link Avoidable} to check
+     * @return <code>true</code> if the given {@link Avoidable} is detected by this
+     *         {@link DetectableMoveableHelper}. Otherwise returns
+     *         <code>false</code>
+     */
+    public boolean hasDetected(Grid grid, Avoidable avoidable) {
+	return getDetectedAvoidable(grid, null).contains(avoidable);
+    }
+
+    public List<Avoidable> getDetectedAvoidable(Grid grid, Moveable moveable) {
+	return grid.getAllAvoidables(moveable)//
+		.stream()//
+		.filter(avoidable -> detector.hasObjectDetected(avoidable))//
+		.collect(Collectors.toList());
     }
 
     private Consumer<? super Avoidable> checkDetection4Avoidable(Moveable moveable) {

@@ -70,12 +70,13 @@ public class MirrorGrid extends DefaultGrid {
      * @return the new y-Value within grid bounds
      */
     @Override
-    protected double getNewYValue(Position position, double forwardY) {
-
-	double newY = super.getNewYValue(position, forwardY);
-	if (newY >= maxY) {
+    protected double getNewYValue(GridElement gridElement, double forwardY) {
+	double newY = super.getNewYValue(gridElement, forwardY);
+	double newYValue = getNewYValue(gridElement.getFurthermostFrontPosition(), forwardY);
+	
+	if (newYValue >= maxY) {
 	    return maxY;
-	} else if (newY <= minY) {
+	} else if (newYValue <= minY) {
 	    return minY;
 	}
 	return newY;
@@ -89,12 +90,13 @@ public class MirrorGrid extends DefaultGrid {
      * @return the new x-Value within grid bounds
      */
     @Override
-    protected double getNewXValue(Position position, double forwardX) {
-	double newX = super.getNewXValue(position, forwardX);
-
-	if (newX >= maxX) {
+    protected double getNewXValue(GridElement gridElement, double forwardX) {
+	double newX = super.getNewXValue(gridElement, forwardX);
+	double newXValue = getNewXValue(gridElement.getFurthermostFrontPosition(), forwardX);
+	
+	if (newXValue >= maxX) {
 	    return maxX;
-	} else if (newX <= minX) {
+	} else if (newXValue <= minX) {
 	    return minX;
 	}
 	return newX;

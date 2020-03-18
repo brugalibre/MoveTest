@@ -34,6 +34,11 @@ public class PointShape extends AbstractShape {
 	this.path = Collections.singletonList(position);
     }
     
+    @Override
+    public Position getPositionOnPathFor(Position position) {
+        return getPosition();
+    }
+    
     public Position getPosition() {
 	return path.get(0);
     }

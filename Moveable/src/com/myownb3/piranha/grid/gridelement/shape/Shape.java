@@ -28,6 +28,16 @@ public interface Shape {
     List<Position> getPath();
 
     /**
+     * Returns the {@link Position} placed on the path which is equivalent to the
+     * given Position. That means the position to return faces the same direction.
+     * 
+     * @param position the given {@link Position}
+     * @return the {@link Position} placed on the path which is equivalent to the
+     *         given Position
+     */
+    Position getPositionOnPathFor(Position position);
+
+    /**
      * Transform this shape according the new {@link Position} 
      * 
      * @param position

@@ -82,7 +82,7 @@ class SwappingGridTest {
 	assertThat(createdPosition2, is(expectedPosition2));
 	assertThat(createdPosition3, is(expectedPosition3));
     }
-
+    
     @Test
     public void testOffsetGridBoundsMoveBackward() {
 
@@ -111,5 +111,4 @@ class SwappingGridTest {
     private static GridElement buildGridElement(Grid grid, Position position) {
 	return new SimpleGridElement(grid, position);
     }
-
 }

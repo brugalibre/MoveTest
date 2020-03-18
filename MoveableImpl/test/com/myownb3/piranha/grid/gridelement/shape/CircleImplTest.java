@@ -24,8 +24,27 @@ import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
  * @author Dominic
  *
  */
-class CircleTest {
+class CircleImplTest {
 
+    @Test
+    void testGetPositionOnPathFor() {
+	// Given
+	int amountOfPoints = 4;
+	int radius = 5;
+	Position center = Positions.of(0, 0);
+	center.rotate(45);
+	Circle circle = new CircleBuilder(radius)//
+		.withAmountOfPoints(amountOfPoints)//
+		.withCenter(center)//
+		.build();
+
+	// When
+	Position positionOnPathFor = circle.getPositionOnPathFor(center);
+
+	// Then
+	assertThat(positionOnPathFor.getDirection(), is(center.getDirection()));
+    }
+    
     @Test
     void test_CreateCircle_CreateCircleAndTransform() {
 

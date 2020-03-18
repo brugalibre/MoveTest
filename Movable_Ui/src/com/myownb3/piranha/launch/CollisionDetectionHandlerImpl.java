@@ -17,7 +17,8 @@ class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {
     private Stoppable stoppable;
     private MoveableController moveableController;
 
-    public CollisionDetectionHandlerImpl(MainWindow mainWindow) {
+    public CollisionDetectionHandlerImpl(Stoppable stoppable, MainWindow mainWindow) {
+	this.stoppable = stoppable;
 	this.mainWindow = mainWindow;
     }
 

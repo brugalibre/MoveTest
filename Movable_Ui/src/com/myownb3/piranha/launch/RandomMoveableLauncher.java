@@ -48,9 +48,10 @@ public class RandomMoveableLauncher implements Stoppable{
 
 	int height = 6;
 	int width = 6;
+	RandomMoveableLauncher randomMoveableLauncher = new RandomMoveableLauncher();
 	MainWindow mainWindow = new MainWindow(700, 700, padding, height);
-
-	CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(mainWindow);
+	CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(randomMoveableLauncher,
+		mainWindow);
 	MirrorGrid grid = MirrorGridBuilder.builder()//
 		.withMaxX(700)//
 		.withMaxY(700)//
@@ -68,7 +69,7 @@ public class RandomMoveableLauncher implements Stoppable{
 	mainWindow.addSpielfeld(renderers, grid);
 	SwingUtilities.invokeLater(() -> mainWindow.show());
 
-	new RandomMoveableLauncher().prepareAndMoveMoveables(moveable, gridElements, mainWindow);
+	randomMoveableLauncher.prepareAndMoveMoveables(moveable, gridElements, mainWindow);
     }
 
     private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
