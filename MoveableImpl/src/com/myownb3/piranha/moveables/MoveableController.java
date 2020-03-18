@@ -174,11 +174,6 @@ public class MoveableController {
 		return this;
 	    }
 
-	    public EndPointMoveableBuilder withEndPosition(Position position) {
-		this.endPos = position;
-		return this;
-	    }
-
 	    public EndPointMoveableBuilder withHandler(MoveablePostActionHandler handler) {
 		this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
 		return this;
@@ -203,7 +198,7 @@ public class MoveableController {
 		return controllerBuilder;
 	    }
 
-	    public EndPointMoveableBuilder widthEndPosition(Position endPos) {
+	    public EndPointMoveableBuilder withEndPosition(Position endPos) {
 		this.endPos = endPos;
 		return this;
 	    }

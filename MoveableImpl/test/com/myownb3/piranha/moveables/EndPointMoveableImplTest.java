@@ -30,7 +30,7 @@ class EndPointMoveableImplTest {
 	// Given
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
-		.widthEndPosition(endPos)//
+		.withEndPosition(endPos)//
 		.build();
 	moveable.prepare();
 	
@@ -53,7 +53,7 @@ class EndPointMoveableImplTest {
 	// Given
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
-		.widthEndPosition(endPos)//
+		.withEndPosition(endPos)//
 		.build();
 	moveable.prepare();
 	
@@ -76,7 +76,7 @@ class EndPointMoveableImplTest {
 	// Given
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
 		.withHandler(new EvasionStateMachine(detector, endPos, config))//
-		.widthEndPosition(endPos)//
+		.withEndPosition(endPos)//
 		.withMovingIncrement(4)//
 		.build();
 	moveable.prepare();

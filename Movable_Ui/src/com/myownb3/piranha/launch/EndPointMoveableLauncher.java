@@ -206,7 +206,7 @@ public class EndPointMoveableLauncher {
 	EndPointMoveable moveable = EndPointMoveableBuilder.builder().withEndPosition(endPos)//
 		.withGrid(grid)//
 		.withStartPosition(pos).withHandler(new EvasionStateMachine(detector, endPos, config))//
-		.widthEndPosition(endPos)//
+		.withEndPosition(endPos)//
 		.build();
 	moveable.prepare();
 	return moveable;

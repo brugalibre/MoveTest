@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 
 class MoveableObstacleImplTest {
 
@@ -23,5 +24,23 @@ class MoveableObstacleImplTest {
 
 	// Then
 	assertThat(isObstacle, is(true));
+    }
+
+    @Test
+    void testMoveableObstacleImpl_WithShape() {
+
+	// Given
+	Position startPos = Positions.of(0, 0);
+	PointShape shape = new PointShape(startPos);
+
+	MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Mockito.mock(Position.class), shape);
+
+	// When
+
+	boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
+
+	// Then
+	assertThat(isObstacle, is(true));
+	assertThat(moveable.getShape(), is(shape));
     }
 }
