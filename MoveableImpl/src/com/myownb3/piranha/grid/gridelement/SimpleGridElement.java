@@ -3,6 +3,10 @@
  */
 package com.myownb3.piranha.grid.gridelement;
 
+import java.util.List;
+
+import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
@@ -50,6 +54,23 @@ public class SimpleGridElement implements GridElement {
    }
 
    @Override
+   public void hasAvoidableDetected(Avoidable avoidable, Detector detector) {
+      avoidable.isDetectedBy(getFurthermostFrontPosition(), detector);
+   }
+
+   @Override
+   public void isDetectedBy(Position detectorPosition, Detector detector) {
+      if (isAvoidable()) {
+         shape.detectObject((Avoidable) this, detectorPosition, detector);
+      }
+   }
+
+   @Override
+   public void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables) {
+      shape.check4Collision(collisionDetector, newPosition, allAvoidables);
+   }
+
+   @Override
    public Position getPosition() {
       return position;
    }
@@ -67,11 +88,6 @@ public class SimpleGridElement implements GridElement {
    }
 
    @Override
-   public boolean hasDetected(Avoidable avoidable) {
-      return false;
-   }
-
-   @Override
    public Grid getGrid() {
       return grid;
    }
@@ -84,5 +100,9 @@ public class SimpleGridElement implements GridElement {
    @Override
    public String toString() {
       return "Position: " + position + "\n" + grid;
+   }
+
+   private boolean isAvoidable() {
+      return this instanceof Avoidable;
    }
 }

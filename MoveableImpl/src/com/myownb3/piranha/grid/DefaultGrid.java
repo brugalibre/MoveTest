@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
-import com.myownb3.piranha.detector.collision.CollisionDetector.CollisionDetectorBuilder;
+import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -107,16 +106,8 @@ public class DefaultGrid implements Grid {
    }
 
    private void checkCollision(GridElement gridElement, Position newPosition) {
-      List<Avoidable> allAvoidables = getSurroundingAvoidables(gridElement);
-      Shape shape = gridElement.getShape();
-      shape.getPath()
-            .forEach(oldPosition -> detector.checkCollision(oldPosition, newPosition, allAvoidables));
-   }
-
-   private List<Avoidable> getSurroundingAvoidables(GridElement gridElement) {
-      return getAllAvoidables(gridElement).stream()
-            .filter(avoidable -> gridElement.hasDetected(avoidable))
-            .collect(Collectors.toList());
+      List<Avoidable> allAvoidables = getAllAvoidables(gridElement);
+      gridElement.check4Collision(detector, newPosition, allAvoidables);
    }
 
    /**

@@ -5,6 +5,8 @@ package com.myownb3.piranha.grid.gridelement.shape;
 
 import java.util.List;
 
+import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Position;
 
 /**
@@ -23,8 +25,18 @@ public abstract class AbstractShape implements Shape {
    }
 
    @Override
+   public boolean detectObject(Avoidable avoidable, Position detectorPosition, Detector detector) {
+      for (Position posOnPath : path) {
+         boolean hasPosDetected = detector.detectObject(avoidable, posOnPath, detectorPosition);
+         if (hasPosDetected) {
+            break;
+         }
+      }
+      return false;
+   }
+
+   @Override
    public List<Position> getPath() {
       return path;
    }
-
 }

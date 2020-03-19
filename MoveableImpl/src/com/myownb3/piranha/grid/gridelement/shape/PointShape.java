@@ -6,7 +6,10 @@ package com.myownb3.piranha.grid.gridelement.shape;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
+import java.util.List;
 
+import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 
@@ -27,6 +30,12 @@ public class PointShape extends AbstractShape {
     */
    public PointShape(Position gridElemPos) {
       super(Collections.singletonList(requireNonNull(gridElemPos)));
+   }
+
+   @Override
+   public void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables) {
+      // Since the 'newPosition' is already transformed, we can call the detector directly
+      collisionDetector.checkCollision(getPosition(), newPosition, allAvoidables);
    }
 
    @Override

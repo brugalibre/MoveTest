@@ -19,16 +19,19 @@ public interface Detector {
 
    /**
     * Evaluates if the given {@link Avoidable} has been detected by this Detector
+    * We use also the given {@link Position} of the {@link Avoidable} to check weather or not this avoidable is detected
     * 
     * @param avoidable
     *        the {@link Avoidable} to detect
+    * @param avoidablePos
+    *        the {@link Position} of the Avoidble which is used for the verification if there is a detection
     * @param position
     *        the current Position from which the {@link Detector} trys to
     *        detect
     * @return <code>true</code> if the object was detected, <code>false</code> if
     *         not
     */
-   void detectObject(Avoidable avoidable, Position position);
+   boolean detectObject(Avoidable avoidable, Position avoidablePos, Position position);
 
    /**
     * 

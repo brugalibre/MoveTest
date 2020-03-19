@@ -12,39 +12,28 @@ import java.util.function.Consumer;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
- * The {@link CollisionDetector} helps to detect collisions on the {@link Grid}
+ * The {@link CollisionDetectorImpl} implements the {@link CollisionDetector}
  * 
  * @author Dominic
  *
  */
-public class CollisionDetector {
+public class CollisionDetectorImpl implements CollisionDetector {
 
    private Optional<CollisionDetectionHandler> collisionDetectionHandlerOpt;
    private int collisionDistance;
 
-   private CollisionDetector(CollisionDetectionHandler collisionDetectionHandler, int collisionDistance) {
+   private CollisionDetectorImpl(CollisionDetectionHandler collisionDetectionHandler, int collisionDistance) {
       super();
       collisionDetectionHandlerOpt = Optional.of(collisionDetectionHandler);
       this.collisionDistance = collisionDistance;
    }
 
-   /**
-    * Checks for every given {@link Avoidable} if there is a collision when moving
-    * from the old to the new Position
-    * 
-    * @param oldPosition
-    *        the Position before the movement
-    * @param newPosition
-    *        the new Position after the movement
-    * @param allAvoidables
-    *        all {@link Avoidable} on the Grid
-    */
+   @Override
    public void checkCollision(Position oldPosition, Position newPosition, List<Avoidable> allAvoidables) {
       Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
       allAvoidables.forEach(checkCollisionWithAvoidable(oldPosition, newPosition, lineFromOldToNew));
@@ -118,7 +107,7 @@ public class CollisionDetector {
       }
 
       public CollisionDetector build() {
-         return new CollisionDetector(handler, collisionDistance);
+         return new CollisionDetectorImpl(handler, collisionDistance);
       }
    }
 }

@@ -14,5 +14,5 @@ import com.myownb3.piranha.moveables.Moveable;
  *
  */
 public interface Avoidable extends GridElement {
-   // no-op
+   //no-op
 }

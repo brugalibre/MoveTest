@@ -3,6 +3,11 @@
  */
 package com.myownb3.piranha.grid.gridelement;
 
+import java.util.List;
+
+import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 
@@ -53,13 +58,36 @@ public interface GridElement {
    Shape getShape();
 
    /**
-    * Returns <code>true</code> if the given {@link Avoidable} is detected by this
-    * {@link GridElement}
+    * Checks if this {@link GridElement} has detected the given {@link Avoidable}
     * 
     * @param avoidable
     *        the {@link Avoidable} to check
-    * @return <code>true</code> if the given {@link Avoidable} is detected by this
-    *         {@link GridElement}. Otherwise returns <code>false</code>
+    * @param detector
+    *        the {@link Detector} used for the actual detection
     */
-   boolean hasDetected(Avoidable avoidable);
+   void hasAvoidableDetected(Avoidable avoidable, Detector detector);
+
+   /**
+    * Checks if this {@link GridElement} is detected by the given {@link Detector} and from the given Position
+    * 
+    * @param detectionPos
+    *        the {@link Position} from which we check if we are detected
+    * @param detector
+    *        the {@link Detector} which does the actual detecting
+    */
+   void isDetectedBy(Position detectionPos, Detector detector);
+
+   /**
+    * Checks for every given {@link Avoidable} if there is a collision when this {@link GridElement} is moving
+    * from it's current Position to the new Position
+    * 
+    * @param collisionDetector
+    *        the {@link CollisionDetectionHandler} which does the actual collision detecting
+    * 
+    * @param newPosition
+    *        the new Position after the movement
+    * @param allAvoidables
+    *        all {@link Avoidable} on the Grid
+    */
+   void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables);
 }

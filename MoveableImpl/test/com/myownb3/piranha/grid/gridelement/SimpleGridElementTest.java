@@ -5,14 +5,21 @@ package com.myownb3.piranha.grid.gridelement;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.grid.gridelement.shape.PointShape;
+import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 
 /**
  * @author Dominic
@@ -20,6 +27,22 @@ import com.myownb3.piranha.grid.Grid;
  */
 class SimpleGridElementTest {
 
+   @Test
+   void testNotAvoidableObject() {
+
+      // Given
+      Position detectorPos = Positions.of(5, 5);
+      Position gridElemPos = Positions.of(4, 4);
+      PointShape shape = spy(new PointShape(gridElemPos));
+      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, shape);
+      Detector detector = mock(Detector.class);
+
+      // When
+      gridElement.isDetectedBy(detectorPos, detector);
+
+      // Then
+      verify(shape, never()).detectObject(any(), eq(detectorPos), eq(detector));
+   }
 
    @Test
    void testGetFurthermostBackPosition() {
@@ -28,7 +51,7 @@ class SimpleGridElementTest {
       Position expectedBackPos = Positions.of(gridElemPos);
       expectedBackPos.rotate(180);
       PointShape pointShape = new PointShape(gridElemPos);
-      GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), gridElemPos, pointShape);
+      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
       Position positionOnPathFor = gridElement.getFurthermostBackPosition();

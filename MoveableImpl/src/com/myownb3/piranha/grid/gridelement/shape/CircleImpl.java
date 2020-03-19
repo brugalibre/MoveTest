@@ -5,9 +5,12 @@ package com.myownb3.piranha.grid.gridelement.shape;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 
@@ -28,15 +31,35 @@ public class CircleImpl extends AbstractShape implements Circle {
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
    }
 
-   /**
-    * @param amountOfPoints2
-    * @return
-    */
    private int verifyAmountOfPoints(int amountOfPoints) {
       if (amountOfPoints < 4) {
          throw new IllegalArgumentException("We need at least 4 points for a circle!");
       }
       return amountOfPoints;
+   }
+
+   @Override
+   public void check4Collision(CollisionDetector collisionDetector, Position newCenterPos, List<Avoidable> allAvoidables) {
+      List<Position> newPath = buildCircleWithCenter(newCenterPos, amountOfPoints, radius);
+      Collections.sort(newPath, new CircePathPositionComparator());
+      Collections.sort(path, new CircePathPositionComparator());
+      for (Position newPos : newPath) {
+         Position oldPos = getOldPosForTransoformedValue(newPos);
+         collisionDetector.checkCollision(oldPos, newPos, allAvoidables);
+      }
+   }
+
+   private Position getOldPosForTransoformedValue(Position newPos) {
+      return path.stream()
+            .filter(oldPos -> oldPos.getDirection().equals(newPos.getDirection()))
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("No old Position found on path for transformed Position '" + newPos + "'"));
+   }
+
+   @Override
+   public void transform(Position position) {
+      this.center = position;
+      this.path = buildCircleWithCenter(center, amountOfPoints, radius);
    }
 
    @Override
@@ -52,6 +75,25 @@ public class CircleImpl extends AbstractShape implements Circle {
    @Override
    public Position getCenter() {
       return center;
+   }
+
+   private static List<Position> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
+      List<Position> path = new LinkedList<>();
+      double degInc = 360 / amountOfPoints;
+      double deg = 0;
+      for (int i = 0; i < amountOfPoints; i++) {
+         Position pos = getNextCirclePos(center, radius, deg);
+         deg = deg + degInc;
+         path.add(pos);
+      }
+
+      return path;
+   }
+
+   private static Position getNextCirclePos(Position center, int radius, double deg) {
+      Position pos = Positions.of(center);
+      pos.rotate(deg);
+      return Positions.movePositionForward(pos, radius);
    }
 
    public static class CircleBuilder {
@@ -81,28 +123,4 @@ public class CircleImpl extends AbstractShape implements Circle {
       }
    }
 
-   @Override
-   public void transform(Position position) {
-      this.center = position;
-      this.path = buildCircleWithCenter(position, amountOfPoints, radius);
-   }
-
-   private static List<Position> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
-      List<Position> path = new LinkedList<>();
-      double degInc = 360 / amountOfPoints;
-      double deg = 0;
-      for (int i = 0; i < amountOfPoints; i++) {
-         Position pos = getNextCirclePos(center, radius, deg);
-         deg = deg + degInc;
-         path.add(pos);
-      }
-
-      return path;
-   }
-
-   private static Position getNextCirclePos(Position center, int radius, double deg) {
-      Position pos = Positions.of(center);
-      pos.rotate(deg);
-      return Positions.movePositionForward(pos, radius);
-   }
 }

@@ -4,14 +4,12 @@
 package com.myownb3.piranha.moveables.postaction.impl;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -65,23 +63,7 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
     */
    public void checkSurrounding(Grid grid, Moveable moveable) {
       grid.getAllAvoidables(moveable)
-            .forEach(checkDetection4Avoidable(moveable));
-   }
-
-   /**
-    * Returns <code>true</code> if the given {@link Avoidable} is detected by this
-    * {@link DetectableMoveableHelper}
-    * 
-    * @param grid
-    *        the {@link Grid}
-    * @param avoidable
-    *        the {@link Avoidable} to check
-    * @return <code>true</code> if the given {@link Avoidable} is detected by this
-    *         {@link DetectableMoveableHelper}. Otherwise returns
-    *         <code>false</code>
-    */
-   public boolean hasDetected(Grid grid, Avoidable avoidable) {
-      return getDetectedAvoidable(grid, null).contains(avoidable);
+            .forEach(avoidable -> moveable.hasAvoidableDetected(avoidable, detector));
    }
 
    public List<Avoidable> getDetectedAvoidable(Grid grid, Moveable moveable) {
@@ -89,12 +71,5 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
             .stream()
             .filter(avoidable -> detector.hasObjectDetected(avoidable))
             .collect(Collectors.toList());
-   }
-
-   private Consumer<? super Avoidable> checkDetection4Avoidable(Moveable moveable) {
-      return gridElement -> {
-         List<Position> path = moveable.getShape().getPath();
-         path.forEach(moveablePos -> detector.detectObject(gridElement, moveablePos));
-      };
    }
 }

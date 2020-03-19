@@ -8,12 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
-import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 
 /**
  * The {@link AbstractMoveable} is responsible for doing the basic move elements
@@ -51,15 +49,6 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
    public AbstractMoveable(Grid grid, Position position) {
       this(grid, position, (g, m) -> {/* This empty handler does nothing */
       });
-   }
-
-   @Override
-   public boolean hasDetected(Avoidable avoidable) {
-      if (handler instanceof DetectableMoveableHelper) {
-         return ((DetectableMoveableHelper) handler).hasDetected(grid, avoidable);
-      } else {
-         return super.hasDetected(avoidable);
-      }
    }
 
    @Override
@@ -127,6 +116,7 @@ public abstract class AbstractMoveable extends SimpleGridElement implements Move
       if (degree != 0) {
          position.rotate(degree);
          trackPosition(position);
+         shape.transform(position);
       }
    }
 
