@@ -13,18 +13,18 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public abstract class AbstractShape implements Shape {
 
-    protected List<Position> path;
+   protected List<Position> path;
 
-    /**
-     * Creates a new {@link AbstractShape}
-     */
-    public AbstractShape(List<Position> path) {
-	this.path = path;
-    }
+   /**
+    * Creates a new {@link AbstractShape}
+    */
+   public AbstractShape(List<Position> path) {
+      this.path = path;
+   }
 
-    @Override
-    public List<Position> getPath() {
-	return path;
-    }
+   @Override
+   public List<Position> getPath() {
+      return path;
+   }
 
 }

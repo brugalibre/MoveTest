@@ -23,60 +23,60 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public class MoveableBuilder {
 
-    private AbstractMoveable moveable;
-    private MoveablePostActionHandler handler;
-    private Position position;
-    private Grid grid;
-    private Shape shape;
+   private AbstractMoveable moveable;
+   private MoveablePostActionHandler handler;
+   private Position position;
+   private Grid grid;
+   private Shape shape;
 
-    public static MoveableBuilder builder() {
-	DefaultGrid defGrid = GridBuilder.builder()//
-		.build();
-	return MoveableBuilder.builder(defGrid, Positions.of(0, 0));
-    }
+   public static MoveableBuilder builder() {
+      DefaultGrid defGrid = GridBuilder.builder()
+            .build();
+      return MoveableBuilder.builder(defGrid, Positions.of(0, 0));
+   }
 
-    public static MoveableBuilder builder(Grid grid) {
-	return MoveableBuilder.builder(grid, Positions.of(0, 0));
-    }
+   public static MoveableBuilder builder(Grid grid) {
+      return MoveableBuilder.builder(grid, Positions.of(0, 0));
+   }
 
-    public static MoveableBuilder builder(Grid grid, Position position) {
-	return new MoveableBuilder(grid, position);
-    }
+   public static MoveableBuilder builder(Grid grid, Position position) {
+      return new MoveableBuilder(grid, position);
+   }
 
-    private MoveableBuilder(Grid grid, Position position) {
-	this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
-	this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
-	handler = (a, b) -> {
-	};
-    }
+   private MoveableBuilder(Grid grid, Position position) {
+      this.grid = Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
+      this.position = Objects.requireNonNull(position, "Attribute 'position' must not be null!");
+      handler = (a, b) -> {
+      };
+   }
 
-    public MoveableBuilder withShape(Shape shape) {
-	this.shape = shape;
-	return this;
-    }
+   public MoveableBuilder withShape(Shape shape) {
+      this.shape = shape;
+      return this;
+   }
 
-    public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
-	this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-	return this;
-    }
+   public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
+      this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
+      return this;
+   }
 
-    public Moveable build() {
-	if (isNull(shape)) {
-	    moveable = new SimpleMoveable(grid, position, handler);
-	}else {
-	    moveable = new SimpleMoveable(grid, position, handler, shape);
-	}
-	handler.handlePostConditions(moveable.getGrid(), moveable);
-	return this.moveable;
-    }
+   public Moveable build() {
+      if (isNull(shape)) {
+         moveable = new SimpleMoveable(grid, position, handler);
+      } else {
+         moveable = new SimpleMoveable(grid, position, handler, shape);
+      }
+      handler.handlePostConditions(moveable.getGrid(), moveable);
+      return this.moveable;
+   }
 
-    private class SimpleMoveable extends AbstractMoveable {
-	private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-	    super(grid, position, handler);
-	}
-	
-	private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
-	    super(grid, position, handler, shape);
-	}
-    }
+   private class SimpleMoveable extends AbstractMoveable {
+      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
+         super(grid, position, handler);
+      }
+
+      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+         super(grid, position, handler, shape);
+      }
+   }
 }

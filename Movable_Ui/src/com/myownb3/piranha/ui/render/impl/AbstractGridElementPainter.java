@@ -18,16 +18,16 @@ import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
  */
 public class AbstractGridElementPainter<T extends GridElement> extends Drawable<T> implements Renderer {
 
-    private Drawable<? extends Shape> shapePainter;
+   private Drawable<? extends Shape> shapePainter;
 
-    public AbstractGridElementPainter(T gridElement, Color color, int height, int width) {
-	super(gridElement);
-	Shape shape = ((SimpleGridElement) gridElement).getShape();
-	this.shapePainter = ShapePainterFactory.getShapePainter(shape, color, height, width);
-    }
+   public AbstractGridElementPainter(T gridElement, Color color, int height, int width) {
+      super(gridElement);
+      Shape shape = ((SimpleGridElement) gridElement).getShape();
+      this.shapePainter = ShapePainterFactory.getShapePainter(shape, color, height, width);
+   }
 
-    @Override
-    public void render(RenderContext graphicsCtx) {
-	shapePainter.render(graphicsCtx);
-    }
+   @Override
+   public void render(RenderContext graphicsCtx) {
+      shapePainter.render(graphicsCtx);
+   }
 }

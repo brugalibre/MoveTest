@@ -18,29 +18,30 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public interface Shape {
 
-    /**
-     * Returns the path of this shape described by a line a pen would follow to draw
-     * the shape.
-     * 
-     * @return the path of this shape described by a line a pen would follow to draw
-     *         the shape.
-     */
-    List<Position> getPath();
+   /**
+    * Returns the path of this shape described by a line a pen would follow to draw
+    * the shape.
+    * 
+    * @return the path of this shape described by a line a pen would follow to draw
+    *         the shape.
+    */
+   List<Position> getPath();
 
-    /**
-     * Returns the {@link Position} placed on the path which is equivalent to the
-     * given Position. That means the position to return faces the same direction.
-     * 
-     * @param position the given {@link Position}
-     * @return the {@link Position} placed on the path which is equivalent to the
-     *         given Position
-     */
-    Position getPositionOnPathFor(Position position);
+   /**
+    * Returns the {@link Position} placed on the path which is equivalent to the
+    * given Position. That means the position to return faces the same direction.
+    * 
+    * @param position
+    *        the given {@link Position}
+    * @return the {@link Position} placed on the path which is equivalent to the
+    *         given Position
+    */
+   Position getPositionOnPathFor(Position position);
 
-    /**
-     * Transform this shape according the new {@link Position} 
-     * 
-     * @param position
-     */
-    void transform(Position position);
+   /**
+    * Transform this shape according the new {@link Position}
+    * 
+    * @param position
+    */
+   void transform(Position position);
 }

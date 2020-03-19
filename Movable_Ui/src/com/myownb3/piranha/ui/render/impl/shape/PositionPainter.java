@@ -19,28 +19,28 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  *
  */
 public class PositionPainter extends Drawable<PointShape> implements Renderer {
-    private Color color;
+   private Color color;
 
-    public PositionPainter(PointShape pointShape, Color color, int height, int width) {
-	super(pointShape);
+   public PositionPainter(PointShape pointShape, Color color, int height, int width) {
+      super(pointShape);
 
-	this.color = color;
-	Position position = pointShape.getPosition();
-	setBounds(new Rectangle((int) position.getX(), (int) position.getY(), height, width));
-    }
+      this.color = color;
+      Position position = pointShape.getPosition();
+      setBounds(new Rectangle((int) position.getX(), (int) position.getY(), height, width));
+   }
 
-    @Override
-    public void render(RenderContext graphicsCtx) {
+   @Override
+   public void render(RenderContext graphicsCtx) {
 
-	GraphicsContext context = (GraphicsContext) graphicsCtx;
-	Graphics graphics = context.getGraphics();
-	graphics.setColor(color);
+      GraphicsContext context = (GraphicsContext) graphicsCtx;
+      Graphics graphics = context.getGraphics();
+      graphics.setColor(color);
 
-	renderPosition(graphics, value.getPosition());
-    }
+      renderPosition(graphics, value.getPosition());
+   }
 
-    private void renderPosition(Graphics graphics, Position position) {
-	graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
-	graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
-    }
+   private void renderPosition(Graphics graphics, Position position) {
+      graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+      graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+   }
 }

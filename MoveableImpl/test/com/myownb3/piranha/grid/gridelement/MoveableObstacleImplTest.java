@@ -11,31 +11,31 @@ import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 
 class MoveableObstacleImplTest {
 
-    @Test
-    void testMoveableObstacleImpl() {
+   @Test
+   void testMoveableObstacleImpl() {
 
-	// Given
-	MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class),
-		Mockito.mock(Position.class));
+      // Given
+      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class),
+            Mockito.mock(Position.class));
 
-	// When
-	boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
+      // When
+      boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
 
-	// Then
-	assertThat(isObstacle, is(true));
-    }
+      // Then
+      assertThat(isObstacle, is(true));
+   }
 
-    @Test
-    void testMoveableObstacleImpl_WithShape() {
+   @Test
+   void testMoveableObstacleImpl_WithShape() {
 
-	// Given
-	Position startPos = Positions.of(0, 0);
-	PointShape shape = new PointShape(startPos);
+      // Given
+      Position startPos = Positions.of(0, 0);
+      PointShape shape = new PointShape(startPos);
 
-	// When
-	MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Mockito.mock(Position.class), shape);
+      // When
+      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Mockito.mock(Position.class), shape);
 
-	// Then
-	assertThat(moveable.getShape(), is(shape));
-    }
+      // Then
+      assertThat(moveable.getShape(), is(shape));
+   }
 }

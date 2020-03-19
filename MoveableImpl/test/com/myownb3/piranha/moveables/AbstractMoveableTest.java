@@ -18,19 +18,19 @@ import com.myownb3.piranha.grid.gridelement.shape.PointShape;
  */
 class AbstractMoveableTest {
 
-    @Test
-    void test_BuildWithShape() {
+   @Test
+   void test_BuildWithShape() {
 
-	// Given
-	Position startPos = Positions.of(0, 0);
-	PointShape shape = new PointShape(startPos);
+      // Given
+      Position startPos = Positions.of(0, 0);
+      PointShape shape = new PointShape(startPos);
 
-	// When
-	Moveable moveable = MoveableBuilder.builder()//
-		.withShape(shape)//
-		.build();
-	// Then
-	assertThat(moveable.getShape(), is(shape));
-    }
+      // When
+      Moveable moveable = MoveableBuilder.builder()
+            .withShape(shape)
+            .build();
+      // Then
+      assertThat(moveable.getShape(), is(shape));
+   }
 
 }

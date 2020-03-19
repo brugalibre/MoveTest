@@ -11,11 +11,11 @@ import com.myownb3.piranha.grid.Grid;
  */
 public class ObstacleImpl extends SimpleGridElement implements Obstacle {
 
-    /**
-     * @param grid
-     * @param position
-     */
-    public ObstacleImpl(Grid grid, Position position) {
-	super(grid, position);
-    }
+   /**
+    * @param grid
+    * @param position
+    */
+   public ObstacleImpl(Grid grid, Position position) {
+      super(grid, position);
+   }
 }

@@ -10,20 +10,20 @@ import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventSta
 
 public class PassingEventStateInput extends CommonEventStateInput {
 
-    private Position positionBeforeEvasion;
+   private Position positionBeforeEvasion;
 
-    private PassingEventStateInput(Grid grid, Moveable moveable, Position positionBeforeEvasion,
-	    DetectableMoveableHelper helper) {
-	super(grid, moveable, helper);
-	this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
-    }
+   private PassingEventStateInput(Grid grid, Moveable moveable, Position positionBeforeEvasion,
+         DetectableMoveableHelper helper) {
+      super(grid, moveable, helper);
+      this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
+   }
 
-    public static PassingEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-	    Position positionBeforeEvasion) {
-	return new PassingEventStateInput(grid, moveable, positionBeforeEvasion, helper);
-    }
+   public static PassingEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+         Position positionBeforeEvasion) {
+      return new PassingEventStateInput(grid, moveable, positionBeforeEvasion, helper);
+   }
 
-    public Position getPositionBeforeEvasion() {
-	return positionBeforeEvasion;
-    }
+   public Position getPositionBeforeEvasion() {
+      return positionBeforeEvasion;
+   }
 }

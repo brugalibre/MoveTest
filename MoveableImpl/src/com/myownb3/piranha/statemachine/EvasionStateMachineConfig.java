@@ -23,57 +23,57 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 public interface EvasionStateMachineConfig {
 
-    /**
-     * Returns the angle increment a {@link Moveable} turns whenever there is an
-     * evasion. Used in State {@link EvasionStates#EVASION}
-     * 
-     * @return the angle increment a {@link Moveable} turns whenever there is an
-     *         evasion
-     */
-    double getEvasionAngleInc();
+   /**
+    * Returns the angle increment a {@link Moveable} turns whenever there is an
+    * evasion. Used in State {@link EvasionStates#EVASION}
+    * 
+    * @return the angle increment a {@link Moveable} turns whenever there is an
+    *         evasion
+    */
+   double getEvasionAngleInc();
 
-    /**
-     * @returns the Step-width for the angle in State
-     *          {@link EvasionStates#POST_EVASION}
-     */
-    int getPostEvasionAngleAdjustStepWidth();
+   /**
+    * @returns the Step-width for the angle in State
+    *          {@link EvasionStates#POST_EVASION}
+    */
+   int getPostEvasionAngleAdjustStepWidth();
 
-    /**
-     * @return the value which is used to multiply the angle to turn a
-     *         {@link Moveable} in order to return to it's previous direction in
-     *         State {@link EvasionStates#RETURNING}
-     */
-    double getReturningAngleIncMultiplier();
+   /**
+    * @return the value which is used to multiply the angle to turn a
+    *         {@link Moveable} in order to return to it's previous direction in
+    *         State {@link EvasionStates#RETURNING}
+    */
+   double getReturningAngleIncMultiplier();
 
-    /**
-     * @return the minimal distance a {@link Moveable} has to approximate to it's
-     *         previous direction in State {@link EvasionStates#RETURNING}
-     */
-    double getReturningMinDistance();
+   /**
+    * @return the minimal distance a {@link Moveable} has to approximate to it's
+    *         previous direction in State {@link EvasionStates#RETURNING}
+    */
+   double getReturningMinDistance();
 
-    /**
-     * @return the angle to detect an evasion with a {@link GridElement}
-     */
-    int getEvasionAngle();
+   /**
+    * @return the angle to detect an evasion with a {@link GridElement}
+    */
+   int getEvasionAngle();
 
-    /**
-     * @return the angle to detect {@link GridElement} of the detector
-     */
-    int getDetectorAngle();
+   /**
+    * @return the angle to detect {@link GridElement} of the detector
+    */
+   int getDetectorAngle();
 
-    /**
-     * @return the reach of the {@link Detector}
-     */
-    int getDetectorReach();
+   /**
+    * @return the reach of the {@link Detector}
+    */
+   int getDetectorReach();
 
-    /**
-     * @return the distance a {@link Moveable} passes along an evaded
-     *         {@link GridElement} in state {@link EvasionStates#PASSING}
-     */
-    int getPassingDistance();
+   /**
+    * @return the distance a {@link Moveable} passes along an evaded
+    *         {@link GridElement} in state {@link EvasionStates#PASSING}
+    */
+   int getPassingDistance();
 
-    /**
-     * @return the margin which is tolerated between the actual angle and 0 degrees
-     */
-    double getReturningAngleMargin();
+   /**
+    * @return the margin which is tolerated between the actual angle and 0 degrees
+    */
+   double getReturningAngleMargin();
 }

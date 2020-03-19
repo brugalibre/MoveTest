@@ -23,139 +23,139 @@ import com.myownb3.piranha.grid.gridelement.Positions;
  */
 class MathUtilTest {
 
-    @Test
-    void testCalcAngle_SecondSector() {
+   @Test
+   void testCalcAngle_SecondSector() {
 
-	// Given
-	double expectedCalcAngleBetweenVectors = 26.565;
+      // Given
+      double expectedCalcAngleBetweenVectors = 26.565;
 
-	Position gridElementPos = Positions.of(-2, 7);
-	Position moveablePosition = Positions.of(1, 1);
+      Position gridElementPos = Positions.of(-2, 7);
+      Position moveablePosition = Positions.of(1, 1);
 
-	// When
-	double actualCalcAngleBetweenVectors = round(
-		MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
+      // When
+      double actualCalcAngleBetweenVectors = round(
+            MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 
-	// Then
-	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
-    }
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
 
-    @Test
-    void testCalcAngle_FirstAndForthSector() {
+   @Test
+   void testCalcAngle_FirstAndForthSector() {
 
-	// Given
-	double expectedCalcAngleBetweenVectors = 54.462;
+      // Given
+      double expectedCalcAngleBetweenVectors = 54.462;
 
-	Position gridElementPos = Positions.of(8, -4);
-	Position moveablePosition = Positions.of(Directions.S, 1, 1);
+      Position gridElementPos = Positions.of(8, -4);
+      Position moveablePosition = Positions.of(Directions.S, 1, 1);
 
-	// When
-	double actualCalcAngleBetweenVectors = round(
-		MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
+      // When
+      double actualCalcAngleBetweenVectors = round(
+            MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 
-	// Then
-	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
-    }
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
 
-    @Test
-    void testCalcAngle_ThirdAndForthSector() {
+   @Test
+   void testCalcAngle_ThirdAndForthSector() {
 
-	// Given
-	double expectedCalcAngleBetweenVectors = 52.12;
+      // Given
+      double expectedCalcAngleBetweenVectors = 52.12;
 
-	Position gridElementPos = Positions.of(8, -4);
-	Position moveablePosition = Positions.of(Directions.S, -2, -2);
-	moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
+      Position gridElementPos = Positions.of(8, -4);
+      Position moveablePosition = Positions.of(Directions.S, -2, -2);
+      moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
 
-	// When
-	double actualCalcAngleBetweenVectors = round(
-		MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
+      // When
+      double actualCalcAngleBetweenVectors = round(
+            MathUtil.calcAngleBetweenPositions(moveablePosition, gridElementPos), 3);
 
-	// Then
-	assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
-    }
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
 
-    @Test
-    void testRoundDown_ToDecimals() {
+   @Test
+   void testRoundDown_ToDecimals() {
 
-	// Given
-	double pi = 3.1234;
-	double expectedRoundedPi = 3.12;
+      // Given
+      double pi = 3.1234;
+      double expectedRoundedPi = 3.12;
 
-	// When
-	double roundetPi = MathUtil.round(pi, 2);
+      // When
+      double roundetPi = MathUtil.round(pi, 2);
 
-	// Then
-	Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
-    }
+      // Then
+      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+   }
 
-    @Test
-    void testRoundDown_zeroDecimals() {
+   @Test
+   void testRoundDown_zeroDecimals() {
 
-	// Given
-	double pi = 3.1234;
-	double expectedRoundedPi = 3;
+      // Given
+      double pi = 3.1234;
+      double expectedRoundedPi = 3;
 
-	// When
-	double roundetPi = MathUtil.round(pi, 0);
+      // When
+      double roundetPi = MathUtil.round(pi, 0);
 
-	// Then
-	Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
-    }
+      // Then
+      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+   }
 
-    @Test
-    void testRoundUp2() {
+   @Test
+   void testRoundUp2() {
 
-	// Given
-	double number = -3.53553;
-	double expectedRoundedNumber = -3.54;
+      // Given
+      double number = -3.53553;
+      double expectedRoundedNumber = -3.54;
 
-	// When
-	double roundetNumber = MathUtil.round(number, 2);
+      // When
+      double roundetNumber = MathUtil.round(number, 2);
 
-	// Then
-	Assert.assertThat(roundetNumber, CoreMatchers.is(expectedRoundedNumber));
-    }
+      // Then
+      Assert.assertThat(roundetNumber, CoreMatchers.is(expectedRoundedNumber));
+   }
 
-    @Test
-    void testRoundUp() {
+   @Test
+   void testRoundUp() {
 
-	// Given
-	double pi = 3.1265;
-	double expectedRoundedPi = 3.127;
+      // Given
+      double pi = 3.1265;
+      double expectedRoundedPi = 3.127;
 
-	// When
-	double roundetPi = MathUtil.roundThreePlaces(pi);
+      // When
+      double roundetPi = MathUtil.roundThreePlaces(pi);
 
-	// Then
-	Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
-    }
+      // Then
+      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+   }
 
-    @Test
-    void testRoundIllegalDecPlaces() {
+   @Test
+   void testRoundIllegalDecPlaces() {
 
-	// Given
-	double pi = 3.1234;
+      // Given
+      double pi = 3.1234;
 
-	// When
-	Executable ex = () -> {
-	    MathUtil.round(pi, -2);
-	};
-	// Then
-	Assertions.assertThrows(IllegalArgumentException.class, ex);
-    }
+      // When
+      Executable ex = () -> {
+         MathUtil.round(pi, -2);
+      };
+      // Then
+      Assertions.assertThrows(IllegalArgumentException.class, ex);
+   }
 
-    @Test
-    void testRoundToMutchDecPlaces() {
+   @Test
+   void testRoundToMutchDecPlaces() {
 
-	// Given
-	double pi = 3.12341324654153152534;
+      // Given
+      double pi = 3.12341324654153152534;
 
-	// When
-	Executable ex = () -> {
-	    MathUtil.round(pi, 31);
-	};
-	// Then
-	Assertions.assertThrows(IllegalArgumentException.class, ex);
-    }
+      // When
+      Executable ex = () -> {
+         MathUtil.round(pi, 31);
+      };
+      // Then
+      Assertions.assertThrows(IllegalArgumentException.class, ex);
+   }
 }

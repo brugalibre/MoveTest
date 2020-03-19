@@ -13,14 +13,14 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
  */
 public class GridElementPainter extends AbstractGridElementPainter<GridElement> {
 
-    /**
-     * @param gridElement
-     * @param color
-     * @param height
-     * @param width
-     */
-    public GridElementPainter(GridElement gridElement, Color color, int height, int width) {
-	super(gridElement, color, height, width);
-    }
+   /**
+    * @param gridElement
+    * @param color
+    * @param height
+    * @param width
+    */
+   public GridElementPainter(GridElement gridElement, Color color, int height, int width) {
+      super(gridElement, color, height, width);
+   }
 
 }

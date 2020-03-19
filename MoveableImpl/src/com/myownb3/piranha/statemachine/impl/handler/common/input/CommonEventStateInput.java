@@ -11,44 +11,47 @@ import com.myownb3.piranha.statemachine.handler.input.EventStateInput;
 
 public class CommonEventStateInput implements EventStateInput {
 
-    private Grid grid;
-    private DetectableMoveableHelper helper;
-    private Moveable moveable;
-    private Position moveablePosBefore;
+   private Grid grid;
+   private DetectableMoveableHelper helper;
+   private Moveable moveable;
+   private Position moveablePosBefore;
 
-    protected CommonEventStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
-	this.grid = requireNonNull(grid);
-	this.moveable = requireNonNull(moveable);
-	this.helper = requireNonNull(helper);
-	moveablePosBefore = Positions.of(moveable.getPosition());
-    }
+   protected CommonEventStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
+      this.grid = requireNonNull(grid);
+      this.moveable = requireNonNull(moveable);
+      this.helper = requireNonNull(helper);
+      moveablePosBefore = Positions.of(moveable.getPosition());
+   }
 
-    public DetectableMoveableHelper getHelper() {
-	return helper;
-    }
+   public DetectableMoveableHelper getHelper() {
+      return helper;
+   }
 
-    public Grid getGrid() {
-	return grid;
-    }
+   public Grid getGrid() {
+      return grid;
+   }
 
-    public Moveable getMoveable() {
-	return moveable;
-    }
+   public Moveable getMoveable() {
+      return moveable;
+   }
 
-    public Position getMoveablePosBefore() {
-	return moveablePosBefore;
-    }
+   public Position getMoveablePosBefore() {
+      return moveablePosBefore;
+   }
 
-    /**
-     * Creates a new {@link CommonEventStateInput}
-     * 
-     * @param grid     the {@link Grid} on which the moveable moves
-     * 
-     * @param moveable the {@link Moveable}
-     * @param helper   the {@link DetectableMoveableHelper}
-     * @return a new {@link CommonEventStateInput}
-     */
-    public static CommonEventStateInput of(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
-	return new CommonEventStateInput(grid, moveable, helper);
-    }
+   /**
+    * Creates a new {@link CommonEventStateInput}
+    * 
+    * @param grid
+    *        the {@link Grid} on which the moveable moves
+    * 
+    * @param moveable
+    *        the {@link Moveable}
+    * @param helper
+    *        the {@link DetectableMoveableHelper}
+    * @return a new {@link CommonEventStateInput}
+    */
+   public static CommonEventStateInput of(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
+      return new CommonEventStateInput(grid, moveable, helper);
+   }
 }

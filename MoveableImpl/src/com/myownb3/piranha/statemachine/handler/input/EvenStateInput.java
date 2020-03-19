@@ -11,5 +11,5 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  *
  */
 public interface EvenStateInput {
-    // Empty
+   // Empty
 }

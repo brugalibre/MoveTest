@@ -11,12 +11,12 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 public enum PostEvasionStates {
 
-    /**
-     * This is the state which is set the first time the
-     * {@link PostEvasionStateHandler} is called
-     */
-    ENTERING_POST_EVASION,
+   /**
+    * This is the state which is set the first time the
+    * {@link PostEvasionStateHandler} is called
+    */
+   ENTERING_POST_EVASION,
 
-    /** The actual Post-evasion state */
-    POST_EVASION,
+   /** The actual Post-evasion state */
+   POST_EVASION,
 }

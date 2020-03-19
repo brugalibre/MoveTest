@@ -54,423 +54,425 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class MoveableControllerTest {
 
-    @Test
-    void testBuilder() {
-	
-	// Given
-	Position startPos = Positions.of(0, 12);
-	Position endPos = Positions.of(0, 25);
-	
-	// When
-	MoveableController moveableController = MoveableControllerBuilder.builder()//
-		.withStrategie(MovingStrategie.FORWARD)//
-		.withEndPositions(Collections.emptyList())//
-		.withPostMoveForwardHandler(res -> {})//
-        		.withEndPointMoveable()//
-        		.withGrid(mock(DefaultGrid.class))//
-        		.withStartPosition(startPos)//
-        		.withEndPosition(endPos)//
-        		.withHandler((a,b) -> {})//
-        		.buildAndReturnParentBuilder()
-        	.build();//
-	
-	// Then
-	assertThat(moveableController.getMoveable().getPosition(), is (startPos));
-	assertThat(moveableController.getMoveable().getPosition(), is (startPos));
-    }
-    
-    @Test
-    void test_leadForwardWith2Points() {
-	
-	// given
-	double endPosDistance = 10;
-	Position endPos1 = Positions.of(0, 12);
-	Position endPos2 = Positions.of(12, 24);
-	EvasionStateMachine handler = spy(new EvasionStateMachine(mock(Detector.class), mock(EvasionStateMachineConfig.class)));
-	EndPointMoveable moveable = spy(new EndPointMoveableImpl(mock(DefaultGrid.class), endPos1, handler, endPos1, 10));
-	MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
-	when(moveable.moveForward2EndPos()).thenReturn(result);
+   @Test
+   void testBuilder() {
 
-	MoveableController controller = MoveableControllerBuilder.builder()//
-		.withStrategie(MovingStrategie.FORWARD)//
-		.withEndPositions(Arrays.asList(endPos1, endPos2))//
-		.withMoveable(moveable)//
-		.withPostMoveForwardHandler(res -> {
-		})
-        	.build();//
+      // Given
+      Position startPos = Positions.of(0, 12);
+      Position endPos = Positions.of(0, 25);
 
-	// When
-	controller.leadMoveable();
+      // When
+      MoveableController moveableController = MoveableControllerBuilder.builder()
+            .withStrategie(MovingStrategie.FORWARD)
+            .withEndPositions(Collections.emptyList())
+            .withPostMoveForwardHandler(res -> {
+            })
+            .withEndPointMoveable()
+            .withGrid(mock(DefaultGrid.class))
+            .withStartPosition(startPos)
+            .withEndPosition(endPos)
+            .withHandler((a, b) -> {
+            })
+            .buildAndReturnParentBuilder()
+            .build();//
 
-	// Then
-	assertThat(result.getEndPosDistance(), is(endPosDistance));
-	verify(moveable, times(2)).prepare();
-	verify(moveable).setEndPosition(eq(endPos1));
-	verify(moveable).setEndPosition(eq(endPos2));
-	verify(handler).setEndPosition(eq(endPos1));
-	verify(handler).setEndPosition(eq(endPos2));
-	verify(moveable, times(3)).moveForward2EndPos(); // + 1 because of the 'when()-Statement'
-    }
-    
-    @Test
-    void test_leadForwardWith2PointsAbortAfterTheFirstOne() {
+      // Then
+      assertThat(moveableController.getMoveable().getPosition(), is(startPos));
+      assertThat(moveableController.getMoveable().getPosition(), is(startPos));
+   }
 
-	// given
-	Position endPos1 = Positions.of(0, 12);
-	Position endPos2 = Positions.of(12, 24);
-	EndPointMoveable moveable = Mockito.mock(EndPointMoveable.class);
-	MoveResult result = new MoveResultImpl(0, 0, true);
-	when(moveable.moveForward2EndPos()).thenReturn(result);
+   @Test
+   void test_leadForwardWith2Points() {
 
-	List<MoveableController> moveContrList = new ArrayList<>();
-	MoveableController  	controller = MoveableControllerBuilder.builder()//
-		.withStrategie(MovingStrategie.FORWARD)//
-		.withEndPositions(Arrays.asList(endPos1, endPos2))//
-		.withMoveable(moveable)//
-		.withPostMoveForwardHandler(res -> {
-		    moveContrList.get(0).stop();
-		}).build();//
-	moveContrList.add(controller);
+      // given
+      double endPosDistance = 10;
+      Position endPos1 = Positions.of(0, 12);
+      Position endPos2 = Positions.of(12, 24);
+      EvasionStateMachine handler = spy(new EvasionStateMachine(mock(Detector.class), mock(EvasionStateMachineConfig.class)));
+      EndPointMoveable moveable = spy(new EndPointMoveableImpl(mock(DefaultGrid.class), endPos1, handler, endPos1, 10));
+      MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
+      when(moveable.moveForward2EndPos()).thenReturn(result);
 
-	// When
-	controller.leadMoveable();
+      MoveableController controller = MoveableControllerBuilder.builder()
+            .withStrategie(MovingStrategie.FORWARD)
+            .withEndPositions(Arrays.asList(endPos1, endPos2))
+            .withMoveable(moveable)
+            .withPostMoveForwardHandler(res -> {
+            })
+            .build();//
 
-	// Then
-	verify(moveable, times(2)).prepare();
-	verify(moveable).setEndPosition(eq(endPos1));
-	verify(moveable).setEndPosition(eq(endPos2));
-	verify(moveable).moveForward2EndPos();
-    }
-    
-    @Test
-    void test_MoveForward_NorthUnknownStrategie() {
+      // When
+      controller.leadMoveable();
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.build();
-	Position expectedEndPos = Positions.of(0, 12);
-	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
-		.withGrid(grid)//
-		.withStartPosition(Positions.of(0, 0))//
-		.withEndPosition(expectedEndPos)//
-		.withHandler((g, m) -> {
-		})//
-		.build();
+      // Then
+      assertThat(result.getEndPosDistance(), is(endPosDistance));
+      verify(moveable, times(2)).prepare();
+      verify(moveable).setEndPosition(eq(endPos1));
+      verify(moveable).setEndPosition(eq(endPos2));
+      verify(handler).setEndPosition(eq(endPos1));
+      verify(handler).setEndPosition(eq(endPos2));
+      verify(moveable, times(3)).moveForward2EndPos(); // + 1 because of the 'when()-Statement'
+   }
 
-	MoveableController controller = new MoveableController(moveable, MovingStrategie.BACKWARD);
+   @Test
+   void test_leadForwardWith2PointsAbortAfterTheFirstOne() {
 
-	// When
-	Executable ex = () -> {
-	    controller.leadMoveable();
-	};
-	// Then
-	Assertions.assertThrows(NotImplementedException.class, ex);
-    }
+      // given
+      Position endPos1 = Positions.of(0, 12);
+      Position endPos2 = Positions.of(12, 24);
+      EndPointMoveable moveable = Mockito.mock(EndPointMoveable.class);
+      MoveResult result = new MoveResultImpl(0, 0, true);
+      when(moveable.moveForward2EndPos()).thenReturn(result);
 
-    @Test
-    void test_MoveForward_North() {
+      List<MoveableController> moveContrList = new ArrayList<>();
+      MoveableController controller = MoveableControllerBuilder.builder()
+            .withStrategie(MovingStrategie.FORWARD)
+            .withEndPositions(Arrays.asList(endPos1, endPos2))
+            .withMoveable(moveable)
+            .withPostMoveForwardHandler(res -> {
+               moveContrList.get(0).stop();
+            }).build();//
+      moveContrList.add(controller);
 
-	// Given
-	Grid grid = GridBuilder.builder(20, 20)//
-		.build();
-	Position expectedEndPos = Positions.of(0, 12);
-	EndPointMoveable moveable = EndPointMoveableBuilder.builder()//
-		.withGrid(grid)
-		.withStartPosition(Positions.of(0, 0))
-		.withEndPosition(expectedEndPos).withHandler((g, m) -> {
-		}).build();
+      // When
+      controller.leadMoveable();
 
-	MoveableController controller = new MoveableController(moveable);
+      // Then
+      verify(moveable, times(2)).prepare();
+      verify(moveable).setEndPosition(eq(endPos1));
+      verify(moveable).setEndPosition(eq(endPos2));
+      verify(moveable).moveForward2EndPos();
+   }
 
-	// When
-	controller.leadMoveable();
+   @Test
+   void test_MoveForward_NorthUnknownStrategie() {
 
-	// Then
-	Position effectEndPos = moveable.getPosition();
-	Assert.assertThat(effectEndPos, is(expectedEndPos));
-    }
+      // Given
+      Grid grid = GridBuilder.builder()
+            .build();
+      Position expectedEndPos = Positions.of(0, 12);
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(Positions.of(0, 0))
+            .withEndPosition(expectedEndPos)
+            .withHandler((g, m) -> {
+            })
+            .build();
 
-    @Test
-    void test_MoveForward_WithObstacleAndCollision() {
+      MoveableController controller = new MoveableController(moveable, MovingStrategie.BACKWARD);
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.withMaxX(20)//
-		.withMaxY(20)//
-		.withDefaultCollisionDetectionHandler()//
-		.build();
-	Position expectedEndPos = Positions.of(0, 12);
-	new ObstacleImpl(grid, Positions.of(0, 10));
-	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
-		.withGrid(grid)//
-		.withStartPosition(Positions.of(0, 0))//
-		.withEndPosition(expectedEndPos)//
-		.withHandler((g, m) -> {
-		}).build();
+      // When
+      Executable ex = () -> {
+         controller.leadMoveable();
+      };
+      // Then
+      Assertions.assertThrows(NotImplementedException.class, ex);
+   }
 
-	MoveableController controller = new MoveableController(moveable);
+   @Test
+   void test_MoveForward_North() {
 
-	// When
-	Executable ex = () -> {
-	    controller.leadMoveable();
-	};
+      // Given
+      Grid grid = GridBuilder.builder(20, 20)
+            .build();
+      Position expectedEndPos = Positions.of(0, 12);
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(Positions.of(0, 0))
+            .withEndPosition(expectedEndPos).withHandler((g, m) -> {
+            }).build();
 
-	// Then
-	Assertions.assertThrows(CollisionDetectedException.class, ex);
-    }
+      MoveableController controller = new MoveableController(moveable);
 
-    @Test
-    void test_MoveForward_South() {
+      // When
+      controller.leadMoveable();
 
-	// Given
-	Grid grid = GridBuilder.builder(20, 20)//
-		.build();
-	Position expectedEndPos = Positions.of(0, -10);
-	EndPointMoveable moveable =  EndPointMoveableBuilder.builder()//
-		.withGrid(grid)//
-		.withStartPosition(Positions.of(0, 0))//
-		.withHandler((g, m) -> {
-		}).withEndPosition(expectedEndPos)//
-		.build();
+      // Then
+      Position effectEndPos = moveable.getPosition();
+      Assert.assertThat(effectEndPos, is(expectedEndPos));
+   }
 
-	MoveableController controller = new MoveableController(moveable);
+   @Test
+   void test_MoveForward_WithObstacleAndCollision() {
 
-	// When
-	controller.leadMoveable();
+      // Given
+      Grid grid = GridBuilder.builder()
+            .withMaxX(20)
+            .withMaxY(20)
+            .withDefaultCollisionDetectionHandler()
+            .build();
+      Position expectedEndPos = Positions.of(0, 12);
+      new ObstacleImpl(grid, Positions.of(0, 10));
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(Positions.of(0, 0))
+            .withEndPosition(expectedEndPos)
+            .withHandler((g, m) -> {
+            }).build();
 
-	// Then
-	Position effectEndPos = moveable.getPosition();
-	Assert.assertThat(effectEndPos, is(expectedEndPos));
-    }
+      MoveableController controller = new MoveableController(moveable);
 
-    @Test
-    void test_MoveForward_North_WithObstacle() throws InterruptedException {
+      // When
+      Executable ex = () -> {
+         controller.leadMoveable();
+      };
 
-	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withDefaultGrid(200, 200)//
-		.withEndPos(Positions.of(0, 11))//
-		.withObstacle(Positions.of(0, 8))//
-		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)//
-		.withDetector()
-		.withStateMachine()//
-		.withMoveable()//
-		.withMoveableController();
+      // Then
+      Assertions.assertThrows(CollisionDetectedException.class, ex);
+   }
 
-	// When
-	tcb.controller.leadMoveable();
+   @Test
+   void test_MoveForward_South() {
 
-	// Then
-	Position effectEndPos = tcb.moveable.getPosition();
-	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
-	assertThat(tcb.moveable.getPositionHistory().contains(tcb.obstacle.getPosition()), is(not(true)));
-	assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
-    }
+      // Given
+      Grid grid = GridBuilder.builder(20, 20)
+            .build();
+      Position expectedEndPos = Positions.of(0, -10);
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(Positions.of(0, 0))
+            .withHandler((g, m) -> {
+            }).withEndPosition(expectedEndPos)
+            .build();
 
-    @Test
-    void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
+      MoveableController controller = new MoveableController(moveable);
 
-	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withDefaultGrid(200, 200)//
-		.withEndPos(Positions.of(28, 28))//
-		.withObstacle(Positions.of(10, 10))//
-		.withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)//
-		.withDetector()//
-		.withStateMachine()//
-		.withMoveable()//
-		.withMoveableController();
+      // When
+      controller.leadMoveable();
 
-	// When
-	tcb.controller.leadMoveable();
+      // Then
+      Position effectEndPos = moveable.getPosition();
+      Assert.assertThat(effectEndPos, is(expectedEndPos));
+   }
 
-	// Then
-	Position effectEndPos = tcb.moveable.getPosition();
-	List<Position> trackingList = tcb.moveable.getPositionHistory();
+   @Test
+   void test_MoveForward_North_WithObstacle() throws InterruptedException {
 
-	assertThat(trackingList.isEmpty(), is(not(true)));
-	assertThat(trackingList.contains(tcb.obstacle.getPosition()), is(not(true)));
-	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
-    }
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDefaultGrid(200, 200)
+            .withEndPos(Positions.of(0, 11))
+            .withObstacle(Positions.of(0, 8))
+            .withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)
+            .withDetector()
+            .withStateMachine()
+            .withMoveable()
+            .withMoveableController();
 
-    @Test
-    void test_MoveForward_NorthEast_WithTwoObstacles() throws InterruptedException {
+      // When
+      tcb.controller.leadMoveable();
 
-	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withDefaultGrid(200, 200)//
-		.withEndPos(Positions.of(25, 25))//
-		.addObstacle(Positions.of(10, 10))//
-		.addObstacle(Positions.of(20, 19.5))//
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
-		.withDetector()//
-		.withStateMachine()//
-		.withMoveable()//
-		.withMoveableController();
+      // Then
+      Position effectEndPos = tcb.moveable.getPosition();
+      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      assertThat(tcb.moveable.getPositionHistory().contains(tcb.obstacle.getPosition()), is(not(true)));
+      assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
+   }
 
-	// When
-	tcb.controller.leadMoveable();
+   @Test
+   void test_MoveForward_NorthEast_WithObstacle() throws InterruptedException {
 
-	// Then
-	List<Position> trackingList = tcb.moveable.getPositionHistory();
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDefaultGrid(200, 200)
+            .withEndPos(Positions.of(28, 28))
+            .withObstacle(Positions.of(10, 10))
+            .withStateMachineConfig(1, 0.035, 0.7, 5, 70, 60, 10)
+            .withDetector()
+            .withStateMachine()
+            .withMoveable()
+            .withMoveableController();
 
-	assertThat(trackingList.isEmpty(), is(not(true)));
-	for (Obstacle obstacle : tcb.obstacles) {
-	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
-	}
-	Position effectEndPos = tcb.moveable.getPosition();
-	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
-    }
+      // When
+      tcb.controller.leadMoveable();
 
-    @Test
-    void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
+      // Then
+      Position effectEndPos = tcb.moveable.getPosition();
+      List<Position> trackingList = tcb.moveable.getPositionHistory();
 
-	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withDefaultGrid(200, 200)//
-		.withEndPos(Positions.of(30, 30))//
-		.addObstacle(Positions.of(10, 10))//
-		.addObstacle(Positions.of(20, 19.5))//
-		.addObstacle(Positions.of(23, 23))//
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
-		.withDetector()//
-		.withStateMachine()//
-		.withMoveable()//
-		.withMoveableController();
+      assertThat(trackingList.isEmpty(), is(not(true)));
+      assertThat(trackingList.contains(tcb.obstacle.getPosition()), is(not(true)));
+      assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
+      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+   }
 
-	// When
-	tcb.controller.leadMoveable();
+   @Test
+   void test_MoveForward_NorthEast_WithTwoObstacles() throws InterruptedException {
 
-	// Then
-	Position effectEndPos = tcb.moveable.getPosition();
-	List<Position> trackingList = tcb.moveable.getPositionHistory();
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDefaultGrid(200, 200)
+            .withEndPos(Positions.of(25, 25))
+            .addObstacle(Positions.of(10, 10))
+            .addObstacle(Positions.of(20, 19.5))
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withDetector()
+            .withStateMachine()
+            .withMoveable()
+            .withMoveableController();
 
-	assertThat(trackingList.isEmpty(), is(not(true)));
-	for (Obstacle obstacle : tcb.obstacles) {
-	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
-	}
-	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-	assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
-    }
+      // When
+      tcb.controller.leadMoveable();
 
-    @Test
-    void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
+      // Then
+      List<Position> trackingList = tcb.moveable.getPositionHistory();
 
-	// Given
-	TestCaseBuilder tcb = new TestCaseBuilder()//
-		.withDefaultGrid(200, 200)//
-		.withEndPos(Positions.of(34, 34))//
-		.addObstacle(Positions.of(10, 10))//
-		.addObstacle(Positions.of(20, 17))//
-		.addObstacle(Positions.of(25, 25))
-		.withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)//
-		.withDetector()//
-		.withStateMachine()
-		.withMovingIncrement(1)//
-		.withMoveable()//
-		.withMoveableController();
+      assertThat(trackingList.isEmpty(), is(not(true)));
+      for (Obstacle obstacle : tcb.obstacles) {
+         assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
+      }
+      Position effectEndPos = tcb.moveable.getPosition();
+      assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
+      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+   }
 
-	// When
-	tcb.controller.leadMoveable();
+   @Test
+   void test_MoveForward_NorthEast_WithMultipleObstacles() throws InterruptedException {
 
-	// Then
-	Position effectEndPos = tcb.moveable.getPosition();
-	List<Position> trackingList = tcb.moveable.getPositionHistory();
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDefaultGrid(200, 200)
+            .withEndPos(Positions.of(30, 30))
+            .addObstacle(Positions.of(10, 10))
+            .addObstacle(Positions.of(20, 19.5))
+            .addObstacle(Positions.of(23, 23))
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withDetector()
+            .withStateMachine()
+            .withMoveable()
+            .withMoveableController();
 
-	assertThat(trackingList.isEmpty(), is(not(true)));
-	for (Obstacle obstacle : tcb.obstacles) {
-	    assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
-	}
-	assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-	org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-	org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
-    }
+      // When
+      tcb.controller.leadMoveable();
 
-    private static final class TestCaseBuilder {
-	private Grid grid;
-	private Position endPos;
-	private Obstacle obstacle;
-	private List<Obstacle> obstacles;
-	private Detector detector;
-	private EndPointMoveable moveable;
-	private EvasionStateMachine stateMachine;
-	private MoveableController controller;
-	private EvasionStateMachineConfig config;
-	private int movingIncrement;
+      // Then
+      Position effectEndPos = tcb.moveable.getPosition();
+      List<Position> trackingList = tcb.moveable.getPositionHistory();
 
-	private TestCaseBuilder() {
-	    obstacles = new ArrayList<>();
-	    movingIncrement = 2;
-	}
+      assertThat(trackingList.isEmpty(), is(not(true)));
+      for (Obstacle obstacle : tcb.obstacles) {
+         assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
+      }
+      assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
+      assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+   }
 
-	public TestCaseBuilder withMoveableController() {
-	    this.controller = new MoveableController(moveable);
-	    return this;
-	}
+   @Test
+   void test_MoveForward_NorthEast_WithMultipleObstacles_DoNotAvoid2One() throws InterruptedException {
 
-	public TestCaseBuilder withDefaultGrid(int maxY, int maxX) {
-	    this.grid = GridBuilder.builder(maxY, maxX)//
-		    .build();
-	    return this;
-	}
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDefaultGrid(200, 200)
+            .withEndPos(Positions.of(34, 34))
+            .addObstacle(Positions.of(10, 10))
+            .addObstacle(Positions.of(20, 17))
+            .addObstacle(Positions.of(25, 25))
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withDetector()
+            .withStateMachine()
+            .withMovingIncrement(1)
+            .withMoveable()
+            .withMoveableController();
 
-	public TestCaseBuilder withEndPos(Position expectedEndPos) {
-	    this.endPos = expectedEndPos;
-	    return this;
-	}
+      // When
+      tcb.controller.leadMoveable();
 
-	public TestCaseBuilder withObstacle(Position obstaclePos) {
-	    Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
-	    obstacle = new ObstacleImpl(grid, obstaclePos);
-	    obstacles.add(obstacle);
-	    return this;
-	}
+      // Then
+      Position effectEndPos = tcb.moveable.getPosition();
+      List<Position> trackingList = tcb.moveable.getPositionHistory();
 
-	public TestCaseBuilder withDetector() {
-	    Objects.requireNonNull(config, "We need first a Config befor we can create a Detector!");
-	    this.detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-		    config.getEvasionAngle(), config.getEvasionAngleInc());
-	    return this;
-	}
+      assertThat(trackingList.isEmpty(), is(not(true)));
+      for (Obstacle obstacle : tcb.obstacles) {
+         assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
+      }
+      assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
+      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+   }
 
-	public TestCaseBuilder addObstacle(Position obstaclePos) {
-	    Obstacle obstacle = new ObstacleImpl(grid, obstaclePos);
-	    obstacles.add(obstacle);
-	    return this;
-	}
+   private static final class TestCaseBuilder {
+      private Grid grid;
+      private Position endPos;
+      private Obstacle obstacle;
+      private List<Obstacle> obstacles;
+      private Detector detector;
+      private EndPointMoveable moveable;
+      private EvasionStateMachine stateMachine;
+      private MoveableController controller;
+      private EvasionStateMachineConfig config;
+      private int movingIncrement;
 
-	public TestCaseBuilder withStateMachineConfig(int angleIncMultiplier, double minDistance, double angleMargin,
-		int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-	    config = new EvasionStateMachineConfigImpl(angleIncMultiplier, minDistance, angleMargin, detectorReach,
-		    detectorAngle, evasionAngle, evasionAngleInc);
-	    return this;
-	}
+      private TestCaseBuilder() {
+         obstacles = new ArrayList<>();
+         movingIncrement = 2;
+      }
 
-	public TestCaseBuilder withStateMachine() {
-	    stateMachine = new EvasionStateMachine(detector, endPos, config);
-	    return this;
-	}
+      public TestCaseBuilder withMoveableController() {
+         this.controller = new MoveableController(moveable);
+         return this;
+      }
 
-	public TestCaseBuilder withMovingIncrement(int movingIncrement) {
-	    this.movingIncrement = movingIncrement;
-	    return this;
-	}
+      public TestCaseBuilder withDefaultGrid(int maxY, int maxX) {
+         this.grid = GridBuilder.builder(maxY, maxX)
+               .build();
+         return this;
+      }
 
-	public TestCaseBuilder withMoveable() {
-	    moveable = EndPointMoveableBuilder.builder()//
-		    .withGrid(grid)//
-		    .withStartPosition(Positions.of(0, 0))
-		    .withEndPosition(endPos)//
-		    .withHandler(stateMachine)//
-		    .withMovingIncrement(movingIncrement)//
-		    .build();
-	    return this;
-	}
-    }
+      public TestCaseBuilder withEndPos(Position expectedEndPos) {
+         this.endPos = expectedEndPos;
+         return this;
+      }
+
+      public TestCaseBuilder withObstacle(Position obstaclePos) {
+         Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
+         obstacle = new ObstacleImpl(grid, obstaclePos);
+         obstacles.add(obstacle);
+         return this;
+      }
+
+      public TestCaseBuilder withDetector() {
+         Objects.requireNonNull(config, "We need first a Config befor we can create a Detector!");
+         this.detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+               config.getEvasionAngle(), config.getEvasionAngleInc());
+         return this;
+      }
+
+      public TestCaseBuilder addObstacle(Position obstaclePos) {
+         Obstacle obstacle = new ObstacleImpl(grid, obstaclePos);
+         obstacles.add(obstacle);
+         return this;
+      }
+
+      public TestCaseBuilder withStateMachineConfig(int angleIncMultiplier, double minDistance, double angleMargin,
+            int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
+         config = new EvasionStateMachineConfigImpl(angleIncMultiplier, minDistance, angleMargin, detectorReach,
+               detectorAngle, evasionAngle, evasionAngleInc);
+         return this;
+      }
+
+      public TestCaseBuilder withStateMachine() {
+         stateMachine = new EvasionStateMachine(detector, endPos, config);
+         return this;
+      }
+
+      public TestCaseBuilder withMovingIncrement(int movingIncrement) {
+         this.movingIncrement = movingIncrement;
+         return this;
+      }
+
+      public TestCaseBuilder withMoveable() {
+         moveable = EndPointMoveableBuilder.builder()
+               .withGrid(grid)
+               .withStartPosition(Positions.of(0, 0))
+               .withEndPosition(endPos)
+               .withHandler(stateMachine)
+               .withMovingIncrement(movingIncrement)
+               .build();
+         return this;
+      }
+   }
 }

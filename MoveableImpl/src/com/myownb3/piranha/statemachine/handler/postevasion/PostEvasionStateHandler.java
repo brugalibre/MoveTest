@@ -13,6 +13,6 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  *
  */
 public interface PostEvasionStateHandler
-	extends EvasionStatesHandler<PostEvasionEventStateInput, CommonEventStateResult> {
-    // empty
+      extends EvasionStatesHandler<PostEvasionEventStateInput, CommonEventStateResult> {
+   // empty
 }

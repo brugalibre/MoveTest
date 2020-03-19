@@ -29,62 +29,62 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public class ChartSpielFeld {
 
-    private ChartPanel chartPanel;
-    private XYSeries xySeriesMoveableHistory;
-    private XYSeries xySeriesObstacles;
+   private ChartPanel chartPanel;
+   private XYSeries xySeriesMoveableHistory;
+   private XYSeries xySeriesObstacles;
 
-    public ChartSpielFeld(List<GridElement> gridElements, List<Obstacle> obstacles) {
+   public ChartSpielFeld(List<GridElement> gridElements, List<Obstacle> obstacles) {
 
-	JFreeChart chart = buildJFreeChart();
-	paintValues(chart, gridElements, obstacles);
+      JFreeChart chart = buildJFreeChart();
+      paintValues(chart, gridElements, obstacles);
 
-	chartPanel = new ChartPanel(chart);
-	chartPanel.setVisible(true);
-    }
+      chartPanel = new ChartPanel(chart);
+      chartPanel.setVisible(true);
+   }
 
-    private void paintValues(JFreeChart chart, List<GridElement> gridElements, List<Obstacle> obstacles) {
+   private void paintValues(JFreeChart chart, List<GridElement> gridElements, List<Obstacle> obstacles) {
 
-	for (int i = 0; i < gridElements.size(); i = i + 5) {
-	    GridElement gridElement = gridElements.get(i);
-	    Position position = gridElement.getPosition();
-	    xySeriesMoveableHistory.add(position.getX(), position.getY());
-	}
-	for (Obstacle obstacle : obstacles) {
-	    Position position = obstacle.getPosition();
-	    xySeriesObstacles.add(position.getX(), position.getY());
-	}
-    }
+      for (int i = 0; i < gridElements.size(); i = i + 5) {
+         GridElement gridElement = gridElements.get(i);
+         Position position = gridElement.getPosition();
+         xySeriesMoveableHistory.add(position.getX(), position.getY());
+      }
+      for (Obstacle obstacle : obstacles) {
+         Position position = obstacle.getPosition();
+         xySeriesObstacles.add(position.getX(), position.getY());
+      }
+   }
 
-    private JFreeChart buildJFreeChart() {
-	XYSeriesCollection xyDataset = new XYSeriesCollection();
-	getXYSeries(xyDataset);
+   private JFreeChart buildJFreeChart() {
+      XYSeriesCollection xyDataset = new XYSeriesCollection();
+      getXYSeries(xyDataset);
 
-	JFreeChart chart = ChartFactory.createXYLineChart("Übersicht", "X-Achse", "Y-Achse", xyDataset,
-		PlotOrientation.VERTICAL, true, true, false);
+      JFreeChart chart = ChartFactory.createXYLineChart("Übersicht", "X-Achse", "Y-Achse", xyDataset,
+            PlotOrientation.VERTICAL, true, true, false);
 
-	XYPlot plot = chart.getXYPlot();
-	XYItemRenderer xyItemRenderer = new XYDotRenderer();
-	((XYDotRenderer) xyItemRenderer).setDotHeight(5);
-	((XYDotRenderer) xyItemRenderer).setDotWidth(5);
-	plot.setRenderer(xyItemRenderer);
-	ValueAxis rangeAxis = plot.getRangeAxis();
-	rangeAxis.setAutoRange(true);
+      XYPlot plot = chart.getXYPlot();
+      XYItemRenderer xyItemRenderer = new XYDotRenderer();
+      ((XYDotRenderer) xyItemRenderer).setDotHeight(5);
+      ((XYDotRenderer) xyItemRenderer).setDotWidth(5);
+      plot.setRenderer(xyItemRenderer);
+      ValueAxis rangeAxis = plot.getRangeAxis();
+      rangeAxis.setAutoRange(true);
 
-	XYItemRenderer renderer = chart.getXYPlot().getRenderer();
-	renderer.setSeriesPaint(0, Color.BLACK);
-	renderer.setSeriesPaint(2, Color.ORANGE);
+      XYItemRenderer renderer = chart.getXYPlot().getRenderer();
+      renderer.setSeriesPaint(0, Color.BLACK);
+      renderer.setSeriesPaint(2, Color.ORANGE);
 
-	return chart;
-    }
+      return chart;
+   }
 
-    private void getXYSeries(XYSeriesCollection xyDataset) {
-	xySeriesMoveableHistory = new XYSeries("Moveable-History");
-	xySeriesObstacles = new XYSeries("Obstacles");
-	xyDataset.addSeries(xySeriesMoveableHistory);
-	xyDataset.addSeries(xySeriesObstacles);
-    }
+   private void getXYSeries(XYSeriesCollection xyDataset) {
+      xySeriesMoveableHistory = new XYSeries("Moveable-History");
+      xySeriesObstacles = new XYSeries("Obstacles");
+      xyDataset.addSeries(xySeriesMoveableHistory);
+      xyDataset.addSeries(xySeriesObstacles);
+   }
 
-    public JComponent getContent() {
-	return chartPanel;
-    }
+   public JComponent getContent() {
+      return chartPanel;
+   }
 }

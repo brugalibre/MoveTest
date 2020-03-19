@@ -19,27 +19,27 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  */
 public class CirclePainter extends Drawable<Circle> implements Renderer {
 
-    private Color color;
+   private Color color;
 
-    public CirclePainter(Circle circle, Color color, int height, int width) {
-	super(circle);
-	this.color = color;
-    }
+   public CirclePainter(Circle circle, Color color, int height, int width) {
+      super(circle);
+      this.color = color;
+   }
 
-    @Override
-    public void render(RenderContext graphicsCtx) {
+   @Override
+   public void render(RenderContext graphicsCtx) {
 
-	GraphicsContext context = (GraphicsContext) graphicsCtx;
-	Graphics graphics = context.getGraphics();
+      GraphicsContext context = (GraphicsContext) graphicsCtx;
+      Graphics graphics = context.getGraphics();
 
-	renderPosition(graphics);
-    }
+      renderPosition(graphics);
+   }
 
-    private void renderPosition(Graphics graphics) {
-	graphics.setColor(color);
-	Position position = value.getCenter();
-	int yCoordinate = (int) (position.getY() - 0);
-	int xCoordinate = (int) (position.getX() - 0);
-	graphics.fillOval(xCoordinate, yCoordinate, value.getRadius(), value.getRadius());
-    }
+   private void renderPosition(Graphics graphics) {
+      graphics.setColor(color);
+      Position position = value.getCenter();
+      int yCoordinate = (int) (position.getY() - 0);
+      int xCoordinate = (int) (position.getX() - 0);
+      graphics.fillOval(xCoordinate, yCoordinate, value.getRadius(), value.getRadius());
+   }
 }

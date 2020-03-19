@@ -16,13 +16,13 @@ import com.myownb3.piranha.ui.render.impl.Drawable;
  */
 public class ShapePainterFactory {
 
-    public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color, int height, int width) {
-	if (shape instanceof Circle) {
-	    return new CirclePainter((Circle) shape, color, height, width);
-	} else if (shape instanceof PointShape) {
-	    return new PositionPainter((PointShape) shape, color, height, width);
-	} else {
-	    throw new RuntimeException("Unknown Shape '" + shape + "'!");
-	}
-    }
+   public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color, int height, int width) {
+      if (shape instanceof Circle) {
+         return new CirclePainter((Circle) shape, color, height, width);
+      } else if (shape instanceof PointShape) {
+         return new PositionPainter((PointShape) shape, color, height, width);
+      } else {
+         throw new RuntimeException("Unknown Shape '" + shape + "'!");
+      }
+   }
 }

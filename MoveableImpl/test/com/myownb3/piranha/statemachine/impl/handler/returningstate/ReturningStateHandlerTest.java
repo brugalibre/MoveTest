@@ -26,26 +26,26 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class ReturningStateHandlerTest {
 
-    @Test
-    void testHandle_NoReturningNecessary() {
+   @Test
+   void testHandle_NoReturningNecessary() {
 
-	// Given
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
-	ReturningStateHandler handler = new ReturningStateHandler(config);
-	ReturningEventStateInput evenStateInput = mockInput();
+      // Given
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
+      ReturningStateHandler handler = new ReturningStateHandler(config);
+      ReturningEventStateInput evenStateInput = mockInput();
 
-	// When
-	CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
+      // When
+      CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
 
-	// Then
-	assertThat(eventStateResult.getNextState(), is(EvasionStates.RETURNING.nextState()));
-    }
+      // Then
+      assertThat(eventStateResult.getNextState(), is(EvasionStates.RETURNING.nextState()));
+   }
 
-    private ReturningEventStateInput mockInput() {
-	Moveable moveable = mock(Moveable.class);
-	when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
-	return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
-		Positions.of(0, 0));
-    }
+   private ReturningEventStateInput mockInput() {
+      Moveable moveable = mock(Moveable.class);
+      when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
+      return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
+            Positions.of(0, 0));
+   }
 
 }

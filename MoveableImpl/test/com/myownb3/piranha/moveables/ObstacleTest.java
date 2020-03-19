@@ -23,85 +23,85 @@ import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
  */
 class ObstacleTest {
 
-    @Test
-    public void testMovebaleRecognizesObjectTrueRightSideOfNorht() {
+   @Test
+   public void testMovebaleRecognizesObjectTrueRightSideOfNorht() {
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.build();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
-	Detector detector = new DetectorImpl();
-	MoveableBuilder.builder(grid, Positions.of(1, 1))//
-		.withHandler(new DetectableMoveableHelper(detector))//
-		.build();
-	boolean isRecognized = true;
+      // Given
+      Grid grid = GridBuilder.builder()
+            .build();
+      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
+      Detector detector = new DetectorImpl();
+      MoveableBuilder.builder(grid, Positions.of(1, 1))
+            .withHandler(new DetectableMoveableHelper(detector))
+            .build();
+      boolean isRecognized = true;
 
-	// When
-	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
+      // When
+      boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
-	// Then
-	Assert.assertThat(hasObjectRecognized, is(isRecognized));
-    }
+      // Then
+      Assert.assertThat(hasObjectRecognized, is(isRecognized));
+   }
 
-    @Test
-    public void testMovebaleRecognizesObjectTrueLeftSideOfNorht() {
+   @Test
+   public void testMovebaleRecognizesObjectTrueLeftSideOfNorht() {
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.build();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
-	Detector detector = new DetectorImpl();
-	MoveableBuilder.builder(grid, Positions.of(1, 1))//
-		.withHandler(new DetectableMoveableHelper(detector))//
-		.build();
-	boolean isRecognized = true;
+      // Given
+      Grid grid = GridBuilder.builder()
+            .build();
+      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
+      Detector detector = new DetectorImpl();
+      MoveableBuilder.builder(grid, Positions.of(1, 1))
+            .withHandler(new DetectableMoveableHelper(detector))
+            .build();
+      boolean isRecognized = true;
 
-	// When
-	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
+      // When
+      boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
-	// Then
-	Assert.assertThat(hasObjectRecognized, is(isRecognized));
-    }
+      // Then
+      Assert.assertThat(hasObjectRecognized, is(isRecognized));
+   }
 
-    @Test
-    public void testMovebaleRecognizesObjectFalseWrongAngle() {
+   @Test
+   public void testMovebaleRecognizesObjectFalseWrongAngle() {
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.build();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
-	Detector detector = new DetectorImpl();
+      // Given
+      Grid grid = GridBuilder.builder()
+            .build();
+      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
+      Detector detector = new DetectorImpl();
 
-	MoveableBuilder.builder(grid, Positions.of(1, 1))//
-		.withHandler(new DetectableMoveableHelper(detector))//
-		.build();
+      MoveableBuilder.builder(grid, Positions.of(1, 1))
+            .withHandler(new DetectableMoveableHelper(detector))
+            .build();
 
-	boolean notRecognized = false;
+      boolean notRecognized = false;
 
-	// When
-	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
+      // When
+      boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
-	// Then
-	Assert.assertThat(hasObjectRecognized, is(notRecognized));
-    }
+      // Then
+      Assert.assertThat(hasObjectRecognized, is(notRecognized));
+   }
 
-    @Test
-    public void testMovebaleRecognizesObjectFalseOutOfReach() {
+   @Test
+   public void testMovebaleRecognizesObjectFalseOutOfReach() {
 
-	// Given
-	Grid grid = GridBuilder.builder(100, 100)//
-		.build();
-	Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
-	Detector detector = new DetectorImpl();
-	MoveableBuilder.builder(grid, Positions.of(1, 1))//
-		.withHandler(new DetectableMoveableHelper(detector))//
-		.build();
-	boolean notRecognized = false;
+      // Given
+      Grid grid = GridBuilder.builder(100, 100)
+            .build();
+      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
+      Detector detector = new DetectorImpl();
+      MoveableBuilder.builder(grid, Positions.of(1, 1))
+            .withHandler(new DetectableMoveableHelper(detector))
+            .build();
+      boolean notRecognized = false;
 
-	// When
-	boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
+      // When
+      boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
-	// Then
-	Assert.assertThat(hasObjectRecognized, is(notRecognized));
-    }
+      // Then
+      Assert.assertThat(hasObjectRecognized, is(notRecognized));
+   }
 }

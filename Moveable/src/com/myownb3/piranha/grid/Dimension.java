@@ -12,23 +12,23 @@ package com.myownb3.piranha.grid;
  */
 public interface Dimension {
 
-    /**
-     * @return the origin x-coorindate of this {@link Dimension}
-     */
-    int getX();
+   /**
+    * @return the origin x-coorindate of this {@link Dimension}
+    */
+   int getX();
 
-    /**
-     * @return the origin y-coorindate of this {@link Dimension}
-     */
-    int getY();
+   /**
+    * @return the origin y-coorindate of this {@link Dimension}
+    */
+   int getY();
 
-    /**
-     * @return the width of this {@link Dimension}
-     */
-    int getWidth();
+   /**
+    * @return the width of this {@link Dimension}
+    */
+   int getWidth();
 
-    /**
-     * @return the height of this {@link Dimension}
-     */
-    int getHeight();
+   /**
+    * @return the height of this {@link Dimension}
+    */
+   int getHeight();
 }

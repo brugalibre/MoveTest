@@ -20,63 +20,63 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
  */
 public class SwappingGrid extends DefaultGrid {
 
-    /**
-     * 
-     * @param maxY
-     * @param maxX
-     */
-    private SwappingGrid(int maxY, int maxX) {
-	super(maxX, maxY, 0, 0);
-    }
+   /**
+    * 
+    * @param maxY
+    * @param maxX
+    */
+   private SwappingGrid(int maxY, int maxX) {
+      super(maxX, maxY, 0, 0);
+   }
 
-    /**
-     * 
-     * @param maxY
-     * @param maxX
-     */
-    private SwappingGrid(int maxY, int maxX, int minX, int minY) {
-	super(maxX, maxY, minX, minY);
-    }
+   /**
+    * 
+    * @param maxY
+    * @param maxX
+    */
+   private SwappingGrid(int maxY, int maxX, int minX, int minY) {
+      super(maxX, maxY, minX, minY);
+   }
 
-    /**
-     * Evaluates the new y value. Additionally it checks weather or not the new
-     * value is in bounds. If not, the value is swapped
-     * 
-     * @param newY
-     * @return the new y-Value within grid bounds
-     */
-    @Override
-    protected double getNewYValue(GridElement gridElement, double forwardY) {
-	double newY = super.getNewYValue(gridElement, forwardY);
-	double newYValue = getNewYValue(gridElement.getFurthermostFrontPosition(), forwardY);
-	if (newYValue > maxY) {
-	    newY = (newYValue - maxY) + minY;
-	} else if (newYValue < minY) {
-	    newY = maxY - (minY - newYValue);
-	}
-	return newY;
-    }
+   /**
+    * Evaluates the new y value. Additionally it checks weather or not the new
+    * value is in bounds. If not, the value is swapped
+    * 
+    * @param newY
+    * @return the new y-Value within grid bounds
+    */
+   @Override
+   protected double getNewYValue(GridElement gridElement, double forwardY) {
+      double newY = super.getNewYValue(gridElement, forwardY);
+      double newYValue = getNewYValue(gridElement.getFurthermostFrontPosition(), forwardY);
+      if (newYValue > maxY) {
+         newY = (newYValue - maxY) + minY;
+      } else if (newYValue < minY) {
+         newY = maxY - (minY - newYValue);
+      }
+      return newY;
+   }
 
-    /**
-     * Evaluates the new x value. Additionally it checks weather or not the new
-     * value is in bounds. If not, the value is swapped
-     * 
-     * @param newX
-     * @return the new x-Value within grid bounds
-     */
-    @Override
-    protected double getNewXValue(GridElement gridElement, double forwardX) {
-	double newX = super.getNewXValue(gridElement, forwardX);
-	double newXValue = getNewXValue(gridElement.getFurthermostFrontPosition(), forwardX);
-	if (newXValue > maxX) {
-	    newX = (newXValue - maxX) + minX;
-	} else if (newXValue < minX) {
-	    newX = maxX - (minX - newXValue);
-	}
-	return newX;
-    }
+   /**
+    * Evaluates the new x value. Additionally it checks weather or not the new
+    * value is in bounds. If not, the value is swapped
+    * 
+    * @param newX
+    * @return the new x-Value within grid bounds
+    */
+   @Override
+   protected double getNewXValue(GridElement gridElement, double forwardX) {
+      double newX = super.getNewXValue(gridElement, forwardX);
+      double newXValue = getNewXValue(gridElement.getFurthermostFrontPosition(), forwardX);
+      if (newXValue > maxX) {
+         newX = (newXValue - maxX) + minX;
+      } else if (newXValue < minX) {
+         newX = maxX - (minX - newXValue);
+      }
+      return newX;
+   }
 
-    /**
+   /**
      * @formatter:off
      * 
      *10 ___________ 
@@ -91,43 +91,43 @@ public class SwappingGrid extends DefaultGrid {
      */
 
 
-    /**
-     * The {@link SwappingGridBuilder} helps to build a {@link SwappingGrid}
-     * 
-     * @author Dominic
-     *
-     */
-    public static class SwappingGridBuilder extends AbstractGridBuilder<SwappingGrid> {
+   /**
+    * The {@link SwappingGridBuilder} helps to build a {@link SwappingGrid}
+    * 
+    * @author Dominic
+    *
+    */
+   public static class SwappingGridBuilder extends AbstractGridBuilder<SwappingGrid> {
 
-	public static SwappingGridBuilder builder() {
-	    return new SwappingGridBuilder()//
-		    .withMaxX(10)//
-		    .withMaxY(10);
-	}
+      public static SwappingGridBuilder builder() {
+         return new SwappingGridBuilder()
+               .withMaxX(10)
+               .withMaxY(10);
+      }
 
-	public static SwappingGridBuilder builder(int maxX, int maxY) {
-	    return new SwappingGridBuilder()//
-		    .withMaxX(maxX)//
-		    .withMaxY(maxY);
-	}
+      public static SwappingGridBuilder builder(int maxX, int maxY) {
+         return new SwappingGridBuilder()
+               .withMaxX(maxX)
+               .withMaxY(maxY);
+      }
 
-	/**
-	 * Creates a new {@link SwappingGrid}
-	 * 
-	 * @return a new {@link SwappingGrid}
-	 */
-	@Override
-	public SwappingGrid build() {
-	    Objects.requireNonNull(maxX, "We need a max x value!");
-	    Objects.requireNonNull(maxY, "We need a max y value!");
-	    SwappingGrid swappingGrid;
-	    if (isNull(minX) || isNull(minY)) {
-		swappingGrid = new SwappingGrid(maxY, maxX);
-	    } else {
-		swappingGrid = new SwappingGrid(maxY, maxX, minX, minY);
-	    }
-	    setDetector(swappingGrid);
-	    return swappingGrid;
-	}
-    }
+      /**
+       * Creates a new {@link SwappingGrid}
+       * 
+       * @return a new {@link SwappingGrid}
+       */
+      @Override
+      public SwappingGrid build() {
+         Objects.requireNonNull(maxX, "We need a max x value!");
+         Objects.requireNonNull(maxY, "We need a max y value!");
+         SwappingGrid swappingGrid;
+         if (isNull(minX) || isNull(minY)) {
+            swappingGrid = new SwappingGrid(maxY, maxX);
+         } else {
+            swappingGrid = new SwappingGrid(maxY, maxX, minX, minY);
+         }
+         setDetector(swappingGrid);
+         return swappingGrid;
+      }
+   }
 }

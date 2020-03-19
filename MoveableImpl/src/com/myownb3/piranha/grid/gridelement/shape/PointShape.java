@@ -20,26 +20,26 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public class PointShape extends AbstractShape {
 
-    /**
-     * Creates a new {@link PointShape}
-     * 
-     * @param gridElemPos
-     */
-    public PointShape(Position gridElemPos) {
-	super(Collections.singletonList(requireNonNull(gridElemPos)));
-    }
-    
-    @Override
-    public void transform(Position position) {
-	this.path = Collections.singletonList(position);
-    }
-    
-    @Override
-    public Position getPositionOnPathFor(Position position) {
-        return getPosition();
-    }
-    
-    public Position getPosition() {
-	return path.get(0);
-    }
+   /**
+    * Creates a new {@link PointShape}
+    * 
+    * @param gridElemPos
+    */
+   public PointShape(Position gridElemPos) {
+      super(Collections.singletonList(requireNonNull(gridElemPos)));
+   }
+
+   @Override
+   public void transform(Position position) {
+      this.path = Collections.singletonList(position);
+   }
+
+   @Override
+   public Position getPositionOnPathFor(Position position) {
+      return getPosition();
+   }
+
+   public Position getPosition() {
+      return path.get(0);
+   }
 }

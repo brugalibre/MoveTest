@@ -26,47 +26,47 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  */
 class EvasionStateMachineTest {
 
-    @Test
-    void testHandleEvasionState_NoRegisteredStateHandler() {
+   @Test
+   void testHandleEvasionState_NoRegisteredStateHandler() {
 
-	// Given
-	EvasionStateMachineConfig config = mock(EvasionStateMachineConfig.class);
-	Detector detector = mock(Detector.class);
-	EvasionStateMachine evasionStateMachine = new EvasionStateMachine(detector, config);
+      // Given
+      EvasionStateMachineConfig config = mock(EvasionStateMachineConfig.class);
+      Detector detector = mock(Detector.class);
+      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(detector, config);
 
-	// When
-	Executable ex = () -> {
-	    evasionStateMachine.getHandler4State(EvasionStates.NONE);
-	};
+      // When
+      Executable ex = () -> {
+         evasionStateMachine.getHandler4State(EvasionStates.NONE);
+      };
 
-	// Then
-	assertThrows(IllegalStateException.class, ex);
-    }
+      // Then
+      assertThrows(IllegalStateException.class, ex);
+   }
 
-    /**
-     * Test method for
-     * {@link com.myownb3.piranha.statemachine.impl.handler.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
-     */
-    @Test
-    void test_HandleEvasion4UnknownState() {
+   /**
+    * Test method for
+    * {@link com.myownb3.piranha.statemachine.impl.handler.com.myownb3.piranha.moveables.statemachine.impl.EvasionStateMachine#handleEvasion4CurrentState(com.myownb3.piranha.grid.Grid, com.myownb3.piranha.moveables.Moveable)}.
+    */
+   @Test
+   void test_HandleEvasion4UnknownState() {
 
-	// Given
-	Grid grid = GridBuilder.builder()//
-		.build();
-	Moveable moveable = MoveableBuilder.builder(grid)//
-		.build();
+      // Given
+      Grid grid = GridBuilder.builder()
+            .build();
+      Moveable moveable = MoveableBuilder.builder(grid)
+            .build();
 
-	EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
-	EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(), config);
-	evasionStateMachine.evasionState = EvasionStates.NONE;
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
+      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(), config);
+      evasionStateMachine.evasionState = EvasionStates.NONE;
 
-	// When
-	Executable ex = () -> {
-	    evasionStateMachine.handlePostConditions(grid, moveable);
-	};
+      // When
+      Executable ex = () -> {
+         evasionStateMachine.handlePostConditions(grid, moveable);
+      };
 
-	// Then
-	assumeThat(EvasionStates.NONE.nextState(), is(EvasionStates.NONE));
-	assertThrows(IllegalStateException.class, ex);
-    }
+      // Then
+      assumeThat(EvasionStates.NONE.nextState(), is(EvasionStates.NONE));
+      assertThrows(IllegalStateException.class, ex);
+   }
 }

@@ -9,15 +9,15 @@ package com.myownb3.piranha.moveables;
  */
 public enum MovingStrategie {
 
-    /**
-     * Indicates that the {@link MoveableController} leads a {@link Moveable} by
-     * moving it 'forward'
-     */
-    FORWARD,
+   /**
+    * Indicates that the {@link MoveableController} leads a {@link Moveable} by
+    * moving it 'forward'
+    */
+   FORWARD,
 
-    /**
-     * Indicates that the {@link MoveableController} leads a {@link Moveable} by
-     * moving it 'backward'
-     */
-    BACKWARD;
+   /**
+    * Indicates that the {@link MoveableController} leads a {@link Moveable} by
+    * moving it 'backward'
+    */
+   BACKWARD;
 }

@@ -13,27 +13,27 @@ import com.myownb3.piranha.ui.application.MainWindow;
 
 class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {
 
-    private MainWindow mainWindow;
-    private Stoppable stoppable;
-    private MoveableController moveableController;
+   private MainWindow mainWindow;
+   private Stoppable stoppable;
+   private MoveableController moveableController;
 
-    public CollisionDetectionHandlerImpl(Stoppable stoppable, MainWindow mainWindow) {
-	this.stoppable = stoppable;
-	this.mainWindow = mainWindow;
-    }
+   public CollisionDetectionHandlerImpl(Stoppable stoppable, MainWindow mainWindow) {
+      this.stoppable = stoppable;
+      this.mainWindow = mainWindow;
+   }
 
-    @Override
-    public void handleCollision(Avoidable avoidable, Position newPosition) {
-	if (stoppable.isRunning()) {
-	    stoppable.stop();
-	    if (moveableController != null) {
-		moveableController.stop();
-	    }
-	    SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
-	}
-    }
+   @Override
+   public void handleCollision(Avoidable avoidable, Position newPosition) {
+      if (stoppable.isRunning()) {
+         stoppable.stop();
+         if (moveableController != null) {
+            moveableController.stop();
+         }
+         SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
+      }
+   }
 
-    public final void setMoveableController(MoveableController moveableController) {
-	this.moveableController = moveableController;
-    }
+   public final void setMoveableController(MoveableController moveableController) {
+      this.moveableController = moveableController;
+   }
 }

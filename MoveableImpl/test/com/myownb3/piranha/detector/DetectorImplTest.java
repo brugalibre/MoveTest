@@ -20,28 +20,28 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 
 class DetectorImplTest {
 
-    @Test
-    void testGetNearestEvasionGridElement() {
+   @Test
+   void testGetNearestEvasionGridElement() {
 
-	// Given
-	DetectorImpl detector = new DetectorImpl();
-	Grid grid = GridBuilder.builder(100, 100)//
-		.build();
-	Position position = Positions.of(0, 0);
-	Position positionG1 = Positions.of(50, 50);
-	Position positionG2 = Positions.of(49, 49);
-	Position positionG3 = Positions.of(90, 90);
+      // Given
+      DetectorImpl detector = new DetectorImpl();
+      Grid grid = GridBuilder.builder(100, 100)
+            .build();
+      Position position = Positions.of(0, 0);
+      Position positionG1 = Positions.of(50, 50);
+      Position positionG2 = Positions.of(49, 49);
+      Position positionG3 = Positions.of(90, 90);
 
-	Obstacle g1 = new ObstacleImpl(grid, positionG1);
-	Obstacle g2 = new ObstacleImpl(grid, positionG2);
-	Obstacle g3 = new ObstacleImpl(grid, positionG3);
-	List<Avoidable> obstacles = Arrays.asList(g1, g2, g3);
-	Collections.shuffle(obstacles);
+      Obstacle g1 = new ObstacleImpl(grid, positionG1);
+      Obstacle g2 = new ObstacleImpl(grid, positionG2);
+      Obstacle g3 = new ObstacleImpl(grid, positionG3);
+      List<Avoidable> obstacles = Arrays.asList(g1, g2, g3);
+      Collections.shuffle(obstacles);
 
-	// When
-	Optional<Avoidable> actualNearestGridElem = detector.getNearestEvasionAvoidable(position, obstacles);
+      // When
+      Optional<Avoidable> actualNearestGridElem = detector.getNearestEvasionAvoidable(position, obstacles);
 
-	// Then
-	Assert.assertThat(actualNearestGridElem.get(), is(g2));
-    }
+      // Then
+      Assert.assertThat(actualNearestGridElem.get(), is(g2));
+   }
 }

@@ -13,19 +13,19 @@ import com.myownb3.piranha.moveables.AbstractMoveable;
  */
 public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle {
 
-    /**
-     * @param grid
-     * @param position
-     */
-    public MoveableObstacleImpl(Grid grid, Position position) {
-	super(grid, position);
-    }
+   /**
+    * @param grid
+    * @param position
+    */
+   public MoveableObstacleImpl(Grid grid, Position position) {
+      super(grid, position);
+   }
 
-    /**
-     * @param grid
-     * @param position
-     */
-    public MoveableObstacleImpl(Grid grid, Position position, Shape shape) {
-	super(grid, position, shape);
-    }
+   /**
+    * @param grid
+    * @param position
+    */
+   public MoveableObstacleImpl(Grid grid, Position position, Shape shape) {
+      super(grid, position, shape);
+   }
 }

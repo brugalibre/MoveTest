@@ -9,10 +9,10 @@ package com.myownb3.piranha.detector.collision;
  */
 public class CollisionDetectedException extends RuntimeException {
 
-    public CollisionDetectedException(String msg) {
-	super(msg);
-    }
+   public CollisionDetectedException(String msg) {
+      super(msg);
+   }
 
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
 }

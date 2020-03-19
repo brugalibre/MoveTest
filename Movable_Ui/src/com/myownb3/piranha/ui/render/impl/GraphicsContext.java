@@ -13,13 +13,13 @@ import com.myownb3.piranha.ui.render.RenderContext;
  */
 public class GraphicsContext implements RenderContext {
 
-    private Graphics graphics;
+   private Graphics graphics;
 
-    public GraphicsContext(Graphics graphics) {
-	this.graphics = graphics;
-    }
+   public GraphicsContext(Graphics graphics) {
+      this.graphics = graphics;
+   }
 
-    public final Graphics getGraphics() {
-	return this.graphics;
-    }
+   public final Graphics getGraphics() {
+      return this.graphics;
+   }
 }

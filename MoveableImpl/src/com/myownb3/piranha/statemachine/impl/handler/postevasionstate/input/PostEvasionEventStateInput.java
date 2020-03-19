@@ -11,52 +11,61 @@ import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingE
 
 public class PostEvasionEventStateInput extends CommonEventStateInput {
 
-    private Position positionBeforeEvasion;
-    private Position endPosition;
+   private Position positionBeforeEvasion;
+   private Position endPosition;
 
-    private PostEvasionEventStateInput(Grid grid, DetectableMoveableHelper helper, Moveable moveable,
-	    Position positionBeforeEvasion, Position endPosition) {
-	super(grid, moveable, helper);
-	this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
-	this.endPosition = endPosition;
-    }
+   private PostEvasionEventStateInput(Grid grid, DetectableMoveableHelper helper, Moveable moveable,
+         Position positionBeforeEvasion, Position endPosition) {
+      super(grid, moveable, helper);
+      this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
+      this.endPosition = endPosition;
+   }
 
-    /**
-     * Creates a new {@link PassingEventStateInput}
-     * 
-     * @param helper                the {@link DetectableMoveableHelper}
-     * @param grid                  the {@link Grid}
-     * @param moveable              the {@link Moveable}
-     * @param positionBeforeEvasion the {@link Position} the moveable had before the
-     *                              evasion
-     * @param endPosition           the end-position
-     * @return a {@link PassingEventStateInput}
-     */
-    public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-	    Position positionBeforeEvasion, Position endPosition) {
-	return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, endPosition);
-    }
+   /**
+    * Creates a new {@link PassingEventStateInput}
+    * 
+    * @param helper
+    *        the {@link DetectableMoveableHelper}
+    * @param grid
+    *        the {@link Grid}
+    * @param moveable
+    *        the {@link Moveable}
+    * @param positionBeforeEvasion
+    *        the {@link Position} the moveable had before the
+    *        evasion
+    * @param endPosition
+    *        the end-position
+    * @return a {@link PassingEventStateInput}
+    */
+   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+         Position positionBeforeEvasion, Position endPosition) {
+      return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, endPosition);
+   }
 
-    /**
-     * Creates a new {@link PassingEventStateInput} without an end-position
-     * 
-     * @param helper                the {@link DetectableMoveableHelper}
-     * @param grid                  the {@link Grid}
-     * @param moveable              the {@link Moveable}
-     * @param positionBeforeEvasion the {@link Position} the moveable had before the
-     *                              evasion
-     * @return a {@link PassingEventStateInput}
-     */
-    public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-	    Position positionBeforeEvasion) {
-	return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, null);
-    }
+   /**
+    * Creates a new {@link PassingEventStateInput} without an end-position
+    * 
+    * @param helper
+    *        the {@link DetectableMoveableHelper}
+    * @param grid
+    *        the {@link Grid}
+    * @param moveable
+    *        the {@link Moveable}
+    * @param positionBeforeEvasion
+    *        the {@link Position} the moveable had before the
+    *        evasion
+    * @return a {@link PassingEventStateInput}
+    */
+   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
+         Position positionBeforeEvasion) {
+      return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, null);
+   }
 
-    public final Position getPositionBeforeEvasion() {
-	return this.positionBeforeEvasion;
-    }
+   public final Position getPositionBeforeEvasion() {
+      return this.positionBeforeEvasion;
+   }
 
-    public final Position getEndPosition() {
-	return this.endPosition;
-    }
+   public final Position getEndPosition() {
+      return this.endPosition;
+   }
 }

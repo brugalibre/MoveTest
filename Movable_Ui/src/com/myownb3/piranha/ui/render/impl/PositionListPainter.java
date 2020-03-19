@@ -18,45 +18,45 @@ import com.myownb3.piranha.ui.render.Renderer;
  */
 public class PositionListPainter implements Renderer {
 
-    private List<Position> posList;
-    private Color color;
-    private int height;
-    private int width;
+   private List<Position> posList;
+   private Color color;
+   private int height;
+   private int width;
 
-    public PositionListPainter(List<Position> posList, Color color, int height, int width) {
-	this.posList = posList;
-	this.color = color;
-	this.height = height;
-	this.width = width;
-    }
+   public PositionListPainter(List<Position> posList, Color color, int height, int width) {
+      this.posList = posList;
+      this.color = color;
+      this.height = height;
+      this.width = width;
+   }
 
-    @Override
-    public void render(RenderContext graphicsCtx) {
-	GraphicsContext context = (GraphicsContext) graphicsCtx;
-	Graphics graphics = context.getGraphics();
-	graphics.setColor(color);
+   @Override
+   public void render(RenderContext graphicsCtx) {
+      GraphicsContext context = (GraphicsContext) graphicsCtx;
+      Graphics graphics = context.getGraphics();
+      graphics.setColor(color);
 
-	int i = 0;
-	for (Position position : posList) {
-	    i++;
-	    if (i % 20 == 0) {
-		renderPosition(graphics, position);
-	    }
-	}
-    }
+      int i = 0;
+      for (Position position : posList) {
+         i++;
+         if (i % 20 == 0) {
+            renderPosition(graphics, position);
+         }
+      }
+   }
 
-    private void renderPosition(Graphics graphics, Position position) {
-	graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
-	graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
-    }
+   private void renderPosition(Graphics graphics, Position position) {
+      graphics.drawRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+      graphics.fillRoundRect((int) position.getX(), (int) position.getY(), width, height, 2, 2);
+   }
 
-    @Override
-    public void setBounds(Rectangle bounds) {
-	this.height = bounds.height;
-	this.width = bounds.width;
-    }
+   @Override
+   public void setBounds(Rectangle bounds) {
+      this.height = bounds.height;
+      this.width = bounds.width;
+   }
 
-    public void setPositions(List<Position> positions) {
-	posList = positions;
-    }
+   public void setPositions(List<Position> positions) {
+      posList = positions;
+   }
 }

@@ -8,5 +8,5 @@ package com.myownb3.piranha.annotation;
  *
  */
 public @interface Visible4Testing {
-    // Marker annotation to document a methods visibility
+   // Marker annotation to document a methods visibility
 }

@@ -9,8 +9,8 @@ package com.myownb3.piranha.launch;
  */
 public interface Stoppable {
 
-    boolean isRunning();
-    
-    void stop();
-    
+   boolean isRunning();
+
+   void stop();
+
 }

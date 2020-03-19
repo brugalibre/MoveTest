@@ -8,5 +8,5 @@ package com.myownb3.piranha.grid.gridelement;
  *
  */
 public interface Obstacle extends GridElement, Avoidable {
-// no-op
+   // no-op
 }

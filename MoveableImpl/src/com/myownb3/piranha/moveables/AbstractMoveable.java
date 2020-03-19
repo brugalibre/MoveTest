@@ -24,126 +24,126 @@ import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
  */
 public abstract class AbstractMoveable extends SimpleGridElement implements Moveable {
 
-    protected MoveablePostActionHandler handler;
-    private List<Position> positionHistory;
+   protected MoveablePostActionHandler handler;
+   private List<Position> positionHistory;
 
-    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
-	super(grid, position, shape);
-	init(grid, handler);
-    }
-    
-    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-	super(grid, position);
-	init(grid, handler);
-    }
+   public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+      super(grid, position, shape);
+      init(grid, handler);
+   }
 
-    private void init(Grid grid, MoveablePostActionHandler handler) {
-	this.handler = handler;
-	this.handler.handlePostConditions(grid, this);
-	positionHistory = new LinkedList<>();
-    }
+   public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
+      super(grid, position);
+      init(grid, handler);
+   }
 
-    public AbstractMoveable(Grid grid, Position position, Shape shape) {
-	this(grid, position, (g, m) -> {/* This empty handler does nothing */
-	}, shape);
-    }
-    
-    public AbstractMoveable(Grid grid, Position position) {
-	this(grid, position, (g, m) -> {/* This empty handler does nothing */
-	});
-    }
+   private void init(Grid grid, MoveablePostActionHandler handler) {
+      this.handler = handler;
+      this.handler.handlePostConditions(grid, this);
+      positionHistory = new LinkedList<>();
+   }
 
-    @Override
-    public boolean hasDetected(Avoidable avoidable) {
-	if (handler instanceof DetectableMoveableHelper) {
-	    return ((DetectableMoveableHelper) handler).hasDetected(grid, avoidable);
-	} else {
-	    return super.hasDetected(avoidable);
-	}
-    }
+   public AbstractMoveable(Grid grid, Position position, Shape shape) {
+      this(grid, position, (g, m) -> {/* This empty handler does nothing */
+      }, shape);
+   }
 
-    @Override
-    public void moveForward() {
-	moveForwardInternal();
-	handler.handlePostConditions(grid, this);
-    }
+   public AbstractMoveable(Grid grid, Position position) {
+      this(grid, position, (g, m) -> {/* This empty handler does nothing */
+      });
+   }
 
-    private void moveForwardInternal() {
-	position = grid.moveForward(this);
-	shape.transform(position);
-	trackPosition(position);
-    }
+   @Override
+   public boolean hasDetected(Avoidable avoidable) {
+      if (handler instanceof DetectableMoveableHelper) {
+         return ((DetectableMoveableHelper) handler).hasDetected(grid, avoidable);
+      } else {
+         return super.hasDetected(avoidable);
+      }
+   }
 
-    @Override
-    public void moveForward(int amount) {
-	moveForwardOrBackwardInternal(amount, () -> moveForwardInternal());
-	handler.handlePostConditions(grid, this);
-    }
+   @Override
+   public void moveForward() {
+      moveForwardInternal();
+      handler.handlePostConditions(grid, this);
+   }
 
-    @Override
-    public void moveBackward() {
-	position = grid.moveBackward(this);
-	trackPosition(position);
-	shape.transform(position);
-	handler.handlePostConditions(grid, this);
-    }
+   private void moveForwardInternal() {
+      position = grid.moveForward(this);
+      shape.transform(position);
+      trackPosition(position);
+   }
 
-    @Override
-    public void moveBackward(int amount) {
-	moveForwardOrBackwardInternal(amount, () -> moveBackward());
-    }
+   @Override
+   public void moveForward(int amount) {
+      moveForwardOrBackwardInternal(amount, () -> moveForwardInternal());
+      handler.handlePostConditions(grid, this);
+   }
 
-    private void moveForwardOrBackwardInternal(int amount, Runnable runnable) {
-	verifyAmount(amount);
-	for (int i = 0; i < amount; i++) {
-	    runnable.run();
-	}
-    }
+   @Override
+   public void moveBackward() {
+      position = grid.moveBackward(this);
+      trackPosition(position);
+      shape.transform(position);
+      handler.handlePostConditions(grid, this);
+   }
 
-    @Override
-    public void turnLeft() {
-	makeTurn(90);
-    }
+   @Override
+   public void moveBackward(int amount) {
+      moveForwardOrBackwardInternal(amount, () -> moveBackward());
+   }
 
-    @Override
-    public void makeTurnWithoutPostConditions(double degree) {
-	makeTurnInternal(degree);
-    }
+   private void moveForwardOrBackwardInternal(int amount, Runnable runnable) {
+      verifyAmount(amount);
+      for (int i = 0; i < amount; i++) {
+         runnable.run();
+      }
+   }
 
-    @Override
-    public void turnRight() {
-	makeTurn(-90);
-    }
+   @Override
+   public void turnLeft() {
+      makeTurn(90);
+   }
 
-    @Override
-    public void makeTurn(double degree) {
-	makeTurnInternal(degree);
-	if (degree != 0) {
-	    handler.handlePostConditions(grid, this);
-	}
-    }
+   @Override
+   public void makeTurnWithoutPostConditions(double degree) {
+      makeTurnInternal(degree);
+   }
 
-    private void makeTurnInternal(double degree) {
-	if (degree != 0) {
-	    position.rotate(degree);
-	    trackPosition(position);
-	}
-    }
+   @Override
+   public void turnRight() {
+      makeTurn(-90);
+   }
 
-    @Override
-    public List<Position> getPositionHistory() {
-	return Collections.unmodifiableList(positionHistory);
-    }
+   @Override
+   public void makeTurn(double degree) {
+      makeTurnInternal(degree);
+      if (degree != 0) {
+         handler.handlePostConditions(grid, this);
+      }
+   }
 
-    private void verifyAmount(int amount) {
-	if (amount <= 0) {
-	    throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
-	}
-    }
+   private void makeTurnInternal(double degree) {
+      if (degree != 0) {
+         position.rotate(degree);
+         trackPosition(position);
+      }
+   }
 
-    private void trackPosition(Position position) {
-	synchronized (positionHistory) {
-	    positionHistory.add(position);
-	}
-    }
+   @Override
+   public List<Position> getPositionHistory() {
+      return Collections.unmodifiableList(positionHistory);
+   }
+
+   private void verifyAmount(int amount) {
+      if (amount <= 0) {
+         throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
+      }
+   }
+
+   private void trackPosition(Position position) {
+      synchronized (positionHistory) {
+         positionHistory.add(position);
+      }
+   }
 }

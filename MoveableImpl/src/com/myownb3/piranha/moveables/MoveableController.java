@@ -21,204 +21,204 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public class MoveableController {
 
-    private MovingStrategie strategie;
-    private EndPointMoveable moveable;
-    private List<Position> endPosList;
-    private PostMoveForwardHandler handler;
-    private boolean isRunning;
+   private MovingStrategie strategie;
+   private EndPointMoveable moveable;
+   private List<Position> endPosList;
+   private PostMoveForwardHandler handler;
+   private boolean isRunning;
 
-    /**
-     * @param moveable
-     */
-    public MoveableController(EndPointMoveable moveable) {
-	this(moveable, MovingStrategie.FORWARD);
-    }
+   /**
+    * @param moveable
+    */
+   public MoveableController(EndPointMoveable moveable) {
+      this(moveable, MovingStrategie.FORWARD);
+   }
 
-    /**
-     * @param moveable
-     */
-    public MoveableController(EndPointMoveable moveable, MovingStrategie strategie) {
-	isRunning = true;
-	this.moveable = moveable;
-	this.strategie = strategie;
-	this.endPosList = Collections.emptyList();
-	handler = result -> {
-	};
-    }
+   /**
+    * @param moveable
+    */
+   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie) {
+      isRunning = true;
+      this.moveable = moveable;
+      this.strategie = strategie;
+      this.endPosList = Collections.emptyList();
+      handler = result -> {
+      };
+   }
 
-    public void leadMoveable() {
-	switch (strategie) {
-	case FORWARD:
-	    leadMoveableStrategieForward();
-	    break;
+   public void leadMoveable() {
+      switch (strategie) {
+         case FORWARD:
+            leadMoveableStrategieForward();
+            break;
 
-	default:
-	    throw new NotImplementedException("Not supported Strategie '" + strategie + "'");
-	}
-    }
+         default:
+            throw new NotImplementedException("Not supported Strategie '" + strategie + "'");
+      }
+   }
 
-    private void leadMoveableStrategieForward() {
-	if (endPosList.isEmpty()) {
-	    leadMoveable2EndPos();
-	}else {
-	    leadMoveableWithEndPoints();
-	}
-    }
+   private void leadMoveableStrategieForward() {
+      if (endPosList.isEmpty()) {
+         leadMoveable2EndPos();
+      } else {
+         leadMoveableWithEndPoints();
+      }
+   }
 
-    private void leadMoveableWithEndPoints() {
-	for (Position position : endPosList) {
-	    moveable.setEndPosition(position);
-	    leadMoveable2EndPos();
-	}
-    }
+   private void leadMoveableWithEndPoints() {
+      for (Position position : endPosList) {
+         moveable.setEndPosition(position);
+         leadMoveable2EndPos();
+      }
+   }
 
-    /*
-     * First turn the moveable in the right direction then move forward until we
-     * reach our end position.
-     */
-    private void leadMoveable2EndPos() {
-	moveable.prepare();
-	while (isRunning) {
-	    MoveResult moveResult = moveable.moveForward2EndPos();
-	    handler.handlePostMoveForward(moveResult);
-	    if (moveResult.isDone()) {
-		break;// We are done
-	    }
-	}
-    }
-    
+   /*
+    * First turn the moveable in the right direction then move forward until we
+    * reach our end position.
+    */
+   private void leadMoveable2EndPos() {
+      moveable.prepare();
+      while (isRunning) {
+         MoveResult moveResult = moveable.moveForward2EndPos();
+         handler.handlePostMoveForward(moveResult);
+         if (moveResult.isDone()) {
+            break;// We are done
+         }
+      }
+   }
 
-    /**
-     * Stops this {@link MoveableController}
-     */
-    public void stop() {
-	isRunning = false;
-    }
-    
-    public static final class MoveableControllerBuilder {
-	
-	private List<Position> endPosList;
-	private MovingStrategie movingStrategie;
-	private PostMoveForwardHandler postMoveForwardHandler;
-	private EndPointMoveable endPointMoveable;
 
-	private MoveableControllerBuilder() {
-	    // private
-	}
+   /**
+    * Stops this {@link MoveableController}
+    */
+   public void stop() {
+      isRunning = false;
+   }
 
-	public static MoveableControllerBuilder builder () {
-	    return new MoveableControllerBuilder();
-	}
+   public static final class MoveableControllerBuilder {
 
-	public MoveableControllerBuilder withMoveable(EndPointMoveable endPointMoveable) {
-	    this.endPointMoveable = endPointMoveable;
-	    return this;
-	}
-	
-	public EndPointMoveableBuilder withEndPointMoveable() {
-	    return new EndPointMoveableBuilder(this);
-	}
-	
-	public MoveableControllerBuilder withEndPositions(List<Position> endPosList) {
-	    this.endPosList = endPosList;
-	    return this;
-	}
+      private List<Position> endPosList;
+      private MovingStrategie movingStrategie;
+      private PostMoveForwardHandler postMoveForwardHandler;
+      private EndPointMoveable endPointMoveable;
 
-	public MoveableControllerBuilder withStrategie(MovingStrategie movingStrategie) {
-	    this.movingStrategie = movingStrategie;
-	    return this;
-	}
+      private MoveableControllerBuilder() {
+         // private
+      }
 
-	public MoveableControllerBuilder withPostMoveForwardHandler(PostMoveForwardHandler postMoveForwardHandler) {
-	    this.postMoveForwardHandler = postMoveForwardHandler;
-	    return this;
-	}
+      public static MoveableControllerBuilder builder() {
+         return new MoveableControllerBuilder();
+      }
 
-	public MoveableController build() {
-	    MoveableController moveableController = new MoveableController(endPointMoveable);
-	    moveableController.endPosList = endPosList;
-	    moveableController.strategie = movingStrategie;
-	    moveableController.handler = postMoveForwardHandler;
-	    return moveableController;
-	}
-	
-	public static final class EndPointMoveableBuilder {
+      public MoveableControllerBuilder withMoveable(EndPointMoveable endPointMoveable) {
+         this.endPointMoveable = endPointMoveable;
+         return this;
+      }
 
-	    private MoveableControllerBuilder controllerBuilder;
-	    private EndPointMoveable moveable;
-	    private MoveablePostActionHandler handler;
-	    private Position startPosition;
-	    private Grid grid;
-	    private Position endPos;
-	    private int movingIncrement;
-	    private Shape shape;
+      public EndPointMoveableBuilder withEndPointMoveable() {
+         return new EndPointMoveableBuilder(this);
+      }
 
-	    public static EndPointMoveableBuilder builder() {
-		return new EndPointMoveableBuilder();
-	    }
-	    
-	    private EndPointMoveableBuilder() {
-		movingIncrement = 1;
-		handler = (a, b) -> {
-		};
-	    }
+      public MoveableControllerBuilder withEndPositions(List<Position> endPosList) {
+         this.endPosList = endPosList;
+         return this;
+      }
 
-	    private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
-		this();
-		this.controllerBuilder = moveableControllerBuilder;
-	    }
+      public MoveableControllerBuilder withStrategie(MovingStrategie movingStrategie) {
+         this.movingStrategie = movingStrategie;
+         return this;
+      }
 
-	    public EndPointMoveableBuilder withGrid(Grid grid) {
-		this.grid = grid;
-		return this;
-	    }
-	    
-	    public EndPointMoveableBuilder withStartPosition(Position position) {
-		this.startPosition = position;
-		return this;
-	    }
+      public MoveableControllerBuilder withPostMoveForwardHandler(PostMoveForwardHandler postMoveForwardHandler) {
+         this.postMoveForwardHandler = postMoveForwardHandler;
+         return this;
+      }
 
-	    public EndPointMoveableBuilder withHandler(MoveablePostActionHandler handler) {
-		this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-		return this;
-	    }
+      public MoveableController build() {
+         MoveableController moveableController = new MoveableController(endPointMoveable);
+         moveableController.endPosList = endPosList;
+         moveableController.strategie = movingStrategie;
+         moveableController.handler = postMoveForwardHandler;
+         return moveableController;
+      }
 
-	    public EndPointMoveableBuilder withMovingIncrement(int movingIncrement) {
-		this.movingIncrement = movingIncrement;
-		return this;
-	    }
+      public static final class EndPointMoveableBuilder {
 
-	    public EndPointMoveable build() {
-		Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
-		Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
-		if (nonNull(shape)) {
-		    moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement, shape);
-		}else {
-		    moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
-		}
-		handler.handlePostConditions(moveable.getGrid(), moveable);
-		return this.moveable;
-	    }
-	    
-	    public MoveableControllerBuilder buildAndReturnParentBuilder() {
-		build();
-		controllerBuilder.endPointMoveable = moveable;
-		return controllerBuilder;
-	    }
+         private MoveableControllerBuilder controllerBuilder;
+         private EndPointMoveable moveable;
+         private MoveablePostActionHandler handler;
+         private Position startPosition;
+         private Grid grid;
+         private Position endPos;
+         private int movingIncrement;
+         private Shape shape;
 
-	    public EndPointMoveableBuilder withEndPosition(Position endPos) {
-		this.endPos = endPos;
-		return this;
-	    }
+         public static EndPointMoveableBuilder builder() {
+            return new EndPointMoveableBuilder();
+         }
 
-	    public EndPointMoveableBuilder withShape(Shape shape) {
-		this.shape = shape;
-		return this;
-	    }
-	}
-    }
+         private EndPointMoveableBuilder() {
+            movingIncrement = 1;
+            handler = (a, b) -> {
+            };
+         }
 
-    public Moveable getMoveable() {
-	return moveable;
-    }
+         private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
+            this();
+            this.controllerBuilder = moveableControllerBuilder;
+         }
+
+         public EndPointMoveableBuilder withGrid(Grid grid) {
+            this.grid = grid;
+            return this;
+         }
+
+         public EndPointMoveableBuilder withStartPosition(Position position) {
+            this.startPosition = position;
+            return this;
+         }
+
+         public EndPointMoveableBuilder withHandler(MoveablePostActionHandler handler) {
+            this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
+            return this;
+         }
+
+         public EndPointMoveableBuilder withMovingIncrement(int movingIncrement) {
+            this.movingIncrement = movingIncrement;
+            return this;
+         }
+
+         public EndPointMoveable build() {
+            Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
+            Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
+            if (nonNull(shape)) {
+               moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement, shape);
+            } else {
+               moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
+            }
+            handler.handlePostConditions(moveable.getGrid(), moveable);
+            return this.moveable;
+         }
+
+         public MoveableControllerBuilder buildAndReturnParentBuilder() {
+            build();
+            controllerBuilder.endPointMoveable = moveable;
+            return controllerBuilder;
+         }
+
+         public EndPointMoveableBuilder withEndPosition(Position endPos) {
+            this.endPos = endPos;
+            return this;
+         }
+
+         public EndPointMoveableBuilder withShape(Shape shape) {
+            this.shape = shape;
+            return this;
+         }
+      }
+   }
+
+   public Moveable getMoveable() {
+      return moveable;
+   }
 }

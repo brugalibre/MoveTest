@@ -16,16 +16,17 @@ import com.myownb3.piranha.grid.gridelement.Position;
  */
 public interface Circle extends Shape {
 
-    /**
-     * Returns the center of this Circle
-     * 
-     * @return the center of this Circle
-     */
-    Position getCenter();
+   /**
+    * Returns the center of this Circle
+    * 
+    * @return the center of this Circle
+    */
+   Position getCenter();
 
-    /**
-     * Returns the radius of this circle
-     * @return the radius of this circle
-     */
-    int getRadius();
+   /**
+    * Returns the radius of this circle
+    * 
+    * @return the radius of this circle
+    */
+   int getRadius();
 }
