@@ -84,8 +84,8 @@ public class SwappingGrid extends DefaultGrid {
      * 	|__|__|__|__|
      * 	|__|__|__|__|
      * 	|__|__|__|__|
-     * 5|__|__|__|__|
-     *  5	     10 
+     *  5|__|__|__|__|
+     *   5	     10 
      * 
      * @formatter:on
      */

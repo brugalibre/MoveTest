@@ -37,6 +37,8 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.EndPointMoveableImpl;
 import com.myownb3.piranha.moveables.MoveResult;
@@ -60,7 +62,11 @@ class MoveableControllerTest {
       // Given
       Position startPos = Positions.of(0, 12);
       Position endPos = Positions.of(0, 25);
-
+      Shape shape = new CircleBuilder(5)
+            .withAmountOfPoints(4)
+            .withCenter(startPos)
+            .build();
+      
       // When
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategie.FORWARD)
@@ -71,6 +77,7 @@ class MoveableControllerTest {
             .withGrid(mock(DefaultGrid.class))
             .withStartPosition(startPos)
             .withEndPosition(endPos)
+            .withShape(shape)
             .withHandler((a, b) -> {
             })
             .buildAndReturnParentBuilder()
