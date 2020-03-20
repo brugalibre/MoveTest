@@ -18,7 +18,7 @@ import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
  */
 public class AbstractGridElementPainter<T extends GridElement> extends Drawable<T> implements Renderer {
 
-   private Drawable<? extends Shape> shapePainter;
+   protected Drawable<? extends Shape> shapePainter;
 
    public AbstractGridElementPainter(T gridElement, Color color, int height, int width) {
       super(gridElement);
