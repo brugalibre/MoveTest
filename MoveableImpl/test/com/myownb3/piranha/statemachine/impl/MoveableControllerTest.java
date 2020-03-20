@@ -66,7 +66,7 @@ class MoveableControllerTest {
             .withAmountOfPoints(4)
             .withCenter(startPos)
             .build();
-      
+
       // When
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategie.FORWARD)
@@ -85,7 +85,7 @@ class MoveableControllerTest {
 
       // Then
       assertThat(moveableController.getMoveable().getPosition(), is(startPos));
-      assertThat(moveableController.getMoveable().getPosition(), is(startPos));
+      assertThat(moveableController.getCurrentEndPos(), is(endPos));
    }
 
    @Test

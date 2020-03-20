@@ -218,6 +218,10 @@ public class MoveableController {
       }
    }
 
+   public final Position getCurrentEndPos() {
+      return this.moveable.getCurrentEndPos();
+   }
+
    public Moveable getMoveable() {
       return moveable;
    }

@@ -71,6 +71,11 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       return new MoveResultImpl(distance, prevDistance, true);
    }
 
+   @Override
+   public Position getCurrentEndPos() {
+      return endPos;
+   }
+
    /*
     * We are done, when we - a) reach the destination - b) have already reached the
     * destination and now we are getting further away again

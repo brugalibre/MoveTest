@@ -28,6 +28,13 @@ public interface EndPointMoveable extends Moveable {
    MoveResult moveForward2EndPos();
 
    /**
+    * Returns the {@link Position} to which this {@link EndPointMoveable} is heading to
+    * 
+    * @return the {@link Position} to which this {@link EndPointMoveable} is heading to
+    */
+   Position getCurrentEndPos();
+
+   /**
     * Sets the given {@link Position} as it's end-position
     * 
     * @param position
