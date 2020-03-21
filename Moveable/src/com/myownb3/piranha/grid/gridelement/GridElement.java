@@ -51,13 +51,6 @@ public interface GridElement {
    Grid getGrid();
 
    /**
-    * Returns the Shape of this {@link GridElement}
-    * 
-    * @return the Shape of this {@link GridElement}
-    */
-   Shape getShape();
-
-   /**
     * Checks if this {@link GridElement} has detected the given {@link Avoidable}
     * 
     * @param avoidable
