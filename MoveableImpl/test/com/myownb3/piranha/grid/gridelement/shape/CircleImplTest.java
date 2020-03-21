@@ -22,7 +22,6 @@ import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
-import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -35,11 +34,31 @@ import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 class CircleImplTest {
 
    @Test
+   void testCheck4Collision_CheckRadius() {
+
+      // Given
+      int radius = 5;
+      int expectedDistance = radius;
+      Circle circle = new CircleBuilder(radius)
+            .withAmountOfPoints(4)
+            .withCenter(Positions.of(0, 0))
+            .build();
+
+      // When
+
+      Position center = circle.getCenter();
+      Position firstPathPos = circle.getPath().get(0);
+      int distanceFromCenterToPath = (int) center.calcDistanceTo(firstPathPos);
+
+      // Then
+      assertThat(distanceFromCenterToPath, is(expectedDistance));
+   }
+
+   @Test
    void testCheck4Collision_NoMatch() {
 
       // Given
       Position newPosition = Positions.of(5, 5);
-      GridElement gridElementOfShape = mock(GridElement.class);
       newPosition.rotate(11);
       Circle circle = new CircleBuilder(5)
             .withAmountOfPoints(4)
@@ -48,7 +67,7 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(mock(CollisionDetector.class), gridElementOfShape, newPosition, singletonList(mock(Avoidable.class)));
+         circle.check4Collision(mock(CollisionDetector.class), newPosition, singletonList(mock(Avoidable.class)));
       };
 
       // Then
@@ -60,21 +79,20 @@ class CircleImplTest {
 
       // Given
       Position newPosition = Positions.of(0, 1);
-      GridElement gridElementOfShape = mock(GridElement.class);
       CollisionDetector collisionDetector = CollisionDetectorBuilder.builder()
             .withCollisionDistance(2)
             .withDefaultCollisionHandler()
             .build();
 
       ObstacleImpl avoidable = new ObstacleImpl(mock(Grid.class), Positions.of(0, 6));
-      Circle circle = new CircleBuilder(50)
+      Circle circle = new CircleBuilder(5)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
             .build();
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(collisionDetector, gridElementOfShape, newPosition, singletonList(avoidable));
+         circle.check4Collision(collisionDetector, newPosition, singletonList(avoidable));
       };
 
       // Then

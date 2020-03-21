@@ -72,23 +72,6 @@ public class Positions {
    }
 
    /**
-    * Moves the given Position forward for the given amount of increments
-    * 
-    * @param pos
-    *        the position
-    * @param amountOfSteps
-    *        the amount of increments the Position is moved forward
-    * @return a new instance of the Position
-    * @see Positions#movePositionForward(Position)
-    */
-   public static Position movePositionForward(Position pos, int amountOfSteps) {
-      for (int i = 0; i < amountOfSteps; i++) {
-         pos = movePositionForward(pos);
-      }
-      return pos;
-   }
-
-   /**
     * Returns a new {@link PositionImpl} within the borders of the given
     * {@link Dimension} considering the given height and width of the Position
     * 
