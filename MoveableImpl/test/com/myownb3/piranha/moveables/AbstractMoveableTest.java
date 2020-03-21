@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
-import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 
 /**
@@ -31,7 +31,7 @@ class AbstractMoveableTest {
             .withShape(shape)
             .build();
       // Then
-      assertThat(((SimpleGridElement) moveable).getShape(), is(shape));
+      assertThat(((AbstractGridElement) moveable).getShape(), is(shape));
    }
 
 }

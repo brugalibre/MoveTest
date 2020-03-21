@@ -11,13 +11,14 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
-import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Direction;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
@@ -35,10 +36,10 @@ class ScannerTest {
       // Given
       // We do not care about the detection handler, since this is not part of this
       // test
-      CollisionDetectionHandler collisionDetectionHandler = (a, b, c) -> {
-      };
       Grid grid = GridBuilder.builder()
-            .withCollisionDetectionHandler(collisionDetectionHandler).build();
+            .withCollisionDetectionHandler((a, b, c) -> {
+            })
+            .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
       Detector detector = new DetectorImpl(5, 45, 5.625);
       Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))
@@ -52,6 +53,31 @@ class ScannerTest {
 
       // Then
       assertThat(isEffectivelyEvasion, is(isEvasion));
+   }
+
+   @Test
+   void testEvasion_DistanceCloseEnoughButNotAvoidable() {
+
+      // Given
+      // We do not care about the detection handler, since this is not part of this
+      // test
+      Grid grid = GridBuilder.builder()
+            .withCollisionDetectionHandler((a, b, c) -> {
+            })
+            .build();
+      GridElement gridElement = new SimpleGridElement(grid, Positions.of(1, 7));
+      Detector detector = new DetectorImpl(5, 45, 5.625);
+      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))
+            .withHandler(new DetectableMoveableHelper(detector))
+            .build();
+      boolean notEvasion = false;
+
+      // When
+      moveable.moveForward(50);
+      boolean isEffectivelyEvasion = detector.isEvasion(gridElement);
+
+      // Then
+      assertThat(isEffectivelyEvasion, is(notEvasion));
    }
 
    @Test

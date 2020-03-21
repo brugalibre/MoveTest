@@ -37,32 +37,25 @@ public interface Shape {
     * 
     * @param collisionDetector
     *        the {@link CollisionDetectionHandler} which does the actual collision detecting
-    * @param gridElement
-    *        the {@link GridElement} which has moved and is now checking for collision
-    * 
     * @param newPosition
     *        the new Position after the movement
     * @param allAvoidables
     *        all {@link Avoidable} on the Grid
     */
-   void check4Collision(CollisionDetector collisionDetector, GridElement gridElement, Position newPosition,
-         List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables);
 
    /**
-    * Evaluates if the given {@link Avoidable} at the given {@link Position} is in reach to this Shape or it's path to be detected by the
-    * given Detector
+    * Evaluates if the {@link GridElement} of this {@link Shape} at the given {@link Position} is in reach to this Shape or it's path to be
+    * detected by the given Detector
     * 
-    * @param avoidable
-    *        the {@link Avoidable} to detect
     * @param detectorPosition
-    *        the current Position from which the {@link Detector} trys to
-    *        detect
+    *        the current Position from which the {@link Detector} try to detect
     * @param detector
     *        the Detector which does the actual detecting
-    * @return <code>true</code> if the avoidable at the specific {@link Position} was detected, <code>false</code> if
-    *         not
+    * 
+    * @return <code>true</code> if the avoidable at the specific {@link Position} was detected, <code>false</code> if not
     */
-   boolean detectObject(Avoidable avoidable, Position detectorPosition, Detector detector);
+   boolean detectObject(Position detectorPosition, Detector detector);
 
    /**
     * Returns the {@link Position} placed on the path which is equivalent to the

@@ -5,6 +5,7 @@ package com.myownb3.piranha.detector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
@@ -18,37 +19,37 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Detector {
 
    /**
-    * Evaluates if the given {@link Avoidable} has been detected by this Detector
+    * Evaluates if the given {@link GridElement} has been detected by this Detector
     * We use also the given {@link Position} of the {@link Avoidable} to check weather or not this avoidable is detected
     * 
-    * @param avoidable
-    *        the {@link Avoidable} to detect
-    * @param avoidablePos
-    *        the {@link Position} of the Avoidble which is used for the verification if there is a detection
+    * @param gridElement
+    *        the {@link GridElement} to detect
+    * @param gridElementPos
+    *        the {@link Position} of the gridElement which is used for the verification if there is a detection
     * @param position
     *        the current Position from which the {@link Detector} trys to
     *        detect
     * @return <code>true</code> if the object was detected, <code>false</code> if
     *         not
     */
-   boolean detectObject(Avoidable avoidable, Position avoidablePos, Position position);
+   boolean detectObject(GridElement gridElement, Position gridElementPos, Position position);
 
    /**
     * 
     * @return <code>true</code> if this {@link Moveable} is currently evasion the
-    *         given {@link Avoidable}
+    *         given {@link GridElement}
     */
-   boolean isEvasion(Avoidable avoidable);
+   boolean isEvasion(GridElement gridElement);
 
    /**
-    * Returns <code>true</code> if the given {@link Avoidable} is currently
+    * Returns <code>true</code> if the given {@link GridElement} is currently
     * detected or <code>false</code> if not
     * 
-    * @param avoidable
-    * @return <code>true</code> if the given {@link Avoidable} is currently
+    * @param gridElement
+    * @return <code>true</code> if the given {@link GridElement} is currently
     *         detected or <code>false</code> if not
     */
-   boolean hasObjectDetected(Avoidable avoidable);
+   boolean hasObjectDetected(GridElement gridElement);
 
    /**
     * Returns the angle increment for which a {@link Moveable} can make a turn in

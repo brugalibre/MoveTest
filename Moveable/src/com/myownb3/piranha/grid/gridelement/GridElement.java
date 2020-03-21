@@ -51,14 +51,14 @@ public interface GridElement {
    Grid getGrid();
 
    /**
-    * Checks if this {@link GridElement} has detected the given {@link Avoidable}
+    * Checks if this {@link GridElement} has detected the given {@link GridElement}
     * 
-    * @param avoidable
-    *        the {@link Avoidable} to check
+    * @param gridElement
+    *        the {@link GridElement} to check
     * @param detector
     *        the {@link Detector} used for the actual detection
     */
-   void hasAvoidableDetected(Avoidable avoidable, Detector detector);
+   void hasGridElementDetected(GridElement gridElement, Detector detector);
 
    /**
     * Checks if this {@link GridElement} is detected by the given {@link Detector} and from the given Position

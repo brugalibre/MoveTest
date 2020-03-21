@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -123,7 +124,7 @@ class CircleImplTest {
       circle.transform(endPos);
 
       // Then
-      List<Position> path = circle.getPath();
+      List<Position> path = new ArrayList<>(circle.getPath());
       Collections.sort(path, new CircePathPositionComparator());
       Collections.sort(oldPath, new CircePathPositionComparator());
 
@@ -158,7 +159,7 @@ class CircleImplTest {
             .build();
 
       // Then
-      List<Position> path = circle.getPath();
+      List<Position> path = new ArrayList<>(circle.getPath());
       assertThat(path.size(), is(expectedOfPoints));
       Collections.shuffle(path);
       Collections.sort(path, new CircePathPositionComparator());

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.MathUtil;
 
@@ -27,8 +28,8 @@ public class DetectorImpl implements Detector {
    private int evasionDistance;
    private double evasionAngle;
 
-   private Map<Avoidable, Boolean> detectionMap;
-   private Map<Avoidable, Boolean> isEvasionMap;
+   private Map<GridElement, Boolean> detectionMap;
+   private Map<GridElement, Boolean> isEvasionMap;
 
    /**
     * Default Constructor, only used for Tests
@@ -52,7 +53,7 @@ public class DetectorImpl implements Detector {
    }
 
    @Override
-   public boolean detectObject(Avoidable avoidable, Position avoidablePos, Position detectorPosition) {
+   public boolean detectObject(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
       boolean isDetected = false;
       double distance = avoidablePos.calcDistanceTo(detectorPosition);
       boolean isPotentialCollisionCourse = false;
@@ -63,15 +64,19 @@ public class DetectorImpl implements Detector {
          isDetected = degValue <= (detectorAngle / 2);
          if (isDetected && evasionDistance >= distance) {
             isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
-            isEvasion = isDetected && isPotentialCollisionCourse;
+            isEvasion = isEvasion(gridElement, isDetected, isPotentialCollisionCourse);
          }
-         detectionMap.put(avoidable, isDetected);
-         isEvasionMap.put(avoidable, isEvasion);
+         detectionMap.put(gridElement, isDetected);
+         isEvasionMap.put(gridElement, isEvasion);
          return isEvasion;
       }
-      detectionMap.remove(avoidable);
-      isEvasionMap.remove(avoidable);
+      detectionMap.remove(gridElement);
+      isEvasionMap.remove(gridElement);
       return false;
+   }
+
+   private boolean isEvasion(GridElement gridElement, boolean isDetected, boolean isPotentialCollisionCourse) {
+      return isDetected && isPotentialCollisionCourse && gridElement instanceof Avoidable;
    }
 
    @Override
@@ -93,7 +98,6 @@ public class DetectorImpl implements Detector {
             avoidAngle = -angleInc;// Turn to the right
          } else {
             avoidAngle = angleInc;// Turn to the left
-            assert (!isInUpperBounds);
          }
       }
       return avoidAngle;
@@ -131,19 +135,21 @@ public class DetectorImpl implements Detector {
    private List<Avoidable> getEvasionAvoidables() {
       return isEvasionMap.keySet()
             .stream()
+            .filter(Avoidable.class::isInstance)
+            .map(Avoidable.class::cast)
             .filter(avoidable -> isEvasionMap.get(avoidable))
             .collect(Collectors.toList());
    }
 
    @Override
-   public final boolean isEvasion(Avoidable avoidable) {
-      Boolean isEvasion = isEvasionMap.get(avoidable);
+   public final boolean isEvasion(GridElement gridElement) {
+      Boolean isEvasion = isEvasionMap.get(gridElement);
       return isEvasion == null ? false : isEvasion;
    }
 
    @Override
-   public boolean hasObjectDetected(Avoidable avoidable) {
-      Boolean hasObjectDetected = detectionMap.get(avoidable);
+   public boolean hasObjectDetected(GridElement gridElement) {
+      Boolean hasObjectDetected = detectionMap.get(gridElement);
       return hasObjectDetected == null ? false : hasObjectDetected;
    }
 

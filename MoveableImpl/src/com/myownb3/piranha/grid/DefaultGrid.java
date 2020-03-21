@@ -174,10 +174,16 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<Avoidable> getAllAvoidables(GridElement gridElement) {
-      return gridElements.stream()
-            .filter(currenGridEl -> !currenGridEl.equals(gridElement))
+      return getAllGridElements(gridElement).stream()
             .filter(Avoidable.class::isInstance)
             .map(Avoidable.class::cast)
+            .collect(Collectors.toList());
+   }
+
+   @Override
+   public List<GridElement> getAllGridElements(GridElement gridElement) {
+      return gridElements.stream()
+            .filter(currenGridEl -> !currenGridEl.equals(gridElement))
             .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 

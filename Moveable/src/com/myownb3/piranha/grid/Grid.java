@@ -63,6 +63,16 @@ public interface Grid {
    List<Avoidable> getAllAvoidables(GridElement gridElement);
 
    /**
+    * Returns all {@link GridElement}s but the given {@link GridElement} which are
+    * currently placed on this {@link Grid}
+    * 
+    * @param gridElement
+    * @return all {@link GridElement}s but the given {@link GridElement} which are
+    *         currently placed on this {@link Grid}
+    */
+   List<GridElement> getAllGridElements(GridElement gridElement);
+
+   /**
     * 
     * @returns a {@link Dimension} describing the dimension of this {@link Grid}
     */

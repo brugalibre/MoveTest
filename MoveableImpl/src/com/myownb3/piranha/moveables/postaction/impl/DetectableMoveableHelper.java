@@ -62,8 +62,8 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
     *        the given {@link Moveable}
     */
    public void checkSurrounding(Grid grid, Moveable moveable) {
-      grid.getAllAvoidables(moveable)
-            .forEach(avoidable -> moveable.hasAvoidableDetected(avoidable, detector));
+      grid.getAllGridElements(moveable)
+            .forEach(gridElement -> moveable.hasGridElementDetected(gridElement, detector));
    }
 
    public List<Avoidable> getDetectedAvoidable(Grid grid, Moveable moveable) {

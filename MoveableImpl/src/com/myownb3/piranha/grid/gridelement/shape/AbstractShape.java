@@ -3,10 +3,13 @@
  */
 package com.myownb3.piranha.grid.gridelement.shape;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 
 /**
@@ -16,6 +19,7 @@ import com.myownb3.piranha.grid.gridelement.Position;
 public abstract class AbstractShape implements Shape {
 
    protected List<Position> path;
+   protected GridElement gridElement;
 
    /**
     * Creates a new {@link AbstractShape}
@@ -25,9 +29,10 @@ public abstract class AbstractShape implements Shape {
    }
 
    @Override
-   public boolean detectObject(Avoidable avoidable, Position detectorPosition, Detector detector) {
+   public boolean detectObject(Position detectorPosition, Detector detector) {
+      requireNonNull(gridElement, "A Shape needs a GridElement when calling 'detectObject'");
       for (Position posOnPath : path) {
-         boolean hasPosDetected = detector.detectObject(avoidable, posOnPath, detectorPosition);
+         boolean hasPosDetected = detector.detectObject(gridElement, posOnPath, detectorPosition);
          if (hasPosDetected) {
             break;
          }
@@ -37,6 +42,10 @@ public abstract class AbstractShape implements Shape {
 
    @Override
    public List<Position> getPath() {
-      return path;
+      return Collections.unmodifiableList(path);
+   }
+
+   public void setGridElement(GridElement gridElement) {
+      this.gridElement = requireNonNull(gridElement);
    }
 }
