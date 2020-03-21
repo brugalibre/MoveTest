@@ -35,7 +35,7 @@ class ScannerTest {
       // Given
       // We do not care about the detection handler, since this is not part of this
       // test
-      CollisionDetectionHandler collisionDetectionHandler = (a, b) -> {
+      CollisionDetectionHandler collisionDetectionHandler = (a, b, c) -> {
       };
       Grid grid = GridBuilder.builder()
             .withCollisionDetectionHandler(collisionDetectionHandler).build();

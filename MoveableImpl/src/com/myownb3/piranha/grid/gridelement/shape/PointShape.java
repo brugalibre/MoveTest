@@ -33,9 +33,9 @@ public class PointShape extends AbstractShape {
    }
 
    @Override
-   public void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables) {
+   public void check4Collision(CollisionDetector collisionDetector, GridElement gridElement, Position newPosition, List<Avoidable> allAvoidables) {
       // Since the 'newPosition' is already transformed, we can call the detector directly
-      collisionDetector.checkCollision(getPosition(), newPosition, allAvoidables);
+      collisionDetector.checkCollision(gridElement, getPosition(), newPosition, allAvoidables);
    }
 
    @Override

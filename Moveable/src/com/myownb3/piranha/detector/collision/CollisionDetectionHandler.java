@@ -19,14 +19,16 @@ import com.myownb3.piranha.grid.gridelement.Position;
 public interface CollisionDetectionHandler {
 
    /**
-    * Handles a specific collision between the given {@link Avoidable} at the given
+    * Handles a specific collision between the given {@link Avoidable} and the given {@link GridElement} at the given
     * {@link Position}
     * 
     * @param avoidable
     *        the {@link Avoidable} with which another
     *        {@link GridElement} was collided
+    * @param gridElement
+    *        the {@link GridElement} which caused the collision with the given {@link Avoidable}
     * @param newPosition
     *        the Position at which the collision occurred
     */
-   void handleCollision(Avoidable avoidable, Position newPosition);
+   void handleCollision(Avoidable avoidable, GridElement gridElement, Position newPosition);
 }

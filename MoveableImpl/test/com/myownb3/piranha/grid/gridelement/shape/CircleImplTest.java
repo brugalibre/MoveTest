@@ -21,6 +21,7 @@ import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
@@ -37,6 +38,7 @@ class CircleImplTest {
 
       // Given
       Position newPosition = Positions.of(5, 5);
+      GridElement gridElementOfShape = mock(GridElement.class);
       newPosition.rotate(11);
       Circle circle = new CircleBuilder(5)
             .withAmountOfPoints(4)
@@ -45,7 +47,7 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(mock(CollisionDetector.class), newPosition, singletonList(mock(Avoidable.class)));
+         circle.check4Collision(mock(CollisionDetector.class), gridElementOfShape, newPosition, singletonList(mock(Avoidable.class)));
       };
 
       // Then
@@ -57,6 +59,7 @@ class CircleImplTest {
 
       // Given
       Position newPosition = Positions.of(0, 1);
+      GridElement gridElementOfShape = mock(GridElement.class);
       CollisionDetector collisionDetector = CollisionDetectorBuilder.builder()
             .withCollisionDistance(2)
             .withDefaultCollisionHandler()
@@ -70,7 +73,7 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(collisionDetector, newPosition, singletonList(avoidable));
+         circle.check4Collision(collisionDetector, gridElementOfShape, newPosition, singletonList(avoidable));
       };
 
       // Then

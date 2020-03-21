@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 
@@ -38,14 +39,15 @@ public class CircleImpl extends AbstractShape implements Circle {
       return amountOfPoints;
    }
 
+
    @Override
-   public void check4Collision(CollisionDetector collisionDetector, Position newCenterPos, List<Avoidable> allAvoidables) {
+   public void check4Collision(CollisionDetector collisionDetector, GridElement gridElement, Position newCenterPos, List<Avoidable> allAvoidables) {
       List<Position> newPath = buildCircleWithCenter(newCenterPos, amountOfPoints, radius);
       Collections.sort(newPath, new CircePathPositionComparator());
       Collections.sort(path, new CircePathPositionComparator());
       for (Position newPos : newPath) {
          Position oldPos = getOldPosForTransoformedValue(newPos);
-         collisionDetector.checkCollision(oldPos, newPos, allAvoidables);
+         collisionDetector.checkCollision(gridElement, oldPos, newPos, allAvoidables);
       }
    }
 

@@ -56,7 +56,8 @@ class GridTest {
    public void testBuildGridWithCollisionHandler_SamePos() {
 
       // Given
-      CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder().withMoveablePos(Positions.of(0, 0))
+      CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
+            .withMoveablePos(Positions.of(0, 0))
             .withObstaclePos(Positions.of(0, 0.1))
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withGrid()
@@ -67,7 +68,7 @@ class GridTest {
       tcb.moveable.moveForward();
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), any());
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.moveable), any());
    }
 
    @Test
@@ -85,7 +86,7 @@ class GridTest {
       tcb.moveable.moveForward();
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), any());
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.moveable), any());
    }
 
    @Test

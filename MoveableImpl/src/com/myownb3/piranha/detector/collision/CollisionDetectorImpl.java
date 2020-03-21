@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
@@ -34,18 +35,18 @@ public class CollisionDetectorImpl implements CollisionDetector {
    }
 
    @Override
-   public void checkCollision(Position oldPosition, Position newPosition, List<Avoidable> allAvoidables) {
+   public void checkCollision(GridElement gridElement, Position oldPosition, Position newPosition, List<Avoidable> allAvoidables) {
       Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
-      allAvoidables.forEach(checkCollisionWithAvoidable(oldPosition, newPosition, lineFromOldToNew));
+      allAvoidables.forEach(checkCollisionWithAvoidable(gridElement, oldPosition, newPosition, lineFromOldToNew));
    }
 
-   private Consumer<? super Avoidable> checkCollisionWithAvoidable(Position oldPosition, Position newPosition,
+   private Consumer<? super Avoidable> checkCollisionWithAvoidable(GridElement gridElement, Position oldPosition, Position newPosition,
          Float64Vector lineFromOldToNew) {
       return avoidable -> {
          boolean isCollision = isCollision(oldPosition, newPosition, lineFromOldToNew, avoidable);
          if (isCollision) {
             collisionDetectionHandlerOpt.ifPresent(
-                  collisionDetectionHandler -> collisionDetectionHandler.handleCollision(avoidable, newPosition));
+                  collisionDetectionHandler -> collisionDetectionHandler.handleCollision(avoidable, gridElement, newPosition));
          }
       };
    }
@@ -89,9 +90,9 @@ public class CollisionDetectorImpl implements CollisionDetector {
       }
 
       public CollisionDetectorBuilder withDefaultCollisionHandler() {
-         handler = (avoidable, newPosition) -> {
+         handler = (avoidable, gridElement, newPosition) -> {
             throw new CollisionDetectedException("Collision with Avoidable '" + avoidable.getPosition()
-                  + "', on Position x='" + newPosition.getX() + "', y='" + newPosition.getY() + "'");
+                  + "' and GridElement '" + gridElement + "', on Position x='" + newPosition.getX() + "', y='" + newPosition.getY() + "'");
          };
          return this;
       }

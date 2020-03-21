@@ -67,7 +67,7 @@ public class SimpleGridElement implements GridElement {
 
    @Override
    public void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables) {
-      shape.check4Collision(collisionDetector, newPosition, allAvoidables);
+      shape.check4Collision(collisionDetector, this, newPosition, allAvoidables);
    }
 
    @Override

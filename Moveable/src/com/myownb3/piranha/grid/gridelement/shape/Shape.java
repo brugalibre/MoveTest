@@ -32,18 +32,21 @@ public interface Shape {
    List<Position> getPath();
 
    /**
-    * Checks for every given {@link Avoidable} if there is a collision when this {@link GridElement} is moving
+    * Checks for every given {@link Avoidable} if there is a collision when the {@link GridElement} of this {@link Shape} is moving
     * from it's current Position to the new Position
     * 
     * @param collisionDetector
     *        the {@link CollisionDetectionHandler} which does the actual collision detecting
+    * @param gridElement
+    *        the {@link GridElement} which has moved and is now checking for collision
     * 
     * @param newPosition
     *        the new Position after the movement
     * @param allAvoidables
     *        all {@link Avoidable} on the Grid
     */
-   void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetector collisionDetector, GridElement gridElement, Position newPosition,
+         List<Avoidable> allAvoidables);
 
    /**
     * Evaluates if the given {@link Avoidable} at the given {@link Position} is in reach to this Shape or it's path to be detected by the
