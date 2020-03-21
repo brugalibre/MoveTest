@@ -24,8 +24,8 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.MoveResult;
 import com.myownb3.piranha.moveables.Moveable;
@@ -47,14 +47,14 @@ public class EndPointMoveableLauncher {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 6;
-      int width = 6;
-      DefaultGrid grid = MirrorGridBuilder.builder()
-            .withMaxX(510)
-            .withMaxY(510)
-            .withMinX(padding)
-            .withMinY(padding)
-            .build();
+      int height = 8;
+      int width = 8;
+      EndPointMoveableLauncher launcher = new EndPointMoveableLauncher();
+      launcher.launch(height, width);
+   }
+
+   private void launch(int height, int width) throws InterruptedException {
+      DefaultGrid grid = buildGrid();
       List<Position> endPositions = getEndPositions();
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
       List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width);
@@ -66,6 +66,15 @@ public class EndPointMoveableLauncher {
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = prepareAndMoveMoveables(moveables, mainWindow);
       preparePositionListPainter(renderers, positions);
+   }
+
+   private static DefaultGrid buildGrid() {
+      return MirrorGridBuilder.builder()
+            .withMaxX(510)
+            .withMaxY(510)
+            .withMinX(padding)
+            .withMinY(padding)
+            .build();
    }
 
    private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<Position> endPositions, int width) {
@@ -205,7 +214,8 @@ public class EndPointMoveableLauncher {
       Position pos = Positions.of(posX + padding, posY + padding);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder().withEndPosition(endPos)
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withEndPosition(endPos)
             .withGrid(grid)
             .withStartPosition(pos)
             .withHandler(new EvasionStateMachine(detector, endPos, config))

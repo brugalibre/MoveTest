@@ -54,17 +54,22 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       int width = 6;
       int mainWindowWidth = 700;
       int mainWindowHeight = 700;
-      RandomMoveableLauncherWithEndPoint randomMoveableLauncherWithEndPoint = new RandomMoveableLauncherWithEndPoint();
 
+      RandomMoveableLauncherWithEndPoint randomMoveableLauncherWithEndPoint = new RandomMoveableLauncherWithEndPoint();
+      randomMoveableLauncherWithEndPoint.launch(height, width, mainWindowWidth, mainWindowHeight);
+   }
+
+   private void launch(int height, int width, int mainWindowWidth, int mainWindowHeight) throws InterruptedException {
       MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
-      CollisionDetectionHandlerImpl collisionDetectionHandler = new CollisionDetectionHandlerImpl(
-            randomMoveableLauncherWithEndPoint, mainWindow);
+      CollisionDetectionHandlerImpl collisionDetectionHandler = new CollisionDetectionHandlerImpl(this, mainWindow);
+
       MirrorGrid grid = buildMirrorGrid(mainWindow, mainWindowWidth, collisionDetectionHandler);
       Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
       List<Position> endPosList = getEndPosList(height, width, grid);
       List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
       List<Renderer> renderers = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
+
       MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
             getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width);
       moveableControllerList.add(moveableController);
@@ -74,7 +79,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       mainWindow.addSpielfeld(renderers, grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
-      randomMoveableLauncherWithEndPoint.prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
+      prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
    }
 
    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth, CollisionDetectionHandler collisionDetector) {

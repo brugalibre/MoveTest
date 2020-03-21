@@ -49,17 +49,14 @@ public class RandomMoveableLauncher implements Stoppable {
       int height = 6;
       int width = 6;
       RandomMoveableLauncher randomMoveableLauncher = new RandomMoveableLauncher();
-      MainWindow mainWindow = new MainWindow(700, 700, padding, height);
-      CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(randomMoveableLauncher,
-            mainWindow);
-      MirrorGrid grid = MirrorGridBuilder.builder()
-            .withMaxX(700)
-            .withMaxY(700)
-            .withMinX(padding)
-            .withMinY(padding)
-            .withCollisionDetectionHandler(collisionDetector)
-            .build();
+      randomMoveableLauncher.launch(height, width);
+   }
 
+   private void launch(int height, int width) throws InterruptedException {
+      MainWindow mainWindow = new MainWindow(700, 700, padding, height);
+      CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(this, mainWindow);
+
+      MirrorGrid grid = buildGrid(collisionDetector);
       Moveable moveable = getMoveable(grid, height, width);
       GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), 1, 1);
       List<GridElement> gridElements = getAllGridElements(grid, height, width);
@@ -69,7 +66,17 @@ public class RandomMoveableLauncher implements Stoppable {
       mainWindow.addSpielfeld(renderers, grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
-      randomMoveableLauncher.prepareAndMoveMoveables(moveable, gridElements, mainWindow);
+      prepareAndMoveMoveables(moveable, gridElements, mainWindow);
+   }
+
+   private static MirrorGrid buildGrid(CollisionDetectionHandler collisionDetector) {
+      return MirrorGridBuilder.builder()
+            .withMaxX(700)
+            .withMaxY(700)
+            .withMinX(padding)
+            .withMinY(padding)
+            .withCollisionDetectionHandler(collisionDetector)
+            .build();
    }
 
    private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width) {
