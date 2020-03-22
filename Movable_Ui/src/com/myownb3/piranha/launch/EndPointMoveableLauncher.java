@@ -47,8 +47,8 @@ public class EndPointMoveableLauncher {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 8;
-      int width = 8;
+      int height = 4;
+      int width = 4;
       EndPointMoveableLauncher launcher = new EndPointMoveableLauncher();
       launcher.launch(height, width);
    }
@@ -85,9 +85,9 @@ public class EndPointMoveableLauncher {
 
    private static List<Position> getEndPositions() {
       List<Position> endPositions = new ArrayList<>();
-      endPositions.add(Positions.of(400 + padding, 10 + padding));
-      endPositions.add(Positions.of(400 + padding, 400 + padding));
-      endPositions.add(Positions.of(10 + padding, 10 + padding));
+      //      endPositions.add(Positions.of(400 + padding, 10 + padding));
+      //      endPositions.add(Positions.of(400 + padding, 400 + padding));
+      //      endPositions.add(Positions.of(10 + padding, 10 + padding));
       endPositions.add(Positions.of(10 + padding, 400 + padding));
       return endPositions;
    }
@@ -210,19 +210,16 @@ public class EndPointMoveableLauncher {
    }
 
    private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Position pos = Positions.of(posX + padding, posY + padding);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
-            .withEndPosition(endPos)
             .withGrid(grid)
             .withStartPosition(pos)
             .withHandler(new EvasionStateMachine(detector, endPos, config))
-            .withEndPosition(endPos)
             .withShape(buildCircle(width, pos))
             .build();
-      moveable.prepare();
       return moveable;
    }
 

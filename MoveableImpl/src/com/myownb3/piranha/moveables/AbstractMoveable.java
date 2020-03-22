@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -36,9 +36,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    private void init(Grid grid, MoveablePostActionHandler handler) {
+      positionHistory = new LinkedList<>();
       this.handler = handler;
       this.handler.handlePostConditions(grid, this);
-      positionHistory = new LinkedList<>();
    }
 
    public AbstractMoveable(Grid grid, Position position, Shape shape) {

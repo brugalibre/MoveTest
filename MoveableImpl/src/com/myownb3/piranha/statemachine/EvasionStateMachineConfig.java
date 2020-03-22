@@ -24,6 +24,13 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 public interface EvasionStateMachineConfig {
 
    /**
+    * Returns the angle for the initial angle correction in order to get the {@link Moveable} on track
+    * 
+    * @return
+    */
+   double getOrientationAngle();
+
+   /**
     * Returns the angle increment a {@link Moveable} turns whenever there is an
     * evasion. Used in State {@link EvasionStates#EVASION}
     * 

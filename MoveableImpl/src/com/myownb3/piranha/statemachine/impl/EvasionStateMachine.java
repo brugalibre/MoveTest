@@ -5,10 +5,12 @@ package com.myownb3.piranha.statemachine.impl;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.DEFAULT;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
+import static com.myownb3.piranha.statemachine.states.EvasionStates.ORIENTING;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +26,13 @@ import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.defaultstate.DefaultStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.defaultstate.input.DefaultStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.orientatingstate.OrientatingStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.orientatingstate.input.OrientatingStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.PassingStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.DefaultPostEvasionStateHandler;
@@ -75,6 +79,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
    private void createAndInitHandlerMap() {
       evasionStatesHandler2StateMap = new HashMap<>();
+      evasionStatesHandler2StateMap.put(ORIENTING, new OrientatingStateHandler(config.getOrientationAngle()));
       evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
       evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler());
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
@@ -98,8 +103,14 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       switch (evasionState) {
          case DEFAULT:
             DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
-            CommonEventStateInput commonEventStateInput = CommonEventStateInput.of(grid, moveable, this);
-            eventStateResult = defaultStateHandler.handle(commonEventStateInput);
+            DefaultStateInput defaultStateInput = DefaultStateInput.of(grid, moveable, this, endPosition);
+            eventStateResult = defaultStateHandler.handle(defaultStateInput);
+            evasionState = eventStateResult.getNextState();
+            break;
+         case ORIENTING:
+            OrientatingStateHandler orientatingStateHandler = getHandler4State(evasionState);
+            OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(grid, moveable, this, endPosition);
+            eventStateResult = orientatingStateHandler.handle(orientatingStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case EVASION:
@@ -184,7 +195,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    }
 
    public void setEndPosition(Position endPos) {
-      this.endPosition = endPos;
+      this.endPosition = requireNonNull(endPos);
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
    }
 }

@@ -183,8 +183,7 @@ public class Positions {
 
          // x-axis is negative -> absolute value of angle + 90 (since we are looking from
          // the absolute zero point)
-         angleAsDegree = getAbsolutAngle(angleAsDegree);
-         return MathUtil.roundThreePlaces(angleAsDegree);
+         return getAbsolutAngle(angleAsDegree);
       }
 
       /**

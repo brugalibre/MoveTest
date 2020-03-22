@@ -5,6 +5,7 @@ package com.myownb3.piranha.statemachine.states;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 
 /**
  * Describes the different states when a {@link Moveable} is envasion any
@@ -19,6 +20,17 @@ public enum EvasionStates {
       @Override
       public EvasionStates nextState() {
          return NONE;
+      }
+   },
+
+   /**
+    * Describes the state in which the {@link Moveable} is orienting and looking for it's path to go.
+    * <b> Note:</b> This is only relevant, if the {@link EvasionStateMachine} has a end-Position set
+    */
+   ORIENTING {
+      @Override
+      public EvasionStates nextState() {
+         return DEFAULT;
       }
    },
 

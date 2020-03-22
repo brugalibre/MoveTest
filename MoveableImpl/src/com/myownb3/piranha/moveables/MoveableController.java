@@ -5,7 +5,6 @@ package com.myownb3.piranha.moveables;
 
 import static java.util.Objects.nonNull;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,26 +29,27 @@ public class MoveableController {
    /**
     * @param moveable
     */
-   public MoveableController(EndPointMoveable moveable) {
-      this(moveable, MovingStrategie.FORWARD);
+   public MoveableController(EndPointMoveable moveable, List<Position> endPosList) {
+      this(moveable, MovingStrategie.FORWARD, endPosList);
    }
 
    /**
     * @param moveable
     */
-   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie) {
+   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie, List<Position> endPosList) {
       isRunning = true;
       this.moveable = moveable;
       this.strategie = strategie;
-      this.endPosList = Collections.emptyList();
+      this.endPosList = endPosList;
       handler = result -> {
       };
+
    }
 
    public void leadMoveable() {
       switch (strategie) {
          case FORWARD:
-            leadMoveableStrategieForward();
+            leadMoveableWithEndPoints();
             break;
 
          default:
@@ -57,18 +57,9 @@ public class MoveableController {
       }
    }
 
-   private void leadMoveableStrategieForward() {
-      if (endPosList.isEmpty()) {
-         leadMoveable2EndPos();
-      } else {
-         leadMoveableWithEndPoints();
-      }
-   }
-
    private void leadMoveableWithEndPoints() {
-      for (Position position : endPosList) {
-         moveable.setEndPosition(position);
-         leadMoveable2EndPos();
+      for (Position endPos : endPosList) {
+         leadMoveable2EndPos(endPos);
       }
    }
 
@@ -76,8 +67,8 @@ public class MoveableController {
     * First turn the moveable in the right direction then move forward until we
     * reach our end position.
     */
-   private void leadMoveable2EndPos() {
-      moveable.prepare();
+   private void leadMoveable2EndPos(Position endPos) {
+      moveable.setEndPosition(endPos);
       while (isRunning) {
          MoveResult moveResult = moveable.moveForward2EndPos();
          handler.handlePostMoveForward(moveResult);
@@ -135,7 +126,7 @@ public class MoveableController {
       }
 
       public MoveableController build() {
-         MoveableController moveableController = new MoveableController(endPointMoveable);
+         MoveableController moveableController = new MoveableController(endPointMoveable, endPosList);
          moveableController.endPosList = endPosList;
          moveableController.strategie = movingStrategie;
          moveableController.handler = postMoveForwardHandler;
@@ -149,7 +140,6 @@ public class MoveableController {
          private MoveablePostActionHandler handler;
          private Position startPosition;
          private Grid grid;
-         private Position endPos;
          private int movingIncrement;
          private Shape shape;
 
@@ -192,9 +182,9 @@ public class MoveableController {
             Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
             Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
             if (nonNull(shape)) {
-               moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement, shape);
+               moveable = new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape);
             } else {
-               moveable = new EndPointMoveableImpl(grid, startPosition, handler, endPos, movingIncrement);
+               moveable = new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement);
             }
             handler.handlePostConditions(moveable.getGrid(), moveable);
             return this.moveable;
@@ -204,11 +194,6 @@ public class MoveableController {
             build();
             controllerBuilder.endPointMoveable = moveable;
             return controllerBuilder;
-         }
-
-         public EndPointMoveableBuilder withEndPosition(Position endPos) {
-            this.endPos = endPos;
-            return this;
          }
 
          public EndPointMoveableBuilder withShape(Shape shape) {

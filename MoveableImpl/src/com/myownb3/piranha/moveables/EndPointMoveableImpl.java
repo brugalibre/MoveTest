@@ -27,33 +27,24 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private int movingIncrement;
    private double prevDistance;
 
-   EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, Position endPosition,
-         int movingIncrement, Shape shape) {
+   EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
+         Shape shape) {
       super(grid, position, handler, shape);
       this.movingIncrement = movingIncrement;
-      this.endPos = endPosition;
    }
 
-   public EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, Position endPosition,
-         int movingIncrement) {
+   public EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement) {
       super(grid, position, handler);
       this.movingIncrement = movingIncrement;
-      this.endPos = endPosition;
    }
 
    @Override
-   public void setEndPosition(Position position) {
-      this.endPos = requireNonNull(position, "End-pos must not be null!");
+   public void setEndPosition(Position endPos) {
+      this.endPos = requireNonNull(endPos, "End-pos must not be null!");
+      prevDistance = endPos.calcDistanceTo(position);
       if (handler instanceof EvasionStateMachine) {
          ((EvasionStateMachine) handler).setEndPosition(endPos);
       }
-   }
-
-   @Override
-   public void prepare() {
-      double diffAngle = position.calcAngleRelativeTo(endPos);
-      makeTurn(diffAngle);
-      prevDistance = endPos.calcDistanceTo(position);
    }
 
    @Override

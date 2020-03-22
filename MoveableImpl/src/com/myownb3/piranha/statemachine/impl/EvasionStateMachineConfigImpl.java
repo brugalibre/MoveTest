@@ -16,6 +16,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    private double returningMinDistance;
    private double returningAngleIncMultiplier;
    private int passingDistance;
+   private double orientationAngle;
 
    // Attributes for Detector
    private int detectorReach;
@@ -26,12 +27,13 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 
    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
          int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-      this(angleIncMultiplier, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, detectorAngle,
-            evasionAngle, evasionAngleInc);
+      this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3,
+            detectorAngle, evasionAngle, evasionAngleInc);
    }
 
-   public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
-         int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
+   public EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
+         double angleMargin, int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
+      this.orientationAngle = orientationAngle;
       this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
       this.returningAngleIncMultiplier = angleIncMultiplier;
       this.returningMinDistance = minDistance;
@@ -42,6 +44,11 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
       this.detectorReach = detectorReach;
       this.detectorAngle = detectorAngle;
       this.evasionAngle = evasionAngle;
+   }
+
+   @Override
+   public final double getOrientationAngle() {
+      return this.orientationAngle;
    }
 
    @Override

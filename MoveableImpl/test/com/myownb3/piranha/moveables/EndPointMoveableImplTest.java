@@ -28,11 +28,12 @@ class EndPointMoveableImplTest {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
       // Given
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(pos)
             .withHandler(new EvasionStateMachine(detector, endPos, config))
-            .withEndPosition(endPos)
             .build();
-      moveable.prepare();
+      moveable.setEndPosition(endPos);
 
       // When
       MoveResult moveResult = moveable.moveForward2EndPos();
@@ -51,11 +52,12 @@ class EndPointMoveableImplTest {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
       // Given
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(pos)
             .withHandler(new EvasionStateMachine(detector, endPos, config))
-            .withEndPosition(endPos)
             .build();
-      moveable.prepare();
+      moveable.setEndPosition(endPos);
 
       // When
       MoveResult moveResult = moveable.moveForward2EndPos();
@@ -74,12 +76,13 @@ class EndPointMoveableImplTest {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
 
       // Given
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder().withGrid(grid).withStartPosition(pos)
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(pos)
             .withHandler(new EvasionStateMachine(detector, endPos, config))
-            .withEndPosition(endPos)
             .withMovingIncrement(4)
             .build();
-      moveable.prepare();
+      moveable.setEndPosition(endPos);
 
       // When
       MoveResult moveResult = moveable.moveForward2EndPos();

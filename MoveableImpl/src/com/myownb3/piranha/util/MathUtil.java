@@ -119,4 +119,20 @@ public class MathUtil {
       Float64Vector gridElemVector = getVector(gridElemPos);
       return gridElemVector.minus(moveableVector);
    }
+
+   /**
+    * Returns the signum of the given value. If the value is greater 0 then 1 is returned.
+    * If it is smaller than 0 then -1 is returned. If it is equal to 0, then 0 is returned
+    * 
+    * @param angleRelativeTo
+    * @return the signum of the given value
+    */
+   public static int getSignum(double value) {
+      if (value > 0) {
+         return 1;
+      } else if (value < 0) {
+         return -1;
+      }
+      return 0;
+   }
 }

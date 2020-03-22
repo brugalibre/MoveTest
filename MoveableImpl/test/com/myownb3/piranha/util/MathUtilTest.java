@@ -24,6 +24,25 @@ import com.myownb3.piranha.grid.gridelement.Positions;
 class MathUtilTest {
 
    @Test
+   void testSignum() {
+
+      // Given
+      int positiv = 10;
+      int zero = 0;
+      int negativ = -10;
+
+      // When
+      int signumOfNegativ = MathUtil.getSignum(negativ);
+      int signumOfZero = MathUtil.getSignum(zero);
+      int signumOfPositiv = MathUtil.getSignum(positiv);
+
+      // Then
+      assertThat(signumOfNegativ, is(-1));
+      assertThat(signumOfZero, is(0));
+      assertThat(signumOfPositiv, is(1));
+   }
+
+   @Test
    void testCalcAngle_SecondSector() {
 
       // Given

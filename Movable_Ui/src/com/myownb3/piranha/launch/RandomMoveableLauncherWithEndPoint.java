@@ -50,8 +50,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 6;
-      int width = 6;
+      int height = 4;
+      int width = 4;
       int mainWindowWidth = 700;
       int mainWindowHeight = 700;
 
@@ -94,7 +94,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
          List<Position> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
       return MoveableControllerBuilder.builder()

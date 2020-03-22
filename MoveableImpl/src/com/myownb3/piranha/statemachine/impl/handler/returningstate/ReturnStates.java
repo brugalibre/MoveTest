@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
+import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
@@ -26,4 +27,9 @@ enum ReturnStates {
     * or if it reached half the distance, we enter this state
     */
    ANGLE_CORRECTION_PHASE_FROM_ORDONAL,
+
+   /**
+    * After the moveable is facing again it's original path we may have to correct the relative angle to the end {@link Position}
+    */
+   RELATIVE_ANGLE_CORRECTION_TO_END_POS,
 }
