@@ -21,6 +21,7 @@ import com.myownb3.piranha.detector.collision.CollisionDetectedException;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Position;
@@ -34,6 +35,38 @@ import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 class CircleImplTest {
 
    @Test
+   void testCheck4Collision_CheckPath() {
+
+      // Given
+      int radius = 5;
+
+      // When
+      Circle circle = new CircleBuilder(radius)
+            .withAmountOfPoints(4)
+            .withCenter(Positions.of(Directions.N, 0, 0))
+            .build();
+
+      // Then
+      List<Position> path = new ArrayList<>(circle.getPath());
+      Collections.sort(path, new CircePathPositionComparator());
+      // Degree = 0
+      assertThat(path.get(0).getX(), is(5.0d));
+      assertThat(path.get(0).getY(), is(0.0d));
+
+      // Degree = 90
+      assertThat(path.get(1).getX(), is(0.0d));
+      assertThat(path.get(1).getY(), is(5.0d));
+
+      // Degree = 180
+      assertThat(path.get(2).getX(), is(-5.0d));
+      assertThat(path.get(2).getY(), is(0.0d));
+
+      // Degree = 270
+      assertThat(path.get(3).getX(), is(0.0d));
+      assertThat(path.get(3).getY(), is(-5.0d));
+   }
+
+   @Test
    void testCheck4Collision_CheckRadius() {
 
       // Given
@@ -45,7 +78,6 @@ class CircleImplTest {
             .build();
 
       // When
-
       Position center = circle.getCenter();
       Position firstPathPos = circle.getPath().get(0);
       int distanceFromCenterToPath = (int) center.calcDistanceTo(firstPathPos);
@@ -112,6 +144,25 @@ class CircleImplTest {
             .build();
 
       // When
+      Position positionOnPathFor = circle.getPositionOnPathFor(center);
+
+      // Then
+      assertThat(positionOnPathFor.getDirection(), is(center.getDirection()));
+   }
+
+   @Test
+   void testGetPositionOnPathForReverted() {
+      // Given
+      int amountOfPoints = 4;
+      int radius = 5;
+      Position center = Positions.of(0, 0);
+      Circle circle = new CircleBuilder(radius)
+            .withAmountOfPoints(amountOfPoints)
+            .withCenter(center)
+            .build();
+
+      // When
+      center.rotate(167);
       Position positionOnPathFor = circle.getPositionOnPathFor(center);
 
       // Then

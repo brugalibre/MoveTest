@@ -93,12 +93,12 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    private static Position getNextCirclePos(Position center, int radius, double deg) {
       Position pos = Positions.of(center);
+      pos.rotate(deg);
       double effectDistance = center.calcDistanceTo(pos);
       while (effectDistance < radius) {
          pos = Positions.movePositionForward(pos);
          effectDistance = center.calcDistanceTo(pos);
       }
-      pos.rotate(deg);
       return pos;
    }
 
