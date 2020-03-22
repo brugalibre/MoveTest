@@ -46,8 +46,8 @@ public class RandomMoveableLauncher implements Stoppable {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 6;
-      int width = 6;
+      int height = 5;
+      int width = 5;
       RandomMoveableLauncher randomMoveableLauncher = new RandomMoveableLauncher();
       randomMoveableLauncher.launch(height, width);
    }
@@ -152,7 +152,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
    private static Shape buildCircle(int width, Position pos) {
       return new CircleBuilder(width)
-            .withAmountOfPoints(5)
+            .withAmountOfPoints(10)
             .withCenter(pos)
             .build();//
    }
