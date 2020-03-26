@@ -1,16 +1,16 @@
 package com.myownb3.piranha.statemachine.impl.handler.orientatingstate.input;
 
 import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 
 public class OrientatingStateInput extends CommonEventStateInput {
 
-   private Position endPos;
+   private EndPosition endPos;
 
-   private OrientatingStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper, Position endPos) {
+   private OrientatingStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper, EndPosition endPos) {
       super(grid, moveable, helper);
       this.endPos = endPos;
    }
@@ -28,11 +28,11 @@ public class OrientatingStateInput extends CommonEventStateInput {
     *        the end-Position to folow
     * @return a new {@link OrientatingStateInput}
     */
-   public static OrientatingStateInput of(Grid grid, Moveable moveable, DetectableMoveableHelper helper, Position endPos) {
+   public static OrientatingStateInput of(Grid grid, Moveable moveable, DetectableMoveableHelper helper, EndPosition endPos) {
       return new OrientatingStateInput(grid, moveable, helper, endPos);
    }
 
-   public final Position getEndPos() {
+   public final EndPosition getEndPos() {
       return this.endPos;
    }
 }

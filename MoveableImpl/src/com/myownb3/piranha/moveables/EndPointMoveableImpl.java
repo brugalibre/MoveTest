@@ -3,18 +3,14 @@
  */
 package com.myownb3.piranha.moveables;
 
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
-import static com.myownb3.piranha.util.MathUtil.round;
 import static java.util.Objects.requireNonNull;
-
-import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
  * @author Dominic
@@ -22,8 +18,7 @@ import com.myownb3.piranha.util.vector.VectorUtil;
  */
 public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMoveable {
 
-   private static double DISTANCE_PRECISION = 0.001;
-   private Position endPos;
+   private EndPosition endPos;
    private int movingIncrement;
    private double prevDistance;
 
@@ -39,7 +34,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    }
 
    @Override
-   public void setEndPosition(Position endPos) {
+   public void setEndPosition(EndPosition endPos) {
       this.endPos = requireNonNull(endPos, "End-pos must not be null!");
       prevDistance = endPos.calcDistanceTo(position);
       if (handler instanceof EvasionStateMachine) {
@@ -52,8 +47,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       double distance = endPos.calcDistanceTo(position);
       if (distance >= getSmallestStepWith()) {
          moveForward(movingIncrement);
-         distance = endPos.calcDistanceTo(position);
-         if (isDone(distance)) {
+         if (endPos.checkIfHasReached(this)) {
             return new MoveResultImpl(distance, prevDistance, true);
          }
          prevDistance = distance;
@@ -63,29 +57,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    }
 
    @Override
-   public Position getCurrentEndPos() {
+   public EndPosition getCurrentEndPos() {
       return endPos;
-   }
-
-   /*
-    * We are done, when we - a) reach the destination - b) have already reached the
-    * destination and now we are getting further away again
-    */
-   private boolean isDone(double distance) {
-      return hasReachedEndPos(distance) || isBeyond(distance);
-   }
-
-   private boolean isBeyond(double distance) {
-      return round(distance, 1) > round(prevDistance, 1) && isPositionOnLine();
-   }
-
-   private boolean hasReachedEndPos(double distance) {
-      return distance <= DISTANCE_PRECISION && distance >= -DISTANCE_PRECISION;
-   }
-
-   private boolean isPositionOnLine() {
-      Float64Vector lineFromOldToNew = VectorUtil.getVector(position.getDirection());
-      double avoidableDistanceToLine = round(calcDistanceFromPositionToLine(endPos, position, lineFromOldToNew), 10);
-      return avoidableDistanceToLine == 0.0d;
    }
 }

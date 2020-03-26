@@ -21,6 +21,7 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -62,13 +63,13 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    private Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap;
    private EvasionStateMachineConfig config;
    private Position positionBeforeEvasion;
-   private Position endPosition;
+   private EndPosition endPosition;
 
    public EvasionStateMachine(Detector detector, EvasionStateMachineConfig config) {
       this(detector, null, config);
    }
 
-   public EvasionStateMachine(Detector detector, Position endPos, EvasionStateMachineConfig config) {
+   public EvasionStateMachine(Detector detector, EndPosition endPos, EvasionStateMachineConfig config) {
       super(detector);
       this.config = config;
       this.endPosition = endPos;
@@ -194,7 +195,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       return ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
    }
 
-   public void setEndPosition(Position endPos) {
+   public void setEndPosition(EndPosition endPos) {
       this.endPosition = requireNonNull(endPos);
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
    }

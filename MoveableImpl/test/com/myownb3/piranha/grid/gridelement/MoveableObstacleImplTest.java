@@ -16,7 +16,7 @@ class MoveableObstacleImplTest {
 
       // Given
       MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class),
-            Mockito.mock(Position.class));
+            Positions.of(0, 0));
 
       // When
       boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
@@ -33,7 +33,7 @@ class MoveableObstacleImplTest {
       PointShape shape = new PointShape(startPos);
 
       // When
-      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Mockito.mock(Position.class), shape);
+      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Positions.of(0, 0), shape);
 
       // Then
       assertThat(moveable.getShape(), is(shape));

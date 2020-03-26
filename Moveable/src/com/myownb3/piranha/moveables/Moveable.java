@@ -30,6 +30,13 @@ public interface Moveable extends GridElement {
    public static final int STEP_WITDH = 10;
 
    /**
+    * Return the {@link Position} which this {@link Moveable} had before it moved forward
+    * 
+    * @return the {@link Position} which this {@link Moveable} had before it moved forward
+    */
+   Position getPositionBefore();
+
+   /**
     * Moves this {@link Moveable} one unit forward, considering the current
     * {@link Direction}
     */

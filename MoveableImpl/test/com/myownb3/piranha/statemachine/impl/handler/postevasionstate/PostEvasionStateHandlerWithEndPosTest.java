@@ -22,6 +22,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
@@ -147,7 +148,7 @@ class PostEvasionStateHandlerWithEndPosTest {
       }
 
       private TestCaseBuilder withEventStateInput() {
-         evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion, Positions.of(1, 1));
+         evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion, EndPositions.of(1, 1));
          return this;
       }
 

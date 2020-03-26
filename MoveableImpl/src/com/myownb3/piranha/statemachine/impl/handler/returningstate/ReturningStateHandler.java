@@ -7,10 +7,10 @@ import static java.util.Objects.isNull;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
@@ -39,15 +39,6 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
             config.getReturningAngleMargin(), config.getEvasionAngleInc());
    }
 
-   @Override
-   public void init() {
-      super.init();
-      state = ReturnStates.ENTER_RETURNING;
-      this.initialDistance = 0;
-      this.signum = 0;
-      this.returningAngle = initReturningAngle;
-   }
-
    private ReturningStateHandler(double angleIncMultiplier, double distanceMargin, double angleMargin,
          double evasionAngleInc) {
       super();
@@ -58,8 +49,17 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
    }
 
    @Override
+   public void init() {
+      super.init();
+      state = ReturnStates.ENTER_RETURNING;
+      this.initialDistance = 0;
+      this.signum = 0;
+      this.returningAngle = initReturningAngle;
+   }
+
+   @Override
    public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
-      Position endPosition = evenStateInput.getEndPosition();
+      EndPosition endPosition = evenStateInput.getEndPosition();
       if (isReturningNotNecessary(endPosition)) {
          init();
          return CommonEventStateResult.of(RETURNING, evalNextState(evenStateInput, RETURNING.nextState()), null);
@@ -69,16 +69,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
       return evalNextStateAndBuildResult(evenStateInput, RETURNING, nextState);
    }
 
-   @Override
-   protected CommonEventStateResult evalNextStateAndBuildResult(CommonEventStateInput evenStateInput, EvasionStates prevState,
-         EvasionStates nextState) {
-      if (nextState == EvasionStates.EVASION.nextState()) {
-         init();
-      }
-      return super.evalNextStateAndBuildResult(evenStateInput, prevState, nextState);
-   }
-
-   private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable, Position endPos) {
+   private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable, EndPosition endPos) {
       Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
       switch (state) {
          case ENTER_RETURNING:
@@ -91,7 +82,9 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
             doCorrectionPhase2(moveable, positionBeforeEvasion, endPosLine);
             return evalNextState4StateFromOrdonal(positionBeforeEvasion, moveable, endPosLine);
          case RELATIVE_ANGLE_CORRECTION_TO_END_POS:
-            return makeFinalAngleCorrectionIfNecessary(moveable, endPos);
+            EvasionStates nextEvasionState = makeFinalAngleCorrectionIfNecessary(moveable, endPos);
+            init();
+            return nextEvasionState;
          default:
             throw new IllegalStateException("Unhandled State '" + state + "'");
       }
@@ -111,7 +104,7 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
       moveable.makeTurnWithoutPostConditions(-angle2Turn);
    }
 
-   private EvasionStates makeFinalAngleCorrectionIfNecessary(Moveable moveable, Position endPos) {
+   private EvasionStates makeFinalAngleCorrectionIfNecessary(Moveable moveable, EndPosition endPos) {
       double angleRelativeTo = moveable.getPosition().calcAngleRelativeTo(endPos);
       moveable.makeTurnWithoutPostConditions(angleRelativeTo);
       return RETURNING.nextState();

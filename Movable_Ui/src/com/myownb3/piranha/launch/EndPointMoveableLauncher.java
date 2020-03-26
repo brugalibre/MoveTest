@@ -24,6 +24,8 @@ import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.EndPointMoveable;
@@ -55,7 +57,7 @@ public class EndPointMoveableLauncher {
 
    private void launch(int height, int width) throws InterruptedException {
       DefaultGrid grid = buildGrid();
-      List<Position> endPositions = getEndPositions();
+      List<EndPosition> endPositions = getEndPositions();
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
       List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width);
       List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables);
@@ -77,18 +79,18 @@ public class EndPointMoveableLauncher {
             .build();
    }
 
-   private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<Position> endPositions, int width) {
+   private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<EndPosition> endPositions, int width) {
       return endPositions.stream()
             .map(endPos -> getMoveable(endPos, grid, 200, 200, width))
             .collect(Collectors.toList());
    }
 
-   private static List<Position> getEndPositions() {
-      List<Position> endPositions = new ArrayList<>();
-      //      endPositions.add(Positions.of(400 + padding, 10 + padding));
-      //      endPositions.add(Positions.of(400 + padding, 400 + padding));
-      //      endPositions.add(Positions.of(10 + padding, 10 + padding));
-      endPositions.add(Positions.of(10 + padding, 400 + padding));
+   private static List<EndPosition> getEndPositions() {
+      List<EndPosition> endPositions = new ArrayList<>();
+      //      endPositions.add(EndPositions.of(400 + padding, 10 + padding));
+      //      endPositions.add(EndPositions.of(400 + padding, 400 + padding));
+      //      endPositions.add(EndPositions.of(10 + padding, 10 + padding));
+      endPositions.add(EndPositions.of(10 + padding, 400 + padding));
       return endPositions;
    }
 
@@ -112,7 +114,7 @@ public class EndPointMoveableLauncher {
       }).start();
    }
 
-   private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width, List<Position> endPositions) {
+   private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width, List<EndPosition> endPositions) {
 
       List<GridElement> allGridElement = new ArrayList<>();
 
@@ -143,7 +145,7 @@ public class EndPointMoveableLauncher {
       allGridElement.add(obstacle3);
       allGridElement.add(obstacle4);
 
-      for (Position endPos : endPositions) {
+      for (EndPosition endPos : endPositions) {
          allGridElement.add(new SimpleGridElement(grid, endPos, buildCircle(width, endPos)));
       }
       return allGridElement;
@@ -209,7 +211,7 @@ public class EndPointMoveableLauncher {
       return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
    }
 
-   private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY, int width) {
+   private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width) {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Position pos = Positions.of(posX + padding, posY + padding);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),

@@ -17,6 +17,8 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -31,7 +33,7 @@ class OrientatingStateHandlerTest {
       // Given
       Grid grid = mock(Grid.class);
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
-      Position endPos = Positions.of(0, 0);
+      EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(0, 0));
       Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
             .build();
@@ -52,7 +54,7 @@ class OrientatingStateHandlerTest {
       // Given
       Grid grid = mock(Grid.class);
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
-      Position endPos = Positions.of(0, 0);
+      EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
       Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
             .build();
@@ -73,7 +75,7 @@ class OrientatingStateHandlerTest {
       // Given
       Grid grid = mock(Grid.class);
       OrientatingStateHandler handler = new OrientatingStateHandler(45);
-      Position endPos = Positions.of(0, 0);
+      EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
       Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
             .build();
@@ -95,7 +97,7 @@ class OrientatingStateHandlerTest {
    void testHandle_NoEndPosion() {
       // Given
       OrientatingStateHandler handler = new OrientatingStateHandler(10);
-      Position endPos = null;
+      EndPosition endPos = null;
       Position moveablePos = spy(Positions.of(0, 0));
       OrientatingStateInput input =
             OrientatingStateInput.of(mock(Grid.class), mockMoveable(moveablePos), mock(DetectableMoveableHelper.class), endPos);

@@ -10,6 +10,7 @@ import java.util.List;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -23,6 +24,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
    protected MoveablePostActionHandler handler;
+   protected Position posBefore;
    private List<Position> positionHistory;
 
    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
@@ -36,6 +38,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    private void init(Grid grid, MoveablePostActionHandler handler) {
+      posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
       this.handler.handlePostConditions(grid, this);
@@ -57,7 +60,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       handler.handlePostConditions(grid, this);
    }
 
-   private void moveForwardInternal() {
+   protected void moveForwardInternal() {
+      posBefore = Positions.of(position);
       position = grid.moveForward(this);
       shape.transform(position);
       trackPosition(position);
@@ -71,10 +75,15 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    @Override
    public void moveBackward() {
+      moveBackwardInternal();
+      handler.handlePostConditions(grid, this);
+   }
+
+   protected void moveBackwardInternal() {
+      posBefore = Positions.of(position);
       position = grid.moveBackward(this);
       trackPosition(position);
       shape.transform(position);
-      handler.handlePostConditions(grid, this);
    }
 
    @Override
@@ -118,6 +127,11 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
          trackPosition(position);
          shape.transform(position);
       }
+   }
+
+   @Override
+   public Position getPositionBefore() {
+      return posBefore;
    }
 
    @Override

@@ -8,6 +8,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
@@ -57,7 +58,7 @@ public class PostEvasionStateHandlerWithEndPos extends
 
    private EvasionStates handleFirstTimePostEvasion(PostEvasionEventStateInput evenStateInput) {
       Moveable moveable = evenStateInput.getMoveable();
-      Position endPosition = requireNonNull(evenStateInput.getEndPosition(), "We need an end-position here!");
+      EndPosition endPosition = requireNonNull(evenStateInput.getEndPosition(), "We need an end-position here!");
       this.signum = calcSignum(moveable.getPosition(), evenStateInput.getPositionBeforeEvasion(), endPosition);
       state = PostEvasionStates.POST_EVASION;
       return handlePostEvasionState(evenStateInput);

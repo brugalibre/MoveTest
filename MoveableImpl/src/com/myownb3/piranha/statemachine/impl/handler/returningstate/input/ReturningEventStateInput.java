@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
@@ -12,10 +13,10 @@ import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventSta
 public class ReturningEventStateInput extends CommonEventStateInput {
 
    private Position positionBeforeEvasion;
-   private Position endPosition;
+   private EndPosition endPosition;
 
    private ReturningEventStateInput(DetectableMoveableHelper helper, Grid grid, Position positionBeforeEvasion,
-         Moveable moveable, Position endPosition) {
+         Moveable moveable, EndPosition endPosition) {
       super(grid, moveable, helper);
       this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
       this.endPosition = endPosition;
@@ -39,7 +40,7 @@ public class ReturningEventStateInput extends CommonEventStateInput {
     * @return a new {@link ReturningEventStateInput}
     */
    public static ReturningEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-         Position positionBeforeEvasion, Position endPosition) {
+         Position positionBeforeEvasion, EndPosition endPosition) {
       return new ReturningEventStateInput(helper, grid, positionBeforeEvasion, moveable, endPosition);
    }
 
@@ -66,7 +67,7 @@ public class ReturningEventStateInput extends CommonEventStateInput {
       return this.positionBeforeEvasion;
    }
 
-   public final Position getEndPosition() {
+   public final EndPosition getEndPosition() {
       return this.endPosition;
    }
 }

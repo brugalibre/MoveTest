@@ -3,6 +3,7 @@ package com.myownb3.piranha.statemachine.impl.handler.orientatingstate;
 import static java.lang.Math.abs;
 
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
@@ -26,7 +27,7 @@ public class OrientatingStateHandler extends CommonStateHandlerImpl<OrientatingS
       return evalNextStateAndBuildResult(evenStateInput, EvasionStates.ORIENTING, nextState);
    }
 
-   private EvasionStates handleOrientatingState(Moveable moveable, Position endPos) {
+   private EvasionStates handleOrientatingState(Moveable moveable, EndPosition endPos) {
       if (!helper.isOrientatingNecessary(moveable, endPos)) {
          // Since we are done with orientating, lets go to the next state
          return EvasionStates.ORIENTING.nextState();
@@ -35,7 +36,7 @@ public class OrientatingStateHandler extends CommonStateHandlerImpl<OrientatingS
       return evalNextState(moveable, endPos);
    }
 
-   private EvasionStates evalNextState(Moveable moveable, Position endPos) {
+   private EvasionStates evalNextState(Moveable moveable, EndPosition endPos) {
       if (!helper.isOrientatingNecessary(moveable, endPos)) {
          return EvasionStates.ORIENTING.nextState();
       }

@@ -22,6 +22,8 @@ import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.EndPointMoveable;
@@ -55,7 +57,7 @@ public class MazeEndPointMoveableLauncher {
       CollisionDetectionHandler collisionDetectionHandler = (a, b, c) -> {
       };
       DefaultGrid grid = buildGrid(collisionDetectionHandler);
-      Position endPosition = Positions.of(400 + padding, 400 + padding);
+      EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPosition);
       EndPointMoveable moveable = getMoveable(endPosition, grid, 200, 200, width);
       List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveable);
@@ -155,7 +157,7 @@ public class MazeEndPointMoveableLauncher {
       return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
    }
 
-   private static EndPointMoveable getMoveable(Position endPos, Grid grid, int posX, int posY, int width) {
+   private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width) {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Position pos = Positions.of(posX + padding, posY + padding);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),

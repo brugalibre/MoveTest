@@ -22,6 +22,8 @@ import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.Moveable;
@@ -65,7 +67,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       MirrorGrid grid = buildMirrorGrid(mainWindow, mainWindowWidth, collisionDetectionHandler);
       Position startPos = Positions.getRandomPosition(grid.getDimension(), height, width);
-      List<Position> endPosList = getEndPosList(height, width, grid);
+      List<EndPosition> endPosList = getEndPosList(height, width, grid);
       List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
       List<Renderer> renderers = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
@@ -93,7 +95,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
-         List<Position> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
+         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
@@ -118,11 +120,11 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .build();//
    }
 
-   private static List<Position> getEndPosList(int height, int width, MirrorGrid grid) {
+   private static List<EndPosition> getEndPosList(int height, int width, MirrorGrid grid) {
       int amountOfEndPos = 3;
-      List<Position> endPosList = new ArrayList<>(amountOfEndPos);
+      List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
       for (int i = 0; i < amountOfEndPos; i++) {
-         endPosList.add(Positions.getRandomPosition(grid.getDimension(), height, width));
+         endPosList.add(EndPositions.of(Positions.getRandomPosition(grid.getDimension(), height, width)));
       }
       return endPosList;
    }
@@ -151,7 +153,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .forEach(painter -> painter.setIsCurrentTargetPosition(moveableController.getCurrentEndPos()));
    }
 
-   private static List<GridElement> getAllGridElements(DefaultGrid grid, List<Position> endPosList, int height,
+   private static List<GridElement> getAllGridElements(DefaultGrid grid, List<EndPosition> endPosList, int height,
          int width) {
       List<GridElement> allGridElement = endPosList.stream()
             .map(endPos -> new EndPositionGridElement(grid, endPos, buildCircle(width, endPos)))

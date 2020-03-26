@@ -11,6 +11,7 @@ import java.util.Objects;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -22,21 +23,21 @@ public class MoveableController {
 
    private MovingStrategie strategie;
    private EndPointMoveable moveable;
-   private List<Position> endPosList;
+   private List<EndPosition> endPosList;
    private PostMoveForwardHandler handler;
    private boolean isRunning;
 
    /**
     * @param moveable
     */
-   public MoveableController(EndPointMoveable moveable, List<Position> endPosList) {
+   public MoveableController(EndPointMoveable moveable, List<EndPosition> endPosList) {
       this(moveable, MovingStrategie.FORWARD, endPosList);
    }
 
    /**
     * @param moveable
     */
-   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie, List<Position> endPosList) {
+   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie, List<EndPosition> endPosList) {
       isRunning = true;
       this.moveable = moveable;
       this.strategie = strategie;
@@ -58,7 +59,7 @@ public class MoveableController {
    }
 
    private void leadMoveableWithEndPoints() {
-      for (Position endPos : endPosList) {
+      for (EndPosition endPos : endPosList) {
          leadMoveable2EndPos(endPos);
       }
    }
@@ -67,7 +68,7 @@ public class MoveableController {
     * First turn the moveable in the right direction then move forward until we
     * reach our end position.
     */
-   private void leadMoveable2EndPos(Position endPos) {
+   private void leadMoveable2EndPos(EndPosition endPos) {
       moveable.setEndPosition(endPos);
       while (isRunning) {
          MoveResult moveResult = moveable.moveForward2EndPos();
@@ -88,7 +89,7 @@ public class MoveableController {
 
    public static final class MoveableControllerBuilder {
 
-      private List<Position> endPosList;
+      private List<EndPosition> endPosList;
       private MovingStrategie movingStrategie;
       private PostMoveForwardHandler postMoveForwardHandler;
       private EndPointMoveable endPointMoveable;
@@ -110,7 +111,7 @@ public class MoveableController {
          return new EndPointMoveableBuilder(this);
       }
 
-      public MoveableControllerBuilder withEndPositions(List<Position> endPosList) {
+      public MoveableControllerBuilder withEndPositions(List<EndPosition> endPosList) {
          this.endPosList = endPosList;
          return this;
       }

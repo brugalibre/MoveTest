@@ -93,7 +93,7 @@ public class Positions {
       return Positions.of(x, y);
    }
 
-   private static class PositionImpl implements Position {
+   public static class PositionImpl implements Position {
 
       private double y;
       private double x;

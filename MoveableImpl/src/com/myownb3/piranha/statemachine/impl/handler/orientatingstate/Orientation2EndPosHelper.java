@@ -5,6 +5,7 @@ import static java.lang.Math.abs;
 import static java.util.Objects.nonNull;
 
 import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**
@@ -28,12 +29,16 @@ public class Orientation2EndPosHelper {
     * @return <code>true</code> if the angle between the {@link Moveable}s {@link Position} and the given end s end-Position is zero.
     *         Otherwise return <code>false</code>
     */
-   public boolean isOrientatingNecessary(Moveable moveable, Position endPos) {
-      if (nonNull(endPos)) {
+   public boolean isOrientatingNecessary(Moveable moveable, EndPosition endPos) {
+      if (has2CheckOrientation(moveable, endPos)) {
          Position moveablePosition = moveable.getPosition();
          double calcedAngle = round(moveablePosition.calcAngleRelativeTo(endPos), ANGLE_DECIMALS);
          return abs(calcedAngle) != 0.0d;
       }
       return false;
+   }
+
+   private boolean has2CheckOrientation(Moveable moveable, EndPosition endPos) {
+      return nonNull(endPos) && !endPos.hasReached(moveable);
    }
 }
