@@ -5,7 +5,7 @@ import java.util.List;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * The {@link CollisionDetector} helps to detect collisions on the {@link Grid}

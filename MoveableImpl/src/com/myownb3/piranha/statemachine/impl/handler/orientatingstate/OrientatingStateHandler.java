@@ -2,8 +2,8 @@ package com.myownb3.piranha.statemachine.impl.handler.orientatingstate;
 
 import static java.lang.Math.abs;
 
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;

@@ -3,8 +3,8 @@
  */
 package com.myownb3.piranha.moveables;
 
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * A {@link EndPointMoveable} is a {@link Moveable} which has an final end-Point

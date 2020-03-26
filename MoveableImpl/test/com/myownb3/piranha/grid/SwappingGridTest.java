@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.grid.gridelement.Positions;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.test.Assert;
 
 /**

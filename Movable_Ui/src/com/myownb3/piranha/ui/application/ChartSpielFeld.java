@@ -21,7 +21,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * @author Dominic

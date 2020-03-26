@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**

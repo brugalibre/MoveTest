@@ -6,8 +6,8 @@ import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;

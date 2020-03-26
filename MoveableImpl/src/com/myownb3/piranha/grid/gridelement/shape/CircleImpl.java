@@ -11,8 +11,8 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
-import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 /**
  * @author Dominic

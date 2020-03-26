@@ -9,6 +9,8 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;

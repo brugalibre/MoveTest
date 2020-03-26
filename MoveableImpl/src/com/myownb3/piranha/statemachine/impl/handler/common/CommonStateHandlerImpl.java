@@ -1,13 +1,13 @@
 package com.myownb3.piranha.statemachine.impl.handler.common;
 
-import static com.myownb3.piranha.grid.gridelement.Positions.movePositionForward;
+import static com.myownb3.piranha.grid.gridelement.position.Positions.movePositionForward;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;

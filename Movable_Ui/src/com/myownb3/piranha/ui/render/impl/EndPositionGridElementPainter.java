@@ -6,7 +6,7 @@ package com.myownb3.piranha.ui.render.impl;
 import java.awt.Color;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 
 /**

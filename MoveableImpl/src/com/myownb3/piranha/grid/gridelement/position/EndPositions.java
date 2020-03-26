@@ -5,8 +5,7 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.grid.gridelement.Positions.PositionImpl;
+import com.myownb3.piranha.grid.gridelement.position.Positions.PositionImpl;
 import com.myownb3.piranha.moveables.Moveable;
 
 public class EndPositions {

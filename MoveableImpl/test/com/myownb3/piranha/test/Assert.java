@@ -5,8 +5,8 @@ package com.myownb3.piranha.test;
 
 import org.hamcrest.Matcher;
 
-import com.myownb3.piranha.grid.gridelement.Position;
-import com.myownb3.piranha.grid.gridelement.Positions;
+import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.util.MathUtil;
 
 /**

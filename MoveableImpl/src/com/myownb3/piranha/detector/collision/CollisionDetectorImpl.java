@@ -14,7 +14,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**

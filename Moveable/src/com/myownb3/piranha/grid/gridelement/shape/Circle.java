@@ -4,7 +4,7 @@
 package com.myownb3.piranha.grid.gridelement.shape;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * The {@link Circle} defines the Shape of any {@link GridElement}. A Shape is

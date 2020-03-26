@@ -3,7 +3,6 @@
  */
 package com.myownb3.piranha.grid.gridelement.position;
 
-import com.myownb3.piranha.grid.gridelement.Position;
 import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.Moveable;
 

@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.List;
 
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 

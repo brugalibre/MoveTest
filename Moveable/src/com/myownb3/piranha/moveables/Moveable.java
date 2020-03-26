@@ -8,7 +8,7 @@ import java.util.List;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * A Moveable is an object which is able to move itself on a {@link Grid}

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.util.MathUtil;
 
 /**

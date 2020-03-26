@@ -3,7 +3,7 @@
  */
 package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.statemachine.states.EvasionStates;

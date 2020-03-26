@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Position;
+import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
  * @author Dominic
