@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.detector.collision.PositionCollisionDetectorImpl.PositionCollisionDetectorBuilder;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -30,6 +32,13 @@ public class PointShape extends AbstractShape {
     */
    public PointShape(Position gridElemPos) {
       super(Collections.singletonList(requireNonNull(gridElemPos)));
+   }
+
+   @Override
+   protected CollisionDetector buildCollisionDetector() {
+      return PositionCollisionDetectorBuilder.builder()
+            .withCollisionDistance(2)
+            .build();
    }
 
    @Override

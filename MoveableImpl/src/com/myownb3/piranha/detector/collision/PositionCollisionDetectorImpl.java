@@ -11,22 +11,24 @@ import java.util.function.Consumer;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
- * The {@link CollisionDetectorImpl} implements the {@link CollisionDetector}
+ * The {@link PositionCollisionDetectorImpl} implements the {@link CollisionDetector}. It is able to check if a {@link Position} has
+ * collided with another {@link Position} on a {@link Grid}
  * 
  * @author Dominic
  *
  */
-public class CollisionDetectorImpl implements CollisionDetector {
+public class PositionCollisionDetectorImpl implements CollisionDetector {
 
    private int collisionDistance;
 
-   private CollisionDetectorImpl(int collisionDistance) {
+   private PositionCollisionDetectorImpl(int collisionDistance) {
       super();
       this.collisionDistance = collisionDistance;
    }
@@ -72,26 +74,26 @@ public class CollisionDetectorImpl implements CollisionDetector {
       return avoidableDistanceToLine == 0.0d;
    }
 
-   public static class CollisionDetectorBuilder {
+   public static class PositionCollisionDetectorBuilder {
 
       private int collisionDistance;
 
-      private CollisionDetectorBuilder() {
+      private PositionCollisionDetectorBuilder() {
          super();
          collisionDistance = 2;
       }
 
-      public static CollisionDetectorBuilder builder() {
-         return new CollisionDetectorBuilder();
+      public static PositionCollisionDetectorBuilder builder() {
+         return new PositionCollisionDetectorBuilder();
       }
 
-      public CollisionDetectorBuilder withCollisionDistance(int collisionDistance) {
+      public PositionCollisionDetectorBuilder withCollisionDistance(int collisionDistance) {
          this.collisionDistance = collisionDistance;
          return this;
       }
 
       public CollisionDetector build() {
-         return new CollisionDetectorImpl(collisionDistance);
+         return new PositionCollisionDetectorImpl(collisionDistance);
       }
    }
 }
