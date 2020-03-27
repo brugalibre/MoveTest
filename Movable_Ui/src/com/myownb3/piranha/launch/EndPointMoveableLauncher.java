@@ -87,9 +87,9 @@ public class EndPointMoveableLauncher {
 
    private static List<EndPosition> getEndPositions() {
       List<EndPosition> endPositions = new ArrayList<>();
-      //      endPositions.add(EndPositions.of(400 + padding, 10 + padding));
-      //      endPositions.add(EndPositions.of(400 + padding, 400 + padding));
-      //      endPositions.add(EndPositions.of(10 + padding, 10 + padding));
+      endPositions.add(EndPositions.of(400 + padding, 10 + padding));
+      endPositions.add(EndPositions.of(400 + padding, 400 + padding));
+      endPositions.add(EndPositions.of(10 + padding, 10 + padding));
       endPositions.add(EndPositions.of(10 + padding, 400 + padding));
       return endPositions;
    }
@@ -222,6 +222,7 @@ public class EndPointMoveableLauncher {
             .withHandler(new EvasionStateMachine(detector, endPos, config))
             .withShape(buildCircle(width, pos))
             .build();
+      moveable.setEndPosition(endPos);
       return moveable;
    }
 

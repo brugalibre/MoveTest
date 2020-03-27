@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 
 /**
  * The {@link Drawable} class can be used to draw a representation of any
@@ -26,6 +27,7 @@ public abstract class Drawable<E> implements Renderer {
    // painting)
    protected int height;
    protected int width;
+   protected ColorSetMode colorSetMode;
 
    /**
     * Creates a new {@link Drawable} with the given parent and value
@@ -36,6 +38,7 @@ public abstract class Drawable<E> implements Renderer {
     */
    public Drawable(E value) {
       this.value = value;
+      this.colorSetMode = ColorSetMode.DEFAULT;
    }
 
    /**
@@ -51,6 +54,16 @@ public abstract class Drawable<E> implements Renderer {
       this.y = bounds.y;
       this.height = bounds.height;
       this.width = bounds.width;
+   }
+
+   @Override
+   public final ColorSetMode getColorSetMode() {
+      return this.colorSetMode;
+   }
+
+   @Override
+   public void setColorSetMode(ColorSetMode drawMode) {
+      this.colorSetMode = drawMode;
    }
 
    public void setBounds(int x, int y, int height, int width) {

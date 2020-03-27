@@ -96,7 +96,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
          List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 5, 0.06, 0.7d, 60, 60, 70, 50, 15);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
       return MoveableControllerBuilder.builder()
@@ -121,7 +121,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static List<EndPosition> getEndPosList(int height, int width, MirrorGrid grid) {
-      int amountOfEndPos = 3;
+      int amountOfEndPos = (int) MathUtil.getRandom(20);
       List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
       for (int i = 0; i < amountOfEndPos; i++) {
          endPosList.add(EndPositions.of(Positions.getRandomPosition(grid.getDimension(), height, width)));
@@ -159,8 +159,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .map(endPos -> new EndPositionGridElement(grid, endPos, buildCircle(width, endPos)))
             .collect(Collectors.toList());
 
-      //	int amount = 0;
-      int amount = 80;
+      int amount = 20;
+      //      int amount = 80;
       for (int i = 0; i < amount; i++) {
          Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
          Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(width, randomPosition));

@@ -5,6 +5,8 @@ package com.myownb3.piranha.ui.render;
 
 import java.awt.Rectangle;
 
+import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
+
 /**
  * @author Dominic
  *
@@ -27,4 +29,19 @@ public interface Renderer {
     *        the new bounds for the renderer.
     */
    public void setBounds(Rectangle bounds);
+
+   /**
+    * Returns the {@link ColorSetMode} of this {@link Renderer}
+    * 
+    * @return the {@link ColorSetMode} of this {@link Renderer}
+    */
+   public ColorSetMode getColorSetMode();
+
+   /**
+    * Sets the {@link ColorSetMode} of this {@link Renderer}
+    * 
+    * @param drawMode
+    *        the new {@link ColorSetMode}
+    */
+   public void setColorSetMode(ColorSetMode drawMode);
 }

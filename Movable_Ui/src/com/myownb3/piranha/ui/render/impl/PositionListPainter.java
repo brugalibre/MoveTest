@@ -11,6 +11,7 @@ import java.util.List;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 
 /**
  * @author Dominic
@@ -58,5 +59,15 @@ public class PositionListPainter implements Renderer {
 
    public void setPositions(List<Position> positions) {
       posList = positions;
+   }
+
+   @Override
+   public ColorSetMode getColorSetMode() {
+      return ColorSetMode.DEFAULT;
+   }
+
+   @Override
+   public void setColorSetMode(ColorSetMode drawMode) {
+      throw new UnsupportedOperationException("Not allowed here!");
    }
 }
