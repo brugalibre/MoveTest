@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid.gridelement.shape;
+package com.myownb3.piranha.grid.gridelement.shape.circle;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,7 +26,7 @@ import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 
 /**
  * @author Dominic

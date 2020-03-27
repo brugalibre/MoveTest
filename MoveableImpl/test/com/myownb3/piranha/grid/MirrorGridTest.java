@@ -18,8 +18,8 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.CircleImpl;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.test.Assert;
 
 /**

@@ -1,4 +1,4 @@
-package com.myownb3.piranha.grid.gridelement.shape;
+package com.myownb3.piranha.grid.gridelement.shape.circle;
 
 import java.util.Comparator;
 
