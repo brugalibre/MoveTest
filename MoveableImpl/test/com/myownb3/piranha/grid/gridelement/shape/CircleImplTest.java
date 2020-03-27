@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectedException;
-import com.myownb3.piranha.detector.collision.CollisionDetector;
-import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
@@ -90,6 +90,7 @@ class CircleImplTest {
    void testCheck4Collision_NoMatch() {
 
       // Given
+      CollisionDetectionHandler collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
       Position newPosition = Positions.of(5, 5);
       newPosition.rotate(11);
       Circle circle = new CircleBuilder(5)
@@ -99,7 +100,7 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(mock(CollisionDetector.class), newPosition, singletonList(mock(Avoidable.class)));
+         circle.check4Collision(collisionDetectionHandler, newPosition, singletonList(mock(Avoidable.class)));
       };
 
       // Then
@@ -111,11 +112,7 @@ class CircleImplTest {
 
       // Given
       Position newPosition = Positions.of(0, 1);
-      CollisionDetector collisionDetector = CollisionDetectorBuilder.builder()
-            .withCollisionDistance(2)
-            .withDefaultCollisionHandler()
-            .build();
-
+      CollisionDetectionHandler collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
       ObstacleImpl avoidable = new ObstacleImpl(mock(Grid.class), Positions.of(0, 6));
       Circle circle = new CircleBuilder(5)
             .withAmountOfPoints(4)
@@ -124,7 +121,7 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         circle.check4Collision(collisionDetector, newPosition, singletonList(avoidable));
+         circle.check4Collision(collisionDetectionHandler, newPosition, singletonList(avoidable));
       };
 
       // Then

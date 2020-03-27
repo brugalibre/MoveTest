@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
+import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -237,7 +238,12 @@ class PositionTest {
     * @return the Position at the moved coordinates
     */
    private Position getTestPos1() {
-      Grid grid = new DefaultGrid(10, 10, -20, -20);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinY(-20)
+            .withMinY(-20)
+            .build();
       Moveable moveable = MoveableBuilder.builder(grid, Positions.of(Directions.S, 0, 0))
             .build();
       moveable.moveForward(100);
@@ -328,7 +334,8 @@ class PositionTest {
       int maxWidth = 200;
       int maxHeight = 200;
       mockStatic(MathUtil.class);
-      Grid grid = new DefaultGrid(maxWidth, maxHeight);
+      Grid grid = GridBuilder.builder(maxWidth, maxHeight)
+            .build();
       int height = 5;
       int width = 5;
 

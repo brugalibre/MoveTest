@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 
@@ -20,12 +22,16 @@ public abstract class AbstractShape implements Shape {
 
    protected List<Position> path;
    protected GridElement gridElement;
+   protected CollisionDetector collisionDetector;
 
    /**
     * Creates a new {@link AbstractShape}
     */
    public AbstractShape(List<Position> path) {
       this.path = path;
+      this.collisionDetector = CollisionDetectorBuilder.builder()
+            .withCollisionDistance(2)
+            .build();
    }
 
    @Override

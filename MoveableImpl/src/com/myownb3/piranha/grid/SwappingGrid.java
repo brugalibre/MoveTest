@@ -7,7 +7,9 @@ import static java.util.Objects.isNull;
 
 import java.util.Objects;
 
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.position.Positions.PositionImpl;
 
 /**
  * 
@@ -24,18 +26,22 @@ public class SwappingGrid extends DefaultGrid {
     * 
     * @param maxY
     * @param maxX
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private SwappingGrid(int maxY, int maxX) {
-      super(maxX, maxY, 0, 0);
+   private SwappingGrid(int maxY, int maxX, CollisionDetectionHandler collisionDetectionHandler) {
+      super(maxX, maxY, 0, 0, collisionDetectionHandler);
    }
 
    /**
     * 
     * @param maxY
     * @param maxX
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private SwappingGrid(int maxY, int maxX, int minX, int minY) {
-      super(maxX, maxY, minX, minY);
+   private SwappingGrid(int maxY, int maxX, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
+      super(maxX, maxY, minX, minY, collisionDetectionHandler);
    }
 
    /**
@@ -80,12 +86,12 @@ public class SwappingGrid extends DefaultGrid {
      * @formatter:off
      * 
      *10 ___________ 
-     * 	|__|__|__|__|
-     * 	|__|__|__|__|
-     * 	|__|__|__|__|
-     * 	|__|__|__|__|
+     *   |__|__|__|__|
+     *   |__|__|__|__|
+     *   |__|__|__|__|
+     *   |__|__|__|__|
      *  5|__|__|__|__|
-     *   5	     10 
+     *   5       10 
      * 
      * @formatter:on
      */
@@ -122,11 +128,10 @@ public class SwappingGrid extends DefaultGrid {
          Objects.requireNonNull(maxY, "We need a max y value!");
          SwappingGrid swappingGrid;
          if (isNull(minX) || isNull(minY)) {
-            swappingGrid = new SwappingGrid(maxY, maxX);
+            swappingGrid = new SwappingGrid(maxY, maxX, collisionDetectionHandler);
          } else {
-            swappingGrid = new SwappingGrid(maxY, maxX, minX, minY);
+            swappingGrid = new SwappingGrid(maxY, maxX, minX, minY, collisionDetectionHandler);
          }
-         setDetector(swappingGrid);
          return swappingGrid;
       }
    }

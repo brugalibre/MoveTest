@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
@@ -75,13 +74,12 @@ public interface GridElement {
     * Checks for every given {@link Avoidable} if there is a collision when this {@link GridElement} is moving
     * from it's current Position to the new Position
     * 
-    * @param collisionDetector
-    *        the {@link CollisionDetectionHandler} which does the actual collision detecting
-    * 
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param newPosition
     *        the new Position after the movement
     * @param allAvoidables
     *        all {@link Avoidable} on the Grid
     */
-   void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables);
 }

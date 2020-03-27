@@ -75,7 +75,8 @@ class GridTest {
    public void testBuildGridWithCollisionHandler_DifferentPos() {
 
       // Given
-      CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder().withMoveablePos(Positions.of(0, 0))
+      CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
+            .withMoveablePos(Positions.of(0, 0))
             .withObstaclePos(Positions.of(0, 0.2))
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withGrid()
@@ -309,7 +310,8 @@ class GridTest {
       }
 
       public CollisionTestCaseBuilder withGrid() {
-         this.grid = GridBuilder.builder().withCollisionDetectionHandler(collisionDetectionHandler)
+         this.grid = GridBuilder.builder()
+               .withCollisionDetectionHandler(collisionDetectionHandler)
                .build();
          return this;
       }

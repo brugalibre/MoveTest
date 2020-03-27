@@ -7,6 +7,7 @@ import static java.util.Objects.isNull;
 
 import java.util.Objects;
 
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
@@ -24,9 +25,11 @@ public class MirrorGrid extends DefaultGrid {
     * 
     * @param maxX
     * @param maxY
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private MirrorGrid(int maxX, int maxY) {
-      super(maxX, maxY, 0, 0);
+   private MirrorGrid(int maxX, int maxY, CollisionDetectionHandler collisionDetectionHandler) {
+      super(maxX, maxY, 0, 0, collisionDetectionHandler);
    }
 
    /**
@@ -35,9 +38,11 @@ public class MirrorGrid extends DefaultGrid {
     * @param maxY
     * @param minX
     * @param minY
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private MirrorGrid(int maxX, int maxY, int minX, int minY) {
-      super(maxX, maxY, minX, minY);
+   private MirrorGrid(int maxX, int maxY, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
+      super(maxX, maxY, minX, minY, collisionDetectionHandler);
    }
 
    /*
@@ -133,11 +138,10 @@ public class MirrorGrid extends DefaultGrid {
          Objects.requireNonNull(maxY, "We need a max y value!");
          MirrorGrid mirrorGrid;
          if (isNull(minX) || isNull(minY)) {
-            mirrorGrid = new MirrorGrid(maxX, maxY);
+            mirrorGrid = new MirrorGrid(maxX, maxY, collisionDetectionHandler);
          } else {
-            mirrorGrid = new MirrorGrid(maxX, maxY, minX, minY);
+            mirrorGrid = new MirrorGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
-         setDetector(mirrorGrid);
          return mirrorGrid;
       }
    }

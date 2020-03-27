@@ -7,15 +7,13 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 
 /**
- * The {@link Shape} defines the Shape of any {@link GridElement}. A Shape is
- * usualy defined by one or more {@link Position}s and is therefore depending on
- * the {@link Position} of it's {@link GridElement}
+ * The {@link Shape} defines the Shape of any {@link GridElement}. A Shape is usually defined by one or more {@link Position}s and is
+ * therefore depending on the {@link Position} of it's {@link GridElement}.
  * 
  * @author Dominic
  *
@@ -35,14 +33,14 @@ public interface Shape {
     * Checks for every given {@link Avoidable} if there is a collision when the {@link GridElement} of this {@link Shape} is moving
     * from it's current Position to the new Position
     * 
-    * @param collisionDetector
-    *        the {@link CollisionDetectionHandler} which does the actual collision detecting
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param newPosition
     *        the new Position after the movement
     * @param allAvoidables
     *        all {@link Avoidable} on the Grid
     */
-   void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables);
 
    /**
     * Evaluates if the {@link GridElement} of this {@link Shape} at the given {@link Position} is in reach to this Shape or it's path to be

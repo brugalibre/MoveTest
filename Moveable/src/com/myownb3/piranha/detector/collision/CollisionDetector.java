@@ -19,6 +19,8 @@ public interface CollisionDetector {
     * Checks for every given {@link Avoidable} if there is a collision when moving
     * from the old to the new Position
     * 
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param movedGridElement
     *        the {@link GridElement} which was moved and is now checked for collision
     * @param oldPosition
@@ -28,6 +30,7 @@ public interface CollisionDetector {
     * @param allAvoidables
     *        all {@link Avoidable} on the Grid
     */
-   void checkCollision(GridElement movedGridElement, Position oldPosition, Position newPosition, List<Avoidable> allAvoidables);
+   void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition, Position newPosition,
+         List<Avoidable> allAvoidables);
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.collision.CollisionDetector;
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -71,8 +71,8 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public void check4Collision(CollisionDetector collisionDetector, Position newPosition, List<Avoidable> allAvoidables) {
-      shape.check4Collision(collisionDetector, newPosition, allAvoidables);
+   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables) {
+      shape.check4Collision(collisionDetectionHandler, newPosition, allAvoidables);
    }
 
    @Override

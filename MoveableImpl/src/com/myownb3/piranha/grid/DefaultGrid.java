@@ -4,7 +4,6 @@
 package com.myownb3.piranha.grid;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +12,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.detector.collision.CollisionDetector;
-import com.myownb3.piranha.detector.collision.CollisionDetectorImpl.CollisionDetectorBuilder;
+import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
@@ -37,13 +35,14 @@ public class DefaultGrid implements Grid {
    protected int maxY;
    protected int minX;
    protected int minY;
-   private CollisionDetector detector;
+   private CollisionDetectionHandler collisionDetectionHandler;
 
    /**
     * Creates a default Grid which has a size of 10 to 10
     */
    protected DefaultGrid() {
-      this(10, 10);
+      this(10, 10, (a, g, p) -> {
+      });
    }
 
    /**
@@ -54,9 +53,11 @@ public class DefaultGrid implements Grid {
     *        the maximal y-axis value
     * @param maxX
     *        the maximal x-axis value
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   protected DefaultGrid(int maxY, int maxX) {
-      this(maxY, maxX, 0, 0);
+   protected DefaultGrid(int maxY, int maxX, CollisionDetectionHandler collisionDetectionHandler) {
+      this(maxY, maxX, 0, 0, collisionDetectionHandler);
       this.checkLowerBoundarys = false;
    }
 
@@ -72,16 +73,17 @@ public class DefaultGrid implements Grid {
     *        the minimal x-axis value
     * @param minY
     *        the minimal y-axis value
+    * @param collisionDetectionHandler
+    *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   protected DefaultGrid(int maxY, int maxX, int minX, int minY) {
+   protected DefaultGrid(int maxY, int maxX, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
       this.maxY = maxY;
       this.maxX = maxX;
       this.minY = minY;
       this.minX = minX;
       this.checkLowerBoundarys = true;
       gridElements = new ArrayList<>();
-      detector = CollisionDetectorBuilder.builder()
-            .withCollisionDistance(2).withDefaultCollisionHandler().build();
+      this.collisionDetectionHandler = collisionDetectionHandler;
    }
 
    /**
@@ -107,7 +109,7 @@ public class DefaultGrid implements Grid {
 
    private void checkCollision(GridElement gridElement, Position newPosition) {
       List<Avoidable> allAvoidables = getAllAvoidables(gridElement);
-      gridElement.check4Collision(detector, newPosition, allAvoidables);
+      gridElement.check4Collision(collisionDetectionHandler, newPosition, allAvoidables);
    }
 
    /**
@@ -228,7 +230,7 @@ public class DefaultGrid implements Grid {
       protected Integer maxY;
       protected Integer minX;
       protected Integer minY;
-      private CollisionDetector collisionDetector;
+      protected CollisionDetectionHandler collisionDetectionHandler;
 
       protected AbstractGridBuilder() {}
 
@@ -258,10 +260,7 @@ public class DefaultGrid implements Grid {
 
       @SuppressWarnings("unchecked")
       public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
-         this.collisionDetector = CollisionDetectorBuilder.builder()
-               .withCollisionDistance(2)
-               .withDefaultCollisionHandler()
-               .build();
+         this.collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
          return (B) this;
       }
 
@@ -270,17 +269,8 @@ public class DefaultGrid implements Grid {
       @SuppressWarnings("unchecked")
       public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(
             CollisionDetectionHandler collisionDetectionHandler) {
-         this.collisionDetector = CollisionDetectorBuilder.builder()
-               .withCollisionDistance(2)
-               .withCollisionHandler(collisionDetectionHandler)
-               .build();
+         this.collisionDetectionHandler = collisionDetectionHandler;
          return (B) this;
-      }
-
-      protected void setDetector(DefaultGrid defaultGrid) {
-         if (nonNull(collisionDetector)) {
-            defaultGrid.detector = collisionDetector;
-         }
       }
    }
 
@@ -308,11 +298,10 @@ public class DefaultGrid implements Grid {
          Objects.requireNonNull(maxY, "We need a max y value!");
          DefaultGrid defaultGrid;
          if (isNull(minX) || isNull(minY)) {
-            defaultGrid = new DefaultGrid(maxY, maxX);
+            defaultGrid = new DefaultGrid(maxY, maxX, collisionDetectionHandler);
          } else {
-            defaultGrid = new DefaultGrid(maxY, maxX, minX, minY);
+            defaultGrid = new DefaultGrid(maxY, maxX, minX, minY, collisionDetectionHandler);
          }
-         setDetector(defaultGrid);
          return defaultGrid;
       }
    }
