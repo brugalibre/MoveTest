@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.PointShape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
 
 class MoveableObstacleImplTest {
 
@@ -32,7 +32,7 @@ class MoveableObstacleImplTest {
 
       // Given
       Position startPos = Positions.of(0, 0);
-      PointShape shape = new PointShape(startPos);
+      PositionShape shape = new PositionShape(startPos);
 
       // When
       MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Positions.of(0, 0), shape);

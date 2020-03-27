@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.detector.collision;
+package com.myownb3.piranha.grid.gridelement.shape.position;
 
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;

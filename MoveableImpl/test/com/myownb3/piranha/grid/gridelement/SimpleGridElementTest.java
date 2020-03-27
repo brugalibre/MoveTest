@@ -15,7 +15,7 @@ import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.PointShape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
 
 /**
  * @author Dominic
@@ -29,7 +29,7 @@ class SimpleGridElementTest {
       Position gridElemPos = Positions.of(4, 4);
       Position expectedBackPos = Positions.of(gridElemPos);
       expectedBackPos.rotate(180);
-      PointShape pointShape = new PointShape(gridElemPos);
+      PositionShape pointShape = new PositionShape(gridElemPos);
       GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
@@ -43,7 +43,7 @@ class SimpleGridElementTest {
    void testGetFurthermostFrontPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      PointShape pointShape = new PointShape(gridElemPos);
+      PositionShape pointShape = new PositionShape(gridElemPos);
       GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When

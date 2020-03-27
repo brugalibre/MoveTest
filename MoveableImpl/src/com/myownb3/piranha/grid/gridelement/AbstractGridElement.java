@@ -12,8 +12,8 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
-import com.myownb3.piranha.grid.gridelement.shape.PointShape;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
 
 /**
  * The {@link AbstractGridElement} is the base class of all {@link GridElement}
@@ -37,7 +37,7 @@ public abstract class AbstractGridElement implements GridElement {
     *        the start {@link Position}
     */
    public AbstractGridElement(Grid grid, Position position) {
-      this(grid, position, new PointShape(position));
+      this(grid, position, new PositionShape(position));
    }
 
    /**

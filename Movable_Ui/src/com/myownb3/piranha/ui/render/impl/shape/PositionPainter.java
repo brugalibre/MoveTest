@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.shape.PointShape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
@@ -18,10 +18,10 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  * @author Dominic
  *
  */
-public class PositionPainter extends Drawable<PointShape> implements Renderer {
+public class PositionPainter extends Drawable<PositionShape> implements Renderer {
    private Color color;
 
-   public PositionPainter(PointShape pointShape, Color color, int height, int width) {
+   public PositionPainter(PositionShape pointShape, Color color, int height, int width) {
       super(pointShape);
 
       this.color = color;

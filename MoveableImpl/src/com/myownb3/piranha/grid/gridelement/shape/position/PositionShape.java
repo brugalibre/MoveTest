@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.grid.gridelement.shape;
+package com.myownb3.piranha.grid.gridelement.shape.position;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,27 +10,29 @@ import java.util.List;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
-import com.myownb3.piranha.detector.collision.PositionCollisionDetectorImpl.PositionCollisionDetectorBuilder;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionCollisionDetectorImpl.PositionCollisionDetectorBuilder;
 
 /**
- * The {@link PointShape} is the default {@link Shape} which each
+ * The {@link PositionShape} is the default {@link Shape} which each
  * {@link GridElement} has to have. It's shape is defined by a single Positions
  * which represents the {@link Position} of the {@link GridElement} itself
  * 
  * @author Dominic
  *
  */
-public class PointShape extends AbstractShape {
+public class PositionShape extends AbstractShape {
 
    /**
-    * Creates a new {@link PointShape}
+    * Creates a new {@link PositionShape}
     * 
     * @param gridElemPos
     */
-   public PointShape(Position gridElemPos) {
+   public PositionShape(Position gridElemPos) {
       super(Collections.singletonList(requireNonNull(gridElemPos)));
    }
 
