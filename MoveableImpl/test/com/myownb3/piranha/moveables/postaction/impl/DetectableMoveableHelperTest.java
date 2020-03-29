@@ -101,12 +101,8 @@ class DetectableMoveableHelperTest {
       return grid;
    }
 
-   /**
-    * @return
-    */
    private Moveable mockMoveable() {
-      // TODO Auto-generated method stub
-      return null;
+      return mock(Moveable.class);
    }
 
 }

@@ -76,4 +76,11 @@ public interface Detector {
     * @returns the evasion angle increment
     */
    double getEvasionAngleRelative2(Position position);
+
+   /**
+    * Returns the range of this detector
+    * 
+    * @return the range of this detector
+    */
+   int getDetectorRange();
 }

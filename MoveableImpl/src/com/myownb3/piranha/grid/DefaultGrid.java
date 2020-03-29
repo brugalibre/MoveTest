@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
@@ -180,6 +181,22 @@ public class DefaultGrid implements Grid {
             .filter(Avoidable.class::isInstance)
             .map(Avoidable.class::cast)
             .collect(Collectors.toList());
+   }
+
+   @Override
+   public List<GridElement> getAllAvoidablesWithinDistance(GridElement gridElement, int distance) {
+      Position gridElemPos = gridElement.getFurthermostFrontPosition();
+      return getAllAvoidables(gridElement)
+            .stream()
+            .filter(isAvoidableWithinDistance(gridElemPos, distance))
+            .collect(Collectors.toList());
+   }
+
+   private Predicate<? super Avoidable> isAvoidableWithinDistance(Position gridElemPos, int distance) {
+      return avoidable -> {
+         double avoidable2GridElemDistance = gridElemPos.calcDistanceTo(avoidable.getPosition());
+         return avoidable2GridElemDistance <= distance;
+      };
    }
 
    @Override

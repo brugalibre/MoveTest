@@ -24,6 +24,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public class DetectableMoveableHelper implements MoveablePostActionHandler {
 
+   private static final int DETECTABLE_RANGE_MARGIN = 2;
    protected Detector detector;
 
    public DetectableMoveableHelper(Detector detector) {
@@ -48,7 +49,8 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
     *         not
     */
    public boolean check4Evasion(Grid grid, GridElement moveable) {
-      return grid.getAllAvoidables(moveable).stream()
+      return grid.getAllAvoidablesWithinDistance(moveable, getDetectableRange())
+            .stream()
             .anyMatch(gridElement -> detector.isEvasion(gridElement));
    }
 
@@ -62,7 +64,7 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
     *        the given {@link Moveable}
     */
    public void checkSurrounding(Grid grid, Moveable moveable) {
-      grid.getAllGridElements(moveable)
+      grid.getAllAvoidablesWithinDistance(moveable, getDetectableRange())
             .forEach(gridElement -> moveable.hasGridElementDetected(gridElement, detector));
    }
 
@@ -72,4 +74,9 @@ public class DetectableMoveableHelper implements MoveablePostActionHandler {
             .filter(avoidable -> detector.hasObjectDetected(avoidable))
             .collect(Collectors.toList());
    }
+
+   private int getDetectableRange() {
+      return detector.getDetectorRange() + DETECTABLE_RANGE_MARGIN;
+   }
+
 }

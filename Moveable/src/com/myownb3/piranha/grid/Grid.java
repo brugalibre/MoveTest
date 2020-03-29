@@ -63,6 +63,19 @@ public interface Grid {
    List<Avoidable> getAllAvoidables(GridElement gridElement);
 
    /**
+    * Returns all {@link Avoidable}s but the given {@link GridElement} which are
+    * currently placed on this {@link Grid} and which are within the given distance to the {@link GridElement}
+    * <b>Note:</b> For the calculation of the distance is the {@link Position} {@link GridElement#getFurthermostFrontPosition()} used
+    * 
+    * @param gridElement
+    * @param distance
+    *        the distance
+    * @return all {@link Avoidable}s but the given {@link GridElement} which are
+    *         currently placed on this {@link Grid}
+    */
+   List<GridElement> getAllAvoidablesWithinDistance(GridElement gridElement, int distance);
+
+   /**
     * Returns all {@link GridElement}s but the given {@link GridElement} which are
     * currently placed on this {@link Grid}
     * 
@@ -77,4 +90,5 @@ public interface Grid {
     * @returns a {@link Dimension} describing the dimension of this {@link Grid}
     */
    Dimension getDimension();
+
 }
