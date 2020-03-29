@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.detector;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -53,26 +55,54 @@ public class DetectorImpl implements Detector {
    }
 
    @Override
-   public boolean detectObject(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
-      boolean isDetected = false;
-      double distance = avoidablePos.calcDistanceTo(detectorPosition);
-      boolean isPotentialCollisionCourse = false;
-
-      if (detectorReach >= distance) {
-         double degValue = MathUtil.calcAngleBetweenPositions(detectorPosition, avoidablePos);
-         boolean isEvasion = false;
-         isDetected = degValue <= (detectorAngle / 2);
-         if (isDetected && evasionDistance >= distance) {
-            isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
-            isEvasion = isEvasion(gridElement, isDetected, isPotentialCollisionCourse);
+   public void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position detectorPosition) {
+      preDetecting(gridElement);
+      List<DetectionResult> detectionResults = new ArrayList<>();
+      for (Position gridElemPathPos : gridElementPath) {
+         DetectionResult detectionResult = detectObjectInternal(gridElement, gridElemPathPos, detectorPosition);
+         detectionResults.add(detectionResult);
+         if (detectionResult.isEvasion) {
+            break;
          }
-         detectionMap.put(gridElement, isDetected);
-         isEvasionMap.put(gridElement, isEvasion);
-         return isEvasion;
       }
+      postDetecting(gridElement, detectionResults);
+   }
+
+   @Override
+   public void detectObject(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
+      preDetecting(gridElement);
+      DetectionResult detectionResult = detectObjectInternal(gridElement, avoidablePos, detectorPosition);
+      postDetecting(gridElement, Collections.singletonList(detectionResult));
+   }
+
+   private void preDetecting(GridElement gridElement) {
       detectionMap.remove(gridElement);
       isEvasionMap.remove(gridElement);
-      return false;
+   }
+
+   private void postDetecting(GridElement gridElement, List<DetectionResult> detectionResults) {
+      detectionMap.put(gridElement, detectionResults.stream().anyMatch(DetectionResult::getIsDetected));
+      isEvasionMap.put(gridElement, detectionResults.stream().anyMatch(DetectionResult::getIsEvasion));
+   }
+
+   private DetectionResult detectObjectInternal(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
+      double distance = avoidablePos.calcDistanceTo(detectorPosition);
+      if (detectorReach >= distance) {
+         double degValue = MathUtil.calcAngleBetweenPositions(detectorPosition, avoidablePos);
+         boolean isDetected = degValue <= (detectorAngle / 2);
+         boolean isEvasion = isEvasion(gridElement, distance, degValue, isDetected);
+         return new DetectionResult(isEvasion, isDetected);
+      }
+      return new DetectionResult(false, false);
+   }
+
+   private boolean isEvasion(GridElement gridElement, double distance, double degValue, boolean isDetected) {
+      boolean isEvasion = false;
+      if (isDetected && evasionDistance >= distance) {
+         boolean isPotentialCollisionCourse = degValue <= (evasionAngle / 2);
+         isEvasion = isEvasion(gridElement, isDetected, isPotentialCollisionCourse);
+      }
+      return isEvasion;
    }
 
    private boolean isEvasion(GridElement gridElement, boolean isDetected, boolean isPotentialCollisionCourse) {

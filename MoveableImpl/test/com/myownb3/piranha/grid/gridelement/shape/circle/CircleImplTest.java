@@ -3,7 +3,6 @@
  */
 package com.myownb3.piranha.grid.gridelement.shape.circle;
 
-import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,16 +16,14 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import com.myownb3.piranha.detector.collision.CollisionDetectedException;
-import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
-import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
-import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.moveables.Moveable;
 
 /**
  * @author Dominic
@@ -35,7 +32,53 @@ import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilde
 class CircleImplTest {
 
    @Test
-   void testCheck4Collision_CheckPath() {
+   void testDetectObject_NoDetection() {
+
+      // Given
+      boolean expectedHasDetection = false;
+      Detector detector = new DetectorImpl();
+      Position detectorPosition = Positions.of(0, 6);
+      Moveable moveable = mock(Moveable.class);
+      Circle circle = new CircleBuilder(5)
+            .withAmountOfPoints(4)
+            .withCenter(Positions.of(0, 0))
+            .withGridElement(moveable)
+            .build();
+
+      // When
+      boolean actualHasDetection = circle.detectObject(detectorPosition, detector);
+
+      // Then
+      assertThat(actualHasDetection, is(expectedHasDetection));
+   }
+
+   @Test
+   void testDetectObject_WithDetectionAndEvasion() {
+
+      // Given
+      boolean expectedHasDetection = true;
+      boolean expectedIsEvasion = true;
+      Detector detector = new DetectorImpl();
+      Position detectorPosition = Positions.of(0, -6);
+      Avoidable moveable = mock(Avoidable.class);
+      Circle circle = new CircleBuilder(5)
+            .withAmountOfPoints(4)
+            .withCenter(Positions.of(0, 0))
+            .withGridElement(moveable)
+            .build();
+
+      // When
+      circle.detectObject(detectorPosition, detector);
+      boolean actualHasDetection = detector.hasObjectDetected(moveable);
+      boolean actualIsEvasion = detector.isEvasion(moveable);
+
+      // Then
+      assertThat(actualHasDetection, is(expectedHasDetection));
+      assertThat(actualIsEvasion, is(expectedIsEvasion));
+   }
+
+   @Test
+   void testCheckPathOfCircle() {
 
       // Given
       int radius = 5;
@@ -84,48 +127,6 @@ class CircleImplTest {
 
       // Then
       assertThat(distanceFromCenterToPath, is(expectedDistance));
-   }
-
-   @Test
-   void testCheck4Collision_NoMatch() {
-
-      // Given
-      CollisionDetectionHandler collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
-      Position newPosition = Positions.of(5, 5);
-      newPosition.rotate(11);
-      Circle circle = new CircleBuilder(5)
-            .withAmountOfPoints(4)
-            .withCenter(Positions.of(0, 0))
-            .build();
-
-      // When
-      Executable ex = () -> {
-         circle.check4Collision(collisionDetectionHandler, newPosition, singletonList(mock(Avoidable.class)));
-      };
-
-      // Then
-      assertThrows(IllegalStateException.class, ex);
-   }
-
-   @Test
-   void testCheck4Collision_Collision() {
-
-      // Given
-      Position newPosition = Positions.of(0, 1);
-      CollisionDetectionHandler collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
-      ObstacleImpl avoidable = new ObstacleImpl(mock(Grid.class), Positions.of(0, 6));
-      Circle circle = new CircleBuilder(5)
-            .withAmountOfPoints(4)
-            .withCenter(Positions.of(0, 0))
-            .build();
-
-      // When
-      Executable ex = () -> {
-         circle.check4Collision(collisionDetectionHandler, newPosition, singletonList(avoidable));
-      };
-
-      // Then
-      assertThrows(CollisionDetectedException.class, ex);
    }
 
    @Test

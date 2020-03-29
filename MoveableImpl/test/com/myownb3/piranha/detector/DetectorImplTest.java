@@ -1,6 +1,8 @@
 package com.myownb3.piranha.detector;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,12 +15,51 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 class DetectorImplTest {
+
+   @Test
+   void testDetectObjectAlongPath_IsNotDetectingAndNotEvasion() {
+
+      // Given
+      DetectorImpl detector = new DetectorImpl();
+      Position detectorPosition = Positions.of(0, 0);
+      Position gridElementPos = Positions.of(0, 9);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean actualIsEvasion = detector.isEvasion(gridElement);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(actualIsEvasion, is(false));
+      assertThat(hasObjectDetected, is(false));
+   }
+
+   @Test
+   void testDetectObjectAlongPath_IsDetectingButNotEvasion() {
+
+      // Given
+      DetectorImpl detector = new DetectorImpl();
+      Position detectorPosition = Positions.of(0, 0);
+      Position gridElementPos = Positions.of(0, 1);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean actualIsEvasion = detector.isEvasion(gridElement);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(actualIsEvasion, is(false));
+      assertThat(hasObjectDetected, is(true));
+   }
 
    @Test
    void testGetNearestEvasionGridElement() {

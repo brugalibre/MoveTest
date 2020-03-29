@@ -5,7 +5,6 @@ package com.myownb3.piranha.grid.gridelement;
 
 import java.util.List;
 
-import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.Grid;
@@ -97,7 +96,7 @@ public abstract class AbstractGridElement implements GridElement {
       return grid;
    }
 
-   @Visible4Testing
+   @Override
    public Shape getShape() {
       return shape;
    }

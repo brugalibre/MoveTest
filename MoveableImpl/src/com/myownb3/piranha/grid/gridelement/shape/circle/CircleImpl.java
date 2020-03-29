@@ -3,17 +3,20 @@
  */
 package com.myownb3.piranha.grid.gridelement.shape.circle;
 
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.grid.gridelement.shape.circle.detection.CircleCollisionDetectorImpl;
 
 /**
  * @author Dominic
@@ -21,6 +24,7 @@ import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
  */
 public class CircleImpl extends AbstractShape implements Circle {
 
+   private static final int AMOUNT_OF_PATH_POINTS_4_DETECTION = 150;
    private int amountOfPoints;
    private int radius;
    private Position center;
@@ -32,30 +36,27 @@ public class CircleImpl extends AbstractShape implements Circle {
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
    }
 
+   @Override
+   protected CollisionDetector buildCollisionDetector() {
+      return new CircleCollisionDetectorImpl(this);
+   }
+
+   @Override
+   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables) {
+      collisionDetector.checkCollision(collisionDetectionHandler, gridElement, null/*old value not necessary*/, newPosition,
+            allAvoidables);
+   }
+
+   @Override
+   protected List<Position> buildPath4Detection() {
+      return buildCircleWithCenter(center, AMOUNT_OF_PATH_POINTS_4_DETECTION, radius);
+   }
+
    private int verifyAmountOfPoints(int amountOfPoints) {
       if (amountOfPoints < 4) {
          throw new IllegalArgumentException("We need at least 4 points for a circle!");
       }
       return amountOfPoints;
-   }
-
-
-   @Override
-   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newCenterPos, List<Avoidable> allAvoidables) {
-      List<Position> newPath = buildCircleWithCenter(newCenterPos, amountOfPoints, radius);
-      Collections.sort(newPath, new CircePathPositionComparator());
-      Collections.sort(path, new CircePathPositionComparator());
-      for (Position newPos : newPath) {
-         Position oldPos = getOldPosForTransoformedValue(newPos);
-         collisionDetector.checkCollision(collisionDetectionHandler, gridElement, oldPos, newPos, allAvoidables);
-      }
-   }
-
-   private Position getOldPosForTransoformedValue(Position newPos) {
-      return path.stream()
-            .filter(oldPos -> oldPos.getDirection().equals(newPos.getDirection()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No old Position found on path for transformed Position '" + newPos + "'"));
    }
 
    @Override
@@ -108,6 +109,7 @@ public class CircleImpl extends AbstractShape implements Circle {
       private int radius;
       private int amountOfPoints;
       private Position center;
+      private GridElement gridElement;
 
       public CircleBuilder(int radius) {
          this.radius = radius;
@@ -123,10 +125,19 @@ public class CircleImpl extends AbstractShape implements Circle {
          return this;
       }
 
+      public CircleBuilder withGridElement(GridElement gridElement) {
+         this.gridElement = gridElement;
+         return this;
+      }
+
       public CircleImpl build() {
          requireNonNull(center);
          List<Position> path = buildCircleWithCenter(center, amountOfPoints, radius);
-         return new CircleImpl(path, center, amountOfPoints, radius);
+         CircleImpl circle = new CircleImpl(path, center, amountOfPoints, radius);
+         if (nonNull(gridElement)) {
+            ((AbstractShape) circle).setGridElement(gridElement);
+         }
+         return circle;
       }
    }
 

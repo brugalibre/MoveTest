@@ -31,6 +31,14 @@ public abstract class AbstractShape implements Shape {
       this.collisionDetector = buildCollisionDetector();
    }
 
+   @Override
+   public boolean detectObject(Position detectorPosition, Detector detector) {
+      requireNonNull(gridElement, "A Shape needs a GridElement when calling 'detectObject'");
+      List<Position> path4Detection = buildPath4Detection();
+      detector.detectObjectAlongPath(gridElement, path4Detection, detectorPosition);
+      return detector.hasObjectDetected(gridElement);
+   }
+
    /**
     * Provides the {@link CollisionDetector} used by this {@link Shape}
     * 
@@ -38,17 +46,13 @@ public abstract class AbstractShape implements Shape {
     */
    protected abstract CollisionDetector buildCollisionDetector();
 
-   @Override
-   public boolean detectObject(Position detectorPosition, Detector detector) {
-      requireNonNull(gridElement, "A Shape needs a GridElement when calling 'detectObject'");
-      for (Position posOnPath : path) {
-         boolean hasPosDetected = detector.detectObject(gridElement, posOnPath, detectorPosition);
-         if (hasPosDetected) {
-            break;
-         }
-      }
-      return false;
-   }
+   /**
+    * Builds a List of {@link Position} which is used to verify if the {@link GridElement} of this {@link Shape}
+    * has been detected
+    * 
+    * @return the path of this Shape
+    */
+   protected abstract List<Position> buildPath4Detection();
 
    @Override
    public List<Position> getPath() {

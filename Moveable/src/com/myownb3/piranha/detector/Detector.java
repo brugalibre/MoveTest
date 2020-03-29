@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.detector;
 
+import java.util.List;
+
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -27,12 +29,24 @@ public interface Detector {
     * @param gridElementPos
     *        the {@link Position} of the gridElement which is used for the verification if there is a detection
     * @param position
-    *        the current Position from which the {@link Detector} trys to
+    *        the current Position from which the {@link Detector} tries to
     *        detect
-    * @return <code>true</code> if the object was detected, <code>false</code> if
-    *         not
     */
-   boolean detectObject(GridElement gridElement, Position gridElementPos, Position position);
+   void detectObject(GridElement gridElement, Position gridElementPos, Position position);
+
+   /**
+    * Evaluates if the given {@link GridElement} has been detected by this Detector
+    * We use also the given {@link Position} of the {@link Avoidable} to check weather or not this avoidable is detected
+    * 
+    * @param gridElement
+    *        the {@link GridElement} to detect
+    * @param gridElementPath
+    *        the Path of the gridElement which is used for the verification if there is a detection
+    * @param position
+    *        the current Position from which the {@link Detector} tries to
+    *        detect
+    */
+   void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position position);
 
    /**
     * 

@@ -8,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collections;
 import java.util.List;
 
+import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
@@ -44,10 +45,23 @@ public class PositionShape extends AbstractShape {
    }
 
    @Override
+   protected List<Position> buildPath4Detection() {
+      return Collections.singletonList(getPosition());
+   }
+
+   @Override
    public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables) {
       // Since the 'newPosition' is already transformed, we can call the detector directly
       collisionDetector.checkCollision(collisionDetectionHandler, gridElement, getPosition(), newPosition, allAvoidables);
    }
+
+   @Override
+   public boolean detectObject(Position detectorPosition, Detector detector) {
+      requireNonNull(gridElement, "A Shape needs a GridElement when calling 'detectObject'");
+      detector.detectObject(gridElement, getPosition(), detectorPosition);
+      return detector.hasObjectDetected(gridElement);
+   }
+
 
    @Override
    public void transform(Position position) {
