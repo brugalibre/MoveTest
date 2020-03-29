@@ -88,20 +88,6 @@ public class PostEvasionStateHandlerWithEndPos extends
       Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
       double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
       moveable.makeTurnWithoutPostConditions(signum * angle2Turn);
-
-      checkSurroundingsAndTurnBackIfNecessary(moveable, helper, grid, signum * -angle2Turn);
-   }
-
-   /*
-    * If the moveable has detected an evasion, revert the turn
-    */
-   private static void checkSurroundingsAndTurnBackIfNecessary(Moveable moveable, DetectableMoveableHelper helper,
-         Grid grid, double angle2Turn) {
-      helper.checkSurrounding(grid, moveable);
-      if (helper.check4Evasion(grid, moveable)) {
-         moveable.makeTurnWithoutPostConditions(angle2Turn);
-      }
-      helper.checkSurrounding(grid, moveable);
    }
 
    private int calcSignum(Position moveablePos, Position positionBeforeEvasion, Position endPos) {
