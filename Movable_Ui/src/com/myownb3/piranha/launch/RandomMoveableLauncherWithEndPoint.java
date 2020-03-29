@@ -96,7 +96,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
          List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 5, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 5, 0.06, 0.7d, 70, 60, 90, 70, 15);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
       return MoveableControllerBuilder.builder()
