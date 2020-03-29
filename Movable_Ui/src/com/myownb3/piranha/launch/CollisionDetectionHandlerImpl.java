@@ -9,6 +9,7 @@ import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.moveables.EndPointMoveable;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.ui.application.MainWindow;
 
@@ -25,13 +26,17 @@ class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {
 
    @Override
    public void handleCollision(Avoidable avoidable, GridElement gridElement, Position newPosition) {
-      if (stoppable.isRunning()) {
+      if (stoppable.isRunning() && isCollisionWithMoveable(gridElement)) {
          stoppable.stop();
          if (moveableController != null) {
             moveableController.stop();
          }
          SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
       }
+   }
+
+   private static boolean isCollisionWithMoveable(GridElement gridElement) {
+      return gridElement instanceof EndPointMoveable;
    }
 
    public final void setMoveableController(MoveableController moveableController) {
