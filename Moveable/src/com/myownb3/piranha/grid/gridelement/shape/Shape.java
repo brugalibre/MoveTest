@@ -56,15 +56,22 @@ public interface Shape {
    boolean detectObject(Position detectorPosition, Detector detector);
 
    /**
-    * Returns the {@link Position} placed on the path which is equivalent to the
-    * given Position. That means the position to return faces the same direction.
+    * Returns the {@link Position} of this {@link GridElement} which faces the same
+    * direction than it's center {@link Position} but is placed on it's
+    * {@link Shape}
     * 
-    * @param position
-    *        the given {@link Position}
-    * @return the {@link Position} placed on the path which is equivalent to the
-    *         given Position
+    * @return the {@link Position} of this {@link GridElement}
     */
-   Position getPositionOnPathFor(Position position);
+   Position getFurthermostFrontPosition();
+
+   /**
+    * Returns the {@link Position} of this {@link GridElement} which faces the oposit
+    * direction than it's center {@link Position} but is placed on it's
+    * {@link Shape}
+    * 
+    * @return the {@link Position} of this {@link GridElement}
+    */
+   Position getFurthermostBackPosition();
 
    /**
     * Transform this shape according the new {@link Position}

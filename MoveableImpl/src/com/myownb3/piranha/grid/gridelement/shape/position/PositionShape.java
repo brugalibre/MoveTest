@@ -69,7 +69,12 @@ public class PositionShape extends AbstractShape {
    }
 
    @Override
-   public Position getPositionOnPathFor(Position position) {
+   public Position getFurthermostBackPosition() {
+      return getPosition();
+   }
+
+   @Override
+   public Position getFurthermostFrontPosition() {
       return getPosition();
    }
 

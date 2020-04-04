@@ -9,7 +9,6 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
@@ -81,14 +80,12 @@ public abstract class AbstractGridElement implements GridElement {
 
    @Override
    public Position getFurthermostFrontPosition() {
-      return shape.getPositionOnPathFor(position);
+      return shape.getFurthermostFrontPosition();
    }
 
    @Override
    public Position getFurthermostBackPosition() {
-      Position posInverted = Positions.of(position);
-      posInverted.rotate(180);
-      return shape.getPositionOnPathFor(posInverted);
+      return shape.getFurthermostBackPosition();
    }
 
    @Override

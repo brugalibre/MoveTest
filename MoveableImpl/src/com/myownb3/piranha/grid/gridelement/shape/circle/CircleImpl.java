@@ -66,8 +66,15 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    @Override
-   public Position getPositionOnPathFor(Position position) {
-      return getNextCirclePos(position, radius, 0);
+   public Position getFurthermostFrontPosition() {
+      return getNextCirclePos(center, radius, 0);
+   }
+
+   @Override
+   public Position getFurthermostBackPosition() {
+      Position posInverted = Positions.of(center);
+      posInverted.rotate(180);
+      return getNextCirclePos(posInverted, radius, 0);
    }
 
    @Override
