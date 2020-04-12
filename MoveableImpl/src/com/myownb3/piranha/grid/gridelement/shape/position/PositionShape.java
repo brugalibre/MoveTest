@@ -14,6 +14,7 @@ import com.myownb3.piranha.detector.collision.CollisionDetector;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.position.PositionCollisionDetectorImpl.PositionCollisionDetectorBuilder;
@@ -79,6 +80,6 @@ public class PositionShape extends AbstractShape {
    }
 
    public Position getPosition() {
-      return path.get(0);
+      return Positions.of(path.get(0));
    }
 }
