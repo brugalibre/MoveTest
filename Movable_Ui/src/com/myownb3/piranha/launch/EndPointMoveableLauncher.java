@@ -39,6 +39,8 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainterConfig;
 
 /**
  * @author Dominic
@@ -59,8 +61,10 @@ public class EndPointMoveableLauncher {
       DefaultGrid grid = buildGrid();
       List<EndPosition> endPositions = getEndPositions();
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
-      List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width);
-      List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, true, false);
+      List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width, config);
+      List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables, moveablePainterConfig);
 
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding,
             height);
@@ -76,12 +80,13 @@ public class EndPointMoveableLauncher {
             .withMaxY(510)
             .withMinX(padding)
             .withMinY(padding)
+            .withDefaultCollisionDetectionHandler()
             .build();
    }
 
-   private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<EndPosition> endPositions, int width) {
+   private static List<EndPointMoveable> getMoveables(DefaultGrid grid, List<EndPosition> endPositions, int width, EvasionStateMachineConfig config) {
       return endPositions.stream()
-            .map(endPos -> getMoveable(endPos, grid, 200, 200, width))
+            .map(endPos -> getMoveable(endPos, grid, 200, 200, width, config))
             .collect(Collectors.toList());
    }
 
@@ -194,15 +199,14 @@ public class EndPointMoveableLauncher {
       return signum;
    }
 
-   private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width,
-         List<GridElement> gridElements, List<EndPointMoveable> moveables) {
+   private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width, List<GridElement> gridElements,
+         List<EndPointMoveable> moveables, MoveablePainterConfig moveablePainterConfig) {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), Color.GREEN, height, width));
-
       for (EndPointMoveable endPointMoveable : moveables) {
-         renderers.add(new GridElementPainter(endPointMoveable, getColor(endPointMoveable), height, width));
+         renderers.add(new MoveablePainter(endPointMoveable, getColor(endPointMoveable), height, width, moveablePainterConfig));
       }
       return renderers;
    }
@@ -211,8 +215,7 @@ public class EndPointMoveableLauncher {
       return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
    }
 
-   private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
+   private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width, EvasionStateMachineConfig config) {
       Position pos = Positions.of(posX + padding, posY + padding);
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());

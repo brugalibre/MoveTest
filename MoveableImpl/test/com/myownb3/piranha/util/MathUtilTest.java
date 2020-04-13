@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.CoreMatchers;
+import org.jscience.mathematics.vector.Float64Vector;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,41 @@ import org.junit.jupiter.api.function.Executable;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
+import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
  * @author Dominic
  *
  */
 class MathUtilTest {
+
+   @Test
+   void testRotateVector_90Deg() {
+
+      // Given
+      Float64Vector float64Vector = VectorUtil.getVector(Positions.of(5, 0));
+
+      // When
+      Float64Vector rotatedVector = MathUtil.rotateVector(float64Vector, 90);
+
+      // Then
+      assertThat(rotatedVector.get(1).doubleValue(), is(5.0));
+      assertThat(rotatedVector.get(0).doubleValue(), is(0.0));
+   }
+
+   @Test
+   void testRotateVector_270Deg() {
+
+      // Given
+      Float64Vector float64Vector = VectorUtil.getVector(Positions.of(5, 0));
+
+      // When
+      Float64Vector rotatedVector = MathUtil.rotateVector(float64Vector, -90);
+
+      // Then
+      assertThat(rotatedVector.get(1).doubleValue(), is(-5.0));
+      assertThat(rotatedVector.get(0).doubleValue(), is(0.0));
+   }
 
    @Test
    void testSignum() {
