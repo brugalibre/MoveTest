@@ -6,6 +6,7 @@ import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
@@ -23,7 +24,8 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
    private double distanceMargin;
    private double angleMargin;
 
-   private ReturnStates state;
+   @Visible4Testing
+   ReturnStates state;
    private double initialDistance;
    private int signum;
 

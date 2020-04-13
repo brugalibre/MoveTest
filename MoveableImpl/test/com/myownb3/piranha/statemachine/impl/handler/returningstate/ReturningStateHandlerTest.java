@@ -5,12 +5,15 @@ package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
@@ -27,12 +30,30 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 class ReturningStateHandlerTest {
 
    @Test
+   void testHandle_UnknownState() {
+
+      // Given
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
+      ReturningStateHandler handler = new ReturningStateHandler(config);
+      ReturningEventStateInput evenStateInput = mockInput(true);
+      handler.state = ReturnStates.NONE;
+
+      // When
+      Executable ex = () -> {
+         handler.handle(evenStateInput);
+      };
+
+      // Then
+      assertThrows(IllegalStateException.class, ex);
+   }
+
+   @Test
    void testHandle_NoReturningNecessary2() {
 
       // Given
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
       ReturningStateHandler handler = new ReturningStateHandler(config);
-      ReturningEventStateInput evenStateInput = mockInput();
+      ReturningEventStateInput evenStateInput = mockInput(false);
 
       // When
       CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
@@ -47,7 +68,7 @@ class ReturningStateHandlerTest {
       // Given
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
       ReturningStateHandler handler = new ReturningStateHandler(config);
-      ReturningEventStateInput evenStateInput = mockInput();
+      ReturningEventStateInput evenStateInput = mockInput(false);
 
       // When
       CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
@@ -56,9 +77,14 @@ class ReturningStateHandlerTest {
       assertThat(eventStateResult.getNextState(), is(EvasionStates.RETURNING.nextState()));
    }
 
-   private ReturningEventStateInput mockInput() {
+   private ReturningEventStateInput mockInput(boolean withEndPos) {
       Moveable moveable = mock(Moveable.class);
       when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
+      if (withEndPos) {
+
+         return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
+               Positions.of(0, 0), mock(EndPosition.class));
+      }
       return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
             Positions.of(0, 0));
    }

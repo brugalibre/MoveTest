@@ -1,5 +1,6 @@
 package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
+import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -19,4 +20,7 @@ public enum PostEvasionStates {
 
    /** The actual Post-evasion state */
    POST_EVASION,
+
+   /** Dummy State only for testing purpose */
+   NONE,
 }

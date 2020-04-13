@@ -5,6 +5,7 @@ package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.jscience.mathematics.vector.Float64Vector;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.detector.Detector;
@@ -34,6 +36,28 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  *
  */
 class PostEvasionStateHandlerWithEndPosTest {
+
+   @Test
+   public void testHandlePostEvasion_UnknownState() {
+
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withStepWidth(10)
+            .withEndPos(Positions.of(10, 10))
+            .withPositionBeforeEvasion(Positions.of(9, 9))
+            .withEvasionStateHandler()
+            .build()
+            .withEventStateInput();
+      tcb.handler.state = PostEvasionStates.NONE;
+
+      // When
+      Executable ex = () -> {
+         tcb.handler.handle(tcb.evenStateInput);
+      };
+
+      // Then
+      assertThrows(IllegalStateException.class, ex);
+   }
 
    @Test
    public void testHandlePostEvasion_AngleCorrectionNotNecessary() {

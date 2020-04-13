@@ -32,4 +32,7 @@ enum ReturnStates {
     * After the moveable is facing again it's original path we may have to correct the relative angle to the end {@link Position}
     */
    RELATIVE_ANGLE_CORRECTION_TO_END_POS,
+
+   /** Dummy State only for testing purpose */
+   NONE,
 }
