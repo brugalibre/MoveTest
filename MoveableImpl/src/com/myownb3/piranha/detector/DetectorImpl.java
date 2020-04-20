@@ -188,6 +188,11 @@ public class DetectorImpl implements Detector {
       return detectorReach;
    }
 
+   @Override
+   public int getEvasionRange() {
+      return evasionDistance;
+   }
+
    private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
       return ourAngle + (detectorAngle / 2) >= gridElementAngle;
    }

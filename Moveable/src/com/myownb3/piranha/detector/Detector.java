@@ -83,4 +83,9 @@ public interface Detector {
     * @return the range of this detector
     */
    int getDetectorRange();
+
+   /**
+    * @return the range within this detector avoid a {@link GridElement}
+    */
+   int getEvasionRange();
 }

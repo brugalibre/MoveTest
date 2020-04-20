@@ -318,7 +318,7 @@ class MoveableControllerTest {
             .withEndPos(EndPositions.of(25, 25, true))
             .addObstacle(Positions.of(10, 10))
             .addObstacle(Positions.of(20, 19.5))
-            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 2)
             .withDetector()
             .withStateMachine()
             .withMoveable(Positions.of(0, 0))
@@ -346,11 +346,11 @@ class MoveableControllerTest {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withDefaultGrid(200, 200)
-            .withEndPos(EndPositions.of(30, 30))
+            .withEndPos(EndPositions.of(33, 33))
             .addObstacle(Positions.of(10, 10))
             .addObstacle(Positions.of(20, 19.5))
             .addObstacle(Positions.of(23, 23))
-            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 3)
             .withDetector()
             .withStateMachine()
             .withMoveable(Positions.of(0, 0))
@@ -368,8 +368,8 @@ class MoveableControllerTest {
          assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
       }
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-      assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-      assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      assertThat(round(effectEndPos.getY(), 0), is(tcb.endPos.getY()));
+      assertThat(round(effectEndPos.getX(), 0), is(tcb.endPos.getX()));
    }
 
    @Test
@@ -383,7 +383,7 @@ class MoveableControllerTest {
             .addObstacle(Positions.of(10, 10))
             .addObstacle(Positions.of(20, 19.5))
             .addObstacle(Positions.of(23, 23))
-            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 2)
             .withDetector()
             .withStateMachine()
             .withMoveable(startPos)
@@ -403,6 +403,7 @@ class MoveableControllerTest {
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
       assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
       assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+
    }
 
    @Test
@@ -416,7 +417,7 @@ class MoveableControllerTest {
             .addObstacle(Positions.of(10, 10))
             .addObstacle(Positions.of(20, 17))
             .addObstacle(Positions.of(25, 25))
-            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 10)
+            .withStateMachineConfig(1, 0.14, 0.7, 5, 70, 60, 2)
             .withDetector()
             .withStateMachine()
             .withMovingIncrement(1)

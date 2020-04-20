@@ -61,7 +61,7 @@ public class EndPointMoveableLauncher {
       DefaultGrid grid = buildGrid();
       List<EndPosition> endPositions = getEndPositions();
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 2);
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, true, false);
       List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width, config);
       List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables, moveablePainterConfig);
@@ -92,10 +92,10 @@ public class EndPointMoveableLauncher {
 
    private static List<EndPosition> getEndPositions() {
       List<EndPosition> endPositions = new ArrayList<>();
-      //      endPositions.add(EndPositions.of(400 + padding, 10 + padding));
+      endPositions.add(EndPositions.of(400 + padding, 10 + padding));
       endPositions.add(EndPositions.of(400 + padding, 400 + padding));
-      //      endPositions.add(EndPositions.of(10 + padding, 10 + padding));
-      //      endPositions.add(EndPositions.of(10 + padding, 400 + padding));
+      endPositions.add(EndPositions.of(10 + padding, 10 + padding));
+      endPositions.add(EndPositions.of(10 + padding, 400 + padding));
       return endPositions;
    }
 

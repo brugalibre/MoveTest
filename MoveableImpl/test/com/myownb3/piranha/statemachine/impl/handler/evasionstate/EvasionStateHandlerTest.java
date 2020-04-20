@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,17 +20,39 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.EvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 class EvasionStateHandlerTest {
+   @Test
+   void testHandleEvasionState_DelayPostEvasion() {
+
+      // Given
+      Grid grid = mock(Grid.class);
+      double expectedAngle = 10;
+      int postEvasionDelayDistance = 2;
+      Detector detector = mockDetector(expectedAngle);
+      Moveable moveable = spyMoveable();
+
+      DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
+
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
+
+      // When
+      EvasionStateResult evasionStateResult = test.handle(evenStateInput);
+
+      // Then
+      assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION));
+      assertThat(evasionStateResult.isEvasion(), is(false));
+   }
 
    @Test
    void testHandleEvasionState_NonEvasionAtAll() {
 
       // Given
+      int postEvasionDelayDistance = 0;
       Grid grid = mock(Grid.class);
       double expectedAngle = 0.0d;
       Detector detector = mockDetector(expectedAngle);
@@ -40,39 +61,15 @@ class EvasionStateHandlerTest {
 
       DetectableMoveableHelper helper = new DummyDetectableMoveableHelper(detector);
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper);
-      EvasionStateHandler test = new EvasionStateHandler();
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
       EvasionStateResult evasionStateResult = test.handle(evenStateInput);
 
       // Then
-      assertThat(evasionStateResult.getAvoidAngle(), is(expectedAngle));
       assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION.nextState()));
-   }
-
-   @Test
-   void testHandleEvasionState_EvasionButAvoidingAngleIsZero() {
-
-      // Given
-      Grid grid = mock(Grid.class);
-      double expectedAngle = 0.0d;
-      Detector detector = spy(Detector.class);
-      Moveable moveable = spyMoveable();
-
-      DetectableMoveableHelper helper = new OneTimeDetectableMoveableHelper(detector);
-
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper);
-      EvasionStateHandler test = new EvasionStateHandler();
-
-      // When
-      EvasionStateResult evasionStateResult = test.handle(evenStateInput);
-
-      // Then
-      assertThat(evasionStateResult.getAvoidAngle(), is(expectedAngle));
-      assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION.nextState()));
-      verify(moveable, never()).makeTurnWithoutPostConditions(Mockito.anyDouble());
-      verify(detector).getEvasionAngleRelative2(any());
+      assertThat(evasionStateResult.isEvasion(), is(false));
    }
 
    @Test
@@ -81,23 +78,24 @@ class EvasionStateHandlerTest {
       // Given
       Grid grid = mock(Grid.class);
       double expectedAngle = 10;
+      int postEvasionDelayDistance = 0;
       Detector detector = mockDetector(expectedAngle);
       Moveable moveable = spyMoveable();
 
       DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper);
-      EvasionStateHandler test = new EvasionStateHandler();
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
       EvasionStateResult evasionStateResult = test.handle(evenStateInput);
 
       // Then
-      assertThat(evasionStateResult.getAvoidAngle(), is(expectedAngle));
       assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION.nextState()));
-      verify(moveable, times(2)).makeTurnWithoutPostConditions(Mockito.anyDouble());
+      verify(moveable).makeTurnWithoutPostConditions(Mockito.anyDouble());
       verify(helper).checkSurrounding(eq(grid), eq(moveable));
       verify(helper, times(2)).check4Evasion(eq(grid), eq(moveable));
+      assertThat(evasionStateResult.isEvasion(), is(false));
    }
 
    @Test
@@ -106,23 +104,24 @@ class EvasionStateHandlerTest {
       // Given
       Grid grid = mock(Grid.class);
       double expectedAngle = 10;
+      int postEvasionDelayDistance = 0;
       Detector detector = mockDetector(expectedAngle);
       Moveable moveable = spyMoveable();
 
       DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(detector));
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper);
-      EvasionStateHandler test = new EvasionStateHandler();
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
       EvasionStateResult evasionStateResult = test.handle(evenStateInput);
 
       // Then
-      assertThat(evasionStateResult.getAvoidAngle(), is(expectedAngle));
       assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION));
       verify(moveable).makeTurnWithoutPostConditions(Mockito.anyDouble());
       verify(helper).checkSurrounding(eq(grid), eq(moveable));
       verify(helper, times(2)).check4Evasion(eq(grid), eq(moveable));
+      assertThat(evasionStateResult.isEvasion(), is(true));
    }
 
    private static Detector mockDetector(Double expectedAngle) {
