@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.swing.JComponent;
 
@@ -15,6 +16,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
 
 /**
  * @author Dominic
@@ -46,7 +48,23 @@ public class SpielFeld extends JComponent {
 
    private void paintMoveableContent(Graphics2D g2) {
       GraphicsContext graphicsContext = new GraphicsContext(g2);
-      renderers.forEach(renderer -> renderer.render(graphicsContext));
+      renderMoveable(graphicsContext);
+      renderers.stream()
+            .filter(isMoveablePainter().negate())
+            .forEach(renderer -> renderer.render(graphicsContext));
+   }
+
+   /**
+    * @param graphicsContext
+    */
+   private void renderMoveable(GraphicsContext graphicsContext) {
+      renderers.stream()
+            .filter(isMoveablePainter())
+            .forEach(moveablePainter -> moveablePainter.render(graphicsContext));
+   }
+
+   private Predicate<? super Renderer> isMoveablePainter() {
+      return renderer -> renderer instanceof MoveablePainter;
    }
 
    private void paintSpielfeld(Graphics2D g2) {
