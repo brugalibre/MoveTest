@@ -2,8 +2,6 @@ package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
-import static java.lang.Math.abs;
-import static java.lang.Math.min;
 import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -21,6 +19,7 @@ import com.myownb3.piranha.util.MathUtil;
 
 public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<ReturningEventStateInput, CommonEvasionStateResult> {
 
+   private ReturningStateHandlerAngleHelper helper;
    private double returningAngle;
    private double initReturningAngle;
    private double distanceMargin;
@@ -49,6 +48,7 @@ public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<Returni
       this.initReturningAngle = evasionAngleInc * angleIncMultiplier;
       this.distanceMargin = distanceMargin;
       this.angleMargin = angleMargin;
+      helper = new ReturningStateHandlerAngleHelper();
       init();
    }
 
@@ -96,15 +96,13 @@ public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<Returni
 
    private void doCorrectionPhase1(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-      double actualDiff = 90.0d - currentAngle;
-      double angle2Turn = Math.min(actualDiff, getAngle2Turn());
+      double angle2Turn = helper.calcAngle2Turn4CorrectionPhase1(currentAngle, getAngle2Turn());
       moveable.makeTurnWithoutPostConditions(angle2Turn);
    }
 
    private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-      double actualDiff = 0 - currentAngle;
-      double angle2Turn = getAngle2Turn4CorrectionPhase2(actualDiff);
+      double angle2Turn = helper.calcAngle2Turn4CorrectionPhase2(currentAngle, getAngle2Turn());
       moveable.makeTurnWithoutPostConditions(-angle2Turn);
    }
 
@@ -137,32 +135,6 @@ public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<Returni
       return evalNextState(positionBeforeEvasion, moveable, endPosLine);
    }
 
-   private double getAngle2Turn4CorrectionPhase2(double actualDiff) {
-      double initAngle2Turn = getAngle2Turn();
-      double effectAngle2Turn = min(abs(initAngle2Turn), abs(actualDiff));
-      if (has2InvertAngle(actualDiff, initAngle2Turn)) {
-         effectAngle2Turn = -effectAngle2Turn;
-      }
-      return correctAngle2TurnSignum(actualDiff, effectAngle2Turn);
-   }
-
-   /*
-    * If the diff-angle is negative -> we have to make a turn with a positive angle (in order to minimize the diff)
-    * If the diff-angle is positive, we have to make a turn with a negative angle
-    */
-   private static double correctAngle2TurnSignum(double actualDiff, double angle2Turn) {
-      if (actualDiff <= 0) {
-         angle2Turn = -angle2Turn;
-      }
-      return angle2Turn;
-   }
-
-   /*
-    * I can't tell why but in some cases it's necessary to invert the angle right before we correct it again
-    */
-   private static boolean has2InvertAngle(double actualDiff, double initAngle2Turn) {
-      return initAngle2Turn > 0 && actualDiff < 0;
-   }
 
    private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
       // If the moveable is on the endPosLine and faces into the right direction ->
