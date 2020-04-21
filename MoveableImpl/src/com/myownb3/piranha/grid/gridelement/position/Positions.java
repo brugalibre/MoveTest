@@ -3,11 +3,12 @@
  */
 package com.myownb3.piranha.grid.gridelement.position;
 
+import org.jscience.mathematics.vector.Float64Vector;
+
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -46,6 +47,7 @@ public class Positions {
       return new PositionImpl(direction, x, y);
    }
 
+
    /**
     * Creates a copy of the given {@link Position}
     * 
@@ -71,6 +73,25 @@ public class Positions {
       double newX = position.getX() + direction.getForwardX();
       double newY = position.getY() + direction.getForwardY();
       return Positions.of(direction, newX, newY);
+   }
+
+   /**
+    * Creates a new {@link Position} by moving the given position for the given distance
+    * @param pos
+    *        the Position to move
+    * @param distance
+    *        the distance
+    * 
+    * @return a new {@link Position} by moving the given position for the given distance
+    */
+   public static Position movePositionForward4Distance(Position pos, double distance) {
+      Position originPos = of(pos);
+      double currentDistance = originPos.calcDistanceTo(pos);
+      while (currentDistance < distance) {
+         pos = movePositionForward(pos);
+         currentDistance = originPos.calcDistanceTo(pos);
+      }
+      return pos;
    }
 
    /**
@@ -261,4 +282,5 @@ public class Positions {
          return "Direction: '" + direction + "', X-Axis: '" + x + "', Y-Axis: '" + y + "'";
       }
    }
+
 }
