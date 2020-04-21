@@ -3,7 +3,8 @@
  */
 package com.myownb3.piranha.launch;
 
-import java.awt.Color;
+import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -40,6 +41,8 @@ import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainterConfig;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -71,12 +74,13 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
       List<Renderer> renderers = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 180, 170, 2);
 
       MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
-            getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width);
+            getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width, config);
       moveableControllerList.add(moveableController);
       collisionDetectionHandler.setMoveableController(moveableController);
-      renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable()));
+      renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable(), config));
 
       mainWindow.addSpielfeld(renderers, grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
@@ -95,8 +99,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
-         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 5, 0.06, 0.7d, 70, 60, 90, 70, 15);
+         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width, EvasionStateMachineConfig config) {
       Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
             config.getEvasionAngle(), config.getEvasionAngleInc());
       return MoveableControllerBuilder.builder()
@@ -195,9 +198,10 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
-         Moveable moveable) {
+         Moveable moveable, EvasionStateMachineConfig config) {
       List<Renderer> renderers = getRenderers(gridElements);
-      renderers.add(new GridElementPainter(moveable, getColor(moveable), 1, 1));
+      MoveablePainterConfig painterConfig = MoveablePainterConfig.of(config, true, true);
+      renderers.add(new MoveablePainter(moveable, getColor(moveable), 1, 1, painterConfig));
       return renderers;
    }
 
@@ -213,10 +217,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             : new GridElementPainter(gridElement, getColor(gridElement), 1, 1);
    }
 
-   private static Color getColor(GridElement gridElement) {
-      return gridElement instanceof Obstacle ? Color.BLACK
-            : gridElement instanceof Moveable ? Color.RED : Color.GREEN.darker();
-   }
 
    @Override
    public boolean isRunning() {

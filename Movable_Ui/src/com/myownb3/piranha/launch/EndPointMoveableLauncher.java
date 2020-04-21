@@ -3,7 +3,9 @@
  */
 package com.myownb3.piranha.launch;
 
-import java.awt.Color;
+import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
+import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +22,6 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
-import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.EndPositions;
@@ -204,15 +205,11 @@ public class EndPointMoveableLauncher {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
             .collect(Collectors.toList());
-      renderers.add(new PositionListPainter(Collections.emptyList(), Color.GREEN, height, width));
+      renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, width));
       for (EndPointMoveable endPointMoveable : moveables) {
          renderers.add(new MoveablePainter(endPointMoveable, getColor(endPointMoveable), height, width, moveablePainterConfig));
       }
       return renderers;
-   }
-
-   private static Color getColor(GridElement gridElement) {
-      return gridElement instanceof Obstacle ? Color.BLACK : gridElement instanceof Moveable ? Color.RED : Color.BLUE;
    }
 
    private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width, EvasionStateMachineConfig config) {

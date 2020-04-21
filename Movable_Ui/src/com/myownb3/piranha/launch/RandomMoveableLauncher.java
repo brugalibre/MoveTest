@@ -3,7 +3,8 @@
  */
 package com.myownb3.piranha.launch;
 
-import java.awt.Color;
+import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,10 +131,6 @@ public class RandomMoveableLauncher implements Stoppable {
       return gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))
             .collect(Collectors.toList());
-   }
-
-   private static Color getColor(GridElement gridElement) {
-      return gridElement instanceof Obstacle ? Color.BLACK : Color.RED;
    }
 
    private static Moveable getMoveable(Grid grid, int height, int width) {
