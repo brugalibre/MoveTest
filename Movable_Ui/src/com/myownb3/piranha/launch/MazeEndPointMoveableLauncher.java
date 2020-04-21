@@ -3,8 +3,11 @@
  */
 package com.myownb3.piranha.launch;
 
+import static com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.getPostMoveFowardHandler;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,15 +30,21 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.moveables.EndPointMoveable;
-import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
+import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.moveables.MoveableController;
+import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.moveables.MovingStrategie;
+import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
+import com.myownb3.piranha.ui.grid.gridelement.EndPositionGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
+import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainterConfig;
 import com.myownb3.piranha.util.MathUtil;
 
 /**
@@ -47,8 +56,8 @@ public class MazeEndPointMoveableLauncher {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 50;
-      int width = 50;
+      int height = 5;
+      int width = 5;
       MazeEndPointMoveableLauncher launcher = new MazeEndPointMoveableLauncher();
       launcher.launch(height, width);
    }
@@ -57,17 +66,48 @@ public class MazeEndPointMoveableLauncher {
       CollisionDetectionHandler collisionDetectionHandler = (a, b, c) -> {
       };
       DefaultGrid grid = buildGrid(collisionDetectionHandler);
-      EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
-      List<GridElement> gridElements = getAllGridElements(grid, height, width, endPosition);
-      EndPointMoveable moveable = getMoveable(endPosition, grid, 200, 200, width);
-      List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveable);
-
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding,
             height);
+
+      List<MoveableController> moveableControllerList = new ArrayList<>();
+      List<Renderer> renderers = new ArrayList<>();
+      EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
+      List<GridElement> gridElements = getAllGridElements(grid, height, width, endPosition);
+      EvasionStateMachineConfig config = DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig();
+      MoveableController controller = buildMoveableController(grid, Positions.of(200 + padding, 200 + padding), singletonList(endPosition),
+            getPostMoveFowardHandler(mainWindow, moveableControllerList, emptyList(), renderers), width, config);
+      moveableControllerList.add(controller);
+      renderers.addAll(getRenderers(grid, height, width, gridElements, controller.getMoveable(), config));
+
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow);
-      List<Position> positions = prepareAndMoveMoveables(moveable, mainWindow);
+      List<Position> positions = prepareAndMoveMoveable(controller, mainWindow);
       preparePositionListPainter(renderers, positions);
+   }
+
+   private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
+      renderers.stream()
+            .filter(PositionListPainter.class::isInstance)
+            .map(PositionListPainter.class::cast)
+            .forEach(renderer -> renderer.setPositions(positions));
+   }
+
+   private static MoveableController buildMoveableController(Grid grid, Position startPos,
+         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width, EvasionStateMachineConfig config) {
+      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+            config.getEvasionAngle(), config.getEvasionAngleInc());
+      return MoveableControllerBuilder.builder()
+            .withStrategie(MovingStrategie.FORWARD)
+            .withEndPositions(endPosList)
+            .withPostMoveForwardHandler(postMoveFowardHandler)
+            .withEndPointMoveable()
+            .withGrid(grid)
+            .withStartPosition(startPos)
+            .withHandler(new EvasionStateMachine(detector, config))
+            .withShape(buildCircle(width, startPos))
+            .withMovingIncrement(1)
+            .buildAndReturnParentBuilder()
+            .build();//
    }
 
    private static DefaultGrid buildGrid(CollisionDetectionHandler collisionDetectionHandler) {
@@ -80,11 +120,9 @@ public class MazeEndPointMoveableLauncher {
             .build();
    }
 
-   private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
-      renderers.stream()
-            .filter(PositionListPainter.class::isInstance)
-            .map(PositionListPainter.class::cast)
-            .forEach(renderer -> renderer.setPositions(positions));
+   private List<Position> prepareAndMoveMoveable(MoveableController moveableController, MainWindow mainWindow) throws InterruptedException {
+      moveableController.leadMoveable();
+      return moveableController.getMoveable().getPositionHistory();
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow) {
@@ -103,7 +141,7 @@ public class MazeEndPointMoveableLauncher {
    private static List<GridElement> getAllGridElements(DefaultGrid grid, int height, int width, Position endPos) {
 
       List<GridElement> allGridElement = new ArrayList<>();
-      int amount = 0;
+      int amount = 30;
       int angle = 45;
       for (int i = 0; i < amount; i++) {
          int signum = calcSignum();
@@ -120,18 +158,8 @@ public class MazeEndPointMoveableLauncher {
 
          allGridElement.add(obstacle);
       }
+      allGridElement.add(new EndPositionGridElement(grid, endPos, buildCircle(width, endPos)));
       return allGridElement;
-   }
-
-   private static List<Position> prepareAndMoveMoveables(EndPointMoveable endPointMoveable, MainWindow mainWindow) throws InterruptedException {
-      //      while (false) {
-      //         MoveResult moveResult = endPointMoveable.moveForward2EndPos();
-      //         if (moveResult.isDone()) {
-      //            break;
-      //         }
-      //         Thread.sleep(2);
-      //      }
-      return Collections.emptyList();//endPointMoveable.getPositionHistory();
    }
 
    private static int calcSignum() {
@@ -144,27 +172,14 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width,
-         List<GridElement> gridElements, EndPointMoveable endPointMoveable) {
+         List<GridElement> gridElements, Moveable moveable, EvasionStateMachineConfig config) {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, width));
-      renderers.add(new GridElementPainter(endPointMoveable, getColor(endPointMoveable), height, width));
+      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, false, false);
+      renderers.add(new MoveablePainter(moveable, getColor(moveable), height, width, moveablePainterConfig));
       return renderers;
-   }
-
-   private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width) {
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 15);
-      Position pos = Positions.of(posX + padding, posY + padding);
-      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-            config.getEvasionAngle(), config.getEvasionAngleInc());
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
-            .withGrid(grid)
-            .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
-            .withShape(buildCircle(width, pos))
-            .build();
-      return moveable;
    }
 
    private static Shape buildCircle(int width, Position pos) {

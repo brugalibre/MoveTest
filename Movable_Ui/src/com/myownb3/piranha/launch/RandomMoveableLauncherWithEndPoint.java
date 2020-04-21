@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.launch;
 
+import static com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.getPostMoveFowardHandler;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
 import java.awt.Toolkit;
@@ -51,8 +52,16 @@ import com.myownb3.piranha.util.MathUtil;
  *
  */
 public class RandomMoveableLauncherWithEndPoint implements Stoppable {
+   public static class RandomMoveableLauncherWithEndPointData {
+      public boolean isRunning;
+
+      public RandomMoveableLauncherWithEndPointData(boolean isRunning) {
+         this.isRunning = isRunning;
+      }
+   }
+
    private static int padding = 30;
-   private boolean isRunning = true;
+   private RandomMoveableLauncherWithEndPointData data = new RandomMoveableLauncherWithEndPointData(true);
 
    public static void main(String[] args) throws InterruptedException {
 
@@ -133,30 +142,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       return endPosList;
    }
 
-   private static PostMoveForwardHandler getPostMoveFowardHandler(MainWindow mainWindow,
-         List<MoveableController> moveableControllerList, List<GridElement> gridElements, List<Renderer> renderers) {
-      return moveableRes -> {
-         moveGridElementsForward(gridElements);
-
-         setCurrentTargetPosition(moveableControllerList, renderers);
-
-         SwingUtilities.invokeLater(() -> mainWindow.refresh());
-         try {
-            Thread.sleep(1);
-         } catch (InterruptedException e) {
-            // ignore
-         }
-      };
-   }
-
-   private static void setCurrentTargetPosition(List<MoveableController> moveableControllerList, List<Renderer> renderers) {
-      MoveableController moveableController = moveableControllerList.get(0);
-      renderers.stream()
-            .filter(EndPositionGridElementPainter.class::isInstance)
-            .map(EndPositionGridElementPainter.class::cast)
-            .forEach(painter -> painter.setIsCurrentTargetPosition(moveableController.getCurrentEndPos()));
-   }
-
    private static List<GridElement> getAllGridElements(DefaultGrid grid, List<EndPosition> endPosList, int height,
          int width) {
       List<GridElement> allGridElement = endPosList.stream()
@@ -178,7 +163,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    private void prepareAndMoveMoveables(MoveableController moveableController, MainWindow mainWindow,
          List<GridElement> allGridElements) throws InterruptedException {
       turnGridElements(allGridElements);
-      while (isRunning) {
+      while (data.isRunning) {
          moveableController.leadMoveable();
          Toolkit.getDefaultToolkit().beep();
          Thread.sleep(5);
@@ -192,12 +177,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
    }
 
-   private static void moveGridElementsForward(List<GridElement> allGridElements) {
-      allGridElements.stream()
-            .filter(MoveableObstacleImpl.class::isInstance)
-            .map(MoveableObstacleImpl.class::cast)
-            .forEach(obstacle -> obstacle.moveForward());
-   }
 
    private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
          Moveable moveable, EvasionStateMachineConfig config) {
@@ -222,11 +201,11 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    @Override
    public boolean isRunning() {
-      return isRunning;
+      return data.isRunning;
    }
 
    @Override
    public void stop() {
-      isRunning = false;
+      data.isRunning = false;
    }
 }
