@@ -84,7 +84,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
       List<GridElement> gridelements = new ArrayList<>();
 
-      int amount = 80;
+      int amount = 40;
       for (int i = 0; i < amount; i++) {
          Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
          Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(height, randomPosition));
@@ -136,7 +136,7 @@ public class RandomMoveableLauncher implements Stoppable {
    private static Moveable getMoveable(Grid grid, int height, int width) {
 
       Dimension dimension = grid.getDimension();
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 40, 80, 70, 5);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.05, 0.7d, 40, 80, 70, 5);
       Position pos = Positions.getRandomPosition(dimension, height, width);
       Detector detector =
             new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
@@ -149,7 +149,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
    private static Shape buildCircle(int width, Position pos) {
       return new CircleBuilder(width)
-            .withAmountOfPoints(10)
+            .withAmountOfPoints(4)
             .withCenter(pos)
             .build();//
    }
