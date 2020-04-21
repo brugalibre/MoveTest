@@ -5,6 +5,7 @@ package com.myownb3.piranha.launch;
 
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -34,8 +35,8 @@ import com.myownb3.piranha.moveables.MovingStrategie;
 import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.grid.gridelement.EndPositionGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
@@ -74,7 +75,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
       List<Renderer> renderers = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 180, 170, 2);
+      EvasionStateMachineConfig config = DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig();
 
       MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
             getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width, config);
@@ -179,6 +180,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       turnGridElements(allGridElements);
       while (isRunning) {
          moveableController.leadMoveable();
+         Toolkit.getDefaultToolkit().beep();
          Thread.sleep(5);
       }
    }
@@ -200,7 +202,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
          Moveable moveable, EvasionStateMachineConfig config) {
       List<Renderer> renderers = getRenderers(gridElements);
-      MoveablePainterConfig painterConfig = MoveablePainterConfig.of(config, true, true);
+      MoveablePainterConfig painterConfig = MoveablePainterConfig.of(config, false, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), 1, 1, painterConfig));
       return renderers;
    }
