@@ -54,7 +54,7 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
    protected int calcSignumWithDistance(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
          double testTurnAngle) {
       // Rotate negative and calculate angle
-      CalcSignumRes res = calSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
+      CalcSignumRes res = calcSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
 
       // The angle after a turn with a positive number brings us closer to the
       // end-position-line -> positive signum
@@ -64,14 +64,14 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
    protected int calcSignumWithAngle(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
          double testTurnAngle) {
       // Rotate negative and calculate angle
-      CalcSignumRes res = calSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
+      CalcSignumRes res = calcSignumRes(moveablePos, positionBeforeEvasion, endPosLine, testTurnAngle);
 
       // The angle after a turn with a positive number brings us closer to the
       // end-position-line -> positive signum
       return res.angleAfterTurnNegative > res.angleAfterTurnPositive ? 1 : -1;
    }
 
-   private CalcSignumRes calSignumRes(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
+   private CalcSignumRes calcSignumRes(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
          double testTurnAngle) {
       CalcSignumRes res = new CalcSignumRes();
       Position moveablePosTurnNegative = Positions.of(moveablePos);
