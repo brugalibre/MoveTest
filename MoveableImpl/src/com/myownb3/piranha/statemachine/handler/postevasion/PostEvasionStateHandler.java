@@ -1,7 +1,7 @@
 package com.myownb3.piranha.statemachine.handler.postevasion;
 
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -13,6 +13,6 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
  *
  */
 public interface PostEvasionStateHandler
-      extends EvasionStatesHandler<PostEvasionEventStateInput, CommonEventStateResult> {
+      extends EvasionStatesHandler<PostEvasionEventStateInput, CommonEvasionStateResult> {
    // empty
 }

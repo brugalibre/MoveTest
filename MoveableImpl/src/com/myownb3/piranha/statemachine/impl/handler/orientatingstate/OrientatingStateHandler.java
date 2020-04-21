@@ -5,13 +5,13 @@ import static java.lang.Math.abs;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.orientatingstate.input.OrientatingStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
-public class OrientatingStateHandler extends CommonStateHandlerImpl<OrientatingStateInput, CommonEventStateResult> {
+public class OrientatingStateHandler extends CommonEvasionStateHandlerImpl<OrientatingStateInput, CommonEvasionStateResult> {
 
    private double correctionAngle;
    private Orientation2EndPosHelper helper;
@@ -22,7 +22,7 @@ public class OrientatingStateHandler extends CommonStateHandlerImpl<OrientatingS
    }
 
    @Override
-   public CommonEventStateResult handle(OrientatingStateInput evenStateInput) {
+   public CommonEvasionStateResult handle(OrientatingStateInput evenStateInput) {
       EvasionStates nextState = handleOrientatingState(evenStateInput.getMoveable(), evenStateInput.getEndPos());
       return evalNextStateAndBuildResult(evenStateInput, EvasionStates.ORIENTING, nextState);
    }

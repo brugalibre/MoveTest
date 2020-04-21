@@ -22,7 +22,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.orientatingstate.input.OrientatingStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -42,7 +42,7 @@ class OrientatingStateHandlerTest {
             OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
-      CommonEventStateResult stateResult = handler.handle(input);
+      CommonEvasionStateResult stateResult = handler.handle(input);
 
       // Then
       assertThat(stateResult.getNextState(), is(EvasionStates.DEFAULT));
@@ -63,7 +63,7 @@ class OrientatingStateHandlerTest {
             OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
-      CommonEventStateResult stateResult = handler.handle(input);
+      CommonEvasionStateResult stateResult = handler.handle(input);
 
       // Then
       assertThat(stateResult.getNextState(), is(EvasionStates.DEFAULT));
@@ -84,8 +84,8 @@ class OrientatingStateHandlerTest {
             OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
-      CommonEventStateResult stateResult1 = handler.handle(input);
-      CommonEventStateResult stateResult2 = handler.handle(input);
+      CommonEvasionStateResult stateResult1 = handler.handle(input);
+      CommonEvasionStateResult stateResult2 = handler.handle(input);
 
       // Then
       assertThat(stateResult1.getNextState(), is(EvasionStates.ORIENTING));
@@ -103,7 +103,7 @@ class OrientatingStateHandlerTest {
             OrientatingStateInput.of(mock(Grid.class), mockMoveable(moveablePos), mock(DetectableMoveableHelper.class), endPos);
 
       // When
-      CommonEventStateResult stateResult = handler.handle(input);
+      CommonEvasionStateResult stateResult = handler.handle(input);
 
       // Then
       assertThat(stateResult.getNextState(), is(EvasionStates.DEFAULT));

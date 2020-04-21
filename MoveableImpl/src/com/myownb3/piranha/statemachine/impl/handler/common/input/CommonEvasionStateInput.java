@@ -9,14 +9,14 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.input.EventStateInput;
 
-public class CommonEventStateInput implements EventStateInput {
+public class CommonEvasionStateInput implements EventStateInput {
 
    private Grid grid;
    private DetectableMoveableHelper helper;
    private Moveable moveable;
    private Position moveablePosBefore;
 
-   protected CommonEventStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
+   protected CommonEvasionStateInput(Grid grid, Moveable moveable, DetectableMoveableHelper helper) {
       this.grid = requireNonNull(grid);
       this.moveable = requireNonNull(moveable);
       this.helper = requireNonNull(helper);

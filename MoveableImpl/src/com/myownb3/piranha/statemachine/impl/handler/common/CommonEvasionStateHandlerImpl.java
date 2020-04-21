@@ -10,12 +10,12 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEvasionStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
-public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R extends CommonEventStateResult>
+public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionStateInput, R extends CommonEvasionStateResult>
       implements EvasionStatesHandler<T, R> {
 
    private static final int ANGLE_PRECISION = 5;
@@ -25,7 +25,7 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R 
       // Nothing to do
    }
 
-   protected EvasionStates evalNextState(CommonEventStateInput evenStateInput, EvasionStates nextState) {
+   protected EvasionStates evalNextState(CommonEvasionStateInput evenStateInput, EvasionStates nextState) {
       DetectableMoveableHelper helper = evenStateInput.getHelper();
       // First re-check the surrounding. Maybe because of the correction of an
       // EvasionStateHandler that situation may have changed. After verify if there is
@@ -35,10 +35,10 @@ public abstract class CommonStateHandlerImpl<T extends CommonEventStateInput, R 
       return hasEvasion ? EvasionStates.EVASION : nextState;
    }
 
-   protected CommonEventStateResult evalNextStateAndBuildResult(CommonEventStateInput evenStateInput,
+   protected CommonEvasionStateResult evalNextStateAndBuildResult(CommonEvasionStateInput evenStateInput,
          EvasionStates prevState, EvasionStates nextState) {
       EvasionStates evaluatedNextState = evalNextState(evenStateInput, nextState);
-      return CommonEventStateResult.of(prevState, evaluatedNextState, evenStateInput.getMoveablePosBefore());
+      return CommonEvasionStateResult.of(prevState, evaluatedNextState, evenStateInput.getMoveablePosBefore());
    }
 
    protected Float64Vector getEndPosLine(Position posBeforeEvasion, Position endPos) {

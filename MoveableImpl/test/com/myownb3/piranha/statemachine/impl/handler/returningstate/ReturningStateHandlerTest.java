@@ -19,7 +19,7 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -56,7 +56,7 @@ class ReturningStateHandlerTest {
       ReturningEventStateInput evenStateInput = mockInput(false);
 
       // When
-      CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
+      CommonEvasionStateResult eventStateResult = handler.handle(evenStateInput);
 
       // Then
       assertThat(eventStateResult.getNextState(), is(EvasionStates.RETURNING.nextState()));
@@ -71,7 +71,7 @@ class ReturningStateHandlerTest {
       ReturningEventStateInput evenStateInput = mockInput(false);
 
       // When
-      CommonEventStateResult eventStateResult = handler.handle(evenStateInput);
+      CommonEvasionStateResult eventStateResult = handler.handle(evenStateInput);
 
       // Then
       assertThat(eventStateResult.getNextState(), is(EvasionStates.RETURNING.nextState()));

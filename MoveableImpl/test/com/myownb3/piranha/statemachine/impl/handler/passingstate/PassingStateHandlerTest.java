@@ -15,7 +15,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.OneTimeDetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
 
 class PassingStateHandlerTest {
@@ -32,7 +32,7 @@ class PassingStateHandlerTest {
       PassingEventStateInput evenStateInput = build(positionBeforeEvasion, moveable, helper);
 
       // When
-      CommonEventStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
+      CommonEvasionStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
 
       // Then
       assertThat(eventStateResult.getNextState(), is(PASSING));
@@ -50,7 +50,7 @@ class PassingStateHandlerTest {
       PassingEventStateInput evenStateInput = build(positionBeforeEvasion, moveable, helper);
 
       // When
-      CommonEventStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
+      CommonEvasionStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
 
       // Then
       assertThat(eventStateResult.getNextState(), is(PASSING));
@@ -68,7 +68,7 @@ class PassingStateHandlerTest {
       PassingEventStateInput evenStateInput = build(positionBeforeEvasion, moveable, helper);
 
       // When
-      CommonEventStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
+      CommonEvasionStateResult eventStateResult = passingStateHandler.handle(evenStateInput);
 
       // Then
       assertThat(eventStateResult.getNextState(), is(PASSING.nextState()));

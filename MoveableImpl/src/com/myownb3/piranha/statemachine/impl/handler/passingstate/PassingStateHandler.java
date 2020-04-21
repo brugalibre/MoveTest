@@ -5,12 +5,12 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.PASSING;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
-public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStateInput, CommonEventStateResult> {
+public class PassingStateHandler extends CommonEvasionStateHandlerImpl<PassingEventStateInput, CommonEvasionStateResult> {
 
    private int passingDistance;
 
@@ -19,7 +19,7 @@ public class PassingStateHandler extends CommonStateHandlerImpl<PassingEventStat
    }
 
    @Override
-   public CommonEventStateResult handle(PassingEventStateInput evenStateInput) {
+   public CommonEvasionStateResult handle(PassingEventStateInput evenStateInput) {
       EvasionStates nextState = handlePassing(evenStateInput);
       return evalNextStateAndBuildResult(evenStateInput, PASSING, nextState);
    }

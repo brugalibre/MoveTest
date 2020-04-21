@@ -6,13 +6,13 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.statemachine.handler.output.EventStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
-public class CommonEventStateResult implements EventStateResult {
+public class CommonEvasionStateResult implements EventStateResult {
 
    private EvasionStates prevState;
    private EvasionStates nextState;
    private Optional<Position> moveableBeforeEvasionOpt;
 
-   protected CommonEventStateResult(EvasionStates prevState, EvasionStates nextState, Position moveableBeforeEvasion) {
+   protected CommonEvasionStateResult(EvasionStates prevState, EvasionStates nextState, Position moveableBeforeEvasion) {
       this.nextState = nextState;
       this.prevState = prevState;
       moveableBeforeEvasionOpt = Optional.ofNullable(moveableBeforeEvasion);
@@ -31,7 +31,7 @@ public class CommonEventStateResult implements EventStateResult {
    }
 
    /**
-    * Creates a new {@link CommonEventStateResult} with the given
+    * Creates a new {@link CommonEvasionStateResult} with the given
     * {@link EvasionStates} as next state
     * 
     * @param prevState
@@ -41,11 +41,11 @@ public class CommonEventStateResult implements EventStateResult {
     * @param moveableBeforeEvasion
     *        the position of the Moveable before there was an
     *        evasion. <code>null</code> when there was none
-    * @return a new {@link CommonEventStateResult} with the given
+    * @return a new {@link CommonEvasionStateResult} with the given
     *         {@link EvasionStates} as next state
     */
-   public static CommonEventStateResult of(EvasionStates prevState, EvasionStates nextState,
+   public static CommonEvasionStateResult of(EvasionStates prevState, EvasionStates nextState,
          Position moveableBeforeEvasion) {
-      return new CommonEventStateResult(prevState, nextState, moveableBeforeEvasion);
+      return new CommonEvasionStateResult(prevState, nextState, moveableBeforeEvasion);
    }
 }

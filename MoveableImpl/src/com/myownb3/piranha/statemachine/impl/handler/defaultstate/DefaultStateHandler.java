@@ -8,12 +8,12 @@ import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.defaultstate.input.DefaultStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.orientatingstate.Orientation2EndPosHelper;
 
-public class DefaultStateHandler extends CommonStateHandlerImpl<DefaultStateInput, CommonEventStateResult> {
+public class DefaultStateHandler extends CommonEvasionStateHandlerImpl<DefaultStateInput, CommonEvasionStateResult> {
 
    private Orientation2EndPosHelper orientationHelper;
 
@@ -22,18 +22,18 @@ public class DefaultStateHandler extends CommonStateHandlerImpl<DefaultStateInpu
    }
 
    @Override
-   public CommonEventStateResult handle(DefaultStateInput evenStateInput) {
+   public CommonEvasionStateResult handle(DefaultStateInput evenStateInput) {
       return handleDefaultState(evenStateInput.getGrid(), evenStateInput.getMoveable(),
             evenStateInput.getHelper(), evenStateInput.getEndPos());
    }
 
-   private CommonEventStateResult handleDefaultState(Grid grid, Moveable moveable, DetectableMoveableHelper detectionHelper, EndPosition endPos) {
+   private CommonEvasionStateResult handleDefaultState(Grid grid, Moveable moveable, DetectableMoveableHelper detectionHelper, EndPosition endPos) {
       boolean isEvasion = detectionHelper.check4Evasion(grid, moveable);
       if (isEvasion) {
-         return CommonEventStateResult.of(DEFAULT, DEFAULT.nextState(), Positions.of(moveable.getPosition()));
+         return CommonEvasionStateResult.of(DEFAULT, DEFAULT.nextState(), Positions.of(moveable.getPosition()));
       } else if (orientationHelper.isOrientatingNecessary(moveable, endPos)) {
-         return CommonEventStateResult.of(DEFAULT, ORIENTING, null);
+         return CommonEvasionStateResult.of(DEFAULT, ORIENTING, null);
       }
-      return CommonEventStateResult.of(DEFAULT, DEFAULT, null);
+      return CommonEvasionStateResult.of(DEFAULT, DEFAULT, null);
    }
 }

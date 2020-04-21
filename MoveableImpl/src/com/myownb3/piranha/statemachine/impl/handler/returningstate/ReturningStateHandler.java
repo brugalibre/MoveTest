@@ -11,13 +11,13 @@ import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 import com.myownb3.piranha.util.MathUtil;
 
-public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEventStateInput, CommonEventStateResult> {
+public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<ReturningEventStateInput, CommonEvasionStateResult> {
 
    private double returningAngle;
    private double initReturningAngle;
@@ -60,11 +60,11 @@ public class ReturningStateHandler extends CommonStateHandlerImpl<ReturningEvent
    }
 
    @Override
-   public CommonEventStateResult handle(ReturningEventStateInput evenStateInput) {
+   public CommonEvasionStateResult handle(ReturningEventStateInput evenStateInput) {
       EndPosition endPosition = evenStateInput.getEndPosition();
       if (isReturningNotNecessary(endPosition)) {
          init();
-         return CommonEventStateResult.of(RETURNING, evalNextState(evenStateInput, RETURNING.nextState()), null);
+         return CommonEvasionStateResult.of(RETURNING, evalNextState(evenStateInput, RETURNING.nextState()), null);
       }
       EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(),
             evenStateInput.getMoveable(), endPosition);

@@ -8,9 +8,9 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEvasionStateInput;
 
-public class EvasionEventStateInput extends CommonEventStateInput {
+public class EvasionEventStateInput extends CommonEvasionStateInput {
 
    private Detector detector;
    private Position posBeforeEvasion;

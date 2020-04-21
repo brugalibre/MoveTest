@@ -24,7 +24,7 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -49,7 +49,7 @@ class DefaultPostEvasionStateHandlerTest {
             .withPostEvasionStateHandler();
 
       // When
-      CommonEventStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
+      CommonEvasionStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
 
       // Then
       assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION.nextState()));
@@ -72,7 +72,7 @@ class DefaultPostEvasionStateHandlerTest {
             .withPostEvasionStateHandler();
 
       // When
-      CommonEventStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
+      CommonEvasionStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
 
       // Then
       assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
@@ -96,7 +96,7 @@ class DefaultPostEvasionStateHandlerTest {
             .withPostEvasionStateHandler();
 
       // When
-      CommonEventStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
+      CommonEvasionStateResult commonEventStateResult = tcb.handler.handle(tcb.evenStateInput);
 
       // Then
       assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));

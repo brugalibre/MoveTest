@@ -27,7 +27,7 @@ import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.defaultstate.DefaultStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.defaultstate.input.DefaultStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.EvasionStateHandler;
@@ -91,7 +91,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    @Override
    public void handlePostConditions(Grid grid, Moveable moveable) {
       beforePostConditions(grid, moveable);
-      CommonEventStateResult eventStateResult = handlePostConditionsInternal(grid, moveable);
+      CommonEvasionStateResult eventStateResult = handlePostConditionsInternal(grid, moveable);
       afterPostConditions(eventStateResult);
    }
 
@@ -99,8 +99,8 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       super.handlePostConditions(grid, moveable);
    }
 
-   private CommonEventStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
-      CommonEventStateResult eventStateResult = null;
+   private CommonEvasionStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
+      CommonEvasionStateResult eventStateResult = null;
       switch (evasionState) {
          case DEFAULT:
             DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
@@ -144,7 +144,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       return eventStateResult;
    }
 
-   private void afterPostConditions(CommonEventStateResult eventStateResult) {
+   private void afterPostConditions(CommonEvasionStateResult eventStateResult) {
       boolean isEvadingNow = eventStateResult.getPrevState() != EVASION && evasionState == EVASION;
       if (isEvadingNow) {
          setPositionBeforeEvasion(eventStateResult.getPositionBeforeEvasion());

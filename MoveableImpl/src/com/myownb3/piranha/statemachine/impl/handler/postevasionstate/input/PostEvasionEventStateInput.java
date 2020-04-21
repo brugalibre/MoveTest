@@ -7,10 +7,10 @@ import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
-import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEventStateInput;
+import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEvasionStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.passingstate.input.PassingEventStateInput;
 
-public class PostEvasionEventStateInput extends CommonEventStateInput {
+public class PostEvasionEventStateInput extends CommonEvasionStateInput {
 
    private Position positionBeforeEvasion;
    private EndPosition endPosition;

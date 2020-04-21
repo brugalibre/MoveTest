@@ -12,13 +12,13 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.postevasion.PostEvasionStateHandler;
-import com.myownb3.piranha.statemachine.impl.handler.common.CommonStateHandlerImpl;
-import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEventStateResult;
+import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 public class PostEvasionStateHandlerWithEndPos extends
-      CommonStateHandlerImpl<PostEvasionEventStateInput, CommonEventStateResult> implements PostEvasionStateHandler {
+      CommonEvasionStateHandlerImpl<PostEvasionEventStateInput, CommonEvasionStateResult> implements PostEvasionStateHandler {
 
    @Visible4Testing
    static final double MIN_ANGLE_TO_TURN = 4.0;
@@ -40,7 +40,7 @@ public class PostEvasionStateHandlerWithEndPos extends
    }
 
    @Override
-   public CommonEventStateResult handle(PostEvasionEventStateInput evenStateInput) {
+   public CommonEvasionStateResult handle(PostEvasionEventStateInput evenStateInput) {
       EvasionStates nextState = handlePostEvasion(evenStateInput);
       return evalNextStateAndBuildResult(evenStateInput, POST_EVASION, nextState);
    }
