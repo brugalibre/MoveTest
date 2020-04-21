@@ -20,6 +20,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.statemachine.impl.handler.OneTimeDetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.input.EvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.EvasionStateResult;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
@@ -157,27 +158,6 @@ class EvasionStateHandlerTest {
 
       @Override
       public boolean check4Evasion(Grid grid, GridElement moveable) {
-         return false;
-      }
-
-      @Override
-      public void checkSurrounding(Grid grid, Moveable moveable) {}
-   }
-
-   private static class OneTimeDetectableMoveableHelper extends DetectableMoveableHelper {
-      private boolean hasAllreadyChecked;
-
-      public OneTimeDetectableMoveableHelper(Detector detector) {
-         super(detector);
-         hasAllreadyChecked = false;
-      }
-
-      @Override
-      public boolean check4Evasion(Grid grid, GridElement moveable) {
-         if (!hasAllreadyChecked) {
-            hasAllreadyChecked = true;
-            return true;
-         }
          return false;
       }
 
