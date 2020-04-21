@@ -42,8 +42,7 @@ public class DefaultGrid implements Grid {
     * Creates a default Grid which has a size of 10 to 10
     */
    protected DefaultGrid() {
-      this(10, 10, (a, g, p) -> {
-      });
+      this(10, 10, null);
    }
 
    /**

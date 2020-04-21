@@ -150,8 +150,6 @@ public class MoveableController {
 
          private EndPointMoveableBuilder() {
             movingIncrement = 1;
-            handler = (a, b) -> {
-            };
          }
 
          private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
