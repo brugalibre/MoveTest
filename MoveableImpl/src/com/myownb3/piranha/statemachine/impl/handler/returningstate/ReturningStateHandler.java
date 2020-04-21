@@ -2,6 +2,8 @@ package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
 import static java.util.Objects.isNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -128,7 +130,7 @@ public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<Returni
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
       double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
             endPosLine);
-      if (currentDistance <= (initialDistance / 2) || currentAngle >= 90.0d) {
+      if (currentDistance <= (initialDistance / 2) || currentAngle >= 45.0d) {
          state = ReturnStates.ANGLE_CORRECTION_PHASE_FROM_ORDONAL;
          return RETURNING;
       }
@@ -136,20 +138,30 @@ public class ReturningStateHandler extends CommonEvasionStateHandlerImpl<Returni
    }
 
    private double getAngle2Turn4CorrectionPhase2(double actualDiff) {
-      double angle2Turn = getAngle2Turn();
-      if (angle2Turn <= 0) {
-         angle2Turn = Math.max(Math.abs(actualDiff), angle2Turn);
-      } else {
-         angle2Turn = Math.min(actualDiff, angle2Turn);
+      double initAngle2Turn = getAngle2Turn();
+      double effectAngle2Turn = min(abs(initAngle2Turn), abs(actualDiff));
+      if (has2InvertAngle(actualDiff, initAngle2Turn)) {
+         effectAngle2Turn = -effectAngle2Turn;
       }
-      return correctAngle2TurnSignum(actualDiff, angle2Turn);
+      return correctAngle2TurnSignum(actualDiff, effectAngle2Turn);
    }
 
+   /*
+    * If the diff-angle is negative -> we have to make a turn with a positive angle (in order to minimize the diff)
+    * If the diff-angle is positive, we have to make a turn with a negative angle
+    */
    private static double correctAngle2TurnSignum(double actualDiff, double angle2Turn) {
       if (actualDiff <= 0) {
          angle2Turn = -angle2Turn;
       }
       return angle2Turn;
+   }
+
+   /*
+    * I can't tell why but in some cases it's necessary to invert the angle right before we correct it again
+    */
+   private static boolean has2InvertAngle(double actualDiff, double initAngle2Turn) {
+      return initAngle2Turn > 0 && actualDiff < 0;
    }
 
    private EvasionStates evalNextState(Position positionBeforeEvasion, Moveable moveable, Float64Vector endPosLine) {
