@@ -336,8 +336,8 @@ class MoveableControllerTest {
       }
       Position effectEndPos = tcb.moveable.getPosition();
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-      org.junit.Assert.assertThat(round(effectEndPos.getY(), 1), is(round(tcb.endPos.getY(), 0)));
-      org.junit.Assert.assertThat(round(effectEndPos.getX(), 1), is(round(tcb.endPos.getX(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
    }
 
    @Test
@@ -346,7 +346,7 @@ class MoveableControllerTest {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withDefaultGrid(200, 200)
-            .withEndPos(EndPositions.of(33, 33))
+            .withEndPos(EndPositions.of(33, 33, true))
             .addObstacle(Positions.of(10, 10))
             .addObstacle(Positions.of(20, 19.5))
             .addObstacle(Positions.of(23, 23))

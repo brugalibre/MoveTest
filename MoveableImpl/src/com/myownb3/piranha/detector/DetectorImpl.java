@@ -113,7 +113,7 @@ public class DetectorImpl implements Detector {
    public double getEvasionAngleRelative2(Position position) {
 
       double avoidAngle = 0;
-      double ourAngle = position.getDirection().getAngle();
+      double ourAngle = position.calcAbsolutAngle();
 
       Optional<Avoidable> evasionAvoidable = getNearestEvasionAvoidable(position);
       if (evasionAvoidable.isPresent()) {
