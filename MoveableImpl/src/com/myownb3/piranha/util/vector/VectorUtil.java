@@ -22,7 +22,21 @@ public class VectorUtil {
    }
 
    /**
-    * Creates a {@link Float64Vector} for the given {@link Position} and its x,-
+    * Creates a unit vector from the given {@link Float64Vector}
+    * 
+    * @param vector
+    *        the given vector
+    * @return a unit vector from the given {@link Float64Vector}
+    */
+   public static Float64Vector getUnitVector(Float64Vector vector) {
+      double normValue = vector.normValue();
+      double xAxisValue = vector.get(0).doubleValue();
+      double yAxisValue = vector.get(1).doubleValue();
+      return Float64Vector.valueOf(xAxisValue / normValue, yAxisValue / normValue, 0);
+   }
+
+   /**
+    * Creates a 3-dimensional {@link Float64Vector} for the given {@link Position} and its x,-
     * and y-coordinates
     * 
     * @param pos
@@ -34,7 +48,7 @@ public class VectorUtil {
    }
 
    /**
-    * Creates a {@link Float64Vector} for the given {@link Position} and its x,-
+    * Creates a 3-dimensional {@link Float64Vector} for the given {@link Position} and its x,-
     * and y-forwarding coordinates
     * 
     * @param direction
@@ -46,5 +60,18 @@ public class VectorUtil {
     */
    public static Float64Vector getVector(Direction direction) {
       return Float64Vector.valueOf(direction.getForwardX(), direction.getForwardY(), 0);
+   }
+
+   /**
+    * Creates a new 2-dimensional {@link Float64Vector} for the given input values
+    * 
+    * @param x
+    *        the x-value
+    * @param y
+    *        the y-value
+    * @return a new 2-dimensional {@link Float64Vector}
+    */
+   public static Float64Vector createVector(double x, double y) {
+      return Float64Vector.valueOf(x, y);
    }
 }

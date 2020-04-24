@@ -3,6 +3,10 @@
  */
 package com.myownb3.piranha.grid.gridelement.position;
 
+import static com.myownb3.piranha.util.MathUtil.round;
+
+import java.util.List;
+
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.Dimension;
@@ -16,6 +20,8 @@ import com.myownb3.piranha.util.MathUtil;
  *
  */
 public class Positions {
+
+   private static final PositionHelper POSITION_HELPER = new PositionHelper();
 
    private Positions() {
       // Do not instantiate
@@ -49,6 +55,18 @@ public class Positions {
 
 
    /**
+    * @param vector
+    *        the vector
+    * @param decimals
+    *        the amount of decimal places for x- and y axis values
+    * @return a new {@link Position} for the given {@link Float64Vector}
+    * 
+    */
+   public static Position of(Float64Vector vector, int decimals) {
+      return new PositionImpl(round(vector.getValue(0), decimals), round(vector.getValue(1), decimals));
+   }
+
+   /**
     * Creates a copy of the given {@link Position}
     * 
     * @param position
@@ -77,6 +95,7 @@ public class Positions {
 
    /**
     * Creates a new {@link Position} by moving the given position for the given distance
+    * 
     * @param pos
     *        the Position to move
     * @param distance
@@ -92,6 +111,21 @@ public class Positions {
          currentDistance = originPos.calcDistanceTo(pos);
       }
       return pos;
+   }
+
+   /**
+    * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s
+    * 
+    * @param pos1
+    *        the start {@link Position}
+    * @param pos2
+    *        the end {@link Position}
+    * @param distanceBetweenPosOnColDetectionPath
+    *        the minimal distance between two Positions
+    * @return
+    */
+   public static List<Position> buildPositionsBetweenTwoPositions(Position pos1, Position pos2, double distanceBetweenPosOnColDetectionPath) {
+      return POSITION_HELPER.buildPositionsBetweenTwoPositions(pos1, pos2, distanceBetweenPosOnColDetectionPath);
    }
 
    /**

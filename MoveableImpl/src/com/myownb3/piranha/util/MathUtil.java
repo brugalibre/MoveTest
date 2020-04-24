@@ -3,13 +3,18 @@
  */
 package com.myownb3.piranha.util;
 
+import static com.myownb3.piranha.util.vector.MatrixUtil.createMatrix4Positions;
+import static com.myownb3.piranha.util.vector.VectorUtil.createVector;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
+import org.jscience.mathematics.number.Float64;
+import org.jscience.mathematics.vector.Float64Matrix;
 import org.jscience.mathematics.vector.Float64Vector;
+import org.jscience.mathematics.vector.Vector;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -24,6 +29,33 @@ public class MathUtil {
 
    private MathUtil() {
       // private
+   }
+
+   /**
+    * Verifies if the given {@link Position} is placed within the given level using a level equation
+    * 
+    * @param pos2Test
+    *        the Position to test
+    * @param levelPosOne
+    *        the first Position which defines the level
+    * @param levelPosTwo
+    *        the second Position which defines the level
+    * @param levelPosThree
+    *        the third Position which defines the level
+    * @return <code>true</code> if the position to test is within the given level
+    */
+   public static boolean isPositionOnLevel(Position pos2Test, Position levelPosOne, Position levelPosTwo, Position levelPosThree) {
+      Float64Matrix a = createMatrix4Positions(levelPosTwo, levelPosThree);
+
+      double xResultValue = pos2Test.getX() - levelPosOne.getX();
+      double yResultValue = pos2Test.getY() - levelPosOne.getY();
+      Float64Vector b = createVector(xResultValue, yResultValue);
+      Vector<Float64> x = a.solve(b);
+      return isResultNotNAN(x);
+   }
+
+   private static boolean isResultNotNAN(Vector<Float64> x) {
+      return !x.get(0).isNaN() && !x.get(1).isNaN();
    }
 
    public static double round(double value, int places) {

@@ -26,6 +26,40 @@ import com.myownb3.piranha.util.vector.VectorUtil;
 class MathUtilTest {
 
    @Test
+   void testIsPositionOnLevel() {
+
+      // Given
+      boolean expectedIsPositionOnLevel = true;
+      Position pos2Test = Positions.of(1, 2);
+      Position pos1 = Positions.of(5, 6);
+      Position pos2 = Positions.of(1, 1);
+      Position pos3 = Positions.of(10, 11);
+
+      // When
+      boolean actualIsPositionOnLevel = MathUtil.isPositionOnLevel(pos2Test, pos1, pos2, pos3);
+
+      // Then
+      assertThat(actualIsPositionOnLevel, is(expectedIsPositionOnLevel));
+   }
+
+   @Test
+   void testIsPositionNotOnLevel() {
+
+      // Given
+      boolean expectedIsPositionOnLevel = false;
+      Position pos2Test = Positions.of(-100, -200);
+      Position pos1 = Positions.of(5, 6);
+      Position pos2 = Positions.of(1, 1);
+      Position pos3 = Positions.of(10, 11);
+
+      // When
+      boolean actualIsPositionOnLevel = MathUtil.isPositionOnLevel(pos2Test, pos1, pos2, pos3);
+
+      // Then
+      assertThat(actualIsPositionOnLevel, is(expectedIsPositionOnLevel));
+   }
+
+   @Test
    void testRotateVector_90Deg() {
 
       // Given
