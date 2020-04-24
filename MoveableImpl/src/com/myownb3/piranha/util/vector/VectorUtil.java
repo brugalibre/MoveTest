@@ -61,17 +61,4 @@ public class VectorUtil {
    public static Float64Vector getVector(Direction direction) {
       return Float64Vector.valueOf(direction.getForwardX(), direction.getForwardY(), 0);
    }
-
-   /**
-    * Creates a new 2-dimensional {@link Float64Vector} for the given input values
-    * 
-    * @param x
-    *        the x-value
-    * @param y
-    *        the y-value
-    * @return a new 2-dimensional {@link Float64Vector}
-    */
-   public static Float64Vector createVector(double x, double y) {
-      return Float64Vector.valueOf(x, y);
-   }
 }
