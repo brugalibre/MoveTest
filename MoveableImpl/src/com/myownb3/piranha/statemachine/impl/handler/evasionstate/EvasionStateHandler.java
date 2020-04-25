@@ -16,9 +16,11 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
 
    private boolean hadEvasionBefore;// defines if there was any evasion at all
    private int postEvasionDelayDistance;
+   private EvasionFlipFlopHandler flipFlopHandler;
 
    public EvasionStateHandler(int postEvasionDelayDistance) {
       this.postEvasionDelayDistance = postEvasionDelayDistance;
+      flipFlopHandler = new EvasionFlipFlopHandler();
    }
 
    @Override
@@ -42,6 +44,7 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
             return evasionStateResult;
          }
       }
+      flipFlopHandler.init();
       return evalAndReturnNextState(moveable, posBeforeEvasion);
    }
 
@@ -54,12 +57,18 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
 
    private EvasionStateResult handleEvasionManeuvre(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
       double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+      avoidAngle = registerAndGetAvoidAngle(avoidAngle);
       moveable.makeTurnWithoutPostConditions(avoidAngle);
       helper.checkSurrounding(grid, moveable);
       if (helper.check4Evasion(grid, moveable)) {
          return EvasionStateResult.of(EVASION, EVASION, true);
       }
       return null;
+   }
+
+   private double registerAndGetAvoidAngle(double avoidAngle) {
+      flipFlopHandler.registerAvoidAngle(avoidAngle);
+      return flipFlopHandler.getAvoidAngle(avoidAngle);
    }
 
    /*

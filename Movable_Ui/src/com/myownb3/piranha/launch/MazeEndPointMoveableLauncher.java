@@ -19,17 +19,19 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.moveables.Moveable;
@@ -56,16 +58,14 @@ public class MazeEndPointMoveableLauncher {
 
    public static void main(String[] args) throws InterruptedException {
 
-      int height = 20;
+      int height = 10;
       int width = 100;
       MazeEndPointMoveableLauncher launcher = new MazeEndPointMoveableLauncher();
       launcher.launch(height, width);
    }
 
    private void launch(int height, int width) throws InterruptedException {
-      CollisionDetectionHandler collisionDetectionHandler = (a, b, c) -> {
-      };
-      DefaultGrid grid = buildGrid(collisionDetectionHandler);
+      DefaultGrid grid = buildGrid(new DefaultCollisionDetectionHandlerImpl());
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding,
             height);
 
@@ -77,7 +77,7 @@ public class MazeEndPointMoveableLauncher {
       MoveableController controller = buildMoveableController(grid, Positions.of(200 + padding, 200 + padding), singletonList(endPosition),
             getPostMoveFowardHandler(mainWindow, moveableControllerList, emptyList(), renderers), config);
       moveableControllerList.add(controller);
-      renderers.addAll(getRenderers(grid, height, width, gridElements, controller.getMoveable(), config));
+      renderers.addAll(getRenderers(grid, 4, 4, gridElements, controller.getMoveable(), config));
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow);
@@ -122,7 +122,7 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private List<Position> prepareAndMoveMoveable(MoveableController moveableController, MainWindow mainWindow) throws InterruptedException {
-      //      moveableController.leadMoveable();
+      moveableController.leadMoveable();
       return moveableController.getMoveable().getPositionHistory();
    }
 
@@ -143,14 +143,16 @@ public class MazeEndPointMoveableLauncher {
 
       List<GridElement> allGridElement = new ArrayList<>();
 
-      Position center = Positions.of(300 + padding, 300 + padding);
+      Position center = Positions.of(280 + padding, 280 + padding);
+      center.rotate(-45);
       Rectangle rectangle = new RectangleBuilder()
             .withCenter(center)
             .withHeight(height)
             .withWidth(width)
+            .withOrientation(Orientation.HORIZONTAL)
             .build();
 
-      GridElement gridElement = new SimpleGridElement(grid, center, rectangle);
+      GridElement gridElement = new ObstacleImpl(grid, center, rectangle);
       allGridElement.add(gridElement);
       return allGridElement;
    }
@@ -161,7 +163,7 @@ public class MazeEndPointMoveableLauncher {
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, width));
-      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, false, false);
+      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, width, moveablePainterConfig));
       return renderers;
    }
