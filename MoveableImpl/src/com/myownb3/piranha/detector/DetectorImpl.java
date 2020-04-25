@@ -56,6 +56,7 @@ public class DetectorImpl implements Detector {
 
    @Override
    public void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position detectorPosition) {
+      Collections.sort(gridElementPath, new Pos2DistanceComparator(detectorPosition));
       preDetecting(gridElement);
       List<DetectionResult> detectionResults = new ArrayList<>();
       for (Position gridElemPathPos : gridElementPath) {
