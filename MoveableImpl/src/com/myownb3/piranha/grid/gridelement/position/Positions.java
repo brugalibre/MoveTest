@@ -87,10 +87,7 @@ public class Positions {
     * @return a new {@link Position}
     */
    public static Position movePositionForward(Position position) {
-      Direction direction = position.getDirection();
-      double newX = position.getX() + direction.getForwardX();
-      double newY = position.getY() + direction.getForwardY();
-      return Positions.of(direction, newX, newY);
+      return POSITION_HELPER.movePositionForward(position);
    }
 
    /**
@@ -104,13 +101,7 @@ public class Positions {
     * @return a new {@link Position} by moving the given position for the given distance
     */
    public static Position movePositionForward4Distance(Position pos, double distance) {
-      Position originPos = of(pos);
-      double currentDistance = originPos.calcDistanceTo(pos);
-      while (currentDistance < distance) {
-         pos = movePositionForward(pos);
-         currentDistance = originPos.calcDistanceTo(pos);
-      }
-      return pos;
+      return POSITION_HELPER.movePositionForward4Distance(pos, distance);
    }
 
    /**

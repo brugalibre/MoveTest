@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
@@ -16,6 +17,43 @@ import com.myownb3.piranha.util.vector.VectorUtil;
  *
  */
 public class PositionHelper {
+
+
+   /**
+    * Creates a new {@link Position} with the new x-axis value =
+    * {@link Direction#getForwardX()} + {@link Position#getX()} and the new y-axis
+    * value = {@link Direction#getForwardY()} + {@link Position#getY()}
+    * 
+    * @param position
+    *        the position
+    * @return a new {@link Position}
+    */
+   public Position movePositionForward(Position position) {
+      Direction direction = position.getDirection();
+      double newX = position.getX() + direction.getForwardX();
+      double newY = position.getY() + direction.getForwardY();
+      return Positions.of(direction, newX, newY);
+   }
+
+   /**
+    * Creates a new {@link Position} by moving the given position for the given distance
+    * 
+    * @param pos
+    *        the Position to move
+    * @param distance
+    *        the distance
+    * 
+    * @return a new {@link Position} by moving the given position for the given distance
+    */
+   public Position movePositionForward4Distance(Position pos, double distance) {
+      Position originPos = Positions.of(pos);
+      double currentDistance = originPos.calcDistanceTo(pos);
+      while (currentDistance < distance) {
+         pos = movePositionForward(pos);
+         currentDistance = originPos.calcDistanceTo(pos);
+      }
+      return pos;
+   }
 
    /**
     * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s
