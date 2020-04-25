@@ -349,6 +349,22 @@ public class RectangleImplTest {
       assertThrows(IllegalStateException.class, executable);
    }
 
+   @Test
+   void testDimensionRadius() {
+
+      // Given
+      Position center = Positions.of(2, 2);
+      double height = 10;
+      double width = 20;
+      Rectangle rectangle = buildRectangle(center, height, width, Orientation.VERTICAL);
+
+      // When
+      double dimensionRadius = rectangle.getDimensionRadius();
+
+      // Then
+      assertThat(dimensionRadius, is(width));
+   }
+
    private void assertPath(List<Position> actualPath, List<Position> expectedPath) {
       for (int i = 0; i < actualPath.size(); i++) {
          Position actualPathPosition = actualPath.get(i);

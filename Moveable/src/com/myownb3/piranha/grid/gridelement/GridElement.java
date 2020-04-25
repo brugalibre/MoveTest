@@ -58,6 +58,11 @@ public interface GridElement {
    Shape getShape();
 
    /**
+    * @return the radius within this {@link Shape} could be placed
+    */
+   double getDimensionRadius();
+
+   /**
     * Checks if this {@link GridElement} has detected the given {@link GridElement}
     * 
     * @param gridElement

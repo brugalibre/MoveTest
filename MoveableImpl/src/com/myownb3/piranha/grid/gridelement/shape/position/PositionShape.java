@@ -75,6 +75,11 @@ public class PositionShape extends AbstractShape {
    }
 
    @Override
+   public double getDimensionRadius() {
+      return 1;
+   }
+
+   @Override
    public Position getFurthermostFrontPosition() {
       return getPosition();
    }

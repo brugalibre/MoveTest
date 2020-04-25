@@ -254,6 +254,7 @@ class CircleImplTest {
 
       assertThat(circle.getRadius(), is(radius));
       assertThat(circle.getCenter(), is(center));
+      assertThat(circle.getDimensionRadius(), is(5.0));
       assertAngle(amountOfPoints, path);
    }
 

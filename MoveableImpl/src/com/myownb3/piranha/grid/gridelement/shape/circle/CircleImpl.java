@@ -83,6 +83,11 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    @Override
+   public double getDimensionRadius() {
+      return radius;
+   }
+
+   @Override
    public Position getCenter() {
       return center;
    }

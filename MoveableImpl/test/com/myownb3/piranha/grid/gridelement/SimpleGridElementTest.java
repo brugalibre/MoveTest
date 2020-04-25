@@ -6,6 +6,8 @@ package com.myownb3.piranha.grid.gridelement;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,6 +24,20 @@ import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
  *
  */
 class SimpleGridElementTest {
+
+   @Test
+   void testGetDimensionRadius() {
+      // Given
+      Position gridElemPos = Positions.of(4, 4);
+      PositionShape pointShape = spy(new PositionShape(gridElemPos));
+      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
+
+      // When
+      gridElement.getDimensionRadius();
+
+      // Then
+      verify(pointShape).getDimensionRadius();
+   }
 
    @Test
    void testGetFurthermostBackPosition() {

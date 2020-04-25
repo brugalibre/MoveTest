@@ -18,6 +18,7 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -95,7 +96,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       mainWindow.addSpielfeld(renderers, grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
-      prepareAndMoveMoveables(moveableController, mainWindow, gridElements);
+      prepareAndMoveMoveables(moveableController, mainWindow, gridElements, grid);
    }
 
    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth, CollisionDetectionHandler collisionDetector) {
@@ -161,7 +162,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private void prepareAndMoveMoveables(MoveableController moveableController, MainWindow mainWindow,
-         List<GridElement> allGridElements) throws InterruptedException {
+         List<GridElement> allGridElements, Grid grid) throws InterruptedException {
+      grid.prepare();
       turnGridElements(allGridElements);
       while (data.isRunning) {
          moveableController.leadMoveable();

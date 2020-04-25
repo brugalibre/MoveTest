@@ -84,6 +84,11 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    @Override
+   public double getDimensionRadius() {
+      return Math.max(width, height);
+   }
+
+   @Override
    public void transform(Position position) {
       this.path = buildRectangleWithCenter(position, width, height, orientation);
       this.path4Detection = buildPath4DetectionPrivate();

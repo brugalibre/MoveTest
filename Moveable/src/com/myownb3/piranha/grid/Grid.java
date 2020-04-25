@@ -20,6 +20,12 @@ import com.myownb3.piranha.moveables.Moveable;
 public interface Grid {
 
    /**
+    * This method should be called as soon as all {@link GridElement}
+    * are placed on this {@link Grid} so that this Grid can prepare itself
+    */
+   void prepare();
+
+   /**
     * Moves the given {@link GridElement} backward by one unit
     * 
     * @param gridElement

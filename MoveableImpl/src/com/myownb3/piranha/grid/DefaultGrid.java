@@ -30,6 +30,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
  */
 public class DefaultGrid implements Grid {
 
+   private Double maxDistance;
    private List<GridElement> gridElements;
    private boolean checkLowerBoundarys;
    protected int maxX;
@@ -86,6 +87,17 @@ public class DefaultGrid implements Grid {
       this.collisionDetectionHandler = collisionDetectionHandler;
    }
 
+   @Override
+   public void prepare() {
+      maxDistance = 1.5 * gridElements.stream()
+            .filter(Avoidable.class::isInstance)
+            .map(Avoidable.class::cast)
+            .map(Avoidable::getDimensionRadius)
+            .mapToDouble(value -> value)
+            .max()
+            .orElse(0);
+   }
+
    /**
     * Moves the position of this {@link Position} backward by 1 unit
     * 
@@ -108,7 +120,7 @@ public class DefaultGrid implements Grid {
    }
 
    private void checkCollision(GridElement gridElement, Position newPosition) {
-      List<Avoidable> allAvoidables = getAllAvoidables(gridElement);
+      List<Avoidable> allAvoidables = getAllAvoidablesWithinDistanceInternal(gridElement, maxDistance);
       gridElement.check4Collision(collisionDetectionHandler, newPosition, allAvoidables);
    }
 
@@ -184,6 +196,10 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<Avoidable> getAllAvoidablesWithinDistance(GridElement gridElement, int distance) {
+      return getAllAvoidablesWithinDistanceInternal(gridElement, Double.valueOf(distance));
+   }
+
+   private List<Avoidable> getAllAvoidablesWithinDistanceInternal(GridElement gridElement, Double distance) {
       Position gridElemPos = gridElement.getFurthermostFrontPosition();
       return getAllAvoidables(gridElement)
             .stream()
@@ -191,8 +207,11 @@ public class DefaultGrid implements Grid {
             .collect(Collectors.toList());
    }
 
-   private Predicate<? super Avoidable> isAvoidableWithinDistance(Position gridElemPos, int distance) {
+   private Predicate<? super Avoidable> isAvoidableWithinDistance(Position gridElemPos, Double distance) {
       return avoidable -> {
+         if (distance == null) {
+            return true;
+         }
          double avoidable2GridElemDistance = gridElemPos.calcDistanceTo(avoidable.getPosition());
          return avoidable2GridElemDistance <= distance;
       };

@@ -74,6 +74,11 @@ public interface Shape {
    Position getFurthermostBackPosition();
 
    /**
+    * @return the radius within this {@link Shape} could be placed
+    */
+   double getDimensionRadius();
+
+   /**
     * Transform this shape according the new {@link Position}
     * 
     * @param position

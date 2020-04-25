@@ -99,6 +99,11 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
+   public double getDimensionRadius() {
+      return shape.getDimensionRadius();
+   }
+
+   @Override
    public String toString() {
       return "Position: " + position + "\n" + grid;
    }
