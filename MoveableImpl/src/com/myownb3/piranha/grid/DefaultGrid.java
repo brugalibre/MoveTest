@@ -183,7 +183,7 @@ public class DefaultGrid implements Grid {
    }
 
    @Override
-   public List<GridElement> getAllAvoidablesWithinDistance(GridElement gridElement, int distance) {
+   public List<Avoidable> getAllAvoidablesWithinDistance(GridElement gridElement, int distance) {
       Position gridElemPos = gridElement.getFurthermostFrontPosition();
       return getAllAvoidables(gridElement)
             .stream()

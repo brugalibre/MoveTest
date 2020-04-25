@@ -8,7 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -37,7 +37,7 @@ class DefaultGridTest {
       Obstacle obstacle2 = new ObstacleImpl(grid, obstaclePos2);
 
       // When
-      List<GridElement> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
+      List<Avoidable> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
 
       // Then
       assertThat(allAvoidablesWithinDistance.size(), is(1));
@@ -60,7 +60,7 @@ class DefaultGridTest {
       new ObstacleImpl(grid, obstaclePos);
 
       // When
-      List<GridElement> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
+      List<Avoidable> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
 
       // Then
       assertThat(allAvoidablesWithinDistance.size(), is(0));

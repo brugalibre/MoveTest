@@ -73,7 +73,7 @@ public interface Grid {
     * @return all {@link Avoidable}s but the given {@link GridElement} which are
     *         currently placed on this {@link Grid}
     */
-   List<GridElement> getAllAvoidablesWithinDistance(GridElement gridElement, int distance);
+   List<Avoidable> getAllAvoidablesWithinDistance(GridElement gridElement, int distance);
 
    /**
     * Returns all {@link GridElement}s but the given {@link GridElement} which are
