@@ -8,7 +8,7 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -27,7 +27,7 @@ import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
  * @author Dominic
  *
  */
-public class RectangleCollisionDetectorImpl implements CollisionDetector {
+public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
 
    private static final int ACCURACY = 10;// The amount of decimal places we care about
    private Rectangle rectangle;
@@ -41,21 +41,13 @@ public class RectangleCollisionDetectorImpl implements CollisionDetector {
    public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement gridElement, Position oldPosition,
          Position newPosition, List<Avoidable> allAvoidables) {
       Rectangle transformedRectangle = getTransformedRectangle(newPosition);
-      allAvoidables.forEach(checkCollisionWithAvoidable(collisionDetectionHandler, newPosition, gridElement, transformedRectangle));
+      allAvoidables.stream()
+            .filter(isCollision(transformedRectangle))
+            .forEach(handleCollisionWithAvoidable(collisionDetectionHandler, newPosition, gridElement));
    }
 
-   private Consumer<? super Avoidable> checkCollisionWithAvoidable(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
-         GridElement gridElement, Rectangle transformedRectangle) {
-      return avoidable -> {
-         boolean isCollision = isCollision(transformedRectangle, avoidable);
-         if (isCollision) {
-            collisionDetectionHandler.handleCollision(avoidable, gridElement, newPosition);
-         }
-      };
-   }
-
-   private boolean isCollision(Rectangle transformedRectangle, Avoidable avoidable) {
-      return avoidable.getShape()
+   private Predicate<? super Avoidable> isCollision(Rectangle transformedRectangle) {
+      return avoidable -> avoidable.getShape()
             .getPath()
             .stream()
             .anyMatch(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle));

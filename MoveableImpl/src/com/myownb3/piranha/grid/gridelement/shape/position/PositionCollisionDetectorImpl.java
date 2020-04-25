@@ -7,7 +7,7 @@ import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -17,6 +17,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.shape.rectangle.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**
@@ -26,7 +27,7 @@ import com.myownb3.piranha.util.vector.VectorUtil;
  * @author Dominic
  *
  */
-public class PositionCollisionDetectorImpl implements CollisionDetector {
+public class PositionCollisionDetectorImpl extends AbstractCollisionDetector {
 
    private int collisionDistance;
 
@@ -39,17 +40,13 @@ public class PositionCollisionDetectorImpl implements CollisionDetector {
    public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement gridElement, Position oldPosition,
          Position newPosition, List<Avoidable> allAvoidables) {
       Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
-      allAvoidables.forEach(checkCollisionWithAvoidable(collisionDetectionHandler, gridElement, oldPosition, newPosition, lineFromOldToNew));
+      allAvoidables.stream()
+            .filter(isCollision(oldPosition, newPosition, lineFromOldToNew))
+            .forEach(handleCollisionWithAvoidable(collisionDetectionHandler, newPosition, gridElement));
    }
 
-   private Consumer<? super Avoidable> checkCollisionWithAvoidable(CollisionDetectionHandler collisionDetectionHandler, GridElement gridElement,
-         Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {
-      return avoidable -> {
-         boolean isCollision = isCollision(oldPosition, newPosition, lineFromOldToNew, avoidable);
-         if (isCollision) {
-            collisionDetectionHandler.handleCollision(avoidable, gridElement, newPosition);
-         }
-      };
+   private Predicate<? super Avoidable> isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {
+      return avoidable -> isCollision(oldPosition, newPosition, lineFromOldToNew, avoidable);
    }
 
    private boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew,
