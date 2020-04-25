@@ -8,9 +8,11 @@ import java.awt.Color;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
+import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
 import com.myownb3.piranha.ui.render.impl.shape.position.PositionPainter;
+import com.myownb3.piranha.ui.render.impl.shape.rectangle.RectanglePainter;
 
 /**
  * @author Dominic
@@ -33,6 +35,8 @@ public class ShapePainterFactory {
          return new CirclePainter((Circle) shape, PaintMode.SHAPE, color, height, width);
       } else if (shape instanceof PositionShape) {
          return new PositionPainter((PositionShape) shape, color, height, width);
+      } else if (shape instanceof Rectangle) {
+         return new RectanglePainter((Rectangle) shape, color);
       } else {
          throw new RuntimeException("Unknown Shape '" + shape + "'!");
       }
