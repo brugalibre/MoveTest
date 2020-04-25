@@ -10,6 +10,7 @@ import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
+import com.myownb3.piranha.ui.render.impl.shape.position.PositionPainter;
 
 /**
  * @author Dominic

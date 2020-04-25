@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.ui.render.impl.shape;
+package com.myownb3.piranha.ui.render.impl.shape.position;
 
 import java.awt.Color;
 import java.awt.Graphics;
