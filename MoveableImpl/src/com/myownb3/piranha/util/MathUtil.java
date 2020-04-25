@@ -125,7 +125,7 @@ public class MathUtil {
       double y1 = vector.getValue(1);
       double x2 = cos(angle) * x1 - sin(angle) * y1;
       double y2 = sin(angle) * x1 + cos(angle) * y1;
-      return Float64Vector.valueOf(round(x2, 10), round(y2, 10));
+      return Float64Vector.valueOf(round(x2, 10), round(y2, 10), 0.0);
    }
 
    private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,

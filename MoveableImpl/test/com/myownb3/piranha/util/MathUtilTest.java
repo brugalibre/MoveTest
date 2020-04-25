@@ -37,6 +37,7 @@ class MathUtilTest {
       // Then
       assertThat(rotatedVector.get(1).doubleValue(), is(5.0));
       assertThat(rotatedVector.get(0).doubleValue(), is(0.0));
+      assertThat(rotatedVector.get(2).doubleValue(), is(0.0));
    }
 
    @Test
@@ -51,6 +52,7 @@ class MathUtilTest {
       // Then
       assertThat(rotatedVector.get(1).doubleValue(), is(-5.0));
       assertThat(rotatedVector.get(0).doubleValue(), is(0.0));
+      assertThat(rotatedVector.get(2).doubleValue(), is(0.0));
    }
 
    @Test
