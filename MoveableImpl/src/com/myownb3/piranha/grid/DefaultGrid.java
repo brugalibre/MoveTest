@@ -212,9 +212,16 @@ public class DefaultGrid implements Grid {
          if (distance == null) {
             return true;
          }
-         double avoidable2GridElemDistance = gridElemPos.calcDistanceTo(avoidable.getPosition());
+         double avoidable2GridElemDistance = calcDistanceFromAvoidable2Pos(gridElemPos, avoidable);
          return avoidable2GridElemDistance <= distance;
       };
+   }
+
+   /*
+    * We have to subtract the 'Dimension-Radius' from the calculated distance. 
+    */
+   private double calcDistanceFromAvoidable2Pos(Position gridElemPos, Avoidable avoidable) {
+      return gridElemPos.calcDistanceTo(avoidable.getPosition()) - avoidable.getDimensionRadius();
    }
 
    @Override

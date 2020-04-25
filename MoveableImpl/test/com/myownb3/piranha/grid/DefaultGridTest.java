@@ -90,8 +90,8 @@ class DefaultGridTest {
 
       // Given
       Position moveablePos = Positions.of(0, 0);
-      Position obstaclePos1 = Positions.of(0, 5.1);
-      Position obstaclePos2 = Positions.of(0, 5.0);
+      Position obstaclePos1 = Positions.of(0, 6.1);
+      Position obstaclePos2 = Positions.of(0, 5.5);
       Grid grid = GridBuilder.builder()
             .withMaxX(100)
             .withMaxY(100)
@@ -115,7 +115,7 @@ class DefaultGridTest {
 
       // Given
       Position moveablePos = Positions.of(0, 0);
-      Position obstaclePos = Positions.of(0, 5.1);
+      Position obstaclePos = Positions.of(0, 6.1);
       Grid grid = GridBuilder.builder()
             .withMaxX(100)
             .withMaxY(100)
