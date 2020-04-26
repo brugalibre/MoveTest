@@ -482,7 +482,7 @@ class MoveableControllerTest {
 
       public TestCaseBuilder withDetector() {
          Objects.requireNonNull(config, "We need first a Config befor we can create a Detector!");
-         this.detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
+         this.detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
                config.getEvasionAngle(), config.getEvasionAngleInc());
          return this;
       }
@@ -500,6 +500,7 @@ class MoveableControllerTest {
                .withReturningMinDistance(minDistance)
                .withReturningAngleMargin(angleMargin)
                .withDetectorReach(detectorReach)
+               .withEvasionDistance(2 * detectorReach / 3)
                .withDetectorAngle(detectorAngle)
                .withEvasionAngle(evasionAngle)
                .withEvasionAngleInc(evasionAngleInc)

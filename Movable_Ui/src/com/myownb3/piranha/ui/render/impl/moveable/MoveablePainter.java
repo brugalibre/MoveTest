@@ -42,7 +42,7 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       this.detectorRange = config.getDetectorReach();
       this.detectorAngle = config.getDetectorAngle();
       this.evasionAngle = config.getEvasionAngle();
-      this.evasionRange = 2 * config.getDetectorReach() / 3;
+      this.evasionRange = config.getEvasionReach();
    }
 
    @Override

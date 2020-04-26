@@ -40,18 +40,30 @@ public class DetectorImpl implements Detector {
       this(8, 45, 11.25);
    }
 
-   public DetectorImpl(int detectorReach, int detectorAngle, int evasionAngle, double angleInc) {
+   public DetectorImpl(int detectorReach, int evasionDistance, int detectorAngle, int evasionAngle, double angleInc) {
       this.detectorReach = detectorReach;
       this.detectorAngle = detectorAngle;
       this.evasionAngle = evasionAngle;
-      this.evasionDistance = 2 * detectorReach / 3;
+      this.evasionDistance = evasionDistance;
       this.angleInc = angleInc;
       detectionMap = new HashMap<>();
       isEvasionMap = new HashMap<>();
    }
 
+   /**
+    * Creates a new {@link DetectorImpl} for the given inputs
+    * <b>Attention:</b> Because this constructor has some default value, it's usage is only for testing purpose! It's highly recommended to
+    * use the main constructor
+    * 
+    * @param detectorReach
+    *        the reach of the detector
+    * @param detectorAngle
+    *        the angle
+    * @param angleInc
+    *        the evasion-angle increment
+    */
    public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
-      this(detectorReach, detectorAngle, detectorAngle, angleInc);
+      this(detectorReach, 2 * detectorReach / 3, detectorAngle, detectorAngle, angleInc);
    }
 
    @Override

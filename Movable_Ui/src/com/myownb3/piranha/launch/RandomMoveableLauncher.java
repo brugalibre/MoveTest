@@ -139,8 +139,8 @@ public class RandomMoveableLauncher implements Stoppable {
 
       EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
       Position pos = Positions.getRandomPosition(dimension, height, width);
-      Detector detector =
-            new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
+      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
+            config.getEvasionAngle(), config.getEvasionAngleInc() + height);
       Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder(grid, pos)
             .withHandler(new EvasionStateMachine(detector, config))
@@ -156,6 +156,7 @@ public class RandomMoveableLauncher implements Stoppable {
             .withReturningMinDistance(0.05)
             .withReturningAngleMargin(0.7d)
             .withDetectorReach(detectorReach)
+            .withEvasionDistance(2 * detectorReach / 3)
             .withPassingDistance(80)
             .withDetectorAngle(80)
             .withEvasionAngle(70)

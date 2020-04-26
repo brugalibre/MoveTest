@@ -20,6 +20,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 
    // Attributes for Detector
    private int detectorReach;
+   private int evasionDistance;
    private int detectorAngle;
    private int evasionAngle;
    private double evasionAngleInc;
@@ -42,12 +43,13 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
     */
    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
          int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-      this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3,
+      this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, 2 * detectorReach / 3,
             detectorAngle, evasionAngle, evasionAngleInc);
    }
 
    /*package */ EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
-         double angleMargin, int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
+         double angleMargin, int detectorReach, int evasionDistance, int passingDistance, int detectorAngle, int evasionAngle,
+         double evasionAngleInc) {
       this.orientationAngle = orientationAngle;
       this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
       this.returningAngleIncMultiplier = angleIncMultiplier;
@@ -57,6 +59,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
       this.passingDistance = passingDistance;
       this.evasionAngleInc = evasionAngleInc;
       this.detectorReach = detectorReach;
+      this.evasionDistance = evasionDistance;
       this.detectorAngle = detectorAngle;
       this.evasionAngle = evasionAngle;
    }
@@ -94,6 +97,11 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    @Override
    public final int getDetectorReach() {
       return this.detectorReach;
+   }
+
+   @Override
+   public final int getEvasionDistance() {
+      return this.evasionDistance;
    }
 
    @Override

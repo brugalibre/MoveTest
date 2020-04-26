@@ -29,7 +29,7 @@ public class MoveablePainterConfig {
       this.detectorReach = evasionStateMachineConfig.getDetectorReach();
       this.detectorAngle = evasionStateMachineConfig.getDetectorAngle();
       this.evasionAngle = evasionStateMachineConfig.getEvasionAngle();
-      this.evasionReach = 2 * evasionStateMachineConfig.getDetectorReach() / 3;
+      this.evasionReach = evasionStateMachineConfig.getEvasionDistance();
       this.drawDetector = drawDetector;
       this.drawMoveableDirection = drawMoveableDirection;
    }

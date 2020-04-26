@@ -73,6 +73,12 @@ public interface EvasionStateMachineConfig {
     */
    int getDetectorReach();
 
+
+   /**
+    * @return the reach of the {@link Detector} within it can detect a collision
+    */
+   int getEvasionDistance();
+
    /**
     * @return the distance a {@link Moveable} passes along an evaded
     *         {@link GridElement} in state {@link EvasionStates#PASSING}

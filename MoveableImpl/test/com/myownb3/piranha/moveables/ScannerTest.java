@@ -109,7 +109,9 @@ class ScannerTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
-      Detector detector = new DetectorImpl(5, 45, 15, 5.625);
+      int detectorReach = 45;
+      int evasionDistance = 2 * detectorReach / 3;
+      Detector detector = new DetectorImpl(5, detectorReach, evasionDistance, 15, 5.625);
       Moveable moveable = MoveableBuilder.builder(grid, Positions.of(3, 2))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();

@@ -20,6 +20,7 @@ public class EvasionStateMachineConfigBuilder {
    private int detectorReach;
    private int detectorAngle;
    private int evasionAngle;
+   private int evasionDistance;
    private double evasionAngleInc;
    private double returningAngleMargin;
 
@@ -57,6 +58,11 @@ public class EvasionStateMachineConfigBuilder {
       return this;
    }
 
+   public EvasionStateMachineConfigBuilder withEvasionDistance(int evasionDistance) {
+      this.evasionDistance = evasionDistance;
+      return this;
+   }
+
    public EvasionStateMachineConfigBuilder withPassingDistance(int passingDistance) {
       this.passingDistance = passingDistance;
       return this;
@@ -74,7 +80,7 @@ public class EvasionStateMachineConfigBuilder {
 
    public EvasionStateMachineConfig build() {
       return new EvasionStateMachineConfigImpl(returningAngleIncMultiplier, orientationAngle, returningMinDistance, returningAngleMargin,
-            detectorReach, passingDistance, detectorAngle, evasionAngle, evasionAngleInc);
+            detectorReach, evasionDistance, passingDistance, detectorAngle, evasionAngle, evasionAngleInc);
    }
 
    /**
