@@ -28,11 +28,11 @@ public interface Detector {
     *        the {@link GridElement} to detect
     * @param gridElementPos
     *        the {@link Position} of the gridElement which is used for the verification if there is a detection
-    * @param position
+    * @param detectorPosition
     *        the current Position from which the {@link Detector} tries to
     *        detect
     */
-   void detectObject(GridElement gridElement, Position gridElementPos, Position position);
+   void detectObject(GridElement gridElement, Position gridElementPos, Position detectorPosition);
 
    /**
     * Evaluates if the given {@link GridElement} has been detected by this Detector
@@ -42,11 +42,11 @@ public interface Detector {
     *        the {@link GridElement} to detect
     * @param gridElementPath
     *        the Path of the gridElement which is used for the verification if there is a detection
-    * @param position
+    * @param detectorPosition
     *        the current Position from which the {@link Detector} tries to
     *        detect
     */
-   void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position position);
+   void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position detectorPosition);
 
    /**
     * 
