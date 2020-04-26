@@ -25,13 +25,28 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    private double evasionAngleInc;
    private double returningAngleMargin;
 
+   /**
+    * Creates a new {@link EvasionStateMachineConfig} with the given values.
+    * <b>Attention:</b> Because this constructor has some default value, it's usage is only for testing purpose! It's highly recommended to
+    * use the {@link EvasionStateMachineConfigBuilder}
+    * 
+    * @param angleIncMultiplier
+    * @param minDistance
+    * @param angleMargin
+    * @param detectorReach
+    * @param detectorAngle
+    * @param evasionAngle
+    * @param evasionAngleInc
+    * 
+    * @see {@link EvasionStateMachineConfigBuilder}
+    */
    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
          int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
       this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3,
             detectorAngle, evasionAngle, evasionAngleInc);
    }
 
-   public EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
+   /*package */ EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
          double angleMargin, int detectorReach, int passingDistance, int detectorAngle, int evasionAngle, double evasionAngleInc) {
       this.orientationAngle = orientationAngle;
       this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother

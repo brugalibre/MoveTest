@@ -495,8 +495,17 @@ class MoveableControllerTest {
 
       public TestCaseBuilder withStateMachineConfig(int angleIncMultiplier, double minDistance, double angleMargin,
             int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-         config = new EvasionStateMachineConfigImpl(angleIncMultiplier, minDistance, angleMargin, detectorReach,
-               detectorAngle, evasionAngle, evasionAngleInc);
+         config = EvasionStateMachineConfigBuilder.builder()
+               .withReturningAngleIncMultiplier(angleIncMultiplier)
+               .withReturningMinDistance(minDistance)
+               .withReturningAngleMargin(angleMargin)
+               .withDetectorReach(detectorReach)
+               .withDetectorAngle(detectorAngle)
+               .withEvasionAngle(evasionAngle)
+               .withEvasionAngleInc(evasionAngleInc)
+               .withOrientationAngle(10)
+               .withPassingDistance(2 * detectorReach / 3)
+               .build();
          return this;
       }
 

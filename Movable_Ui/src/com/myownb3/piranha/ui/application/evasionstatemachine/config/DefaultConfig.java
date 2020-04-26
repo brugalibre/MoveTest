@@ -1,7 +1,7 @@
 package com.myownb3.piranha.ui.application.evasionstatemachine.config;
 
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 
 public class DefaultConfig {
 
@@ -13,7 +13,17 @@ public class DefaultConfig {
    private static final EvasionStateMachineConfig defaultConfig;
 
    static {
-      defaultConfig = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 30, 25, 180, 170, 2);
+      defaultConfig = EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(10)
+            .withReturningMinDistance(0.06)
+            .withReturningAngleMargin(0.7d)
+            .withDetectorReach(30)
+            .withPassingDistance(25)
+            .withDetectorAngle(180)
+            .withEvasionAngle(170)
+            .withEvasionAngleInc(2)
+            .build();
    }
 
    public EvasionStateMachineConfig getDefaultEvasionStateMachineConfig() {

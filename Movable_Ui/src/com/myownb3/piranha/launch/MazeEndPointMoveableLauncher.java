@@ -73,7 +73,6 @@ public class MazeEndPointMoveableLauncher {
       List<Renderer> renderers = new ArrayList<>();
       EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
       List<GridElement> gridElements = getAllGridElements(grid, endPosition);
-      // new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 35, 30, 90, 50, 2);
       EvasionStateMachineConfig config = DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig();
       Position startPos = Positions.of(165 + padding, 155 + padding);
       startPos.rotate(-45);

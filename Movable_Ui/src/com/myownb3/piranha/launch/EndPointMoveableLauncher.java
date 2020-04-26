@@ -35,7 +35,7 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -62,7 +62,8 @@ public class EndPointMoveableLauncher {
       DefaultGrid grid = buildGrid();
       List<EndPosition> endPositions = getEndPositions();
       List<GridElement> gridElements = getAllGridElements(grid, height, width, endPositions);
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 10, 0.06, 0.7d, 60, 60, 70, 50, 2);
+
+      EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, true, false);
       List<EndPointMoveable> moveables = getMoveables(grid, endPositions, width, config);
       List<Renderer> renderers = getRenderers(grid, height, width, gridElements, moveables, moveablePainterConfig);
@@ -232,4 +233,19 @@ public class EndPointMoveableLauncher {
             .withCenter(pos)
             .build();//
    }
+
+   private static EvasionStateMachineConfig buildEvasionStateMachineConfig() {
+      return EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(10)
+            .withReturningMinDistance(0.06)
+            .withReturningAngleMargin(0.7d)
+            .withDetectorReach(60)
+            .withPassingDistance(60)
+            .withDetectorAngle(70)
+            .withEvasionAngle(50)
+            .withEvasionAngleInc(2)
+            .build();
+   }
+
 }

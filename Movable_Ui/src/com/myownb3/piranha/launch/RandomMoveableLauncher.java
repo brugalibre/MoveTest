@@ -30,7 +30,7 @@ import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -136,7 +136,8 @@ public class RandomMoveableLauncher implements Stoppable {
    private static Moveable getMoveable(Grid grid, int height, int width) {
 
       Dimension dimension = grid.getDimension();
-      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(1, 0.05, 0.7d, 40, 80, 70, 5);
+
+      EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
       Position pos = Positions.getRandomPosition(dimension, height, width);
       Detector detector =
             new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(), config.getEvasionAngle(), config.getEvasionAngleInc() + height);
@@ -144,6 +145,22 @@ public class RandomMoveableLauncher implements Stoppable {
       return MoveableBuilder.builder(grid, pos)
             .withHandler(new EvasionStateMachine(detector, config))
             .withShape(circleShape)
+            .build();
+   }
+
+   private static EvasionStateMachineConfig buildEvasionStateMachineConfig() {
+      int detectorReach = 40;
+      return EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(10)
+            .withReturningMinDistance(0.05)
+            .withReturningAngleMargin(0.7d)
+            .withDetectorReach(detectorReach)
+            .withPassingDistance(80)
+            .withDetectorAngle(80)
+            .withEvasionAngle(70)
+            .withPassingDistance(2 * detectorReach / 3)
+            .withEvasionAngleInc(5)
             .build();
    }
 
