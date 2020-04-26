@@ -8,9 +8,14 @@ import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Optional;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.IDetector;
+import com.myownb3.piranha.detector.cluster.tripple.IDetectorInfo;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -33,16 +38,19 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
    private Color detectorColor;
    private boolean drawDetector;
    private boolean drawMoveableDirection;
+   private Optional<TrippleDetectorCluster> detectorClusterOpt;
 
    public MoveablePainter(Moveable moveable, Color color, int height, int width, MoveablePainterConfig config) {
       super(moveable, color, height, width);
       detectorColor = Color.MAGENTA.brighter();
+
       this.drawDetector = config.isDrawDetector();
       this.drawMoveableDirection = config.isDrawMoveableDirection();
       this.detectorRange = config.getDetectorReach();
       this.detectorAngle = config.getDetectorAngle();
       this.evasionAngle = config.getEvasionAngle();
       this.evasionRange = config.getEvasionReach();
+      this.detectorClusterOpt = config.getDetectorCluster();
    }
 
    @Override
@@ -51,22 +59,53 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       GraphicsContext context = (GraphicsContext) graphicsCtx;
       Graphics graphics = context.getGraphics();
 
-      Position furthermostFrontPosition = Positions.of(getValue().getFurthermostFrontPosition());
       Position gridElemPos = Positions.of(getValue().getPosition());
 
-      drawDetector(graphics, furthermostFrontPosition);
+      drawDetectorOrDetectorCluster(graphics);
       drawMoveableDirection(graphics, gridElemPos);
    }
 
-   private void drawDetector(Graphics graphics, Position detectorPos) {
+   private void drawDetectorOrDetectorCluster(Graphics graphics) {
       if (drawDetector) {
-         Color evasionColor = new Color(detectorColor.getRed(), detectorColor.getGreen(), detectorColor.getBlue()).darker();
-         drawDetectorArc(graphics, detectorPos, detectorAngle, detectorRange, detectorColor);
-         drawDetectorArc(graphics, detectorPos, evasionAngle, evasionRange, evasionColor);
+         Position furthermostFrontPosition = Positions.of(getValue().getFurthermostFrontPosition());
+         if (detectorClusterOpt.isPresent()) {
+            drawDetectorCluster(graphics, detectorClusterOpt.get(), furthermostFrontPosition, detectorColor);
+         } else {
+            drawDetector(graphics, detectorColor, detectorAngle, detectorRange, evasionAngle, evasionRange, furthermostFrontPosition);
+         }
       }
    }
 
-   private void drawDetectorArc(Graphics graphics, Position detectorPos, int arcAngle, int arcRadius, Color color) {
+   private static void drawDetectorCluster(Graphics graphics, TrippleDetectorCluster detectorCluster, Position furthermostFrontPosition,
+         Color detectorColor) {
+      drawSingleDetector4Cluster(graphics, furthermostFrontPosition, detectorColor, detectorCluster.getCenterDetector());
+      drawSingleDetector4Cluster(graphics, furthermostFrontPosition, detectorColor, detectorCluster.getRightSideDetector());
+      drawSingleDetector4Cluster(graphics, furthermostFrontPosition, detectorColor, detectorCluster.getLeftSideDetector());
+   }
+
+   private static void drawSingleDetector4Cluster(Graphics graphics, Position furthermostFrontPosition, Color detectorColor,
+         IDetectorInfo iDetectorInfo) {
+      IDetector detector = iDetectorInfo.getDetector();
+      Position detectorPos = getCurrentDetectorPos(furthermostFrontPosition, detector, iDetectorInfo.getOffsetAngle());
+      drawDetector(graphics, detectorColor, (int) detector.getDetectorAngle(), detector.getDetectorRange(),
+            (int) detector.getEvasionAngle(),
+            detector.getEvasionRange(), detectorPos);
+   }
+
+   private static Position getCurrentDetectorPos(Position furthermostFrontPosition, Detector detector, double degree) {
+      Position detectorPos = Positions.of(furthermostFrontPosition);
+      detectorPos.rotate(degree);
+      return detectorPos;
+   }
+
+   private static void drawDetector(Graphics graphics, Color detectorColor, int detectorAngle, int detectorRange, int evasionAngle,
+         int evasionRange, Position detectorPos) {
+      Color evasionColor = new Color(detectorColor.getRed(), detectorColor.getGreen(), detectorColor.getBlue()).darker();
+      drawDetectorArc(graphics, detectorPos, detectorAngle, detectorRange, detectorColor);
+      drawDetectorArc(graphics, detectorPos, evasionAngle, evasionRange, evasionColor);
+   }
+
+   private static void drawDetectorArc(Graphics graphics, Position detectorPos, int arcAngle, int arcRadius, Color color) {
       graphics.setColor(color);
       Direction detectorDirection = detectorPos.getDirection();
       int startAngle = arcAngle / 2;
@@ -83,7 +122,7 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       }
    }
 
-   private void drawDirectionFromPosition(Graphics graphics, Position position, Float64Vector directionVectorIn, int length) {
+   private static void drawDirectionFromPosition(Graphics graphics, Position position, Float64Vector directionVectorIn, int length) {
       Float64Vector directionVector = directionVectorIn.times(length * 10);
       int gridElemX1 = round(position.getX());
       int gridElemY1 = round(position.getY());
@@ -92,7 +131,7 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       graphics.drawLine(gridElemX1, gridElemY1, gridElemX2, gridElemY2);
    }
 
-   private int round(double x) {
+   private static int round(double x) {
       return (int) MathUtil.round(x, 0);
    }
 

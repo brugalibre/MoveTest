@@ -33,7 +33,7 @@ class EvasionStateHandlerTest {
       Grid grid = mock(Grid.class);
       double expectedAngle = 10;
       int postEvasionDelayDistance = 2;
-      Detector detector = mockDetector(expectedAngle);
+      Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
       DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
@@ -56,7 +56,7 @@ class EvasionStateHandlerTest {
       int postEvasionDelayDistance = 0;
       Grid grid = mock(Grid.class);
       double expectedAngle = 0.0d;
-      Detector detector = mockDetector(expectedAngle);
+      Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = MoveableBuilder.builder(grid).withHandler((a, b) -> {
       }).build();
 
@@ -80,7 +80,7 @@ class EvasionStateHandlerTest {
       Grid grid = mock(Grid.class);
       double expectedAngle = 10;
       int postEvasionDelayDistance = 0;
-      Detector detector = mockDetector(expectedAngle);
+      Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
       DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
@@ -106,7 +106,7 @@ class EvasionStateHandlerTest {
       Grid grid = mock(Grid.class);
       double expectedAngle = 10;
       int postEvasionDelayDistance = 0;
-      Detector detector = mockDetector(expectedAngle);
+      Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
       DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(detector));
@@ -125,9 +125,10 @@ class EvasionStateHandlerTest {
       assertThat(evasionStateResult.isEvasion(), is(true));
    }
 
-   private static Detector mockDetector(Double expectedAngle) {
+   private static Detector mockDetector(Double expectedAngle, int postEvasionDelayDistance) {
       Detector detector = mock(Detector.class);
       when(detector.getEvasionAngleRelative2(any())).thenReturn(expectedAngle);
+      when(detector.getEvasionDelayDistance()).thenReturn(postEvasionDelayDistance);
       return detector;
    }
 

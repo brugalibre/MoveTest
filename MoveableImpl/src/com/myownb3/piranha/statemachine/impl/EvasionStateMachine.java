@@ -82,7 +82,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       evasionStatesHandler2StateMap = new HashMap<>();
       evasionStatesHandler2StateMap.put(ORIENTING, new OrientatingStateHandler(config.getOrientationAngle()));
       evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
-      evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler(detector.getEvasionRange()));
+      evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler(detector.getEvasionDelayDistance()));
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
       evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
       evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(config));

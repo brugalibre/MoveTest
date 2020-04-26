@@ -3,7 +3,10 @@
  */
 package com.myownb3.piranha.ui.render.impl.moveable;
 
+import java.util.Optional;
+
 import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -23,19 +26,27 @@ public class MoveablePainterConfig {
    private int detectorReach;
    private boolean drawDetector;
    private boolean drawMoveableDirection;
+   private TrippleDetectorCluster detectorCluster;
 
-   public MoveablePainterConfig(EvasionStateMachineConfig evasionStateMachineConfig, boolean drawDetector, boolean drawMoveableDirection) {
+   public MoveablePainterConfig(TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig evasionStateMachineConfig, boolean drawDetector,
+         boolean drawMoveableDirection) {
 
       this.detectorReach = evasionStateMachineConfig.getDetectorReach();
       this.detectorAngle = evasionStateMachineConfig.getDetectorAngle();
       this.evasionAngle = evasionStateMachineConfig.getEvasionAngle();
       this.evasionReach = evasionStateMachineConfig.getEvasionDistance();
       this.drawDetector = drawDetector;
+      this.detectorCluster = detectorCluster;
       this.drawMoveableDirection = drawMoveableDirection;
    }
 
    public static MoveablePainterConfig of(EvasionStateMachineConfig evasionStateMachineConfig, boolean drawDetector, boolean drawMoveableDirection) {
-      return new MoveablePainterConfig(evasionStateMachineConfig, drawDetector, drawMoveableDirection);
+      return new MoveablePainterConfig(null, evasionStateMachineConfig, drawDetector, drawMoveableDirection);
+   }
+
+   public static MoveablePainterConfig of(TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config, boolean drawDetector,
+         boolean drawMoveableDirection) {
+      return new MoveablePainterConfig(detectorCluster, config, drawDetector, drawMoveableDirection);
    }
 
    /**
@@ -82,5 +93,13 @@ public class MoveablePainterConfig {
     */
    public boolean isDrawMoveableDirection() {
       return drawMoveableDirection;
+   }
+
+   /**
+    * 
+    * @return the {@link TrippleDetectorCluster} of this {@link MoveablePainterConfig}
+    */
+   public final Optional<TrippleDetectorCluster> getDetectorCluster() {
+      return Optional.ofNullable(this.detectorCluster);
    }
 }

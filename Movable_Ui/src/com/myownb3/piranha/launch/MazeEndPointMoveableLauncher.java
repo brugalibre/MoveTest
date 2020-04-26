@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.grid.DefaultGrid;
@@ -43,8 +44,8 @@ import com.myownb3.piranha.moveables.MovingStrategie;
 import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
-import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
@@ -73,18 +74,26 @@ public class MazeEndPointMoveableLauncher {
       List<Renderer> renderers = new ArrayList<>();
       EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
       List<GridElement> gridElements = getAllGridElements(grid, endPosition);
-      EvasionStateMachineConfig config = DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig();
+      EvasionStateMachineConfig config = buildEvasionStateMachineConfig(60, 50);
       Position startPos = Positions.of(165 + padding, 155 + padding);
       startPos.rotate(-45);
+
+      TrippleDetectorCluster detectorCluster = buildDefaultDetectorCluster(config);
       MoveableController controller = buildMoveableController(grid, startPos, singletonList(endPosition),
-            getPostMoveFowardHandler(mainWindow, moveableControllerList, emptyList(), renderers), config);
+            getPostMoveFowardHandler(mainWindow, moveableControllerList, emptyList(), renderers), config, detectorCluster);
       moveableControllerList.add(controller);
-      renderers.addAll(getRenderers(grid, 4, 4, gridElements, controller.getMoveable(), config));
+      renderers.addAll(getRenderers(grid, 4, 4, gridElements, controller.getMoveable(), detectorCluster, config));
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = prepareAndMoveMoveable(controller, mainWindow);
       preparePositionListPainter(renderers, positions);
+   }
+
+   private TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig) {
+
+      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(10, 10);
+      return TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
    }
 
    private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
@@ -95,9 +104,7 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private static MoveableController buildMoveableController(Grid grid, Position startPos,
-         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, EvasionStateMachineConfig config) {
-      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getDetectorAngle(),
-            config.getEvasionAngle(), config.getEvasionAngleInc());
+         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, EvasionStateMachineConfig config, Detector detectorCluster) {
       int circleRadius = 4;
       return MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategie.FORWARD)
@@ -106,7 +113,7 @@ public class MazeEndPointMoveableLauncher {
             .withEndPointMoveable()
             .withGrid(grid)
             .withStartPosition(startPos)
-            .withHandler(new EvasionStateMachine(detector, config))
+            .withHandler(new EvasionStateMachine(detectorCluster, config))
             .withShape(buildCircle(circleRadius, startPos))
             .withMovingIncrement(1)
             .buildAndReturnParentBuilder()
@@ -204,12 +211,12 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width,
-         List<GridElement> gridElements, Moveable moveable, EvasionStateMachineConfig config) {
+         List<GridElement> gridElements, Moveable moveable, TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config) {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, width));
-      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(config, false, false);
+      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, width, moveablePainterConfig));
       return renderers;
    }
@@ -219,5 +226,20 @@ public class MazeEndPointMoveableLauncher {
             .withAmountOfPoints(30)
             .withCenter(pos)
             .build();//
+   }
+
+   private static EvasionStateMachineConfig buildEvasionStateMachineConfig(int detectorReach, int evasionDistance) {
+      return EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(1)
+            .withReturningMinDistance(0.06)
+            .withReturningAngleMargin(0.7d)
+            .withDetectorReach(detectorReach)
+            .withEvasionDistance(evasionDistance)
+            .withPassingDistance(25)
+            .withDetectorAngle(60)
+            .withEvasionAngle(45)
+            .withEvasionAngleInc(1)
+            .build();
    }
 }

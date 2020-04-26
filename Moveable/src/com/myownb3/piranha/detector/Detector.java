@@ -14,6 +14,7 @@ import com.myownb3.piranha.moveables.Moveable;
 /**
  * A {@link Detector} is used to detect other {@link Avoidable} on a
  * {@link Grid}
+ * This interface describes the common possibilities of a Detector
  * 
  * @author Dominic
  *
@@ -76,6 +77,14 @@ public interface Detector {
     * @returns the evasion angle increment
     */
    double getEvasionAngleRelative2(Position position);
+
+   /**
+    * Returns the distance for which an occurred evasion should be delayed for this detector
+    * This value can be <code>null</code>
+    * 
+    * @return the range of this detector
+    */
+   Integer getEvasionDelayDistance();
 
    /**
     * Returns the range of this detector

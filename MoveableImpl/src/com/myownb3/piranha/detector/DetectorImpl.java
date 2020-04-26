@@ -22,7 +22,7 @@ import com.myownb3.piranha.util.MathUtil;
  * @author Dominic
  *
  */
-public class DetectorImpl implements Detector {
+public class DetectorImpl implements IDetector {
 
    private int detectorReach;
    private double detectorAngle;
@@ -32,6 +32,7 @@ public class DetectorImpl implements Detector {
 
    private Map<GridElement, Boolean> detectionMap;
    private Map<GridElement, Boolean> isEvasionMap;
+
 
    /**
     * Default Constructor, only used for Tests
@@ -205,8 +206,23 @@ public class DetectorImpl implements Detector {
    }
 
    @Override
+   public Integer getEvasionDelayDistance() {
+      return evasionDistance;
+   }
+
+   @Override
    public int getEvasionRange() {
       return evasionDistance;
+   }
+
+   @Override
+   public double getDetectorAngle() {
+      return detectorAngle;
+   }
+
+   @Override
+   public double getEvasionAngle() {
+      return evasionAngle;
    }
 
    private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {

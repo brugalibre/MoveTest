@@ -1,6 +1,7 @@
 package com.myownb3.piranha.statemachine.impl.handler.evasionstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.EVASION;
+import static com.myownb3.piranha.util.ObjectUtils.firstNonNull;
 import static java.util.Objects.nonNull;
 
 import com.myownb3.piranha.detector.Detector;
@@ -15,10 +16,10 @@ import com.myownb3.piranha.statemachine.impl.handler.evasionstate.output.Evasion
 public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEventStateInput, EvasionStateResult> {
 
    private boolean hadEvasionBefore;// defines if there was any evasion at all
-   private int postEvasionDelayDistance;
+   private Integer postEvasionDelayDistance;
    private EvasionFlipFlopHandler flipFlopHandler;
 
-   public EvasionStateHandler(int postEvasionDelayDistance) {
+   public EvasionStateHandler(Integer postEvasionDelayDistance) {
       this.postEvasionDelayDistance = postEvasionDelayDistance;
       flipFlopHandler = new EvasionFlipFlopHandler();
    }
@@ -45,11 +46,11 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
          }
       }
       flipFlopHandler.init();
-      return evalAndReturnNextState(moveable, posBeforeEvasion);
+      return evalAndReturnNextState(moveable, posBeforeEvasion, detector);
    }
 
-   private EvasionStateResult evalAndReturnNextState(Moveable moveable, Position posBeforeEvasion) {
-      if (has2DelayPostEvasion(moveable, posBeforeEvasion)) {
+   private EvasionStateResult evalAndReturnNextState(Moveable moveable, Position posBeforeEvasion, Detector detector) {
+      if (has2DelayPostEvasion(moveable, posBeforeEvasion, detector)) {
          return EvasionStateResult.of(EVASION, EVASION, false);
       }
       return EvasionStateResult.of(EVASION, EVASION.nextState(), false);
@@ -74,13 +75,13 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
    /*
     * true if we have to wait until we switch to state 'POST_EVASION' and false if we can move on to the state 'POST_EVASION' since we have successfully avoided an avoidable and are in safe distance to it
     */
-   private boolean has2DelayPostEvasion(Moveable moveable, Position posBeforeEvasion) {
+   private boolean has2DelayPostEvasion(Moveable moveable, Position posBeforeEvasion, Detector detector) {
       return hadEvasionBefore
-            && isNotInSaveDistance(moveable.getPosition(), posBeforeEvasion);
+            && isNotInSaveDistance(moveable.getPosition(), posBeforeEvasion, detector);
    }
 
-   private boolean isNotInSaveDistance(Position moveablePos, Position posBeforeEvasion) {
+   private boolean isNotInSaveDistance(Position moveablePos, Position posBeforeEvasion, Detector detector) {
       double distancePosBeforeEvasion2CurrentPos = posBeforeEvasion.calcDistanceTo(moveablePos);
-      return distancePosBeforeEvasion2CurrentPos <= postEvasionDelayDistance;
+      return distancePosBeforeEvasion2CurrentPos <= firstNonNull(postEvasionDelayDistance, detector.getEvasionDelayDistance());
    }
 }

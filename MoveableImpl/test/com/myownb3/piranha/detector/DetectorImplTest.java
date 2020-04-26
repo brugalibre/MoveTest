@@ -24,6 +24,23 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 class DetectorImplTest {
 
    @Test
+   void testGetEvasionDistance() {
+
+      // Given
+      double evasionAngle = 10;
+      double detectorAngle = 10;
+      DetectorImpl detector = new DetectorImpl(5, 5, detectorAngle, evasionAngle, 5);
+
+      // When
+      double actualEvasionAngle = detector.getEvasionAngle();
+      double actualDetectingAngle = detector.getDetectorAngle();
+
+      // Then
+      assertThat(actualEvasionAngle, is(evasionAngle));
+      assertThat(actualDetectingAngle, is(detectorAngle));
+   }
+
+   @Test
    void testDetectObjectAlongPath_IsNotDetectingAndNotEvasion() {
 
       // Given

@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
@@ -37,8 +38,8 @@ import com.myownb3.piranha.moveables.MovingStrategie;
 import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
-import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.grid.gridelement.EndPositionGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
@@ -85,18 +86,35 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       List<GridElement> gridElements = getAllGridElements(grid, endPosList, height, width);
       List<Renderer> renderers = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
-      EvasionStateMachineConfig config = DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig();
-
+      int detectorReach = 40;
+      int evasionDistance = 2 * detectorReach / 3;
+      EvasionStateMachineConfig config = buildEvasionStateMachineConfig(detectorReach, evasionDistance);
+      TrippleDetectorCluster detectorCluster = buildDefaultDetectorCluster(config);
       MoveableController moveableController = buildMoveableController(grid, startPos, endPosList,
-            getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width, config);
+            getPostMoveFowardHandler(mainWindow, moveableControllerList, gridElements, renderers), width, config, detectorCluster);
       moveableControllerList.add(moveableController);
       collisionDetectionHandler.setMoveableController(moveableController);
-      renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable(), config));
+      renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable(), config, detectorCluster));
 
       mainWindow.addSpielfeld(renderers, grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
       prepareAndMoveMoveables(moveableController, mainWindow, gridElements, grid);
+   }
+
+   private static EvasionStateMachineConfig buildEvasionStateMachineConfig(int detectorReach, int evasionDistance) {
+      return EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(1)
+            .withReturningMinDistance(0.06)
+            .withReturningAngleMargin(0.7d)
+            .withDetectorReach(detectorReach)
+            .withEvasionDistance(evasionDistance)
+            .withPassingDistance(25)
+            .withDetectorAngle(60)
+            .withEvasionAngle(45)
+            .withEvasionAngleInc(1)
+            .build();
    }
 
    private static MirrorGrid buildMirrorGrid(MainWindow mainWindow, int mainWindowWidth, CollisionDetectionHandler collisionDetector) {
@@ -109,10 +127,14 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .build();
    }
 
+   private TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig) {
+
+      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(25, 10);
+      return TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
+   }
+
    private static MoveableController buildMoveableController(MirrorGrid grid, Position startPos,
-         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width, EvasionStateMachineConfig config) {
-      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
-            config.getEvasionAngle(), config.getEvasionAngleInc());
+         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, int width, EvasionStateMachineConfig config, Detector detector) {
       return MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategie.FORWARD)
             .withEndPositions(endPosList)
@@ -135,7 +157,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static List<EndPosition> getEndPosList(int height, int width, MirrorGrid grid) {
-      int amountOfEndPos = (int) MathUtil.getRandom(20);
+      int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
       List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
       for (int i = 0; i < amountOfEndPos; i++) {
          endPosList.add(EndPositions.of(Positions.getRandomPosition(grid.getDimension(), height, width)));
@@ -179,11 +201,10 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
    }
 
-
    private static List<Renderer> getRenderers(int height, int width, MirrorGrid grid, List<GridElement> gridElements,
-         Moveable moveable, EvasionStateMachineConfig config) {
+         Moveable moveable, EvasionStateMachineConfig config, TrippleDetectorCluster detectorCluster) {
       List<Renderer> renderers = getRenderers(gridElements);
-      MoveablePainterConfig painterConfig = MoveablePainterConfig.of(config, false, false);
+      MoveablePainterConfig painterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), 1, 1, painterConfig));
       return renderers;
    }
