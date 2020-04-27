@@ -40,7 +40,7 @@ public class DetectorImpl implements Detector {
       this(8, 45, 11.25);
    }
 
-   public DetectorImpl(int detectorReach, int evasionDistance, int detectorAngle, int evasionAngle, double angleInc) {
+   public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle, double angleInc) {
       this.detectorReach = detectorReach;
       this.detectorAngle = detectorAngle;
       this.evasionAngle = evasionAngle;
