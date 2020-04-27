@@ -56,7 +56,7 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
    }
 
    private EvasionStateResult handleEvasionManeuvre(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
-      double avoidAngle = detector.getEvasionAngleRelative2(moveable.getPosition());
+      double avoidAngle = detector.getEvasionAngleRelative2(moveable.getFurthermostFrontPosition());
       avoidAngle = registerAndGetAvoidAngle(avoidAngle);
       moveable.makeTurnWithoutPostConditions(avoidAngle);
       helper.checkSurrounding(grid, moveable);
