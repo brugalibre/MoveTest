@@ -55,6 +55,20 @@ public abstract class AbstractShape implements Shape {
    protected abstract List<Position> buildPath4Detection();
 
    @Override
+   public boolean isWithinUpperBounds(Position position, double detectorAngle) {
+      Position gridElemPos = gridElement.getPosition();
+      double ourAngle = position.calcAbsolutAngle();
+      double avoidableAngle = gridElemPos.calcAbsolutAngle();
+
+      return isWithinUpperBorder(ourAngle, avoidableAngle, detectorAngle)
+            && avoidableAngle >= ourAngle;
+   }
+
+   private static boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
+      return ourAngle + (detectorAngle / 2) >= gridElementAngle;
+   }
+
+   @Override
    public List<Position> getPath() {
       return Collections.unmodifiableList(path);
    }

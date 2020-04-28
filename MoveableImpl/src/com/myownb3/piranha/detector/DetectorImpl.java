@@ -13,6 +13,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.detector.evasion.EvasionAngleEvaluator;
+import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -26,19 +28,24 @@ public class DetectorImpl implements IDetector {
 
    private int detectorReach;
    private double detectorAngle;
-   private double angleInc;
    private int evasionDistance;
    private double evasionAngle;
+   private EvasionAngleEvaluator evasionAngleEvaluator;
 
    private Map<GridElement, Boolean> detectionMap;
    private Map<GridElement, Boolean> isEvasionMap;
 
    public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle, double angleInc) {
+      this(detectorReach, evasionDistance, detectorAngle, evasionAngle, new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc));
+   }
+
+   public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle,
+         EvasionAngleEvaluator evasionAngleEvaluator) {
       this.detectorReach = detectorReach;
       this.detectorAngle = detectorAngle;
       this.evasionAngle = evasionAngle;
       this.evasionDistance = evasionDistance;
-      this.angleInc = angleInc;
+      this.evasionAngleEvaluator = evasionAngleEvaluator;
       detectionMap = new HashMap<>();
       isEvasionMap = new HashMap<>();
    }
@@ -118,25 +125,12 @@ public class DetectorImpl implements IDetector {
    @Override
    public double getEvasionAngleRelative2(Position position) {
 
-      double avoidAngle = 0;
-      double ourAngle = position.calcAbsolutAngle();
-
       Optional<Avoidable> evasionAvoidable = getNearestEvasionAvoidable(position);
       if (evasionAvoidable.isPresent()) {
          Avoidable avoidable = evasionAvoidable.get();
-         Position gridElemPos = avoidable.getPosition();
-         double avoidableAngle = gridElemPos.calcAbsolutAngle();
-
-         boolean isInUpperBounds = isWithinUpperBorder(ourAngle, avoidableAngle, detectorAngle)
-               && avoidableAngle >= ourAngle;
-
-         if (isInUpperBounds) {
-            avoidAngle = -angleInc;// Turn to the right
-         } else {
-            avoidAngle = angleInc;// Turn to the left
-         }
+         return evasionAngleEvaluator.getEvasionAngleRelative2(avoidable, position);
       }
-      return avoidAngle;
+      return 0.0;
    }
 
    private Optional<Avoidable> getNearestEvasionAvoidable(Position position) {
@@ -215,9 +209,5 @@ public class DetectorImpl implements IDetector {
    @Override
    public double getEvasionAngle() {
       return evasionAngle;
-   }
-
-   private boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
-      return ourAngle + (detectorAngle / 2) >= gridElementAngle;
    }
 }

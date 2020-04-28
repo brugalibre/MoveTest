@@ -55,6 +55,8 @@ public interface Shape {
     */
    boolean detectObject(Position detectorPosition, Detector detector);
 
+   boolean isWithinUpperBounds(Position position, double detectorAngle);
+
    /**
     * Returns the {@link Position} of this {@link GridElement} which faces the same
     * direction than it's center {@link Position} but is placed on it's
