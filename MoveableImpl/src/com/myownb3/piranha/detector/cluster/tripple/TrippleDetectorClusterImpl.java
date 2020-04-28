@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.IDetector;
 import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
+import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.detector.strategy.DetectingStrategyHandlerFactory;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -178,21 +179,37 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
        */
       public static TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig,
             EvasionStateMachineConfig sideDetectorConfig) {
-         IDetector mainDetector = new DetectorImpl(centerDetectorConfig.getDetectorReach(), centerDetectorConfig.getEvasionDistance(),
-               centerDetectorConfig.getDetectorAngle(), centerDetectorConfig.getEvasionAngle(), centerDetectorConfig.getEvasionAngleInc());
-         IDetector rightSideDetector = new DetectorImpl(sideDetectorConfig.getDetectorReach(), sideDetectorConfig.getEvasionDistance(),
-               sideDetectorConfig.getDetectorAngle(), sideDetectorConfig.getDetectorAngle(), sideDetectorConfig.getEvasionAngleInc());
-         IDetector leftSideDetector = new DetectorImpl(sideDetectorConfig.getDetectorReach(), sideDetectorConfig.getEvasionDistance(),
-               sideDetectorConfig.getDetectorAngle(), sideDetectorConfig.getDetectorAngle(), sideDetectorConfig.getEvasionAngleInc());
+         double mainDetectorAngle = centerDetectorConfig.getDetectorAngle();
+         double rightSideDetectorOffset = -(mainDetectorAngle / 2) - (sideDetectorConfig.getDetectorAngle() / 2);
+         double leftSideDetectorOffset = (mainDetectorAngle / 2) + (sideDetectorConfig.getDetectorAngle() / 2);
 
-         double mainDetectorAngle = mainDetector.getDetectorAngle();
-         double rightSideDetectorOffset = -(mainDetectorAngle / 2) - (rightSideDetector.getDetectorAngle() / 2);
-         double leftSideDetectorOffset = (mainDetectorAngle / 2) + (leftSideDetector.getDetectorAngle() / 2);
-
+         double sideDetectorDetectorAngle = (180 - mainDetectorAngle) / 2;
+         double sideDetectorEvasionAngle = Math.min(sideDetectorDetectorAngle, sideDetectorConfig.getEvasionAngle());
          return TrippleDetectorClusterBuilder.builder()
-               .withCenterDetector(mainDetector)
-               .withRightSideDetector(rightSideDetector, rightSideDetectorOffset)
-               .withLeftSideDetector(leftSideDetector, leftSideDetectorOffset)
+               .withCenterDetector(DetectorBuilder.builder()
+                     .withDetectorReach(centerDetectorConfig.getDetectorReach())
+                     .withDetectorAngle(centerDetectorConfig.getDetectorAngle())
+                     .withEvasionDistance(centerDetectorConfig.getEvasionDistance())
+                     .withEvasionAngle(centerDetectorConfig.getEvasionAngle())
+                     .withDetectionAware(new DefaultDetectionAware())
+                     .withDefaultEvasionAngleEvaluator(centerDetectorConfig.getEvasionAngleInc())
+                     .build())
+               .withRightSideDetector(DetectorBuilder.builder()
+                     .withDetectorReach(sideDetectorConfig.getDetectorReach())
+                     .withDetectorAngle(sideDetectorDetectorAngle)
+                     .withEvasionDistance(sideDetectorConfig.getEvasionDistance())
+                     .withEvasionAngle(sideDetectorEvasionAngle)
+                     .withDetectionAware(new DefaultDetectionAware())
+                     .withDefaultEvasionAngleEvaluator(sideDetectorConfig.getEvasionAngleInc())
+                     .build(), rightSideDetectorOffset)
+               .withLeftSideDetector(DetectorBuilder.builder()
+                     .withDetectorReach(sideDetectorConfig.getDetectorReach())
+                     .withDetectorAngle(sideDetectorDetectorAngle)
+                     .withEvasionDistance(sideDetectorConfig.getEvasionDistance())
+                     .withEvasionAngle(sideDetectorEvasionAngle)
+                     .withDetectionAware(new DefaultDetectionAware())
+                     .withDefaultEvasionAngleEvaluator(sideDetectorConfig.getEvasionAngleInc())
+                     .build(), leftSideDetectorOffset)
                .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS)
                .withAutoDetectionStrategyHandler()
                .build();

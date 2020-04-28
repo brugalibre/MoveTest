@@ -1,6 +1,6 @@
 package com.myownb3.piranha.detector;
 
-class DetectionResult {
+public class DetectionResult {
    boolean isEvasion;
    boolean isDetected;
 
@@ -9,11 +9,15 @@ class DetectionResult {
       this.isEvasion = isEvasion;
    }
 
-   boolean getIsDetected() {
+   public DetectionResult() {
+      this(false, false);
+   }
+
+   public boolean getIsDetected() {
       return isDetected;
    }
 
-   boolean getIsEvasion() {
+   public boolean getIsEvasion() {
       return isEvasion;
    }
 }

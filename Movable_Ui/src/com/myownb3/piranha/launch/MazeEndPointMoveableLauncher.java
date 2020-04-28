@@ -74,7 +74,7 @@ public class MazeEndPointMoveableLauncher {
       List<Renderer> renderers = new ArrayList<>();
       EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
       List<GridElement> gridElements = getAllGridElements(grid, endPosition);
-      EvasionStateMachineConfig config = buildEvasionStateMachineConfig(60, 50);
+      EvasionStateMachineConfig config = buildEvasionStateMachineConfig(60, 45);
       Position startPos = Positions.of(165 + padding, 155 + padding);
       startPos.rotate(-45);
 
@@ -92,7 +92,7 @@ public class MazeEndPointMoveableLauncher {
 
    private TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig) {
 
-      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(10, 10);
+      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(30, 10);
       return TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
    }
 
@@ -172,7 +172,7 @@ public class MazeEndPointMoveableLauncher {
       center1.rotate(-45);
       GridElement rectangleGridElem = buildRectangleObstacle(grid, height, width, center1);
 
-      Position center2 = Positions.of(288 + padding - (width / 2), 180 + padding - (height / 2));
+      Position center2 = Positions.of(286 + padding - (width / 2), 179 + padding - (height / 2));
       center2.rotate(-135);
       GridElement rectangleGridElem2 = buildRectangleObstacle(grid, height, width * 2, center2);
       return Arrays.asList(rectangleGridElem, rectangleGridElem2);

@@ -32,8 +32,11 @@ public class TrippleDetectorClusterImplTest {
       int detectorReach = 30;
       int evasionDistance = 25;
       int detectorAngle = 70;
-      EvasionStateMachineConfig centerDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach, evasionDistance, detectorAngle);
-      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach / 3, evasionDistance / 3, detectorAngle);
+      double evasionAngle = 55.0;
+      EvasionStateMachineConfig centerDetectorConfig =
+            buildEvasionStateMachineConfigBuilder(detectorReach, evasionDistance, detectorAngle, 100);
+      EvasionStateMachineConfig sideDetectorConfig =
+            buildEvasionStateMachineConfigBuilder(detectorReach / 3, evasionDistance / 3, detectorAngle, 100);
 
       // When
       TrippleDetectorCluster trippleClusterDetectorCluster =
@@ -46,8 +49,8 @@ public class TrippleDetectorClusterImplTest {
       assertThat(centerDetector.getOffsetAngle(), is(0.0));
       assertThat(leftSideDetector.getOffsetAngle(), is(-70.0));
       assertThat(rightSideDetector.getOffsetAngle(), is(70.0));
-      assertThat(rightSideDetector.getDetector().getDetectorAngle(), is(rightSideDetector.getDetector().getEvasionAngle()));
-      assertThat(leftSideDetector.getDetector().getDetectorAngle(), is(leftSideDetector.getDetector().getEvasionAngle()));
+      assertThat(rightSideDetector.getDetector().getDetectorAngle(), is(evasionAngle));
+      assertThat(leftSideDetector.getDetector().getDetectorAngle(), is(evasionAngle));
    }
 
    @Test
@@ -209,8 +212,8 @@ public class TrippleDetectorClusterImplTest {
       // Given
       int detectorReach = 30;
       int evasionDistance = 25;
-      EvasionStateMachineConfig centerDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach, evasionDistance, 70);
-      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach / 3, evasionDistance / 3, 70);
+      EvasionStateMachineConfig centerDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach, evasionDistance, 70, 50);
+      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfigBuilder(detectorReach / 3, evasionDistance / 3, 70, 50);
 
       // When
       TrippleDetectorCluster trippleClusterDetectorCluster =
@@ -221,7 +224,8 @@ public class TrippleDetectorClusterImplTest {
       assertThat(trippleClusterDetectorCluster.getEvasionRange(), is(evasionDistance));
    }
 
-   private EvasionStateMachineConfig buildEvasionStateMachineConfigBuilder(int detectorReach, int evasionDistance, int detectorAngle) {
+   private EvasionStateMachineConfig buildEvasionStateMachineConfigBuilder(int detectorReach, int evasionDistance, int detectorAngle,
+         int evasionAngle) {
       return EvasionStateMachineConfigBuilder.builder()
             .withReturningAngleIncMultiplier(1)
             .withOrientationAngle(10)
@@ -231,7 +235,7 @@ public class TrippleDetectorClusterImplTest {
             .withEvasionDistance(evasionDistance)
             .withPassingDistance(25)
             .withDetectorAngle(detectorAngle)
-            .withEvasionAngle(detectorAngle - 20)
+            .withEvasionAngle(evasionAngle)
             .withEvasionAngleInc(2)
             .withPostEvasionReturnAngle(4)
             .build();

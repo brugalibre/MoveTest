@@ -5,14 +5,10 @@ package com.myownb3.piranha.detector;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.detector.detectionaware.DetectionAware;
+import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.detector.evasion.EvasionAngleEvaluator;
 import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
@@ -31,23 +27,11 @@ public class DetectorImpl implements IDetector {
    private int evasionDistance;
    private double evasionAngle;
    private EvasionAngleEvaluator evasionAngleEvaluator;
-
-   private Map<GridElement, Boolean> detectionMap;
-   private Map<GridElement, Boolean> isEvasionMap;
+   private DetectionAware detectionAware;
 
    public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle, double angleInc) {
-      this(detectorReach, evasionDistance, detectorAngle, evasionAngle, new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc));
-   }
-
-   public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle,
-         EvasionAngleEvaluator evasionAngleEvaluator) {
-      this.detectorReach = detectorReach;
-      this.detectorAngle = detectorAngle;
-      this.evasionAngle = evasionAngle;
-      this.evasionDistance = evasionDistance;
-      this.evasionAngleEvaluator = evasionAngleEvaluator;
-      detectionMap = new HashMap<>();
-      isEvasionMap = new HashMap<>();
+      this(detectorReach, evasionDistance, detectorAngle, evasionAngle,
+            new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc), new DefaultDetectionAware());
    }
 
    /**
@@ -64,6 +48,17 @@ public class DetectorImpl implements IDetector {
     */
    public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
       this(detectorReach, 2 * detectorReach / 3, detectorAngle, detectorAngle, angleInc);
+   }
+
+   private DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle,
+         EvasionAngleEvaluator evasionAngleEvaluator, DetectionAware detectionAware) {
+      this.detectorReach = detectorReach;
+      this.detectorAngle = detectorAngle;
+      this.evasionAngle = evasionAngle;
+      this.evasionDistance = evasionDistance;
+      this.detectionAware = detectionAware;
+      this.evasionAngleEvaluator = evasionAngleEvaluator;
+      this.evasionAngleEvaluator.setDetectionAware(detectionAware);
    }
 
    @Override
@@ -89,13 +84,11 @@ public class DetectorImpl implements IDetector {
    }
 
    private void preDetecting(GridElement gridElement) {
-      detectionMap.remove(gridElement);
-      isEvasionMap.remove(gridElement);
+      detectionAware.clearGridElement(gridElement);
    }
 
    private void postDetecting(GridElement gridElement, List<DetectionResult> detectionResults) {
-      detectionMap.put(gridElement, detectionResults.stream().anyMatch(DetectionResult::getIsDetected));
-      isEvasionMap.put(gridElement, detectionResults.stream().anyMatch(DetectionResult::getIsEvasion));
+      detectionAware.checkGridElement4Detection(gridElement, detectionResults);
    }
 
    private DetectionResult detectObjectInternal(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
@@ -106,7 +99,7 @@ public class DetectorImpl implements IDetector {
          boolean isEvasion = isEvasion(gridElement, distance, degValue, isDetected);
          return new DetectionResult(isEvasion, isDetected);
       }
-      return new DetectionResult(false, false);
+      return new DetectionResult();
    }
 
    private boolean isEvasion(GridElement gridElement, double distance, double degValue, boolean isDetected) {
@@ -124,66 +117,17 @@ public class DetectorImpl implements IDetector {
 
    @Override
    public double getEvasionAngleRelative2(Position position) {
-
-      Optional<Avoidable> evasionAvoidable = getNearestEvasionAvoidable(position);
-      if (evasionAvoidable.isPresent()) {
-         Avoidable avoidable = evasionAvoidable.get();
-         return evasionAngleEvaluator.getEvasionAngleRelative2(avoidable, position);
-      }
-      return 0.0;
-   }
-
-   private Optional<Avoidable> getNearestEvasionAvoidable(Position position) {
-      List<Avoidable> avoidables = getEvasionAvoidables();
-      return getNearestEvasionAvoidable(position, avoidables);
-   }
-
-   @Visible4Testing
-   Optional<Avoidable> getNearestEvasionAvoidable(Position position, List<Avoidable> avoidables) {
-      Map<Avoidable, Double> avoidable2DistanceMap = fillupMap(position, avoidables);
-      return avoidable2DistanceMap.keySet()
-            .stream()
-            .sorted(sort4Distance(avoidable2DistanceMap))
-            .findFirst();
-   }
-
-   private Map<Avoidable, Double> fillupMap(Position position, List<Avoidable> avoidables) {
-      Map<Avoidable, Double> avoidable2DistanceMap = new HashMap<>();
-      for (Avoidable avoidable : avoidables) {
-         Position gridElemPos = avoidable.getPosition();
-         double distance = gridElemPos.calcDistanceTo(position);
-         avoidable2DistanceMap.put(avoidable, Double.valueOf(distance));
-      }
-      return avoidable2DistanceMap;
-   }
-
-   private static Comparator<? super Avoidable> sort4Distance(Map<Avoidable, Double> avoidable2DistanceMap) {
-      return (g1, g2) -> {
-         Double distanceGridElem1ToPoint = avoidable2DistanceMap.get(g1);
-         Double distanceGridElem2ToPoint = avoidable2DistanceMap.get(g2);
-         return distanceGridElem1ToPoint.compareTo(distanceGridElem2ToPoint);
-      };
-   }
-
-   private List<Avoidable> getEvasionAvoidables() {
-      return isEvasionMap.keySet()
-            .stream()
-            .filter(Avoidable.class::isInstance)
-            .map(Avoidable.class::cast)
-            .filter(avoidable -> isEvasionMap.get(avoidable))
-            .collect(Collectors.toList());
+      return evasionAngleEvaluator.getEvasionAngleRelative2(position);
    }
 
    @Override
    public final boolean isEvasion(GridElement gridElement) {
-      Boolean isEvasion = isEvasionMap.get(gridElement);
-      return isEvasion == null ? false : isEvasion;
+      return detectionAware.isEvasion(gridElement);
    }
 
    @Override
    public boolean hasObjectDetected(GridElement gridElement) {
-      Boolean hasObjectDetected = detectionMap.get(gridElement);
-      return hasObjectDetected == null ? false : hasObjectDetected;
+      return detectionAware.hasObjectDetected(gridElement);
    }
 
    @Override
@@ -209,5 +153,57 @@ public class DetectorImpl implements IDetector {
    @Override
    public double getEvasionAngle() {
       return evasionAngle;
+   }
+
+   public static class DetectorBuilder {
+
+      private int detectorReach;
+      private double detectorAngle;
+      private int evasionDistance;
+      private double evasionAngle;
+      private EvasionAngleEvaluator evasionAngleEvaluator;
+      private DetectionAware detectionAware;
+
+      private DetectorBuilder() {
+         // private
+      }
+
+      public static DetectorBuilder builder() {
+         return new DetectorBuilder();
+      }
+
+      public DetectorBuilder withDetectorReach(int detectorReach) {
+         this.detectorReach = detectorReach;
+         return this;
+      }
+
+      public DetectorBuilder withDetectorAngle(double detectorAngle) {
+         this.detectorAngle = detectorAngle;
+         return this;
+      }
+
+      public DetectorBuilder withEvasionDistance(int evasionDistance) {
+         this.evasionDistance = evasionDistance;
+         return this;
+      }
+
+      public DetectorBuilder withEvasionAngle(double evasionAngle) {
+         this.evasionAngle = evasionAngle;
+         return this;
+      }
+
+      public DetectorBuilder withDefaultEvasionAngleEvaluator(double angleInc) {
+         this.evasionAngleEvaluator = new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);
+         return this;
+      }
+
+      public DetectorBuilder withDetectionAware(DetectionAware detectionAware) {
+         this.detectionAware = detectionAware;
+         return this;
+      }
+
+      public DetectorImpl build() {
+         return new DetectorImpl(detectorReach, evasionDistance, detectorAngle, evasionAngle, evasionAngleEvaluator, detectionAware);
+      }
    }
 }
