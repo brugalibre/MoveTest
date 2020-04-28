@@ -33,14 +33,6 @@ public class DetectorImpl implements IDetector {
    private Map<GridElement, Boolean> detectionMap;
    private Map<GridElement, Boolean> isEvasionMap;
 
-
-   /**
-    * Default Constructor, only used for Tests
-    */
-   public DetectorImpl() {
-      this(8, 45, 11.25);
-   }
-
    public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle, double angleInc) {
       this.detectorReach = detectorReach;
       this.detectorAngle = detectorAngle;

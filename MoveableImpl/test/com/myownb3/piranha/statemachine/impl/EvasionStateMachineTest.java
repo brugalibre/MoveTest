@@ -57,7 +57,7 @@ class EvasionStateMachineTest {
             .build();
 
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
-      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(), config);
+      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(8, 45, 11.25), config);
       evasionStateMachine.evasionState = EvasionStates.NONE;
 
       // When

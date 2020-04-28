@@ -44,7 +44,7 @@ class DetectorImplTest {
    void testDetectObjectAlongPath_IsNotDetectingAndNotEvasion() {
 
       // Given
-      DetectorImpl detector = new DetectorImpl();
+      DetectorImpl detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, 0);
       Position gridElementPos = Positions.of(0, 9);
       GridElement gridElement = mock(GridElement.class);
@@ -63,7 +63,7 @@ class DetectorImplTest {
    void testDetectObjectAlongPath_IsDetectingButNotEvasion() {
 
       // Given
-      DetectorImpl detector = new DetectorImpl();
+      DetectorImpl detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, 0);
       Position gridElementPos = Positions.of(0, 1);
       GridElement gridElement = mock(GridElement.class);
@@ -82,7 +82,7 @@ class DetectorImplTest {
    void testGetNearestEvasionGridElement() {
 
       // Given
-      DetectorImpl detector = new DetectorImpl();
+      DetectorImpl detector = new DetectorImpl(8, 45, 11.25);
       Grid grid = GridBuilder.builder(100, 100)
             .build();
       Position position = Positions.of(0, 0);

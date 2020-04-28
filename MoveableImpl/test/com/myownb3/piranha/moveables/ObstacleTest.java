@@ -30,7 +30,7 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
@@ -50,7 +50,7 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
@@ -70,7 +70,7 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
 
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
@@ -92,7 +92,7 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder(100, 100)
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();

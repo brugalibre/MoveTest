@@ -36,7 +36,7 @@ class CircleImplTest {
 
       // Given
       boolean expectedHasDetection = false;
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, 6);
       Moveable moveable = mock(Moveable.class);
       Circle circle = new CircleBuilder(5)
@@ -58,7 +58,7 @@ class CircleImplTest {
       // Given
       boolean expectedHasDetection = true;
       boolean expectedIsEvasion = true;
-      Detector detector = new DetectorImpl();
+      Detector detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, -6);
       Avoidable moveable = mock(Avoidable.class);
       Circle circle = new CircleBuilder(5)
