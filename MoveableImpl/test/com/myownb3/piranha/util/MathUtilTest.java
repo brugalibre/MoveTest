@@ -5,11 +5,11 @@ package com.myownb3.piranha.util;
 
 import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.jscience.mathematics.vector.Float64Vector;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -137,7 +137,7 @@ class MathUtilTest {
       double roundetPi = MathUtil.round(pi, 2);
 
       // Then
-      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+      MatcherAssert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
    }
 
    @Test
@@ -151,7 +151,7 @@ class MathUtilTest {
       double roundetPi = MathUtil.round(pi, 0);
 
       // Then
-      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+      MatcherAssert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
    }
 
    @Test
@@ -165,7 +165,7 @@ class MathUtilTest {
       double roundetNumber = MathUtil.round(number, 2);
 
       // Then
-      Assert.assertThat(roundetNumber, CoreMatchers.is(expectedRoundedNumber));
+      MatcherAssert.assertThat(roundetNumber, CoreMatchers.is(expectedRoundedNumber));
    }
 
    @Test
@@ -179,7 +179,7 @@ class MathUtilTest {
       double roundetPi = MathUtil.roundThreePlaces(pi);
 
       // Then
-      Assert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
+      MatcherAssert.assertThat(roundetPi, CoreMatchers.is(expectedRoundedPi));
    }
 
    @Test

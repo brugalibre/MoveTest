@@ -2,7 +2,7 @@ package com.myownb3.piranha.detector.cluster.tripple;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -17,9 +17,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.IDetector;
-import com.myownb3.piranha.detector.cluster.tripple.IDetectorInfo;
-import com.myownb3.piranha.detector.cluster.tripple.IDetectorInfoImpl;
-import com.myownb3.piranha.detector.cluster.tripple.SupportiveFlanksDetectingStrategyHandler;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;

@@ -4,10 +4,11 @@
 package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.easymock.PowerMock.mockStatic;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -55,7 +56,7 @@ class PositionTest {
       double effectAngle = pos.calcAbsolutAngle();
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -97,7 +98,7 @@ class PositionTest {
       double effectAngle = pos.calcAbsolutAngle();
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -111,7 +112,7 @@ class PositionTest {
       double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -125,7 +126,7 @@ class PositionTest {
       double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -139,7 +140,7 @@ class PositionTest {
       double effectAngle = pos.calcAbsolutAngle();
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -153,7 +154,7 @@ class PositionTest {
       double effectAngle = pos.calcAbsolutAngle();
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -167,7 +168,7 @@ class PositionTest {
       double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
 
       // Then
-      Assert.assertThat(effectAngle, is(expectedAngle));
+      MatcherAssert.assertThat(effectAngle, is(expectedAngle));
    }
 
    @Test
@@ -200,8 +201,8 @@ class PositionTest {
       double effectDeltaAngle2 = MathUtil.roundThreePlaces(testPos2.calcAngleRelativeTo(pos2ComparteWith));
 
       // Then
-      Assert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
-      Assert.assertThat(effectDeltaAngle2, is(expectedAngle2Turn2));
+      MatcherAssert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
+      MatcherAssert.assertThat(effectDeltaAngle2, is(expectedAngle2Turn2));
    }
 
    @Test
@@ -228,7 +229,7 @@ class PositionTest {
       double effectDeltaAngle1 = MathUtil.roundThreePlaces(testPos1.calcAngleRelativeTo(pos2ComparteWith));
 
       // Then
-      Assert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
+      MatcherAssert.assertThat(effectDeltaAngle1, is(expectedAngle2Turn1));
    }
 
    /**
@@ -265,7 +266,7 @@ class PositionTest {
       // When
       double effectDistance = endPoint.calcDistanceTo(startPoint);
       // Then
-      Assert.assertThat(effectDistance, is(expectedDistance));
+      MatcherAssert.assertThat(effectDistance, is(expectedDistance));
    }
 
    @Test
@@ -279,7 +280,7 @@ class PositionTest {
       // When
       double effectDistance = endPoint.calcDistanceTo(startPoint);
       // Then
-      Assert.assertThat(MathUtil.roundThreePlaces(effectDistance), is(expectedDistance));
+      MatcherAssert.assertThat(MathUtil.roundThreePlaces(effectDistance), is(expectedDistance));
    }
 
    @Test
@@ -292,7 +293,7 @@ class PositionTest {
       Position anotherPos = Positions.of(Directions.N, 0, 0);
 
       // Then
-      Assert.assertThat(anotherPos.hashCode(), is(pos.hashCode()));
+      MatcherAssert.assertThat(anotherPos.hashCode(), is(pos.hashCode()));
    }
 
    @Test
@@ -305,7 +306,7 @@ class PositionTest {
       Position anotherPos = Positions.of(Directions.N, 0, 0);
 
       // Then
-      Assert.assertThat(pos, is(anotherPos));
+      MatcherAssert.assertThat(pos, is(anotherPos));
       Assert.assertTrue(pos.equals(anotherPos));
       Assert.assertTrue(pos.equals(pos));
    }

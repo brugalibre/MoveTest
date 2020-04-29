@@ -11,14 +11,14 @@ import static org.mockito.Mockito.verify;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.grid.DefaultGrid;
-import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.direction.DirectionImpl;
 import com.myownb3.piranha.grid.direction.Directions;
@@ -51,7 +51,7 @@ class TestMove {
       // Then
       Position endPosition = moveable.getPosition();
 
-      Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
+      MatcherAssert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
    }
 
@@ -87,7 +87,7 @@ class TestMove {
       // Then
       Position endPosition = moveable.getPosition();
 
-      Assert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
+      MatcherAssert.assertThat(effectStartPosition, is(Positions.of(0, 0)));
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
    }
 
@@ -113,8 +113,8 @@ class TestMove {
          Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
          Direction expectedDirection = resultList[i];
 
-         Assert.assertThat(endPosition, is(expectedEndPosition));
-         Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
+         MatcherAssert.assertThat(endPosition, is(expectedEndPosition));
+         MatcherAssert.assertThat(endPosition.getDirection(), is(expectedDirection));
       }
    }
 
@@ -143,7 +143,7 @@ class TestMove {
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
       for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
-         Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
+         MatcherAssert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
       }
    }
 
@@ -173,7 +173,7 @@ class TestMove {
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
       for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
-         Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
+         MatcherAssert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
       }
    }
 
@@ -198,8 +198,8 @@ class TestMove {
          Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
          Direction expectedDirection = resultList[i];
 
-         Assert.assertThat(endPosition, is(expectedEndPosition));
-         Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
+         MatcherAssert.assertThat(endPosition, is(expectedEndPosition));
+         MatcherAssert.assertThat(endPosition.getDirection(), is(expectedDirection));
       }
    }
 
@@ -250,7 +250,7 @@ class TestMove {
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
       for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
-         Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
+         MatcherAssert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
       }
    }
 
@@ -280,7 +280,7 @@ class TestMove {
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
       for (int i = 0; i < expectedPositionToTurnMap.size(); i++) {
-         Assert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
+         MatcherAssert.assertThat(effectPositionToTurnMap.get(i), is(expectedPositionToTurnMap.get(i)));
       }
    }
 
@@ -300,7 +300,7 @@ class TestMove {
       Position expectedEndPosition = Positions.of(0, -1);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
-      Assert.assertThat(endPosition.getDirection(), is(expectedDirection));
+      MatcherAssert.assertThat(endPosition.getDirection(), is(expectedDirection));
    }
 
    @Test

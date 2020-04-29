@@ -6,12 +6,9 @@ package com.myownb3.piranha.grid.direction;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
-import com.myownb3.piranha.grid.direction.Direction;
-import com.myownb3.piranha.grid.direction.Directions;
-import com.myownb3.piranha.grid.direction.DirectionImpl;
 
 /**
  * @author Dominic
@@ -29,7 +26,7 @@ class DirectionTest {
       Direction anotherNorth = new DirectionImpl(90);
 
       // Then
-      Assert.assertThat(north.hashCode(), is(anotherNorth.hashCode()));
+      MatcherAssert.assertThat(north.hashCode(), is(anotherNorth.hashCode()));
    }
 
    @Test
@@ -42,7 +39,7 @@ class DirectionTest {
       Direction anotherNorth = new DirectionImpl(90, null);
 
       // Then
-      Assert.assertThat(north.hashCode(), is(not(anotherNorth.hashCode())));
+      MatcherAssert.assertThat(north.hashCode(), is(not(anotherNorth.hashCode())));
    }
 
    @Test
@@ -56,7 +53,7 @@ class DirectionTest {
       Direction anotherNotExactlyNorth = new DirectionImpl(89, "N");
 
       // Then
-      Assert.assertThat(north, is(anotherNorth));
+      MatcherAssert.assertThat(north, is(anotherNorth));
       Assert.assertTrue(north.equals(anotherNorth));
       Assert.assertTrue(north.equals(north));
       Assert.assertFalse(north.equals(null));
@@ -75,8 +72,8 @@ class DirectionTest {
       Direction anotherNorth = new DirectionImpl(90, null);
 
       // Then
-      Assert.assertThat(anotherNorth, is(not(north)));
-      Assert.assertThat(north, is(not(anotherNorth)));
+      MatcherAssert.assertThat(anotherNorth, is(not(north)));
+      MatcherAssert.assertThat(north, is(not(anotherNorth)));
    }
 
    @Test
@@ -89,8 +86,8 @@ class DirectionTest {
       Direction anotherNorth = new DirectionImpl(90, null);
 
       // Then
-      Assert.assertThat(anotherNorth, is(north));
-      Assert.assertThat(north, is(anotherNorth));
+      MatcherAssert.assertThat(anotherNorth, is(north));
+      MatcherAssert.assertThat(north, is(anotherNorth));
    }
 
    @Test
@@ -102,6 +99,6 @@ class DirectionTest {
       Direction north = Directions.N;
 
       // Then
-      Assert.assertThat(north.toString(), is(expectedToString));
+      MatcherAssert.assertThat(north.toString(), is(expectedToString));
    }
 }

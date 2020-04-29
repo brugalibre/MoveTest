@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
@@ -42,7 +42,7 @@ public class DefaultDetectionAwareTest {
       Optional<Avoidable> actualNearestGridElem = defaultDetectionAware.getNearestEvasionAvoidable(position, obstacles);
 
       // Then
-      Assert.assertThat(actualNearestGridElem.get(), is(g2));
+      MatcherAssert.assertThat(actualNearestGridElem.get(), is(g2));
    }
 
 }

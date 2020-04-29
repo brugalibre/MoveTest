@@ -7,7 +7,7 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -199,7 +199,7 @@ class MoveableControllerTest {
 
       // Then
       Position effectEndPos = moveable.getPosition();
-      Assert.assertThat(effectEndPos, is(Positions.of(expectedEndPos)));
+      MatcherAssert.assertThat(effectEndPos, is(Positions.of(expectedEndPos)));
    }
 
    @Test
@@ -253,7 +253,7 @@ class MoveableControllerTest {
 
       // Then
       Position effectEndPos = Positions.of(moveable.getPosition());
-      Assert.assertThat(effectEndPos, is(Positions.of(expectedEndPos)));
+      MatcherAssert.assertThat(effectEndPos, is(Positions.of(expectedEndPos)));
    }
 
    @Test
@@ -275,8 +275,8 @@ class MoveableControllerTest {
 
       // Then
       Position effectEndPos = tcb.moveable.getPosition();
-      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
       assertThat(tcb.moveable.getPositionHistory().contains(tcb.obstacle.getPosition()), is(not(true)));
       assertThat(tcb.moveable.getPositionHistory().isEmpty(), is(not(true)));
    }
@@ -305,8 +305,8 @@ class MoveableControllerTest {
       assertThat(trackingList.isEmpty(), is(not(true)));
       assertThat(trackingList.contains(tcb.obstacle.getPosition()), is(not(true)));
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
    }
 
    @Test
@@ -336,8 +336,8 @@ class MoveableControllerTest {
       }
       Position effectEndPos = tcb.moveable.getPosition();
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
    }
 
    @Test
@@ -436,8 +436,8 @@ class MoveableControllerTest {
          assertThat(trackingList.contains(obstacle.getPosition()), is(not(true)));
       }
       assertThat(tcb.stateMachine.evasionState, is(EvasionStates.DEFAULT));
-      org.junit.Assert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
-      org.junit.Assert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getY(), 0), is(round(tcb.endPos.getY(), 0)));
+      MatcherAssert.assertThat(round(effectEndPos.getX(), 0), is(round(tcb.endPos.getX(), 0)));
    }
 
    private static final class TestCaseBuilder {

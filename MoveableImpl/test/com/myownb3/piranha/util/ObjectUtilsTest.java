@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -23,7 +23,7 @@ class ObjectUtilsTest {
       Date actualValue = ObjectUtils.firstNonNull(date1, date2);
 
       // Then
-      Assert.assertThat(actualValue, CoreMatchers.is(expectedValue));
+      MatcherAssert.assertThat(actualValue, CoreMatchers.is(expectedValue));
    }
 
    @Test
@@ -38,7 +38,7 @@ class ObjectUtilsTest {
       Date actualValue = ObjectUtils.firstNonNull(date1, date2);
 
       // Then
-      Assert.assertThat(actualValue, CoreMatchers.is(expectedValue));
+      MatcherAssert.assertThat(actualValue, CoreMatchers.is(expectedValue));
    }
 
    @Test

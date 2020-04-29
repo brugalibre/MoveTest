@@ -4,6 +4,7 @@
 package com.myownb3.piranha.test;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -24,6 +25,6 @@ public class Assert {
       double roundedX = MathUtil.round(actualPos.getX(), decimalPlaces);
       double roundedY = MathUtil.round(actualPos.getY(), decimalPlaces);
       Position value2BeTested = Positions.of(actualPos.getDirection(), roundedX, roundedY);
-      org.junit.Assert.assertThat(value2BeTested, matcher);
+      MatcherAssert.assertThat(value2BeTested, matcher);
    }
 }

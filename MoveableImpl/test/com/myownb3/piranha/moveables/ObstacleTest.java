@@ -5,7 +5,7 @@ package com.myownb3.piranha.moveables;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import org.junit.Assert;
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
@@ -40,7 +40,7 @@ class ObstacleTest {
       boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
       // Then
-      Assert.assertThat(hasObjectRecognized, is(isRecognized));
+      MatcherAssert.assertThat(hasObjectRecognized, is(isRecognized));
    }
 
    @Test
@@ -60,7 +60,7 @@ class ObstacleTest {
       boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
       // Then
-      Assert.assertThat(hasObjectRecognized, is(isRecognized));
+      MatcherAssert.assertThat(hasObjectRecognized, is(isRecognized));
    }
 
    @Test
@@ -82,7 +82,7 @@ class ObstacleTest {
       boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
       // Then
-      Assert.assertThat(hasObjectRecognized, is(notRecognized));
+      MatcherAssert.assertThat(hasObjectRecognized, is(notRecognized));
    }
 
    @Test
@@ -102,6 +102,6 @@ class ObstacleTest {
       boolean hasObjectRecognized = detector.hasObjectDetected(obstacle);
 
       // Then
-      Assert.assertThat(hasObjectRecognized, is(notRecognized));
+      MatcherAssert.assertThat(hasObjectRecognized, is(notRecognized));
    }
 }
