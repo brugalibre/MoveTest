@@ -2,17 +2,43 @@ package com.myownb3.piranha.detector;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 class DetectorImplTest {
+   @Test
+   void testGetHasGridElementDetections() {
+
+      // Given
+      Position position = Positions.of(0, 0);
+      DefaultDetectionAware detectionAware = spy(new DefaultDetectionAware());
+      IDetector detector = DetectorBuilder.builder()
+            .withDetectorReach(10)
+            .withDetectorAngle(40)
+            .withEvasionDistance(5)
+            .withEvasionAngle(30)
+            .withDetectionAware(detectionAware)
+            .withDefaultEvasionAngleEvaluator(4)
+            .build();
+
+      // When
+      detector.hasGridElementDetected(position);
+
+      // Then
+      verify(detectionAware).getNearestDetectedGridElement(eq(position));
+   }
 
    @Test
    void testGetEvasionDistance() {

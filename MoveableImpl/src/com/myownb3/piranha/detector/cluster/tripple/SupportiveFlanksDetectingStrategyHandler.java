@@ -20,10 +20,10 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
  *
  */
 public class SupportiveFlanksDetectingStrategyHandler implements DetectingStrategyHandler {
-   private IDetectorInfo centerDetector;
-   private IDetectorInfo rightSideDetector;
-   private IDetectorInfo leftSideDetector;
-   private Optional<IDetector> evasionDetectedDetectorOpt;
+   protected IDetectorInfo centerDetector;
+   protected IDetectorInfo rightSideDetector;
+   protected IDetectorInfo leftSideDetector;
+   protected Optional<IDetector> evasionDetectedDetectorOpt;
 
    public SupportiveFlanksDetectingStrategyHandler() {
       init();

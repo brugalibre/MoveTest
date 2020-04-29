@@ -24,6 +24,7 @@ public abstract class AbstractGridElement implements GridElement {
    protected Position position;
    protected Grid grid;
    protected Shape shape;
+   private String name;
 
    /**
     * Creates a new {@link AbstractGridElement} with the given {@link Grid} and start
@@ -106,5 +107,13 @@ public abstract class AbstractGridElement implements GridElement {
    @Override
    public String toString() {
       return "Position: " + position + "\n" + grid;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getName() {
+      return name;
    }
 }

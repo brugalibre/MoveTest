@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
 
-class Pos2DistanceComparator implements Comparator<Position> {
+public class Pos2DistanceComparator implements Comparator<Position> {
 
    private Position posToComapreTo;
 

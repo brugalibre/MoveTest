@@ -1,16 +1,20 @@
 package com.myownb3.piranha.detector;
 
+import com.myownb3.piranha.grid.gridelement.position.Position;
+
 public class DetectionResult {
    boolean isEvasion;
    boolean isDetected;
+   Position detectedPosition;
 
-   public DetectionResult(boolean isEvasion, boolean isDetected) {
+   public DetectionResult(boolean isEvasion, boolean isDetected, Position detectedPosition) {
       this.isDetected = isDetected;
       this.isEvasion = isEvasion;
+      this.detectedPosition = detectedPosition;
    }
 
    public DetectionResult() {
-      this(false, false);
+      this(false, false, null);
    }
 
    public boolean getIsDetected() {
@@ -20,4 +24,9 @@ public class DetectionResult {
    public boolean getIsEvasion() {
       return isEvasion;
    }
+
+   public Position getDetectedPosition() {
+      return this.detectedPosition;
+   }
+
 }

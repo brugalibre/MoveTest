@@ -69,6 +69,20 @@ class SimpleGridElementTest {
       assertThat(positionOnPathFor, is(gridElemPos));
    }
 
+   @Test
+   void testName() {
+      // Given
+      AbstractGridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), Positions.of(4, 4));
+      String expectedName = "name";
+      gridElement.setName(expectedName);
+
+      // When
+      String actualName = gridElement.getName();
+
+      // Then
+      assertThat(actualName, is(expectedName));
+   }
+
    /**
     * Test method for
     * {@link com.myownb3.piranha.grid.gridelement.AbstractGridElement#toString()}.

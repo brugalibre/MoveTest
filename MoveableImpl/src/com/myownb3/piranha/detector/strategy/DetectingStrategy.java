@@ -3,6 +3,7 @@ package com.myownb3.piranha.detector.strategy;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl;
+import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.moveables.Moveable;
 
 /**
@@ -22,4 +23,9 @@ public enum DetectingStrategy {
     * supportive e.g. they make sure a {@link Moveable} does not collide when making a turn
     */
    SUPPORTIVE_FLANKS,
+   /**
+    * This strategy behaves the same than SUPPORTIVE_FLANKS. Additionally when a turning left or right in order to avoid an evasion
+    * with this strategy we make sure not to face another {@link GridElement} after turning
+    */
+   SUPPORTIVE_FLANKS_WITH_DETECTION,
 }

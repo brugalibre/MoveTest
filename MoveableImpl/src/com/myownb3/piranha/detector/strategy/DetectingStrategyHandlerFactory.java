@@ -1,6 +1,7 @@
 package com.myownb3.piranha.detector.strategy;
 
 import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
+import com.myownb3.piranha.detector.cluster.tripple.StaticSupportiveFlanksDetectingStrategyHandler;
 import com.myownb3.piranha.detector.cluster.tripple.SupportiveFlanksDetectingStrategyHandler;
 
 /**
@@ -28,6 +29,8 @@ public class DetectingStrategyHandlerFactory {
       switch (detectingStrategy) {
          case SUPPORTIVE_FLANKS:
             return (T) new SupportiveFlanksDetectingStrategyHandler();
+         case SUPPORTIVE_FLANKS_WITH_DETECTION:
+            return (T) new StaticSupportiveFlanksDetectingStrategyHandler();
          default:
             throw new IllegalArgumentException("Unknown Strategy '" + detectingStrategy + "'");
       }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
+import com.myownb3.piranha.detector.cluster.tripple.StaticSupportiveFlanksDetectingStrategyHandler;
 import com.myownb3.piranha.detector.cluster.tripple.SupportiveFlanksDetectingStrategyHandler;
 
 class DetectingStrategyHandlerFactoryTest {
@@ -34,5 +35,16 @@ class DetectingStrategyHandlerFactoryTest {
       DetectingStrategyHandler detectingStrategyHandler = DetectingStrategyHandlerFactory.getHandler(detectingStrategy);
       // Then
       assertThat(detectingStrategyHandler, instanceOf(SupportiveFlanksDetectingStrategyHandler.class));
+   }
+
+   @Test
+   void testGetHandler_SupportiveFlanks_WithDetection() {
+      // Given
+      DetectingStrategy detectingStrategy = DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION;
+
+      // When
+      DetectingStrategyHandler detectingStrategyHandler = DetectingStrategyHandlerFactory.getHandler(detectingStrategy);
+      // Then
+      assertThat(detectingStrategyHandler, instanceOf(StaticSupportiveFlanksDetectingStrategyHandler.class));
    }
 }

@@ -41,9 +41,22 @@ public class DefaultDetectionAware implements DetectionAware {
    }
 
    @Override
+   public Optional<GridElement> getNearestDetectedGridElement(Position position) {
+      List<GridElement> avoidables = getDetectedGridElemnt();
+      return getNearestGridElement(position, avoidables);
+   }
+
+   @Override
    public Optional<Avoidable> getNearestEvasionAvoidable(Position position) {
       List<Avoidable> avoidables = getEvasionAvoidables();
-      return getNearestEvasionAvoidable(position, avoidables);
+      return getNearestGridElement(position, avoidables);
+   }
+
+   private List<GridElement> getDetectedGridElemnt() {
+      return transientDetectionMap.keySet()
+            .stream()
+            .filter(gridElement -> transientDetectionMap.get(gridElement))
+            .collect(Collectors.toList());
    }
 
    private List<Avoidable> getEvasionAvoidables() {
@@ -56,25 +69,25 @@ public class DefaultDetectionAware implements DetectionAware {
    }
 
    @Visible4Testing
-   Optional<Avoidable> getNearestEvasionAvoidable(Position position, List<Avoidable> avoidables) {
-      Map<Avoidable, Double> avoidable2DistanceMap = fillupMap(position, avoidables);
+   <T extends GridElement> Optional<T> getNearestGridElement(Position position, List<T> gridElements) {
+      Map<T, Double> avoidable2DistanceMap = fillupMap(position, gridElements);
       return avoidable2DistanceMap.keySet()
             .stream()
             .sorted(sort4Distance(avoidable2DistanceMap))
             .findFirst();
    }
 
-   private Map<Avoidable, Double> fillupMap(Position position, List<Avoidable> avoidables) {
-      Map<Avoidable, Double> avoidable2DistanceMap = new HashMap<>();
-      for (Avoidable avoidable : avoidables) {
-         Position gridElemPos = avoidable.getPosition();
+   private <T extends GridElement> Map<T, Double> fillupMap(Position position, List<T> gridElements) {
+      Map<T, Double> avoidable2DistanceMap = new HashMap<>();
+      for (T gridElement : gridElements) {
+         Position gridElemPos = gridElement.getPosition();
          double distance = gridElemPos.calcDistanceTo(position);
-         avoidable2DistanceMap.put(avoidable, Double.valueOf(distance));
+         avoidable2DistanceMap.put(gridElement, Double.valueOf(distance));
       }
       return avoidable2DistanceMap;
    }
 
-   private static Comparator<? super Avoidable> sort4Distance(Map<Avoidable, Double> avoidable2DistanceMap) {
+   private static <T extends GridElement> Comparator<? super T> sort4Distance(Map<T, Double> avoidable2DistanceMap) {
       return (g1, g2) -> {
          Double distanceGridElem1ToPoint = avoidable2DistanceMap.get(g1);
          Double distanceGridElem2ToPoint = avoidable2DistanceMap.get(g2);

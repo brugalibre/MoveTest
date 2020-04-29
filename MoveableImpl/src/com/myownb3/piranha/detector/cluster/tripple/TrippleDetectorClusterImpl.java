@@ -210,7 +210,7 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
                      .withDetectionAware(new DefaultDetectionAware())
                      .withDefaultEvasionAngleEvaluator(sideDetectorConfig.getEvasionAngleInc())
                      .build(), leftSideDetectorOffset)
-               .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS)
+               .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                .withAutoDetectionStrategyHandler()
                .build();
       }

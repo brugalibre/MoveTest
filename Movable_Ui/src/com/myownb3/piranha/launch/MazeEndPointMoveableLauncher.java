@@ -25,6 +25,7 @@ import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerIm
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
@@ -92,7 +93,7 @@ public class MazeEndPointMoveableLauncher {
 
    private TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig) {
 
-      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(30, 10);
+      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(50, 15);
       return TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
    }
 
@@ -161,6 +162,8 @@ public class MazeEndPointMoveableLauncher {
    private static List<GridElement> buildGridElements(DefaultGrid grid) {
       Position startPos = Positions.of(215 + padding, 205 + padding);
       Obstacle simpleGridElem = new ObstacleImpl(grid, startPos, buildCircle(4, startPos));
+
+      ((AbstractGridElement) simpleGridElem).setName("Circle-GridElement 1");
       return Arrays.asList(simpleGridElem);
    }
 
@@ -171,10 +174,12 @@ public class MazeEndPointMoveableLauncher {
       Position center1 = Positions.of(280 + padding, 280 + padding);
       center1.rotate(-45);
       GridElement rectangleGridElem = buildRectangleObstacle(grid, height, width, center1);
+      ((AbstractGridElement) rectangleGridElem).setName("Rectangle 6");
 
       Position center2 = Positions.of(286 + padding - (width / 2), 179 + padding - (height / 2));
       center2.rotate(-135);
       GridElement rectangleGridElem2 = buildRectangleObstacle(grid, height, width * 2, center2);
+      ((AbstractGridElement) rectangleGridElem2).setName("Rectangle 5");
       return Arrays.asList(rectangleGridElem, rectangleGridElem2);
    }
 
@@ -184,18 +189,22 @@ public class MazeEndPointMoveableLauncher {
       Position center1 = Positions.of(295 + padding, 370 + padding);
       center1.rotate(-45);
       GridElement rectangleGridElem1 = buildRectangleObstacle(grid, height, 70, center1);
+      ((AbstractGridElement) rectangleGridElem1).setName("Rectangle 1");
 
       Position center2 = Positions.of(267 + padding - (width / 2), 342 + padding - (height / 2));
       center2.rotate(-135);
       GridElement rectangleGridElem2 = buildRectangleObstacle(grid, height, 80 * 2, center2);
+      ((AbstractGridElement) rectangleGridElem2).setName("Rectangle 2");
 
       Position center3 = Positions.of(200 + padding - (width / 2), 197 + padding - (height / 2));
       center3.rotate(-135);
       GridElement rectangleGridElem3 = buildRectangleObstacle(grid, height, 70 * 2, center3);
+      ((AbstractGridElement) rectangleGridElem3).setName("Rectangle 3");
 
       Position center4 = Positions.of(180 + padding, 260 + padding);
       center4.rotate(-45);
       GridElement rectangleGridElem4 = buildRectangleObstacle(grid, height, 65, center4);
+      ((AbstractGridElement) rectangleGridElem4).setName("Rectangle 4");
       return Arrays.asList(rectangleGridElem1, rectangleGridElem2, rectangleGridElem3, rectangleGridElem4);
    }
 

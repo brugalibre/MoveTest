@@ -62,4 +62,13 @@ public interface DetectionAware {
     * @return the detected {@link Avoidable} which is placed the neares to the given {@link Position}
     */
    Optional<Avoidable> getNearestEvasionAvoidable(Position position);
+
+   /**
+    * Returns the detected {@link GridElement} which is placed the nearest to the given {@link Position}
+    * 
+    * @param position
+    *        the given {@link Position}
+    * @return the detected {@link GridElement} which is placed the nearest to the given {@link Position}
+    */
+   Optional<GridElement> getNearestDetectedGridElement(Position position);
 }
