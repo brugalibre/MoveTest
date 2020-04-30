@@ -25,6 +25,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    private int evasionAngle;
    private double evasionAngleInc;
    private double returningAngleMargin;
+   private int postEvasionReturnAngle;
 
    /**
     * Creates a new {@link EvasionStateMachineConfig} with the given values.
@@ -44,14 +45,15 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
          int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
       this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, 2 * detectorReach / 3,
-            detectorAngle, evasionAngle, evasionAngleInc);
+            detectorAngle, evasionAngle, evasionAngleInc, 4);
    }
 
    /*package */ EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
          double angleMargin, int detectorReach, int evasionDistance, int passingDistance, int detectorAngle, int evasionAngle,
-         double evasionAngleInc) {
+         double evasionAngleInc, int postEvasionReturnAngle) {
       this.orientationAngle = orientationAngle;
       this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
+      this.postEvasionReturnAngle = postEvasionReturnAngle;
       this.returningAngleIncMultiplier = angleIncMultiplier;
       this.returningMinDistance = minDistance;
       this.returningAngleMargin = angleMargin;
@@ -72,6 +74,11 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    @Override
    public int getPostEvasionAngleAdjustStepWidth() {
       return this.postEvasionAngleAdjustStepWidth;
+   }
+
+   @Override
+   public int getPostEvasionReturnAngle() {
+      return postEvasionReturnAngle;
    }
 
    @Override

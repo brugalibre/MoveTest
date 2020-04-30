@@ -162,6 +162,7 @@ public class RandomMoveableLauncher implements Stoppable {
             .withEvasionAngle(70)
             .withPassingDistance(2 * detectorReach / 3)
             .withEvasionAngleInc(5)
+            .withPostEvasionReturnAngle(4)
             .build();
    }
 

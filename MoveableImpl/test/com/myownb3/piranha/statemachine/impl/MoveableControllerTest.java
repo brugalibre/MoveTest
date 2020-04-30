@@ -506,6 +506,7 @@ class MoveableControllerTest {
                .withEvasionAngleInc(evasionAngleInc)
                .withOrientationAngle(10)
                .withPassingDistance(2 * detectorReach / 3)
+               .withPostEvasionReturnAngle(4)
                .build();
          return this;
       }

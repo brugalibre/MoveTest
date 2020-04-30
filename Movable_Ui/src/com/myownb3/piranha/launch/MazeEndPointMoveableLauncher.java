@@ -240,6 +240,7 @@ public class MazeEndPointMoveableLauncher {
             .withDetectorAngle(60)
             .withEvasionAngle(45)
             .withEvasionAngleInc(1)
+            .withPostEvasionReturnAngle(4)
             .build();
    }
 }

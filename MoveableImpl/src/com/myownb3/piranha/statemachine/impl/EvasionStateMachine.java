@@ -164,7 +164,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
    private PostEvasionStateHandler getPostEvasionStateHandler() {
       if (nonNull(endPosition)) {
-         return new PostEvasionStateHandlerWithEndPos(config.getPostEvasionAngleAdjustStepWidth());
+         return new PostEvasionStateHandlerWithEndPos(config.getPostEvasionAngleAdjustStepWidth(), config.getPostEvasionReturnAngle());
       }
       return new DefaultPostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth());
    }

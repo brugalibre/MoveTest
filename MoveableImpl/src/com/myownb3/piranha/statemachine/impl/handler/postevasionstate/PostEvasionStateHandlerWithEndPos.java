@@ -20,15 +20,15 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 public class PostEvasionStateHandlerWithEndPos extends
       CommonEvasionStateHandlerImpl<PostEvasionEventStateInput, CommonEvasionStateResult> implements PostEvasionStateHandler {
 
-   @Visible4Testing
-   static final double MIN_ANGLE_TO_TURN = 4.0;
+   private double mingAngle2Turn;
    @Visible4Testing
    PostEvasionStates state;
    private double stepWidth;
    private int signum;
 
-   public PostEvasionStateHandlerWithEndPos(double stepWidth) {
+   public PostEvasionStateHandlerWithEndPos(double stepWidth, double mingAngle2Turn) {
       this.stepWidth = stepWidth;
+      this.mingAngle2Turn = mingAngle2Turn;
       init();
    }
 
@@ -99,7 +99,7 @@ public class PostEvasionStateHandlerWithEndPos extends
    private double getAngle2Turn(Position moveablePos, Float64Vector endPosLine) {
       double effectAngle2Turn = calcAngle(moveablePos, endPosLine);
       if (effectAngle2Turn > stepWidth) {
-         return MIN_ANGLE_TO_TURN;
+         return mingAngle2Turn;
       }
       return effectAngle2Turn;
    }

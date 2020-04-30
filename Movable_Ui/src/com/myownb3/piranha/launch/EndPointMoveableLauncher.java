@@ -246,6 +246,7 @@ public class EndPointMoveableLauncher {
             .withDetectorAngle(70)
             .withEvasionAngle(50)
             .withEvasionAngleInc(2)
+            .withPostEvasionReturnAngle(4)
             .build();
    }
 

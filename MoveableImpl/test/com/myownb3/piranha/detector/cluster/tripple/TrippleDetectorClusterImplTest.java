@@ -233,6 +233,7 @@ public class TrippleDetectorClusterImplTest {
             .withDetectorAngle(detectorAngle)
             .withEvasionAngle(detectorAngle - 20)
             .withEvasionAngleInc(2)
+            .withPostEvasionReturnAngle(4)
             .build();
    }
 

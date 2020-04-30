@@ -25,6 +25,7 @@ public class DefaultConfig {
             .withDetectorAngle(180)
             .withEvasionAngle(170)
             .withEvasionAngleInc(2)
+            .withPostEvasionReturnAngle(4)
             .build();
    }
 

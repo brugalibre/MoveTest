@@ -84,12 +84,16 @@ class PostEvasionStateHandlerWithEndPosTest {
    public void testHandlePostEvasion_AngleCorrectionNecessary() {
 
       // Given
+      double mingAngle2Turn = 4.0;
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withStepWidth(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
-            .withHandlerAngle(15).withSignum(-1).build()
+            .withHandlerAngle(15)
+            .withSignum(-1)
+            .withMinAngle2Turn(mingAngle2Turn)
+            .build()
             .withEventStateInput();
 
       // When
@@ -99,7 +103,7 @@ class PostEvasionStateHandlerWithEndPosTest {
       assertThat(commonEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
       assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
       verify(tcb.moveable).makeTurnWithoutPostConditions(
-            Mockito.eq(tcb.handler.testSignum * PostEvasionStateHandlerWithEndPos.MIN_ANGLE_TO_TURN));
+            Mockito.eq(tcb.handler.testSignum * mingAngle2Turn));
       verify(tcb.helper, times(1)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
       verify(tcb.helper, times(1)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
    }
@@ -111,10 +115,14 @@ class PostEvasionStateHandlerWithEndPosTest {
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withHelper(spy(new TestDetectableMoveableHelper()))
             .withStepWidth(10)
+            .withStepWidth(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
-            .withHandlerAngle(10).withSignum(-1).build()
+            .withHandlerAngle(10)
+            .withSignum(-1)
+            .withMinAngle2Turn(4)
+            .build()
             .withEventStateInput();
 
       // When
@@ -176,9 +184,7 @@ class PostEvasionStateHandlerWithEndPosTest {
       }
 
       private PostEvasionStateHandlerBuilder withEvasionStateHandler() {
-         PostEvasionStateHandlerBuilder builder = new PostEvasionStateHandlerBuilder();
-         builder.withPostEvasionStateHandler(endPos, stepWidth);
-         return builder;
+         return new PostEvasionStateHandlerBuilder();
       }
 
       private Moveable spyMoveable() {
@@ -190,23 +196,29 @@ class PostEvasionStateHandlerWithEndPosTest {
       private class PostEvasionStateHandlerBuilder {
 
          private TestPostEvasionStateHandler handler;
-
-         private PostEvasionStateHandlerBuilder withPostEvasionStateHandler(Position endPos, double stepWidth) {
-            handler = new TestPostEvasionStateHandler(endPos, stepWidth);
-            return this;
-         }
+         private double mingAngle2Turn;
+         private int testSignum;
+         private double angle;
 
          private PostEvasionStateHandlerBuilder withHandlerAngle(double angle) {
-            handler.angle = angle;
+            this.angle = angle;
             return this;
          }
 
          private PostEvasionStateHandlerBuilder withSignum(int signum) {
-            handler.testSignum = signum;
+            this.testSignum = signum;
+            return this;
+         }
+
+         private PostEvasionStateHandlerBuilder withMinAngle2Turn(double mingAngle2Turn) {
+            this.mingAngle2Turn = mingAngle2Turn;
             return this;
          }
 
          private TestCaseBuilder build() {
+            handler = new TestPostEvasionStateHandler(endPos, stepWidth, mingAngle2Turn);
+            handler.angle = angle;
+            handler.testSignum = testSignum;
             TestCaseBuilder.this.handler = this.handler;
             return TestCaseBuilder.this;
          }
@@ -233,8 +245,8 @@ class PostEvasionStateHandlerWithEndPosTest {
       private int testSignum;
       private double angle;
 
-      public TestPostEvasionStateHandler(Position endPos, double stepWidth) {
-         super(stepWidth);
+      public TestPostEvasionStateHandler(Position endPos, double stepWidth, double mingAngle2Turn) {
+         super(stepWidth, mingAngle2Turn);
       }
 
       @Override
