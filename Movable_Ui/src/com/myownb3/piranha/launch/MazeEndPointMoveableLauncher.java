@@ -7,45 +7,29 @@ import static com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.getPostMo
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.detector.Detector;
+import com.myownb3.piranha.application.maze.MazeRunner;
+import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
-import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
-import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
-import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Obstacle;
-import com.myownb3.piranha.grid.gridelement.ObstacleImpl;
-import com.myownb3.piranha.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.grid.gridelement.shape.rectangle.Orientation;
-import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
-import com.myownb3.piranha.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.grid.maze.MazeImpl.MazeBuilder;
+import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableController;
-import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder;
-import com.myownb3.piranha.moveables.MovingStrategie;
-import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -67,34 +51,87 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private void launch() throws InterruptedException {
-      DefaultGrid grid = buildGrid(new DefaultCollisionDetectionHandlerImpl());
-      MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding,
-            10);
 
+      int wallThickness = 10;
+      int coridorWidth = 80;
+      int segmentLength = 80;
+      int circleRadius = 4;
+      Position startPos = Positions.of(100 + padding, 100 + padding);
+      Position center = Positions.of(startPos);
+      startPos.rotate(-45);
+      List<MainWindow> mainWindows = new ArrayList<>();
       List<MoveableController> moveableControllerList = new ArrayList<>();
       List<Renderer> renderers = new ArrayList<>();
-      EndPosition endPosition = EndPositions.of(400 + padding, 400 + padding);
-      List<GridElement> gridElements = getAllGridElements(grid, endPosition);
-      EvasionStateMachineConfig config = buildEvasionStateMachineConfig(60, 45);
-      Position startPos = Positions.of(165 + padding, 155 + padding);
-      startPos.rotate(-45);
+      MainWindowHolder mainWindowHolder = new MainWindowHolder();
+      MazeRunner mazeRunner = MazeRunnerBuilder.builder()
+            .withMovingIncrement(3)
+            .withMaze(MazeBuilder.builder()
+                  .withEndPositionPrecision(5)
+                  .withGrid(MirrorGridBuilder.builder()
+                        .withMaxX(800)
+                        .withMaxY(800)
+                        .withMinX(padding)
+                        .withMinY(padding)
+                        .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+                        .build())
+                  .withStartPos(center)
+                  .withCorridor(wallThickness)
+                  .withCorridorWidth(coridorWidth)
+                  .withSegmentLenth(segmentLength)
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .withObstacle(CircleBuilder.builder()
+                        .withRadius(circleRadius)
+                        .withAmountOfPoints(circleRadius)
+                        .withCenter(Positions.of(0, 0))
+                        .build(), 0, 0)
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorLeftAngleBend()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorLeftAngleBend()
+                  .appendCorridorLeftAngleBend()
+                  .appendCorridorRightAngleBend()
+                  .appendCorridorSegment()
+                  .appendCorridorRightAngleBend()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .appendCorridorRightAngleBend()
+                  .appendCorridorSegment()
+                  .appendCorridorSegment()
+                  .build()
+                  .build())
 
-      TrippleDetectorCluster detectorCluster = buildDefaultDetectorCluster(config);
-      MoveableController controller = buildMoveableController(grid, startPos, singletonList(endPosition),
-            getPostMoveFowardHandler(mainWindow, moveableControllerList, emptyList(), renderers), config, detectorCluster);
-      moveableControllerList.add(controller);
-      renderers.addAll(getRenderers(grid, 4, 4, gridElements, controller.getMoveable(), detectorCluster, config));
+            // With this detector settings, everything runs without End-Positions
+            .withEvasionStateMachineConfig(90, 60)
+            .withTrippleDetectorCluster(55, 35)
+
+            .withStartPos(startPos)
+            .withMovingIncrement(2)
+            .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerList, emptyList(), renderers))
+            .build();
+
+      Grid grid = mazeRunner.getGrid();
+      grid.prepare();
+      MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, 10);
+      mainWindowHolder.setMainWindow(mainWindow);
+      mainWindows.add(mainWindow);
+
+      List<GridElement> gridElements = mazeRunner.getAllGridElements();
+
+      MoveableController moveableController = mazeRunner.getMoveableController();
+      moveableControllerList.add(moveableController);
+      renderers.addAll(getRenderers(grid, circleRadius, circleRadius, gridElements, moveableController.getMoveable(), mazeRunner.getDetectorCluster(),
+            mazeRunner.getConfig()));
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow);
-      List<Position> positions = prepareAndMoveMoveable(controller, mainWindow);
+      List<Position> positions = mazeRunner.run();
       preparePositionListPainter(renderers, positions);
-   }
-
-   private TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig) {
-
-      EvasionStateMachineConfig sideDetectorConfig = buildEvasionStateMachineConfig(50, 15);
-      return TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
    }
 
    private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
@@ -104,122 +141,20 @@ public class MazeEndPointMoveableLauncher {
             .forEach(renderer -> renderer.setPositions(positions));
    }
 
-   private static MoveableController buildMoveableController(Grid grid, Position startPos,
-         List<EndPosition> endPosList, PostMoveForwardHandler postMoveFowardHandler, EvasionStateMachineConfig config, Detector detectorCluster) {
-      int circleRadius = 4;
-      return MoveableControllerBuilder.builder()
-            .withStrategie(MovingStrategie.FORWARD)
-            .withEndPositions(endPosList)
-            .withPostMoveForwardHandler(postMoveFowardHandler)
-            .withEndPointMoveable()
-            .withGrid(grid)
-            .withStartPosition(startPos)
-            .withHandler(new EvasionStateMachine(detectorCluster, config))
-            .withShape(buildCircle(circleRadius, startPos))
-            .withMovingIncrement(1)
-            .buildAndReturnParentBuilder()
-            .build();//
-   }
-
-   private static DefaultGrid buildGrid(CollisionDetectionHandler collisionDetectionHandler) {
-      return MirrorGridBuilder.builder()
-            .withMaxX(510)
-            .withMaxY(510)
-            .withMinX(padding)
-            .withMinY(padding)
-            .withCollisionDetectionHandler(collisionDetectionHandler)
-            .build();
-   }
-
-   private List<Position> prepareAndMoveMoveable(MoveableController moveableController, MainWindow mainWindow) throws InterruptedException {
-      moveableController.leadMoveable();
-      return moveableController.getMoveable().getPositionHistory();
-   }
-
    private static void showGuiAndStartPainter(MainWindow mainWindow) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
       new Thread(() -> {
          while (true) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             try {
-               Thread.sleep(2);
+               Thread.sleep(1);
             } catch (InterruptedException e) {
             }
          }
       }).start();
    }
 
-   private static List<GridElement> getAllGridElements(DefaultGrid grid, Position endPos) {
-
-      List<GridElement> allGridElement = new ArrayList<>();
-      allGridElement.addAll(buildWall1(grid));
-      allGridElement.addAll(buildWall2(grid));
-      allGridElement.addAll(buildGridElements(grid));
-
-      return allGridElement;
-   }
-
-   private static List<GridElement> buildGridElements(DefaultGrid grid) {
-      Position startPos = Positions.of(215 + padding, 205 + padding);
-      Obstacle simpleGridElem = new ObstacleImpl(grid, startPos, buildCircle(4, startPos));
-
-      ((AbstractGridElement) simpleGridElem).setName("Circle-GridElement 1");
-      return Arrays.asList(simpleGridElem);
-   }
-
-   private static List<GridElement> buildWall2(DefaultGrid grid) {
-      int height = 10;
-      int width = 100;
-
-      Position center1 = Positions.of(280 + padding, 280 + padding);
-      center1.rotate(-45);
-      GridElement rectangleGridElem = buildRectangleObstacle(grid, height, width, center1);
-      ((AbstractGridElement) rectangleGridElem).setName("Rectangle 6");
-
-      Position center2 = Positions.of(286 + padding - (width / 2), 179 + padding - (height / 2));
-      center2.rotate(-135);
-      GridElement rectangleGridElem2 = buildRectangleObstacle(grid, height, width * 2, center2);
-      ((AbstractGridElement) rectangleGridElem2).setName("Rectangle 5");
-      return Arrays.asList(rectangleGridElem, rectangleGridElem2);
-   }
-
-   private static List<GridElement> buildWall1(DefaultGrid grid) {
-      int height = 10;
-      int width = 100;
-      Position center1 = Positions.of(295 + padding, 370 + padding);
-      center1.rotate(-45);
-      GridElement rectangleGridElem1 = buildRectangleObstacle(grid, height, 70, center1);
-      ((AbstractGridElement) rectangleGridElem1).setName("Rectangle 1");
-
-      Position center2 = Positions.of(267 + padding - (width / 2), 342 + padding - (height / 2));
-      center2.rotate(-135);
-      GridElement rectangleGridElem2 = buildRectangleObstacle(grid, height, 80 * 2, center2);
-      ((AbstractGridElement) rectangleGridElem2).setName("Rectangle 2");
-
-      Position center3 = Positions.of(200 + padding - (width / 2), 197 + padding - (height / 2));
-      center3.rotate(-135);
-      GridElement rectangleGridElem3 = buildRectangleObstacle(grid, height, 70 * 2, center3);
-      ((AbstractGridElement) rectangleGridElem3).setName("Rectangle 3");
-
-      Position center4 = Positions.of(180 + padding, 260 + padding);
-      center4.rotate(-45);
-      GridElement rectangleGridElem4 = buildRectangleObstacle(grid, height, 65, center4);
-      ((AbstractGridElement) rectangleGridElem4).setName("Rectangle 4");
-      return Arrays.asList(rectangleGridElem1, rectangleGridElem2, rectangleGridElem3, rectangleGridElem4);
-   }
-
-   private static GridElement buildRectangleObstacle(DefaultGrid grid, int height, int width, Position center) {
-      Rectangle rectangle = new RectangleBuilder()
-            .withCenter(center)
-            .withHeight(height)
-            .withWidth(width)
-            .withOrientation(Orientation.HORIZONTAL)
-            .build();
-      GridElement rectangleGridElem = new ObstacleImpl(grid, center, rectangle);
-      return rectangleGridElem;
-   }
-
-   private static List<Renderer> getRenderers(DefaultGrid grid, int height, int width,
+   private static List<Renderer> getRenderers(Grid grid, int height, int width,
          List<GridElement> gridElements, Moveable moveable, TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config) {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, width))
@@ -228,28 +163,5 @@ public class MazeEndPointMoveableLauncher {
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, width, moveablePainterConfig));
       return renderers;
-   }
-
-   private static Shape buildCircle(int width, Position pos) {
-      return new CircleBuilder(width)
-            .withAmountOfPoints(30)
-            .withCenter(pos)
-            .build();//
-   }
-
-   private static EvasionStateMachineConfig buildEvasionStateMachineConfig(int detectorReach, int evasionDistance) {
-      return EvasionStateMachineConfigBuilder.builder()
-            .withReturningAngleIncMultiplier(1)
-            .withOrientationAngle(1)
-            .withReturningMinDistance(0.06)
-            .withReturningAngleMargin(0.7d)
-            .withDetectorReach(detectorReach)
-            .withEvasionDistance(evasionDistance)
-            .withPassingDistance(25)
-            .withDetectorAngle(60)
-            .withEvasionAngle(45)
-            .withEvasionAngleInc(1)
-            .withPostEvasionReturnAngle(4)
-            .build();
    }
 }

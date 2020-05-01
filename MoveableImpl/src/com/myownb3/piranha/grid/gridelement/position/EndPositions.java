@@ -41,6 +41,38 @@ public class EndPositions {
    }
 
    /**
+    * 
+    * Creates a new {@link EndPosition} with the given coordinates
+    * 
+    * @param position
+    *        the {@link Position} to create a new {@link EndPosition} of
+    * @param distancePrecision
+    *        defines how exact a {@link Moveable} must match the coordinates of this {@link EndPosition} in order to 'reach' it
+    * @return a new created {@link EndPosition}
+    */
+
+   public static EndPosition of(Position position, double endPositionPrecision) {
+      return of(position.getX(), position.getY(), endPositionPrecision);
+   }
+
+   /**
+    * 
+    * Creates a new {@link EndPosition} with the given coordinates
+    * 
+    * @param x
+    *        the x-axis coordinate
+    * @param y
+    *        the y-axis coordinate
+    * @param distancePrecision
+    *        defines how exact a {@link Moveable} must match the coordinates of this {@link EndPosition} in order to 'reach' it
+    * @return a new created {@link EndPosition}
+    */
+
+   public static EndPosition of(double x, double y, double endPositionPrecision) {
+      return new EndPositionImpl(x, y, endPositionPrecision);
+   }
+
+   /**
     * Creates a new {@link EndPosition} of the given {@link Position}
     * 
     * @param position
@@ -53,7 +85,7 @@ public class EndPositions {
 
    private static class EndPositionImpl extends PositionImpl implements EndPosition {
 
-      private static double DISTANCE_PRECISION = 0.001;
+      private double distancePrecision = 0.001;
       private Map<Moveable, Boolean> moveable2HasReachedMap;
       private boolean adHocVerification;// Defines if the 'hasReached' method does a fresh calculation or just return a previously calculated value
 
@@ -61,11 +93,17 @@ public class EndPositions {
          super(x, y);
          moveable2HasReachedMap = new HashMap<>();
          adHocVerification = false;
+         distancePrecision = 0.001;
       }
 
       private EndPositionImpl(double x, double y, boolean adHocVerification) {
          this(x, y);
          this.adHocVerification = adHocVerification;
+      }
+
+      private EndPositionImpl(double x, double y, double distancePrecision) {
+         this(x, y);
+         this.distancePrecision = distancePrecision;
       }
 
       @Override
@@ -94,7 +132,7 @@ public class EndPositions {
       }
 
       private boolean hasReachedEndPos(double distance) {
-         return distance <= DISTANCE_PRECISION && distance >= -DISTANCE_PRECISION;
+         return distance <= distancePrecision && distance >= -distancePrecision;
       }
 
       private boolean isPositionOnLine(Position currentPos, Position posBefore, double distancePosBefore2CurrentPos) {

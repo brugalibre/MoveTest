@@ -1,5 +1,6 @@
 package com.myownb3.piranha.detector.detectionaware.impl;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -20,16 +21,19 @@ public class DefaultDetectionAware implements DetectionAware {
    // contains information about weather or not a GridElement is detected or even is on collision course. Those values are not permanently, they are only until as the detector detects again
    private Map<GridElement, Boolean> transientDetectionMap;
    private Map<GridElement, Boolean> transientIsEvasionMap;
+   private Map<GridElement, List<Position>> transientGridElemt2DetectedPosMap;
 
    public DefaultDetectionAware() {
       this.transientDetectionMap = new HashMap<>();
       this.transientIsEvasionMap = new HashMap<>();
+      this.transientGridElemt2DetectedPosMap = new HashMap<>();
    }
 
    @Override
    public void clearGridElement(GridElement gridElement) {
       transientDetectionMap.remove(gridElement);
       transientIsEvasionMap.remove(gridElement);
+      transientGridElemt2DetectedPosMap.remove(gridElement);
    }
 
    @Override
@@ -38,6 +42,23 @@ public class DefaultDetectionAware implements DetectionAware {
       boolean isEvasion = detectionResults.stream().anyMatch(DetectionResult::getIsEvasion);
       transientDetectionMap.put(gridElement, isDetected);
       transientIsEvasionMap.put(gridElement, isEvasion);
+      fillupDetectedPositions(gridElement, detectionResults);
+   }
+
+   private void fillupDetectedPositions(GridElement gridElement, List<DetectionResult> detectionResults) {
+      transientGridElemt2DetectedPosMap.put(gridElement,
+            detectionResults.stream()
+                  .filter(DetectionResult::getIsDetected)
+                  .map(DetectionResult::getDetectedPosition)
+                  .collect(Collectors.toList()));
+   }
+
+   @Override
+   public List<Position> getDetectedPositions4GridElement(GridElement gridElement) {
+      if (transientGridElemt2DetectedPosMap.containsKey(gridElement)) {
+         return transientGridElemt2DetectedPosMap.get(gridElement);
+      }
+      return Collections.emptyList();
    }
 
    @Override

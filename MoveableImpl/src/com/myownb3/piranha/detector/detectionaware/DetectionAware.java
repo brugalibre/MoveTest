@@ -71,4 +71,12 @@ public interface DetectionAware {
     * @return the detected {@link GridElement} which is placed the nearest to the given {@link Position}
     */
    Optional<GridElement> getNearestDetectedGridElement(Position position);
+
+   /**
+    * 
+    * @param gridElement
+    *        the {@link GridElement}
+    * @return all detected {@link Position}s for the given {@link GridElement}
+    */
+   List<Position> getDetectedPositions4GridElement(GridElement gridElement);
 }

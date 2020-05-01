@@ -1,6 +1,8 @@
 package com.myownb3.piranha.detector.detectionaware.impl;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +23,20 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 public class DefaultDetectionAwareTest {
+
+   @Test
+   void testGetDetectedPosForNotDetectedGridElement() {
+
+      // Given
+      DefaultDetectionAware defaultDetectionAware = new DefaultDetectionAware();
+
+      GridElement gridElement = mock(GridElement.class);
+      // When
+      List<Position> actualDetectedPos = defaultDetectionAware.getDetectedPositions4GridElement(gridElement);
+
+      // Then
+      assertThat(actualDetectedPos.size(), is(0));
+   }
 
    @Test
    void testGetNearestEvasionGridElement() {

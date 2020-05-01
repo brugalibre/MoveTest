@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
+import com.myownb3.piranha.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.ui.grid.gridelement.EndPositionGridElement;
 
 public class GridElementColorUtil {
 

@@ -14,14 +14,14 @@ import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
 
 public class DefaultPostMoveForwardHandler {
 
-   public static PostMoveForwardHandler getPostMoveFowardHandler(MainWindow mainWindow,
+   public static PostMoveForwardHandler getPostMoveFowardHandler(MainWindowHolder windowHolder,
          List<MoveableController> moveableControllerList, List<GridElement> gridElements, List<Renderer> renderers) {
       return moveableRes -> {
          moveGridElementsForward(gridElements);
 
          setCurrentTargetPosition(moveableControllerList, renderers);
 
-         SwingUtilities.invokeLater(() -> mainWindow.refresh());
+         SwingUtilities.invokeLater(() -> windowHolder.mainWindow.refresh());
          try {
             Thread.sleep(1);
          } catch (InterruptedException e) {
@@ -44,5 +44,22 @@ public class DefaultPostMoveForwardHandler {
             .filter(EndPositionGridElementPainter.class::isInstance)
             .map(EndPositionGridElementPainter.class::cast)
             .forEach(painter -> painter.setIsCurrentTargetPosition(moveableController.getCurrentEndPos()));
+   }
+
+   public static class MainWindowHolder {
+
+      private MainWindow mainWindow;
+
+      public MainWindowHolder(MainWindow mainWindow) {
+         this.mainWindow = mainWindow;
+      }
+
+      public MainWindowHolder() {
+         // empty, window is set late
+      }
+
+      public void setMainWindow(MainWindow mainWindow) {
+         this.mainWindow = mainWindow;
+      }
    }
 }

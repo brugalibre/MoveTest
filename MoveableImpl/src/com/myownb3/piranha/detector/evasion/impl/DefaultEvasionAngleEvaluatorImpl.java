@@ -24,11 +24,30 @@ public class DefaultEvasionAngleEvaluatorImpl implements EvasionAngleEvaluator {
    public double getEvasionAngleRelative2(Position position) {
       Optional<Avoidable> evasionAvoidable = detectionAware.getNearestEvasionAvoidable(position);
       if (evasionAvoidable.isPresent()) {
-         Avoidable avoidable = evasionAvoidable.get();
-         boolean isInUpperBounds = avoidable.getShape().isWithinUpperBounds(position, detectorAngle);
-         return isInUpperBounds ? -angleInc : angleInc; // - -> Turn to the left & + Turn to the right
+         return getEvasionAngle4DetectedPositions(evasionAvoidable.get(), position);
       }
       return 0.0;
+   }
+
+
+   private double getEvasionAngle4DetectedPositions(Avoidable avoidable, Position position) {
+      int negCounter = 0;
+      int posCounter = 0;
+      for (Position detectedPosition : detectionAware.getDetectedPositions4GridElement(avoidable)) {
+         double evasionAngle = getEvasionAngleRelative2(avoidable, detectedPosition);
+         if (evasionAngle < 0) {
+            negCounter++;
+         } else {
+            posCounter++;
+         }
+      }
+      return negCounter > posCounter ? angleInc : -angleInc;
+   }
+
+
+   private double getEvasionAngleRelative2(Avoidable avoidable, Position detectedPosition) {
+      boolean isInUpperBounds = avoidable.getShape().isWithinUpperBounds(detectedPosition, detectorAngle);
+      return isInUpperBounds ? -angleInc : angleInc; // - -> Turn to the left & + Turn to the right
    }
 
    @Override
