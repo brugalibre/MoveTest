@@ -16,7 +16,7 @@ public class SimpleGridElement extends AbstractGridElement {
       super(grid, position);
    }
 
-   public SimpleGridElement(Grid grid, Position endPos, Shape shape) {
-      super(grid, endPos, shape);
+   public SimpleGridElement(Grid grid, Position pos, Shape shape) {
+      super(grid, pos, shape);
    }
 }

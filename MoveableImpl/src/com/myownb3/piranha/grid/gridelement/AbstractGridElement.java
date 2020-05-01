@@ -56,6 +56,7 @@ public abstract class AbstractGridElement implements GridElement {
       this.grid = grid;
       this.shape = shape;
       ((AbstractShape) shape).setGridElement(this);
+      shape.transform(position);
       grid.addElement(this);
    }
 
