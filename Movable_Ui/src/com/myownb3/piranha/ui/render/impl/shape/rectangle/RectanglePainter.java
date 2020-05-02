@@ -45,6 +45,9 @@ public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
    private void renderRectangle(Graphics graphics) {
       Polygon polygon = getPoligon4Path(value);
       graphics.fillPolygon(polygon);
+
+      graphics.setColor(Color.BLACK);
+      graphics.drawPolygon(polygon);
    }
 
 }
