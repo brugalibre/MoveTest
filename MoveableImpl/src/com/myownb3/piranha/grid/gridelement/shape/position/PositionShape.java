@@ -34,7 +34,7 @@ public class PositionShape extends AbstractShape {
     * 
     * @param gridElemPos
     */
-   public PositionShape(Position gridElemPos) {
+   private PositionShape(Position gridElemPos) {
       super(Collections.singletonList(requireNonNull(gridElemPos)));
    }
 
@@ -86,5 +86,26 @@ public class PositionShape extends AbstractShape {
 
    public Position getPosition() {
       return Positions.of(path.get(0));
+   }
+
+   public static class PositionShapeBuilder {
+      private Position gridElemPos;
+
+      private PositionShapeBuilder() {
+         // private
+      }
+
+      public PositionShapeBuilder withPosition(Position position) {
+         this.gridElemPos = position;
+         return this;
+      }
+
+      public PositionShape build() {
+         return new PositionShape(gridElemPos);
+      }
+
+      public static PositionShapeBuilder builder() {
+         return new PositionShapeBuilder();
+      }
    }
 }

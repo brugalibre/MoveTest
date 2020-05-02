@@ -151,7 +151,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static Shape buildCircle(int width, Position pos) {
-      return new CircleBuilder(width)
+      return CircleBuilder.builder()
+            .withRadius(width)
             .withAmountOfPoints(5)
             .withCenter(pos)
             .build();//

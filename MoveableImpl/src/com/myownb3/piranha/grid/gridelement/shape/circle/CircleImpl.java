@@ -118,8 +118,13 @@ public class CircleImpl extends AbstractShape implements Circle {
       private Position center;
       private GridElement gridElement;
 
-      public CircleBuilder(int radius) {
+      private CircleBuilder() {
+         // private
+      }
+
+      public CircleBuilder withRadius(int radius) {
          this.radius = radius;
+         return this;
       }
 
       public CircleBuilder withCenter(Position center) {
@@ -145,6 +150,10 @@ public class CircleImpl extends AbstractShape implements Circle {
             ((AbstractShape) circle).setGridElement(gridElement);
          }
          return circle;
+      }
+
+      public static CircleBuilder builder() {
+         return new CircleBuilder();
       }
    }
 

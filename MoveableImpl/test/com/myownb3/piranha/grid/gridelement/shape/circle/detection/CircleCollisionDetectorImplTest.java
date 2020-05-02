@@ -163,7 +163,8 @@ class CircleCollisionDetectorImplTest {
       private List<Position> pathOfAvoidablesShape;
 
       public TestCaseBuilder withCircle(int radius) {
-         this.circle = new CircleBuilder(radius)
+         this.circle = CircleBuilder.builder()
+               .withRadius(radius)
                .withAmountOfPoints(4)
                .withCenter(Positions.of(Directions.N, 0, 0))
                .build();

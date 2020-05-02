@@ -20,7 +20,7 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 
@@ -79,7 +79,8 @@ class DefaultGridTest {
    }
 
    private CircleImpl buildCircle(Position obstaclePos2, int radius) {
-      return new CircleBuilder(radius)
+      return CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(4)
             .withCenter(obstaclePos2)
             .build();
@@ -134,7 +135,9 @@ class DefaultGridTest {
 
    private Moveable buildMoveable(Grid grid, Position gridElemPos) {
       return MoveableBuilder.builder(grid, gridElemPos)
-            .withShape(new PositionShape(gridElemPos))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(gridElemPos)
+                  .build())
             .build();
    }
 }

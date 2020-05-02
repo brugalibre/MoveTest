@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 
 class PositionShapeTest {
 
@@ -17,7 +18,9 @@ class PositionShapeTest {
    void testBuildPath4Detection() {
       // Given
       Position gridElemPos = Positions.of(5, 5);
-      PositionShape positionShape = new PositionShape(gridElemPos);
+      PositionShape positionShape = PositionShapeBuilder.builder()
+            .withPosition(gridElemPos)
+            .build();
 
       // When
       List<Position> path4Detection = positionShape.buildPath4Detection();

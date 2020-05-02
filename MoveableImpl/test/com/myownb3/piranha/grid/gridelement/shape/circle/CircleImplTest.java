@@ -39,7 +39,8 @@ class CircleImplTest {
       Detector detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, 6);
       Moveable moveable = mock(Moveable.class);
-      Circle circle = new CircleBuilder(5)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(5)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
             .withGridElement(moveable)
@@ -61,7 +62,8 @@ class CircleImplTest {
       Detector detector = new DetectorImpl(8, 45, 11.25);
       Position detectorPosition = Positions.of(0, -6);
       Avoidable moveable = mock(Avoidable.class);
-      Circle circle = new CircleBuilder(5)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(5)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
             .withGridElement(moveable)
@@ -84,7 +86,8 @@ class CircleImplTest {
       int radius = 5;
 
       // When
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(Directions.N, 0, 0))
             .build();
@@ -115,7 +118,8 @@ class CircleImplTest {
       // Given
       int radius = 5;
       int expectedDistance = radius;
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
             .build();
@@ -136,7 +140,8 @@ class CircleImplTest {
       int radius = 5;
       Position center = Positions.of(0, 0);
       center.rotate(45);
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(center)
             .build();
@@ -155,7 +160,8 @@ class CircleImplTest {
       int radius = 5;
       Position center = Positions.of(0, 0);
       center.rotate(45);
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(center)
             .build();
@@ -175,7 +181,8 @@ class CircleImplTest {
       int amountOfPoints = 4;
       int radius = 5;
       Position center = Positions.of(0, 0);
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(center)
             .build();
@@ -199,7 +206,8 @@ class CircleImplTest {
       int newX = 1;
       int newY = 1;
       Position endPos = Positions.of(newX, newY);
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(Positions.of(x, y))
             .build();
@@ -241,7 +249,8 @@ class CircleImplTest {
       Position center = Positions.of(0, 0);
 
       // When
-      Circle circle = new CircleBuilder(radius)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(center)
             .build();
@@ -277,7 +286,8 @@ class CircleImplTest {
 
       // When
       Executable ex = () -> {
-         new CircleBuilder(radius)
+         CircleBuilder.builder()
+               .withRadius(radius)
                .withAmountOfPoints(amountOfPoints)
                .withCenter(center)
                .build();

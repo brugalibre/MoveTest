@@ -67,7 +67,8 @@ class MoveableControllerTest {
       // Given
       Position startPos = Positions.of(0, 12);
       EndPosition endPos = EndPositions.of(0, 25);
-      Shape shape = new CircleBuilder(5)
+      Shape shape = CircleBuilder.builder()
+            .withRadius(5)
             .withAmountOfPoints(4)
             .withCenter(startPos)
             .build();

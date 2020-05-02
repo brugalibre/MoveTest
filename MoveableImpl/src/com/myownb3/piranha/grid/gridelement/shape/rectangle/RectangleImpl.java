@@ -190,7 +190,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       private Orientation orientation;
       private double distanceBetweenPosOnColDetectionPath;
 
-      public RectangleBuilder() {
+      private RectangleBuilder() {
          distanceBetweenPosOnColDetectionPath = 1;
       }
 
@@ -224,6 +224,10 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
             return new RectangleImpl(center, width, height, distanceBetweenPosOnColDetectionPath, orientation);
          }
          return new RectangleImpl(center, width, height, distanceBetweenPosOnColDetectionPath);
+      }
+
+      public static RectangleBuilder builder() {
+         return new RectangleBuilder();
       }
    }
 }

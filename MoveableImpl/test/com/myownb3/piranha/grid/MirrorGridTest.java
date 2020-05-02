@@ -20,6 +20,7 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl;
+import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.test.Assert;
 
 /**
@@ -238,7 +239,8 @@ class MirrorGridTest {
    }
 
    private CircleImpl buildCircle(Position pos, int radius) {
-      return new CircleImpl.CircleBuilder(radius)
+      return CircleBuilder.builder()
+            .withRadius(radius)
             .withAmountOfPoints(4)
             .withCenter(pos)
             .build();

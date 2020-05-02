@@ -375,7 +375,7 @@ public class RectangleImplTest {
    }
 
    private static Rectangle buildRectangle(Position center, double height, double width, Orientation orientation) {
-      return new RectangleBuilder()
+      return RectangleBuilder.builder()
             .withCenter(center)
             .withWidth(width)
             .withHeight(height)

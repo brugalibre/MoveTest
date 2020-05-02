@@ -20,6 +20,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
+import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 
 /**
  * @author Dominic
@@ -31,7 +32,8 @@ class SimpleGridElementTest {
    void testTransformShapeAfterGridElementCreation() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      Circle circle = new CircleBuilder(5)
+      Circle circle = CircleBuilder.builder()
+            .withRadius(54)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
             .build();
@@ -47,7 +49,9 @@ class SimpleGridElementTest {
    void testGetDimensionRadius() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      PositionShape pointShape = spy(new PositionShape(gridElemPos));
+      PositionShape pointShape = spy(PositionShapeBuilder.builder()
+            .withPosition(gridElemPos)
+            .build());
       GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
@@ -63,7 +67,9 @@ class SimpleGridElementTest {
       Position gridElemPos = Positions.of(4, 4);
       Position expectedBackPos = Positions.of(gridElemPos);
       expectedBackPos.rotate(180);
-      PositionShape pointShape = new PositionShape(gridElemPos);
+      PositionShape pointShape = PositionShapeBuilder.builder()
+            .withPosition(gridElemPos)
+            .build();
       GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
@@ -77,7 +83,9 @@ class SimpleGridElementTest {
    void testGetFurthermostFrontPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      PositionShape pointShape = new PositionShape(gridElemPos);
+      PositionShape pointShape = PositionShapeBuilder.builder()
+            .withPosition(gridElemPos)
+            .build();
       GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When

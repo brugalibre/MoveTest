@@ -236,7 +236,7 @@ class RectangleCollisionDetectorImplTest {
 
       private TestCaseBuilder withCollisionDetector() {
          collisionDetector = RectangleCollisionDetectorBuilder.builder()
-               .withRectangle(new RectangleBuilder()
+               .withRectangle(RectangleBuilder.builder()
                      .withCenter(center)
                      .withHeight(height)
                      .withWidth(width)
