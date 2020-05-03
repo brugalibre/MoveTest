@@ -109,7 +109,6 @@ public class MazeEndPointMoveableLauncher {
             // With this detector settings, everything runs without End-Positions
             .withEvasionStateMachineConfig(90, 60)
             .withTrippleDetectorCluster(55, 35)
-
             .withStartPos(startPos)
             .withMovingIncrement(2)
             .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerList, emptyList(), renderers))

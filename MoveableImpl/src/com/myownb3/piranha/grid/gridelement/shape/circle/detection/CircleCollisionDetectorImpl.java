@@ -8,7 +8,7 @@ import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
-import com.myownb3.piranha.grid.gridelement.shape.rectangle.detection.AbstractCollisionDetector;
+import com.myownb3.piranha.grid.gridelement.shape.detection.AbstractCollisionDetector;
 
 /**
  * A {@link CircleCollisionDetectorImpl} detects collision within a circle

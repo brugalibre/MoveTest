@@ -1,4 +1,4 @@
-package com.myownb3.piranha.grid.gridelement.shape.rectangle.detection;
+package com.myownb3.piranha.grid.gridelement.shape.detection;
 
 import java.util.function.Consumer;
 
