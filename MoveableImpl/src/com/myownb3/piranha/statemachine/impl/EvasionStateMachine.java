@@ -40,6 +40,8 @@ import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.DefaultPos
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandlerWithEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.input.PostEvasionEventStateInput;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandler;
+import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandlerImpl;
+import com.myownb3.piranha.statemachine.impl.handler.returningstate.ReturningStateHandlerWithoutEndPos;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -85,7 +87,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler(detector.getEvasionDelayDistance()));
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
       evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
-      evasionStatesHandler2StateMap.put(RETURNING, new ReturningStateHandler(config));
+      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler());
    }
 
    @Override
@@ -169,6 +171,13 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       return new DefaultPostEvasionStateHandler(config.getPostEvasionAngleAdjustStepWidth());
    }
 
+   private ReturningStateHandler getReturningStateHandler() {
+      if (nonNull(endPosition)) {
+         return new ReturningStateHandlerImpl(config);
+      }
+      return new ReturningStateHandlerWithoutEndPos();
+   }
+
    @SuppressWarnings("unchecked")
    @Visible4Testing
    <T extends EvasionStatesHandler<?, ?>> T getHandler4State(EvasionStates state) {
@@ -198,5 +207,6 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    public void setEndPosition(EndPosition endPos) {
       this.endPosition = requireNonNull(endPos);
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
+      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler());
    }
 }
