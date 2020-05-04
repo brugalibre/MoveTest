@@ -21,7 +21,7 @@ import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
  */
 public class MoveableController {
 
-   private MovingStrategie strategie;
+   private MovingStrategy strategie;
    private EndPointMoveable moveable;
    private List<EndPosition> endPosList;
    private PostMoveForwardHandler handler;
@@ -31,13 +31,13 @@ public class MoveableController {
     * @param moveable
     */
    public MoveableController(EndPointMoveable moveable, List<EndPosition> endPosList) {
-      this(moveable, MovingStrategie.FORWARD, endPosList);
+      this(moveable, MovingStrategy.FORWARD, endPosList);
    }
 
    /**
     * @param moveable
     */
-   public MoveableController(EndPointMoveable moveable, MovingStrategie strategie, List<EndPosition> endPosList) {
+   public MoveableController(EndPointMoveable moveable, MovingStrategy strategie, List<EndPosition> endPosList) {
       isRunning = true;
       this.moveable = moveable;
       this.strategie = strategie;
@@ -90,7 +90,7 @@ public class MoveableController {
    public static final class MoveableControllerBuilder {
 
       private List<EndPosition> endPosList;
-      private MovingStrategie movingStrategie;
+      private MovingStrategy movingStrategie;
       private PostMoveForwardHandler postMoveForwardHandler;
       private EndPointMoveable endPointMoveable;
 
@@ -116,7 +116,7 @@ public class MoveableController {
          return this;
       }
 
-      public MoveableControllerBuilder withStrategie(MovingStrategie movingStrategie) {
+      public MoveableControllerBuilder withStrategie(MovingStrategy movingStrategie) {
          this.movingStrategie = movingStrategie;
          return this;
       }

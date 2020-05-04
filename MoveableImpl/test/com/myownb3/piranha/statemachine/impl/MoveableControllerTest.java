@@ -51,7 +51,7 @@ import com.myownb3.piranha.moveables.MoveResultImpl;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
-import com.myownb3.piranha.moveables.MovingStrategie;
+import com.myownb3.piranha.moveables.MovingStrategy;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
@@ -75,7 +75,7 @@ class MoveableControllerTest {
 
       // When
       MoveableController moveableController = MoveableControllerBuilder.builder()
-            .withStrategie(MovingStrategie.FORWARD)
+            .withStrategie(MovingStrategy.FORWARD)
             .withEndPositions(Collections.singletonList(endPos))
             .withPostMoveForwardHandler(res -> {
             })
@@ -108,7 +108,7 @@ class MoveableControllerTest {
       doReturn(result).when(moveable).moveForward2EndPos();
 
       MoveableController controller = MoveableControllerBuilder.builder()
-            .withStrategie(MovingStrategie.FORWARD)
+            .withStrategie(MovingStrategy.FORWARD)
             .withEndPositions(Arrays.asList(endPos1, endPos2))
             .withMoveable(moveable)
             .withPostMoveForwardHandler(res -> {
@@ -139,7 +139,7 @@ class MoveableControllerTest {
 
       List<MoveableController> moveContrList = new ArrayList<>();
       MoveableController controller = MoveableControllerBuilder.builder()
-            .withStrategie(MovingStrategie.FORWARD)
+            .withStrategie(MovingStrategy.FORWARD)
             .withEndPositions(Arrays.asList(endPos1, endPos2))
             .withMoveable(moveable)
             .withPostMoveForwardHandler(res -> {
@@ -170,7 +170,7 @@ class MoveableControllerTest {
             })
             .build();
 
-      MoveableController controller = new MoveableController(moveable, MovingStrategie.BACKWARD, Collections.singletonList(expectedEndPos));
+      MoveableController controller = new MoveableController(moveable, MovingStrategy.BACKWARD, Collections.singletonList(expectedEndPos));
 
       // When
       Executable ex = () -> {
