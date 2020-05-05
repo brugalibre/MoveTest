@@ -67,11 +67,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    private Position positionBeforeEvasion;
    private EndPosition endPosition;
 
-   public EvasionStateMachine(Detector detector, EvasionStateMachineConfig config) {
-      this(detector, null, config);
-   }
-
-   public EvasionStateMachine(Detector detector, EndPosition endPos, EvasionStateMachineConfig config) {
+   private EvasionStateMachine(Detector detector, EndPosition endPos, EvasionStateMachineConfig config) {
       super(detector);
       this.config = config;
       this.endPosition = endPos;
@@ -208,5 +204,38 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       this.endPosition = requireNonNull(endPos);
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
       evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler());
+   }
+
+   public static class EvasionStateMachineBuilder {
+      private EvasionStateMachineConfig config;
+      private EndPosition endPosition;
+      private Detector detector;
+
+      private EvasionStateMachineBuilder() {
+         // private
+      }
+
+      public EvasionStateMachineBuilder withDetector(Detector detector) {
+         this.detector = detector;
+         return this;
+      }
+
+      public EvasionStateMachineBuilder withEndPosition(EndPosition endPosition) {
+         this.endPosition = endPosition;
+         return this;
+      }
+
+      public EvasionStateMachineBuilder withEvasionStateMachineConfig(EvasionStateMachineConfig config) {
+         this.config = config;
+         return this;
+      }
+
+      public EvasionStateMachine build() {
+         return new EvasionStateMachine(detector, endPosition, config);
+      }
+
+      public static EvasionStateMachineBuilder builder() {
+         return new EvasionStateMachineBuilder();
+      }
    }
 }

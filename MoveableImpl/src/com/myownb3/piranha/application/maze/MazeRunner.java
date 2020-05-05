@@ -18,7 +18,7 @@ import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilde
 import com.myownb3.piranha.moveables.MovingStrategy;
 import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 
 public class MazeRunner implements MoveableApplication {
@@ -141,7 +141,10 @@ public class MazeRunner implements MoveableApplication {
                .withEndPointMoveable()
                .withGrid(maze.getGrid())
                .withStartPosition(startPosition)
-               .withHandler(new EvasionStateMachine(detectorCluster, config))
+               .withHandler(EvasionStateMachineBuilder.builder()
+                     .withDetector(detectorCluster)
+                     .withEvasionStateMachineConfig(config)
+                     .build())
                .withShape(CircleBuilder.builder()
                      .withRadius(4)
                      .withAmountOfPoints(4)

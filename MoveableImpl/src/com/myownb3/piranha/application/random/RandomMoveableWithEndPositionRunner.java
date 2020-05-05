@@ -27,7 +27,7 @@ import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilde
 import com.myownb3.piranha.moveables.MovingStrategy;
 import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 
 public class RandomMoveableWithEndPositionRunner implements MoveableApplication {
    private MoveableController moveableController;
@@ -141,7 +141,10 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                .withEndPointMoveable()
                .withGrid(grid)
                .withStartPosition(startPosition)
-               .withHandler(new EvasionStateMachine(trippleDetectorCluster, config))
+               .withHandler(EvasionStateMachineBuilder.builder()
+                     .withDetector(trippleDetectorCluster)
+                     .withEvasionStateMachineConfig(config)
+                     .build())
                .withShape(buildCircle(4, startPosition))
                .withMovingIncrement(movingIncrement)
                .buildAndReturnParentBuilder()

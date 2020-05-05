@@ -18,6 +18,7 @@ import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -32,7 +33,10 @@ class EvasionStateMachineTest {
       // Given
       EvasionStateMachineConfig config = mock(EvasionStateMachineConfig.class);
       Detector detector = mock(Detector.class);
-      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(detector, config);
+      EvasionStateMachine evasionStateMachine = EvasionStateMachineBuilder.builder()
+            .withDetector(detector)
+            .withEvasionStateMachineConfig(config)
+            .build();
 
       // When
       Executable ex = () -> {
@@ -57,7 +61,10 @@ class EvasionStateMachineTest {
             .build();
 
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
-      EvasionStateMachine evasionStateMachine = new EvasionStateMachine(new DetectorImpl(8, 45, 11.25), config);
+      EvasionStateMachine evasionStateMachine = EvasionStateMachineBuilder.builder()
+            .withDetector(new DetectorImpl(8, 45, 11.25))
+            .withEvasionStateMachineConfig(config)
+            .build();
       evasionStateMachine.evasionState = EvasionStates.NONE;
 
       // When

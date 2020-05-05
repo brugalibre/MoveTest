@@ -29,7 +29,7 @@ import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilde
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -143,7 +143,10 @@ public class RandomMoveableLauncher implements Stoppable {
             config.getEvasionAngle(), config.getEvasionAngleInc() + height);
       Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder(grid, pos)
-            .withHandler(new EvasionStateMachine(detector, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .withShape(circleShape)
             .build();
    }

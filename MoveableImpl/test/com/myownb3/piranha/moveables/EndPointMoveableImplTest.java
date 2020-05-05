@@ -18,7 +18,7 @@ import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 
 class EndPointMoveableImplTest {
@@ -57,7 +57,11 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .build();
       moveable.setEndPosition(endPos);
 
@@ -81,7 +85,11 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .build();
       moveable.setEndPosition(endPos);
 
@@ -106,7 +114,11 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .build();
       moveable.setEndPosition(endPos);
       doReturn(posAfterMoveForward).when(grid).moveForward(eq(moveable));
@@ -133,7 +145,11 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .build();
       doReturn(posAfterMoveForward).when(grid).moveForward(eq(moveable));
       moveable.setEndPosition(endPos);
@@ -159,7 +175,11 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(new EvasionStateMachine(detector, endPos, config))
+            .withHandler(EvasionStateMachineBuilder.builder()
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
             .withMovingIncrement(4)
             .build();
       moveable.setEndPosition(endPos);

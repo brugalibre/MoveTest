@@ -53,6 +53,7 @@ import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilde
 import com.myownb3.piranha.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
 import com.myownb3.piranha.moveables.MovingStrategy;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.states.EvasionStates;
 
 /**
@@ -137,7 +138,10 @@ class MoveableControllerTest {
       double endPosDistance = 10;
       EndPosition endPos1 = EndPositions.of(0, 12);
       EndPosition endPos2 = EndPositions.of(0, 13);
-      EvasionStateMachine handler = spy(new EvasionStateMachine(mock(Detector.class), mock(EvasionStateMachineConfig.class)));
+      EvasionStateMachine handler = spy(EvasionStateMachineBuilder.builder()
+            .withDetector(mock(Detector.class))
+            .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
+            .build());
       DefaultGrid grid = GridBuilder.builder(30, 30)
             .build();
       MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
@@ -550,7 +554,11 @@ class MoveableControllerTest {
       }
 
       public TestCaseBuilder withStateMachine() {
-         stateMachine = new EvasionStateMachine(detector, endPos, config);
+         stateMachine = EvasionStateMachineBuilder.builder()
+               .withDetector(detector)
+               .withEndPosition(endPos)
+               .withEvasionStateMachineConfig(config)
+               .build();
          return this;
       }
 
