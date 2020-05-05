@@ -3,6 +3,7 @@ package com.myownb3.piranha.statemachine.impl.handler.returningstate;
 import static com.myownb3.piranha.statemachine.states.EvasionStates.RETURNING;
 
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.statemachine.handler.returningstate.ReturningStateHandler;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
 import com.myownb3.piranha.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
