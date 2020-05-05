@@ -43,6 +43,16 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    }
 
    @Override
+   public void moveForward() {
+      super.moveForward(movingIncrement);
+   }
+
+   @Override
+   public void moveBackward() {
+      super.moveBackward(movingIncrement);
+   }
+
+   @Override
    public MoveResult moveForward2EndPos() {
       double distance = endPos.calcDistanceTo(position);
       if (distance >= getSmallestStepWith()) {

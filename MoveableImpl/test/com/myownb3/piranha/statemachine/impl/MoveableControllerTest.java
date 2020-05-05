@@ -94,6 +94,43 @@ class MoveableControllerTest {
    }
 
    @Test
+   void testMoveForwardWithoutEndPos() {
+
+      // Given
+      Position startPos = Positions.of(0, 12);
+      Position expectedEndPos = Positions.of(0, 12.1);
+      List<MoveableController> moveableControllers = new ArrayList<MoveableController>();
+
+      MoveableController moveableController = MoveableControllerBuilder.builder()
+            .withStrategie(MovingStrategy.FORWARD_WITHOUT_END_POS)
+            .withPostMoveForwardHandler(res -> {
+               moveableControllers.get(0).stop();
+            })
+            .withEndPointMoveable()
+            .withGrid(GridBuilder.builder(30, 30)
+                  .build())
+            .withStartPosition(startPos)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(5)
+                  .withAmountOfPoints(4)
+                  .withCenter(startPos)
+                  .build())
+            .withHandler((a, b) -> {
+            })
+            .buildAndReturnParentBuilder()
+            .build();//
+
+      moveableControllers.add(moveableController);
+
+      // When
+      moveableController.leadMoveable();
+
+      // Then
+      assertThat(moveableController.getMoveable().getPosition(), is(expectedEndPos));
+      assertThat(moveableController.getCurrentEndPos(), is(nullValue()));
+   }
+
+   @Test
    void test_leadForwardWith2Points() {
 
       // given

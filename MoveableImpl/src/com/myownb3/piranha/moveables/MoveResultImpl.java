@@ -1,10 +1,18 @@
 package com.myownb3.piranha.moveables;
 
+import com.myownb3.piranha.grid.gridelement.position.Position;
+
 public class MoveResultImpl implements MoveResult {
 
    double distance2EndPos;
    double prevDistance2EndPos;
    boolean isDone;
+   private Position moveablePos;
+
+   public MoveResultImpl(Position moveablePos) {
+      this(-1, -1, false);
+      this.moveablePos = moveablePos;
+   }
 
    public MoveResultImpl(double distance2EndPos, double prevDistance2EndPos) {
       this(distance2EndPos, prevDistance2EndPos, false);
@@ -19,6 +27,11 @@ public class MoveResultImpl implements MoveResult {
    @Override
    public double getEndPosDistance() {
       return distance2EndPos;
+   }
+
+   @Override
+   public Position getMoveablePosition() {
+      return moveablePos;
    }
 
    @Override

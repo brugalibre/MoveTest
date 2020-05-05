@@ -24,6 +24,27 @@ import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigImpl;
 class EndPointMoveableImplTest {
 
    @Test
+   void testMoveBackwards() {
+      // Given
+      Object expectedPosition = Positions.of(0, 0.7);
+      int movingIncrement = 2;
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withStartPosition(Positions.of(0, 0.9))
+            .withMovingIncrement(movingIncrement)
+            .withHandler((g, a) -> {
+            })
+            .build();
+
+      // When
+      moveable.moveBackward();
+
+      // Then
+      assertThat(moveable.getPosition(), is(expectedPosition));
+   }
+
+   @Test
    void testIsNotDone() {
       EndPosition endPos = EndPositions.of(0, 10);
       Position pos = Positions.of(0, 0.9);

@@ -12,6 +12,7 @@ import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.moveables.postaction.MoveablePostActionHandler;
 
@@ -53,8 +54,20 @@ public class MoveableController {
             leadMoveableWithEndPoints();
             break;
 
+         case FORWARD_WITHOUT_END_POS:
+            leadMoveableForward();
+            break;
+
          default:
             throw new NotImplementedException("Not supported Strategie '" + strategie + "'");
+      }
+   }
+
+   private void leadMoveableForward() {
+      while (isRunning) {
+         moveable.moveForward();
+         MoveResultImpl moveResult = new MoveResultImpl(Positions.of(moveable.getPosition()));
+         handler.handlePostMoveForward(moveResult);
       }
    }
 

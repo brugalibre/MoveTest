@@ -88,7 +88,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    @Override
    public void moveBackward(int amount) {
-      moveForwardOrBackwardInternal(amount, () -> moveBackward());
+      moveForwardOrBackwardInternal(amount, () -> moveBackwardInternal());
    }
 
    private void moveForwardOrBackwardInternal(int amount, Runnable runnable) {
