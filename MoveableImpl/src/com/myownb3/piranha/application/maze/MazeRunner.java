@@ -20,6 +20,7 @@ import com.myownb3.piranha.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.statemachine.impl.handler.postevasionstate.PostEvasionStateHandler4Maze;
 
 public class MazeRunner implements MoveableApplication {
    private Maze maze;
@@ -143,6 +144,7 @@ public class MazeRunner implements MoveableApplication {
                .withStartPosition(startPosition)
                .withHandler(EvasionStateMachineBuilder.builder()
                      .withDetector(detectorCluster)
+                     .withPostEvasionStateHandler(new PostEvasionStateHandler4Maze())
                      .withEvasionStateMachineConfig(config)
                      .build())
                .withShape(CircleBuilder.builder()

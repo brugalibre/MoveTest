@@ -68,22 +68,30 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    private EndPosition endPosition;
 
    private EvasionStateMachine(Detector detector, EndPosition endPos, EvasionStateMachineConfig config) {
-      super(detector);
-      this.config = config;
-      this.endPosition = endPos;
-      this.evasionState = DEFAULT;
-      this.positionBeforeEvasion = null;
-      createAndInitHandlerMap();
+      this(detector, endPos, config, createAndInitHandlerMap(config, detector, endPos));
    }
 
-   private void createAndInitHandlerMap() {
-      evasionStatesHandler2StateMap = new HashMap<>();
+   private EvasionStateMachine(Detector detector, EndPosition endPosition, EvasionStateMachineConfig config,
+         Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap) {
+      super(detector);
+      this.config = config;
+      this.endPosition = endPosition;
+      this.evasionState = DEFAULT;
+      this.positionBeforeEvasion = null;
+      evasionStatesHandler2StateMap = handlerMap;
+   }
+
+   private static Map<EvasionStates, EvasionStatesHandler<?, ?>> createAndInitHandlerMap(EvasionStateMachineConfig config, Detector detector,
+         EndPosition endPosition) {
+      Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap = new HashMap<>();
       evasionStatesHandler2StateMap.put(ORIENTING, new OrientatingStateHandler(config.getOrientationAngle()));
       evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
       evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler(detector.getEvasionDelayDistance()));
-      evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
+      evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler(config, endPosition));
       evasionStatesHandler2StateMap.put(PASSING, new PassingStateHandler(config.getPassingDistance()));
-      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler());
+      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler(config, endPosition));
+
+      return evasionStatesHandler2StateMap;
    }
 
    @Override
@@ -160,14 +168,14 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
    }
 
-   private PostEvasionStateHandler getPostEvasionStateHandler() {
+   private static PostEvasionStateHandler getPostEvasionStateHandler(EvasionStateMachineConfig config, Position endPosition) {
       if (nonNull(endPosition)) {
          return new PostEvasionStateHandlerWithEndPos(config.getPostEvasionReturnAngle());
       }
       return new DefaultPostEvasionStateHandler(config.getPostEvasionReturnAngle());
    }
 
-   private ReturningStateHandler getReturningStateHandler() {
+   private static ReturningStateHandler getReturningStateHandler(EvasionStateMachineConfig config, Position endPosition) {
       if (nonNull(endPosition)) {
          return new ReturningStateHandlerImpl(config);
       }
@@ -202,14 +210,15 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
    public void setEndPosition(EndPosition endPos) {
       this.endPosition = requireNonNull(endPos);
-      evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler());
-      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler());
+      evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler(config, endPosition));
+      evasionStatesHandler2StateMap.put(RETURNING, getReturningStateHandler(config, endPosition));
    }
 
    public static class EvasionStateMachineBuilder {
       private EvasionStateMachineConfig config;
       private EndPosition endPosition;
       private Detector detector;
+      private PostEvasionStateHandler postEvasionStateHandler;
 
       private EvasionStateMachineBuilder() {
          // private
@@ -230,7 +239,17 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
          return this;
       }
 
+      public EvasionStateMachineBuilder withPostEvasionStateHandler(PostEvasionStateHandler postEvasionStateHandler) {
+         this.postEvasionStateHandler = postEvasionStateHandler;
+         return this;
+      }
+
       public EvasionStateMachine build() {
+         if (nonNull(postEvasionStateHandler)) {
+            Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap = createAndInitHandlerMap(config, detector, endPosition);
+            handlerMap.put(EvasionStates.POST_EVASION, postEvasionStateHandler);
+            return new EvasionStateMachine(detector, endPosition, config, handlerMap);
+         }
          return new EvasionStateMachine(detector, endPosition, config);
       }
 
