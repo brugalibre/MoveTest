@@ -42,7 +42,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withStepWidth(10)
+            .withPostEvasionAngle(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
@@ -64,7 +64,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withStepWidth(10)
+            .withPostEvasionAngle(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
@@ -86,11 +86,11 @@ class PostEvasionStateHandlerWithEndPosTest {
       // Given
       double mingAngle2Turn = 4.0;
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withStepWidth(10)
+            .withPostEvasionAngle(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
-            .withHandlerAngle(15)
+            .withCalculatedAngle(15)
             .withSignum(-1)
             .withMinAngle2Turn(mingAngle2Turn)
             .build()
@@ -109,17 +109,19 @@ class PostEvasionStateHandlerWithEndPosTest {
    }
 
    @Test
-   public void testHandlePostEvasion_AngleCorrectionNecessary_WithEvasionOnSecondCall() {
+   public void testHandlePostEvasion_AngleCorrectionNecessary_WithEvasionOnSecondCall_CalcAngleSmallerThanMin() {
 
       // Given
+      int calculatedAngle = 2;
+      double expectedAngle = calculatedAngle;
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withHelper(spy(new TestDetectableMoveableHelper()))
-            .withStepWidth(10)
-            .withStepWidth(10)
+            .withPostEvasionAngle(10)
+            .withPostEvasionAngle(10)
             .withEndPos(Positions.of(10, 10))
             .withPositionBeforeEvasion(Positions.of(9, 9))
             .withEvasionStateHandler()
-            .withHandlerAngle(10)
+            .withCalculatedAngle(calculatedAngle)
             .withSignum(-1)
             .withMinAngle2Turn(4)
             .build()
@@ -136,7 +138,41 @@ class PostEvasionStateHandlerWithEndPosTest {
       assertThat(firstCEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
       assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
       verify(tcb.moveable, times(2))
-            .makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * tcb.handler.angle));
+            .makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * expectedAngle));
+      verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
+      verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
+   }
+
+   @Test
+   public void testHandlePostEvasion_AngleCorrectionNecessary_WithEvasionOnSecondCall() {
+
+      // Given
+      double expectedAngle = 4;
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withHelper(spy(new TestDetectableMoveableHelper()))
+            .withPostEvasionAngle(10)
+            .withPostEvasionAngle(10)
+            .withEndPos(Positions.of(10, 10))
+            .withPositionBeforeEvasion(Positions.of(9, 9))
+            .withEvasionStateHandler()
+            .withCalculatedAngle(15)
+            .withSignum(-1)
+            .withMinAngle2Turn(4)
+            .build()
+            .withEventStateInput();
+
+      // When
+      CommonEvasionStateResult firstCEventStateResult = tcb.handler.handle(tcb.evenStateInput);
+
+      // during the second call we're getting an evasion
+      ((TestDetectableMoveableHelper) tcb.helper).isCheck4EvasionTrue = true;
+      tcb.handler.handle(tcb.evenStateInput);
+
+      // Then
+      assertThat(firstCEventStateResult.getNextState(), is(EvasionStates.POST_EVASION));
+      assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
+      verify(tcb.moveable, times(2))
+            .makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * expectedAngle));
       verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
       verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
    }
@@ -144,7 +180,7 @@ class PostEvasionStateHandlerWithEndPosTest {
    private static class TestCaseBuilder {
 
       private PostEvasionEventStateInput evenStateInput;
-      private double stepWidth;
+      private double postEvasionAngle;
       private Position endPos;
       private Position positionBeforeEvasion;
       private DetectableMoveableHelper helper;
@@ -163,8 +199,8 @@ class PostEvasionStateHandlerWithEndPosTest {
          return this;
       }
 
-      private TestCaseBuilder withStepWidth(double stepWidth) {
-         this.stepWidth = stepWidth;
+      private TestCaseBuilder withPostEvasionAngle(double postEvasionAngle) {
+         this.postEvasionAngle = postEvasionAngle;
          return this;
       }
 
@@ -198,10 +234,10 @@ class PostEvasionStateHandlerWithEndPosTest {
          private TestPostEvasionStateHandler handler;
          private double mingAngle2Turn;
          private int testSignum;
-         private double angle;
+         private double calculatedAngle;
 
-         private PostEvasionStateHandlerBuilder withHandlerAngle(double angle) {
-            this.angle = angle;
+         private PostEvasionStateHandlerBuilder withCalculatedAngle(double calculatedAngle) {
+            this.calculatedAngle = calculatedAngle;
             return this;
          }
 
@@ -216,8 +252,8 @@ class PostEvasionStateHandlerWithEndPosTest {
          }
 
          private TestCaseBuilder build() {
-            handler = new TestPostEvasionStateHandler(endPos, stepWidth, mingAngle2Turn);
-            handler.angle = angle;
+            handler = new TestPostEvasionStateHandler(endPos, postEvasionAngle, mingAngle2Turn);
+            handler.calculatedAngle = calculatedAngle;
             handler.testSignum = testSignum;
             TestCaseBuilder.this.handler = this.handler;
             return TestCaseBuilder.this;
@@ -243,10 +279,10 @@ class PostEvasionStateHandlerWithEndPosTest {
    private static class TestPostEvasionStateHandler extends PostEvasionStateHandlerWithEndPos {
 
       private int testSignum;
-      private double angle;
+      private double calculatedAngle;
 
       public TestPostEvasionStateHandler(Position endPos, double stepWidth, double mingAngle2Turn) {
-         super(stepWidth, mingAngle2Turn);
+         super(mingAngle2Turn);
       }
 
       @Override
@@ -257,7 +293,7 @@ class PostEvasionStateHandlerWithEndPosTest {
 
       @Override
       protected double calcAngle(Position moveablePos, Float64Vector endPosLine) {
-         return angle;
+         return calculatedAngle;
       }
    }
 }

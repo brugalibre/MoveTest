@@ -1,6 +1,7 @@
 package com.myownb3.piranha.statemachine.impl.handler.postevasionstate;
 
 import static com.myownb3.piranha.statemachine.states.EvasionStates.POST_EVASION;
+import static java.lang.Math.abs;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -15,10 +16,10 @@ import com.myownb3.piranha.statemachine.states.EvasionStates;
 public class DefaultPostEvasionStateHandler extends
       CommonEvasionStateHandlerImpl<PostEvasionEventStateInput, CommonEvasionStateResult> implements PostEvasionStateHandler {
 
-   private double stepWidth;
+   private double postEvasionTurnAngle;
 
-   public DefaultPostEvasionStateHandler(double stepWidth) {
-      this.stepWidth = stepWidth;
+   public DefaultPostEvasionStateHandler(double postEvasionTurnAngle) {
+      this.postEvasionTurnAngle = abs(postEvasionTurnAngle);
    }
 
    @Override
@@ -64,9 +65,6 @@ public class DefaultPostEvasionStateHandler extends
 
    private double getAngle2Turn(Position moveablePos, double startPosAngle) {
       double angleDiff = startPosAngle - moveablePos.getDirection().getAngle();
-      if (Math.abs(angleDiff) > stepWidth) {
-         return angleDiff / stepWidth;
-      }
-      return angleDiff;
+      return PostEvasionUtil.getAngle2Turn(angleDiff, postEvasionTurnAngle);
    }
 }

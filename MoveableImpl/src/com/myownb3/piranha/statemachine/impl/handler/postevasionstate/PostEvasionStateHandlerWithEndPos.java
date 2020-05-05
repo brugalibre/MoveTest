@@ -23,11 +23,9 @@ public class PostEvasionStateHandlerWithEndPos extends
    private double mingAngle2Turn;
    @Visible4Testing
    PostEvasionStates state;
-   private double stepWidth;
    private int signum;
 
-   public PostEvasionStateHandlerWithEndPos(double stepWidth, double mingAngle2Turn) {
-      this.stepWidth = stepWidth;
+   public PostEvasionStateHandlerWithEndPos(double mingAngle2Turn) {
       this.mingAngle2Turn = mingAngle2Turn;
       init();
    }
@@ -98,9 +96,6 @@ public class PostEvasionStateHandlerWithEndPos extends
 
    private double getAngle2Turn(Position moveablePos, Float64Vector endPosLine) {
       double effectAngle2Turn = calcAngle(moveablePos, endPosLine);
-      if (effectAngle2Turn > stepWidth) {
-         return mingAngle2Turn;
-      }
-      return effectAngle2Turn;
+      return PostEvasionUtil.getAngle2Turn(effectAngle2Turn, mingAngle2Turn);
    }
 }

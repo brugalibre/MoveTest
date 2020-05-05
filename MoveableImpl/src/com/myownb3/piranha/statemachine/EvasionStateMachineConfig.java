@@ -40,12 +40,6 @@ public interface EvasionStateMachineConfig {
    double getEvasionAngleInc();
 
    /**
-    * @returns the Step-width for the angle in State
-    *          {@link EvasionStates#POST_EVASION}
-    */
-   int getPostEvasionAngleAdjustStepWidth();
-
-   /**
     * @returns the angle to turn when entering the State
     *          {@link EvasionStates#POST_EVASION}
     */

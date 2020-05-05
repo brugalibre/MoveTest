@@ -12,7 +12,6 @@ import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig {
 
    // Attributes of the different EvasionStateHandlerse
-   private int postEvasionAngleAdjustStepWidth;
    private double returningMinDistance;
    private double returningAngleIncMultiplier;
    private int passingDistance;
@@ -52,7 +51,6 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
          double angleMargin, int detectorReach, int evasionDistance, int passingDistance, int detectorAngle, int evasionAngle,
          double evasionAngleInc, int postEvasionReturnAngle) {
       this.orientationAngle = orientationAngle;
-      this.postEvasionAngleAdjustStepWidth = 10; // Like this the movements are smoother
       this.postEvasionReturnAngle = postEvasionReturnAngle;
       this.returningAngleIncMultiplier = angleIncMultiplier;
       this.returningMinDistance = minDistance;
@@ -69,11 +67,6 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    @Override
    public final double getOrientationAngle() {
       return this.orientationAngle;
-   }
-
-   @Override
-   public int getPostEvasionAngleAdjustStepWidth() {
-      return this.postEvasionAngleAdjustStepWidth;
    }
 
    @Override
