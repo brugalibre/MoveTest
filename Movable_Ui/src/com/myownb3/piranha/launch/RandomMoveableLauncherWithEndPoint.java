@@ -27,6 +27,7 @@ import com.myownb3.piranha.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
+import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MoveableControllerHolder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -72,11 +73,11 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       // Helper variables for later access
       List<Renderer> renderers = new ArrayList<>();
-      List<MoveableController> moveableControllerList = new ArrayList<>();
       List<GridElement> gridElements = new ArrayList<>();
       MainWindowHolder mainWindowHolder = new MainWindowHolder(mainWindow);
 
       int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
+      MoveableControllerHolder moveableControllerHolder = new MoveableControllerHolder();
       RandomMoveableWithEndPositionRunner endPositionRunner = RandomRunnerWithEndPositionsBuilder.builder()
             .withGrid(MirrorGridBuilder.builder()
                   .withMaxX(dimension.getHeight())
@@ -117,13 +118,13 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                         .withPostEvasionReturnAngle(4)
                         .build())
             .withDefaultDetectorCluster()
-            .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerList, gridElements, renderers))
+            .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerHolder, gridElements, renderers))
             .build();
 
       Grid grid = endPositionRunner.getGrid();
       MoveableController moveableController = endPositionRunner.getMoveableController();
       gridElements.addAll(endPositionRunner.getAllGridElements());
-      moveableControllerList.add(moveableController);
+      moveableControllerHolder.setMoveableController(moveableController);
       collisionDetectionHandler.setMoveableController(moveableController);
 
       renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable(), endPositionRunner.getConfig(),
