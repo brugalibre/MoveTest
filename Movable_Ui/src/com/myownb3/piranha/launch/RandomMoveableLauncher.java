@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
@@ -139,12 +138,16 @@ public class RandomMoveableLauncher implements Stoppable {
 
       EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
       Position pos = Positions.getRandomPosition(dimension, height, width);
-      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
-            config.getEvasionAngle(), config.getEvasionAngleInc() + height);
       Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder(grid, pos)
             .withHandler(EvasionStateMachineBuilder.builder()
-                  .withDetector(detector)
+                  .withDetector(DetectorBuilder.builder()
+                        .withDetectorReach(config.getDetectorReach())
+                        .withEvasionDistance(config.getEvasionDistance())
+                        .withDetectorAngle(config.getDetectorAngle())
+                        .withEvasionAngle(config.getEvasionAngle())
+                        .withAngleInc(config.getEvasionAngleInc() + height)
+                        .build())
                   .withEvasionStateMachineConfig(config)
                   .build())
             .withShape(circleShape)

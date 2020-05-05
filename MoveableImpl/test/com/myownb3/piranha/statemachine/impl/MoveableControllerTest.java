@@ -29,7 +29,7 @@ import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectedException;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.DefaultGrid;
@@ -524,8 +524,13 @@ class MoveableControllerTest {
 
       public TestCaseBuilder withDetector() {
          Objects.requireNonNull(config, "We need first a Config befor we can create a Detector!");
-         this.detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
-               config.getEvasionAngle(), config.getEvasionAngleInc());
+         this.detector = DetectorBuilder.builder()
+               .withDetectorReach(config.getDetectorReach())
+               .withEvasionDistance(config.getEvasionDistance())
+               .withDetectorAngle(config.getDetectorAngle())
+               .withEvasionAngle(config.getEvasionAngle())
+               .withAngleInc(config.getEvasionAngleInc())
+               .build();
          return this;
       }
 

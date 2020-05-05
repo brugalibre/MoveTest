@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.detector;
 
+import static java.util.Objects.isNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,27 +30,6 @@ public class DetectorImpl implements IDetector {
    private double evasionAngle;
    private EvasionAngleEvaluator evasionAngleEvaluator;
    private DetectionAware detectionAware;
-
-   public DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle, double angleInc) {
-      this(detectorReach, evasionDistance, detectorAngle, evasionAngle,
-            new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc), new DefaultDetectionAware());
-   }
-
-   /**
-    * Creates a new {@link DetectorImpl} for the given inputs
-    * <b>Attention:</b> Because this constructor has some default value, it's usage is only for testing purpose! It's highly recommended to
-    * use the main constructor
-    * 
-    * @param detectorReach
-    *        the reach of the detector
-    * @param detectorAngle
-    *        the angle
-    * @param angleInc
-    *        the evasion-angle increment
-    */
-   public DetectorImpl(int detectorReach, int detectorAngle, double angleInc) {
-      this(detectorReach, 2 * detectorReach / 3, detectorAngle, detectorAngle, angleInc);
-   }
 
    private DetectorImpl(int detectorReach, int evasionDistance, double detectorAngle, double evasionAngle,
          EvasionAngleEvaluator evasionAngleEvaluator, DetectionAware detectionAware) {
@@ -162,10 +143,11 @@ public class DetectorImpl implements IDetector {
 
       private int detectorReach;
       private double detectorAngle;
-      private int evasionDistance;
+      private Integer evasionDistance;
       private double evasionAngle;
       private EvasionAngleEvaluator evasionAngleEvaluator;
       private DetectionAware detectionAware;
+      private double angleInc;
 
       private DetectorBuilder() {
          // private
@@ -190,6 +172,11 @@ public class DetectorImpl implements IDetector {
          return this;
       }
 
+      public DetectorBuilder withAngleInc(double angleInc) {
+         this.angleInc = angleInc;
+         return this;
+      }
+
       public DetectorBuilder withEvasionAngle(double evasionAngle) {
          this.evasionAngle = evasionAngle;
          return this;
@@ -206,7 +193,23 @@ public class DetectorImpl implements IDetector {
       }
 
       public DetectorImpl build() {
+         setDefaultValuesIfMissing();
          return new DetectorImpl(detectorReach, evasionDistance, detectorAngle, evasionAngle, evasionAngleEvaluator, detectionAware);
+      }
+
+      /*
+       * In order to support a minimum builder, we set a default value for those attributes 
+       */
+      private void setDefaultValuesIfMissing() {
+         if (isNull(evasionDistance)) {
+            evasionDistance = 2 * detectorReach / 3;
+         }
+         if (isNull(detectionAware)) {
+            detectionAware = new DefaultDetectionAware();// 4 default builder
+         }
+         if (isNull(evasionAngleEvaluator)) {
+            evasionAngleEvaluator = new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);// 4 default builder
+         }
       }
    }
 }

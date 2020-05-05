@@ -9,7 +9,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
@@ -30,7 +30,11 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(2, 7));
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
@@ -50,7 +54,11 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1, 7));
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
@@ -70,7 +78,11 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder()
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(4, 7));
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
 
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
@@ -92,7 +104,11 @@ class ObstacleTest {
       Grid grid = GridBuilder.builder(100, 100)
             .build();
       Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 70));
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       MoveableBuilder.builder(grid, Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();

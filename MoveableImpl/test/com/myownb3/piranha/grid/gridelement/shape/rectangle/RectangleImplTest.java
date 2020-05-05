@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -68,7 +68,11 @@ public class RectangleImplTest {
       GridElement gridElement = mock(GridElement.class);
       Rectangle rectangle = buildRectangleWithGridElement(Positions.of(0, 0), 10, 20, Orientation.HORIZONTAL, gridElement);
       List<Position> expectedPath = getExpectedPath(rectangle);
-      Detector detector = spy(new DetectorImpl(8, 45, 11.25));
+      Detector detector = spy(DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build());
       Position detectorPosition = Positions.of(0, 0);
 
       // We must not enter the real detectObjectAlongPath because the detector sorts the incoming path-elements, so our verify statement would never be true!

@@ -46,7 +46,13 @@ class DetectorImplTest {
       // Given
       double evasionAngle = 10;
       double detectorAngle = 10;
-      DetectorImpl detector = new DetectorImpl(5, 5, detectorAngle, evasionAngle, 5);
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(5)
+            .withEvasionDistance(5)
+            .withDetectorAngle(detectorAngle)
+            .withEvasionAngle(evasionAngle)
+            .withAngleInc(5)
+            .build();
 
       // When
       double actualEvasionAngle = detector.getEvasionAngle();
@@ -61,7 +67,11 @@ class DetectorImplTest {
    void testDetectObjectAlongPath_IsNotDetectingAndNotEvasion() {
 
       // Given
-      DetectorImpl detector = new DetectorImpl(8, 45, 11.25);
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       Position detectorPosition = Positions.of(0, 0);
       Position gridElementPos = Positions.of(0, 9);
       GridElement gridElement = mock(GridElement.class);
@@ -80,7 +90,11 @@ class DetectorImplTest {
    void testDetectObjectAlongPath_IsDetectingButNotEvasion() {
 
       // Given
-      DetectorImpl detector = new DetectorImpl(8, 45, 11.25);
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       Position detectorPosition = Positions.of(0, 0);
       Position gridElementPos = Positions.of(0, 1);
       GridElement gridElement = mock(GridElement.class);

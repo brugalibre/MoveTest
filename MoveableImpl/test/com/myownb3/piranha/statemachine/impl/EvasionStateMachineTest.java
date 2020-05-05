@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.moveables.Moveable;
@@ -62,7 +62,11 @@ class EvasionStateMachineTest {
 
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
       EvasionStateMachine evasionStateMachine = EvasionStateMachineBuilder.builder()
-            .withDetector(new DetectorImpl(8, 45, 11.25))
+            .withDetector(DetectorBuilder.builder()
+                  .withDetectorReach(8)
+                  .withDetectorAngle(45)
+                  .withAngleInc(11.25)
+                  .build())
             .withEvasionStateMachineConfig(config)
             .build();
       evasionStateMachine.evasionState = EvasionStates.NONE;

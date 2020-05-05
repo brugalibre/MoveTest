@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -36,7 +36,11 @@ class CircleImplTest {
 
       // Given
       boolean expectedHasDetection = false;
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       Position detectorPosition = Positions.of(0, 6);
       Moveable moveable = mock(Moveable.class);
       Circle circle = CircleBuilder.builder()
@@ -59,7 +63,11 @@ class CircleImplTest {
       // Given
       boolean expectedHasDetection = true;
       boolean expectedIsEvasion = true;
-      Detector detector = new DetectorImpl(8, 45, 11.25);
+      Detector detector = DetectorBuilder.builder()
+            .withDetectorReach(8)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
       Position detectorPosition = Positions.of(0, -6);
       Avoidable moveable = mock(Avoidable.class);
       Circle circle = CircleBuilder.builder()

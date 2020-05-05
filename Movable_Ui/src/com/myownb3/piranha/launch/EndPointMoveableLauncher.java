@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.DetectorImpl;
+import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
@@ -215,13 +214,17 @@ public class EndPointMoveableLauncher {
 
    private static EndPointMoveable getMoveable(EndPosition endPos, Grid grid, int posX, int posY, int width, EvasionStateMachineConfig config) {
       Position pos = Positions.of(posX + padding, posY + padding);
-      Detector detector = new DetectorImpl(config.getDetectorReach(), config.getEvasionDistance(), config.getDetectorAngle(),
-            config.getEvasionAngle(), config.getEvasionAngleInc());
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
             .withHandler(EvasionStateMachineBuilder.builder()
-                  .withDetector(detector)
+                  .withDetector(DetectorBuilder.builder()
+                        .withDetectorReach(config.getDetectorReach())
+                        .withEvasionDistance(config.getEvasionDistance())
+                        .withDetectorAngle(config.getDetectorAngle())
+                        .withEvasionAngle(config.getEvasionAngle())
+                        .withAngleInc(config.getEvasionAngleInc())
+                        .build())
                   .withEndPosition(endPos)
                   .withEvasionStateMachineConfig(config)
                   .build())
