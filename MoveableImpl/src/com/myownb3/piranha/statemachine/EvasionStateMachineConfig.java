@@ -61,12 +61,12 @@ public interface EvasionStateMachineConfig {
    /**
     * @return the angle to detect an evasion with a {@link GridElement}
     */
-   int getEvasionAngle();
+   double getEvasionAngle();
 
    /**
     * @return the angle to detect {@link GridElement} of the detector
     */
-   int getDetectorAngle();
+   double getDetectorAngle();
 
    /**
     * @return the reach of the {@link Detector}

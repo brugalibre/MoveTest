@@ -18,6 +18,7 @@ import com.myownb3.piranha.application.maze.MazeRunner;
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -58,6 +59,10 @@ public class MazeEndPointMoveableLauncher {
       int coridorWidth = 80;
       int segmentLength = 80;
       int circleRadius = 4;
+
+      int evasionAngle = 45;
+      int detectorAngle = 60;
+
       EndPosition endPos = EndPositions.of(850, 900);
       Position startPos = Positions.of(100 + padding, 100 + padding);
       Position center = Positions.of(startPos);
@@ -149,7 +154,20 @@ public class MazeEndPointMoveableLauncher {
 
             // With this detector settings, everything runs without End-Positions
             .withEvasionStateMachineConfig(90, 50)
-            .withTrippleDetectorCluster(55, 35)
+            .withTrippleDetectorCluster(DetectorConfigBuilder.builder()
+                  .withDetectorReach(90)
+                  .withEvasionDistance(50)
+                  .withDetectorAngle(detectorAngle)
+                  .withEvasionAngle(evasionAngle)
+                  .withEvasionAngleInc(2)
+                  .build(),
+                  DetectorConfigBuilder.builder()
+                        .withDetectorReach(55)
+                        .withEvasionDistance(35)
+                        .withDetectorAngle(detectorAngle)
+                        .withEvasionAngle(evasionAngle)
+                        .withEvasionAngleInc(2)
+                        .build())
             .withStartPos(startPos)
             .withMovingIncrement(2)
             .withMoveableController(new MazePostMoveForwardHandler(endPos, mainWindowHolder, moveableControllerHolder, emptyList(), renderers))

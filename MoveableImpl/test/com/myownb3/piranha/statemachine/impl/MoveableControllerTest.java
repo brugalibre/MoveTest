@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectedException;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.exception.NotImplementedException;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.DefaultGrid.GridBuilder;
@@ -546,14 +547,16 @@ class MoveableControllerTest {
                .withReturningAngleIncMultiplier(angleIncMultiplier)
                .withReturningMinDistance(minDistance)
                .withReturningAngleMargin(angleMargin)
-               .withDetectorReach(detectorReach)
-               .withEvasionDistance(2 * detectorReach / 3)
-               .withDetectorAngle(detectorAngle)
-               .withEvasionAngle(evasionAngle)
-               .withEvasionAngleInc(evasionAngleInc)
                .withOrientationAngle(10)
                .withPassingDistance(2 * detectorReach / 3)
                .withPostEvasionReturnAngle(4)
+               .withDetectorConfig(DetectorConfigBuilder.builder()
+                     .withDetectorReach(detectorReach)
+                     .withEvasionDistance(2 * detectorReach / 3)
+                     .withDetectorAngle(detectorAngle)
+                     .withEvasionAngle(evasionAngle)
+                     .withEvasionAngleInc(evasionAngleInc)
+                     .build())
                .build();
          return this;
       }

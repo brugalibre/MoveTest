@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.statemachine.impl;
 
+import com.myownb3.piranha.detector.config.DetectorConfig;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 
 /**
@@ -16,14 +17,9 @@ public class EvasionStateMachineConfigBuilder {
    private int passingDistance;
    private double orientationAngle;
 
-   // Attributes for Detector
-   private int detectorReach;
-   private int detectorAngle;
-   private int evasionAngle;
-   private int evasionDistance;
-   private double evasionAngleInc;
    private double returningAngleMargin;
    private int postEvasionReturnAngle;
+   private DetectorConfig detectorConfig;
 
    private EvasionStateMachineConfigBuilder() {
       // private
@@ -49,33 +45,8 @@ public class EvasionStateMachineConfigBuilder {
       return this;
    }
 
-   public EvasionStateMachineConfigBuilder withEvasionAngleInc(double evasionAngleInc) {
-      this.evasionAngleInc = evasionAngleInc;
-      return this;
-   }
-
-   public EvasionStateMachineConfigBuilder withDetectorReach(int detectorReach) {
-      this.detectorReach = detectorReach;
-      return this;
-   }
-
-   public EvasionStateMachineConfigBuilder withEvasionDistance(int evasionDistance) {
-      this.evasionDistance = evasionDistance;
-      return this;
-   }
-
    public EvasionStateMachineConfigBuilder withPassingDistance(int passingDistance) {
       this.passingDistance = passingDistance;
-      return this;
-   }
-
-   public EvasionStateMachineConfigBuilder withDetectorAngle(int detectorAngle) {
-      this.detectorAngle = detectorAngle;
-      return this;
-   }
-
-   public EvasionStateMachineConfigBuilder withEvasionAngle(int evasionAngle) {
-      this.evasionAngle = evasionAngle;
       return this;
    }
 
@@ -84,9 +55,14 @@ public class EvasionStateMachineConfigBuilder {
       return this;
    }
 
+   public EvasionStateMachineConfigBuilder withDetectorConfig(DetectorConfig detectorConfig) {
+      this.detectorConfig = detectorConfig;
+      return this;
+   }
+
    public EvasionStateMachineConfig build() {
       return new EvasionStateMachineConfigImpl(returningAngleIncMultiplier, orientationAngle, returningMinDistance, returningAngleMargin,
-            detectorReach, evasionDistance, passingDistance, detectorAngle, evasionAngle, evasionAngleInc, postEvasionReturnAngle);
+            passingDistance, postEvasionReturnAngle, detectorConfig);
    }
 
    /**

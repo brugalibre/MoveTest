@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.application.MoveableApplication;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
+import com.myownb3.piranha.detector.config.DetectorConfig;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -79,7 +81,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
       private TrippleDetectorCluster trippleDetectorCluster;
       private EvasionStateMachineConfig config;
       private int movingIncrement;
-      private EvasionStateMachineConfig sideDetectorConfig;
+      private DetectorConfig sideDetectorConfig;
 
       private RandomRunnerWithEndPositionsBuilder() {
          movingIncrement = 2;
@@ -122,13 +124,13 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return this;
       }
 
-      public RandomRunnerWithEndPositionsBuilder withSideDetectorEvasionStateMachineConfig(EvasionStateMachineConfig sideDetectorConfig) {
+      public RandomRunnerWithEndPositionsBuilder withSideDetectorConfig(DetectorConfig sideDetectorConfig) {
          this.sideDetectorConfig = sideDetectorConfig;
          return this;
       }
 
       public RandomRunnerWithEndPositionsBuilder withDefaultDetectorCluster() {
-         trippleDetectorCluster = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(config, sideDetectorConfig);
+         trippleDetectorCluster = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(DetectorConfigImpl.of(config), sideDetectorConfig);
          return this;
       }
 

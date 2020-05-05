@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -35,7 +36,20 @@ class MazeRunnerTest {
       int segmentLength = 80;
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
             .withEvasionStateMachineConfig(70, 45)
-            .withTrippleDetectorCluster(60, 25)
+            .withTrippleDetectorCluster(DetectorConfigBuilder.builder()
+                  .withDetectorReach(60)
+                  .withEvasionDistance(45)
+                  .withDetectorAngle(60)
+                  .withEvasionAngle(45)
+                  .withEvasionAngleInc(2)
+                  .build(),
+                  DetectorConfigBuilder.builder()
+                        .withDetectorReach(25)
+                        .withEvasionDistance(5)
+                        .withDetectorAngle(60)
+                        .withEvasionAngle(25)
+                        .withEvasionAngleInc(2)
+                        .build())
             .withStartPos(startPos)
             .withMaze(MazeBuilder.builder()
                   .withGrid(MirrorGridBuilder.builder()
@@ -94,7 +108,20 @@ class MazeRunnerTest {
       List<MoveableController> moveableControllers = new ArrayList<>();
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
             .withEvasionStateMachineConfig(70, 45)
-            .withTrippleDetectorCluster(60, 25)
+            .withTrippleDetectorCluster(DetectorConfigBuilder.builder()
+                  .withDetectorReach(60)
+                  .withEvasionDistance(45)
+                  .withDetectorAngle(60)
+                  .withEvasionAngle(45)
+                  .withEvasionAngleInc(2)
+                  .build(),
+                  DetectorConfigBuilder.builder()
+                        .withDetectorReach(25)
+                        .withEvasionDistance(5)
+                        .withDetectorAngle(60)
+                        .withEvasionAngle(25)
+                        .withEvasionAngleInc(2)
+                        .build())
             .withStartPos(startPos)
             .withMaze(MazeBuilder.builder()
                   .withGrid(MirrorGridBuilder.builder()

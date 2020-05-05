@@ -8,6 +8,7 @@ import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.IDetector;
 import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
+import com.myownb3.piranha.detector.config.DetectorConfig;
 import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.detector.strategy.DetectingStrategy;
@@ -178,8 +179,8 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
        *        the {@link EvasionStateMachineConfig} for the two side {@link Detector}s
        * @return a {@link TrippleDetectorCluster}
        */
-      public static TrippleDetectorCluster buildDefaultDetectorCluster(EvasionStateMachineConfig centerDetectorConfig,
-            EvasionStateMachineConfig sideDetectorConfig) {
+      public static TrippleDetectorCluster buildDefaultDetectorCluster(DetectorConfig centerDetectorConfig,
+            DetectorConfig sideDetectorConfig) {
          double mainDetectorAngle = centerDetectorConfig.getDetectorAngle();
          double rightSideDetectorOffset = -(mainDetectorAngle / 2) - (sideDetectorConfig.getDetectorAngle() / 2);
          double leftSideDetectorOffset = (mainDetectorAngle / 2) + (sideDetectorConfig.getDetectorAngle() / 2);

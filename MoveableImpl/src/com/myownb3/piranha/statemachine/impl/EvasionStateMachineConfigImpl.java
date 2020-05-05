@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.statemachine.impl;
 
+import com.myownb3.piranha.detector.config.DetectorConfig;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 
 /**
@@ -16,15 +18,10 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    private double returningAngleIncMultiplier;
    private int passingDistance;
    private double orientationAngle;
-
-   // Attributes for Detector
-   private int detectorReach;
-   private int evasionDistance;
-   private int detectorAngle;
-   private int evasionAngle;
-   private double evasionAngleInc;
    private double returningAngleMargin;
    private int postEvasionReturnAngle;
+
+   private DetectorConfig detectorConfig;
 
    /**
     * Creates a new {@link EvasionStateMachineConfig} with the given values.
@@ -43,13 +40,17 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
     */
    public EvasionStateMachineConfigImpl(double angleIncMultiplier, double minDistance, double angleMargin,
          int detectorReach, int detectorAngle, int evasionAngle, double evasionAngleInc) {
-      this(angleIncMultiplier, 10, minDistance, angleMargin, detectorReach, 2 * detectorReach / 3, 2 * detectorReach / 3,
-            detectorAngle, evasionAngle, evasionAngleInc, 4);
+      this(angleIncMultiplier, 10, minDistance, angleMargin, 2 * detectorReach / 3, 4, DetectorConfigBuilder.builder()
+            .withDetectorReach(detectorReach)
+            .withEvasionAngle(evasionAngle)
+            .withDetectorAngle(detectorAngle)
+            .withEvasionAngleInc(evasionAngleInc)
+            .withEvasionDistance(2 * detectorReach / 3)
+            .build());
    }
 
    /*package */ EvasionStateMachineConfigImpl(double angleIncMultiplier, double orientationAngle, double minDistance,
-         double angleMargin, int detectorReach, int evasionDistance, int passingDistance, int detectorAngle, int evasionAngle,
-         double evasionAngleInc, int postEvasionReturnAngle) {
+         double angleMargin, int passingDistance, int postEvasionReturnAngle, DetectorConfig detectorConfig) {
       this.orientationAngle = orientationAngle;
       this.postEvasionReturnAngle = postEvasionReturnAngle;
       this.returningAngleIncMultiplier = angleIncMultiplier;
@@ -57,11 +58,7 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
       this.returningAngleMargin = angleMargin;
 
       this.passingDistance = passingDistance;
-      this.evasionAngleInc = evasionAngleInc;
-      this.detectorReach = detectorReach;
-      this.evasionDistance = evasionDistance;
-      this.detectorAngle = detectorAngle;
-      this.evasionAngle = evasionAngle;
+      this.detectorConfig = detectorConfig;
    }
 
    @Override
@@ -91,17 +88,17 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
 
    @Override
    public double getEvasionAngleInc() {
-      return evasionAngleInc;
+      return detectorConfig.getEvasionAngleInc();
    }
 
    @Override
    public final int getDetectorReach() {
-      return this.detectorReach;
+      return this.detectorConfig.getDetectorReach();
    }
 
    @Override
    public final int getEvasionDistance() {
-      return this.evasionDistance;
+      return this.detectorConfig.getEvasionDistance();
    }
 
    @Override
@@ -110,12 +107,12 @@ public class EvasionStateMachineConfigImpl implements EvasionStateMachineConfig 
    }
 
    @Override
-   public final int getDetectorAngle() {
-      return this.detectorAngle;
+   public final double getDetectorAngle() {
+      return this.detectorConfig.getDetectorAngle();
    }
 
    @Override
-   public final int getEvasionAngle() {
-      return this.evasionAngle;
+   public final double getEvasionAngle() {
+      return this.detectorConfig.getEvasionAngle();
    }
 }

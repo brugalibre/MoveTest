@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner;
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.DimensionImpl;
 import com.myownb3.piranha.grid.Grid;
@@ -95,28 +96,23 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withOrientationAngle(1)
                   .withReturningMinDistance(0.06)
                   .withReturningAngleMargin(0.7d)
-                  .withDetectorReach(detectorReach)
-                  .withEvasionDistance(evasionDistance)
                   .withPassingDistance(25)
-                  .withDetectorAngle(60)
-                  .withEvasionAngle(45)
-                  .withEvasionAngleInc(1)
                   .withPostEvasionReturnAngle(4)
-                  .build())
-            .withSideDetectorEvasionStateMachineConfig(
-                  EvasionStateMachineConfigBuilder.builder()
-                        .withReturningAngleIncMultiplier(1)
-                        .withOrientationAngle(1)
-                        .withReturningMinDistance(0.06)
-                        .withReturningAngleMargin(0.7d)
-                        .withDetectorReach(45)
-                        .withEvasionDistance(25)
-                        .withPassingDistance(25)
+                  .withDetectorConfig(DetectorConfigBuilder.builder()
+                        .withDetectorReach(detectorReach)
+                        .withEvasionDistance(evasionDistance)
                         .withDetectorAngle(60)
                         .withEvasionAngle(45)
                         .withEvasionAngleInc(1)
-                        .withPostEvasionReturnAngle(4)
                         .build())
+                  .build())
+            .withSideDetectorConfig(DetectorConfigBuilder.builder()
+                  .withDetectorReach(45)
+                  .withEvasionDistance(25)
+                  .withDetectorAngle(60)
+                  .withEvasionAngle(45)
+                  .withEvasionAngleInc(1)
+                  .build())
             .withDefaultDetectorCluster()
             .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerHolder, gridElements, renderers))
             .build();

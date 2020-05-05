@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Dimension;
 import com.myownb3.piranha.grid.Grid;
@@ -161,14 +162,16 @@ public class RandomMoveableLauncher implements Stoppable {
             .withOrientationAngle(10)
             .withReturningMinDistance(0.05)
             .withReturningAngleMargin(0.7d)
-            .withDetectorReach(detectorReach)
-            .withEvasionDistance(2 * detectorReach / 3)
             .withPassingDistance(80)
-            .withDetectorAngle(80)
-            .withEvasionAngle(70)
             .withPassingDistance(2 * detectorReach / 3)
-            .withEvasionAngleInc(5)
             .withPostEvasionReturnAngle(4)
+            .withDetectorConfig(DetectorConfigBuilder.builder()
+                  .withDetectorReach(detectorReach)
+                  .withEvasionDistance(2 * detectorReach / 3)
+                  .withDetectorAngle(80)
+                  .withEvasionAngle(70)
+                  .withEvasionAngleInc(5)
+                  .build())
             .build();
    }
 

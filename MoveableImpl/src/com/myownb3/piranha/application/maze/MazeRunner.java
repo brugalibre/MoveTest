@@ -8,6 +8,8 @@ import java.util.List;
 import com.myownb3.piranha.application.MoveableApplication;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
+import com.myownb3.piranha.detector.config.DetectorConfig;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -103,32 +105,21 @@ public class MazeRunner implements MoveableApplication {
                .withOrientationAngle(1)
                .withReturningMinDistance(0.06)
                .withReturningAngleMargin(0.7d)
-               .withDetectorReach(detectorReach)
-               .withEvasionDistance(evasionDistance)
                .withPassingDistance(25)
-               .withDetectorAngle(75)
-               .withEvasionAngle(45)
-               .withEvasionAngleInc(1)
                .withPostEvasionReturnAngle(4)
+               .withDetectorConfig(DetectorConfigBuilder.builder()
+                     .withDetectorReach(detectorReach)
+                     .withEvasionDistance(evasionDistance)
+                     .withDetectorAngle(75)
+                     .withEvasionAngle(45)
+                     .withEvasionAngleInc(1)
+                     .build())
                .build();
          return this;
       }
 
-      public MazeRunnerBuilder withTrippleDetectorCluster(int sideDetectorReach, int sideDetectorEvasionDistance) {
-         detectorCluster = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(config,
-               EvasionStateMachineConfigBuilder.builder()
-                     .withReturningAngleIncMultiplier(1)
-                     .withOrientationAngle(1)
-                     .withReturningMinDistance(0.06)
-                     .withReturningAngleMargin(0.7d)
-                     .withDetectorReach(sideDetectorReach)
-                     .withEvasionDistance(sideDetectorEvasionDistance)
-                     .withPassingDistance(25)
-                     .withDetectorAngle(60)
-                     .withEvasionAngle(45)
-                     .withEvasionAngleInc(1)
-                     .withPostEvasionReturnAngle(4)
-                     .build());
+      public MazeRunnerBuilder withTrippleDetectorCluster(DetectorConfig centerDetectorConfig, DetectorConfig sideDetectorConfig) {
+         detectorCluster = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(centerDetectorConfig, sideDetectorConfig);
          return this;
       }
 

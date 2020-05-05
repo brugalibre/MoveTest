@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.grid.DefaultGrid;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
@@ -248,13 +249,15 @@ public class EndPointMoveableLauncher {
             .withOrientationAngle(10)
             .withReturningMinDistance(0.06)
             .withReturningAngleMargin(0.7d)
-            .withDetectorReach(60)
-            .withEvasionDistance(2 * 60 / 3)
             .withPassingDistance(60)
-            .withDetectorAngle(70)
-            .withEvasionAngle(50)
-            .withEvasionAngleInc(2)
             .withPostEvasionReturnAngle(4)
+            .withDetectorConfig(DetectorConfigBuilder.builder()
+                  .withDetectorReach(60)
+                  .withEvasionDistance(2 * 60 / 3)
+                  .withDetectorAngle(70)
+                  .withEvasionAngle(50)
+                  .withEvasionAngleInc(2)
+                  .build())
             .build();
    }
 
