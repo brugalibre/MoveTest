@@ -60,7 +60,7 @@ public class MazeEndPointMoveableLauncher {
       int segmentLength = 80;
       int circleRadius = 4;
 
-      int evasionAngle = 45;
+      int evasionAngle = 60;
       int detectorAngle = 60;
 
       EndPosition endPos = EndPositions.of(850, 900);
@@ -106,6 +106,11 @@ public class MazeEndPointMoveableLauncher {
                   .appendCorridorLeftAngleBend()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
+                  //                  .withObstacle(CircleBuilder.builder()
+                  //                        .withRadius(circleRadius)
+                  //                        .withAmountOfPoints(circleRadius)
+                  //                        .withCenter(Positions.of(0, 0))
+                  //                        .build(), -10, 0)
                   .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
                   .appendCorridorSegment()
@@ -163,7 +168,7 @@ public class MazeEndPointMoveableLauncher {
                   .build(),
                   DetectorConfigBuilder.builder()
                         .withDetectorReach(55)
-                        .withEvasionDistance(35)
+                        .withEvasionDistance(25)
                         .withDetectorAngle(detectorAngle)
                         .withEvasionAngle(evasionAngle)
                         .withEvasionAngleInc(2)
