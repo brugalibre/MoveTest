@@ -9,6 +9,7 @@ import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.IDetector;
 import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
 import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
+import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.detector.strategy.DetectingStrategyHandlerFactory;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -192,7 +193,10 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
                      .withEvasionDistance(centerDetectorConfig.getEvasionDistance())
                      .withEvasionAngle(centerDetectorConfig.getEvasionAngle())
                      .withDetectionAware(new DefaultDetectionAware())
-                     .withDefaultEvasionAngleEvaluator(centerDetectorConfig.getEvasionAngleInc())
+                     .withDefaultEvasionAngleEvaluator(DefaultEvasionAngleEvaluatorBuilder.builder()
+                           .withDetectorAngle(centerDetectorConfig.getDetectorAngle())
+                           .withAngleInc(centerDetectorConfig.getEvasionAngleInc())
+                           .build())
                      .build())
                .withRightSideDetector(DetectorBuilder.builder()
                      .withDetectorReach(sideDetectorConfig.getDetectorReach())
@@ -200,7 +204,10 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
                      .withEvasionDistance(sideDetectorConfig.getEvasionDistance())
                      .withEvasionAngle(sideDetectorEvasionAngle)
                      .withDetectionAware(new DefaultDetectionAware())
-                     .withDefaultEvasionAngleEvaluator(sideDetectorConfig.getEvasionAngleInc())
+                     .withDefaultEvasionAngleEvaluator(DefaultEvasionAngleEvaluatorBuilder.builder()
+                           .withDetectorAngle(sideDetectorConfig.getDetectorAngle())
+                           .withAngleInc(sideDetectorConfig.getEvasionAngleInc())
+                           .build())
                      .build(), rightSideDetectorOffset)
                .withLeftSideDetector(DetectorBuilder.builder()
                      .withDetectorReach(sideDetectorConfig.getDetectorReach())
@@ -208,7 +215,10 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
                      .withEvasionDistance(sideDetectorConfig.getEvasionDistance())
                      .withEvasionAngle(sideDetectorEvasionAngle)
                      .withDetectionAware(new DefaultDetectionAware())
-                     .withDefaultEvasionAngleEvaluator(sideDetectorConfig.getEvasionAngleInc())
+                     .withDefaultEvasionAngleEvaluator(DefaultEvasionAngleEvaluatorBuilder.builder()
+                           .withDetectorAngle(sideDetectorConfig.getDetectorAngle())
+                           .withAngleInc(sideDetectorConfig.getEvasionAngleInc())
+                           .build())
                      .build(), leftSideDetectorOffset)
                .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                .withAutoDetectionStrategyHandler()

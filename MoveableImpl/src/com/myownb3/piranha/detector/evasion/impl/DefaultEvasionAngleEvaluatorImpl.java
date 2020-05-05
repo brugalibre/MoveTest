@@ -15,7 +15,7 @@ public class DefaultEvasionAngleEvaluatorImpl implements EvasionAngleEvaluator {
    private double detectorAngle;
    private DetectionAware detectionAware;
 
-   public DefaultEvasionAngleEvaluatorImpl(double detectorAngle, double angleInc) {
+   private DefaultEvasionAngleEvaluatorImpl(double detectorAngle, double angleInc) {
       this.angleInc = angleInc;
       this.detectorAngle = detectorAngle;
    }
@@ -53,5 +53,33 @@ public class DefaultEvasionAngleEvaluatorImpl implements EvasionAngleEvaluator {
    @Override
    public void setDetectionAware(DetectionAware detectionAware) {
       this.detectionAware = requireNonNull(detectionAware);
+   }
+
+   public static class DefaultEvasionAngleEvaluatorBuilder {
+
+      private double angleInc;
+      private double detectorAngle;
+
+      private DefaultEvasionAngleEvaluatorBuilder() {
+         // private
+      }
+
+      public DefaultEvasionAngleEvaluatorBuilder withDetectorAngle(double detectorAngle) {
+         this.detectorAngle = detectorAngle;
+         return this;
+      }
+
+      public DefaultEvasionAngleEvaluatorBuilder withAngleInc(double angleInc) {
+         this.angleInc = angleInc;
+         return this;
+      }
+
+      public DefaultEvasionAngleEvaluatorImpl build() {
+         return new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);
+      }
+
+      public static DefaultEvasionAngleEvaluatorBuilder builder() {
+         return new DefaultEvasionAngleEvaluatorBuilder();
+      }
    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import com.myownb3.piranha.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.detector.evasion.EvasionAngleEvaluator;
-import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl;
+import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
@@ -182,8 +182,8 @@ public class DetectorImpl implements IDetector {
          return this;
       }
 
-      public DetectorBuilder withDefaultEvasionAngleEvaluator(double angleInc) {
-         this.evasionAngleEvaluator = new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);
+      public DetectorBuilder withDefaultEvasionAngleEvaluator(EvasionAngleEvaluator evasionAngleEvaluator) {
+         this.evasionAngleEvaluator = evasionAngleEvaluator;
          return this;
       }
 
@@ -208,7 +208,10 @@ public class DetectorImpl implements IDetector {
             detectionAware = new DefaultDetectionAware();// 4 default builder
          }
          if (isNull(evasionAngleEvaluator)) {
-            evasionAngleEvaluator = new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);// 4 default builder
+            evasionAngleEvaluator = DefaultEvasionAngleEvaluatorBuilder.builder()
+                  .withDetectorAngle(detectorAngle)
+                  .withAngleInc(angleInc)
+                  .build();// 4 default builder
          }
       }
    }

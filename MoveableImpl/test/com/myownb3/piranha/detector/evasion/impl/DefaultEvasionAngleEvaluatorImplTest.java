@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.detectionaware.DetectionAware;
+import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.grid.gridelement.Avoidable;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -157,7 +158,10 @@ class DefaultEvasionAngleEvaluatorImplTest {
       }
 
       private TestCaseBuilder build() {
-         angleEvaluatorImpl = new DefaultEvasionAngleEvaluatorImpl(detectorAngle, angleInc);
+         angleEvaluatorImpl = DefaultEvasionAngleEvaluatorBuilder.builder()
+               .withDetectorAngle(detectorAngle)
+               .withAngleInc(angleInc)
+               .build();
          angleEvaluatorImpl.setDetectionAware(detectionAware);
          return this;
       }
