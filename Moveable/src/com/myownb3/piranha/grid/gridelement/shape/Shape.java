@@ -55,7 +55,16 @@ public interface Shape {
     */
    boolean detectObject(Position detectorPosition, Detector detector);
 
-   boolean isWithinUpperBounds(Position position, double detectorAngle);
+   /**
+    * Verifies if the detected {@link Position}s are within the upper or lower bounds
+    * 
+    * @param detectedPositions
+    *        the detected {@link Position}s
+    * @param detectorPos
+    *        the Position of the {@link Detector}
+    * @return <code>true</code> if the detected {@link Position}s are within the upper bounds or <code>false</code> if not
+    */
+   boolean isWithinUpperBounds(List<Position> detectedPositions, Position detectorPos);
 
    /**
     * Returns the {@link Position} of this {@link GridElement} which faces the same

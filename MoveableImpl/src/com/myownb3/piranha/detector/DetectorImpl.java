@@ -209,7 +209,6 @@ public class DetectorImpl implements IDetector {
          }
          if (isNull(evasionAngleEvaluator)) {
             evasionAngleEvaluator = DefaultEvasionAngleEvaluatorBuilder.builder()
-                  .withDetectorAngle(detectorAngle)
                   .withAngleInc(angleInc)
                   .build();// 4 default builder
          }

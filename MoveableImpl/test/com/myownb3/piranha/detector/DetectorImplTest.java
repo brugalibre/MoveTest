@@ -32,7 +32,6 @@ class DetectorImplTest {
             .withEvasionAngle(30)
             .withDetectionAware(detectionAware)
             .withDefaultEvasionAngleEvaluator(DefaultEvasionAngleEvaluatorBuilder.builder()
-                  .withDetectorAngle(40)
                   .withAngleInc(4)
                   .build())
             .build();

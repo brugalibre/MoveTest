@@ -55,17 +55,39 @@ public abstract class AbstractShape implements Shape {
    protected abstract List<Position> buildPath4Detection();
 
    @Override
-   public boolean isWithinUpperBounds(Position position, double detectorAngle) {
-      Position gridElemPos = gridElement.getPosition();
-      double ourAngle = position.calcAbsolutAngle();
-      double avoidableAngle = gridElemPos.calcAbsolutAngle();
-
-      return isWithinUpperBorder(ourAngle, avoidableAngle, detectorAngle)
-            && avoidableAngle >= ourAngle;
+   public boolean isWithinUpperBounds(List<Position> detectedPositions, Position detectorPos) {
+      DetectionResult detectionResult = new DetectionResult();
+      for (Position detectedPos : detectedPositions) {
+         boolean evasionAngle = isPositionWithinUpperBounds(detectorPos, detectedPos);
+         if (evasionAngle) {
+            detectionResult.leftSideCounter++;
+         } else {
+            detectionResult.rightSideCounter++;
+         }
+      }
+      if (areAllDetectedGridElementsLeft(detectionResult)) {
+         return false;
+      }
+      if (areAllDetectedGridElementsRight(detectionResult)) {
+         return true;
+      }
+      return areMoreDetectedGridElementsLeft(detectionResult) ? false : true;
    }
 
-   private static boolean isWithinUpperBorder(double ourAngle, double gridElementAngle, double detectorAngle) {
-      return ourAngle + (detectorAngle / 2) >= gridElementAngle;
+   private boolean areMoreDetectedGridElementsLeft(DetectionResult detectionResult) {
+      return detectionResult.leftSideCounter > detectionResult.rightSideCounter;
+   }
+
+   private boolean areAllDetectedGridElementsRight(DetectionResult detectionResult) {
+      return detectionResult.rightSideCounter > 0 && detectionResult.leftSideCounter == 0;
+   }
+
+   private boolean areAllDetectedGridElementsLeft(DetectionResult detectionResult) {
+      return detectionResult.leftSideCounter > 0 && detectionResult.rightSideCounter == 0;
+   }
+
+   protected boolean isPositionWithinUpperBounds(Position detectorPos, Position detectedPos) {
+      return detectedPos.calcAngleRelativeTo(detectorPos) >= 0;
    }
 
    @Override
@@ -76,4 +98,14 @@ public abstract class AbstractShape implements Shape {
    public void setGridElement(GridElement gridElement) {
       this.gridElement = requireNonNull(gridElement);
    }
+
+   private static class DetectionResult {
+      private int leftSideCounter = 0;
+      private int rightSideCounter = 0;
+
+      private DetectionResult() {
+         // private
+      }
+   }
+
 }
