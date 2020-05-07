@@ -23,6 +23,7 @@ import com.myownb3.piranha.detector.PlacedDetector;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.grid.gridelement.GridElement;
@@ -36,7 +37,6 @@ import com.myownb3.piranha.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MoveableControllerHolder;
-import com.myownb3.piranha.launch.MazePostMoveForwardHandler.DetectorHolder;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.MoveableController;
 import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
@@ -79,7 +79,8 @@ public class MazeEndPointMoveableLauncher {
       List<Renderer> renderers = new ArrayList<>();
       MainWindowHolder mainWindowHolder = new MainWindowHolder();
       MoveableControllerHolder moveableControllerHolder = new MoveableControllerHolder();
-      DetectorHolder detector = new DetectorHolder();
+      MazePostMoveForwardHandler postMoveFowardHandler =
+            new MazePostMoveForwardHandler(mainWindowHolder, moveableControllerHolder, emptyList(), renderers);
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
             .withMovingIncrement(4)
             .withMaze(MazeBuilder.builder()
@@ -190,7 +191,7 @@ public class MazeEndPointMoveableLauncher {
                         .build())
             .withStartPos(startPos)
             .withMovingIncrement(2)
-            .withMoveableController(new MazePostMoveForwardHandler(detector, mainWindowHolder, moveableControllerHolder, emptyList(), renderers))
+            .withMoveableController(postMoveFowardHandler)
             .build();
 
       Grid grid = mazeRunner.getGrid();
@@ -198,7 +199,10 @@ public class MazeEndPointMoveableLauncher {
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, 10);
       mainWindowHolder.setMainWindow(mainWindow);
       mainWindows.add(mainWindow);
-      detector.setDetector(evalDetector(mazeRunner.getMaze()));
+      postMoveFowardHandler.setLightBarrier(LightBarrierBuilder.builder()
+            .withLightBarrierCallbackHandler(postMoveFowardHandler)
+            .withPlacedDetector(evalDetector(mazeRunner.getMaze()))
+            .build());
 
       List<GridElement> gridElements = mazeRunner.getAllGridElements();
 
@@ -250,23 +254,23 @@ public class MazeEndPointMoveableLauncher {
    }
 
    private static List<Renderer> getRenderers(Grid grid, int height, List<GridElement> gridElements, Moveable moveable,
-         TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config, List<PlacedDetector> stationedDetectors) {
+         TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config, List<PlacedDetector> corridorDetectors) {
       List<Renderer> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, height))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, height));
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, height, moveablePainterConfig));
-      renderers.addAll(stationedDetectors.stream()
+      renderers.addAll(corridorDetectors.stream()
             .map(buildDetectorPainter(grid, height))
             .collect(Collectors.toList()));
       return renderers;
    }
 
    private static Function<? super PlacedDetector, ? extends DetectorPainter> buildDetectorPainter(Grid grid, int height) {
-      return placedDetector -> {
-         IDetector detector = placedDetector.getDetector();
-         return new DetectorPainter(new SimpleGridElement(grid, placedDetector.getPosition()), getPositionListColor(), height, height,
+      return corridorDetector -> {
+         IDetector detector = corridorDetector.getDetector();
+         return new DetectorPainter(new SimpleGridElement(grid, corridorDetector.getPosition()), getPositionListColor(), height, height,
                DetectorPainterConfig.of(Optional.empty(), DetectorConfigBuilder.builder()
                      .withDetectorAngle(detector.getDetectorAngle())
                      .withDetectorReach(detector.getDetectorRange())
