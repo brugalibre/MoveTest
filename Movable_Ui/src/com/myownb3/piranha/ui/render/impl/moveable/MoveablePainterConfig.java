@@ -21,8 +21,8 @@ import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
 public class MoveablePainterConfig {
 
    private int evasionReach;
-   private int evasionAngle;
-   private int detectorAngle;
+   private double evasionAngle;
+   private double detectorAngle;
    private int detectorReach;
    private boolean drawDetector;
    private boolean drawMoveableDirection;
@@ -60,14 +60,14 @@ public class MoveablePainterConfig {
    /**
     * @return the angle to detect an evasion with a {@link GridElement}
     */
-   public int getEvasionAngle() {
+   public double getEvasionAngle() {
       return evasionAngle;
    }
 
    /**
     * @return the angle to detect {@link GridElement} of the detector
     */
-   public int getDetectorAngle() {
+   public double getDetectorAngle() {
       return detectorAngle;
    }
 
