@@ -8,6 +8,7 @@ import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.Obstacle;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.grid.maze.corridor.CorridorSegment;
 
 /**
  * A {@link Maze} contains multiple {@link GridElement} such as {@link Rectangle} defining the maze but also other {@link Obstacle}s

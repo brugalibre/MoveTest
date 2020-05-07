@@ -15,6 +15,7 @@ import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.grid.maze.MazeImpl.MazeBuilder;
+import com.myownb3.piranha.grid.maze.corridor.CorridorSegment;
 
 class MazeImplTest {
 
