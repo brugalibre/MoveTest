@@ -61,8 +61,7 @@ class DefaultPostEvasionStateHandlerTest {
 
       // Given
       Position positionBeforeEvasion = Positions.of(9, 9);
-      Position moveablePos = Positions.of(11, 10);
-      moveablePos.rotate(-10);
+      Position moveablePos = Positions.of(11, 10).rotate(-10);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withStepWidth(10)
             .withPositionBeforeEvasion(positionBeforeEvasion)
@@ -85,8 +84,7 @@ class DefaultPostEvasionStateHandlerTest {
       // Given
       DetectableMoveableHelper helper = new OneTimeEvasionDetectableMoveableHelper();
       Position positionBeforeEvasion = Positions.of(9, 9);
-      Position moveablePos = Positions.of(11, 10);
-      moveablePos.rotate(-25);
+      Position moveablePos = Positions.of(11, 10).rotate(-25);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withStepWidth(10)
             .withPositionBeforeEvasion(positionBeforeEvasion)

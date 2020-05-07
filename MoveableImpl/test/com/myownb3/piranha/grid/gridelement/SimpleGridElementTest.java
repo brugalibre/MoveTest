@@ -65,8 +65,7 @@ class SimpleGridElementTest {
    void testGetFurthermostBackPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      Position expectedBackPos = Positions.of(gridElemPos);
-      expectedBackPos.rotate(180);
+      Position expectedBackPos = gridElemPos.rotate(180);
       PositionShape pointShape = PositionShapeBuilder.builder()
             .withPosition(gridElemPos)
             .build();

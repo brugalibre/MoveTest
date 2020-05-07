@@ -58,10 +58,10 @@ public class MirrorGrid extends DefaultGrid {
       Position movedPos = super.moveForward(gridElement);
 
       if (movedPos.getX() == minX || movedPos.getX() == maxX) {
-         movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
+         movedPos = movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
       }
       if (movedPos.getY() == minY || movedPos.getY() == maxY) {
-         movedPos.rotate(360 - 2 * movedPos.getDirection().getAngle());
+         movedPos = movedPos.rotate(360 - 2 * movedPos.getDirection().getAngle());
       }
 
       return movedPos;

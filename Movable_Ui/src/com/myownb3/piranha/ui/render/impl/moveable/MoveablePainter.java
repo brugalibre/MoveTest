@@ -12,13 +12,11 @@ import java.util.Optional;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.detector.Detector;
 import com.myownb3.piranha.detector.IDetector;
 import com.myownb3.piranha.detector.cluster.tripple.IDetectorInfo;
 import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.grid.direction.Direction;
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
@@ -59,15 +57,13 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       GraphicsContext context = (GraphicsContext) graphicsCtx;
       Graphics graphics = context.getGraphics();
 
-      Position gridElemPos = Positions.of(getValue().getPosition());
-
       drawDetectorOrDetectorCluster(graphics);
-      drawMoveableDirection(graphics, gridElemPos);
+      drawMoveableDirection(graphics, getValue().getPosition());
    }
 
    private void drawDetectorOrDetectorCluster(Graphics graphics) {
       if (drawDetector) {
-         Position furthermostFrontPosition = Positions.of(getValue().getFurthermostFrontPosition());
+         Position furthermostFrontPosition = getValue().getFurthermostFrontPosition();
          if (detectorClusterOpt.isPresent()) {
             drawDetectorCluster(graphics, detectorClusterOpt.get(), furthermostFrontPosition, detectorColor);
          } else {
@@ -86,16 +82,10 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
    private static void drawSingleDetector4Cluster(Graphics graphics, Position furthermostFrontPosition, Color detectorColor,
          IDetectorInfo iDetectorInfo) {
       IDetector detector = iDetectorInfo.getDetector();
-      Position detectorPos = getCurrentDetectorPos(furthermostFrontPosition, detector, iDetectorInfo.getOffsetAngle());
+      Position detectorPos = furthermostFrontPosition.rotate(iDetectorInfo.getOffsetAngle());
       drawDetector(graphics, detectorColor, (int) detector.getDetectorAngle(), detector.getDetectorRange(),
             (int) detector.getEvasionAngle(),
             detector.getEvasionRange(), detectorPos);
-   }
-
-   private static Position getCurrentDetectorPos(Position furthermostFrontPosition, Detector detector, double degree) {
-      Position detectorPos = Positions.of(furthermostFrontPosition);
-      detectorPos.rotate(degree);
-      return detectorPos;
    }
 
    private static void drawDetector(Graphics graphics, Color detectorColor, int detectorAngle, int detectorRange, int evasionAngle,

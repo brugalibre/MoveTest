@@ -116,7 +116,7 @@ class MathUtilTest {
 
       Position gridElementPos = Positions.of(8, -4);
       Position moveablePosition = Positions.of(Directions.S, -2, -2);
-      moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
+      moveablePosition = moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
 
       // When
       double actualCalcAngleBetweenVectors = round(

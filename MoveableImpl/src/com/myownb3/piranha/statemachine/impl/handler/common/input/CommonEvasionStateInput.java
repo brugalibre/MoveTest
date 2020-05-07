@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.input.EventStateInput;
@@ -20,7 +19,7 @@ public class CommonEvasionStateInput implements EventStateInput {
       this.grid = requireNonNull(grid);
       this.moveable = requireNonNull(moveable);
       this.helper = requireNonNull(helper);
-      moveablePosBefore = Positions.of(moveable.getPosition());
+      moveablePosBefore = moveable.getPosition();
    }
 
    public DetectableMoveableHelper getHelper() {

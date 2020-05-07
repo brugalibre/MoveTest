@@ -7,7 +7,6 @@ import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.statemachine.impl.handler.common.input.CommonEvasionStateInput;
@@ -74,16 +73,14 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
    private CalcSignumRes calcSignumRes(Position moveablePos, Position positionBeforeEvasion, Float64Vector endPosLine,
          double testTurnAngle) {
       CalcSignumRes res = new CalcSignumRes();
-      Position moveablePosTurnNegative = Positions.of(moveablePos);
-      moveablePosTurnNegative.rotate(-testTurnAngle);
+      Position moveablePosTurnNegative = moveablePos.rotate(-testTurnAngle);
       moveablePosTurnNegative = movePositionForward(moveablePosTurnNegative);
       res.distanceAfterTurnNegative = calcDistanceFromPositionToLine(moveablePosTurnNegative, positionBeforeEvasion,
             endPosLine);
       res.angleAfterTurnNegative = calcAngle(moveablePosTurnNegative, endPosLine);
 
       // Rotate positive and calculate angle
-      Position moveablePosTurnPositive = Positions.of(moveablePos);
-      moveablePosTurnPositive.rotate(testTurnAngle);
+      Position moveablePosTurnPositive = moveablePos.rotate(testTurnAngle);
       moveablePosTurnPositive = movePositionForward(moveablePosTurnPositive);
       res.distanceAfterTurnPositive = calcDistanceFromPositionToLine(moveablePosTurnPositive, positionBeforeEvasion,
             endPosLine);

@@ -5,7 +5,6 @@ import static com.myownb3.piranha.statemachine.states.EvasionStates.ORIENTING;
 
 import com.myownb3.piranha.grid.Grid;
 import com.myownb3.piranha.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 import com.myownb3.piranha.moveables.Moveable;
 import com.myownb3.piranha.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
@@ -30,7 +29,7 @@ public class DefaultStateHandler extends CommonEvasionStateHandlerImpl<DefaultSt
    private CommonEvasionStateResult handleDefaultState(Grid grid, Moveable moveable, DetectableMoveableHelper detectionHelper, EndPosition endPos) {
       boolean isEvasion = detectionHelper.check4Evasion(grid, moveable);
       if (isEvasion) {
-         return CommonEvasionStateResult.of(DEFAULT, DEFAULT.nextState(), Positions.of(moveable.getPosition()));
+         return CommonEvasionStateResult.of(DEFAULT, DEFAULT.nextState(), moveable.getPosition());
       } else if (orientationHelper.isOrientatingNecessary(moveable, endPos)) {
          return CommonEvasionStateResult.of(DEFAULT, ORIENTING, null);
       }

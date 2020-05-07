@@ -66,7 +66,7 @@ public class MazeEndPointMoveableLauncher {
       EndPosition endPos = EndPositions.of(850, 900);
       Position startPos = Positions.of(100 + padding, 100 + padding);
       Position center = Positions.of(startPos);
-      startPos.rotate(-45);
+      startPos = startPos.rotate(-45);
       List<MainWindow> mainWindows = new ArrayList<>();
       List<Renderer> renderers = new ArrayList<>();
       MainWindowHolder mainWindowHolder = new MainWindowHolder();

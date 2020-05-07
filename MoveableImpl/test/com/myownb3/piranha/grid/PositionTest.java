@@ -176,8 +176,7 @@ class PositionTest {
 
       // Given
       Position testPos1 = Positions.of(Directions.N, 0, 0);
-      Position testPos2 = Positions.of(0, 0);
-      testPos2.rotate(-45);
+      Position testPos2 = Positions.of(0, 0).rotate(-45);
       Position pos2ComparteWith = Positions.of(5, 5);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
    }
@@ -187,8 +186,7 @@ class PositionTest {
 
       // Given
       Position testPos1 = Positions.of(Directions.W, 0, 0);
-      Position testPos2 = Positions.of(0, 0);
-      testPos2.rotate(45);
+      Position testPos2 = Positions.of(0, 0).rotate(45);
       Position pos2ComparteWith = Positions.of(-5, 5);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
    }
@@ -210,8 +208,7 @@ class PositionTest {
 
       // Given
       Position testPos1 = Positions.of(Directions.N, 0, 10);
-      Position testPos2 = Positions.of(0, 10);
-      testPos2.rotate(-45);
+      Position testPos2 = Positions.of(0, 10).rotate(-45);
       Position pos2ComparteWith = Positions.of(5, 15);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
    }
@@ -252,7 +249,7 @@ class PositionTest {
       moveable.moveForward(50);
       Position position = moveable.getPosition();
       moveable.makeTurn(position.calcAbsolutAngle() - position.getDirection().getAngle());
-      return position;
+      return moveable.getPosition();
    }
 
    @Test

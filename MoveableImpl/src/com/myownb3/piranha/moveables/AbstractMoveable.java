@@ -123,7 +123,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    private void makeTurnInternal(double degree) {
       if (degree != 0) {
-         position.rotate(degree);
+         position = position.rotate(degree);
          trackPosition(position);
          shape.transform(position);
       }

@@ -181,8 +181,9 @@ public class Positions {
        * @param degree
        */
       @Override
-      public void rotate(double degree) {
-         direction = direction.rotate(degree);
+      public Position rotate(double degree) {
+         Direction newDirection = direction.rotate(degree);
+         return Positions.of(newDirection, x, y);
       }
 
       /**

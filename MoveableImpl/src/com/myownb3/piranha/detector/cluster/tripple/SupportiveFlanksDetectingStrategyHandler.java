@@ -11,7 +11,6 @@ import com.myownb3.piranha.detector.cluster.DetectingStrategyHandler;
 import com.myownb3.piranha.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 /**
  * The {@link SupportiveFlanksDetectingStrategyHandler} handles a specific {@link DetectingStrategy}
@@ -63,15 +62,9 @@ public class SupportiveFlanksDetectingStrategyHandler implements DetectingStrate
    private boolean detectObject(IDetectorInfo detectorInfo, GridElement gridElement, Position zeroDetectorPosition,
          List<Position> gridElementPath) {
       IDetector detector = detectorInfo.getDetector();
-      Position detectorPosition = getPos4CurrentDetector(zeroDetectorPosition, detectorInfo);
+      Position detectorPosition = zeroDetectorPosition.rotate(detectorInfo.getOffsetAngle());
       detector.detectObjectAlongPath(gridElement, gridElementPath, detectorPosition);
       return detector.isEvasion(gridElement);
-   }
-
-   private static Position getPos4CurrentDetector(Position zeroDetectorPosition, IDetectorInfo detectorInfo) {
-      Position detectorPosition = Positions.of(zeroDetectorPosition);
-      detectorPosition.rotate(detectorInfo.getOffsetAngle());
-      return detectorPosition;
    }
 
    @Override

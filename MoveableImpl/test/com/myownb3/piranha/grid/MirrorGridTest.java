@@ -5,7 +5,10 @@ package com.myownb3.piranha.grid;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -54,15 +57,15 @@ class MirrorGridTest {
 
       // Then
       Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
-      Mockito.verify(direction).rotate(expectedRotationDeg);
+      verify(direction, times(3)).rotate(expectedRotationDeg);
    }
 
    private static Direction mockDirection(double forwardX, double forwardY) {
-      Direction direction = spy(Direction.class);
+      Direction direction = spy(Directions.N);
       when(direction.getAngle()).thenReturn(90d);
       when(direction.getForwardX()).thenReturn(forwardX);
       when(direction.getForwardY()).thenReturn(forwardY);
-
+      doReturn(direction).when(direction).rotate(Mockito.anyDouble());
       return direction;
    }
 
@@ -78,8 +81,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.N, 0, 0);
       Position position2 = Positions.of(Directions.N, 6, 0);
-      position.rotate(-45);
-      position2.rotate(-45);
+      position = position.rotate(-45);
+      position2 = position2.rotate(-45);
       double expectedEndDegree = 135;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -117,8 +120,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.N, 0, 0);
       Position position2 = Positions.of(Directions.N, 4, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 45;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -136,8 +139,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.W, 0, 0);
       Position position2 = Positions.of(Directions.W, 6.5, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 315;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -155,8 +158,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.S, 0, 0);
       Position position2 = Positions.of(Directions.S, 7.4, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 225;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -174,8 +177,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.N, 0, 0);
       Position position2 = Positions.of(Directions.N, 7.4, 0);
-      position.rotate(-45);
-      position2.rotate(-45);
+      position = position.rotate(-45);
+      position2 = position2.rotate(-45);
       double expectedEndDegree = 315;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -193,8 +196,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.N, 0, 0);
       Position position2 = Positions.of(Directions.N, 4, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 225;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -212,8 +215,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.W, 0, 0);
       Position position2 = Positions.of(Directions.W, 6.5, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 135;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);
@@ -231,8 +234,8 @@ class MirrorGridTest {
             .build();
       Position position = Positions.of(Directions.S, 0, 0);
       Position position2 = Positions.of(Directions.S, 7.4, 0);
-      position.rotate(45);
-      position2.rotate(45);
+      position = position.rotate(45);
+      position2 = position2.rotate(45);
       double expectedEndDegree = 45;
 
       testMirrorInternal(grid, position, position2, expectedEndDegree);

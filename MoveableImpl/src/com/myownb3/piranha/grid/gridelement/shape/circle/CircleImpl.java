@@ -72,8 +72,7 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    @Override
    public Position getFurthermostBackPosition() {
-      Position posInverted = Positions.of(center);
-      posInverted.rotate(180);
+      Position posInverted = center.rotate(180);
       return getNextCirclePos(posInverted, radius, 0);
    }
 
@@ -106,8 +105,7 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    private static Position getNextCirclePos(Position center, int radius, double deg) {
-      Position pos = Positions.of(center);
-      pos.rotate(deg);
+      Position pos = center.rotate(deg);
       return Positions.movePositionForward4Distance(pos, radius);
    }
 

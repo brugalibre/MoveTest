@@ -210,11 +210,10 @@ public class MazeImpl implements Maze {
             GridElement bendSegment1 = buildRectangleObstacle(grid, wallThickness, segmentLenth, rectangleCenter);
 
             // Move it at the end of the rectangle above
-            rectangleCenter = Positions.of(corridorSegmentCenter);
-            rectangleCenter.rotate(signum * -90);
+            rectangleCenter = corridorSegmentCenter.rotate(signum * -90);
             rectangleCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, halfThickness() + segmentLenth / 2);
             GridElement bendSegment2 = buildRectangleObstacle(grid, wallThickness, corridorWidth + 2 * wallThickness, rectangleCenter);
-            corridorSegmentCenter.rotate(signum * -90);
+            corridorSegmentCenter = corridorSegmentCenter.rotate(signum * -90);
             corridorSegments.add(new CorridorSegmentImpl(bendSegment1, bendSegment2, corridorSegmentCenter));
 
             // and now add another corridor segment to finish the angle-bend
@@ -243,10 +242,8 @@ public class MazeImpl implements Maze {
          }
 
          private Position getRectangleCenter(Position corridorSegCenter, double distance2Move, double angle2Rotate) {
-            Position rectangleCenter = Positions.of(corridorSegCenter);
-            rectangleCenter.rotate(angle2Rotate);
-            rectangleCenter = Positions.movePositionForward4Distance(rectangleCenter, distance2Move);
-            return rectangleCenter;
+            Position rectangleCenter = corridorSegCenter.rotate(angle2Rotate);
+            return Positions.movePositionForward4Distance(rectangleCenter, distance2Move);
          }
 
          private int halfThickness() {

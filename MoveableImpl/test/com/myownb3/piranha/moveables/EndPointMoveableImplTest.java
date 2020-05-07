@@ -135,8 +135,7 @@ class EndPointMoveableImplTest {
       // Given
       EndPosition endPos = EndPositions.of(-1, -1);
       Position pos = Positions.of(-0.9, -0.9);
-      Position posAfterMoveForward = EndPositions.of(-1.01, -1.01);
-      pos.rotate(135);
+      Position posAfterMoveForward = EndPositions.of(-1.01, -1.01).rotate(135);
       Grid grid = spy(GridBuilder.builder()
             .build());
       Detector detector = mock(Detector.class);
@@ -164,8 +163,7 @@ class EndPointMoveableImplTest {
    @Test
    void testIsNotDone_BecauseStartPosWasAfterEndPosWithRotation() {
       EndPosition endPos = EndPositions.of(-1, -1);
-      Position pos = Positions.of(-1.1, -1.1);
-      pos.rotate(135);
+      Position pos = Positions.of(-1.1, -1.1).rotate(135);
       Grid grid = GridBuilder.builder()
             .build();
       Detector detector = mock(Detector.class);

@@ -17,9 +17,10 @@ public interface Position {
    /**
     * Rotate this {@link Position} for the given amount of degrees
     * 
+    * @return a rotated instance of this {@link Position}
     * @param degree
     */
-   void rotate(double degree);
+   Position rotate (double degree);
 
    /**
     * @return the Direction in which this Positions shows

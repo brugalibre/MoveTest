@@ -67,7 +67,7 @@ class OrientatingStateHandlerTest {
 
       // Then
       assertThat(stateResult.getNextState(), is(EvasionStates.DEFAULT));
-      verify(moveablePos, times(3)).calcAngleRelativeTo(eq(endPos));// 3 Times: 1. verification, 2. actual turn, 3. last verification
+      verify(moveablePos, times(2)).calcAngleRelativeTo(eq(endPos));// 3 Times: 1. verification, 2. actual turn, 3. last verification
    }
 
    @Test
@@ -77,6 +77,7 @@ class OrientatingStateHandlerTest {
       OrientatingStateHandler handler = new OrientatingStateHandler(45);
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
+
       Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
             .build();
 
@@ -90,7 +91,7 @@ class OrientatingStateHandlerTest {
       // Then
       assertThat(stateResult1.getNextState(), is(EvasionStates.ORIENTING));
       assertThat(stateResult2.getNextState(), is(EvasionStates.DEFAULT));
-      verify(moveablePos, times(6)).calcAngleRelativeTo(eq(endPos));
+      verify(moveablePos, times(2)).calcAngleRelativeTo(eq(endPos));
    }
 
    @Test

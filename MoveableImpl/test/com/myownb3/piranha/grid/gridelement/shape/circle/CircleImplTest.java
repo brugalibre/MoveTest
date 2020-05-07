@@ -146,8 +146,7 @@ class CircleImplTest {
       // Given
       int amountOfPoints = 4;
       int radius = 5;
-      Position center = Positions.of(0, 0);
-      center.rotate(45);
+      Position center = Positions.of(0, 0).rotate(45);
       Circle circle = CircleBuilder.builder()
             .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
@@ -166,8 +165,7 @@ class CircleImplTest {
       // Given
       int amountOfPoints = 4;
       int radius = 5;
-      Position center = Positions.of(0, 0);
-      center.rotate(45);
+      Position center = Positions.of(0, 0).rotate(45);
       Circle circle = CircleBuilder.builder()
             .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
@@ -178,8 +176,7 @@ class CircleImplTest {
       Position positionOnPathFor = circle.getFurthermostBackPosition();
 
       // Then
-      Position centerInverted = Positions.of(center);
-      centerInverted.rotate(180);
+      Position centerInverted = center.rotate(180);
       assertThat(positionOnPathFor.getDirection(), is(centerInverted.getDirection()));
    }
 
@@ -188,7 +185,7 @@ class CircleImplTest {
       // Given
       int amountOfPoints = 4;
       int radius = 5;
-      Position center = Positions.of(0, 0);
+      Position center = Positions.of(0, 0).rotate(167);
       Circle circle = CircleBuilder.builder()
             .withRadius(radius)
             .withAmountOfPoints(amountOfPoints)
@@ -196,7 +193,6 @@ class CircleImplTest {
             .build();
 
       // When
-      center.rotate(167);
       Position positionOnPathFor = circle.getFurthermostFrontPosition();
 
       // Then

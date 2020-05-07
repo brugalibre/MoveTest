@@ -3,7 +3,6 @@ package com.myownb3.piranha.grid.gridelement.shape.rectangle;
 import java.util.List;
 
 import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
 
 public class RectangleUtil {
 
@@ -28,6 +27,6 @@ public class RectangleUtil {
       } else {
          pathPos2 = path.get(0);
       }
-      return Positions.of(pathPos2);
+      return pathPos2;
    }
 }

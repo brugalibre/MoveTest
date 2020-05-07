@@ -61,8 +61,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
 
    @Override
    public Position getFurthermostFrontPosition() {
-      Position furthermostFrontPos = Positions.of(center);
-      return shiftPositionForInternal(furthermostFrontPos);
+      return shiftPositionForInternal(center);
    }
 
    private Position shiftPositionForInternal(Position furthermostFrontPos) {
@@ -78,8 +77,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
 
    @Override
    public Position getFurthermostBackPosition() {
-      Position furthermostFrontPos = Positions.of(center);
-      furthermostFrontPos.rotate(180);
+      Position furthermostFrontPos = center.rotate(180);
       return shiftPositionForInternal(furthermostFrontPos);
    }
 
@@ -102,7 +100,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    private List<Position> buildPath4DetectionPrivate() {
       Set<Position> path4Detection = new LinkedHashSet<>();
       for (int i = 0; i < path.size(); i++) {
-         Position pathPos1 = Positions.of(path.get(i));
+         Position pathPos1 = path.get(i);
          Position pathPos2 = getNextPosition(path, i);
 
          path4Detection.addAll(buildPositionsBetweenTwoPositions(pathPos1, pathPos2, distanceBetweenPosOnColDetectionPath));
@@ -158,8 +156,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       Position nextRectanglePos1 = getNextRectanglePos(center, width, height, -angle);
       Position nextRectanglePos2 = getNextRectanglePos(center, width, height, angle);
 
-      Position rotatedCenter = Positions.of(center);
-      rotatedCenter.rotate(180);
+      Position rotatedCenter = center.rotate(180);
       Position nextRectanglePos3 = getNextRectanglePos(rotatedCenter, width, height, -angle);
       Position nextRectanglePos4 = getNextRectanglePos(rotatedCenter, width, height, angle);
       path.add(nextRectanglePos1);
