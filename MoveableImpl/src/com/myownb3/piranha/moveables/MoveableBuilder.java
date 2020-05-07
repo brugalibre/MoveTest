@@ -55,6 +55,16 @@ public class MoveableBuilder {
       return this;
    }
 
+   public MoveableBuilder withPosition(Position position) {
+      this.position = position;
+      return this;
+   }
+
+   public MoveableBuilder withGrid(Grid grid) {
+      this.grid = grid;
+      return this;
+   }
+
    public MoveableBuilder withHandler(MoveablePostActionHandler handler) {
       this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
       return this;
