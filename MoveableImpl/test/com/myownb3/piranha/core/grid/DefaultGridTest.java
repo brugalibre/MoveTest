@@ -134,7 +134,9 @@ class DefaultGridTest {
    }
 
    private Moveable buildMoveable(Grid grid, Position gridElemPos) {
-      return MoveableBuilder.builder(grid, gridElemPos)
+      return MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())

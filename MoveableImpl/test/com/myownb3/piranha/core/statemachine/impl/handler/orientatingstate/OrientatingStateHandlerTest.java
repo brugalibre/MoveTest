@@ -35,7 +35,9 @@ class OrientatingStateHandlerTest {
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(0, 0));
-      Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveablePos)
             .build();
 
       OrientatingStateInput input =
@@ -56,7 +58,9 @@ class OrientatingStateHandlerTest {
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
-      Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveablePos)
             .build();
 
       OrientatingStateInput input =
@@ -78,7 +82,9 @@ class OrientatingStateHandlerTest {
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
 
-      Moveable moveable = MoveableBuilder.builder(grid, moveablePos)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveablePos)
             .build();
 
       OrientatingStateInput input =

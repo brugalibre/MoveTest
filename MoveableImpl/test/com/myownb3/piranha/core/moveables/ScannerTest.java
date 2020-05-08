@@ -46,7 +46,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isEvasion = true;
@@ -75,7 +77,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean notEvasion = false;
@@ -100,7 +104,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      MoveableBuilder.builder(grid, Positions.of(8, 8))
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(8, 8))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       // Since this moveable is placed 'in front' of the obstacle, it must not be
@@ -130,7 +136,9 @@ class ScannerTest {
             .withEvasionAngle(15)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(3, 2))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(3, 2))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       // GridElement angle is 81.87°
@@ -155,7 +163,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isEvasion = true;
@@ -181,7 +191,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 2))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 2))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isEvasion = true;
@@ -207,7 +219,9 @@ class ScannerTest {
             .withAngleInc(11.25)
             .build();
 
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 2))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 2))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isEvasionAfterTurn = true;
@@ -261,7 +275,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(0, 1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 1))
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
@@ -294,7 +310,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(0, 1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 1))
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
@@ -328,7 +346,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(5.625)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
@@ -361,7 +381,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      MoveableBuilder.builder(grid)
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
@@ -392,7 +414,9 @@ class ScannerTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(6, 6))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(6, 6))
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)

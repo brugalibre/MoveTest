@@ -35,7 +35,9 @@ class ObstacleTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      MoveableBuilder.builder(grid, Positions.of(1, 1))
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isRecognized = true;
@@ -59,7 +61,9 @@ class ObstacleTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      MoveableBuilder.builder(grid, Positions.of(1, 1))
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean isRecognized = true;
@@ -84,7 +88,9 @@ class ObstacleTest {
             .withAngleInc(11.25)
             .build();
 
-      MoveableBuilder.builder(grid, Positions.of(1, 1))
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
 
@@ -109,7 +115,9 @@ class ObstacleTest {
             .withDetectorAngle(45)
             .withAngleInc(11.25)
             .build();
-      MoveableBuilder.builder(grid, Positions.of(1, 1))
+      MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(detector))
             .build();
       boolean notRecognized = false;

@@ -149,8 +149,9 @@ class GridTest {
       boolean isElementOnGridAfterMove = true;
 
       // When
-
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(1, 7.1))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7.1))
             .build();
       boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
 
@@ -171,7 +172,9 @@ class GridTest {
 
       // When
       Executable ex = () -> {
-         MoveableBuilder.builder(grid, Positions.of(20, 20))
+         MoveableBuilder.builder()
+               .withGrid(grid)
+               .withPosition(Positions.of(20, 20))
                .build();
       };
       // Then
@@ -183,6 +186,9 @@ class GridTest {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withPosition(Positions.of(0, 0))
             .build();
 
       // When
@@ -199,6 +205,9 @@ class GridTest {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withPosition(Positions.of(0, 0))
             .build();
 
       // When
@@ -219,7 +228,9 @@ class GridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
             .build();
 
       // When
@@ -241,7 +252,9 @@ class GridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid)
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
             .build();
 
       // When
@@ -258,6 +271,9 @@ class GridTest {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withPosition(Positions.of(0, 0))
             .build();
       Position expectedEndPosition = Positions.of(0, -1);
       // When
@@ -317,7 +333,9 @@ class GridTest {
       }
 
       public CollisionTestCaseBuilder withMoveable() {
-         moveable = MoveableBuilder.builder(grid, moveablePos)
+         moveable = MoveableBuilder.builder()
+               .withGrid(grid)
+               .withPosition(moveablePos)
                .build();
          return this;
       }

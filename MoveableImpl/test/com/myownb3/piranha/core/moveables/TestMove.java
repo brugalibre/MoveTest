@@ -37,6 +37,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       int maxMovements = 50;
@@ -60,6 +63,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       // When
@@ -73,6 +79,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       int maxMovements = 50;
@@ -100,6 +109,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Direction[] resultList = new DirectionImpl[] {Directions.O, Directions.S, Directions.W, Directions.N};
 
@@ -123,6 +135,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -152,6 +167,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -186,6 +204,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Direction[] resultList = new DirectionImpl[] {Directions.W, Directions.S, Directions.O, Directions.N};
 
@@ -212,6 +233,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       // When
@@ -230,6 +254,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -259,6 +286,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -289,6 +319,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       DirectionImpl expectedDirection = Directions.N;
 
@@ -308,6 +341,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       // When
@@ -346,6 +382,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
       Position expectedStopover1 = Positions.of(null, -3.536, 3.536);
       Position expectedStopover2 = Positions.of(null, -6.433, 4.312);
@@ -376,6 +415,9 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
             .build();
 
       // When

@@ -242,7 +242,9 @@ class PositionTest {
             .withMinY(-20)
             .withMinY(-20)
             .build();
-      Moveable moveable = MoveableBuilder.builder(grid, Positions.of(Directions.S, 0, 0))
+      Moveable moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(Directions.S, 0, 0))
             .build();
       moveable.moveForward(100);
       moveable.turnRight();
