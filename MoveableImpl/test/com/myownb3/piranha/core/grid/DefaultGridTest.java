@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -27,7 +27,7 @@ import com.myownb3.piranha.core.moveables.MoveableBuilder;
 class DefaultGridTest {
 
    @Test
-   void testGetAllAvoidables2CheckCollisionWithinDistance_ToFarAway() {
+   void testGetAllGridElements2CheckCollisionWithinDistance_ToFarAway() {
 
       // Given
       int radius = 5;
@@ -53,7 +53,7 @@ class DefaultGridTest {
    }
 
    @Test
-   void testGetAllAvoidables2CheckCollisionWithinDistance_OneCloseEnoughAway() {
+   void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAway() {
 
       // Given
       int radius = 5;
@@ -87,7 +87,7 @@ class DefaultGridTest {
    }
 
    @Test
-   void testGetAllAvoidablesWithinDistance_WithinDistance() {
+   void testGetAllGridElementsWithinDistance_WithinDistance() {
 
       // Given
       Position moveablePos = Positions.of(0, 0);
@@ -104,15 +104,15 @@ class DefaultGridTest {
       Obstacle obstacle2 = new ObstacleImpl(grid, obstaclePos2);
 
       // When
-      List<Avoidable> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
+      List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(moveable, 5);
 
       // Then
-      assertThat(allAvoidablesWithinDistance.size(), is(1));
-      assertThat(allAvoidablesWithinDistance.get(0), is(obstacle2));
+      assertThat(allGridElementsWithinDistance.size(), is(1));
+      assertThat(allGridElementsWithinDistance.get(0), is(obstacle2));
    }
 
    @Test
-   void testGetAllAvoidablesWithinDistance_OutOfDistance() {
+   void testGetAllGridElementsWithinDistance_OutOfDistance() {
 
       // Given
       Position moveablePos = Positions.of(0, 0);
@@ -127,10 +127,10 @@ class DefaultGridTest {
       new ObstacleImpl(grid, obstaclePos);
 
       // When
-      List<Avoidable> allAvoidablesWithinDistance = grid.getAllAvoidablesWithinDistance(moveable, 5);
+      List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(moveable, 5);
 
       // Then
-      assertThat(allAvoidablesWithinDistance.size(), is(0));
+      assertThat(allGridElementsWithinDistance.size(), is(0));
    }
 
    private Moveable buildMoveable(Grid grid, Position gridElemPos) {

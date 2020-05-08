@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.detector.evasion;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -18,9 +18,9 @@ public interface EvasionAngleEvaluator {
 
    /**
     * Returns the angle increment for which a {@link Moveable} can make a turn in
-    * order to avoid a {@link Avoidable} which is is on a collision path. This
-    * method will return <code>0</code> if this {@link Detector} is currently not
-    * evasion any {@link Avoidable}
+    * order to avoid a {@link GridElement} which is is on a collision path. This
+    * method will return <code>0.0</code> if this {@link Detector} is currently not
+    * evasion any {@link GridElement}
     * 
     * @param position
     *        the {@link Position} from which we want to know the evasion angle

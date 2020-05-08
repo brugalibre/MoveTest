@@ -4,7 +4,6 @@
 package com.myownb3.piranha.core.detector.collision;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -19,16 +18,16 @@ import com.myownb3.piranha.core.grid.position.Position;
 public interface CollisionDetectionHandler {
 
    /**
-    * Handles a specific collision between the given {@link Avoidable} and the given {@link GridElement} at the given
+    * Handles a specific collision between the given {@link GridElement},the other given {@link GridElement} at the given
     * {@link Position}
     * 
-    * @param avoidable
-    *        the {@link Avoidable} with which another
+    * @param otherGridElement
+    *        the other {@link GridElement}
     *        {@link GridElement} was collided
-    * @param gridElement
-    *        the {@link GridElement} which caused the collision with the given {@link Avoidable}
+    * @param movedGridElement
+    *        the {@link GridElement} which caused the collision with the other {@link GridElement}
     * @param newPosition
     *        the Position at which the collision occurred
     */
-   void handleCollision(Avoidable avoidable, GridElement gridElement, Position newPosition);
+   void handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition);
 }

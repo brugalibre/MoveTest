@@ -16,7 +16,6 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -90,9 +89,8 @@ public class DefaultGrid implements Grid {
    @Override
    public void prepare() {
       maxDistance = 1.5 * gridElements.stream()
-            .filter(Avoidable.class::isInstance)
-            .map(Avoidable.class::cast)
-            .map(Avoidable::getDimensionRadius)
+            .filter(GridElement::isAvoidable)
+            .map(GridElement::getDimensionRadius)
             .mapToDouble(value -> value)
             .max()
             .orElse(0);
@@ -120,8 +118,8 @@ public class DefaultGrid implements Grid {
    }
 
    private void checkCollision(GridElement gridElement, Position newPosition) {
-      List<Avoidable> allAvoidables = getAllAvoidablesWithinDistanceInternal(gridElement, maxDistance);
-      gridElement.check4Collision(collisionDetectionHandler, newPosition, allAvoidables);
+      List<GridElement> gridElements2Check = getGridElements4CollisionCheckWithinDistanceInternal(gridElement, maxDistance);
+      gridElement.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
    }
 
    /**
@@ -187,41 +185,40 @@ public class DefaultGrid implements Grid {
    }
 
    @Override
-   public List<Avoidable> getAllAvoidables(GridElement gridElement) {
+   public List<GridElement> getAllAvoidableGridElements(GridElement gridElement) {
       return getAllGridElements(gridElement).stream()
-            .filter(Avoidable.class::isInstance)
-            .map(Avoidable.class::cast)
+            .filter(GridElement::isAvoidable)
             .collect(Collectors.toList());
    }
 
    @Override
-   public List<Avoidable> getAllAvoidablesWithinDistance(GridElement gridElement, int distance) {
-      return getAllAvoidablesWithinDistanceInternal(gridElement, Double.valueOf(distance));
+   public List<GridElement> getAllAvoidableGridElementsWithinDistance(GridElement gridElement, int distance) {
+      return getGridElements4CollisionCheckWithinDistanceInternal(gridElement, Double.valueOf(distance));
    }
 
-   private List<Avoidable> getAllAvoidablesWithinDistanceInternal(GridElement gridElement, Double distance) {
+   private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, Double distance) {
       Position gridElemPos = gridElement.getFurthermostFrontPosition();
-      return getAllAvoidables(gridElement)
+      return getAllAvoidableGridElements(gridElement)
             .stream()
-            .filter(isAvoidableWithinDistance(gridElemPos, distance))
+            .filter(isGridElementWithinDistance(gridElemPos, distance))
             .collect(Collectors.toList());
    }
 
-   private Predicate<? super Avoidable> isAvoidableWithinDistance(Position gridElemPos, Double distance) {
-      return avoidable -> {
+   private Predicate<? super GridElement> isGridElementWithinDistance(Position gridElemPos, Double distance) {
+      return gridElement -> {
          if (distance == null) {
             return true;
          }
-         double avoidable2GridElemDistance = calcDistanceFromAvoidable2Pos(gridElemPos, avoidable);
-         return avoidable2GridElemDistance <= distance;
+         double movedGridElement2GridElemDistance = calcDistanceFromGridElement2Pos(gridElemPos, gridElement);
+         return movedGridElement2GridElemDistance <= distance;
       };
    }
 
    /*
     * We have to subtract the 'Dimension-Radius' from the calculated distance. 
     */
-   private double calcDistanceFromAvoidable2Pos(Position gridElemPos, Avoidable avoidable) {
-      return gridElemPos.calcDistanceTo(avoidable.getPosition()) - avoidable.getDimensionRadius();
+   private double calcDistanceFromGridElement2Pos(Position gridElemPos, GridElement otherGridElement) {
+      return gridElemPos.calcDistanceTo(otherGridElement.getPosition()) - otherGridElement.getDimensionRadius();
    }
 
    @Override

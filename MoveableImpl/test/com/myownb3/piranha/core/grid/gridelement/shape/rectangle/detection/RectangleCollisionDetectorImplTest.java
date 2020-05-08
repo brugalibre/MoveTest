@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
@@ -33,10 +33,10 @@ class RectangleCollisionDetectorImplTest {
       Position center = Positions.of(0, 0);
       Position oldPos = center;
       Position newPos = Positions.of(1, 1);
-      Position avoidable1Position = Positions.of(9, 7.1);
-      Position avoidable2Position = Positions.of(7.1, 9.1);
-      Avoidable avoidable = mockAvoidable(avoidable1Position);
-      Avoidable avoidable2 = mockAvoidable(avoidable2Position);
+      Position obstacle1Position = Positions.of(9, 7.1);
+      Position obstacle2Position = Positions.of(7.1, 9.1);
+      Obstacle obstacle = mockObstacle(obstacle1Position);
+      Obstacle obstacle2 = mockObstacle(obstacle2Position);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCenter(center)
             .withHeight(10)
@@ -45,13 +45,14 @@ class RectangleCollisionDetectorImplTest {
             .withMovedGridElement()
             .withOldPosition(oldPos)
             .withNewPosition(newPos)
-            .addAvoidable(avoidable)
-            .addAvoidable(avoidable2)
+            .addObstacle(obstacle)
+            .addObstacle(obstacle2)
             .withCollisionDetectionHandler()
             .build();
 
       // When
-      tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition, tcb.allAvoidables);
+      tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition,
+            tcb.allObstacleGridElements);
 
       // Then
       verify(tcb.collisionDetectionHandler, never()).handleCollision(any(), eq(tcb.movedGridElement), eq(tcb.newPosition));
@@ -64,10 +65,10 @@ class RectangleCollisionDetectorImplTest {
       Position center = Positions.of(0, 0);
       Position oldPos = center;
       Position newPos = Positions.of(1, 1);
-      Position avoidable1Position = Positions.of(9, 7);
-      Position avoidable2Position = Positions.of(3.1, 3.1);
-      Avoidable avoidable = mockAvoidable(avoidable1Position);
-      Avoidable avoidable2 = mockAvoidable(avoidable2Position);
+      Position obstacle1Position = Positions.of(9, 7);
+      Position obstacle2Position = Positions.of(3.1, 3.1);
+      Obstacle obstacle = mockObstacle(obstacle1Position);
+      Obstacle obstacle2 = mockObstacle(obstacle2Position);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCenter(center)
             .withHeight(8)
@@ -76,17 +77,17 @@ class RectangleCollisionDetectorImplTest {
             .withMovedGridElement()
             .withOldPosition(oldPos)
             .withNewPosition(newPos)
-            .addAvoidable(avoidable)
-            .addAvoidable(avoidable2)
+            .addObstacle(obstacle)
+            .addObstacle(obstacle2)
             .withCollisionDetectionHandler()
             .build();
 
       // When
       tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition,
-            tcb.allAvoidables);
+            tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(avoidable2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -96,10 +97,10 @@ class RectangleCollisionDetectorImplTest {
       Position center = Positions.of(0, 0);
       Position oldPos = center;
       Position newPos = Positions.of(1, 1);
-      Position avoidable1Position = Positions.of(-5, -3.01);
-      Position avoidable2Position = Positions.of(-4.99, 4.99);
-      Avoidable avoidable = mockAvoidable(avoidable1Position);
-      Avoidable avoidable2 = mockAvoidable(avoidable2Position);
+      Position obstacle1Position = Positions.of(-5, -3.01);
+      Position obstacle2Position = Positions.of(-4.99, 4.99);
+      Obstacle obstacle = mockObstacle(obstacle1Position);
+      Obstacle obstacle2 = mockObstacle(obstacle2Position);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCenter(center)
             .withHeight(8)
@@ -108,17 +109,17 @@ class RectangleCollisionDetectorImplTest {
             .withMovedGridElement()
             .withOldPosition(oldPos)
             .withNewPosition(newPos)
-            .addAvoidable(avoidable)
-            .addAvoidable(avoidable2)
+            .addObstacle(obstacle)
+            .addObstacle(obstacle2)
             .withCollisionDetectionHandler()
             .build();
 
       // When
       tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition,
-            tcb.allAvoidables);
+            tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(avoidable2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -128,10 +129,10 @@ class RectangleCollisionDetectorImplTest {
       Position center = Positions.of(0, 0);
       Position oldPos = center;
       Position newPos = Positions.of(1, 1);
-      Position avoidable1Position = Positions.of(-5, -3);
-      Position avoidable2Position = Positions.of(7, -3.1);
-      Avoidable avoidable = mockAvoidable(avoidable1Position);
-      Avoidable avoidable2 = mockAvoidable(avoidable2Position);
+      Position obstacle1Position = Positions.of(-5, -3);
+      Position obstacle2Position = Positions.of(7, -3.1);
+      Obstacle obstacle = mockObstacle(obstacle1Position);
+      Obstacle obstacle2 = mockObstacle(obstacle2Position);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCenter(center)
             .withHeight(8)
@@ -140,17 +141,17 @@ class RectangleCollisionDetectorImplTest {
             .withMovedGridElement()
             .withOldPosition(oldPos)
             .withNewPosition(newPos)
-            .addAvoidable(avoidable)
-            .addAvoidable(avoidable2)
+            .addObstacle(obstacle)
+            .addObstacle(obstacle2)
             .withCollisionDetectionHandler()
             .build();
 
       // When
       tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition,
-            tcb.allAvoidables);
+            tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(avoidable), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -160,10 +161,10 @@ class RectangleCollisionDetectorImplTest {
       Position center = Positions.of(0, 0);
       Position oldPos = center;
       Position newPos = Positions.of(1, 1);
-      Position avoidable1Position = Positions.of(9, 7);
-      Position avoidable2Position = Positions.of(5, 5);
-      Avoidable avoidable = mockAvoidable(avoidable1Position);
-      Avoidable avoidable2 = mockAvoidable(avoidable2Position);
+      Position obstacle1Position = Positions.of(9, 7);
+      Position obstacle2Position = Positions.of(5, 5);
+      Obstacle obstacle = mockObstacle(obstacle1Position);
+      Obstacle obstacle2 = mockObstacle(obstacle2Position);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCenter(center)
             .withHeight(10)
@@ -172,29 +173,30 @@ class RectangleCollisionDetectorImplTest {
             .withMovedGridElement()
             .withOldPosition(oldPos)
             .withNewPosition(newPos)
-            .addAvoidable(avoidable)
-            .addAvoidable(avoidable2)
+            .addObstacle(obstacle)
+            .addObstacle(obstacle2)
             .withCollisionDetectionHandler()
             .build();
 
       // When
-      tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition, tcb.allAvoidables);
+      tcb.collisionDetector.checkCollision(tcb.collisionDetectionHandler, tcb.movedGridElement, tcb.oldPosition, tcb.newPosition,
+            tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(avoidable2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
-   private Avoidable mockAvoidable(Position position) {
-      Avoidable avoidable = mock(Avoidable.class);
+   private Obstacle mockObstacle(Position position) {
+      Obstacle obstacle = mock(Obstacle.class);
       Shape shape = mock(Shape.class);
-      when(avoidable.getShape()).thenReturn(shape);
+      when(obstacle.getShape()).thenReturn(shape);
       when(shape.getPath()).thenReturn(Collections.singletonList(position));
-      return avoidable;
+      return obstacle;
    }
 
    private static class TestCaseBuilder {
 
-      private List<Avoidable> allAvoidables;
+      private List<GridElement> allObstacleGridElements;
       private Position newPosition;
       private Position oldPosition;
       private GridElement movedGridElement;
@@ -205,16 +207,17 @@ class RectangleCollisionDetectorImplTest {
       private int height;
 
       private TestCaseBuilder() {
-         allAvoidables = new ArrayList<>();
+         allObstacleGridElements = new ArrayList<>();
       }
 
       private TestCaseBuilder withCollisionDetectionHandler() {
          CollisionDetectionHandler cDhHandler = new CollisionDetectionHandler() {
             @Override
-            public void handleCollision(Avoidable avoidable, GridElement gridElement, Position newPosition) {
+            public void handleCollision(GridElement otherGridElement, GridElement gridElement, Position newPosition) {
                // ok
             }
          };
+
          this.collisionDetectionHandler = spy(cDhHandler);
          return this;
       }
@@ -245,8 +248,8 @@ class RectangleCollisionDetectorImplTest {
          return this;
       }
 
-      private TestCaseBuilder addAvoidable(Avoidable avoidable) {
-         this.allAvoidables.add(avoidable);
+      private TestCaseBuilder addObstacle(Obstacle obstacle) {
+         this.allObstacleGridElements.add(obstacle);
          return this;
       }
 

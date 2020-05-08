@@ -5,7 +5,6 @@ package com.myownb3.piranha.core.grid;
 
 import java.util.List;
 
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -59,30 +58,30 @@ public interface Grid {
    void addElement(GridElement gridElement);
 
    /**
-    * Returns all {@link Avoidable}s but the given {@link GridElement} which are
+    * Returns all avoidable {@link GridElement}s except the given {@link GridElement} which are
     * currently placed on this {@link Grid}
     * 
     * @param gridElement
-    * @return all {@link Avoidable}s but the given {@link GridElement} which are
+    * @return all avoidable {@link GridElement}s but the given {@link GridElement} which are
     *         currently placed on this {@link Grid}
     */
-   List<Avoidable> getAllAvoidables(GridElement gridElement);
+   List<GridElement> getAllAvoidableGridElements(GridElement gridElement);
 
    /**
-    * Returns all {@link Avoidable}s but the given {@link GridElement} which are
+    * Returns all avoidable {@link GridElement}s except the given {@link GridElement} which are
     * currently placed on this {@link Grid} and which are within the given distance to the {@link GridElement}
     * <b>Note:</b> For the calculation of the distance is the {@link Position} {@link GridElement#getFurthermostFrontPosition()} used
     * 
     * @param gridElement
     * @param distance
     *        the distance
-    * @return all {@link Avoidable}s but the given {@link GridElement} which are
+    * @return all avoidable {@link GridElement}s but the given {@link GridElement} which are
     *         currently placed on this {@link Grid}
     */
-   List<Avoidable> getAllAvoidablesWithinDistance(GridElement gridElement, int distance);
+   List<GridElement> getAllAvoidableGridElementsWithinDistance(GridElement gridElement, int distance);
 
    /**
-    * Returns all {@link GridElement}s but the given {@link GridElement} which are
+    * Returns all {@link GridElement}s except the given {@link GridElement} which are
     * currently placed on this {@link Grid}
     * 
     * @param gridElement

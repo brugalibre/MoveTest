@@ -40,7 +40,7 @@ class DetectorImplTest {
             .build();
 
       // When
-      detector.hasGridElementDetected(position);
+      detector.hasGridElementDetectedAtPosition(position);
 
       // Then
       verify(detectionAware).getNearestDetectedGridElement(eq(position));

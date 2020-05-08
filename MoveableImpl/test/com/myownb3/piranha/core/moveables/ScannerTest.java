@@ -62,7 +62,7 @@ class ScannerTest {
    }
 
    @Test
-   void testEvasion_DistanceCloseEnoughButNotAvoidable() {
+   void testEvasion_DistanceCloseEnoughButNotEvasion() {
 
       // Given
       // We do not care about the detection handler, since this is not part of this

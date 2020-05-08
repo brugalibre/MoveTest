@@ -14,7 +14,6 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -37,40 +36,40 @@ public class PositionCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    @Override
-   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement gridElement, Position oldPosition,
-         Position newPosition, List<Avoidable> allAvoidables) {
+   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition,
+         Position newPosition, List<GridElement> gridElements2Check) {
       Float64Vector lineFromOldToNew = VectorUtil.getVector(oldPosition.getDirection());
-      allAvoidables.stream()
+      gridElements2Check.stream()
             .filter(isCollision(oldPosition, newPosition, lineFromOldToNew))
-            .forEach(handleCollisionWithAvoidable(collisionDetectionHandler, newPosition, gridElement));
+            .forEach(handleCollision(collisionDetectionHandler, newPosition, movedGridElement));
    }
 
-   private Predicate<? super Avoidable> isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {
-      return avoidable -> isCollision(oldPosition, newPosition, lineFromOldToNew, avoidable);
+   private Predicate<? super GridElement> isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {
+      return gridElement2Check -> isCollision(oldPosition, newPosition, lineFromOldToNew, gridElement2Check);
    }
 
    private boolean isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew,
-         Avoidable avoidable) {
-      if (hasSameCoordinates(newPosition, avoidable.getPosition())) {
+         GridElement gridElement) {
+      if (hasSameCoordinates(newPosition, gridElement.getPosition())) {
          return true;
       }
-      boolean isPositionOnLine = isPositionOnLine(oldPosition, lineFromOldToNew, avoidable);
-      boolean isCloseEnoughToAvoidable = isCloseEnoughToAvoidable(newPosition, avoidable);
-      return isPositionOnLine && isCloseEnoughToAvoidable;
+      boolean isPositionOnLine = isPositionOnLine(oldPosition, lineFromOldToNew, gridElement);
+      boolean isCloseEnoughToOtherGridElement = isCloseEnough(newPosition, gridElement);
+      return isPositionOnLine && isCloseEnoughToOtherGridElement;
    }
 
-   private boolean hasSameCoordinates(Position newPosition, Position avoidablePosition) {
-      return newPosition.getX() == avoidablePosition.getX() && newPosition.getY() == avoidablePosition.getY();
+   private boolean hasSameCoordinates(Position newPosition, Position gridElementPosition) {
+      return newPosition.getX() == gridElementPosition.getX() && newPosition.getY() == gridElementPosition.getY();
    }
 
-   private boolean isCloseEnoughToAvoidable(Position newPosition, Avoidable avoidable) {
-      return newPosition.calcDistanceTo(avoidable.getPosition()) <= collisionDistance;
+   private boolean isCloseEnough(Position newPosition, GridElement gridElement) {
+      return newPosition.calcDistanceTo(gridElement.getPosition()) <= collisionDistance;
    }
 
-   private static boolean isPositionOnLine(Position oldPosition, Float64Vector lineFromOldToNew, Avoidable avoidable) {
-      double avoidableDistanceToLine = round(
-            calcDistanceFromPositionToLine(avoidable.getPosition(), oldPosition, lineFromOldToNew), 10);
-      return avoidableDistanceToLine == 0.0d;
+   private static boolean isPositionOnLine(Position oldPosition, Float64Vector lineFromOldToNew, GridElement gridElement) {
+      double gridElementDistanceToLine = round(
+            calcDistanceFromPositionToLine(gridElement.getPosition(), oldPosition, lineFromOldToNew), 10);
+      return gridElementDistanceToLine == 0.0d;
    }
 
    public static class PositionCollisionDetectorBuilder {

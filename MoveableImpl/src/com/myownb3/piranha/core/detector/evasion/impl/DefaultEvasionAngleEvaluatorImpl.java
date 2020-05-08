@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.detector.evasion.EvasionAngleEvaluator;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -21,18 +21,18 @@ public class DefaultEvasionAngleEvaluatorImpl implements EvasionAngleEvaluator {
 
    @Override
    public double getEvasionAngleRelative2(Position position) {
-      Optional<Avoidable> evasionAvoidable = detectionAware.getNearestEvasionAvoidable(position);
-      if (evasionAvoidable.isPresent()) {
-         return getEvasionAngle4DetectedPositions(evasionAvoidable.get(), position);
+      Optional<GridElement> evasionGridElement = detectionAware.getNearestEvasionGridElement(position);
+      if (evasionGridElement.isPresent()) {
+         return getEvasionAngle4DetectedPositions(evasionGridElement.get(), position);
       }
       return 0.0;
    }
 
 
-   private double getEvasionAngle4DetectedPositions(Avoidable avoidable, Position detectorPosition) {
-      Shape avoidableShape = avoidable.getShape();
+   private double getEvasionAngle4DetectedPositions(GridElement gridElement, Position detectorPosition) {
+      Shape gridElementShape = gridElement.getShape();
       boolean isInUpperBounds =
-            avoidableShape.isWithinUpperBounds(detectionAware.getDetectedPositions4GridElement(avoidable), detectorPosition);
+            gridElementShape.isWithinUpperBounds(detectionAware.getDetectedPositions4GridElement(gridElement), detectorPosition);
       return isInUpperBounds ? -angleInc : angleInc; // - -> Turn to the left & + Turn to the right
    }
 

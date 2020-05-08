@@ -11,7 +11,6 @@ import java.util.List;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
@@ -51,9 +50,9 @@ public class PositionShape extends AbstractShape {
    }
 
    @Override
-   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables) {
+   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check) {
       // Since the 'newPosition' is already transformed, we can call the detector directly
-      collisionDetector.checkCollision(collisionDetectionHandler, gridElement, getPosition(), newPosition, allAvoidables);
+      collisionDetector.checkCollision(collisionDetectionHandler, gridElement, getPosition(), newPosition, gridElements2Check);
    }
 
    @Override

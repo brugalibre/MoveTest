@@ -13,7 +13,6 @@ import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.core.detector.evasion.EvasionAngleEvaluator;
 import com.myownb3.piranha.core.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.MathUtil;
@@ -55,9 +54,9 @@ public class DetectorImpl implements IDetector {
    }
 
    @Override
-   public void detectObject(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
+   public void detectObject(GridElement gridElement, Position gridElementPos, Position detectorPosition) {
       preDetecting(gridElement);
-      DetectionResult detectionResult = detectObjectInternal(gridElement, avoidablePos, detectorPosition);
+      DetectionResult detectionResult = detectObjectInternal(gridElement, gridElementPos, detectorPosition);
       postDetecting(gridElement, Collections.singletonList(detectionResult));
    }
 
@@ -69,13 +68,13 @@ public class DetectorImpl implements IDetector {
       detectionAware.checkGridElement4Detection(gridElement, detectionResults);
    }
 
-   private DetectionResult detectObjectInternal(GridElement gridElement, Position avoidablePos, Position detectorPosition) {
-      double distance = avoidablePos.calcDistanceTo(detectorPosition);
+   private DetectionResult detectObjectInternal(GridElement gridElement, Position gridElementPos, Position detectorPosition) {
+      double distance = gridElementPos.calcDistanceTo(detectorPosition);
       if (detectorReach >= distance) {
-         double degValue = MathUtil.calcAngleBetweenPositions(detectorPosition, avoidablePos);
+         double degValue = MathUtil.calcAngleBetweenPositions(detectorPosition, gridElementPos);
          boolean isDetected = degValue <= (detectorAngle / 2);
          boolean isEvasion = isEvasion(gridElement, distance, degValue, isDetected);
-         return new DetectionResult(isEvasion, isDetected, avoidablePos);
+         return new DetectionResult(isEvasion, isDetected, gridElementPos);
       }
       return new DetectionResult();
    }
@@ -90,11 +89,11 @@ public class DetectorImpl implements IDetector {
    }
 
    private boolean isEvasion(GridElement gridElement, boolean isDetected, boolean isPotentialCollisionCourse) {
-      return isDetected && isPotentialCollisionCourse && gridElement instanceof Avoidable;
+      return gridElement.isAvoidable() && isDetected && isPotentialCollisionCourse;
    }
 
    @Override
-   public boolean hasGridElementDetected(Position position) {
+   public boolean hasGridElementDetectedAtPosition(Position position) {
       return detectionAware.getNearestDetectedGridElement(position)
             .isPresent();
    }

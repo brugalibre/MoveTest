@@ -15,7 +15,6 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
@@ -39,16 +38,16 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    @Override
-   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement gridElement, Position oldPosition,
-         Position newPosition, List<Avoidable> allAvoidables) {
+   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition,
+         Position newPosition, List<GridElement> gridElements2Check) {
       Rectangle transformedRectangle = getTransformedRectangle(newPosition);
-      allAvoidables.stream()
+      gridElements2Check.stream()
             .filter(isCollision(transformedRectangle))
-            .forEach(handleCollisionWithAvoidable(collisionDetectionHandler, newPosition, gridElement));
+            .forEach(handleCollision(collisionDetectionHandler, newPosition, movedGridElement));
    }
 
-   private Predicate<? super Avoidable> isCollision(Rectangle transformedRectangle) {
-      return avoidable -> avoidable.getShape()
+   private Predicate<? super GridElement> isCollision(Rectangle transformedRectangle) {
+      return gridElement -> gridElement.getShape()
             .getPath()
             .stream()
             .anyMatch(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle));
@@ -58,7 +57,6 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
       List<Position> path = transformedRectangle.getPath();
       Float64Vector rectangleEdge1Vector = getVector(path.get(1)).minus(getVector(path.get(0)));
       Float64Vector rectangleEdge2Vector = getVector(path.get(3)).minus(getVector(path.get(2)));
-
       double distanceFromShapePos2Edge1 = calcDistanceFromPositionToLine(posOnShapePath, path.get(0), rectangleEdge1Vector);
       double distanceFromShapePos2Edge2 = calcDistanceFromPositionToLine(posOnShapePath, path.get(2), rectangleEdge2Vector);
       double distanceRectanglePos1ToPos2 = calcDistanceFromPositionToLine(path.get(2), path.get(0), rectangleEdge1Vector);

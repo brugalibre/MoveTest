@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.detector.DetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -27,7 +26,7 @@ public interface DetectionAware {
    void clearGridElement(GridElement gridElement);
 
    /**
-    * Depending on the {@link DetectionResult}s this {@link GridElement} is added internaly and will be considered as 'detected' or even
+    * Depending on the {@link DetectionResult}s this {@link GridElement} is added internally and will be considered as 'detected' or even
     * 'isEvasion'
     * 
     * @param gridElement
@@ -55,13 +54,13 @@ public interface DetectionAware {
    boolean hasObjectDetected(GridElement gridElement);
 
    /**
-    * Returns the detected {@link Avoidable} which is placed the neares to the given {@link Position}
+    * Returns the detected {@link GridElement} which is placed the nearest to the given {@link Position}
     * 
     * @param position
     *        the given {@link Position}
-    * @return the detected {@link Avoidable} which is placed the neares to the given {@link Position}
+    * @return the detected {@link GridElement} which is placed the nearest to the given {@link Position}
     */
-   Optional<Avoidable> getNearestEvasionAvoidable(Position position);
+   Optional<GridElement> getNearestEvasionGridElement(Position position);
 
    /**
     * Returns the detected {@link GridElement} which is placed the nearest to the given {@link Position}

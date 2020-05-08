@@ -233,7 +233,7 @@ public class StaticSupportiveFlanksDetectingStrategyHandlerTest {
       IDetector detector = mock(IDetector.class);
       when(iDetectorInfo.getOffsetAngle()).thenReturn(offsetValue);
       when(iDetectorInfo.getDetector()).thenReturn(detector);
-      when(iDetectorInfo.getDetector().hasGridElementDetected(any())).thenReturn(hasDetection);
+      when(iDetectorInfo.getDetector().hasGridElementDetectedAtPosition(any())).thenReturn(hasDetection);
       when(iDetectorInfo.getDetector().isEvasion(any())).thenReturn(hasEvasion);
       when(iDetectorInfo.getDetector().getEvasionAngleRelative2(any())).thenReturn(evaluatedEvasionAngle);
       return iDetectorInfo;

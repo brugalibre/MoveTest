@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.function.Executable;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -69,18 +70,19 @@ class CircleImplTest {
             .withAngleInc(11.25)
             .build();
       Position detectorPosition = Positions.of(0, -6);
-      Avoidable moveable = mock(Avoidable.class);
+      Obstacle obstacle = mock(Obstacle.class);
+      when(obstacle.isAvoidable()).thenReturn(true);
       Circle circle = CircleBuilder.builder()
             .withRadius(5)
             .withAmountOfPoints(4)
             .withCenter(Positions.of(0, 0))
-            .withGridElement(moveable)
+            .withGridElement(obstacle)
             .build();
 
       // When
       circle.detectObject(detectorPosition, detector);
-      boolean actualHasDetection = detector.hasObjectDetected(moveable);
-      boolean actualIsEvasion = detector.isEvasion(moveable);
+      boolean actualHasDetection = detector.hasObjectDetected(obstacle);
+      boolean actualIsEvasion = detector.isEvasion(obstacle);
 
       // Then
       assertThat(actualHasDetection, is(expectedHasDetection));

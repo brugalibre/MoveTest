@@ -73,8 +73,9 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables) {
-      shape.check4Collision(collisionDetectionHandler, newPosition, allAvoidables);
+   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+         List<GridElement> gridElements2Check) {
+      shape.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
    }
 
    @Override

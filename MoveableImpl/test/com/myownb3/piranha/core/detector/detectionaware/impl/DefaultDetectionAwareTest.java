@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.detector.DetectionResult;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
@@ -53,11 +52,11 @@ public class DefaultDetectionAwareTest {
       Obstacle g1 = new ObstacleImpl(grid, positionG1);
       Obstacle g2 = new ObstacleImpl(grid, positionG2);
       Obstacle g3 = new ObstacleImpl(grid, positionG3);
-      List<Avoidable> obstacles = Arrays.asList(g1, g2, g3);
+      List<Obstacle> obstacles = Arrays.asList(g1, g2, g3);
       Collections.shuffle(obstacles);
 
       // When
-      Optional<Avoidable> actualNearestGridElem = defaultDetectionAware.getNearestGridElement(position, obstacles);
+      Optional<Obstacle> actualNearestGridElem = defaultDetectionAware.getNearestGridElement(position, obstacles);
 
       // Then
       MatcherAssert.assertThat(actualNearestGridElem.get(), is(g2));
@@ -78,7 +77,7 @@ public class DefaultDetectionAwareTest {
       Obstacle g1 = new ObstacleImpl(grid, positionG1);
       Obstacle g2 = new ObstacleImpl(grid, positionG2);
       Obstacle g3 = new ObstacleImpl(grid, positionG3);
-      List<Avoidable> obstacles = Arrays.asList(g1, g2, g3);
+      List<Obstacle> obstacles = Arrays.asList(g1, g2, g3);
       Collections.shuffle(obstacles);
 
       // Simulate the detecting of those GridElements

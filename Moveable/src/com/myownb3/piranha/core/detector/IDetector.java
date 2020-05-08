@@ -34,5 +34,5 @@ public interface IDetector extends Detector {
     * @return <code>true</code> if the this {@link Detector} is currently
     *         detecting any {@link GridElement} within it's detecting radius or <code>false</code> if not
     */
-   boolean hasGridElementDetected(Position position);
+   boolean hasGridElementDetectedAtPosition(Position position);
 }

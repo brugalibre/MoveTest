@@ -10,6 +10,7 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a
@@ -83,15 +84,26 @@ public interface GridElement {
    void isDetectedBy(Position detectionPos, Detector detector);
 
    /**
-    * Checks for every given {@link Avoidable} if there is a collision when this {@link GridElement} is moving
+    * Checks for every given {@link GridElement} if there is a collision when this {@link GridElement} is moving
     * from it's current Position to the new Position
     * 
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param newPosition
     *        the new Position after the movement
-    * @param allAvoidables
-    *        all {@link Avoidable} on the Grid
+    * @param gridElements2Check
+    *        the {@link GridElement}s to check
     */
-   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check);
+
+   /**
+    * Returns <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not.
+    * A {@link GridElement} which is avoidable can be avoided by a {@link Moveable} and can
+    * 
+    * @return <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not
+    * 
+    */
+   default boolean isAvoidable() {
+      return false;
+   }
 }

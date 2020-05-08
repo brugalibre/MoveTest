@@ -6,7 +6,6 @@ package com.myownb3.piranha.launch;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
@@ -25,8 +24,8 @@ class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {
    }
 
    @Override
-   public void handleCollision(Avoidable avoidable, GridElement gridElement, Position newPosition) {
-      if (stoppable.isRunning() && isCollisionWithMoveable(gridElement)) {
+   public void handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition) {
+      if (stoppable.isRunning() && isCollisionWithMoveable(movedGridElement)) {
          stoppable.stop();
          if (moveableController != null) {
             moveableController.stop();

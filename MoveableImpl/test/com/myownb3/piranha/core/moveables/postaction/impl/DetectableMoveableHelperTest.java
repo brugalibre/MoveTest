@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
@@ -27,30 +27,30 @@ import com.myownb3.piranha.core.moveables.Moveable;
 class DetectableMoveableHelperTest {
 
    @Test
-   void testGetDetectedAvoidable() {
+   void testGetDetectedGridElement() {
 
       // Given
-      Avoidable detectedAvoidable = mock(Avoidable.class);
-      Detector detector = mockDetector(detectedAvoidable);
+      Obstacle detectedGridElement = mock(Obstacle.class);
+      Detector detector = mockDetector(detectedGridElement);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withMoveable()
-            .withExpectedAvoidables(mockExpectedAvoidables(detectedAvoidable))
+            .withExpectedObstacles(mockExpectedGridElements(detectedGridElement))
             .withGrid()
             .withHelper(new DetectableMoveableHelper(detector))
             .build();
 
       // When
-      List<Avoidable> actualDetectedAvoidable = tcb.helper.getDetectedAvoidable(tcb.grid, tcb.moveable);
+      List<GridElement> actualDetectedGridElement = tcb.helper.getDetectedGridElement(tcb.grid, tcb.moveable);
 
       // Then
-      assertThat(actualDetectedAvoidable.size(), is(1));
-      assertThat(actualDetectedAvoidable.get(0), is(detectedAvoidable));
+      assertThat(actualDetectedGridElement.size(), is(1));
+      assertThat(actualDetectedGridElement.get(0), is(detectedGridElement));
    }
 
-   private Detector mockDetector(Avoidable detectedAvoidable) {
+   private Detector mockDetector(Obstacle detectedObstacle) {
       Detector detector = mock(Detector.class);
-      when(detector.hasObjectDetected(eq(detectedAvoidable))).thenReturn(true);
+      when(detector.hasObjectDetected(eq(detectedObstacle))).thenReturn(true);
       return detector;
    }
 
@@ -59,7 +59,7 @@ class DetectableMoveableHelperTest {
       private Grid grid;
       private Moveable moveable;
       private DetectableMoveableHelper helper;
-      private List<Avoidable> expectedAvoidables;
+      private List<GridElement> expectedGridElements;
 
       public TestCaseBuilder withMoveable() {
          this.moveable = mockMoveable();
@@ -75,29 +75,29 @@ class DetectableMoveableHelperTest {
          return this;
       }
 
-      public TestCaseBuilder withExpectedAvoidables(List<Avoidable> expectedAvoidables) {
-         this.expectedAvoidables = expectedAvoidables;
+      public TestCaseBuilder withExpectedObstacles(List<GridElement> expectedGridElement) {
+         this.expectedGridElements = expectedGridElement;
          return this;
       }
 
       public TestCaseBuilder withGrid() {
-         Grid grid = mockGrid(expectedAvoidables, moveable);
+         Grid grid = mockGrid(expectedGridElements, moveable);
          this.grid = grid;
          return this;
       }
    }
 
-   private List<Avoidable> mockExpectedAvoidables(Avoidable detectedAvoidable) {
-      List<Avoidable> expectedAvoidables = new ArrayList<>();
-      Avoidable avoidable = mock(Avoidable.class);
-      expectedAvoidables.add(avoidable);
-      expectedAvoidables.add(detectedAvoidable);
-      return expectedAvoidables;
+   private List<GridElement> mockExpectedGridElements(Obstacle detectedObstacle) {
+      List<GridElement> expectedGridElements = new ArrayList<>();
+      Obstacle obstacle = mock(Obstacle.class);
+      expectedGridElements.add(obstacle);
+      expectedGridElements.add(detectedObstacle);
+      return expectedGridElements;
    }
 
-   private Grid mockGrid(List<Avoidable> expectedAvoidables, GridElement gridElement) {
+   private Grid mockGrid(List<GridElement> expectedObstacles, GridElement gridElement) {
       Grid grid = mock(Grid.class);
-      when(grid.getAllAvoidables(eq(gridElement))).thenReturn(expectedAvoidables);
+      when(grid.getAllAvoidableGridElements(eq(gridElement))).thenReturn(expectedObstacles);
       return grid;
    }
 

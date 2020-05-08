@@ -3,8 +3,8 @@ package com.myownb3.piranha.core.detector.cluster;
 import java.util.List;
 
 import com.myownb3.piranha.core.detector.Detector;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.init.Initializable;
@@ -19,7 +19,8 @@ public interface DetectingStrategyHandler extends Initializable {
 
    /**
     * Evaluates if the given {@link GridElement} has been detected by this Detector
-    * We use also the given {@link Position} of the {@link Avoidable} to check weather or not this avoidable is detected
+    * We use also the given {@link Position}s of the {@link GridElement} (according to the path of it's {@link Shape}) to check weather or
+    * not this GridElement is detected
     * 
     * @param gridElement
     *        the {@link GridElement} to detect
@@ -33,9 +34,9 @@ public interface DetectingStrategyHandler extends Initializable {
 
    /**
     * Returns the angle increment for which a {@link Moveable} can make a turn in
-    * order to avoid a {@link Avoidable} which is is on a collision path. This
-    * method will return <code>0</code> if this {@link Detector} is currently not
-    * evasion any {@link Avoidable}
+    * order to avoid a {@link GridElement} which is is on a collision path. This
+    * method will return <code>0.0</code> if this {@link Detector} is currently not
+    * evasion any {@link GridElement}
     * 
     * @param position
     *        the origin Position

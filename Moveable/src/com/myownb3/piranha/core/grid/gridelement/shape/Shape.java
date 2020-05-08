@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -30,17 +29,17 @@ public interface Shape {
    List<Position> getPath();
 
    /**
-    * Checks for every given {@link Avoidable} if there is a collision when the {@link GridElement} of this {@link Shape} is moving
+    * Checks for every given {@link GridElement} if there is a collision when the {@link GridElement} of this {@link Shape} is moving
     * from it's current Position to the new Position
     * 
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param newPosition
     *        the new Position after the movement
-    * @param allAvoidables
-    *        all {@link Avoidable} on the Grid
+    * @param gridElements2Check
+    *        all {@link GridElement}s which are in reach to collide and which are also 'avoidable'
     */
-   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<Avoidable> allAvoidables);
+   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check);
 
    /**
     * Evaluates if the {@link GridElement} of this {@link Shape} at the given {@link Position} is in reach to this Shape or it's path to be

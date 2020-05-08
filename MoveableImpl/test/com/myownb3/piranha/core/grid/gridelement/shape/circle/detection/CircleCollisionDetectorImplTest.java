@@ -20,8 +20,8 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -36,23 +36,23 @@ class CircleCollisionDetectorImplTest {
 
       // Given
       int radius = 4;
-      Position posOfAvoidablesPath = Positions.of(0, 5);
-      List<Position> pathOfAvoidablesShape = Collections.singletonList(posOfAvoidablesPath);
+      Position posOfShapesPath = Positions.of(0, 5);
+      List<Position> pathOfShape = Collections.singletonList(posOfShapesPath);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withCircle(radius)
             .withCircleDetectorImpl()
-            .withPathOfAvoidablesShape(pathOfAvoidablesShape)
-            .withAvoidable()
+            .withPathOfShape(pathOfShape)
+            .withObstacle()
             .withGridElement()
             .withNewPosition(Positions.of(0, 0));
 
       // When
       tcb.detectorImpl.checkCollision(tcb.collisionDetectionHandler, tcb.gridElement, tcb.oldPos, tcb.newPosition,
-            Collections.singletonList(tcb.avoidable));
+            Collections.singletonList(tcb.obstacle));
 
       // Then
-      verify(tcb.collisionDetectionHandler, never()).handleCollision(eq(tcb.avoidable), eq(tcb.gridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler, never()).handleCollision(eq(tcb.obstacle), eq(tcb.gridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -60,23 +60,23 @@ class CircleCollisionDetectorImplTest {
 
       // Given
       int radius = 5;
-      Position posOfAvoidablesPath = Positions.of(0, 5);
-      List<Position> pathOfAvoidablesShape = Collections.singletonList(posOfAvoidablesPath);
+      Position posOfShapesPath = Positions.of(0, 5);
+      List<Position> pathOfShape = Collections.singletonList(posOfShapesPath);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withCircle(radius)
             .withCircleDetectorImpl()
-            .withPathOfAvoidablesShape(pathOfAvoidablesShape)
-            .withAvoidable()
+            .withPathOfShape(pathOfShape)
+            .withObstacle()
             .withGridElement()
             .withNewPosition(Positions.of(0, 0));
 
       // When
       tcb.detectorImpl.checkCollision(tcb.collisionDetectionHandler, tcb.gridElement, tcb.oldPos, tcb.newPosition,
-            Collections.singletonList(tcb.avoidable));
+            Collections.singletonList(tcb.obstacle));
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.avoidable), eq(tcb.gridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.gridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -84,23 +84,23 @@ class CircleCollisionDetectorImplTest {
 
       // Given
       int radius = 5;
-      Position posOfAvoidablesPath = Positions.of(0, 5);
-      List<Position> pathOfAvoidablesShape = Collections.singletonList(posOfAvoidablesPath);
+      Position posOfGridElementsPath = Positions.of(0, 5);
+      List<Position> pathOfShape = Collections.singletonList(posOfGridElementsPath);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withCircle(radius)
             .withCircleDetectorImpl()
-            .withPathOfAvoidablesShape(pathOfAvoidablesShape)
-            .withAvoidable()
+            .withPathOfShape(pathOfShape)
+            .withObstacle()
             .withGridElement()
             .withNewPosition(Positions.of(0, 11));
 
       // When
       tcb.detectorImpl.checkCollision(tcb.collisionDetectionHandler, tcb.gridElement, tcb.oldPos, tcb.newPosition,
-            Collections.singletonList(tcb.avoidable));
+            Collections.singletonList(tcb.obstacle));
 
       // Then
-      verify(tcb.collisionDetectionHandler, never()).handleCollision(eq(tcb.avoidable), eq(tcb.gridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler, never()).handleCollision(eq(tcb.obstacle), eq(tcb.gridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -108,43 +108,43 @@ class CircleCollisionDetectorImplTest {
 
       // Given
       int radius = 10;
-      Position posOfAvoidablesPath = Positions.of(0, 5);
-      List<Position> pathOfAvoidablesShape = Collections.singletonList(posOfAvoidablesPath);
+      Position posOfGridElementsPath = Positions.of(0, 5);
+      List<Position> pathOfGridElementsShape = Collections.singletonList(posOfGridElementsPath);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withCircle(radius)
             .withCircleDetectorImpl()
-            .withPathOfAvoidablesShape(pathOfAvoidablesShape)
-            .withAvoidable()
+            .withPathOfShape(pathOfGridElementsShape)
+            .withObstacle()
             .withGridElement()
             .withNewPosition(Positions.of(0, 6));
 
       // When
       tcb.detectorImpl.checkCollision(tcb.collisionDetectionHandler, tcb.gridElement, tcb.oldPos, tcb.newPosition,
-            Collections.singletonList(tcb.avoidable));
+            Collections.singletonList(tcb.obstacle));
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.avoidable), eq(tcb.gridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.gridElement), eq(tcb.newPosition));
    }
 
    @Test
    void testCheck4Collision_Collision() {
 
       // Given
-      Position posOfAvoidablesPath = Positions.of(0, 5);
-      List<Position> pathOfAvoidablesShape = Collections.singletonList(posOfAvoidablesPath);
+      Position posOfGridElementsPath = Positions.of(0, 5);
+      List<Position> pathOfGridElementsShape = Collections.singletonList(posOfGridElementsPath);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
             .withCircle(5)
             .withCircleDetectorImpl()
-            .withPathOfAvoidablesShape(pathOfAvoidablesShape)
-            .withAvoidable()
+            .withPathOfShape(pathOfGridElementsShape)
+            .withObstacle()
             .withGridElement()
             .withNewPosition(Positions.of(0, 1));
 
       // When
       Executable ex = () -> {
-         tcb.circle.check4Collision(tcb.collisionDetectionHandler, tcb.newPosition, singletonList(tcb.avoidable));
+         tcb.circle.check4Collision(tcb.collisionDetectionHandler, tcb.newPosition, singletonList(tcb.obstacle));
       };
 
       // Then
@@ -159,8 +159,8 @@ class CircleCollisionDetectorImplTest {
       public Position oldPos;
       public Position newPosition;
       private Circle circle;
-      private Avoidable avoidable;
-      private List<Position> pathOfAvoidablesShape;
+      private Obstacle obstacle;
+      private List<Position> pathOfGridElementsShape;
 
       public TestCaseBuilder withCircle(int radius) {
          this.circle = CircleBuilder.builder()
@@ -171,13 +171,13 @@ class CircleCollisionDetectorImplTest {
          return this;
       }
 
-      public TestCaseBuilder withPathOfAvoidablesShape(List<Position> pathOfAvoidablesShape) {
-         this.pathOfAvoidablesShape = pathOfAvoidablesShape;
+      public TestCaseBuilder withPathOfShape(List<Position> pathOfGridElementsShape) {
+         this.pathOfGridElementsShape = pathOfGridElementsShape;
          return this;
       }
 
-      public TestCaseBuilder withAvoidable() {
-         this.avoidable = mockAvoidable(pathOfAvoidablesShape);
+      public TestCaseBuilder withObstacle() {
+         this.obstacle = mockObstacle(pathOfGridElementsShape);
          return this;
       }
 
@@ -202,12 +202,12 @@ class CircleCollisionDetectorImplTest {
       }
    }
 
-   private static Avoidable mockAvoidable(List<Position> pathOfAvoidablesShape) {
+   private static Obstacle mockObstacle(List<Position> pathOfShape) {
       Shape shape = mock(Shape.class);
-      when(shape.getPath()).thenReturn(pathOfAvoidablesShape);
+      when(shape.getPath()).thenReturn(pathOfShape);
 
-      Avoidable avoidable = mock(Avoidable.class);
-      when(avoidable.getShape()).thenReturn(shape);
-      return avoidable;
+      Obstacle obstacle = mock(Obstacle.class);
+      when(obstacle.getShape()).thenReturn(shape);
+      return obstacle;
    }
 }

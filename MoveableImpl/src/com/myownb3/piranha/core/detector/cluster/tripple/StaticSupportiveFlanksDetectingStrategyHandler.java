@@ -36,8 +36,8 @@ public class StaticSupportiveFlanksDetectingStrategyHandler extends SupportiveFl
     */
    private double evalEvasionAngle4CenterDetector(Position position, double evalEvasionAngle) {
 
-      boolean hasLeftSideGridElementDetected = leftSideDetector.getDetector().hasGridElementDetected(position);
-      boolean hasRightSideGridElementDetected = rightSideDetector.getDetector().hasGridElementDetected(position);
+      boolean hasLeftSideGridElementDetected = leftSideDetector.getDetector().hasGridElementDetectedAtPosition(position);
+      boolean hasRightSideGridElementDetected = rightSideDetector.getDetector().hasGridElementDetectedAtPosition(position);
 
       if (noCorrectionNecessary(evalEvasionAngle, hasLeftSideGridElementDetected, hasRightSideGridElementDetected)) {
          return evalEvasionAngle;

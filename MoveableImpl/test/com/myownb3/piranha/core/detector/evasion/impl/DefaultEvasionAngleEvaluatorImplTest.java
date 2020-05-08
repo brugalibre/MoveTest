@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
-import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class DefaultEvasionAngleEvaluatorImplTest {
 
    @Test
-   void testGetEvasionAngleRelative2_NoAvoidablePresent() {
+   void testGetEvasionAngleRelative2_NoGridElementPresent() {
 
       // Given
       double angleInc = 0.0;
@@ -46,7 +46,7 @@ class DefaultEvasionAngleEvaluatorImplTest {
       private DetectionAware detectionAware;
       private double angleInc;
       private DefaultEvasionAngleEvaluatorImpl angleEvaluatorImpl;
-      private Avoidable avoidable;
+      private Obstacle obstacle;
       private Position position;
       private List<Position> detectePositions;
 
@@ -66,8 +66,8 @@ class DefaultEvasionAngleEvaluatorImplTest {
 
       private TestCaseBuilder withDetectionAware() {
          this.detectionAware = mock(DetectionAware.class);
-         when(detectionAware.getDetectedPositions4GridElement(eq(avoidable))).thenReturn(detectePositions);
-         when(detectionAware.getNearestEvasionAvoidable(eq(position))).thenReturn(Optional.ofNullable(avoidable));
+         when(detectionAware.getDetectedPositions4GridElement(eq(obstacle))).thenReturn(detectePositions);
+         when(detectionAware.getNearestEvasionGridElement(eq(position))).thenReturn(Optional.ofNullable(obstacle));
          return this;
       }
 
