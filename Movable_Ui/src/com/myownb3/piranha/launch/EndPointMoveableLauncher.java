@@ -32,10 +32,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleB
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
+import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -218,7 +218,7 @@ public class EndPointMoveableLauncher {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
-            .withHandler(EvasionStateMachineBuilder.builder()
+            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withDetectorReach(config.getDetectorReach())
                         .withEvasionDistance(config.getEvasionDistance())

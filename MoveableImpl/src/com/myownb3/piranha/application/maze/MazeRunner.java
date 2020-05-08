@@ -15,10 +15,10 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
-import com.myownb3.piranha.core.moveables.MoveableController;
-import com.myownb3.piranha.core.moveables.MoveableController.MoveableControllerBuilder;
-import com.myownb3.piranha.core.moveables.MovingStrategy;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
@@ -133,7 +133,7 @@ public class MazeRunner implements MoveableApplication {
                .withEndPointMoveable()
                .withGrid(maze.getGrid())
                .withStartPosition(startPosition)
-               .withHandler(EvasionStateMachineBuilder.builder()
+               .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                      .withDetector(detectorCluster)
                      .withPostEvasionStateHandler(new PostEvasionStateHandler4Maze())
                      .withEvasionStateMachineConfig(config)

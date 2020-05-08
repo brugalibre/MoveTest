@@ -28,7 +28,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement
 import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.MoveableController;
+import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;

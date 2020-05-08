@@ -15,8 +15,8 @@ import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrier;
-import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
+import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
@@ -30,8 +30,8 @@ import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.MoveableController;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.moveables.controller.MoveableController;
 
 
 class MazeRunnerTest {

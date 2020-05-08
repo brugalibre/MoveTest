@@ -36,7 +36,7 @@ import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.MoveableController;
+import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MoveableControllerHolder;

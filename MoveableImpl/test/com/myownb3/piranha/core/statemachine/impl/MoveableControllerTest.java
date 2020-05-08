@@ -44,13 +44,12 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
-import com.myownb3.piranha.core.moveables.EndPointMoveableImpl;
 import com.myownb3.piranha.core.moveables.MoveResult;
-import com.myownb3.piranha.core.moveables.MoveResultImpl;
-import com.myownb3.piranha.core.moveables.MoveableController;
-import com.myownb3.piranha.core.moveables.MoveableController.MoveableControllerBuilder;
-import com.myownb3.piranha.core.moveables.MoveableController.MoveableControllerBuilder.EndPointMoveableBuilder;
-import com.myownb3.piranha.core.moveables.MovingStrategy;
+import com.myownb3.piranha.core.moveables.controller.MoveResultImpl;
+import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
@@ -84,7 +83,7 @@ class MoveableControllerTest {
             .withGrid(mock(DefaultGrid.class))
             .withStartPosition(startPos)
             .withShape(shape)
-            .withHandler((a, b) -> {
+            .withMoveablePostActionHandler((a, b) -> {
             })
             .buildAndReturnParentBuilder()
             .build();//
@@ -116,7 +115,7 @@ class MoveableControllerTest {
                   .withAmountOfPoints(4)
                   .withCenter(startPos)
                   .build())
-            .withHandler((a, b) -> {
+            .withMoveablePostActionHandler((a, b) -> {
             })
             .buildAndReturnParentBuilder()
             .build();//
@@ -145,7 +144,12 @@ class MoveableControllerTest {
       DefaultGrid grid = GridBuilder.builder(30, 30)
             .build();
       MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
-      EndPointMoveable moveable = spy(new EndPointMoveableImpl(grid, endPos1, handler, 10));
+      EndPointMoveable moveable = spy(EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(endPos1)
+            .withMoveablePostActionHandler(handler)
+            .withMovingIncrement(10)
+            .build());
       doReturn(result).when(moveable).moveForward2EndPos();
 
       MoveableController controller = MoveableControllerBuilder.builder()
@@ -207,7 +211,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withHandler((g, m) -> {
+            .withMoveablePostActionHandler((g, m) -> {
             })
             .build();
 
@@ -231,7 +235,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withHandler((g, m) -> {
+            .withMoveablePostActionHandler((g, m) -> {
             }).build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
@@ -258,7 +262,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withHandler((g, m) -> {
+            .withMoveablePostActionHandler((g, m) -> {
             }).build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
@@ -283,7 +287,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(startPos)
-            .withHandler((g, m) -> {
+            .withMoveablePostActionHandler((g, m) -> {
             })
             .build();
 
@@ -577,7 +581,7 @@ class MoveableControllerTest {
          moveable = EndPointMoveableBuilder.builder()
                .withGrid(grid)
                .withStartPosition(startPos)
-               .withHandler(stateMachine)
+               .withMoveablePostActionHandler(stateMachine)
                .withMovingIncrement(movingIncrement)
                .build();
          return this;
