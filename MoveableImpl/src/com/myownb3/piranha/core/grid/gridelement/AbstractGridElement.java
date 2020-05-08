@@ -8,10 +8,10 @@ import java.util.List;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link AbstractGridElement} is the base class of all {@link GridElement}

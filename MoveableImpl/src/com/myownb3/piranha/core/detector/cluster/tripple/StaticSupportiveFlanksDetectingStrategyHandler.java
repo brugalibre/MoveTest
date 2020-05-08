@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link StaticSupportiveFlanksDetectingStrategyHandler} handles a specific {@link DetectingStrategy}

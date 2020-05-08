@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class MoveableObstacleImplTest {
 

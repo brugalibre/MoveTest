@@ -4,7 +4,7 @@ import static com.myownb3.piranha.core.statemachine.states.EvasionStates.DEFAULT
 import static com.myownb3.piranha.core.statemachine.states.EvasionStates.ORIENTING;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;

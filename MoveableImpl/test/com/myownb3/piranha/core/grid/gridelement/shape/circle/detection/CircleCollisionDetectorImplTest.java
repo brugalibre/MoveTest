@@ -23,11 +23,11 @@ import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class CircleCollisionDetectorImplTest {
 

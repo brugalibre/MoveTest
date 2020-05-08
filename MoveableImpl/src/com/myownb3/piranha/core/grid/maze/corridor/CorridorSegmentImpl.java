@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link CorridorSegmentImpl} represents a segment within a corridor

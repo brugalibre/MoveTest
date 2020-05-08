@@ -1,7 +1,7 @@
 package com.myownb3.piranha.core.detector.lightbarrier;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * Defines the different states a {@link GridElement} can be while passing a {@link LightBarrier}

@@ -16,8 +16,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.MoveableBuilder;
 import com.myownb3.piranha.util.MathUtil;

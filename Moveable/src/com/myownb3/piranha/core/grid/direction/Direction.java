@@ -4,7 +4,7 @@
 package com.myownb3.piranha.core.grid.direction;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link Direction} indicates the orientation on a {@link Grid}

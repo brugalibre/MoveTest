@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.detector;
 
 import java.util.Comparator;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class Pos2DistanceComparator implements Comparator<Position> {
 

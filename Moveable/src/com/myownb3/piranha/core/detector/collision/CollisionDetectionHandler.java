@@ -6,7 +6,7 @@ package com.myownb3.piranha.core.detector.collision;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * * The {@link CollisionDetectionHandler} handles any occurrence of a collision

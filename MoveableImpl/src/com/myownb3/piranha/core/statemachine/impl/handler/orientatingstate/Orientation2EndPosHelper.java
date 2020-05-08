@@ -4,8 +4,8 @@ import static com.myownb3.piranha.util.MathUtil.round;
 import static java.lang.Math.abs;
 import static java.util.Objects.nonNull;
 
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**

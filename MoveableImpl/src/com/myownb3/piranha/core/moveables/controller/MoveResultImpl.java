@@ -1,6 +1,6 @@
 package com.myownb3.piranha.core.moveables.controller;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.MoveResult;
 
 public class MoveResultImpl implements MoveResult {

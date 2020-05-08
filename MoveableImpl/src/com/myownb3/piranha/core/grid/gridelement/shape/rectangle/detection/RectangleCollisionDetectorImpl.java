@@ -17,9 +17,9 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link RectangleCollisionDetectorImpl} implements the {@link CollisionDetector}. It is able to check if a {@link Position} has

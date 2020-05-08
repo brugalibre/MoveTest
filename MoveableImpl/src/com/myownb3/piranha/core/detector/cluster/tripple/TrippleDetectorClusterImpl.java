@@ -14,7 +14,7 @@ import com.myownb3.piranha.core.detector.evasion.impl.DefaultEvasionAngleEvaluat
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategyHandlerFactory;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 
 public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {

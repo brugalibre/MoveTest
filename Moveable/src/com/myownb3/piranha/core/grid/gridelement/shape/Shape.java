@@ -9,7 +9,7 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link Shape} defines the Shape of any {@link GridElement}. A Shape is usually defined by one or more {@link Position}s and is

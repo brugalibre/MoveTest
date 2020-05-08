@@ -10,7 +10,7 @@ import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.cluster.DetectingStrategyHandler;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link SupportiveFlanksDetectingStrategyHandler} handles a specific {@link DetectingStrategy}

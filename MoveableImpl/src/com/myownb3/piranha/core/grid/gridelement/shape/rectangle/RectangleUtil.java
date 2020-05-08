@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.grid.gridelement.shape.rectangle;
 
 import java.util.List;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class RectangleUtil {
 

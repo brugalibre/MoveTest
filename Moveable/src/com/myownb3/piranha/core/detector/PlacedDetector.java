@@ -1,6 +1,6 @@
 package com.myownb3.piranha.core.detector;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * A {@link PlacedDetector} defines a {@link IDetector} which is placed on a specific {@link Position}

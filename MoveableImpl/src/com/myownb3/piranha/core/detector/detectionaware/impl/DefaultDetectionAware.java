@@ -13,7 +13,7 @@ import com.myownb3.piranha.core.detector.DetectionResult;
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 
 public class DefaultDetectionAware implements DetectionAware {

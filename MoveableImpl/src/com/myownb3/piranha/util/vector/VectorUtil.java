@@ -6,7 +6,7 @@ package com.myownb3.piranha.util.vector;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.direction.Direction;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * Contains some useful methods for creating {@link Float64Vector} from

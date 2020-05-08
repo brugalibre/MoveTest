@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 public class EndPositions {

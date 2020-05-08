@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.core.grid.gridelement.position;
+package com.myownb3.piranha.core.grid.position;
 
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;

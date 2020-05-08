@@ -19,10 +19,10 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.detection.RectangleCollisionDetectorImpl.RectangleCollisionDetectorBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class RectangleImpl extends AbstractShape implements Rectangle {
 

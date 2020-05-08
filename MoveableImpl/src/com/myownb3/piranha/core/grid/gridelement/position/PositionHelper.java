@@ -8,6 +8,7 @@ import java.util.List;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.direction.Direction;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 /**

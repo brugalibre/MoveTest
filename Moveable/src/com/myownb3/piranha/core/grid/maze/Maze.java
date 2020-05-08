@@ -6,9 +6,9 @@ import java.util.List;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
+import com.myownb3.piranha.core.grid.position.EndPosition;
 
 /**
  * A {@link Maze} contains multiple {@link GridElement} such as {@link Rectangle} defining the maze but also other {@link Obstacle}s

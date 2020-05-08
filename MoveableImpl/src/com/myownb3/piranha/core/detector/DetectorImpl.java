@@ -15,7 +15,7 @@ import com.myownb3.piranha.core.detector.evasion.EvasionAngleEvaluator;
 import com.myownb3.piranha.core.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.MathUtil;
 
 /**

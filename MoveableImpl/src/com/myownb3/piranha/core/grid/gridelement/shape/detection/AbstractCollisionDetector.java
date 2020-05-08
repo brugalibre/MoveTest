@@ -6,7 +6,7 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public abstract class AbstractCollisionDetector implements CollisionDetector {
 

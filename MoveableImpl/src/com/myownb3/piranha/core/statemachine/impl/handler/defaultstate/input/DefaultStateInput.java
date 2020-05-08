@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.statemachine.impl.handler.defaultstate.input;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.input.CommonEvasionStateInput;

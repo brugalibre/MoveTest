@@ -16,10 +16,8 @@ import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -28,6 +26,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.R
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegmentImpl;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class MazeImpl implements Maze {
 

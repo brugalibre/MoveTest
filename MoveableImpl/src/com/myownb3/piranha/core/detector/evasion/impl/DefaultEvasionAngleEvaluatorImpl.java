@@ -7,8 +7,8 @@ import java.util.Optional;
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.detector.evasion.EvasionAngleEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class DefaultEvasionAngleEvaluatorImpl implements EvasionAngleEvaluator {
 

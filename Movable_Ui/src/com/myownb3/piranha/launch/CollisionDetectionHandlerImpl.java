@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.ui.application.MainWindow;

@@ -4,7 +4,7 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**

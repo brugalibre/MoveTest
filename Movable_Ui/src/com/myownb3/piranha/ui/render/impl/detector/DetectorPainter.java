@@ -18,7 +18,7 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;

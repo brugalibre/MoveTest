@@ -19,8 +19,6 @@ import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarr
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -28,6 +26,8 @@ import com.myownb3.piranha.core.grid.maze.Maze;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;

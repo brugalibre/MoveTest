@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class ObstacleImplTest {
 

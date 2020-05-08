@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class SupportiveFlankDetectingStrategyHandlerTest {
 

@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.grid.gridelement.shape.circle;
 import java.util.Comparator;
 
 import com.myownb3.piranha.core.grid.direction.Direction;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class CircePathPositionComparator implements Comparator<Position> {
 

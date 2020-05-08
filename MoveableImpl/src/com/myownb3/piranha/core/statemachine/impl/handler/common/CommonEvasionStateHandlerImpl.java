@@ -6,7 +6,7 @@ import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.input.CommonEvasionStateInput;

@@ -1,7 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.rectangle;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * The {@link Rectangle} defines a rectangular {@link Shape}

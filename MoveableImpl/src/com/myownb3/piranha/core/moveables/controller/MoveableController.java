@@ -5,8 +5,8 @@ package com.myownb3.piranha.core.moveables.controller;
 
 import java.util.List;
 
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;

@@ -11,10 +11,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 
 class AbstractShapeTest {
 

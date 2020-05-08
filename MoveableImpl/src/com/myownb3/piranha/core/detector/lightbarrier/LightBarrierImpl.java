@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class LightBarrierImpl implements LightBarrier {
 

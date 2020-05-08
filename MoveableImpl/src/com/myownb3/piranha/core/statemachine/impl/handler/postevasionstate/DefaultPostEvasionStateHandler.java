@@ -4,7 +4,7 @@ import static com.myownb3.piranha.core.statemachine.states.EvasionStates.POST_EV
 import static java.lang.Math.abs;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.handler.postevasion.PostEvasionStateHandler;

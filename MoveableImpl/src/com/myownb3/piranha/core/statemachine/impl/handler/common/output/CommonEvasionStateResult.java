@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.statemachine.impl.handler.common.output;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.statemachine.handler.output.EventStateResult;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 

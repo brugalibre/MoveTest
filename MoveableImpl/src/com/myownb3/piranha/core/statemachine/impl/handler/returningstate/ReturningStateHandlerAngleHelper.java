@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.statemachine.impl.handler.returningstate;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**

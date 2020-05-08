@@ -9,9 +9,9 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;

@@ -8,8 +8,8 @@ import java.util.List;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a

@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.detector.collision;
 
 import com.myownb3.piranha.core.grid.gridelement.Avoidable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class DefaultCollisionDetectionHandlerImpl implements CollisionDetectionHandler {
 
