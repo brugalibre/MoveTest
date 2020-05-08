@@ -14,9 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.ui.render.Renderer;
 
 /**
@@ -54,7 +54,7 @@ public class MainWindow {
    }
 
    public void addSpielfeld(List<Renderer> renderers, Grid grid) {
-      com.myownb3.piranha.grid.Dimension gridDimension = grid.getDimension();
+      com.myownb3.piranha.core.grid.Dimension gridDimension = grid.getDimension();
       Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 3 * padding,
             gridDimension.getHeight() + 3 * padding);
       SpielFeld spielFeld = new SpielFeld(grid, renderers, padding, pointWidth);

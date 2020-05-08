@@ -12,26 +12,26 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
-import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
-import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
-import com.myownb3.piranha.detector.lightbarrier.LightBarrier;
-import com.myownb3.piranha.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
-import com.myownb3.piranha.detector.lightbarrier.LightBarrierPassedCallbackHandler;
-import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.position.EndPosition;
-import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl;
-import com.myownb3.piranha.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.grid.maze.Maze;
-import com.myownb3.piranha.grid.maze.MazeImpl.MazeBuilder;
-import com.myownb3.piranha.grid.maze.corridor.CorridorSegment;
-import com.myownb3.piranha.grid.maze.corridor.CorridorSide;
-import com.myownb3.piranha.moveables.MoveResult;
-import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.MoveableController;
-import com.myownb3.piranha.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.detector.lightbarrier.LightBarrier;
+import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
+import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
+import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.EndPosition;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.maze.Maze;
+import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
+import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
+import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
+import com.myownb3.piranha.core.moveables.MoveResult;
+import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.MoveableController;
+import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 
 
 class MazeRunnerTest {

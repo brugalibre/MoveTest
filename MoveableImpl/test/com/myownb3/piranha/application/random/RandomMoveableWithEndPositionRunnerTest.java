@@ -13,18 +13,18 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
-import com.myownb3.piranha.detector.collision.DefaultCollisionDetectionHandlerImpl;
-import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
-import com.myownb3.piranha.grid.Dimension;
-import com.myownb3.piranha.grid.DimensionImpl;
-import com.myownb3.piranha.grid.Grid;
-import com.myownb3.piranha.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.position.Positions;
-import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.moveables.MoveableController;
-import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.grid.Dimension;
+import com.myownb3.piranha.core.grid.DimensionImpl;
+import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.MoveableController;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 
 class RandomMoveableWithEndPositionRunnerTest {
 

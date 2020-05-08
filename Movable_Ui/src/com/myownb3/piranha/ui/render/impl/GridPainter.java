@@ -7,8 +7,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import com.myownb3.piranha.grid.Dimension;
-import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.core.grid.Dimension;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 

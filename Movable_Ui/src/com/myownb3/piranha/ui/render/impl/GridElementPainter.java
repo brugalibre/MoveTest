@@ -5,7 +5,7 @@ package com.myownb3.piranha.ui.render.impl;
 
 import java.awt.Color;
 
-import com.myownb3.piranha.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
 /**
  * @author Dominic

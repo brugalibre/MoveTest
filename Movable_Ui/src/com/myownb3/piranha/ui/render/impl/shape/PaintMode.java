@@ -1,6 +1,6 @@
 package com.myownb3.piranha.ui.render.impl.shape;
 
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 
 public enum PaintMode {
 

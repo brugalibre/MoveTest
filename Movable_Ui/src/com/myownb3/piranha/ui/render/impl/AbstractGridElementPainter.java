@@ -5,9 +5,9 @@ package com.myownb3.piranha.ui.render.impl;
 
 import java.awt.Color;
 
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.AbstractGridElement;
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;

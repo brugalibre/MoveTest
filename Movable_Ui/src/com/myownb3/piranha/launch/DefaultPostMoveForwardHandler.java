@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.MoveableObstacleImpl;
-import com.myownb3.piranha.moveables.MoveResult;
-import com.myownb3.piranha.moveables.MoveableController;
-import com.myownb3.piranha.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
+import com.myownb3.piranha.core.moveables.MoveResult;
+import com.myownb3.piranha.core.moveables.MoveableController;
+import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;

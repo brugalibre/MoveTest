@@ -2,8 +2,8 @@ package com.myownb3.piranha.ui.render.impl.shape;
 
 import java.awt.Polygon;
 
-import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 
 public class ShapePaintUtil {
 

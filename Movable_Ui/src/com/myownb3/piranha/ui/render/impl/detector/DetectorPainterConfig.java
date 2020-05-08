@@ -5,8 +5,8 @@ package com.myownb3.piranha.ui.render.impl.detector;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
-import com.myownb3.piranha.detector.config.DetectorConfig;
+import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
 import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainterConfig;
 

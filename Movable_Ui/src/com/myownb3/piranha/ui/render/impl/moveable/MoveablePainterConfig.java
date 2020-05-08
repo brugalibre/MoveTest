@@ -5,11 +5,11 @@ package com.myownb3.piranha.ui.render.impl.moveable;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.detector.Detector;
-import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.moveables.Moveable;
-import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.core.detector.Detector;
+import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 
 /**
  * 

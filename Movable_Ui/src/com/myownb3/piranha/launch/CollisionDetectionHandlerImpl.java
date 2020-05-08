@@ -5,12 +5,12 @@ package com.myownb3.piranha.launch;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.grid.gridelement.Avoidable;
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.moveables.EndPointMoveable;
-import com.myownb3.piranha.moveables.MoveableController;
+import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.gridelement.Avoidable;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.moveables.EndPointMoveable;
+import com.myownb3.piranha.core.moveables.MoveableController;
 import com.myownb3.piranha.ui.application.MainWindow;
 
 class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {

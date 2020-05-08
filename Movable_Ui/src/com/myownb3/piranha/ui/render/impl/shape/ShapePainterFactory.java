@@ -5,10 +5,10 @@ package com.myownb3.piranha.ui.render.impl.shape;
 
 import java.awt.Color;
 
-import com.myownb3.piranha.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.grid.gridelement.shape.circle.Circle;
-import com.myownb3.piranha.grid.gridelement.shape.position.PositionShape;
-import com.myownb3.piranha.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
 import com.myownb3.piranha.ui.render.impl.shape.position.PositionPainter;

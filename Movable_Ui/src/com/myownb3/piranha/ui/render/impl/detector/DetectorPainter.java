@@ -12,13 +12,13 @@ import java.util.Optional;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.detector.IDetector;
-import com.myownb3.piranha.detector.cluster.tripple.IDetectorInfo;
-import com.myownb3.piranha.detector.cluster.tripple.TrippleDetectorCluster;
-import com.myownb3.piranha.detector.config.DetectorConfig;
-import com.myownb3.piranha.grid.direction.Direction;
-import com.myownb3.piranha.grid.gridelement.GridElement;
-import com.myownb3.piranha.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.detector.IDetector;
+import com.myownb3.piranha.core.detector.cluster.tripple.IDetectorInfo;
+import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.core.detector.config.DetectorConfig;
+import com.myownb3.piranha.core.grid.direction.Direction;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;

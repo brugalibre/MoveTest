@@ -10,9 +10,9 @@ import java.awt.Graphics;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
-import com.myownb3.piranha.grid.gridelement.position.Position;
-import com.myownb3.piranha.moveables.Moveable;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.grid.gridelement.position.Position;
+import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;

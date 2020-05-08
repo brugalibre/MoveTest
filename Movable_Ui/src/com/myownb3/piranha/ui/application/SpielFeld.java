@@ -11,8 +11,8 @@ import java.util.function.Predicate;
 
 import javax.swing.JComponent;
 
-import com.myownb3.piranha.grid.Dimension;
-import com.myownb3.piranha.grid.Grid;
+import com.myownb3.piranha.core.grid.Dimension;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 import com.myownb3.piranha.ui.render.impl.GridPainter;

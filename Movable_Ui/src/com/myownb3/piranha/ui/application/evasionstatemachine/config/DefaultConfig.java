@@ -1,8 +1,8 @@
 package com.myownb3.piranha.ui.application.evasionstatemachine.config;
 
-import com.myownb3.piranha.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
-import com.myownb3.piranha.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 
 public class DefaultConfig {
 
