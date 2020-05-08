@@ -1,6 +1,7 @@
 package com.myownb3.piranha.detector;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -9,11 +10,13 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.detector.detectionaware.impl.DefaultDetectionAware;
 import com.myownb3.piranha.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
+import com.myownb3.piranha.grid.direction.Directions;
 import com.myownb3.piranha.grid.gridelement.GridElement;
 import com.myownb3.piranha.grid.gridelement.position.Position;
 import com.myownb3.piranha.grid.gridelement.position.Positions;
@@ -110,5 +113,91 @@ class DetectorImplTest {
       // Then
       assertThat(actualIsEvasion, is(false));
       assertThat(hasObjectDetected, is(true));
+   }
+
+   @Ignore
+   void testDetectObjectAlongPath_CircleIsInsideDetectionAngle_1Quadrant() {
+
+      // Given
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(5)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
+      Position detectorPosition = Positions.of(0, 1);
+      Position gridElementPos = Positions.of(Directions.S, -1.49, 4);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(hasObjectDetected, is(true));
+   }
+
+   @Test
+   void testDetectObjectAlongPath_CircleIsOutsideDetectionAngle_1Quadrant() {
+
+      // Given
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(5)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
+      Position detectorPosition = Positions.of(0, 1);
+      Position gridElementPos = Positions.of(Directions.S, 1.51, 4);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(hasObjectDetected, is(not(true)));
+   }
+
+   @Test
+   void testDetectObjectAlongPath_CircleIsOutsideDetectionAngle_2Quadrant() {
+
+      // Given
+      boolean expectedIsDetected = false;
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(5)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
+      Position detectorPosition = Positions.of(0, 0);
+      Position gridElementPos = Positions.of(-5, 5);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(hasObjectDetected, is(expectedIsDetected));
+   }
+
+   //   @Test
+   void testDetectObjectAlongPath_CircleIsInsideDetectionAngle_2Quadrant() {
+
+      // Given
+      boolean expectedIsDetected = true;
+      DetectorImpl detector = DetectorBuilder.builder()
+            .withDetectorReach(10)
+            .withDetectorAngle(45)
+            .withAngleInc(11.25)
+            .build();
+      Position detectorPosition = Positions.of(0, 0);
+      Position gridElementPos = Positions.of(-4, 5);
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      detector.detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), detectorPosition);
+      boolean hasObjectDetected = detector.hasObjectDetected(gridElement);
+
+      // Then
+      assertThat(hasObjectDetected, is(expectedIsDetected));
    }
 }
