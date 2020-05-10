@@ -57,7 +57,7 @@ class MirrorGridTest {
 
       // Then
       Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
-      verify(direction, times(3)).rotate(expectedRotationDeg);
+      verify(direction, times(5)).rotate(expectedRotationDeg);
    }
 
    private static Direction mockDirection(double forwardX, double forwardY) {

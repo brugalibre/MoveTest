@@ -5,7 +5,6 @@ package com.myownb3.piranha.core.grid.gridelement.shape.rectangle.detection;
 
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,6 +16,7 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -50,18 +50,22 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
       return gridElement -> gridElement.getShape()
             .getPath()
             .stream()
+            .map(PathSegment::getBegin)
             .anyMatch(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle));
    }
 
    private boolean isPositionInsideRectangle(Position posOnShapePath, Rectangle transformedRectangle) {
-      List<Position> path = transformedRectangle.getPath();
-      Float64Vector rectangleEdge1Vector = getVector(path.get(1)).minus(getVector(path.get(0)));
-      Float64Vector rectangleEdge2Vector = getVector(path.get(3)).minus(getVector(path.get(2)));
-      double distanceFromShapePos2Edge1 = calcDistanceFromPositionToLine(posOnShapePath, path.get(0), rectangleEdge1Vector);
-      double distanceFromShapePos2Edge2 = calcDistanceFromPositionToLine(posOnShapePath, path.get(2), rectangleEdge2Vector);
-      double distanceRectanglePos1ToPos2 = calcDistanceFromPositionToLine(path.get(2), path.get(0), rectangleEdge1Vector);
+      List<PathSegment> trasformedPath = transformedRectangle.getPath();
+      PathSegment firstPathSegment = trasformedPath.get(0);
+      PathSegment thirdPathSegment = trasformedPath.get(2);
+      Float64Vector rectangleEdge1Vector = firstPathSegment.getVector();
+      Float64Vector rectangleEdge2Vector = thirdPathSegment.getVector();
 
-      return distanceRectanglePos1ToPos2 == round(distanceFromShapePos2Edge1 + distanceFromShapePos2Edge2, ACCURACY);
+      double distanceFromShapePos2Edge1 = calcDistanceFromPositionToLine(posOnShapePath, firstPathSegment.getBegin(), rectangleEdge1Vector);
+      double distanceFromShapePos2Edge2 = calcDistanceFromPositionToLine(posOnShapePath, thirdPathSegment.getBegin(), rectangleEdge2Vector);
+      double distanceBetweenFirstAndThirdPathSegment =
+            calcDistanceFromPositionToLine(thirdPathSegment.getBegin(), firstPathSegment.getBegin(), rectangleEdge1Vector);
+      return distanceBetweenFirstAndThirdPathSegment == round(distanceFromShapePos2Edge1 + distanceFromShapePos2Edge2, ACCURACY);
    }
 
    private Rectangle getTransformedRectangle(Position newPosition) {

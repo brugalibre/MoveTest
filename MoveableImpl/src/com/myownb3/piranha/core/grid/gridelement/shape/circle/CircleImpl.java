@@ -8,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
@@ -15,6 +16,8 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.detection.CircleCollisionDetectorImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
@@ -28,7 +31,7 @@ public class CircleImpl extends AbstractShape implements Circle {
    private int radius;
    private Position center;
 
-   private CircleImpl(List<Position> path, Position center, int amountOfPoints, int radius) {
+   private CircleImpl(List<PathSegment> path, Position center, int amountOfPoints, int radius) {
       super(path);
       this.radius = Math.abs(radius);
       this.center = center;
@@ -48,7 +51,10 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    @Override
    protected List<Position> buildPath4Detection() {
-      return buildCircleWithCenter(center, AMOUNT_OF_PATH_POINTS_4_DETECTION, radius);
+      return buildCircleWithCenter(center, AMOUNT_OF_PATH_POINTS_4_DETECTION, radius)
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
    }
 
    private int verifyAmountOfPoints(int amountOfPoints) {
@@ -90,14 +96,15 @@ public class CircleImpl extends AbstractShape implements Circle {
       return center;
    }
 
-   private static List<Position> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
-      List<Position> path = new LinkedList<>();
+   private static List<PathSegment> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
+      List<PathSegment> path = new LinkedList<>();
       double degInc = 360 / amountOfPoints;
       double deg = 0;
       for (int i = 0; i < amountOfPoints; i++) {
          Position pos = getNextCirclePos(center, radius, deg);
          deg = deg + degInc;
-         path.add(pos);
+         Position nextPos = getNextCirclePos(center, radius, deg);
+         path.add(new PathSegmentImpl(pos, nextPos));
       }
 
       return path;
@@ -141,7 +148,7 @@ public class CircleImpl extends AbstractShape implements Circle {
 
       public CircleImpl build() {
          requireNonNull(center);
-         List<Position> path = buildCircleWithCenter(center, amountOfPoints, radius);
+         List<PathSegment> path = buildCircleWithCenter(center, amountOfPoints, radius);
          CircleImpl circle = new CircleImpl(path, center, amountOfPoints, radius);
          if (nonNull(gridElement)) {
             ((AbstractShape) circle).setGridElement(gridElement);

@@ -12,9 +12,9 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionCollisionDetectorImpl.PositionCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -34,7 +34,7 @@ public class PositionShape extends AbstractShape {
     * @param gridElemPos
     */
    private PositionShape(Position gridElemPos) {
-      super(Collections.singletonList(requireNonNull(gridElemPos)));
+      super(Collections.singletonList(requireNonNull(createPathSegment(gridElemPos))));
    }
 
    @Override
@@ -65,7 +65,7 @@ public class PositionShape extends AbstractShape {
 
    @Override
    public void transform(Position position) {
-      this.path = Collections.singletonList(position);
+      this.path = Collections.singletonList(createPathSegment(position));
    }
 
    @Override
@@ -84,7 +84,11 @@ public class PositionShape extends AbstractShape {
    }
 
    public Position getPosition() {
-      return Positions.of(path.get(0));
+      return path.get(0).getBegin();
+   }
+
+   private static PathSegmentImpl createPathSegment(Position gridElemPos) {
+      return new PathSegmentImpl(gridElemPos, gridElemPos);
    }
 
    public static class PositionShapeBuilder {

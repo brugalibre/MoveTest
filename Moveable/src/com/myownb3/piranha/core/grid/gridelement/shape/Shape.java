@@ -8,6 +8,7 @@ import java.util.List;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
@@ -26,7 +27,7 @@ public interface Shape {
     * @return the path of this shape described by a line a pen would follow to draw
     *         the shape.
     */
-   List<Position> getPath();
+   List<PathSegment> getPath();
 
    /**
     * Checks for every given {@link GridElement} if there is a collision when the {@link GridElement} of this {@link Shape} is moving

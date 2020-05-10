@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -24,6 +25,7 @@ import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -186,7 +188,7 @@ public class RectangleImplTest {
       Rectangle rectangle = buildRectangle(center, height, width, Orientation.VERTICAL);
 
       // When
-      List<Position> actualPath = rectangle.getPath();
+      List<Position> actualPath = getPositionsOfPath(rectangle);
 
       // Then
       assertPath(actualPath, expectedPath);
@@ -222,7 +224,7 @@ public class RectangleImplTest {
       Rectangle rectangle = buildRectangle(center, height, width, Orientation.HORIZONTAL);
 
       // When
-      List<Position> actualPath = rectangle.getPath();
+      List<Position> actualPath = getPositionsOfPath(rectangle);
 
       // Then
       assertPath(actualPath, expectedPath);
@@ -244,10 +246,17 @@ public class RectangleImplTest {
 
       // When
       rectangle.transform(newPos);
-      List<Position> actualPath = rectangle.getPath();
+      List<Position> actualPath = getPositionsOfPath(rectangle);
 
       // Then
       assertPath(actualPath, expectedPath);
+   }
+
+   private List<Position> getPositionsOfPath(Rectangle rectangle) {
+      return rectangle.getPath()
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
    }
 
    @Test

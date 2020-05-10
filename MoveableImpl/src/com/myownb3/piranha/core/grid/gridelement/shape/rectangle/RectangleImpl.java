@@ -21,6 +21,8 @@ import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.detection.RectangleCollisionDetectorImpl.RectangleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -100,7 +102,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    private List<Position> buildPath4DetectionPrivate() {
       Set<Position> path4Detection = new LinkedHashSet<>();
       for (int i = 0; i < path.size(); i++) {
-         Position pathPos1 = path.get(i);
+         Position pathPos1 = path.get(i).getBegin();
          Position pathPos2 = getNextPosition(path, i);
 
          path4Detection.addAll(buildPositionsBetweenTwoPositions(pathPos1, pathPos2, distanceBetweenPosOnColDetectionPath));
@@ -120,7 +122,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
 
    @Override
    public Position getUpperLeftPosition() {
-      return path.get(1);
+      return path.get(1).getBegin();
    }
 
    @Override
@@ -136,7 +138,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       return (Rectangle) super.clone();
    }
 
-   private static List<Position> buildRectangleWithCenter(Position center, double width, double height, Orientation orientation) {
+   private static List<PathSegment> buildRectangleWithCenter(Position center, double width, double height, Orientation orientation) {
       double angle;
       switch (orientation) {
          case HORIZONTAL:
@@ -150,8 +152,8 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       }
    }
 
-   private static List<Position> buildPath(Position center, double width, double height, double angle) {
-      List<Position> path = new LinkedList<>();
+   private static List<PathSegment> buildPath(Position center, double width, double height, double angle) {
+      List<PathSegment> path = new LinkedList<>();
 
       Position nextRectanglePos1 = getNextRectanglePos(center, width, height, -angle);
       Position nextRectanglePos2 = getNextRectanglePos(center, width, height, angle);
@@ -159,10 +161,10 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       Position rotatedCenter = center.rotate(180);
       Position nextRectanglePos3 = getNextRectanglePos(rotatedCenter, width, height, -angle);
       Position nextRectanglePos4 = getNextRectanglePos(rotatedCenter, width, height, angle);
-      path.add(nextRectanglePos1);
-      path.add(nextRectanglePos2);
-      path.add(nextRectanglePos3);
-      path.add(nextRectanglePos4);
+      path.add(new PathSegmentImpl(nextRectanglePos1, nextRectanglePos2));
+      path.add(new PathSegmentImpl(nextRectanglePos2, nextRectanglePos3));
+      path.add(new PathSegmentImpl(nextRectanglePos3, nextRectanglePos4));
+      path.add(new PathSegmentImpl(nextRectanglePos4, nextRectanglePos1));
       return path;
    }
 

@@ -20,6 +20,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.detection.RectangleCollisionDetectorImpl.RectangleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -190,7 +191,9 @@ class RectangleCollisionDetectorImplTest {
       Obstacle obstacle = mock(Obstacle.class);
       Shape shape = mock(Shape.class);
       when(obstacle.getShape()).thenReturn(shape);
-      when(shape.getPath()).thenReturn(Collections.singletonList(position));
+      PathSegment pathSegment = mock(PathSegment.class);
+      when(pathSegment.getBegin()).thenReturn(position);
+      when(shape.getPath()).thenReturn(Collections.singletonList(pathSegment));
       return obstacle;
    }
 

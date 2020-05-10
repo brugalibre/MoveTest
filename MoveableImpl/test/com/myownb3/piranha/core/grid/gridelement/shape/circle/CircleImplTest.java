@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +22,7 @@ import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -103,7 +103,10 @@ class CircleImplTest {
             .build();
 
       // Then
-      List<Position> path = new ArrayList<>(circle.getPath());
+      List<Position> path = circle.getPath()
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
       Collections.sort(path, new CircePathPositionComparator());
       // Degree = 0
       assertThat(path.get(0).getX(), is(5.0d));
@@ -136,7 +139,11 @@ class CircleImplTest {
 
       // When
       Position center = circle.getCenter();
-      Position firstPathPos = circle.getPath().get(0);
+      Position firstPathPos = circle.getPath()
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList())
+            .get(0);
       int distanceFromCenterToPath = (int) center.calcDistanceTo(firstPathPos);
 
       // Then
@@ -219,6 +226,7 @@ class CircleImplTest {
             .build();
       List<Position> oldPath = circle.getPath()
             .stream()
+            .map(PathSegment::getBegin)
             .map(Positions::of)
             .collect(Collectors.toList());
 
@@ -226,7 +234,10 @@ class CircleImplTest {
       circle.transform(endPos);
 
       // Then
-      List<Position> path = new ArrayList<>(circle.getPath());
+      List<Position> path = circle.getPath()
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
       Collections.sort(path, new CircePathPositionComparator());
       Collections.sort(oldPath, new CircePathPositionComparator());
 
@@ -262,7 +273,10 @@ class CircleImplTest {
             .build();
 
       // Then
-      List<Position> path = new ArrayList<>(circle.getPath());
+      List<Position> path = circle.getPath()
+            .stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
       assertThat(path.size(), is(expectedOfPoints));
       Collections.shuffle(path);
       Collections.sort(path, new CircePathPositionComparator());
