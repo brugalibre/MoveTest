@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.circle.detection;
 
 import static java.util.Collections.singletonList;
+import static java.util.Objects.isNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -152,6 +153,91 @@ class CircleCollisionDetectorImplTest {
       assertThrows(CollisionDetectedException.class, ex);
    }
 
+   @Test
+   void testCheck4Collision_CollisionCirclesVsCircle_CircleInside() {
+
+      // Given
+      Position posOfGridElementsPath = Positions.of(0, 15);
+      List<PathSegment> pathOfGridElementsShape = mockPathSegment(posOfGridElementsPath);
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+            .withCircle(3)
+            .withCircleDetectorImpl()
+            .withPathOfShape(pathOfGridElementsShape)
+            .withObstacleShape(CircleBuilder.builder()
+                  .withRadius(8)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(Directions.N, 0, 11.9))
+                  .build())
+            .withObstacle()
+            .withGridElement()
+            .withNewPosition(Positions.of(0, 1));
+
+      // When
+      Executable ex = () -> {
+         tcb.circle.check4Collision(tcb.collisionDetectionHandler, tcb.newPosition, singletonList(tcb.obstacle));
+      };
+
+      // Then
+      assertThrows(CollisionDetectedException.class, ex);
+   }
+
+   @Test
+   void testCheck4Collision_CollisionCirclesVsCircle_Touching() {
+
+      // Given
+      Position posOfGridElementsPath = Positions.of(0, 15);
+      List<PathSegment> pathOfGridElementsShape = mockPathSegment(posOfGridElementsPath);
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+            .withCircle(4)
+            .withCircleDetectorImpl()
+            .withPathOfShape(pathOfGridElementsShape)
+            .withObstacleShape(CircleBuilder.builder()
+                  .withRadius(6)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(Directions.N, 0, 11))
+                  .build())
+            .withObstacle()
+            .withGridElement()
+            .withNewPosition(Positions.of(0, 1));
+
+      // When
+      Executable ex = () -> {
+         tcb.circle.check4Collision(tcb.collisionDetectionHandler, tcb.newPosition, singletonList(tcb.obstacle));
+      };
+
+      // Then
+      assertThrows(CollisionDetectedException.class, ex);
+   }
+
+   @Test
+   void testCheck4Collision_CollisionCirclesVsCircle_NotTouching() {
+
+      // Given
+      Position posOfGridElementsPath = Positions.of(0, 15);
+      List<PathSegment> pathOfGridElementsShape = mockPathSegment(posOfGridElementsPath);
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+            .withCircle(4)
+            .withCircleDetectorImpl()
+            .withPathOfShape(pathOfGridElementsShape)
+            .withObstacleShape(CircleBuilder.builder()
+                  .withRadius(6)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(Directions.N, 0, 11.01))
+                  .build())
+            .withObstacle()
+            .withGridElement()
+            .withNewPosition(Positions.of(0, 1));
+
+      // When
+      tcb.circle.check4Collision(tcb.collisionDetectionHandler, tcb.newPosition, singletonList(tcb.obstacle));
+
+      // Then
+      // No Exception thrown
+   }
+
    private List<PathSegment> mockPathSegment(Position posOfGridElementsPath) {
       PathSegment pathSegment = mock(PathSegment.class);
       when(pathSegment.getBegin()).thenReturn(posOfGridElementsPath);
@@ -160,6 +246,7 @@ class CircleCollisionDetectorImplTest {
 
    private static class TestCaseBuilder {
 
+      private Shape shape;
       public CircleCollisionDetectorImpl detectorImpl;
       public CollisionDetectionHandler collisionDetectionHandler;
       public GridElement gridElement;
@@ -180,6 +267,11 @@ class CircleCollisionDetectorImplTest {
 
       public TestCaseBuilder withPathOfShape(List<PathSegment> pathOfGridElementsShape) {
          this.pathOfGridElementsShape = pathOfGridElementsShape;
+         return this;
+      }
+
+      public TestCaseBuilder withObstacleShape(Shape obstacleShape) {
+         this.shape = obstacleShape;
          return this;
       }
 
@@ -207,14 +299,18 @@ class CircleCollisionDetectorImplTest {
          this.detectorImpl = new CircleCollisionDetectorImpl(circle);
          return this;
       }
+
+      private Obstacle mockObstacle(List<PathSegment> pathOfShape) {
+
+         if (isNull(shape)) {
+            shape = mock(Shape.class);
+            when(shape.getPath()).thenReturn(pathOfShape);
+         }
+
+         Obstacle obstacle = mock(Obstacle.class);
+         when(obstacle.getShape()).thenReturn(shape);
+         return obstacle;
+      }
    }
 
-   private static Obstacle mockObstacle(List<PathSegment> pathOfShape) {
-      Shape shape = mock(Shape.class);
-      when(shape.getPath()).thenReturn(pathOfShape);
-
-      Obstacle obstacle = mock(Obstacle.class);
-      when(obstacle.getShape()).thenReturn(shape);
-      return obstacle;
-   }
 }
