@@ -11,9 +11,9 @@ import java.util.function.Predicate;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.detector.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;

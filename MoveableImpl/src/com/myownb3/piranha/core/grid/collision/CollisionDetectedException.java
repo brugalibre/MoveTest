@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.core.detector.collision;
+package com.myownb3.piranha.core.grid.collision;
 
 /**
  * @author Dominic

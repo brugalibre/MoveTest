@@ -13,10 +13,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
-import com.myownb3.piranha.core.detector.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;

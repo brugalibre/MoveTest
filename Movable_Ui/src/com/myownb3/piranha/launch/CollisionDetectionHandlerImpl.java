@@ -5,7 +5,7 @@ package com.myownb3.piranha.launch;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;

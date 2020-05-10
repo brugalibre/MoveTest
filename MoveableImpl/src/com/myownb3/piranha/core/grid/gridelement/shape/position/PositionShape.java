@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.core.detector.Detector;
-import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.detector.collision.CollisionDetector;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;

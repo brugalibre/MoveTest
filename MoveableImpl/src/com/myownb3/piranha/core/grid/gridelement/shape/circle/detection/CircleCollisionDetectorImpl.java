@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.grid.gridelement.shape.circle.detection;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;

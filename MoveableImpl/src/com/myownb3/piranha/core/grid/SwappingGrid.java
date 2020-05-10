@@ -7,7 +7,7 @@ import static java.util.Objects.isNull;
 
 import java.util.Objects;
 
-import com.myownb3.piranha.core.detector.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
 
