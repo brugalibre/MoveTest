@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -41,8 +41,16 @@ class DefaultGridTest {
             .withMinY(0)
             .build();
       Moveable moveable = spy(buildMoveable(grid, moveablePos));
-      new ObstacleImpl(grid, obstaclePos1, buildCircle(obstaclePos1, radius));
-      new ObstacleImpl(grid, obstaclePos2, buildCircle(obstaclePos2, radius));
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos1)
+            .withShape(buildCircle(obstaclePos1, radius))
+            .build();
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos2)
+            .withShape(buildCircle(obstaclePos2, radius))
+            .build();
       grid.prepare();
 
       // When
@@ -67,8 +75,16 @@ class DefaultGridTest {
             .withMinY(0)
             .build();
       Moveable moveable = spy(buildMoveable(grid, moveablePos));
-      Obstacle obstacle1 = new ObstacleImpl(grid, obstaclePos1, buildCircle(obstaclePos1, radius));
-      new ObstacleImpl(grid, obstaclePos2, buildCircle(obstaclePos2, radius));
+      Obstacle obstacle1 = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos1)
+            .withShape(buildCircle(obstaclePos1, radius))
+            .build();
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos2)
+            .withShape(buildCircle(obstaclePos2, radius))
+            .build();
       grid.prepare();
 
       // When
@@ -100,8 +116,14 @@ class DefaultGridTest {
             .withMinY(0)
             .build();
       Moveable moveable = buildMoveable(grid, moveablePos);
-      new ObstacleImpl(grid, obstaclePos1);
-      Obstacle obstacle2 = new ObstacleImpl(grid, obstaclePos2);
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos1)
+            .build();
+      Obstacle obstacle2 = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos2)
+            .build();
 
       // When
       List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(moveable, 5);
@@ -124,7 +146,10 @@ class DefaultGridTest {
             .withMinY(0)
             .build();
       Moveable moveable = buildMoveable(grid, moveablePos);
-      new ObstacleImpl(grid, obstaclePos);
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos)
+            .build();
 
       // When
       List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(moveable, 5);

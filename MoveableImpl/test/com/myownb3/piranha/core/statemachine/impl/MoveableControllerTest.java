@@ -32,11 +32,11 @@ import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -258,7 +258,10 @@ class MoveableControllerTest {
             .withDefaultCollisionDetectionHandler()
             .build();
       EndPosition expectedEndPos = EndPositions.of(0, 12);
-      new ObstacleImpl(grid, Positions.of(0, 10));
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 10))
+            .build();
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
@@ -520,7 +523,10 @@ class MoveableControllerTest {
 
       public TestCaseBuilder withObstacle(Position obstaclePos) {
          Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
-         obstacle = new ObstacleImpl(grid, obstaclePos);
+         obstacle = ObstacleBuilder.builder()
+               .withGrid(grid)
+               .withPosition(obstaclePos)
+               .build();
          obstacles.add(obstacle);
          return this;
       }
@@ -538,7 +544,10 @@ class MoveableControllerTest {
       }
 
       public TestCaseBuilder addObstacle(Position obstaclePos) {
-         Obstacle obstacle = new ObstacleImpl(grid, obstaclePos);
+         Obstacle obstacle = ObstacleBuilder.builder()
+               .withGrid(grid)
+               .withPosition(obstaclePos)
+               .build();
          obstacles.add(obstacle);
          return this;
       }

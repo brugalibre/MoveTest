@@ -28,8 +28,7 @@ public class SupportiveFlanksDetectingStrategyHandler implements DetectingStrate
       init();
    }
 
-   @Override
-   public void init() {
+   private void init() {
       evasionDetectedDetectorOpt = Optional.empty();
    }
 

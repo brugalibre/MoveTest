@@ -16,7 +16,7 @@ import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -201,7 +201,11 @@ public class MazeImpl implements Maze {
          public CorridorBuilder withObstacle(Shape shape, int xOffset, int yOffset) {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset);
-            GridElement gridElement = new ObstacleImpl(grid, gridElementPos, shape);
+            GridElement gridElement = ObstacleBuilder.builder()
+                  .withGrid(grid)
+                  .withPosition(gridElementPos)
+                  .withShape(shape)
+                  .build();
             this.corridorGridElements.add(gridElement);
             return this;
          }
@@ -307,12 +311,16 @@ public class MazeImpl implements Maze {
    }
 
    private static GridElement buildRectangleObstacle(Grid grid, double height, double width, Position center) {
-      return new ObstacleImpl(grid, center, RectangleBuilder.builder()
-            .withCenter(center)
-            .withHeight(height)
-            .withWidth(width)
-            .withDistanceBetweenPosOnColDetectionPath(5)
-            .withOrientation(Orientation.HORIZONTAL)
-            .build());
+      return ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(center)
+            .withShape(RectangleBuilder.builder()
+                  .withCenter(center)
+                  .withHeight(height)
+                  .withWidth(width)
+                  .withDistanceBetweenPosOnColDetectionPath(5)
+                  .withOrientation(Orientation.HORIZONTAL)
+                  .build())
+            .build();
    }
 }

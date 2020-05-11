@@ -7,7 +7,6 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.init.Initializable;
 
 /**
  * The {@link DetectingStrategyHandler} handles a specific {@link DetectingStrategy}
@@ -15,7 +14,7 @@ import com.myownb3.piranha.init.Initializable;
  * @author Dominic
  *
  */
-public interface DetectingStrategyHandler extends Initializable {
+public interface DetectingStrategyHandler {
 
    /**
     * Evaluates if the given {@link GridElement} has been detected by this Detector

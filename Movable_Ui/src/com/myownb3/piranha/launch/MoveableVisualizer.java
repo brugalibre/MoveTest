@@ -11,7 +11,7 @@ import com.myownb3.piranha.core.grid.SwappingGrid;
 import com.myownb3.piranha.core.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.application.MainWindow;
 
@@ -36,7 +36,10 @@ public class MoveableVisualizer {
             .build();
 
       List<GridElement> gridElements = posList.stream()
-            .map(pos -> new ObstacleImpl(grid, pos))
+            .map(pos -> ObstacleBuilder.builder()
+                  .withGrid(grid)
+                  .withPosition(pos)
+                  .build())
             .collect(Collectors.toList());//
 
       MainWindow mainWindow = new MainWindow(obstacles, gridElements, grid.getDimension().getWidth(),

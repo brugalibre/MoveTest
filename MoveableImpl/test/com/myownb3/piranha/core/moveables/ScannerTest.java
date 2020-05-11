@@ -16,7 +16,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
@@ -40,7 +40,10 @@ class ScannerTest {
             .withCollisionDetectionHandler((a, b, c) -> {
             })
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
             .withDetectorAngle(45)
@@ -101,7 +104,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(7, 7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(7, 7))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
             .withDetectorAngle(45)
@@ -129,7 +135,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7))
+            .build();
       int detectorReach = 45;
       int evasionDistance = 2 * detectorReach / 3;
       Detector detector = DetectorBuilder.builder()
@@ -160,7 +169,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7.1));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7.1))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
             .withDetectorAngle(45)
@@ -188,7 +200,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -1));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, -1))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
             .withDetectorAngle(45)
@@ -215,7 +230,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, -7))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
             .withDetectorAngle(45)
@@ -247,7 +265,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, -7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, -7))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
             .withDetectorAngle(45)
@@ -272,7 +293,10 @@ class ScannerTest {
       Grid grid = GridBuilder.builder()
             .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 75, 45, 5.625);
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(0, 7.1));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 7.1))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
             .withDetectorAngle(45)
@@ -306,7 +330,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-1.8195117, 5));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(-1.8195117, 5))
+            .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 2, 45, 45, 5.625);
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(2)
@@ -342,7 +369,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder()
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(-2.8867, 7));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(-2.8867, 7))
+            .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 45, 45, 5.625);
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -377,7 +407,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder(20, 20)
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(20, 20));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(20, 20))
+            .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -410,7 +443,10 @@ class ScannerTest {
       // Given
       Grid grid = GridBuilder.builder(10, 10)
             .build();
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(5, 5));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(5, 5))
+            .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)

@@ -2,7 +2,6 @@ package com.myownb3.piranha.core.detector.cluster.tripple;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.init.Initializable;
 
 /**
  * The {@link TrippleDetectorCluster} contains three {@link IDetector}. One is located in the center and two are placed to it's left and
@@ -12,7 +11,7 @@ import com.myownb3.piranha.init.Initializable;
  * @author Dominic
  *
  */
-public interface TrippleDetectorCluster extends Detector, Initializable {
+public interface TrippleDetectorCluster extends Detector {
 
    /**
     * 

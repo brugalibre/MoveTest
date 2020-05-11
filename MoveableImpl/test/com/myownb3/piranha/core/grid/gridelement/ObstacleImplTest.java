@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -21,7 +22,11 @@ class ObstacleImplTest {
       CircleImpl shape = Mockito.mock(CircleImpl.class);
 
       // When
-      Obstacle obstacle = new ObstacleImpl(grid, position, shape);
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(position)
+            .withShape(shape)
+            .build();
 
       // Then
       assertThat(obstacle.getShape(), is(shape));

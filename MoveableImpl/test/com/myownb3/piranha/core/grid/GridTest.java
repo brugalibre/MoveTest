@@ -20,6 +20,7 @@ import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -129,7 +130,10 @@ class GridTest {
       boolean isElementOnGrid = true;
 
       // When
-      Obstacle obstacle = new ObstacleImpl(grid, Positions.of(1, 7.1));
+      Obstacle obstacle = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7.1))
+            .build();
 
       boolean isElementEffectivelyOnGrid = grid.containsElement(obstacle);
 
@@ -291,8 +295,14 @@ class GridTest {
       boolean isElementOnGrid = true;
 
       // When
-      new ObstacleImpl(grid, Positions.of(1, 7.1));
-      Obstacle antoherObstacle = new ObstacleImpl(new DefaultGrid(), Positions.of(1, 7.1));
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7.1))
+            .build();
+      Obstacle antoherObstacle = ObstacleBuilder.builder()
+            .withGrid(new DefaultGrid())
+            .withPosition(Positions.of(1, 7.1))
+            .build();
 
       boolean isElementEffectivelyOnGrid = grid.containsElement(antoherObstacle);
 
@@ -341,7 +351,10 @@ class GridTest {
       }
 
       public CollisionTestCaseBuilder withObstacle() {
-         this.obstacle = new ObstacleImpl(grid, obstaclePosition);
+         this.obstacle = ObstacleBuilder.builder()
+               .withGrid(grid)
+               .withPosition(obstaclePosition)
+               .build();
          return this;
       }
    }

@@ -111,21 +111,6 @@ public class TrippleDetectorClusterImplTest {
    }
 
    @Test
-   void testInit() {
-      // Given
-      DetectingStrategyHandler detectingStrategyHandler = spy(new TestDetectingStrategyHandler());
-      TrippleDetectorCluster trippleClusterDetectorCluster = TrippleDetectorClusterBuilder.builder()
-            .withDetectionStrategyHandler(detectingStrategyHandler)
-            .build();
-
-      // When
-      trippleClusterDetectorCluster.init();
-
-      // Then
-      verify(detectingStrategyHandler).init();
-   }
-
-   @Test
    void testGetEvasionDelayDistance() {
       // Given
       DetectingStrategyHandler detectingStrategyHandler = spy(new TestDetectingStrategyHandler());
@@ -263,11 +248,6 @@ public class TrippleDetectorClusterImplTest {
       @Override
       public Integer getEvasionDistance4DetectingDetector() {
          return 0;
-      }
-
-      @Override
-      public void init() {
-         // ignore
       }
    }
 }

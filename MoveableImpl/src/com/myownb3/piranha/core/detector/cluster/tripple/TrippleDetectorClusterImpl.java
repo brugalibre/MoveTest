@@ -29,11 +29,6 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
    }
 
    @Override
-   public void init() {
-      detectingStrategyHandler.init();
-   }
-
-   @Override
    public void detectObject(GridElement gridElement, Position gridElementPos, Position zeroDetectorPosition) {
       detectObjectAlongPath(gridElement, Collections.singletonList(gridElementPos), zeroDetectorPosition);
    }
