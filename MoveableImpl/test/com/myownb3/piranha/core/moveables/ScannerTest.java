@@ -17,7 +17,7 @@ import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
@@ -71,7 +71,10 @@ class ScannerTest {
             .withCollisionDetectionHandler((a, b, c) -> {
             })
             .build();
-      GridElement gridElement = new SimpleGridElement(grid, Positions.of(1, 7));
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(1, 7))
+            .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
             .withDetectorAngle(45)

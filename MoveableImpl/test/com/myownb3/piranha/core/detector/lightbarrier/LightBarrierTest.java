@@ -19,7 +19,7 @@ import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilde
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -53,7 +53,10 @@ class LightBarrierTest {
          hasVisitedList.add(true);
       };
       Position position = Positions.of(4, 4);
-      GridElement gridElement = new SimpleGridElement(mock(Grid.class), position);
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(position)
+            .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(true);
 
@@ -213,7 +216,10 @@ class LightBarrierTest {
          hasVisitedList.add(true);
       };
       Position position = Positions.of(4, 4);
-      GridElement gridElement = new SimpleGridElement(mock(Grid.class), position);
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(position)
+            .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(true);
 
@@ -245,7 +251,10 @@ class LightBarrierTest {
          hasVisitedList.add(true);
       };
       Position position = Positions.of(4, 4);
-      GridElement gridElement = new SimpleGridElement(mock(Grid.class), position);
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(position)
+            .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(false);
 

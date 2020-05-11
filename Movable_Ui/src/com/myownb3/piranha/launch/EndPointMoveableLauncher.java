@@ -22,7 +22,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -153,7 +153,11 @@ public class EndPointMoveableLauncher {
       allGridElement.add(obstacle4);
 
       for (EndPosition endPos : endPositions) {
-         allGridElement.add(new SimpleGridElement(grid, endPos, buildCircle(width, endPos)));
+         allGridElement.add(SimpleGridElementBuilder.builder()
+               .withGrid(grid)
+               .withPosition(endPos)
+               .withShape(buildCircle(width, endPos))
+               .build());
       }
       return allGridElement;
    }

@@ -18,7 +18,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
@@ -109,7 +109,10 @@ class MirrorGridTest {
    }
 
    private static GridElement buildGridElement(Grid grid, Position position) {
-      return new SimpleGridElement(grid, position);
+      return SimpleGridElementBuilder.builder()
+            .withGrid(grid)
+            .withPosition(position)
+            .build();
    }
 
    @Test
@@ -250,7 +253,11 @@ class MirrorGridTest {
    }
 
    private static GridElement buildGridElement(Grid grid, Position position, Shape shape) {
-      return new SimpleGridElement(grid, position, shape);
+      return SimpleGridElementBuilder.builder()
+            .withGrid(grid)
+            .withPosition(position)
+            .withShape(shape)
+            .build();
    }
 
 }

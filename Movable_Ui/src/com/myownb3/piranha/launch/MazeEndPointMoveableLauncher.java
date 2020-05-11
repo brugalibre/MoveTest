@@ -27,7 +27,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
@@ -270,7 +270,10 @@ public class MazeEndPointMoveableLauncher {
    private static Function<? super PlacedDetector, ? extends DetectorPainter> buildDetectorPainter(Grid grid, int height) {
       return corridorDetector -> {
          IDetector detector = corridorDetector.getDetector();
-         return new DetectorPainter(new SimpleGridElement(grid, corridorDetector.getPosition()), getPositionListColor(), height, height,
+         return new DetectorPainter(SimpleGridElementBuilder.builder()
+               .withGrid(grid)
+               .withPosition(corridorDetector.getPosition())
+               .build(), getPositionListColor(), height, height,
                DetectorPainterConfig.of(Optional.empty(), DetectorConfigBuilder.builder()
                      .withDetectorAngle(detector.getDetectorAngle())
                      .withDetectorReach(detector.getDetectorRange())

@@ -120,4 +120,32 @@ public abstract class AbstractGridElement implements GridElement {
    public String getName() {
       return name;
    }
+
+   public abstract static class AbstractGridElementBuilder<T extends AbstractGridElement> {
+
+      protected Position position;
+      protected Grid grid;
+      protected Shape shape;
+
+      protected AbstractGridElementBuilder() {
+         // private
+      }
+
+      public AbstractGridElementBuilder<T> withShape(Shape shape) {
+         this.shape = shape;
+         return this;
+      }
+
+      public AbstractGridElementBuilder<T> withPosition(Position position) {
+         this.position = position;
+         return this;
+      }
+
+      public AbstractGridElementBuilder<T> withGrid(Grid grid) {
+         this.grid = grid;
+         return this;
+      }
+
+      public abstract T build();
+   }
 }

@@ -23,7 +23,7 @@ import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerI
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
@@ -291,7 +291,11 @@ class CircleCollisionDetectorImplTest {
       }
 
       public TestCaseBuilder withGridElement() {
-         this.gridElement = new SimpleGridElement(mock(Grid.class), Positions.of(0, 0), circle);
+         this.gridElement = SimpleGridElementBuilder.builder()
+               .withGrid(mock(Grid.class))
+               .withPosition(Positions.of(0, 0))
+               .withShape(circle)
+               .build();
          return this;
       }
 

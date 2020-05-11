@@ -10,11 +10,10 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -39,7 +38,11 @@ class SimpleGridElementTest {
             .build();
 
       // When
-      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, circle);
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(gridElemPos)
+            .withShape(circle)
+            .build();
 
       // Then
       assertThat(circle.getCenter(), is(gridElement.getPosition()));
@@ -52,7 +55,11 @@ class SimpleGridElementTest {
       PositionShape pointShape = spy(PositionShapeBuilder.builder()
             .withPosition(gridElemPos)
             .build());
-      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(gridElemPos)
+            .withShape(pointShape)
+            .build();
 
       // When
       gridElement.getDimensionRadius();
@@ -66,10 +73,13 @@ class SimpleGridElementTest {
       // Given
       Position gridElemPos = Positions.of(4, 4);
       Position expectedBackPos = gridElemPos.rotate(180);
-      PositionShape pointShape = PositionShapeBuilder.builder()
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
             .withPosition(gridElemPos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(gridElemPos)
+                  .build())
             .build();
-      GridElement gridElement = new SimpleGridElement(mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
       Position positionOnPathFor = gridElement.getFurthermostBackPosition();
@@ -82,10 +92,13 @@ class SimpleGridElementTest {
    void testGetFurthermostFrontPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      PositionShape pointShape = PositionShapeBuilder.builder()
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
             .withPosition(gridElemPos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(gridElemPos)
+                  .build())
             .build();
-      GridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), gridElemPos, pointShape);
 
       // When
       Position positionOnPathFor = gridElement.getFurthermostFrontPosition();
@@ -97,7 +110,10 @@ class SimpleGridElementTest {
    @Test
    void testName() {
       // Given
-      AbstractGridElement gridElement = new SimpleGridElement(Mockito.mock(DefaultGrid.class), Positions.of(4, 4));
+      AbstractGridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4))
+            .build();
       String expectedName = "name";
       gridElement.setName(expectedName);
 
@@ -116,9 +132,11 @@ class SimpleGridElementTest {
    void testToString() {
       // Given
       Position position = Positions.of(1, 1);
-      Grid grid = GridBuilder.builder(5, 5)
+      AbstractGridElement element = SimpleGridElementBuilder.builder()
+            .withGrid(GridBuilder.builder(5, 5)
+                  .build())
+            .withPosition(position)
             .build();
-      AbstractGridElement element = new SimpleGridElement(grid, position);
       String expectedToString =
             "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";
 
