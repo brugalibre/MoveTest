@@ -1,10 +1,11 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.circle.detection;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
@@ -21,7 +22,7 @@ public class CircleCollisionDetectorImpl extends AbstractCollisionDetector {
 
    private Circle circle;
 
-   public CircleCollisionDetectorImpl(Circle circle) {
+   private CircleCollisionDetectorImpl(Circle circle) {
       super();
       this.circle = circle;
    }
@@ -31,15 +32,33 @@ public class CircleCollisionDetectorImpl extends AbstractCollisionDetector {
          Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Shape ourCircleAtNewPos = getOurShapeAtNewPos(newPosition, circle);
       return gridElements2Check.stream()
-            .filter(isGridElementsInsideOrOnShape(newPosition, ourCircleAtNewPos))
-            .findFirst()
-            .map(handleCollision(collisionDetectionHandler, newPosition, movedGridElement))
-            .orElse(new CollisionDetectionResultImpl(false, newPosition));
+            .map(getNearestIntersectionWithGridElement(newPosition, ourCircleAtNewPos))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.collectingAndThen(Collectors.toList(),
+                  returnCollisionDetectionResult(collisionDetectionHandler, movedGridElement, newPosition)));
    }
 
-   private static Shape getOurShapeAtNewPos(Position newPosition, Shape shape) {
-      Shape ourShapeAtNewPos = shape.clone();
-      ourShapeAtNewPos.transform(newPosition);
-      return ourShapeAtNewPos;
+   public static class CircleCollisionDetectorBuilder {
+
+      private Circle circle;
+
+      private CircleCollisionDetectorBuilder() {
+         super();
+      }
+
+      public static CircleCollisionDetectorBuilder builder() {
+         return new CircleCollisionDetectorBuilder();
+      }
+
+      public CircleCollisionDetectorBuilder withCircle(Circle circle) {
+         this.circle = circle;
+         return this;
+      }
+
+      public CircleCollisionDetectorImpl build() {
+         return new CircleCollisionDetectorImpl(circle);
+      }
    }
+
 }

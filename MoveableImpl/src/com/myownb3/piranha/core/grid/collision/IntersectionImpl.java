@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.grid.collision;
 
+import static java.util.Objects.requireNonNull;
+
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -13,11 +15,9 @@ public class IntersectionImpl implements Intersection {
    private Position collisionPosition;
 
    private IntersectionImpl(PathSegment pathSegment, Position collisionPosition) {
-      this.pathSegment = pathSegment;
-      this.collisionPosition = collisionPosition;
+      this.pathSegment = requireNonNull(pathSegment);
+      this.collisionPosition = requireNonNull(collisionPosition);
    }
-
-
 
    @Override
    public PathSegment getPathSegment() {
@@ -27,6 +27,12 @@ public class IntersectionImpl implements Intersection {
    @Override
    public Position getCollisionPosition() {
       return collisionPosition;
+   }
+
+
+   @Override
+   public String toString() {
+      return "CollisionPosition: '" + collisionPosition + "'; PathSegment: '" + pathSegment + "'";
    }
 
    /**

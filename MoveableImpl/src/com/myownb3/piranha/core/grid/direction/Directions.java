@@ -21,4 +21,8 @@ public class Directions {
    public static Direction of(Direction direction) {
       return new DirectionImpl(direction.getAngle(), direction.getCardinalDirection());
    }
+
+   public static Direction of(double forwardX, double forwardY) {
+      return new DirectionImpl(forwardX, forwardY);
+   }
 }

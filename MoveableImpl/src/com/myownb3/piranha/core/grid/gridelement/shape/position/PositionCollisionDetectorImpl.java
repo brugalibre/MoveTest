@@ -7,17 +7,22 @@ import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElementImpl;
+import com.myownb3.piranha.core.grid.collision.IntersectionImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
@@ -42,9 +47,16 @@ public class PositionCollisionDetectorImpl extends AbstractCollisionDetector {
       Float64Vector lineFromOldToNew = oldPosition.getDirection().getVector();
       return gridElements2Check.stream()
             .filter(isCollision(oldPosition, newPosition, lineFromOldToNew))
-            .findFirst()
-            .map(handleCollision(collisionDetectionHandler, newPosition, movedGridElement))
-            .orElse(new CollisionDetectionResultImpl(false, newPosition));
+            .map(buildCollisionGridElement(newPosition))
+            .collect(Collectors.collectingAndThen(Collectors.toList(),
+                  returnCollisionDetectionResult(collisionDetectionHandler, movedGridElement, newPosition)));
+   }
+
+   private Function<GridElement, CollisionGridElement> buildCollisionGridElement(Position newPosition) {
+      return gridElement -> {
+         PathSegmentImpl pathSegment = new PathSegmentImpl(gridElement.getPosition(), gridElement.getPosition());
+         return CollisionGridElementImpl.of(IntersectionImpl.of(pathSegment, newPosition), gridElement);
+      };
    }
 
    private Predicate<? super GridElement> isCollision(Position oldPosition, Position newPosition, Float64Vector lineFromOldToNew) {

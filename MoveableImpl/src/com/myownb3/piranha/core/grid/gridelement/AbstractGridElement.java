@@ -122,10 +122,6 @@ public abstract class AbstractGridElement implements GridElement {
       return name;
    }
 
-   public void setPosition(Position position) {
-      this.position = position;
-   }
-
    public abstract static class AbstractGridElementBuilder<T extends AbstractGridElement> {
 
       protected Position position;

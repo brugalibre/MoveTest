@@ -3,21 +3,28 @@
  */
 package com.myownb3.piranha.core.grid.gridelement.shape.rectangle.detection;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.detection.PathSeg2Distance.fillupPathSegment2DistanceMap;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElementImpl;
+import com.myownb3.piranha.core.grid.collision.IntersectionImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
+import com.myownb3.piranha.core.grid.gridelement.shape.detection.PathSeg2Distance;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -44,18 +51,36 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
          Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Rectangle transformedRectangle = getTransformedRectangle(newPosition);
       return gridElements2Check.stream()
-            .filter(isCollision(transformedRectangle))
-            .findFirst()
-            .map(handleCollision(collisionDetectionHandler, newPosition, movedGridElement))
-            .orElse(new CollisionDetectionResultImpl(false, newPosition));
+            .map(getNearestIntersection(transformedRectangle))
+            .filter(Objects::nonNull)
+            .collect(Collectors.collectingAndThen(Collectors.toList(),
+                  returnCollisionDetectionResult(collisionDetectionHandler, movedGridElement, newPosition)));
    }
 
-   private Predicate<? super GridElement> isCollision(Rectangle transformedRectangle) {
-      return gridElement -> gridElement.getShape()
-            .getPath()
-            .stream()
-            .map(PathSegment::getBegin)
-            .anyMatch(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle));
+   private Function<GridElement, CollisionGridElement> getNearestIntersection(Rectangle transformedRectangle) {
+      return gridElement -> {
+         return gridElement.getShape()
+               .getPath()
+               .stream()
+               .map(PathSegment::getBegin)
+               .filter(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle))
+               .findAny()
+               .map(createCollisionGridElement(transformedRectangle, gridElement))
+               .orElse(null);
+      };
+   }
+
+   private Function<? super Position, ? extends CollisionGridElement> createCollisionGridElement(Rectangle transformedRectangle,
+         GridElement gridElement) {
+      return pathSegmentPos -> {
+         List<PathSeg2Distance> pathSegments2Distances = fillupPathSegment2DistanceMap(pathSegmentPos, transformedRectangle.getPath());
+         return CollisionGridElementImpl.of(pathSegments2Distances.stream()
+               .sorted(Comparator.comparing(PathSeg2Distance::getDistance))
+               .findFirst()
+               .map(PathSeg2Distance::getPathSegment)
+               .map(pathSeg -> IntersectionImpl.of(pathSeg, pathSegmentPos))
+               .orElse(null), gridElement);
+      };
    }
 
    private boolean isPositionInsideRectangle(Position posOnShapePath, Rectangle transformedRectangle) {
@@ -73,9 +98,7 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    private Rectangle getTransformedRectangle(Position newPosition) {
-      Rectangle transformedRectangle = (Rectangle) rectangle.clone();
-      transformedRectangle.transform(newPosition);
-      return transformedRectangle;
+      return (Rectangle) getOurShapeAtNewPos(newPosition, rectangle);
    }
 
    public static class RectangleCollisionDetectorBuilder {

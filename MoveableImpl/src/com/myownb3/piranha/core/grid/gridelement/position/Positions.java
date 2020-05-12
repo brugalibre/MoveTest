@@ -276,6 +276,17 @@ public class Positions {
 	 * @formatter:on
 	 */
       private double getAbsolutAngle(double angleAsDegree) {
+         return getAbsolutAngle(angleAsDegree, x, y);
+      }
+
+      /**
+       * Calculates the absolute value depending on the quadrant this position is located
+       * 
+       * @param angleAsDegree
+       *        the angle e.g. -45 degree
+       * @return the absolute angle considering the 4 different quadrants, so -45 will be 325
+       */
+      public static double getAbsolutAngle(double angleAsDegree, double x, double y) {
 
          if (y < 0 && x < 0) {
             // 3. Quadrant

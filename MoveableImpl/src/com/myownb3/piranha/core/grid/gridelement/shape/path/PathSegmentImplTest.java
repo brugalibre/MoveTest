@@ -45,4 +45,21 @@ class PathSegmentImplTest {
       assertThat(pathSegmentImpl.getEnd(), is(endPos));
       assertThat(pathSegmentImpl.getVector(), is(endPos.getVector().minus(begPos.getVector())));
    }
+
+   @Test
+   void testToString() {
+
+      // Given
+      Position begPos = Positions.of(0, 0);
+      Position endPos = Positions.of(5, 5);
+      PathSegmentImpl pathSegmentImpl = new PathSegmentImpl(begPos, endPos);
+      String expectedString =
+            "Begin-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '0.0', Y-Axis: '0.0''; End-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '5.0', Y-Axis: '5.0''; Vector '{5.0, 5.0, 0.0}";
+
+      // When
+      String actual2String = pathSegmentImpl.toString();
+
+      // Then
+      assertThat(actual2String, is(expectedString));
+   }
 }

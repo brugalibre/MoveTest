@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -89,7 +90,7 @@ class RectangleCollisionDetectorImplTest {
             tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -121,7 +122,7 @@ class RectangleCollisionDetectorImplTest {
             tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -153,7 +154,7 @@ class RectangleCollisionDetectorImplTest {
             tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    @Test
@@ -185,7 +186,7 @@ class RectangleCollisionDetectorImplTest {
             tcb.allObstacleGridElements);
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(obstacle2), eq(tcb.movedGridElement), eq(tcb.newPosition));
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.movedGridElement), eq(tcb.newPosition));
    }
 
    private Obstacle mockObstacle(Position position) {
@@ -217,7 +218,8 @@ class RectangleCollisionDetectorImplTest {
       private TestCaseBuilder withCollisionDetectionHandler() {
          CollisionDetectionHandler cDhHandler = new CollisionDetectionHandler() {
             @Override
-            public CollisionDetectionResult handleCollision(GridElement otherGridElement, GridElement gridElement, Position newPosition) {
+            public CollisionDetectionResult handleCollision(List<CollisionGridElement> otherGridElements, GridElement gridElement,
+                  Position newPosition) {
                return null;
             }
          };

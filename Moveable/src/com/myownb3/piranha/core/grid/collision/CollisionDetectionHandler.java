@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.collision;
 
+import java.util.List;
+
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -18,17 +20,17 @@ import com.myownb3.piranha.core.grid.position.Position;
 public interface CollisionDetectionHandler {
 
    /**
-    * Handles a specific collision between the given {@link GridElement},the other given {@link GridElement} at the given
+    * Handles a specific collision between the given {@link GridElement},the other given {@link GridElement}s at the given
     * {@link Position}
     * 
-    * @param otherGridElement
-    *        the other {@link GridElement}
-    *        {@link GridElement} was collided
+    * @param otherGridElements
+    *        the other {@link GridElement}s {@link GridElement} was collided with. Note that this list is never <code>null</code> nor empty
     * @param movedGridElement
     *        the {@link GridElement} which caused the collision with the other {@link GridElement}
     * @param newPosition
     *        the Position at which the collision occurred
     * @return a {@link CollisionDetectionResult} which contains the results of the collision handling
     */
-   CollisionDetectionResult handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition);
+   CollisionDetectionResult handleCollision(List<CollisionGridElement> otherGridElements, GridElement movedGridElement,
+         Position newPosition);
 }

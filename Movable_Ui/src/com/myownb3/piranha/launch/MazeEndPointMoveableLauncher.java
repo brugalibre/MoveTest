@@ -5,7 +5,6 @@ package com.myownb3.piranha.launch;
 
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
-import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +24,8 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncedPositionEvaluatorImpl;
+import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -79,8 +79,9 @@ public class MazeEndPointMoveableLauncher {
       List<Renderer> renderers = new ArrayList<>();
       MainWindowHolder mainWindowHolder = new MainWindowHolder();
       MoveableControllerHolder moveableControllerHolder = new MoveableControllerHolder();
+      List<GridElement> gridElements = new ArrayList<>();
       MazePostMoveForwardHandler postMoveFowardHandler =
-            new MazePostMoveForwardHandler(mainWindowHolder, moveableControllerHolder, emptyList(), renderers);
+            new MazePostMoveForwardHandler(mainWindowHolder, moveableControllerHolder, gridElements, renderers);
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
             .withMovingIncrement(4)
             .withMaze(MazeBuilder.builder()
@@ -90,7 +91,9 @@ public class MazeEndPointMoveableLauncher {
                         .withMaxY(1000)
                         .withMinX(padding)
                         .withMinY(padding)
-                        .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+                        .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
+                              .withBouncedPositionEvaluator(new BouncedPositionEvaluatorImpl())
+                              .build())
                         .build())
                   .withStartPos(center)
                   .withCorridor(wallThickness)
@@ -100,11 +103,11 @@ public class MazeEndPointMoveableLauncher {
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
-                  .withObstacle(CircleBuilder.builder()
+                  .withMoveableObstacle(CircleBuilder.builder()
                         .withRadius(circleRadius)
                         .withAmountOfPoints(circleRadius)
                         .withCenter(Positions.of(0, 0))
-                        .build(), 0, 0)
+                        .build(), 0, 0, -25)
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
@@ -204,7 +207,7 @@ public class MazeEndPointMoveableLauncher {
             .withPlacedDetector(evalDetector(mazeRunner.getMaze()))
             .build());
 
-      List<GridElement> gridElements = mazeRunner.getAllGridElements();
+      gridElements.addAll(mazeRunner.getAllGridElements());
 
       MoveableController moveableController = mazeRunner.getMoveableController();
       moveableControllerHolder.setMoveableController(moveableController);

@@ -5,13 +5,17 @@ import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.grid.collision.Intersection;
 import com.myownb3.piranha.core.grid.collision.IntersectionImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -34,25 +38,42 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
       margin = 1d / Moveable.STEP_WITDH;
    }
 
-   protected Function<? super GridElement, CollisionDetectionResult> handleCollision(CollisionDetectionHandler collisionDetectionHandler,
-         Position newPosition, GridElement movedGridElement) {
-      return otherGridElement -> collisionDetectionHandler.handleCollision(otherGridElement, movedGridElement, newPosition);
+   protected Shape getOurShapeAtNewPos(Position newPosition, Shape shape) {
+      Shape transformedShape = shape.clone();
+      transformedShape.transform(newPosition);
+      return transformedShape;
    }
 
-   protected Predicate<? super GridElement> isGridElementsInsideOrOnShape(Position newPosition, Shape ourShapeAtNewPos) {
+   protected Function<List<CollisionGridElement>, CollisionDetectionResult> returnCollisionDetectionResult(
+         CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position newPosition) {
+      return collisionGridElements -> collisionGridElements.isEmpty() ? new CollisionDetectionResultImpl(newPosition)
+            : collisionDetectionHandler.handleCollision(collisionGridElements, movedGridElement, newPosition);
+   }
+
+   protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(Position newPosition,
+         Shape ourShapeAtNewPos) {
       return gridElement -> {
          Shape shape2Check = gridElement.getShape();
          return shape2Check.getPath()
                .stream()
-               .anyMatch(hasIntersectionWithPathSegment(ourShapeAtNewPos));
+               .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, ourShapeAtNewPos, gridElement, newPosition))
+               .filter(Objects::nonNull)
+               .findAny();
       };
    }
 
-   private Predicate<? super PathSegment> hasIntersectionWithPathSegment(Shape ourShapeAtNewPos) {
-      return pathSegment2Check -> getNearestIntersectionWithPathSegment(pathSegment2Check, ourShapeAtNewPos) != null;
+   protected Function<Position, CollisionGridElement> createCollisionGridElement(PathSegment pathSegment2Check,
+         GridElement gridElement, Position newPosition) {
+      return pathSegPos -> {
+         // We need to turn the collision-Position into the same direction then the shape is heading
+         double angle = pathSegPos.calcAngleRelativeTo(newPosition);
+         Intersection intersection = createIntersection(pathSegment2Check, pathSegPos.rotate(angle));
+         return CollisionGridElementImpl.of(intersection, gridElement);
+      };
    }
 
-   private Intersection getNearestIntersectionWithPathSegment(PathSegment pathSegment2Check, Shape ourShapeAtNewPos) {
+   private CollisionGridElement getNearestIntersectionWithPathSegment(PathSegment pathSegment2Check, Shape ourShapeAtNewPos,
+         GridElement gridElement, Position newPosition) {
       List<PathSeg2Distance> pathSegments2Distances = fillupPathSegment2DistanceMap(pathSegment2Check.getBegin(), ourShapeAtNewPos.getPath());
       return pathSegments2Distances.stream()
             .sorted(Comparator.comparing(PathSeg2Distance::getDistance))
@@ -60,7 +81,7 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
             .map(PathSegment::getBegin)
             .filter(pathSegPos -> isPositionInsideOrOnShape(pathSegment2Check, pathSegPos))
             .findAny()
-            .map(pathSeg -> createIntersection(pathSegment2Check, pathSeg))
+            .map(createCollisionGridElement(pathSegment2Check, gridElement, newPosition))
             .orElse(null);
    }
 

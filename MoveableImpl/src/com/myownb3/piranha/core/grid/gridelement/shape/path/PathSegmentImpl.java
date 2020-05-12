@@ -61,4 +61,9 @@ public class PathSegmentImpl implements PathSegment {
    public Float64Vector getVector() {
       return vector;
    }
+
+   @Override
+   public String toString() {
+      return "Begin-Position: '" + beginPos + "'; End-Position: '" + endPos + "'; Vector '" + vector;
+   }
 }

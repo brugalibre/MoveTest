@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
@@ -37,7 +38,7 @@ class ScannerTest {
       // We do not care about the detection handler, since this is not part of this
       // test
       Grid grid = GridBuilder.builder()
-            .withCollisionDetectionHandler((a, b, c) -> null)
+            .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)

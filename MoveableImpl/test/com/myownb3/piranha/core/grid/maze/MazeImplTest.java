@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.Moveable;
 
 class MazeImplTest {
 
@@ -54,6 +55,11 @@ class MazeImplTest {
             .appendCorridorRightAngleBend()
             .appendCorridorSegment()
             .appendCorridorSegment()
+            .withMoveableObstacle(CircleBuilder.builder()
+                  .withRadius(4)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(0, 0))
+                  .build(), 0, 0, 0)
             .withObstacle(CircleBuilder.builder()
                   .withRadius(4)
                   .withAmountOfPoints(4)
@@ -61,13 +67,17 @@ class MazeImplTest {
                   .build(), 0, 0)
             .build()
             .build();
-      // Then
 
+      // Then
+      boolean hasMoveableObstacle = maze.getAllMazeGridElements()
+            .stream()
+            .anyMatch(gridElem -> gridElem instanceof Moveable);
       CorridorSegment lastCorridorSegment = maze.getMazeCorridorSegments().get(maze.getMazeCorridorSegments().size() - 1);
       Optional<Circle> circleOpt = getCircleOpt(maze);
       assertThat(circleOpt.isPresent(), is(true));
       Circle circle = circleOpt.get();
       assertThat(circle.getCenter(), is(lastCorridorSegment.getCorridorSegCenter()));
+      assertThat(hasMoveableObstacle, is(true));
    }
 
    @Test

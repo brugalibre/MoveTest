@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
@@ -46,6 +47,17 @@ public class DirectionImpl implements Direction {
     */
    DirectionImpl(double rotation) {
       this(rotation, evalCardinalDirection(rotation));
+   }
+
+   /**
+    * @param rotation
+    * 
+    */
+   DirectionImpl(double forwardX, double forwardY) {
+      this.forwardX = forwardX;
+      this.forwardY = forwardY;
+      double angle = Math.toDegrees(Math.atan(forwardY / forwardX));
+      this.rotation = PositionImpl.getAbsolutAngle(angle, forwardX, forwardY);
    }
 
    @Override

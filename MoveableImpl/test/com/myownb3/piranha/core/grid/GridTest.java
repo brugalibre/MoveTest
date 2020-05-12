@@ -12,14 +12,19 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -60,16 +65,17 @@ class GridTest {
       CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
             .withMoveablePos(Positions.of(0, 0))
             .withObstaclePos(Positions.of(0, 0.1))
-            .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
+            .withCollisionDetectionHandler(spy(new TestCollisionDetectionHandler()))
             .withGrid()
             .withMoveable()
-            .withObstacle();
+            .withObstacle()
+            .build();
 
       // When
       tcb.moveable.moveForward();
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.moveable), any());
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.moveable), any());
    }
 
    @Test
@@ -79,16 +85,17 @@ class GridTest {
       CollisionTestCaseBuilder tcb = new CollisionTestCaseBuilder()
             .withMoveablePos(Positions.of(0, 0))
             .withObstaclePos(Positions.of(0, 0.2))
-            .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
+            .withCollisionDetectionHandler(spy(new TestCollisionDetectionHandler()))
             .withGrid()
             .withMoveable()
-            .withObstacle();
+            .withObstacle()
+            .build();
 
       // When
       tcb.moveable.moveForward();
 
       // Then
-      verify(tcb.collisionDetectionHandler).handleCollision(eq(tcb.obstacle), eq(tcb.moveable), any());
+      verify(tcb.collisionDetectionHandler).handleCollision(any(), eq(tcb.moveable), any());
    }
 
    @Test
@@ -317,7 +324,6 @@ class GridTest {
       private CollisionDetectionHandler collisionDetectionHandler = spy(CollisionDetectionHandler.class);
       private DefaultGrid grid;
       private Moveable moveable;
-      private ObstacleImpl obstacle;
 
       public CollisionTestCaseBuilder withMoveablePos(Position moveablePosition) {
          this.moveablePos = moveablePosition;
@@ -351,11 +357,23 @@ class GridTest {
       }
 
       public CollisionTestCaseBuilder withObstacle() {
-         this.obstacle = ObstacleBuilder.builder()
+         ObstacleBuilder.builder()
                .withGrid(grid)
                .withPosition(obstaclePosition)
                .build();
          return this;
+      }
+
+      public CollisionTestCaseBuilder build() {
+         return this;
+      }
+   }
+
+   private class TestCollisionDetectionHandler implements CollisionDetectionHandler {
+      @Override
+      public CollisionDetectionResult handleCollision(List<CollisionGridElement> otherGridElements, GridElement movedGridElement,
+            Position newPosition) {
+         return new CollisionDetectionResultImpl(newPosition);
       }
    }
 }

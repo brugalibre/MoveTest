@@ -16,7 +16,7 @@ import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.detection.CircleCollisionDetectorImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.detection.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -41,7 +41,9 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    @Override
    protected CollisionDetector buildCollisionDetector() {
-      return new CircleCollisionDetectorImpl(this);
+      return CircleCollisionDetectorBuilder.builder()
+            .withCircle(this)
+            .build();
    }
 
    @Override

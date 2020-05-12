@@ -7,6 +7,10 @@ public class CollisionDetectionResultImpl implements CollisionDetectionResult {
    private Position movedPosition;
    private boolean isCollision;
 
+   public CollisionDetectionResultImpl(Position movedPosition) {
+      this(false, movedPosition);
+   }
+
    public CollisionDetectionResultImpl(boolean isCollision, Position movedPosition) {
       this.isCollision = isCollision;
       this.movedPosition = movedPosition;

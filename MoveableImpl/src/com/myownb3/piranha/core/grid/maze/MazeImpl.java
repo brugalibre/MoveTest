@@ -210,9 +210,10 @@ public class MazeImpl implements Maze {
             return this;
          }
 
-         public CorridorBuilder withMoveableObstacle(Shape shape, int xOffset, int yOffset) {
+         public CorridorBuilder withMoveableObstacle(Shape shape, int xOffset, int yOffset, double angleOffset) {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
-            Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset);
+            Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset)
+                  .rotate(angleOffset);
             GridElement gridElement = MoveableObstacleBuilder.builder()
                   .withGrid(grid)
                   .withPosition(gridElementPos)

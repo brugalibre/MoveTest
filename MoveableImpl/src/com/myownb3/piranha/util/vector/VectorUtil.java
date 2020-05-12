@@ -53,8 +53,18 @@ public class VectorUtil {
       double angle = toRadians(angleAsDeg);
       double x1 = vector.getValue(0);
       double y1 = vector.getValue(1);
-      double x2 = cos(angle) * x1 - sin(angle) * y1;
-      double y2 = sin(angle) * x1 + cos(angle) * y1;
+      double x2 = (cos(angle) * x1) - (sin(angle) * y1);
+      double y2 = (sin(angle) * x1) + (cos(angle) * y1);
       return Float64Vector.valueOf(round(x2, 10), round(y2, 10), 0.0);
+   }
+
+   /**
+    * 
+    * @param vector
+    *        the given {@link Float64Vector} whose normal is returned
+    * @return the normal vector of the given one
+    */
+   public static Float64Vector getNormal(Float64Vector vector) {
+      return rotateVector(vector, -90.0);
    }
 }

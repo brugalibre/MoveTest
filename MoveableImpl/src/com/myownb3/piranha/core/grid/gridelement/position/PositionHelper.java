@@ -17,7 +17,6 @@ import com.myownb3.piranha.util.vector.VectorUtil;
  */
 public class PositionHelper {
 
-
    /**
     * Creates a new {@link Position} with the new x-axis value =
     * {@link Direction#getForwardX()} + {@link Position#getX()} and the new y-axis
