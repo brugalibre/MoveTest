@@ -2,11 +2,12 @@ package com.myownb3.piranha.core.grid.gridelement;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -18,8 +19,10 @@ class MoveableObstacleImplTest {
    void testMoveableObstacleImpl() {
 
       // Given
-      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class),
-            Positions.of(0, 0));
+      MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(Positions.of(0, 0))
+            .build();
 
       // When
       boolean isObstacle = Obstacle.class.isAssignableFrom(moveable.getClass());
@@ -38,7 +41,11 @@ class MoveableObstacleImplTest {
             .build();
 
       // When
-      MoveableObstacleImpl moveable = new MoveableObstacleImpl(Mockito.mock(Grid.class), Positions.of(0, 0), shape);
+      MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(Positions.of(0, 0))
+            .withShape(shape)
+            .build();
 
       // Then
       assertThat(moveable.getShape(), is(shape));

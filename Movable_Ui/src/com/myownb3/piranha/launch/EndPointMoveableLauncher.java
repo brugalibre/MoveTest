@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -131,10 +132,42 @@ public class EndPointMoveableLauncher {
       Position randomPosition2 = Positions.of(300 + padding, 300 + padding);
       Position randomPosition3 = Positions.of(110 + padding, 110 + padding);
       Position randomPosition4 = Positions.of(110 + padding, 300 + padding);
-      MoveableObstacleImpl obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(width, randomPosition));
-      MoveableObstacleImpl obstacle2 = new MoveableObstacleImpl(grid, randomPosition2, buildCircle(width, randomPosition2));
-      MoveableObstacleImpl obstacle3 = new MoveableObstacleImpl(grid, randomPosition3, buildCircle(width, randomPosition3));
-      MoveableObstacleImpl obstacle4 = new MoveableObstacleImpl(grid, randomPosition4, buildCircle(width, randomPosition4));
+      MoveableObstacleImpl obstacle = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(randomPosition)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(width)
+                  .withAmountOfPoints(5)
+                  .withCenter(randomPosition)
+                  .build())
+            .build();
+      MoveableObstacleImpl obstacle2 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(randomPosition2)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(width)
+                  .withAmountOfPoints(5)
+                  .withCenter(randomPosition2)
+                  .build())
+            .build();
+      MoveableObstacleImpl obstacle3 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(randomPosition3)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(width)
+                  .withAmountOfPoints(5)
+                  .withCenter(randomPosition3)
+                  .build())
+            .build();
+      MoveableObstacleImpl obstacle4 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(randomPosition4)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(width)
+                  .withAmountOfPoints(5)
+                  .withCenter(randomPosition4)
+                  .build())
+            .build();
       if (signum < 0) {
          obstacle.makeTurn(angle);
          obstacle2.makeTurn(angle);

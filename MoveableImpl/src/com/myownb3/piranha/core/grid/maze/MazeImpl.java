@@ -15,6 +15,7 @@ import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilde
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
@@ -201,6 +202,18 @@ public class MazeImpl implements Maze {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset);
             GridElement gridElement = new ObstacleImpl(grid, gridElementPos, shape);
+            this.corridorGridElements.add(gridElement);
+            return this;
+         }
+
+         public CorridorBuilder withMoveableObstacle(Shape shape, int xOffset, int yOffset) {
+            Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
+            Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset);
+            GridElement gridElement = MoveableObstacleBuilder.builder()
+                  .withGrid(grid)
+                  .withPosition(gridElementPos)
+                  .withShape(shape)
+                  .build();
             this.corridorGridElements.add(gridElement);
             return this;
          }

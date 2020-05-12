@@ -15,7 +15,7 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
@@ -160,11 +160,15 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          for (int i = 0; i < amount; i++) {
             Dimension dimension = grid.getDimension();
             Position randomPosition = Positions.getRandomPosition(dimension, circleRadius, circleRadius);
-            Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition, CircleBuilder.builder()
-                  .withRadius(circleRadius)
-                  .withAmountOfPoints(5)
-                  .withCenter(randomPosition)
-                  .build());
+            Obstacle obstacle = MoveableObstacleBuilder.builder()
+                  .withGrid(grid)
+                  .withPosition(randomPosition)
+                  .withShape(CircleBuilder.builder()
+                        .withRadius(circleRadius)
+                        .withAmountOfPoints(5)
+                        .withCenter(randomPosition)
+                        .build())
+                  .build();
 
             gridElements.add(obstacle);
          }

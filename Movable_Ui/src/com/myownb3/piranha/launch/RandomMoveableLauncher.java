@@ -21,6 +21,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -87,7 +88,15 @@ public class RandomMoveableLauncher implements Stoppable {
       int amount = 40;
       for (int i = 0; i < amount; i++) {
          Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
-         Obstacle obstacle = new MoveableObstacleImpl(grid, randomPosition, buildCircle(height, randomPosition));
+         Obstacle obstacle = MoveableObstacleBuilder.builder()
+               .withGrid(grid)
+               .withPosition(randomPosition)
+               .withShape(CircleBuilder.builder()
+                     .withRadius(width)
+                     .withAmountOfPoints(4)
+                     .withCenter(randomPosition)
+                     .build())
+               .build();
 
          gridelements.add(obstacle);
       }

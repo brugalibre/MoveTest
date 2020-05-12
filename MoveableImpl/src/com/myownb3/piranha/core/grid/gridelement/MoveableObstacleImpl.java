@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.gridelement;
 
+import static java.util.Objects.isNull;
+
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -18,7 +20,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle {
     * @param grid
     * @param position
     */
-   public MoveableObstacleImpl(Grid grid, Position position) {
+   private MoveableObstacleImpl(Grid grid, Position position) {
       super(grid, position);
    }
 
@@ -26,7 +28,26 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle {
     * @param grid
     * @param position
     */
-   public MoveableObstacleImpl(Grid grid, Position position, Shape shape) {
+   private MoveableObstacleImpl(Grid grid, Position position, Shape shape) {
       super(grid, position, shape);
+   }
+
+   public static class MoveableObstacleBuilder extends AbstractGridElementBuilder<MoveableObstacleImpl> {
+
+      private MoveableObstacleBuilder() {
+         // private
+      }
+
+      public static MoveableObstacleBuilder builder() {
+         return new MoveableObstacleBuilder();
+      }
+
+      @Override
+      public MoveableObstacleImpl build() {
+         if (isNull(shape)) {
+            return new MoveableObstacleImpl(grid, position);
+         }
+         return new MoveableObstacleImpl(grid, position, shape);
+      }
    }
 }
