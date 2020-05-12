@@ -20,6 +20,7 @@ public class MazePostMoveForwardHandler extends DefaultPostMoveForwardHandler im
 
    @Override
    public void handlePostMoveForward(MoveResult moveResult) {
+      super.handlePostMoveForward(moveResult);
       Moveable moveable = getMoveableController().getMoveable();
       lightBarrier.checkGridElement(moveable);
    }

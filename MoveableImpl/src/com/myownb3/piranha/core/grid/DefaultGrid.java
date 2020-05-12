@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
@@ -111,15 +112,13 @@ public class DefaultGrid implements Grid {
       double newX = getNewXValue(gridElement, direction.getBackwardX());
       double newY = getNewYValue(gridElement, direction.getBackwardY());
       checkBounds(newX, newY);
-      Position newPosition = Positions.of(direction, newX, newY);
-      checkCollision(gridElement, newPosition);
-
-      return newPosition;
+      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY));
+      return collisionDetectionResult.getMovedPosition();
    }
 
-   private void checkCollision(GridElement gridElement, Position newPosition) {
+   private CollisionDetectionResult checkCollision(GridElement gridElement, Position newPosition) {
       List<GridElement> gridElements2Check = getGridElements4CollisionCheckWithinDistanceInternal(gridElement, maxDistance);
-      gridElement.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
+      return gridElement.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
    }
 
    /**
@@ -137,10 +136,8 @@ public class DefaultGrid implements Grid {
       double newX = getNewXValue(gridElement, direction.getForwardX());
       double newY = getNewYValue(gridElement, direction.getForwardY());
       checkBounds(newX, newY);
-      Position newPosition = Positions.of(direction, newX, newY);
-      checkCollision(gridElement, newPosition);
-
-      return newPosition;
+      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY));
+      return collisionDetectionResult.getMovedPosition();
    }
 
    @Override

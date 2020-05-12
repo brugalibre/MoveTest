@@ -40,8 +40,7 @@ public class RectangleImplTest {
       when(rectangle.clone()).thenReturn(rectangle);
 
       // When
-      rectangle.check4Collision((a, g, p) -> {
-      }, newPosition, Collections.emptyList());
+      rectangle.check4Collision((a, g, p) -> null, newPosition, Collections.emptyList());
 
       // Then 
       verify(rectangle).clone();

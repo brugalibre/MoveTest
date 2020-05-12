@@ -28,8 +28,9 @@ public interface CollisionDetector {
     *        the new Position after the movement
     * @param gridElements2Check
     *        all {@link GridElement}s which are in reach to collide and which are also 'avoidable'
+    * @return a result about the detection which was made by this {@link CollisionDetector}
     */
-   void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition, Position newPosition,
-         List<GridElement> gridElements2Check);
+   CollisionDetectionResult checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition,
+         Position newPosition, List<GridElement> gridElements2Check);
 
 }

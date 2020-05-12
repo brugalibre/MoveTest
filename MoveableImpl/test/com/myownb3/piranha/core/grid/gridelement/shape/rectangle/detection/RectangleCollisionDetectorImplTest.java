@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
@@ -216,8 +217,8 @@ class RectangleCollisionDetectorImplTest {
       private TestCaseBuilder withCollisionDetectionHandler() {
          CollisionDetectionHandler cDhHandler = new CollisionDetectionHandler() {
             @Override
-            public void handleCollision(GridElement otherGridElement, GridElement gridElement, Position newPosition) {
-               // ok
+            public CollisionDetectionResult handleCollision(GridElement otherGridElement, GridElement gridElement, Position newPosition) {
+               return null;
             }
          };
 

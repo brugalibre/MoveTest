@@ -3,6 +3,8 @@ package com.myownb3.piranha.core.grid.gridelement.shape.circle.detection;
 import java.util.List;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
@@ -25,12 +27,14 @@ public class CircleCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    @Override
-   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition,
-         Position newPosition, List<GridElement> gridElements2Check) {
+   public CollisionDetectionResult checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement,
+         Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Shape ourCircleAtNewPos = getOurShapeAtNewPos(newPosition, circle);
-      gridElements2Check.stream()
+      return gridElements2Check.stream()
             .filter(isGridElementsInsideOrOnShape(newPosition, ourCircleAtNewPos))
-            .forEach(handleCollision(collisionDetectionHandler, newPosition, movedGridElement));
+            .findFirst()
+            .map(handleCollision(collisionDetectionHandler, newPosition, movedGridElement))
+            .orElse(new CollisionDetectionResultImpl(false, newPosition));
    }
 
    private static Shape getOurShapeAtNewPos(Position newPosition, Shape shape) {

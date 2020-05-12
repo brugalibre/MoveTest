@@ -16,6 +16,7 @@ import java.util.Set;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -56,8 +57,9 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    @Override
-   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check) {
-      collisionDetector.checkCollision(collisionDetectionHandler, gridElement, center, newPosition, gridElements2Check);
+   public CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+         List<GridElement> gridElements2Check) {
+      return collisionDetector.checkCollision(collisionDetectionHandler, gridElement, center, newPosition, gridElements2Check);
    }
 
    @Override

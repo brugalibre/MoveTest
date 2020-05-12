@@ -6,7 +6,9 @@ package com.myownb3.piranha.core.grid.gridelement.shape;
 import java.util.List;
 
 import com.myownb3.piranha.core.detector.Detector;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -30,17 +32,22 @@ public interface Shape extends Cloneable {
    List<PathSegment> getPath();
 
    /**
-    * Checks for every given {@link GridElement} if there is a collision when the {@link GridElement} of this {@link Shape} is moving
-    * from it's current Position to the new Position
+    * Checks for every given {@link GridElement} if there is a collision when this {@link GridElement} is moving
+    * from it's current Position to the new Position.
+    * The returned {@link CollisionDetectionResult} contains further information about any detected collision. Depending on the
+    * {@link CollisionDetectionHandler} it may be thrown a {@link CollisionDetectedException}
     * 
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
     * @param newPosition
     *        the new Position after the movement
     * @param gridElements2Check
-    *        all {@link GridElement}s which are in reach to collide and which are also 'avoidable'
+    *        the {@link GridElement}s to check
+    * @return the result of the collision detection
     */
-   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check);
+   CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+         List<GridElement> gridElements2Check);
+
 
    /**
     * Evaluates if the {@link GridElement} of this {@link Shape} at the given {@link Position} is in reach to this Shape or it's path to be

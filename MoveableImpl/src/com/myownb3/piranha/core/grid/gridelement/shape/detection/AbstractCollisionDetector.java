@@ -5,11 +5,12 @@ import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.collision.Intersection;
 import com.myownb3.piranha.core.grid.collision.IntersectionImpl;
@@ -33,8 +34,8 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
       margin = 1d / Moveable.STEP_WITDH;
    }
 
-   protected Consumer<? super GridElement> handleCollision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
-         GridElement movedGridElement) {
+   protected Function<? super GridElement, CollisionDetectionResult> handleCollision(CollisionDetectionHandler collisionDetectionHandler,
+         Position newPosition, GridElement movedGridElement) {
       return otherGridElement -> collisionDetectionHandler.handleCollision(otherGridElement, movedGridElement, newPosition);
    }
 

@@ -28,6 +28,7 @@ public interface CollisionDetectionHandler {
     *        the {@link GridElement} which caused the collision with the other {@link GridElement}
     * @param newPosition
     *        the Position at which the collision occurred
+    * @return a {@link CollisionDetectionResult} which contains the results of the collision handling
     */
-   void handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition);
+   CollisionDetectionResult handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition);
 }

@@ -13,6 +13,8 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.detection.AbstractCollisionDetector;
@@ -38,12 +40,14 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    @Override
-   public void checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position oldPosition,
-         Position newPosition, List<GridElement> gridElements2Check) {
+   public CollisionDetectionResult checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement,
+         Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Rectangle transformedRectangle = getTransformedRectangle(newPosition);
-      gridElements2Check.stream()
+      return gridElements2Check.stream()
             .filter(isCollision(transformedRectangle))
-            .forEach(handleCollision(collisionDetectionHandler, newPosition, movedGridElement));
+            .findFirst()
+            .map(handleCollision(collisionDetectionHandler, newPosition, movedGridElement))
+            .orElse(new CollisionDetectionResultImpl(false, newPosition));
    }
 
    private Predicate<? super GridElement> isCollision(Rectangle transformedRectangle) {

@@ -37,8 +37,7 @@ class ScannerTest {
       // We do not care about the detection handler, since this is not part of this
       // test
       Grid grid = GridBuilder.builder()
-            .withCollisionDetectionHandler((a, b, c) -> {
-            })
+            .withCollisionDetectionHandler((a, b, c) -> null)
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
@@ -71,8 +70,7 @@ class ScannerTest {
       // We do not care about the detection handler, since this is not part of this
       // test
       Grid grid = GridBuilder.builder()
-            .withCollisionDetectionHandler((a, b, c) -> {
-            })
+            .withCollisionDetectionHandler((a, b, c) -> null)
             .build();
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(grid)

@@ -7,7 +7,9 @@ import java.util.List;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -85,7 +87,9 @@ public interface GridElement {
 
    /**
     * Checks for every given {@link GridElement} if there is a collision when this {@link GridElement} is moving
-    * from it's current Position to the new Position
+    * from it's current Position to the new Position.
+    * The returned {@link CollisionDetectionResult} contains further information about any detected collision. Depending on the
+    * {@link CollisionDetectionHandler} it may be thrown a {@link CollisionDetectedException}
     * 
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles the collision if one occurred
@@ -93,8 +97,10 @@ public interface GridElement {
     *        the new Position after the movement
     * @param gridElements2Check
     *        the {@link GridElement}s to check
+    * @return the result of the collision detection
     */
-   void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition, List<GridElement> gridElements2Check);
+   CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+         List<GridElement> gridElements2Check);
 
    /**
     * Returns <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not.

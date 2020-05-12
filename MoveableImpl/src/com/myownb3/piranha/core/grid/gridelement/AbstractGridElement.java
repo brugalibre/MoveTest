@@ -8,6 +8,7 @@ import java.util.List;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -73,9 +74,9 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public void check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+   public CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
          List<GridElement> gridElements2Check) {
-      shape.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
+      return shape.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
    }
 
    @Override
@@ -119,6 +120,10 @@ public abstract class AbstractGridElement implements GridElement {
 
    public String getName() {
       return name;
+   }
+
+   public void setPosition(Position position) {
+      this.position = position;
    }
 
    public abstract static class AbstractGridElementBuilder<T extends AbstractGridElement> {

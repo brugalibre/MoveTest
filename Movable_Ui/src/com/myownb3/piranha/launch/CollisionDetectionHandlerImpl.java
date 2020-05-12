@@ -6,6 +6,8 @@ package com.myownb3.piranha.launch;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
@@ -24,14 +26,18 @@ class CollisionDetectionHandlerImpl implements CollisionDetectionHandler {
    }
 
    @Override
-   public void handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition) {
-      if (stoppable.isRunning() && isCollisionWithMoveable(movedGridElement)) {
-         stoppable.stop();
-         if (moveableController != null) {
-            moveableController.stop();
+   public CollisionDetectionResult handleCollision(GridElement otherGridElement, GridElement movedGridElement, Position newPosition) {
+      if (stoppable.isRunning()) {
+         if (isCollisionWithMoveable(movedGridElement)) {
+            stoppable.stop();
+            if (moveableController != null) {
+               moveableController.stop();
+            }
+            SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
          }
          SwingUtilities.invokeLater(() -> mainWindow.showCollisionInfo());
       }
+      return new CollisionDetectionResultImpl(false, newPosition);
    }
 
    private static boolean isCollisionWithMoveable(GridElement gridElement) {
