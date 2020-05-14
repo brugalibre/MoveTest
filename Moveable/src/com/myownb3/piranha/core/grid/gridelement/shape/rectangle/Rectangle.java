@@ -9,14 +9,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface Rectangle extends Shape, Cloneable {
-
-   /**
-    * Provides one by one copy of this {@link Rectangle} instance
-    * 
-    * @return one by one copy of this {@link Rectangle} instance
-    */
-   Rectangle clone();
+public interface Rectangle extends Shape {
 
    /**
     * @return the upper left Position of this {@link Rectangle}

@@ -18,7 +18,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface Shape {
+public interface Shape extends Cloneable {
 
    /**
     * Returns the path of this shape described by a line a pen would follow to draw
@@ -95,4 +95,13 @@ public interface Shape {
     * @param position
     */
    void transform(Position position);
+
+
+   /**
+    * Provides one by one copy of this {@link Shape} instance
+    * 
+    * @return one by one copy of this {@link Shape} instance
+    */
+   Shape clone();
+
 }

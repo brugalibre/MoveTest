@@ -2,14 +2,17 @@ package com.myownb3.piranha.core.grid.gridelement.shape;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -161,6 +164,26 @@ class AbstractShapeTest {
 
       // Then
       assertThat(actualIsWithinUpperBounds, is(expectedIsWithinUpperBounds));
+   }
+
+   @SuppressWarnings("unchecked")
+   @Test
+   void testCloneFail() throws CloneNotSupportedException {
+
+      // Given
+      AbstractShape shape = PositionShapeBuilder
+            .builder()
+            .withPosition(Positions.of(0, 0))
+            .build();
+      AbstractShape expectedSpy = spy(shape);
+      when(expectedSpy.cloneShape()).thenThrow(CloneNotSupportedException.class);
+
+      // When
+      Executable ex = () -> {
+         expectedSpy.clone();
+      };
+      // Then
+      assertThrows(IllegalStateException.class, ex);
    }
 
    private static class TestCaseBuilder {

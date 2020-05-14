@@ -125,19 +125,6 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       return path.get(1).getBegin();
    }
 
-   @Override
-   public Rectangle clone() {
-      try {
-         return cloneRectangle();
-      } catch (CloneNotSupportedException e) {
-         throw new IllegalStateException(e);
-      }
-   }
-
-   protected Rectangle cloneRectangle() throws CloneNotSupportedException {
-      return (Rectangle) super.clone();
-   }
-
    private static List<PathSegment> buildRectangleWithCenter(Position center, double width, double height, Orientation orientation) {
       double angle;
       switch (orientation) {

@@ -56,6 +56,19 @@ public abstract class AbstractShape implements Shape {
    protected abstract List<Position> buildPath4Detection();
 
    @Override
+   public Shape clone() {
+      try {
+         return cloneShape();
+      } catch (CloneNotSupportedException e) {
+         throw new IllegalStateException(e);
+      }
+   }
+
+   protected Shape cloneShape() throws CloneNotSupportedException {
+      return (Shape) super.clone();
+   }
+
+   @Override
    public boolean isWithinUpperBounds(List<Position> detectedPositions, Position detectorPos) {
       DetectionResult detectionResult = new DetectionResult();
       for (Position detectedPos : detectedPositions) {

@@ -69,7 +69,7 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    private Rectangle getTransformedRectangle(Position newPosition) {
-      Rectangle transformedRectangle = rectangle.clone();
+      Rectangle transformedRectangle = (Rectangle) rectangle.clone();
       transformedRectangle.transform(newPosition);
       return transformedRectangle;
    }

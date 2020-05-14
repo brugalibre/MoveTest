@@ -157,23 +157,6 @@ public class RectangleImplTest {
             Positions.of(10, 4));
    }
 
-   @SuppressWarnings("unchecked")
-   @Test
-   void testCloneFail() throws CloneNotSupportedException {
-
-      // Given
-      Rectangle rectangle = buildRectangle(Positions.of(0, 0), 10, 10, Orientation.VERTICAL);
-      RectangleImpl expectedSpy = (RectangleImpl) spy(rectangle);
-      when(expectedSpy.cloneRectangle()).thenThrow(CloneNotSupportedException.class);
-
-      // When
-      Executable ex = () -> {
-         expectedSpy.clone();
-      };
-      // Then
-      assertThrows(IllegalStateException.class, ex);
-   }
-
    @Test
    void testBuildPath4Detection_Vertical() {
 
