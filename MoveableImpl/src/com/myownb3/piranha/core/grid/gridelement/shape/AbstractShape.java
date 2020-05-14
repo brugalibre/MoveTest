@@ -78,30 +78,27 @@ public abstract class AbstractShape implements Shape {
          } else {
             detectionResult.rightSideCounter++;
          }
+         if (moreThanHalfeDone(detectedPositions, detectionResult)) {
+            break;
+         }
       }
-      if (areAllDetectedGridElementsLeft(detectionResult)) {
-         return false;
-      }
-      if (areAllDetectedGridElementsRight(detectionResult)) {
+      if (areMoreDetectedGridElementsLeft(detectionResult)) {
          return true;
       }
-      return areMoreDetectedGridElementsLeft(detectionResult) ? false : true;
+      return false;
+   }
+
+   private static boolean moreThanHalfeDone(List<Position> detectedPositions, DetectionResult detectionResult) {
+      return detectionResult.rightSideCounter > detectedPositions.size() / 2
+            || detectionResult.leftSideCounter > detectedPositions.size() / 2;
    }
 
    private boolean areMoreDetectedGridElementsLeft(DetectionResult detectionResult) {
       return detectionResult.leftSideCounter > detectionResult.rightSideCounter;
    }
 
-   private boolean areAllDetectedGridElementsRight(DetectionResult detectionResult) {
-      return detectionResult.rightSideCounter > 0 && detectionResult.leftSideCounter == 0;
-   }
-
-   private boolean areAllDetectedGridElementsLeft(DetectionResult detectionResult) {
-      return detectionResult.leftSideCounter > 0 && detectionResult.rightSideCounter == 0;
-   }
-
    protected boolean isPositionWithinUpperBounds(Position detectorPos, Position detectedPos) {
-      return detectedPos.calcAngleRelativeTo(detectorPos) >= 0;
+      return detectorPos.calcAngleRelativeTo(detectedPos) >= 0.0;
    }
 
    @Override

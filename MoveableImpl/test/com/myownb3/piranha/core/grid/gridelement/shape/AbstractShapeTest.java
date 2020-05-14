@@ -3,8 +3,6 @@ package com.myownb3.piranha.core.grid.gridelement.shape;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
@@ -25,35 +23,6 @@ class AbstractShapeTest {
    void testGetEvasionAngleRelative2_EvasionAngleMorePositiveThanNegative() {
 
       // Given
-      boolean expectedIsWithinUpperBounds = true;
-      Position position = Positions.of(5, 5);
-      Position detectePosition1 = Positions.of(15, 5);
-      Position detectePosition2 = Positions.of(25, 5);
-      Position detectePosition3 = Positions.of(35, 5);
-      Position detectePosition4 = Positions.of(45, 5);
-
-      TestCaseBuilder tcb = new TestCaseBuilder()
-            .withPosition(position)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(5, 5))
-                  .build())
-            .withDetectedPosition(detectePosition1, false)
-            .withDetectedPosition(detectePosition2, false)
-            .withDetectedPosition(detectePosition3, false)
-            .withDetectedPosition(detectePosition4, true)
-            .build();
-
-      // When 
-      boolean actualIsWithinUpperBounds = tcb.shape.isWithinUpperBounds(tcb.detectedPositions, position);
-
-      // Then 
-      assertThat(actualIsWithinUpperBounds, is(expectedIsWithinUpperBounds));
-   }
-
-   @Test
-   void testGetEvasionAngleRelative2_EvasionAngleMoreNegativeThanPositive() {
-
-      // Given
       boolean expectedIsWithinUpperBounds = false;
       Position position = Positions.of(5, 5);
       Position detectePosition1 = Positions.of(15, 5);
@@ -62,16 +31,13 @@ class AbstractShapeTest {
       Position detectePosition4 = Positions.of(45, 5);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withPosition(position)
-            .withShape(RectangleBuilder.builder()
-                  .withCenter(Positions.of(5, 5))
-                  .withHeight(10)
-                  .withWidth(10)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(5, 5))
                   .build())
-            .withDetectedPosition(detectePosition1, true)
-            .withDetectedPosition(detectePosition2, false)
-            .withDetectedPosition(detectePosition3, true)
-            .withDetectedPosition(detectePosition4, true)
+            .withDetectedPosition(detectePosition1)
+            .withDetectedPosition(detectePosition2)
+            .withDetectedPosition(detectePosition3)
+            .withDetectedPosition(detectePosition4)
             .build();
 
       // When 
@@ -85,24 +51,23 @@ class AbstractShapeTest {
    void testCheckIfDetectedPosAreLeftOrRight_DetectionRightTurnLeft() {
 
       // Given
-      boolean expectedIsWithinUpperBounds = true;
-      Position position = Positions.of(5, 5);
-      Position detectePosition1 = Positions.of(15, 5);
-      Position detectePosition2 = Positions.of(25, 5);
-      Position detectePosition3 = Positions.of(35, 5);
-      Position detectePosition4 = Positions.of(45, 5);
+      boolean expectedIsWithinUpperBounds = false;
+      Position position = Positions.of(5, 5).rotate(-10);
+      Position detectePosition1 = Positions.of(15, 5).rotate(Math.random() * 360);
+      Position detectePosition2 = Positions.of(15, 10).rotate(Math.random() * 360);
+      Position detectePosition3 = Positions.of(15, 15).rotate(Math.random() * 360);
+      Position detectePosition4 = Positions.of(15, 20).rotate(Math.random() * 360);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withPosition(position)
             .withShape(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
                   .withWidth(10)
                   .build())
-            .withDetectedPosition(detectePosition1, false)
-            .withDetectedPosition(detectePosition2, false)
-            .withDetectedPosition(detectePosition3, false)
-            .withDetectedPosition(detectePosition4, false)
+            .withDetectedPosition(detectePosition1)
+            .withDetectedPosition(detectePosition2)
+            .withDetectedPosition(detectePosition3)
+            .withDetectedPosition(detectePosition4)
             .build();
 
       // Then
@@ -116,11 +81,10 @@ class AbstractShapeTest {
    void testCheckIfDetectedPosAreLeftOrRight_NoDetectionAtAll() {
 
       // Given
-      boolean expectedIsWithinUpperBounds = true;
+      boolean expectedIsWithinUpperBounds = false;
       Position position = Positions.of(5, 5);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withPosition(position)
             .withShape(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
@@ -139,27 +103,26 @@ class AbstractShapeTest {
    void testCheckIfDetectedPosAreLeftOrRight_DetectionLeftTurnRight() {
 
       // Given
-      boolean expectedIsWithinUpperBounds = false;
+      boolean expectedIsWithinUpperBounds = true;
       Position position = Positions.of(5, 5);
-      Position detectePosition1 = Positions.of(15, 5);
-      Position detectePosition2 = Positions.of(25, 5);
-      Position detectePosition3 = Positions.of(35, 5);
-      Position detectePosition4 = Positions.of(45, 5);
+      Position detectePosition1 = Positions.of(20, 2).rotate(Math.random() * 360);
+      Position detectePosition2 = Positions.of(9, 2).rotate(Math.random() * 360);
+      Position detectePosition3 = Positions.of(5, 2).rotate(Math.random() * 360);
+      Position detectePosition4 = Positions.of(1, 2).rotate(Math.random() * 360);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withPosition(position)
             .withShape(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
                   .withWidth(10)
                   .build())
-            .withDetectedPosition(detectePosition1, true)
-            .withDetectedPosition(detectePosition2, true)
-            .withDetectedPosition(detectePosition3, true)
-            .withDetectedPosition(detectePosition4, true)
+            .withDetectedPosition(detectePosition1)
+            .withDetectedPosition(detectePosition2)
+            .withDetectedPosition(detectePosition3)
+            .withDetectedPosition(detectePosition4)
             .build();
 
-      // Then
+      // When
       boolean actualIsWithinUpperBounds = tcb.shape.isWithinUpperBounds(tcb.detectedPositions, position);
 
       // Then
@@ -188,7 +151,6 @@ class AbstractShapeTest {
 
    private static class TestCaseBuilder {
 
-      private Position position;
       private List<Position> detectedPositions;
       private Shape shape;
 
@@ -196,15 +158,8 @@ class AbstractShapeTest {
          detectedPositions = new ArrayList<>();
       }
 
-      private TestCaseBuilder withPosition(Position position) {
-         this.position = position;
-         return this;
-      }
-
-      private TestCaseBuilder withDetectedPosition(Position detectedPositionIn, boolean isWithinUpperBounds) {
-         Position detectedPosition = spy(detectedPositionIn);
-         detectedPositions.add(detectedPosition);
-         doReturn(isWithinUpperBounds ? 10.0 : -10.0).when(detectedPosition).calcAngleRelativeTo(eq(position));
+      private TestCaseBuilder withDetectedPosition(Position detectedPositionIn) {
+         detectedPositions.add(detectedPositionIn);
          return this;
       }
 
