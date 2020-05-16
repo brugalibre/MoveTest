@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.grid.gridelement.shape.rectangle;
 
 import static com.myownb3.piranha.core.grid.gridelement.position.Positions.buildPositionsBetweenTwoPositions;
 import static com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleUtil.getNextPosition;
-import static com.myownb3.piranha.util.MathUtil.rotateVector;
+import static com.myownb3.piranha.util.vector.VectorUtil.rotateVector;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toDegrees;

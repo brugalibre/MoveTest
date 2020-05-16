@@ -4,10 +4,7 @@
 package com.myownb3.piranha.util;
 
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 import static java.lang.Math.toDegrees;
-import static java.lang.Math.toRadians;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -108,24 +105,6 @@ public class MathUtil {
    public static double calcAngleBetweenVectors(Float64Vector vector1, Float64Vector vector2) {
       double v1TimesV2 = vector2.times(vector1).doubleValue();
       return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(), vector2.normValue());
-   }
-
-   /**
-    * Rotates the given {@link Float64Vector} for the given angle
-    * 
-    * @param vector
-    *        the vector to rotate
-    * @param angle
-    *        the angle
-    * @return a new instance of the rotated {@link Float64Vector}
-    */
-   public static Float64Vector rotateVector(Float64Vector vector, double angleAsDeg) {
-      double angle = toRadians(angleAsDeg);
-      double x1 = vector.getValue(0);
-      double y1 = vector.getValue(1);
-      double x2 = cos(angle) * x1 - sin(angle) * y1;
-      double y2 = sin(angle) * x1 + cos(angle) * y1;
-      return Float64Vector.valueOf(round(x2, 10), round(y2, 10), 0.0);
    }
 
    private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,

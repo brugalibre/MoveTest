@@ -3,7 +3,7 @@
  */
 package com.myownb3.piranha.ui.render.impl.detector;
 
-import static com.myownb3.piranha.util.MathUtil.rotateVector;
+import static com.myownb3.piranha.util.vector.VectorUtil.rotateVector;
 import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import java.awt.Color;
