@@ -4,7 +4,6 @@
 package com.myownb3.piranha.ui.render.impl.detector;
 
 import static com.myownb3.piranha.util.vector.VectorUtil.rotateVector;
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -94,7 +93,7 @@ public class DetectorPainter extends AbstractGridElementPainter<GridElement> {
       Direction detectorDirection = detectorPos.getDirection();
       int startAngle = (int) arcAngle / 2;
       for (int curAngle = startAngle; curAngle >= -startAngle; curAngle--) {
-         Float64Vector detectorDirectionVector = rotateVector(getVector(detectorDirection), curAngle);
+         Float64Vector detectorDirectionVector = rotateVector(detectorDirection.getVector(), curAngle);
          drawDirectionFromPosition(graphics, detectorPos, detectorDirectionVector, arcRadius);
       }
    }

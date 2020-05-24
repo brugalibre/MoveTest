@@ -1,6 +1,5 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.path;
 
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,6 +23,6 @@ class PathSegmentImplTest {
       // Then
       assertThat(pathSegmentImpl.getBegin(), is(begPos));
       assertThat(pathSegmentImpl.getEnd(), is(endPos));
-      assertThat(pathSegmentImpl.getVector(), is(getVector(endPos).minus(getVector(begPos))));
+      assertThat(pathSegmentImpl.getVector(), is(endPos.getVector().minus(begPos.getVector())));
    }
 }

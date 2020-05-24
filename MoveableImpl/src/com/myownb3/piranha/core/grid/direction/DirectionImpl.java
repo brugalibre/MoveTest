@@ -3,9 +3,13 @@
  */
 package com.myownb3.piranha.core.grid.direction;
 
+import static java.util.Objects.nonNull;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -21,6 +25,7 @@ public class DirectionImpl implements Direction {
 
    private double rotation;
    private String cardinalDirection;
+   private Float64Vector vector;
 
    /**
     * @param rotation
@@ -72,6 +77,15 @@ public class DirectionImpl implements Direction {
    @Override
    public double getAngle() {
       return this.rotation;
+   }
+
+   @Override
+   public Float64Vector getVector() {
+      if (nonNull(vector)) {
+         return vector;
+      }
+      vector = Float64Vector.valueOf(this.getForwardX(), this.getForwardY(), 0);
+      return vector;
    }
 
    @Override

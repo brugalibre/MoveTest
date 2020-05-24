@@ -15,7 +15,7 @@ class VectorUtilTest {
    void testRotateVector_90Deg() {
 
       // Given
-      Float64Vector float64Vector = VectorUtil.getVector(Positions.of(5, 0));
+      Float64Vector float64Vector = Positions.of(5, 0).getVector();
 
       // When
       Float64Vector rotatedVector = VectorUtil.rotateVector(float64Vector, 90);
@@ -30,7 +30,7 @@ class VectorUtilTest {
    void testRotateVector_270Deg() {
 
       // Given
-      Float64Vector float64Vector = VectorUtil.getVector(Positions.of(5, 0));
+      Float64Vector float64Vector = Positions.of(5, 0).getVector();
 
       // When
       Float64Vector rotatedVector = VectorUtil.rotateVector(float64Vector, -90);

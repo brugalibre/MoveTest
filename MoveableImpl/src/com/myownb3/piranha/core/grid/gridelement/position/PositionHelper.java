@@ -1,7 +1,5 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +69,7 @@ public class PositionHelper {
       Position nextPathElement = Positions.of(pathPos1);
       List<Position> pathBetweenTwoPositions = new ArrayList<>();
       pathBetweenTwoPositions.add(pathPos1);
-      Float64Vector nexPathPosVector = getVector(pathPos1);
+      Float64Vector nexPathPosVector = pathPos1.getVector();
       Float64Vector vectorFromPos1ToPos2 = getUnitVector(pathPos2, nexPathPosVector);
 
       // Now move the Position 1 forward to Position 2 and add all those elements in between 
@@ -86,7 +84,7 @@ public class PositionHelper {
    }
 
    private static Float64Vector getUnitVector(Position pathPos2, Float64Vector nexPathPosVector) {
-      Float64Vector pos1ToPos2Vector = getVector(pathPos2).minus(nexPathPosVector);
+      Float64Vector pos1ToPos2Vector = pathPos2.getVector().minus(nexPathPosVector);
       return VectorUtil.getUnitVector(pos1ToPos2Vector);
    }
 }

@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.direction;
 
+import org.jscience.mathematics.vector.Float64Vector;
+
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -33,6 +35,11 @@ public interface Direction {
     * @return value on the x-axis by which {@link Position} can be moved forward
     */
    double getForwardX();
+
+   /**
+    * @return a 2-dimensional direction {@link Float64Vector} of this {@link Direction}.
+    */
+   Float64Vector getVector();
 
    /**
     * Rotate this Direction for the given amount of degrees

@@ -2,7 +2,6 @@ package com.myownb3.piranha.core.statemachine.impl.handler.common;
 
 import static com.myownb3.piranha.core.grid.gridelement.position.Positions.movePositionForward;
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -41,12 +40,12 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
    }
 
    protected Float64Vector getEndPosLine(Position posBeforeEvasion, Position endPos) {
-      Float64Vector posBeforEvasionVector = getVector(posBeforeEvasion);
+      Float64Vector posBeforEvasionVector = posBeforeEvasion.getVector();
       return getEndPosLineInternal(endPos, posBeforEvasionVector);
    }
 
    private Float64Vector getEndPosLineInternal(Position endPos, Float64Vector posBeforEvasionVector) {
-      Float64Vector endPosVector = getVector(endPos);
+      Float64Vector endPosVector = endPos.getVector();
       return endPosVector.minus(posBeforEvasionVector);
    }
 
@@ -96,7 +95,7 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
    }
 
    protected double calcAngle(Position moveablePos, Float64Vector endPosLine) {
-      Float64Vector moveableVector = getVector(moveablePos.getDirection());
+      Float64Vector moveableVector = moveablePos.getDirection().getVector();
       return MathUtil.round(MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector), ANGLE_PRECISION);
    }
 }

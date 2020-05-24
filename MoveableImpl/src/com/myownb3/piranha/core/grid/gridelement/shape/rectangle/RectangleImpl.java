@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.grid.gridelement.shape.rectangle;
 import static com.myownb3.piranha.core.grid.gridelement.position.Positions.buildPositionsBetweenTwoPositions;
 import static com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleUtil.getNextPosition;
 import static com.myownb3.piranha.util.vector.VectorUtil.rotateVector;
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toDegrees;
 import static java.util.Objects.nonNull;
@@ -156,8 +155,8 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    private static Position getNextRectanglePos(Position center, double width, double height, double angle) {
-      Float64Vector centerVector = getVector(center);
-      Float64Vector rectanglePosVector = getVector(center.getDirection());
+      Float64Vector centerVector = center.getVector();
+      Float64Vector rectanglePosVector = center.getDirection().getVector();
       rectanglePosVector = rotateVector(rectanglePosVector, angle);
       rectanglePosVector = rectanglePosVector.times(getHypotenuse(width, height) * 10);
       return Positions.of(centerVector.plus(rectanglePosVector), 7);

@@ -4,6 +4,7 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
 import static com.myownb3.piranha.util.MathUtil.round;
+import static java.util.Objects.nonNull;
 
 import java.util.List;
 
@@ -147,6 +148,7 @@ public class Positions {
       private double y;
       private double x;
       private Direction direction;
+      private Float64Vector vector;
 
       /**
        * Creates a new {@link PositionImpl} with the given coordinates The
@@ -248,6 +250,15 @@ public class Positions {
             return Math.toRadians(direction.getAngle());
          }
          return Math.atan(getY() / getX());
+      }
+
+      @Override
+      public Float64Vector getVector() {
+         if (nonNull(vector)) {
+            return vector;
+         }
+         vector = Float64Vector.valueOf(x, y, 0);
+         return vector;
       }
 
       /*

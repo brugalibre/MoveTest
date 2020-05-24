@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.position;
 
+import org.jscience.mathematics.vector.Float64Vector;
+
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
 
@@ -20,7 +22,7 @@ public interface Position {
     * @return a rotated instance of this {@link Position}
     * @param degree
     */
-   Position rotate (double degree);
+   Position rotate(double degree);
 
    /**
     * @return the Direction in which this Positions shows
@@ -60,5 +62,10 @@ public interface Position {
     * @return the relatively angle between this and the other position
     */
    double calcAngleRelativeTo(Position position);
+
+   /**
+    * @return a {@link Float64Vector} of the x- and y coordinates of this {@link Position}. The z-coordinate is always 0
+    */
+   Float64Vector getVector();
 
 }

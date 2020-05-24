@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.ui.render.impl.moveable;
 
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
-
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -56,7 +54,7 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
    private void drawMoveableDirection(Graphics graphics, Position gridElemPos) {
       if (drawMoveableDirection) {
          graphics.setColor(Color.BLACK);
-         drawDirectionFromPosition(graphics, gridElemPos, getVector(gridElemPos.getDirection()), 30);
+         drawDirectionFromPosition(graphics, gridElemPos, gridElemPos.getDirection().getVector(), 30);
       }
    }
 

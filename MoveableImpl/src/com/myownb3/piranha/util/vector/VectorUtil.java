@@ -57,31 +57,4 @@ public class VectorUtil {
       double y2 = sin(angle) * x1 + cos(angle) * y1;
       return Float64Vector.valueOf(round(x2, 10), round(y2, 10), 0.0);
    }
-
-   /**
-    * Creates a 3-dimensional {@link Float64Vector} for the given {@link Position} and its x,-
-    * and y-coordinates
-    * 
-    * @param pos
-    *        the {@link Position}
-    * @return a {@link Float64Vector}
-    */
-   public static Float64Vector getVector(Position pos) {
-      return Float64Vector.valueOf(pos.getX(), pos.getY(), 0);
-   }
-
-   /**
-    * Creates a 3-dimensional {@link Float64Vector} for the given {@link Position} and its x,-
-    * and y-forwarding coordinates
-    * 
-    * @param direction
-    *        the {@link Direction}
-    * @return a {@link Float64Vector}
-    * 
-    * @see Direction#getForwardX()
-    * @see Direction#getForwardY()
-    */
-   public static Float64Vector getVector(Direction direction) {
-      return Float64Vector.valueOf(direction.getForwardX(), direction.getForwardY(), 0);
-   }
 }

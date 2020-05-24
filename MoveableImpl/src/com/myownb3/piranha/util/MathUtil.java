@@ -3,7 +3,6 @@
  */
 package com.myownb3.piranha.util;
 
-import static com.myownb3.piranha.util.vector.VectorUtil.getVector;
 import static java.lang.Math.toDegrees;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -70,8 +69,8 @@ public class MathUtil {
     */
    public static double calcDistanceFromPositionToLine(Position posQ, Position posPOnVector, Float64Vector a) {
 
-      Float64Vector posQVector = getVector(posQ);
-      Float64Vector posPVector = getVector(posPOnVector);
+      Float64Vector posQVector = posQ.getVector();
+      Float64Vector posPVector = posPOnVector.getVector();
       return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
    }
 
@@ -89,7 +88,7 @@ public class MathUtil {
     */
    public static double calcAngleBetweenPositions(Position moveablePosition, Position gridElementPos) {
       Float64Vector moveable2GridElemVector = getVectorFromMoveable2GridElement(moveablePosition, gridElementPos);
-      Float64Vector moveableDirectionVector = getVector(moveablePosition.getDirection());
+      Float64Vector moveableDirectionVector = moveablePosition.getDirection().getVector();
       return calcAngleBetweenVectors(moveable2GridElemVector, moveableDirectionVector);
    }
 
@@ -115,8 +114,8 @@ public class MathUtil {
    }
 
    private static Float64Vector getVectorFromMoveable2GridElement(Position moveablePosition, Position gridElemPos) {
-      Float64Vector moveableVector = getVector(moveablePosition);
-      Float64Vector gridElemVector = getVector(gridElemPos);
+      Float64Vector moveableVector = moveablePosition.getVector();
+      Float64Vector gridElemVector = gridElemPos.getVector();
       return gridElemVector.minus(moveableVector);
    }
 
