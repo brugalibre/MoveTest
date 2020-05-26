@@ -20,7 +20,6 @@ import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
@@ -45,23 +44,24 @@ class MazeRunnerTest {
       int coridorWidth = 80;
       int segmentLength = 80;
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
-            .withEvasionStateMachineConfig(70, 45)
+            .withEvasionStateMachineConfig(90, 50)
             .withTrippleDetectorCluster(DetectorConfigBuilder.builder()
-                  .withDetectorReach(60)
-                  .withEvasionDistance(45)
+                  .withDetectorReach(90)
+                  .withEvasionDistance(55)
                   .withDetectorAngle(60)
-                  .withEvasionAngle(45)
-                  .withEvasionAngleInc(2)
+                  .withEvasionAngle(60)
+                  .withEvasionAngleInc(1)
                   .build(),
                   DetectorConfigBuilder.builder()
-                        .withDetectorReach(25)
-                        .withEvasionDistance(5)
+                        .withDetectorReach(60)
+                        .withEvasionDistance(25)
                         .withDetectorAngle(60)
-                        .withEvasionAngle(25)
-                        .withEvasionAngleInc(2)
+                        .withEvasionAngle(60)
+                        .withEvasionAngleInc(1)
                         .build())
             .withStartPos(startPos)
             .withMaze(MazeBuilder.builder()
+                  .withEndPositionPrecision(1)
                   .withGrid(MirrorGridBuilder.builder()
                         .withMaxX(1000)
                         .withMaxY(1000)
@@ -75,23 +75,31 @@ class MazeRunnerTest {
                   .withSegmentLenth(segmentLength)
                   .appendCorridorSegment()
                   .appendCorridorSegment()
-                  .withObstacle(buildDefaultCircle(), 0, 0)
+                  .withObstacle(CircleBuilder.builder()
+                        .withRadius(4)
+                        .withAmountOfPoints(4)
+                        .withCenter(Positions.of(0, 0))
+                        .build(), 0, 0)
                   .appendCorridorSegment()
                   .appendCorridorSegment()
-                  .withEndPosition(buildDefaultCircle())
                   .appendCorridorLeftAngleBend()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
-                  .withEndPosition(buildDefaultCircle())
                   .appendCorridorLeftAngleBend()
                   .appendCorridorSegment()
-                  .withEndPosition(buildDefaultCircle())
+                  .appendCorridorSegment()
+                  .withEndPosition(CircleBuilder.builder()
+                        .withRadius(4)
+                        .withAmountOfPoints(4)
+                        .withCenter(Positions.of(0, 0))
+                        .build())
                   .build()
                   .build())
             .withMovingIncrement(4)
             .withMoveableController(res -> {
             })
             .build();
+
       // When
       mazeRunner.run();
       Position actualEndPos = mazeRunner.getMoveableController().getCurrentEndPos();
@@ -108,7 +116,7 @@ class MazeRunnerTest {
    void testBuildMazeRunWithCustomMaze_WithoutEndPos() {
 
       // Given
-      double expectedXAxisValue = 442.8265812749;
+      double expectedXAxisValue = 463;
       double expectedYAxisValue = 485.4113448726;
       Position startPos = Positions.of(130, 330);
       int wallThickness = 10;
@@ -252,14 +260,6 @@ class MazeRunnerTest {
       assertThat(actualEndPos, is(nullValue()));
       assertThat(actualMoveablePos.size(), is(1));
       assertThat(actualMoveablePos.get(0), is(expectedMoveablePos));
-   }
-
-   private static CircleImpl buildDefaultCircle() {
-      return CircleBuilder.builder()
-            .withRadius(4)
-            .withAmountOfPoints(4)
-            .withCenter(Positions.of(0, 0))
-            .build();
    }
 
    private static class MazeRunnerTestPostMoveActionHandler implements PostMoveForwardHandler, LightBarrierPassedCallbackHandler {

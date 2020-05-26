@@ -31,4 +31,14 @@ public interface PathSegment {
     * @return the {@link Float64Vector} describing the direction from the begin-Position to the end-Position
     */
    Float64Vector getVector();
+
+   /**
+    * @return the 'normal' vector of this {@link PathSegment} which crosses it's begin - {@link Position}
+    */
+   Float64Vector getNormalVectorAtBeginPos();
+
+   /**
+    * @return the 'normal' vector of this {@link PathSegment} which crosses it's end - {@link Position}
+    */
+   Float64Vector getNormalVectorAtEndPos();
 }

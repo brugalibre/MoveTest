@@ -57,7 +57,7 @@ class MirrorGridTest {
 
       // Then
       Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
-      verify(direction, times(5)).rotate(expectedRotationDeg);
+      verify(direction, times(7)).rotate(expectedRotationDeg);// again 2 more, because we transform the shape within the CollisionDetectionHandler
    }
 
    private static Direction mockDirection(double forwardX, double forwardY) {
