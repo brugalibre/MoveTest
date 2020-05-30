@@ -70,7 +70,7 @@ public interface Grid {
    /**
     * Returns all avoidable {@link GridElement}s except the given {@link GridElement} which are
     * currently placed on this {@link Grid} and which are within the given distance to the {@link GridElement}
-    * <b>Note:</b> For the calculation of the distance is the {@link Position} {@link GridElement#getFurthermostFrontPosition()} used
+    * <b>Note:</b> For the calculation of the distance is the {@link Position} {@link GridElement#getForemostPosition()} used
     * 
     * @param gridElement
     * @param distance

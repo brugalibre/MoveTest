@@ -89,8 +89,8 @@ class LightBarrierTest {
       GridElement gridElement = mock(GridElement.class);
       Position frontPosition = Positions.of(4, 4);
       Position backPosition = Positions.of(5, 5);
-      when(gridElement.getFurthermostBackPosition()).thenReturn(backPosition);
-      when(gridElement.getFurthermostFrontPosition()).thenReturn(frontPosition);
+      when(gridElement.getRearmostPosition()).thenReturn(backPosition);
+      when(gridElement.getForemostPosition()).thenReturn(frontPosition);
 
       IDetector detector = spy(IDetector.class);
 
@@ -132,8 +132,8 @@ class LightBarrierTest {
       GridElement gridElement = mock(GridElement.class);
       Position frontPosition = Positions.of(4, 4);
       Position backPosition = Positions.of(5, 5);
-      when(gridElement.getFurthermostBackPosition()).thenReturn(backPosition);
-      when(gridElement.getFurthermostFrontPosition()).thenReturn(frontPosition);
+      when(gridElement.getRearmostPosition()).thenReturn(backPosition);
+      when(gridElement.getForemostPosition()).thenReturn(frontPosition);
 
       IDetector detector = spy(IDetector.class);
 
@@ -175,8 +175,8 @@ class LightBarrierTest {
       GridElement gridElement = mock(GridElement.class);
       Position frontPosition = Positions.of(4, 4);
       Position backPosition = Positions.of(5, 5);
-      when(gridElement.getFurthermostBackPosition()).thenReturn(backPosition);
-      when(gridElement.getFurthermostFrontPosition()).thenReturn(frontPosition);
+      when(gridElement.getRearmostPosition()).thenReturn(backPosition);
+      when(gridElement.getForemostPosition()).thenReturn(frontPosition);
 
       IDetector detector = spy(IDetector.class);
 

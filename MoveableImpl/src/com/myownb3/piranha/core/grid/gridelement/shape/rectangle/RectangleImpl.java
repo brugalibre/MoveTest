@@ -61,7 +61,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    @Override
-   public Position getFurthermostFrontPosition() {
+   public Position getForemostPosition() {
       return shiftPositionForInternal(center);
    }
 
@@ -77,7 +77,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    @Override
-   public Position getFurthermostBackPosition() {
+   public Position getRearmostPosition() {
       Position furthermostFrontPos = center.rotate(180);
       return shiftPositionForInternal(furthermostFrontPos);
    }

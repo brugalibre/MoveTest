@@ -69,7 +69,7 @@ class SimpleGridElementTest {
    }
 
    @Test
-   void testGetFurthermostBackPosition() {
+   void testGetRearmostPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
       Position expectedBackPos = gridElemPos.rotate(180);
@@ -82,14 +82,14 @@ class SimpleGridElementTest {
             .build();
 
       // When
-      Position positionOnPathFor = gridElement.getFurthermostBackPosition();
+      Position positionOnPathFor = gridElement.getRearmostPosition();
 
       // Then
       assertThat(positionOnPathFor, is(expectedBackPos));
    }
 
    @Test
-   void testGetFurthermostFrontPosition() {
+   void testGetForemostPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
@@ -101,7 +101,7 @@ class SimpleGridElementTest {
             .build();
 
       // When
-      Position positionOnPathFor = gridElement.getFurthermostFrontPosition();
+      Position positionOnPathFor = gridElement.getForemostPosition();
 
       // Then
       assertThat(positionOnPathFor, is(gridElemPos));

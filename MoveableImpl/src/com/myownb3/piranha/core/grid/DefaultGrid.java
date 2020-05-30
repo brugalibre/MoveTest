@@ -197,7 +197,7 @@ public class DefaultGrid implements Grid {
    }
 
    private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, Double distance) {
-      Position gridElemPos = gridElement.getFurthermostFrontPosition();
+      Position gridElemPos = gridElement.getForemostPosition();
       return getAllAvoidableGridElements(gridElement)
             .stream()
             .filter(isGridElementWithinDistance(gridElemPos, distance))

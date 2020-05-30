@@ -243,54 +243,54 @@ public class RectangleImplTest {
    }
 
    @Test
-   void testGetFurthermostFrontPosition_Horizontal() {
+   void testGetForemostPosition_Horizontal() {
 
       // Given
-      Position expectedFurthermostFrontPos = Positions.of(0, 5);
+      Position expectedForemostPos = Positions.of(0, 5);
       Position center = Positions.of(0, 0);
       double height = 10;
       double width = 20;
       Rectangle rectangle = buildRectangle(center, height, width, Orientation.HORIZONTAL);
 
       // When
-      Position actualFurthermostFrontPos = rectangle.getFurthermostFrontPosition();
+      Position actualForemostPos = rectangle.getForemostPosition();
 
       // Then
-      assertThat(actualFurthermostFrontPos, is(expectedFurthermostFrontPos));
+      assertThat(actualForemostPos, is(expectedForemostPos));
    }
 
    @Test
-   void testGetFurthermostBackPosition_Horizontal() {
+   void testGetRearmostPosition_Horizontal() {
 
       // Given
-      Position expectedFurthermostFrontPos = Positions.of(0, -5);
+      Position expectedForemostPos = Positions.of(0, -5);
       Position center = Positions.of(0, 0);
       double height = 10;
       double width = 20;
       Rectangle rectangle = buildRectangle(center, height, width, Orientation.HORIZONTAL);
 
       // When
-      Position actualFurthermostFrontPos = rectangle.getFurthermostBackPosition();
+      Position actualForemostPos = rectangle.getRearmostPosition();
 
       // Then
-      assertThat(actualFurthermostFrontPos, is(expectedFurthermostFrontPos));
+      assertThat(actualForemostPos, is(expectedForemostPos));
    }
 
    @Test
-   void testGetFurthermostFrontPosition_Vertical() {
+   void testGetForemostPosition_Vertical() {
 
       // Given
-      Position expectedFurthermostFrontPos = Positions.of(2, 12);
+      Position expectedForemostPos = Positions.of(2, 12);
       Position center = Positions.of(2, 2);
       double height = 10;
       double width = 20;
       Rectangle rectangle = buildRectangle(center, height, width, Orientation.VERTICAL);
 
       // When
-      Position actualFurthermostFrontPos = rectangle.getFurthermostFrontPosition();
+      Position actualForemostPos = rectangle.getForemostPosition();
 
       // Then
-      assertThat(actualFurthermostFrontPos, is(expectedFurthermostFrontPos));
+      assertThat(actualForemostPos, is(expectedForemostPos));
    }
 
    @Test
@@ -328,7 +328,7 @@ public class RectangleImplTest {
    }
 
    @Test
-   void testGetFurthermostFrontPosition_Invalid() {
+   void testGetForemostPosition_Invalid() {
 
       // Given
       Position center = Positions.of(2, 2);
@@ -339,7 +339,7 @@ public class RectangleImplTest {
 
       // When
       Executable executable = () -> {
-         rectangle.getFurthermostFrontPosition();
+         rectangle.getForemostPosition();
       };
       // Then
       assertThrows(IllegalStateException.class, executable);

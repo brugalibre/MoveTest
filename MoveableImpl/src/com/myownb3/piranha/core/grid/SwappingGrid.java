@@ -54,7 +54,7 @@ public class SwappingGrid extends DefaultGrid {
    @Override
    protected double getNewYValue(GridElement gridElement, double forwardY) {
       double newY = super.getNewYValue(gridElement, forwardY);
-      double newYValue = getNewYValue(gridElement.getFurthermostFrontPosition(), forwardY);
+      double newYValue = getNewYValue(gridElement.getForemostPosition(), forwardY);
       if (newYValue > maxY) {
          newY = (newYValue - maxY) + minY;
       } else if (newYValue < minY) {
@@ -73,7 +73,7 @@ public class SwappingGrid extends DefaultGrid {
    @Override
    protected double getNewXValue(GridElement gridElement, double forwardX) {
       double newX = super.getNewXValue(gridElement, forwardX);
-      double newXValue = getNewXValue(gridElement.getFurthermostFrontPosition(), forwardX);
+      double newXValue = getNewXValue(gridElement.getForemostPosition(), forwardX);
       if (newXValue > maxX) {
          newX = (newXValue - maxX) + minX;
       } else if (newXValue < minX) {

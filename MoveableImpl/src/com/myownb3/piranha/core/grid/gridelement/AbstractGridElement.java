@@ -64,7 +64,7 @@ public abstract class AbstractGridElement implements GridElement {
 
    @Override
    public void hasGridElementDetected(GridElement gridElement, Detector detector) {
-      gridElement.isDetectedBy(getFurthermostFrontPosition(), detector);
+      gridElement.isDetectedBy(getForemostPosition(), detector);
    }
 
    @Override
@@ -84,13 +84,13 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public Position getFurthermostFrontPosition() {
-      return shape.getFurthermostFrontPosition();
+   public Position getForemostPosition() {
+      return shape.getForemostPosition();
    }
 
    @Override
-   public Position getFurthermostBackPosition() {
-      return shape.getFurthermostBackPosition();
+   public Position getRearmostPosition() {
+      return shape.getRearmostPosition();
    }
 
    @Override

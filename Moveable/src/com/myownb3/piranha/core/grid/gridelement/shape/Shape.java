@@ -73,7 +73,7 @@ public interface Shape extends Cloneable {
     * 
     * @return the {@link Position} of this {@link GridElement}
     */
-   Position getFurthermostFrontPosition();
+   Position getForemostPosition();
 
    /**
     * Returns the {@link Position} of this {@link GridElement} which faces the oposit
@@ -82,7 +82,7 @@ public interface Shape extends Cloneable {
     * 
     * @return the {@link Position} of this {@link GridElement}
     */
-   Position getFurthermostBackPosition();
+   Position getRearmostPosition();
 
    /**
     * @return the radius within this {@link Shape} could be placed

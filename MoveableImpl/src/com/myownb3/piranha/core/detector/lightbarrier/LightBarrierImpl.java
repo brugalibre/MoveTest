@@ -38,7 +38,7 @@ public class LightBarrierImpl implements LightBarrier {
    }
 
    private void handleFullyDetected(GridElement gridElement) {
-      detectGridElement(gridElement, gridElement.getFurthermostBackPosition());
+      detectGridElement(gridElement, gridElement.getRearmostPosition());
       if (!placedDetector.getDetector().hasObjectDetected(gridElement)) {
          callbackHandler.handleLightBarrierTriggered(gridElement);
       }
@@ -53,7 +53,7 @@ public class LightBarrierImpl implements LightBarrier {
    }
 
    private void handleGridElementFrontDetected(GridElement gridElement) {
-      detectGridElement(gridElement, gridElement.getFurthermostBackPosition());
+      detectGridElement(gridElement, gridElement.getRearmostPosition());
       if (placedDetector.getDetector().hasObjectDetected(gridElement)) {
          gridElementDetectionMap.put(gridElement, LightBarrierDetectingState.LEAVING);
       }
@@ -64,7 +64,7 @@ public class LightBarrierImpl implements LightBarrier {
    }
 
    private void handleGridElementNotYetDetected(GridElement gridElement) {
-      detectGridElement(gridElement, gridElement.getFurthermostFrontPosition());
+      detectGridElement(gridElement, gridElement.getForemostPosition());
       if (placedDetector.getDetector().hasObjectDetected(gridElement)) {
          gridElementDetectionMap.put(gridElement, LightBarrierDetectingState.ENTERED);
       }

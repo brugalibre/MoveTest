@@ -71,12 +71,12 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    @Override
-   public Position getFurthermostFrontPosition() {
+   public Position getForemostPosition() {
       return getNextCirclePos(center, radius, 0);
    }
 
    @Override
-   public Position getFurthermostBackPosition() {
+   public Position getRearmostPosition() {
       Position posInverted = center.rotate(180);
       return getNextCirclePos(posInverted, radius, 0);
    }

@@ -35,7 +35,7 @@ public interface GridElement {
     * 
     * @return the {@link Position} of this {@link GridElement}
     */
-   Position getFurthermostFrontPosition();
+   Position getForemostPosition();
 
    /**
     * Returns the {@link Position} of this {@link GridElement} which faces the oposit
@@ -44,7 +44,7 @@ public interface GridElement {
     * 
     * @return the {@link Position} of this {@link GridElement}
     */
-   Position getFurthermostBackPosition();
+   Position getRearmostPosition();
 
    /**
     * @return the Grid of this {@link GridElement}
