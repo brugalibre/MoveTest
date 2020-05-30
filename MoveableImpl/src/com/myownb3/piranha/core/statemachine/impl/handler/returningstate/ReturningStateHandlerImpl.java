@@ -63,10 +63,10 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
    }
 
    @Override
-   public CommonEvasionStateResult handle(ReturningEventStateInput evenStateInput) {
-      EvasionStates nextState = handleReturning(evenStateInput.getPositionBeforeEvasion(),
-            evenStateInput.getMoveable(), evenStateInput.getEndPosition());
-      return evalNextStateAndBuildResult(evenStateInput, RETURNING, nextState);
+   public CommonEvasionStateResult handle(ReturningEventStateInput eventStateInput) {
+      EvasionStates nextState = handleReturning(eventStateInput.getPositionBeforeEvasion(),
+            eventStateInput.getMoveable(), eventStateInput.getEndPosition());
+      return evalNextStateAndBuildResult(eventStateInput, RETURNING, nextState);
    }
 
    private EvasionStates handleReturning(Position positionBeforeEvasion, Moveable moveable, EndPosition endPos) {
@@ -76,10 +76,10 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
             handleFirstAngleCorrection(positionBeforeEvasion, moveable, endPosLine);
             return RETURNING;
          case ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL:
-            doCorrectionPhase1(moveable, positionBeforeEvasion, endPosLine);
+            doCorrectionPhaseUntilOrdonal(moveable, positionBeforeEvasion, endPosLine);
             return evalNextState4StateUntilOrdonal(positionBeforeEvasion, moveable, endPosLine);
          case ANGLE_CORRECTION_PHASE_FROM_ORDONAL:
-            doCorrectionPhase2(moveable, positionBeforeEvasion, endPosLine);
+            doCorrectionPhaseFromOrdonal(moveable, positionBeforeEvasion, endPosLine);
             return evalNextState4StateFromOrdonal(positionBeforeEvasion, moveable, endPosLine);
          case RELATIVE_ANGLE_CORRECTION_TO_END_POS:
             EvasionStates nextEvasionState = makeFinalAngleCorrectionIfNecessary(moveable, endPos);
@@ -90,13 +90,13 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
       }
    }
 
-   private void doCorrectionPhase1(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
+   private void doCorrectionPhaseUntilOrdonal(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
       double angle2Turn = helper.calcAngle2Turn4CorrectionPhase1(currentAngle, getAngle2Turn());
       moveable.makeTurnWithoutPostConditions(angle2Turn);
    }
 
-   private void doCorrectionPhase2(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
+   private void doCorrectionPhaseFromOrdonal(Moveable moveable, Position positionBeforeEvasion, Float64Vector endPosLine) {
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
       double angle2Turn = helper.calcAngle2Turn4CorrectionPhase2(currentAngle, getAngle2Turn());
       moveable.makeTurnWithoutPostConditions(-angle2Turn);
