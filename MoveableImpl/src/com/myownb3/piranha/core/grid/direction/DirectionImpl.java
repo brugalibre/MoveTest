@@ -24,6 +24,8 @@ public class DirectionImpl implements Direction {
    }
 
    private double rotation;
+   private double forwardX;
+   private double forwardY;
    private String cardinalDirection;
    private Float64Vector vector;
 
@@ -33,6 +35,8 @@ public class DirectionImpl implements Direction {
     */
    DirectionImpl(double rotation, String cardinalDirection) {
       this.rotation = rotation;
+      this.forwardX = Math.cos(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
+      this.forwardY = Math.sin(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
       this.cardinalDirection = cardinalDirection;
    }
 
@@ -41,8 +45,7 @@ public class DirectionImpl implements Direction {
     * 
     */
    DirectionImpl(double rotation) {
-      this.rotation = rotation;
-      setCardinalDirection();
+      this(rotation, evalCardinalDirection(rotation));
    }
 
    @Override
@@ -56,12 +59,12 @@ public class DirectionImpl implements Direction {
 
    @Override
    public double getForwardX() {
-      return Math.cos(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
+      return forwardX;
    }
 
    @Override
    public double getForwardY() {
-      return Math.sin(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
+      return forwardY;
    }
 
    @Override
@@ -93,8 +96,8 @@ public class DirectionImpl implements Direction {
       return this.cardinalDirection;
    }
 
-   private void setCardinalDirection() {
-      this.cardinalDirection = degree2DirectionMap.get((int) rotation);
+   private static String evalCardinalDirection(double rotation) {
+      return degree2DirectionMap.get((int) rotation);
    }
 
    @Override
