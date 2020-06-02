@@ -6,6 +6,8 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.turret.Turret;
 
 public class GridElementColorUtil {
 
@@ -24,6 +26,10 @@ public class GridElementColorUtil {
 
       if (gridElement instanceof Obstacle) {
          return Color.RED;
+      } else if (gridElement instanceof Turret) {
+         return Color.ORANGE.darker();
+      } else if (gridElement instanceof Projectile) {
+         return Color.GRAY;
       } else if (gridElement instanceof Moveable) {
          return new Color(0, 206, 209).darker();
       } else if (gridElement instanceof EndPositionGridElement) {

@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.weapon.gun.Gun;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a
@@ -40,7 +41,7 @@ public interface GridElement {
    Position getForemostPosition();
 
    /**
-    * Returns the {@link Position} of this {@link GridElement} which faces the oposit
+    * Returns the {@link Position} of this {@link GridElement} which faces the opposite
     * direction than it's center {@link Position} but is placed on it's
     * {@link Shape}
     * 
@@ -82,8 +83,10 @@ public interface GridElement {
     *        the {@link Position} from which we check if we are detected
     * @param detector
     *        the {@link Detector} which does the actual detecting
+    * 
+    * @return <code>true</code> if the {@link GridElement} at the specific {@link Position} was detected, <code>false</code> if not
     */
-   void isDetectedBy(Position detectionPos, Detector detector);
+   boolean isDetectedBy(Position detectionPos, Detector detector);
 
    /**
     * Checks for every given {@link GridElement} if there is a collision when this {@link GridElement} is moving
@@ -103,7 +106,15 @@ public interface GridElement {
          List<GridElement> gridElements2Check);
 
    /**
-    * Returns <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not.
+    * @return <code>true</code> if this {@link GridElement} is can be aimed by a {@link Gun} or <code>false</code> if not.
+    * 
+    */
+   default boolean isAimable() {
+      return true;
+   }
+
+   /**
+    * Returns <code>true</code> if this {@link GridElement} can be avoided or <code>false</code> if not.
     * A {@link GridElement} which is avoidable can be avoided by a {@link Moveable} and can
     * 
     * @return <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not

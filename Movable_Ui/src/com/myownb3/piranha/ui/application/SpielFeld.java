@@ -49,18 +49,22 @@ public class SpielFeld extends JComponent {
    private void paintMoveableContent(Graphics2D g2) {
       GraphicsContext graphicsContext = new GraphicsContext(g2);
       renderMoveable(graphicsContext);
-      renderers.stream()
-            .filter(isMoveablePainter().negate())
-            .forEach(renderer -> renderer.render(graphicsContext));
+      synchronized (renderers) {
+         renderers.stream()
+               .filter(isMoveablePainter().negate())
+               .forEach(renderer -> renderer.render(graphicsContext));
+      }
    }
 
    /**
     * @param graphicsContext
     */
    private void renderMoveable(GraphicsContext graphicsContext) {
-      renderers.stream()
-            .filter(isMoveablePainter())
-            .forEach(moveablePainter -> moveablePainter.render(graphicsContext));
+      synchronized (renderers) {
+         renderers.stream()
+               .filter(isMoveablePainter())
+               .forEach(moveablePainter -> moveablePainter.render(graphicsContext));
+      }
    }
 
    private Predicate<? super Renderer> isMoveablePainter() {

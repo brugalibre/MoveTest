@@ -16,7 +16,10 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner;
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.DimensionImpl;
@@ -26,11 +29,18 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
 import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MoveableControllerHolder;
 import com.myownb3.piranha.ui.application.MainWindow;
@@ -79,6 +89,16 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
       MoveableControllerHolder moveableControllerHolder = new MoveableControllerHolder();
+      Position turret1Pos = Positions.getRandomPosition(dimension, mainWindowHeight, mainWindowWidth).rotate(Math.random() * 180);
+      Position turret2Pos = Positions.getRandomPosition(dimension, mainWindowHeight, mainWindowWidth).rotate(Math.random() * 180);
+
+      DetectorConfig turretDetectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorAngle(60)
+            .withDetectorReach(350)
+            .build();
+
+      int radius = 10;
+      double turretLength = 20;
       RandomMoveableWithEndPositionRunner endPositionRunner = RandomRunnerWithEndPositionsBuilder.builder()
             .withGrid(MirrorGridBuilder.builder()
                   .withMaxX(dimension.getHeight())
@@ -114,10 +134,81 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
+            .withTurret(PlacedDetectorBuilder.builder()
+                  .withIDetector(DetectorBuilder.builder()
+                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
+                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
+                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
+                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
+                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
+                        .build())
+                  .withPosition(turret1Pos)
+                  .build(),
+                  SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withPosition(turret1Pos)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withRectangle(RectangleBuilder.builder()
+                                    .withHeight(height)
+                                    .withWidth(turretLength)
+                                    .withCenter(turret2Pos)
+                                    .withOrientation(Orientation.VERTICAL)
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(radius)
+                              .withAmountOfPoints(radius)
+                              .withCenter(turret1Pos)
+                              .build())
+                        .build())
+            .withTurret(PlacedDetectorBuilder.builder()
+                  .withIDetector(DetectorBuilder.builder()
+                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
+                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
+                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
+                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
+                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
+                        .build())
+                  .withPosition(turret2Pos)
+                  .build(),
+                  SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withPosition(turret2Pos)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withRectangle(RectangleBuilder.builder()
+                                    .withHeight(height)
+                                    .withWidth(turretLength)
+                                    .withCenter(turret2Pos)
+                                    .withOrientation(Orientation.VERTICAL)
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(radius)
+                              .withAmountOfPoints(radius)
+                              .withCenter(turret2Pos)
+                              .build())
+                        .build())
             .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerHolder, gridElements, renderers))
             .build();
 
       Grid grid = endPositionRunner.getGrid();
+      grid.prepare();
       MoveableController moveableController = endPositionRunner.getMoveableController();
       gridElements.addAll(endPositionRunner.getAllGridElements());
       moveableControllerHolder.setMoveableController(moveableController);
@@ -164,9 +255,12 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    }
 
    private static Function<? super GridElement, ? extends AbstractGridElementPainter<?>> toGridElementPainter() {
-      return gridElement -> gridElement instanceof EndPositionGridElement
-            ? new EndPositionGridElementPainter(gridElement, getColor(gridElement), 1, 1)
-            : new GridElementPainter(gridElement, getColor(gridElement), 1, 1);
+      return gridElement -> {
+         if (gridElement instanceof EndPositionGridElement) {
+            return new EndPositionGridElementPainter(gridElement, getColor(gridElement), 1, 1);
+         }
+         return new GridElementPainter(gridElement, getColor(gridElement), 1, 1);
+      };
    }
 
    @Override

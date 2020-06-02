@@ -37,6 +37,7 @@ public class CircleImpl extends AbstractShape implements Circle {
       this.radius = Math.abs(radius);
       this.center = center;
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
+      this.collisionDetector = buildCollisionDetector();
    }
 
    @Override

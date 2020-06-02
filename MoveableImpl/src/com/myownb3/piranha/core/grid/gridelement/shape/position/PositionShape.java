@@ -36,6 +36,7 @@ public class PositionShape extends AbstractShape {
     */
    private PositionShape(Position gridElemPos) {
       super(Collections.singletonList(requireNonNull(createPathSegment(gridElemPos))));
+      this.collisionDetector = buildCollisionDetector();
    }
 
    @Override

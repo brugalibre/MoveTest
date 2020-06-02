@@ -35,4 +35,9 @@ public interface EndPointMoveable extends Moveable {
     * @param position
     */
    void setEndPosition(EndPosition position);
+
+   @Override
+   default boolean isAvoidable() {
+      return true;
+   }
 }

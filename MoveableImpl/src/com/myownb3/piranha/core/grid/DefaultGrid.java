@@ -20,6 +20,7 @@ import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -95,6 +96,14 @@ public class DefaultGrid implements Grid {
             .mapToDouble(value -> value)
             .max()
             .orElse(0);
+      ProjectileFactory.INSTANCE.registerGrid(this);
+   }
+
+   @Override
+   public void remove(GridElement gridElement) {
+      synchronized (gridElements) {
+         gridElements.remove(gridElement);
+      }
    }
 
    /**
@@ -220,9 +229,18 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<GridElement> getAllGridElements(GridElement gridElement) {
-      return gridElements.stream()
-            .filter(currenGridEl -> !currenGridEl.equals(gridElement))
-            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+      synchronized (gridElements) {
+         return gridElements.stream()
+               .filter(currenGridEl -> !currenGridEl.equals(gridElement))
+               .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+      }
+   }
+
+   @Override
+   public List<GridElement> getAllGridElementsWithinDistance(Position position, int distance) {
+      return getAllGridElements(null).stream()
+            .filter(isGridElementWithinDistance(position, Double.valueOf(distance)))
+            .collect(Collectors.toList());
    }
 
    @Override

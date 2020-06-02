@@ -58,7 +58,7 @@ public interface Shape extends Cloneable {
     * @param detector
     *        the Detector which does the actual detecting
     * 
-    * @return <code>true</code> if the avoidable at the specific {@link Position} was detected, <code>false</code> if not
+    * @return <code>true</code> if the {@link Shape} at the specific {@link Position} was detected, <code>false</code> if not
     */
    boolean detectObject(Position detectorPosition, Detector detector);
 

@@ -93,6 +93,19 @@ public class Positions {
    }
 
    /**
+    * The given {@link Position} is moved forward for the given amount
+    * 
+    * @param position
+    *        the {@link Position} to move forward
+    * @param amount
+    *        the amount of times it is moved forward
+    * @return a new {@link Position}
+    */
+   public static Position movePositionForward(Position position, int amount) {
+      return POSITION_HELPER.movePositionForward(position, amount);
+   }
+
+   /**
     * Creates a new {@link Position} by moving the given position for the given distance
     * 
     * @param pos

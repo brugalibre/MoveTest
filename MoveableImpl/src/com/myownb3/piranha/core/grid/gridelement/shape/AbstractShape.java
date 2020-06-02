@@ -29,7 +29,6 @@ public abstract class AbstractShape implements Shape {
     */
    public AbstractShape(List<PathSegment> path) {
       this.path = path;
-      this.collisionDetector = buildCollisionDetector();
    }
 
    @Override

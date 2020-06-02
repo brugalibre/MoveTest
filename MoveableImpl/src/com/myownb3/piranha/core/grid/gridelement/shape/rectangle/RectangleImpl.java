@@ -46,6 +46,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       this.center = center;
       this.orientation = orientation;
       this.distanceBetweenPosOnColDetectionPath = distanceBetweenPosOnColDetectionPath;
+      this.collisionDetector = buildCollisionDetector();
       path4Detection = buildPath4DetectionPrivate();
    }
 
@@ -91,6 +92,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
 
    @Override
    public void transform(Position position) {
+      this.center = position;
       this.path = buildRectangleWithCenter(position, width, height, orientation);
       this.path4Detection = buildPath4DetectionPrivate();
    }

@@ -22,6 +22,12 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  */
 public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
    private Color color;
+   private boolean drawBorder;
+
+   public RectanglePainter(Rectangle rectangle, Color color, boolean drawBorder) {
+      this(rectangle, color);
+      this.drawBorder = drawBorder;
+   }
 
    public RectanglePainter(Rectangle rectangle, Color color) {
       super(rectangle);
@@ -30,6 +36,7 @@ public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
       this.color = color;
       setBounds(new java.awt.Rectangle((int) upperLeftPosition.getX(), (int) upperLeftPosition.getY(), (int) rectangle.getWidth(),
             (int) rectangle.getHeight()));
+      this.drawBorder = true;
    }
 
    @Override
@@ -45,9 +52,13 @@ public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
    private void renderRectangle(Graphics graphics) {
       Polygon polygon = getPoligon4Path(value);
       graphics.fillPolygon(polygon);
+      if (drawBorder) {
+         drawBorder(graphics, polygon);
+      }
+   }
 
+   private void drawBorder(Graphics graphics, Polygon polygon) {
       graphics.setColor(Color.BLACK);
       graphics.drawPolygon(polygon);
    }
-
 }

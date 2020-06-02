@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
@@ -23,6 +24,9 @@ import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.Po
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.MoveableBuilder;
+import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl;
+import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
 
 class DefaultGridTest {
 
@@ -156,6 +160,70 @@ class DefaultGridTest {
 
       // Then
       assertThat(allGridElementsWithinDistance.size(), is(0));
+   }
+
+   @Test
+   void testGetAllGridElementsWithinDistance_EndPointMoveable() {
+
+      // Given
+
+      DefaultGrid grid = GridBuilder.builder()
+            .withMaxX(100)
+            .withMaxY(100)
+            .withMinX(0)
+            .withMinY(0)
+            .build();
+      Moveable moveable = EndPointMoveableBuilder.builder()
+            .withStartPosition(Positions.of(0, 0))
+            .withGrid(grid)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
+            .withMoveablePostActionHandler((a, b) -> {
+            })
+            .build();
+      ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(5, 0))
+            .build();
+
+      // When
+      List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(obstacleImpl, 5);
+
+      // Then
+      assertThat(allGridElementsWithinDistance.size(), is(1));
+      assertThat(allGridElementsWithinDistance.get(0), is(moveable));
+   }
+
+   @Test
+   void testGetAllGridElementsWithinDistance_Projectile() {
+
+      // Given
+      DefaultGrid grid = GridBuilder.builder()
+            .withMaxX(100)
+            .withMaxY(100)
+            .withMinX(0)
+            .withMinY(0)
+            .build();
+      BulletImpl bulletImpl = BulletBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
+            .build();
+
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(10, 0))
+            .build();
+
+      // When
+      List<GridElement> allGridElementsWithinDistance = grid.getAllGridElementsWithinDistance(Positions.of(0, 0), 5);
+
+      // Then
+      assertThat(allGridElementsWithinDistance.size(), is(1));
+      assertThat(allGridElementsWithinDistance.get(0), is(bulletImpl));
    }
 
    private Moveable buildMoveable(Grid grid, Position gridElemPos) {

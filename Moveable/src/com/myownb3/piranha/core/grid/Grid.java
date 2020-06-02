@@ -25,6 +25,14 @@ public interface Grid {
    void prepare();
 
    /**
+    * Remoes this {@link GridElement} from this {@link Grid}
+    * 
+    * @param gridElement
+    *        the {@link GridElement} to remove
+    */
+   void remove(GridElement gridElement);
+
+   /**
     * Moves the given {@link GridElement} backward by one unit
     * 
     * @param gridElement
@@ -82,6 +90,20 @@ public interface Grid {
 
    /**
     * Returns all {@link GridElement}s except the given {@link GridElement} which are
+    * currently placed on this {@link Grid} and which are within the given distance to the {@link Position}
+    * 
+    * @param position
+    *        the {@link Position} from which the {@link GridElement} are evaluated
+    * @param distance
+    *        the distance
+    * 
+    * @return all {@link GridElement}s but the given {@link GridElement} which are
+    *         currently placed on this {@link Grid}
+    */
+   List<GridElement> getAllGridElementsWithinDistance(Position position, int distance);
+
+   /**
+    * Returns all {@link GridElement}s except the given {@link GridElement} which are
     * currently placed on this {@link Grid}
     * 
     * @param gridElement
@@ -95,5 +117,4 @@ public interface Grid {
     * @returns a {@link Dimension} describing the dimension of this {@link Grid}
     */
    Dimension getDimension();
-
 }

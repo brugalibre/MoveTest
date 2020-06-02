@@ -12,5 +12,4 @@ public interface Initializable {
     * Initializes this {@link Initializable}
     */
    void init();
-
 }

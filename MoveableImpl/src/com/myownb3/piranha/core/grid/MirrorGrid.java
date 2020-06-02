@@ -8,6 +8,7 @@ import static java.util.Objects.isNull;
 import java.util.Objects;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.collision.CollisionSensitiveGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -54,17 +55,25 @@ public class MirrorGrid extends DefaultGrid {
     */
    @Override
    public Position moveForward(GridElement gridElement) {
-
+      boolean isMirrored = false;
       Position movedPos = super.moveForward(gridElement);
 
       if (movedPos.getX() == minX || movedPos.getX() == maxX) {
          movedPos = movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
+         isMirrored = true;
       }
       if (movedPos.getY() == minY || movedPos.getY() == maxY) {
          movedPos = movedPos.rotate(360 - 2 * movedPos.getDirection().getAngle());
+         isMirrored = true;
       }
-
+      handleAfterMirroring(isMirrored, gridElement);
       return movedPos;
+   }
+
+   private void handleAfterMirroring(boolean isMirrored, GridElement gridElement) {
+      if (isMirrored && gridElement instanceof CollisionSensitiveGridElement) {
+         ((CollisionSensitiveGridElement) gridElement).onCollision();
+      }
    }
 
    /**

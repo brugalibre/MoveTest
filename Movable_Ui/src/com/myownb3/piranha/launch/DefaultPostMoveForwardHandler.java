@@ -1,14 +1,20 @@
 package com.myownb3.piranha.launch;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.core.moveables.MoveResult;
+import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.launch.weapon.ProjectilePaintUtil;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
@@ -19,6 +25,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
    private MoveableControllerHolder moveableControllerHolder;
    private List<Renderer> renderers;
    private List<GridElement> gridElements;
+   private Set<String> existingProjectiles = new HashSet<>();
 
    public DefaultPostMoveForwardHandler(MainWindowHolder windowHolder, MoveableControllerHolder moveableControllerHolder,
          List<GridElement> gridElements, List<Renderer> renderers) {
@@ -36,9 +43,13 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
 
    @Override
    public void handlePostMoveForward(MoveResult moveResult) {
-      moveGridElementsForward(gridElements);
-
+      List<Moveable> moveables = getAllMoveables();
       setCurrentTargetPosition(moveableControllerHolder.moveableController, renderers);
+      moveGridElementsForward(moveables);
+      //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
+      checkTurret(gridElements);
+      ProjectilePaintUtil.addNewProjectilePainters(moveables.get(0).getGrid(), renderers, existingProjectiles, moveables);
+      ProjectilePaintUtil.removeDestroyedPainters(renderers);
 
       SwingUtilities.invokeLater(() -> windowHolder.mainWindow.refresh());
       try {
@@ -48,12 +59,23 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       }
    }
 
-
-   private static void moveGridElementsForward(List<GridElement> allGridElements) {
-      allGridElements.stream()
+   private List<Moveable> getAllMoveables() {
+      return gridElements.stream()
             .filter(MoveableObstacleImpl.class::isInstance)
-            .map(MoveableObstacleImpl.class::cast)
-            .forEach(obstacle -> obstacle.moveForward());
+            .map(MoveableObstacleImpl.class::cast).collect(Collectors.toList());
+   }
+
+   private void checkTurret(List<GridElement> allGridElements) {
+      allGridElements.stream()
+            .filter(Turret.class::isInstance)
+            .map(Turret.class::cast)
+            .forEach(Turret::autodetect);
+   }
+
+   private static void moveGridElementsForward(List<Moveable> moveables) {
+      synchronized (moveables) {
+         moveables.forEach(obstacle -> obstacle.moveForward());
+      }
    }
 
    private static void setCurrentTargetPosition(MoveableController moveableController, List<Renderer> renderers) {

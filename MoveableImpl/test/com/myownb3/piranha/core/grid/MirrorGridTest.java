@@ -24,6 +24,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.test.Assert;
 
 /**
@@ -31,6 +33,35 @@ import com.myownb3.piranha.test.Assert;
  *
  */
 class MirrorGridTest {
+
+   @Test
+   public void testCollisionWithProjectileOnGridWall() {
+
+      // Given
+      double forwardX = 0.0d;
+      double forwardY = 1d;
+      int radius = 5;
+      Grid grid = MirrorGridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinX(0)
+            .withMinY(0)
+            .build();
+      Direction direction = mockDirection(forwardX, forwardY);
+      Position position = Positions.of(direction, 9.5, 8.5);
+
+      Projectile projectile = spy(BulletBuilder.builder()
+            .withGrid(grid)
+            .withPosition(position)
+            .withShape(buildCircle(position, radius))
+            .build());
+
+      // When
+      grid.moveForward(projectile);
+
+      // Then
+      verify(projectile).onCollision();
+   }
 
    @Test
    public void testMirror1Quadrant_Circle() {

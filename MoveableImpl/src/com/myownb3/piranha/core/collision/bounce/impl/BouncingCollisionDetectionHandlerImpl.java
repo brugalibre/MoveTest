@@ -3,18 +3,18 @@ package com.myownb3.piranha.core.collision.bounce.impl;
 import java.util.List;
 import java.util.function.Function;
 
-import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionGridElement;
 import com.myownb3.piranha.core.collision.Intersection;
 import com.myownb3.piranha.core.collision.bounce.BouncedPositionEvaluator;
 import com.myownb3.piranha.core.collision.detection.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.collision.detection.CommonCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 
-public class BouncingCollisionDetectionHandlerImpl implements CollisionDetectionHandler {
+public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetectionHandlerImpl {
 
    private BouncedPositionEvaluator evaluator;
 
@@ -25,13 +25,14 @@ public class BouncingCollisionDetectionHandlerImpl implements CollisionDetection
    @Override
    public CollisionDetectionResult handleCollision(List<CollisionGridElement> collisionGridElements, GridElement movedGridElement,
          Position newPosition) {
+      CollisionDetectionResult collisionDetectionResult = super.handleCollision(collisionGridElements, movedGridElement, newPosition);
       return collisionGridElements.stream()
             .findFirst()
             .map(CollisionGridElement::getIntersection)
             .map(calculateBouncedPosition(movedGridElement))
             .map(Positions::movePositionForward)
             .map(CollisionDetectionResultImpl::new)
-            .orElse(new CollisionDetectionResultImpl(newPosition));
+            .orElse(getDefault(collisionDetectionResult));
    }
 
    private Function<Intersection, ? extends Position> calculateBouncedPosition(GridElement movedGridElement) {
@@ -39,6 +40,10 @@ public class BouncingCollisionDetectionHandlerImpl implements CollisionDetection
          PathSegment pathSegment = intersection.getPathSegment();
          return evaluator.calculateBouncedPosition(pathSegment, movedGridElement.getPosition());
       };
+   }
+
+   private static CollisionDetectionResultImpl getDefault(CollisionDetectionResult collisionDetectionResult) {
+      return (CollisionDetectionResultImpl) collisionDetectionResult;// ugly cast. I'm not sure, is this because 'CollisionDetectionResultImpl::new' implies there must be a 'CollisionDetectionResultImpl' ? 
    }
 
    public static class BouncingCollisionDetectionHandlerBuilder {
