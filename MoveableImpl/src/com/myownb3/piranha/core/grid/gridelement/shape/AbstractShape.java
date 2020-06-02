@@ -8,8 +8,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collections;
 import java.util.List;
 
+import com.myownb3.piranha.core.collision.CollisionDetector;
 import com.myownb3.piranha.core.detector.Detector;
-import com.myownb3.piranha.core.grid.collision.CollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;

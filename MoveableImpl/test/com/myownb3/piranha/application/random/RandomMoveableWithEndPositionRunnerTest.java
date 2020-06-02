@@ -13,12 +13,12 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
+import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.collision.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;

@@ -7,11 +7,11 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
-import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
-import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl;
-import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncedPositionEvaluatorImpl;
+import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.collision.CollisionGridElement;
+import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
+import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.collision.detection.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;

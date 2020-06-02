@@ -10,13 +10,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetector;
+import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.collision.CollisionDetector;
+import com.myownb3.piranha.core.collision.detection.shape.circle.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.detection.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;

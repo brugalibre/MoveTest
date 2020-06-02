@@ -17,11 +17,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.collision.CollisionGridElement;
+import com.myownb3.piranha.core.collision.detection.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResultImpl;
-import com.myownb3.piranha.core.grid.collision.CollisionGridElement;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;

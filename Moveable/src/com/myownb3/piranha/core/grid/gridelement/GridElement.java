@@ -5,11 +5,11 @@ package com.myownb3.piranha.core.grid.gridelement;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.collision.CollisionDetectedException;
+import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectedException;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;

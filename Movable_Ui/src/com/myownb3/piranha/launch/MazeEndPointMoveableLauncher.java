@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.application.maze.MazeRunner;
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
+import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
+import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
@@ -24,8 +26,6 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncedPositionEvaluatorImpl;
-import com.myownb3.piranha.core.grid.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
