@@ -4,6 +4,7 @@
 package com.myownb3.piranha.core.grid;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class DefaultGrid implements Grid {
     * Creates a default Grid which has a size of 10 to 10
     */
    protected DefaultGrid() {
-      this(10, 10, null);
+      this(10, 10, new DefaultCollisionDetectionHandlerImpl());
    }
 
    /**
@@ -85,7 +86,7 @@ public class DefaultGrid implements Grid {
       this.minX = minX;
       this.checkLowerBoundarys = true;
       gridElements = new ArrayList<>();
-      this.collisionDetectionHandler = collisionDetectionHandler;
+      this.collisionDetectionHandler = requireNonNull(collisionDetectionHandler);
    }
 
    @Override
@@ -326,6 +327,13 @@ public class DefaultGrid implements Grid {
          this.collisionDetectionHandler = collisionDetectionHandler;
          return (B) this;
       }
+
+      protected void setDefaultCollisionDetectionHandlerIfNull() {
+         if (isNull(collisionDetectionHandler)) {
+            // We better have always a collisionDetectionHandler
+            collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
+         }
+      }
    }
 
    public static class GridBuilder extends AbstractGridBuilder<DefaultGrid> {
@@ -351,6 +359,7 @@ public class DefaultGrid implements Grid {
          Objects.requireNonNull(maxX, "We need a max x value!");
          Objects.requireNonNull(maxY, "We need a max y value!");
          DefaultGrid defaultGrid;
+         setDefaultCollisionDetectionHandlerIfNull();
          if (isNull(minX) || isNull(minY)) {
             defaultGrid = new DefaultGrid(maxY, maxX, collisionDetectionHandler);
          } else {

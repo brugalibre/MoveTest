@@ -127,6 +127,7 @@ public class SwappingGrid extends DefaultGrid {
          Objects.requireNonNull(maxX, "We need a max x value!");
          Objects.requireNonNull(maxY, "We need a max y value!");
          SwappingGrid swappingGrid;
+         setDefaultCollisionDetectionHandlerIfNull();
          if (isNull(minX) || isNull(minY)) {
             swappingGrid = new SwappingGrid(maxY, maxX, collisionDetectionHandler);
          } else {

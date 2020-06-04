@@ -134,6 +134,7 @@ public class MirrorGrid extends DefaultGrid {
          Objects.requireNonNull(maxX, "We need a max x value!");
          Objects.requireNonNull(maxY, "We need a max y value!");
          MirrorGrid mirrorGrid;
+         setDefaultCollisionDetectionHandlerIfNull();
          if (isNull(minX) || isNull(minY)) {
             mirrorGrid = new MirrorGrid(maxX, maxY, collisionDetectionHandler);
          } else {
