@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +25,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleB
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
-import com.myownb3.piranha.test.Assert;
 
 /**
  * @author Dominic
@@ -68,27 +66,23 @@ class MirrorGridTest {
 
       // Given
       int radius = 5;
-      double forwardX = 0.0d;
-      double forwardY = 1d;
       Grid grid = MirrorGridBuilder.builder()
             .withMaxX(10)
             .withMaxY(10)
             .withMinX(0)
             .withMinY(0)
             .build();
-      Direction direction = mockDirection(forwardX, forwardY);
-      Position position = Positions.of(direction, 9.5, 8.5);
+      Position position = Positions.of(9.5, 8.5);
       double expectedRotationDeg = 180;
 
-      Position expectedPosition = Positions.of(Directions.N, 9.5, 10.0);
+      Position expectedPosition = Positions.of(9.5, 8.5).rotate(expectedRotationDeg);
       GridElement gridElement = buildGridElement(grid, position, buildCircle(position, radius));
 
       // When
       Position createdPosition = grid.moveForward(gridElement);
 
       // Then
-      Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
-      verify(direction, times(7)).rotate(expectedRotationDeg);// again 2 more, because we transform the shape within the CollisionDetectionHandler
+      assertThat(createdPosition, is(expectedPosition));
    }
 
    private static Direction mockDirection(double forwardX, double forwardY) {
@@ -114,29 +108,26 @@ class MirrorGridTest {
       Position position2 = Positions.of(Directions.N, 6, 0);
       position = position.rotate(-45);
       position2 = position2.rotate(-45);
-      double expectedEndDegree = 135;
+      double expectedEndDegree = 225;
+      double expectedEndDegreeBackwards = 135;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
-   /**
-    * @param grid
-    * @param position
-    * @param position2
-    * @param expectedEndDegree
-    */
-   private void testMirrorInternal(Grid grid, Position position, Position position2, double expectedEndDegree) {
+   private void testMirrorInternal(Grid grid, Position position, Position position2, double expectedEndDegree1, double expectedEndDegreeBackwards) {
       // When
+      GridElement gridElementBackwards = buildGridElement(grid, position2.rotate(-180));
+      GridElement gridElement = buildGridElement(grid, position);
       for (int i = 0; i < 150; i++) {
-         position = grid.moveForward(buildGridElement(grid, position));
-         position2 = grid.moveForward(buildGridElement(grid, position2));
+         position = grid.moveForward(gridElement);
+         position2 = grid.moveBackward(gridElementBackwards);
       }
       double actualEndDegree = position.getDirection().getAngle();
       double actualEndDegree2 = position2.getDirection().getAngle();
 
       // Then
-      assertThat(actualEndDegree, is(expectedEndDegree));
-      assertThat(actualEndDegree2, is(expectedEndDegree));
+      assertThat(actualEndDegree, is(expectedEndDegree1));
+      assertThat(actualEndDegree2, is(expectedEndDegreeBackwards));
    }
 
    private static GridElement buildGridElement(Grid grid, Position position) {
@@ -156,9 +147,10 @@ class MirrorGridTest {
       Position position2 = Positions.of(Directions.N, 4, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
-      double expectedEndDegree = 45;
+      double expectedEndDegree = 315;
+      double expectedEndDegreeBackwards = 45;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
    @Test
@@ -176,8 +168,9 @@ class MirrorGridTest {
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 315;
+      double expectedEndDegree2 = 45;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegree2);
    }
 
    @Test
@@ -195,8 +188,9 @@ class MirrorGridTest {
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 225;
+      double expectedEndDegree2 = 135;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegree2);
    }
 
    @Test
@@ -214,8 +208,9 @@ class MirrorGridTest {
       position = position.rotate(-45);
       position2 = position2.rotate(-45);
       double expectedEndDegree = 315;
+      double expectedEndDegreeBackwards = 135;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
    @Test
@@ -233,8 +228,9 @@ class MirrorGridTest {
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 225;
+      double expectedEndDegreeBackwards = 45;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
    @Test
@@ -252,8 +248,9 @@ class MirrorGridTest {
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 135;
+      double expectedEndDegreeBackwards = 315;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
    @Test
@@ -271,8 +268,9 @@ class MirrorGridTest {
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 45;
+      double expectedEndDegreeBackwards = 225;
 
-      testMirrorInternal(grid, position, position2, expectedEndDegree);
+      testMirrorInternal(grid, position, position2, expectedEndDegree, expectedEndDegreeBackwards);
    }
 
    private CircleImpl buildCircle(Position pos, int radius) {

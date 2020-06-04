@@ -6,6 +6,7 @@ package com.myownb3.piranha.core.grid;
 import static java.util.Objects.isNull;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionSensitiveGridElement;
@@ -55,65 +56,52 @@ public class MirrorGrid extends DefaultGrid {
     */
    @Override
    public Position moveForward(GridElement gridElement) {
-      boolean isMirrored = false;
-      Position movedPos = super.moveForward(gridElement);
-
-      if (movedPos.getX() == minX || movedPos.getX() == maxX) {
-         movedPos = movedPos.rotate(180 - 2 * movedPos.getDirection().getAngle());
-         isMirrored = true;
-      }
-      if (movedPos.getY() == minY || movedPos.getY() == maxY) {
-         movedPos = movedPos.rotate(360 - 2 * movedPos.getDirection().getAngle());
-         isMirrored = true;
-      }
-      handleAfterMirroring(isMirrored, gridElement);
-      return movedPos;
+      return moveForwardOrBackward(gridElement, gridElement.getForemostPosition(), gridElement1 -> super.moveForward(gridElement1));
    }
 
-   private void handleAfterMirroring(boolean isMirrored, GridElement gridElement) {
-      if (isMirrored && gridElement instanceof CollisionSensitiveGridElement) {
+   @Override
+   public Position moveBackward(GridElement gridElement) {
+      return moveForwardOrBackward(gridElement, gridElement.getRearmostPosition(), gridElement1 -> super.moveBackward(gridElement1));
+   }
+
+   private Position moveForwardOrBackward(GridElement gridElement, Position foremostOrRearmostPos,
+         Function<GridElement, Position> moveForwardOrdBackward) {
+      MirroringRes mirroringRes = checkIfMirroring(gridElement, foremostOrRearmostPos);
+      if (mirroringRes.isMirroring) {
+         handleAfterMirroring(gridElement);
+         return mirroringRes.mirroredPosition;
+      }
+      return moveForwardOrdBackward.apply(gridElement);
+   }
+
+   private MirroringRes checkIfMirroring(GridElement gridElement, Position foremostOrRearmostPos) {
+      boolean isMirrored = false;
+      Position mirroredPos = gridElement.getPosition();
+      if (foremostOrRearmostPos.getX() <= minX || foremostOrRearmostPos.getX() >= maxX) {
+         mirroredPos = mirroredPos.rotate(180 - 2 * mirroredPos.getDirection().getAngle());
+         isMirrored = true;
+      }
+      if (foremostOrRearmostPos.getY() <= minY || foremostOrRearmostPos.getY() >= maxY) {
+         mirroredPos = mirroredPos.rotate(360 - 2 * mirroredPos.getDirection().getAngle());
+         isMirrored = true;
+      }
+      return new MirroringRes(mirroredPos, isMirrored);
+   }
+
+   private void handleAfterMirroring(GridElement gridElement) {
+      if (gridElement instanceof CollisionSensitiveGridElement) {
          ((CollisionSensitiveGridElement) gridElement).onCollision();
       }
    }
 
-   /**
-    * Evaluates the new y value. Additionally it checks weather or not the new
-    * value is in bounds. If not, the value is swapped
-    * 
-    * @param newY
-    * @return the new y-Value within grid bounds
-    */
-   @Override
-   protected double getNewYValue(GridElement gridElement, double forwardY) {
-      double newY = super.getNewYValue(gridElement, forwardY);
-      double newYValue = getNewYValue(gridElement.getForemostPosition(), forwardY);
+   private static final class MirroringRes {
+      private boolean isMirroring;
+      private Position mirroredPosition;
 
-      if (newYValue >= maxY) {
-         return maxY;
-      } else if (newYValue <= minY) {
-         return minY;
+      private MirroringRes(Position mirroredPosition, boolean isMirroring) {
+         this.isMirroring = isMirroring;
+         this.mirroredPosition = mirroredPosition;
       }
-      return newY;
-   }
-
-   /**
-    * Evaluates the new x value. Additionally it checks weather or not the new
-    * value is in bounds. If not, the value is swapped
-    * 
-    * @param newX
-    * @return the new x-Value within grid bounds
-    */
-   @Override
-   protected double getNewXValue(GridElement gridElement, double forwardX) {
-      double newX = super.getNewXValue(gridElement, forwardX);
-      double newXValue = getNewXValue(gridElement.getForemostPosition(), forwardX);
-
-      if (newXValue >= maxX) {
-         return maxX;
-      } else if (newXValue <= minX) {
-         return minX;
-      }
-      return newX;
    }
 
    /**
