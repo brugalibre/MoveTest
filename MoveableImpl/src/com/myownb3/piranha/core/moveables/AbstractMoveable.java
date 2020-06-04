@@ -61,7 +61,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    protected void moveForwardInternal() {
-      posBefore = Positions.of(position);
+      posBefore = position;
       position = grid.moveForward(this);
       shape.transform(position);
       trackPosition(position);
@@ -80,7 +80,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    protected void moveBackwardInternal() {
-      posBefore = Positions.of(position);
+      posBefore = position;
       position = grid.moveBackward(this);
       trackPosition(position);
       shape.transform(position);

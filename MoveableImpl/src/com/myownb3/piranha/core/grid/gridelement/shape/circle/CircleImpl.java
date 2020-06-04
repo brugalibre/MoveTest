@@ -105,11 +105,12 @@ public class CircleImpl extends AbstractShape implements Circle {
       List<PathSegment> path = new LinkedList<>();
       double degInc = 360 / amountOfPoints;
       double deg = 0;
+      Position pos = getNextCirclePos(center, radius, deg);
       for (int i = 0; i < amountOfPoints; i++) {
-         Position pos = getNextCirclePos(center, radius, deg);
          deg = deg + degInc;
          Position nextPos = getNextCirclePos(center, radius, deg);
          path.add(new PathSegmentImpl(pos, nextPos));
+         pos = nextPos;
       }
 
       return path;
