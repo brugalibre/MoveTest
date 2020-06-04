@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -40,8 +41,8 @@ public class ProjectilePaintUtil {
       return renderers.stream()
             .filter(GridElementPainter.class::isInstance)
             .map(GridElementPainter.class::cast)
-            .filter(a -> a.getValue() instanceof Projectile)
-            .filter(a -> ((Projectile) a.getValue()).isDestroyed())
+            .filter(gridElementPainter -> gridElementPainter.getValue() instanceof Destructible)
+            .filter(destructible -> ((Destructible) destructible.getValue()).isDestroyed())
             .collect(Collectors.toList());
    }
 

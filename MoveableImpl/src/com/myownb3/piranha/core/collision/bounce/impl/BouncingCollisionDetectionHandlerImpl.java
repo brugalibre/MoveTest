@@ -2,6 +2,7 @@ package com.myownb3.piranha.core.collision.bounce.impl;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionGridElement;
@@ -27,12 +28,20 @@ public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetect
          Position newPosition) {
       CollisionDetectionResult collisionDetectionResult = super.handleCollision(collisionGridElements, movedGridElement, newPosition);
       return collisionGridElements.stream()
+            .filter(isBouncable(movedGridElement))
             .findFirst()
             .map(CollisionGridElement::getIntersection)
             .map(calculateBouncedPosition(movedGridElement))
             .map(Positions::movePositionForward)
             .map(CollisionDetectionResultImpl::new)
             .orElse(getDefault(collisionDetectionResult));
+   }
+
+
+   private Predicate<? super CollisionGridElement> isBouncable(GridElement movedGridElement) {
+      return colGridElem -> {
+         return BouncableLookupTable.isBouncable(movedGridElement, colGridElem.getGridElement());
+      };
    }
 
    private Function<Intersection, ? extends Position> calculateBouncedPosition(GridElement movedGridElement) {

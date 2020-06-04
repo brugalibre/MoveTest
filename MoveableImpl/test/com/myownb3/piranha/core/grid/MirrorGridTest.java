@@ -5,6 +5,7 @@ package com.myownb3.piranha.core.grid;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -23,8 +24,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 
 /**
  * @author Dominic
@@ -48,7 +49,7 @@ class MirrorGridTest {
       Direction direction = mockDirection(forwardX, forwardY);
       Position position = Positions.of(direction, 9.5, 8.5);
 
-      Projectile projectile = spy(BulletBuilder.builder()
+      ProjectileGridElement projectile = spy(ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(position)
             .withShape(buildCircle(position, radius))
@@ -58,7 +59,7 @@ class MirrorGridTest {
       grid.moveForward(projectile);
 
       // Then
-      verify(projectile).onCollision();
+      verify(projectile).onCollision(any());
    }
 
    @Test

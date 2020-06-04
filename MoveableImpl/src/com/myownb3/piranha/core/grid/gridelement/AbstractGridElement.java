@@ -36,7 +36,7 @@ public abstract class AbstractGridElement implements GridElement {
     * @param position
     *        the start {@link Position}
     */
-   public AbstractGridElement(Grid grid, Position position) {
+   protected AbstractGridElement(Grid grid, Position position) {
       this(grid, position, PositionShapeBuilder.builder()
             .withPosition(position)
             .build());
@@ -53,7 +53,7 @@ public abstract class AbstractGridElement implements GridElement {
     * @param shape
     *        the {@link Shape}
     */
-   public AbstractGridElement(Grid grid, Position position, Shape shape) {
+   protected AbstractGridElement(Grid grid, Position position, Shape shape) {
       super();
       this.position = position;
       this.grid = grid;
@@ -77,6 +77,11 @@ public abstract class AbstractGridElement implements GridElement {
    public CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
          List<GridElement> gridElements2Check) {
       return shape.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
+   }
+
+   @Override
+   public void onCollision(List<GridElement> destructives) {
+      // we don't do that here, may be in a subclass?
    }
 
    @Override

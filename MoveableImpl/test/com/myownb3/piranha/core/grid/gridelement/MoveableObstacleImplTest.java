@@ -1,19 +1,69 @@
 package com.myownb3.piranha.core.grid.gridelement;
 
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.destruction.DamageImpl;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class MoveableObstacleImplTest {
+
+   @Test
+   void testMoveableObstacleImpl_WithDestructiveHelper_GetsDestroyed() {
+
+      // Given
+      Grid grid = mock(Grid.class);
+      MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(Positions.of(0, 0))
+            .build();
+
+      // When
+      List<GridElement> gridElements = Collections.singletonList(mockProjectileGridElementent(Integer.MAX_VALUE));
+      moveable.onCollision(gridElements);
+
+      // Then
+      verify(grid).remove(eq(moveable));
+   }
+
+   @Test
+   void testMoveableObstacleImpl_WithDestructiveHelper() {
+
+      // Given
+      DestructionHelper destructionHelper = mock(DestructionHelper.class);
+      MoveableObstacleImpl moveable = ((MoveableObstacleBuilder) MoveableObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(Positions.of(0, 0)))
+                  .withDamage(3)
+                  .withHealth(50)
+                  .withDestructionHelper(destructionHelper)
+                  .build();
+
+      // When
+      moveable.isDestroyed();
+      moveable.onCollision(Collections.emptyList());
+
+      // Then
+      verify(destructionHelper).isDestroyed();
+      verify(destructionHelper).onCollision(eq(Collections.emptyList()));
+   }
 
    @Test
    void testMoveableObstacleImpl() {
@@ -49,5 +99,11 @@ class MoveableObstacleImplTest {
 
       // Then
       assertThat(moveable.getShape(), is(shape));
+   }
+
+   private ProjectileGridElement mockProjectileGridElementent(double damage) {
+      ProjectileGridElement projectile = mock(ProjectileGridElement.class);
+      when(projectile.getDamage()).thenReturn(DamageImpl.of(damage));
+      return projectile;
    }
 }

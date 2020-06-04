@@ -8,6 +8,7 @@ import java.util.List;
 import com.myownb3.piranha.core.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -22,7 +23,7 @@ import com.myownb3.piranha.core.weapon.gun.Gun;
  * @author Dominic
  *
  */
-public interface GridElement {
+public interface GridElement extends CollisionSensitive {
 
    /**
     * Return the current {@link Position} of this {@link GridElement}

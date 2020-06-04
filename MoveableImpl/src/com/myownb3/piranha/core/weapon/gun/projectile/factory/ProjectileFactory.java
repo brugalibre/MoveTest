@@ -4,16 +4,18 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl;
-import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 /**
- * The {@link ProjectileFactory} is responsible for creating {@link Projectile}s of any kkind
+ * The {@link ProjectileFactory} is responsible for creating {@link Projectile}s of any kind
  * 
  * @author Dominic
  *
@@ -37,23 +39,30 @@ public class ProjectileFactory {
     */
    public Projectile createProjectile(ProjectileTypes type, Position position, ProjectileConfig projectileConfig) {
       checkGrid();
+      Shape projectileShape;
       switch (type) {
          case BULLET:
-            return createNewBullet(position, projectileConfig);
+            projectileShape = buildBulletShape(position, projectileConfig);
+            break;
          default:
             throw new IllegalArgumentException("Unsupported type of projectile '" + type + "'");
       }
+      return createNewProjectile(position, projectileShape);
    }
 
-   private BulletImpl createNewBullet(Position position, ProjectileConfig projectileConfig) {
-      return BulletBuilder.builder()
+   private ProjectileGridElement createNewProjectile(Position position, Shape projectileShape) {
+      return ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(position)
-            .withShape(CircleBuilder.builder()
-                  .withAmountOfPoints(AMOINT_OF_CIRCLE_BULLET_POINTS)
-                  .withRadius(projectileConfig.getProjectileDimension().getHeight())
-                  .withCenter(position)
-                  .build())
+            .withShape(projectileShape)
+            .build();
+   }
+
+   private static CircleImpl buildBulletShape(Position position, ProjectileConfig projectileConfig) {
+      return CircleBuilder.builder()
+            .withAmountOfPoints(AMOINT_OF_CIRCLE_BULLET_POINTS)
+            .withRadius(projectileConfig.getProjectileDimension().getHeight())
+            .withCenter(position)
             .build();
    }
 

@@ -25,8 +25,8 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl;
-import com.myownb3.piranha.core.weapon.gun.projectile.BulletImpl.BulletBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 
 class DefaultGridTest {
 
@@ -205,7 +205,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      BulletImpl bulletImpl = BulletBuilder.builder()
+      ProjectileGridElement bulletImpl = ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()

@@ -5,11 +5,12 @@ package com.myownb3.piranha.core.grid;
 
 import static java.util.Objects.isNull;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.function.Function;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.collision.CollisionSensitiveGridElement;
+import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -89,8 +90,8 @@ public class MirrorGrid extends DefaultGrid {
    }
 
    private void handleAfterMirroring(GridElement gridElement) {
-      if (gridElement instanceof CollisionSensitiveGridElement) {
-         ((CollisionSensitiveGridElement) gridElement).onCollision();
+      if (gridElement instanceof CollisionSensitive) {
+         ((CollisionSensitive) gridElement).onCollision(Collections.singletonList(gridElement));
       }
    }
 

@@ -15,6 +15,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 class ProjectileFactoryTest {
@@ -32,8 +33,7 @@ class ProjectileFactoryTest {
       Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.BULLET, pos, projectileConfig);
 
       // Then
-      assertThat(projectile.getPosition(), is(pos));
-      assertThat(projectile.getProjectileTypes(), is(ProjectileTypes.BULLET));
+      assertThat(((ProjectileGridElement) projectile).getPosition(), is(pos));
    }
 
    @Test

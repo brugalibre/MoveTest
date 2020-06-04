@@ -139,6 +139,15 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       return Collections.unmodifiableList(positionHistory);
    }
 
+   /**
+    * 
+    * @return the velocity of this {@link AbstractMoveable}
+    */
+   protected double getVelocity() {
+      Position movedForwardPosition = Positions.movePositionForward(position);
+      return position.calcDistanceTo(movedForwardPosition);
+   }
+
    private void verifyAmount(int amount) {
       if (amount <= 0) {
          throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
