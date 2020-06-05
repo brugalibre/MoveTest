@@ -24,12 +24,14 @@ public abstract class AbstractShape implements Shape {
    protected List<PathSegment> path;
    protected GridElement gridElement;
    protected CollisionDetector collisionDetector;
+   protected List<Position> path4Detection;
 
    /**
     * Creates a new {@link AbstractShape}
     */
-   public AbstractShape(List<PathSegment> path) {
+   protected AbstractShape(List<PathSegment> path, Position center) {
       this.path = path;
+      this.center = center;
    }
 
    @Override

@@ -43,6 +43,10 @@ public class AbstractGunCarriage implements GunCarriage {
       rotate(angleDiff);
    }
 
+   public void setParkingPositionAngle(double parkingAngle) {
+      this.parkingAngle = parkingAngle;
+   }
+
    private void rotate(double angleDiff) {
       double angle2Turn;
       int signum = MathUtil.getSignum(angleDiff);

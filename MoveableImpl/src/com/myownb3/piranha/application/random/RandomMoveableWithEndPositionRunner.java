@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.application.MoveableApplication;
-import com.myownb3.piranha.core.detector.PlacedDetector;
+import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -123,12 +123,11 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return this;
       }
 
-      public RandomRunnerWithEndPositionsBuilder withTurret(PlacedDetector placedDetector,
-            GunCarriage gunCarriage) {
+      public RandomRunnerWithEndPositionsBuilder withTurret(IDetector detector, GunCarriage gunCarriage) {
          gridElements.add(TurretGridElementBuilder.builder()
                .withGrid(grid)
                .withTurret(TurretBuilder.builder()
-                     .withDetector(placedDetector)
+                     .withDetector(detector)
                      .withGunCarriage(gunCarriage)
                      .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                      .build())

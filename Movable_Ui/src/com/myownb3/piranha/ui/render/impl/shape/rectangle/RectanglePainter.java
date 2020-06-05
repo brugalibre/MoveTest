@@ -47,7 +47,26 @@ public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
       graphics.setColor(color);
 
       renderRectangle(graphics);
+      //      drawMoveableDirection(graphics, value.getForemostPosition());
    }
+
+   //   private void drawMoveableDirection(Graphics graphics, Position gridElemPos) {
+   //      graphics.setColor(Color.BLACK);
+   //      drawDirectionFromPosition(graphics, gridElemPos, gridElemPos.getDirection().getVector(), 30);
+   //   }
+   //
+   //   private static void drawDirectionFromPosition(Graphics graphics, Position position, Float64Vector directionVectorIn, int length) {
+   //      Float64Vector directionVector = directionVectorIn.times(length * 10);
+   //      int gridElemX1 = round(position.getX());
+   //      int gridElemY1 = round(position.getY());
+   //      int gridElemX2 = gridElemX1 + round(directionVector.getValue(0));
+   //      int gridElemY2 = gridElemY1 + round(directionVector.getValue(1));
+   //      graphics.drawLine(gridElemX1, gridElemY1, gridElemX2, gridElemY2);
+   //   }
+
+   //   private static int round(double x) {
+   //      return (int) MathUtil.round(x, 0);
+   //   }
 
    private void renderRectangle(Graphics graphics) {
       Polygon polygon = getPoligon4Path(value);

@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.turret;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -13,8 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.PlacedDetector;
-import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilder;
+import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
@@ -61,7 +61,7 @@ class TurretImplTest {
       Position pos = Positions.of(5, 5);
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
-            .withDetector(mock(PlacedDetector.class))
+            .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withPosition(pos)
                   .withGun(BulletGunBuilder.builder()
@@ -139,7 +139,7 @@ class TurretImplTest {
       turretImpl.autodetect();
 
       // Then
-      verify(turretScanner).scan(TurretState.SCANNING);
+      verify(turretScanner).scan(eq(TurretState.SCANNING));
    }
 
    @Test
@@ -148,7 +148,7 @@ class TurretImplTest {
       double radius = 5.0;
       int height = 10;
       Position pos = Positions.of(radius, radius);
-      Position targetGridElemPos = Positions.of(6, 10);
+      Position targetGridElemPos = Positions.movePositionForward4Distance(Positions.of(9, 10), height * 2);
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorAngle(45)
@@ -166,15 +166,12 @@ class TurretImplTest {
 
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.singletonList(simpleGridElement))
-            .withDetector(PlacedDetectorBuilder.builder()
-                  .withIDetector(DetectorBuilder.builder()
-                        .withAngleInc(detectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(detectorConfig.getDetectorAngle())
-                        .withDetectorReach(detectorConfig.getDetectorReach())
-                        .withEvasionAngle(detectorConfig.getDetectorAngle())
-                        .withEvasionDistance(detectorConfig.getEvasionDistance())
-                        .build())
-                  .withPosition(pos)
+            .withDetector(DetectorBuilder.builder()
+                  .withAngleInc(detectorConfig.getEvasionAngleInc())
+                  .withDetectorAngle(detectorConfig.getDetectorAngle())
+                  .withDetectorReach(detectorConfig.getDetectorReach())
+                  .withEvasionAngle(detectorConfig.getDetectorAngle())
+                  .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withPosition(pos)
@@ -252,15 +249,12 @@ class TurretImplTest {
 
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.singletonList(simpleGridElement))
-            .withDetector(PlacedDetectorBuilder.builder()
-                  .withIDetector(DetectorBuilder.builder()
-                        .withAngleInc(detectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(detectorConfig.getDetectorAngle())
-                        .withDetectorReach(detectorConfig.getDetectorReach())
-                        .withEvasionAngle(detectorConfig.getDetectorAngle())
-                        .withEvasionDistance(detectorConfig.getEvasionDistance())
-                        .build())
-                  .withPosition(pos)
+            .withDetector(DetectorBuilder.builder()
+                  .withAngleInc(detectorConfig.getEvasionAngleInc())
+                  .withDetectorAngle(detectorConfig.getDetectorAngle())
+                  .withDetectorReach(detectorConfig.getDetectorReach())
+                  .withEvasionAngle(detectorConfig.getDetectorAngle())
+                  .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withPosition(pos)

@@ -14,8 +14,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -58,7 +58,7 @@ class TurretScannerTest {
 
       private GridElement detectedTarget;
       private Position targetPos;
-      private PlacedDetector placedDetector;
+      private IDetector detector;
       private Turret turret;
       private GridElementEvaluator gridElementEvaluator;
       private TurretScanner turretScanner;
@@ -77,7 +77,7 @@ class TurretScannerTest {
       }
 
       public TestCaseBuilder withPlacedDetector(Position pos) {
-         this.placedDetector = mockPlacedDetector(pos);
+         this.detector = mockDetector();
          return this;
       }
 
@@ -91,14 +91,14 @@ class TurretScannerTest {
          this.turretScanner = TurretScannerBuilder.builder()
                .withTurret(turret)
                .withGridElementEvaluator(gridElementEvaluator)
-               .withPlacedDetector(placedDetector)
+               .withDetector(detector)
                .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
                .build();
          return this;
       }
 
       public TestCaseBuilder withGridElementEvaluator() {
-         this.gridElementEvaluator = mockGridElementEvaluator(turret, placedDetector, detectedTarget);
+         this.gridElementEvaluator = mockGridElementEvaluator(turret, detector, detectedTarget);
          return this;
       }
 
@@ -111,9 +111,9 @@ class TurretScannerTest {
          return this;
       }
 
-      private GridElementEvaluator mockGridElementEvaluator(Turret turret, PlacedDetector placedDetector, GridElement gridElement) {
+      private GridElementEvaluator mockGridElementEvaluator(Turret turret, Detector detector, GridElement gridElement) {
          return (position, distance) -> grid.getAllGridElementsWithinDistance(gridElement.getPosition(),
-               placedDetector.getDetector().getDetectorRange());
+               detector.getDetectorRange());
       }
 
       private GridElement mockGridElement(Position gridElemPos) {
@@ -124,13 +124,10 @@ class TurretScannerTest {
          return gridElement;
       }
 
-      private PlacedDetector mockPlacedDetector(Position pos) {
-         PlacedDetector placedDetector = mock(PlacedDetector.class);
+      private IDetector mockDetector() {
          IDetector detector = mock(IDetector.class);
-         when(placedDetector.getDetector()).thenReturn(detector);
          when(detector.getDetectorRange()).thenReturn(100);
-         when(placedDetector.getPosition()).thenReturn(pos);
-         return placedDetector;
+         return detector;
       }
    }
 }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.detector.Pos2DistanceComparator;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -16,14 +15,14 @@ import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretScanner {
    private Turret turret;
-   private PlacedDetector placedDetector;
+   private IDetector detector;
    private TargetPositionLeadEvaluator leadEvaluator;
    private GridElementEvaluator gridElementEvaluator;
    private Optional<Position> nearestDetectedTargetPositionOpt;
 
-   private TurretScanner(Turret turret, PlacedDetector placedDetector, TargetPositionLeadEvaluator targetPositionLeadEvaluator,
+   private TurretScanner(Turret turret, IDetector detector, TargetPositionLeadEvaluator targetPositionLeadEvaluator,
          GridElementEvaluator gridElementEvaluator) {
-      this.placedDetector = requireNonNull(placedDetector);
+      this.detector = requireNonNull(detector);
       this.gridElementEvaluator = requireNonNull(gridElementEvaluator);
       this.turret = requireNonNull(turret);
       this.nearestDetectedTargetPositionOpt = Optional.empty();
@@ -59,28 +58,28 @@ public class TurretScanner {
    }
 
    private Predicate<? super GridElement> isGridElementDetected() {
-      IDetector detector = placedDetector.getDetector();
-      return gridElement -> gridElement.isDetectedBy(placedDetector.getPosition(), detector);
+      Position detectorPos = turret.getForemostPosition();
+      return gridElement -> gridElement.isDetectedBy(detectorPos, detector);
    }
 
    private Optional<Position> getNearestTargetPos() {
-      return getAllPotentialTargetsWithinReach().stream()
+      Position detectorPos = turret.getForemostPosition();
+      return getAllPotentialTargetsWithinReach(detectorPos).stream()
             .filter(GridElement::isAimable)
             .filter(isGridElementDetected())
             .map(GridElement::getPosition)
-            .sorted(new Pos2DistanceComparator(placedDetector.getPosition()))
-            .map(acquiredPos -> leadEvaluator.calculateTargetConsideringLead(acquiredPos, turret.getForemostPosition()))
+            .sorted(new Pos2DistanceComparator(detectorPos))
+            .map(acquiredPos -> leadEvaluator.calculateTargetConsideringLead(acquiredPos, detectorPos))
             .findFirst();
    }
 
-   private List<GridElement> getAllPotentialTargetsWithinReach() {
-      IDetector detector = placedDetector.getDetector();
-      return gridElementEvaluator.evaluateGridElementsWithinDistance(turret.getForemostPosition(), detector.getDetectorRange());
+   private List<GridElement> getAllPotentialTargetsWithinReach(Position detectorPos) {
+      return gridElementEvaluator.evaluateGridElementsWithinDistance(detectorPos, detector.getDetectorRange());
    }
 
    public static final class TurretScannerBuilder {
       private Turret turret;
-      private PlacedDetector placedDetector;
+      private IDetector detector;
       private TargetPositionLeadEvaluator leadEvaluator;
       private GridElementEvaluator gridElementEvaluator;
 
@@ -98,8 +97,8 @@ public class TurretScanner {
          return this;
       }
 
-      public TurretScannerBuilder withPlacedDetector(PlacedDetector placedDetector) {
-         this.placedDetector = placedDetector;
+      public TurretScannerBuilder withDetector(IDetector detector) {
+         this.detector = detector;
          return this;
       }
 
@@ -109,7 +108,7 @@ public class TurretScanner {
       }
 
       public TurretScanner build() {
-         return new TurretScanner(turret, placedDetector, leadEvaluator, gridElementEvaluator);
+         return new TurretScanner(turret, detector, leadEvaluator, gridElementEvaluator);
       }
 
       public static TurretScannerBuilder builder() {

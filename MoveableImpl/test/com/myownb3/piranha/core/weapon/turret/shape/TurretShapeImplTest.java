@@ -15,16 +15,16 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.detection.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape.TurretShapeBuilder;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 
-class TurretShapeTest {
+class TurretShapeImplTest {
 
    @Test
    void testBuildTurretShape() {
@@ -33,7 +33,7 @@ class TurretShapeTest {
 
       // When
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withGunCarriage(5, 5)
+            .withGunCarriage(5, 10)
             .withCollisionDetectionHandler()
             .build();
 
@@ -99,7 +99,7 @@ class TurretShapeTest {
 
    private static final class TestCaseBuilder {
       private GunCarriage gunCarriage;
-      private TurretShape turretTowerShape;
+      private TurretShapeImpl turretTowerShape;
       private CollisionDetectionHandler collisionDetectionHandler;
 
       private TestCaseBuilder() {

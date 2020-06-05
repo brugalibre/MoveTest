@@ -5,14 +5,14 @@ import static java.util.Objects.nonNull;
 import java.util.Optional;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.detector.PlacedDetector;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 import com.myownb3.piranha.core.weapon.turret.TurretScanner.TurretScannerBuilder;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape.TurretShapeBuilder;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretImpl implements Turret {
@@ -20,20 +20,20 @@ public class TurretImpl implements Turret {
    private TurretState state;
    private GunCarriage gunCarriage;
    private TurretScanner turretScanner;
-   private Shape shape;
+   private TurretShape shape;
 
-   private TurretImpl(GunCarriage gunCarriage, Shape shape) {
-      init(gunCarriage.getPosition(), gunCarriage, shape);
+   private TurretImpl(GunCarriage gunCarriage, TurretShape turretShape) {
+      init(gunCarriage.getPosition(), gunCarriage, turretShape);
    }
 
-   private TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, Shape shape) {
+   private TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape) {
       this.turretScanner = turretScanner;
-      init(gunCarriage.getPosition(), gunCarriage, shape);
+      init(gunCarriage.getPosition(), gunCarriage, turretShape);
    }
 
-   private void init(Position position, GunCarriage gunCarriage, Shape shape) {
+   private void init(Position position, GunCarriage gunCarriage, TurretShape turretShape) {
       this.gunCarriage = gunCarriage;
-      this.shape = shape;
+      this.shape = turretShape;
       this.state = TurretState.SCANNING;
    }
 
@@ -117,15 +117,15 @@ public class TurretImpl implements Turret {
    }
 
    @Override
-   public Shape getShape() {
+   public TurretShape getShape() {
       return shape;
    }
 
    public static class TurretBuilder {
 
-      private Shape shape;
+      private TurretShape turretShape;
       private GunCarriage gunCarriage;
-      private PlacedDetector placedDetector;
+      private IDetector detector;
       private TurretScanner turretScanner;
       private TargetPositionLeadEvaluator targetPositionLeadEvaluator;
       private GridElementEvaluator gridElementsEvaluator;
@@ -144,8 +144,8 @@ public class TurretImpl implements Turret {
          return this;
       }
 
-      public TurretBuilder withDetector(PlacedDetector placedDetector) {
-         this.placedDetector = placedDetector;
+      public TurretBuilder withDetector(IDetector detector) {
+         this.detector = detector;
          return this;
       }
 
@@ -165,19 +165,19 @@ public class TurretImpl implements Turret {
          abstractTurret.turretScanner = TurretScannerBuilder.builder()
                .withTurret(abstractTurret)
                .withGridElementEvaluator(gridElementsEvaluator)
-               .withPlacedDetector(placedDetector)
+               .withDetector(detector)
                .withTargetPositionLeadEvaluator(leadEvaluator)
                .build();
       }
 
       public TurretImpl build() {
-         shape = TurretShapeBuilder.builder()
+         turretShape = TurretShapeBuilder.builder()
                .wighGunCarriage(gunCarriage)
                .build();
          if (nonNull(turretScanner)) {
-            return new TurretImpl(turretScanner, gunCarriage, shape);
+            return new TurretImpl(turretScanner, gunCarriage, turretShape);
          }
-         TurretImpl turretImpl = new TurretImpl(gunCarriage, shape);
+         TurretImpl turretImpl = new TurretImpl(gunCarriage, turretShape);
          setTurretScanner(turretImpl);
          return turretImpl;
       }

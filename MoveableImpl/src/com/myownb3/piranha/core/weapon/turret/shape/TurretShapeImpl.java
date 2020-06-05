@@ -6,22 +6,19 @@ import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.CollisionDetector;
-import com.myownb3.piranha.core.collision.detection.shape.circle.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 
-public class TurretShape extends AbstractShape {
+public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    private GunCarriage gunCarriage;
 
-   private TurretShape(List<PathSegment> path, GunCarriage gunCarriage) {
+   private TurretShapeImpl(List<PathSegment> path, GunCarriage gunCarriage) {
       super(path);
       this.gunCarriage = gunCarriage;
       this.collisionDetector = buildCollisionDetector();
@@ -67,15 +64,13 @@ public class TurretShape extends AbstractShape {
    }
 
    @Override
-   protected CollisionDetector buildCollisionDetector() {
-      return CircleCollisionDetectorBuilder.builder()
-            .withCircle((Circle) gunCarriage.getShape())
-            .build();
+   protected List<Position> buildPath4Detection() {
+      return Collections.emptyList();// not needed since we are not moving yet!
    }
 
    @Override
-   protected List<Position> buildPath4Detection() {
-      return Collections.emptyList();// not needed since we are not moving yet!
+   public List<Position> getPath4CollisionDetection() {
+      return buildPath4Detection();
    }
 
    private static List<PathSegment> combinePath(Shape gunShape, Shape gunCarriageShape) {
@@ -84,8 +79,14 @@ public class TurretShape extends AbstractShape {
       return combinedPath;
    }
 
-   private Rectangle getGunShape() {
+   @Override
+   public Rectangle getGunShape() {
       return gunCarriage.getGun().getShape();
+   }
+
+   @Override
+   public Shape getGunCarriageShape() {
+      return gunCarriage.getShape();
    }
 
    public static final class TurretShapeBuilder {
@@ -100,10 +101,10 @@ public class TurretShape extends AbstractShape {
          return this;
       }
 
-      public TurretShape build() {
+      public TurretShapeImpl build() {
          Rectangle gunShape = gunCarriage.getGun().getShape();
          List<PathSegment> combinedPath = combinePath(gunShape, gunCarriage.getShape());
-         return new TurretShape(combinedPath, gunCarriage);
+         return new TurretShapeImpl(combinedPath, gunCarriage);
       }
 
       public static TurretShapeBuilder builder() {

@@ -1,0 +1,195 @@
+package com.myownb3.piranha.core.weapon.tank;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+
+import org.junit.jupiter.api.Test;
+
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.grid.DimensionImpl;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
+import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
+
+class TankImplTest {
+
+   @Test
+   void testAutodetectTank() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+
+      Turret turret = mock(Turret.class);
+      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+      when(turret.getShape().getPosition()).thenReturn(turretPos);
+
+      Tank tank = TankBuilder.builder()
+            .withTurret(turret)
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(turretPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .withPosition(tankPos)
+            .build();
+
+      // When
+
+      tank.autodetect();
+
+      // Then
+
+      verify(turret).autodetect();
+   }
+
+   @Test
+   void testBuildTank() {
+
+      // Given
+
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+      double gunHeight = 10;
+      double gunWidth = 4;
+
+      // When
+      Tank tank = TankBuilder.builder()
+            .withTurret(TurretBuilder.builder()
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withPosition(turretPos)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withRectangle(RectangleBuilder.builder()
+                                    .withHeight(gunHeight)
+                                    .withWidth(gunWidth)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.VERTICAL)
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(5)
+                              .withAmountOfPoints(5)
+                              .withCenter(turretPos)
+                              .build())
+                        .build())
+                  .build())
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(turretPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .withPosition(tankPos)
+            .build();
+
+      // Then
+      assertThat(tank.getTurret().getPosition(), is(tank.getPosition()));
+      assertThat(tank.getShape(), isA(TankShape.class));
+   }
+
+   @Test
+   void testReSetTankPosition() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10);
+      Position newTankPos = Positions.of(65, 43).rotate(465);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+      double gunHeight = 10;
+      double gunWidth = 4;
+      Tank tank = TankBuilder.builder()
+            .withTurret(TurretBuilder.builder()
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withPosition(turretPos)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withRectangle(RectangleBuilder.builder()
+                                    .withHeight(gunHeight)
+                                    .withWidth(gunWidth)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.VERTICAL)
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(5)
+                              .withAmountOfPoints(5)
+                              .withCenter(turretPos)
+                              .build())
+                        .build())
+                  .build())
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(turretPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .withPosition(tankPos)
+            .build();
+
+      // When
+      tank.getShape().transform(newTankPos);
+      tank.getShape().transform(newTankPos);
+
+      // Then
+      Position actualTurretPos = tank.getTurret().getPosition();
+
+      assertThat(tank.getPosition(), is(newTankPos));
+      assertThat(actualTurretPos.getX(), is(tank.getPosition().getX()));
+      assertThat(actualTurretPos.getY(), is(tank.getPosition().getY()));
+      assertThat(actualTurretPos.getDirection(), is(not(tank.getPosition().getDirection())));
+   }
+}

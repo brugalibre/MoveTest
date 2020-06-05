@@ -17,7 +17,6 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner;
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
@@ -134,15 +133,12 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
-            .withTurret(PlacedDetectorBuilder.builder()
-                  .withIDetector(DetectorBuilder.builder()
-                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
-                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
-                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
-                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
-                        .build())
-                  .withPosition(turret1Pos)
+            .withTurret(DetectorBuilder.builder()
+                  .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
+                  .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
+                  .withDetectorReach(turretDetectorConfig.getDetectorReach())
+                  .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
+                  .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
                   .build(),
                   SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
@@ -169,15 +165,12 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                               .withCenter(turret1Pos)
                               .build())
                         .build())
-            .withTurret(PlacedDetectorBuilder.builder()
-                  .withIDetector(DetectorBuilder.builder()
-                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
-                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
-                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
-                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
-                        .build())
-                  .withPosition(turret2Pos)
+            .withTurret(DetectorBuilder.builder()
+                  .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
+                  .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
+                  .withDetectorReach(turretDetectorConfig.getDetectorReach())
+                  .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
+                  .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
                   .build(),
                   SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)

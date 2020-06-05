@@ -1,10 +1,10 @@
 package com.myownb3.piranha.core.weapon.turret;
 
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 
 /**
  * The interface {@link Turret} represents a automated turret. A {@link Turret} consist always of three elements:
@@ -16,15 +16,7 @@ import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
  * @author Dominic
  *
  */
-public interface Turret {
-
-   /**
-    * Makes this {@link Turret} to scan it's environment for possible targets. It automatically detects and acquires the nearest
-    * {@link GridElement}.
-    * As soon as a {@link GridElement} is acquired, the {@link Turret} begins firing
-    * 
-    */
-   void autodetect();
+public interface Turret extends AutoDetectable {
 
    /**
     * @return the {@link GunCarriage} of this {@link Turret}
@@ -44,7 +36,7 @@ public interface Turret {
    Position getPosition();
 
    /**
-    * @return the {@link Shape} of this {@link Turret}
+    * @return the {@link TurretShape} of this {@link Turret}
     */
-   Shape getShape();
+   TurretShape getShape();
 }

@@ -8,9 +8,9 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 
 public class TurretGridElement implements Turret, GridElement {
 
@@ -47,8 +47,13 @@ public class TurretGridElement implements Turret, GridElement {
    }
 
    @Override
-   public Shape getShape() {
+   public TurretShape getShape() {
       return turret.getShape();
+   }
+
+   @Override
+   public void onCollision(List<GridElement> gridElements) {
+      turretGridElement.onCollision(gridElements);
    }
 
    @Override

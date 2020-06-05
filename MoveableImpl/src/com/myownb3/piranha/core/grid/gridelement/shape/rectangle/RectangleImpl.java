@@ -28,22 +28,19 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class RectangleImpl extends AbstractShape implements Rectangle {
 
-   private Position center;
    private double height;
    private double width;
    private Orientation orientation;
    private double distanceBetweenPosOnColDetectionPath;
-   private List<Position> path4Detection;
 
    private RectangleImpl(Position center, double width, double height, double distanceBetweenPosOnColDetectionPath) {
       this(center, width, height, distanceBetweenPosOnColDetectionPath, Orientation.HORIZONTAL);
    }
 
    private RectangleImpl(Position center, double width, double height, double distanceBetweenPosOnColDetectionPath, Orientation orientation) {
-      super(buildRectangleWithCenter(center, width, height, orientation));
+      super(buildRectangleWithCenter(center, width, height, orientation), center);
       this.height = height;
       this.width = width;
-      this.center = center;
       this.orientation = orientation;
       this.distanceBetweenPosOnColDetectionPath = distanceBetweenPosOnColDetectionPath;
       this.collisionDetector = buildCollisionDetector();

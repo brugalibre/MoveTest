@@ -6,6 +6,7 @@ import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,10 @@ import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.core.weapon.tank.Tank;
+import com.myownb3.piranha.core.weapon.tank.TankGridElement;
+import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
+import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
@@ -50,10 +54,10 @@ import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
 import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainterConfig;
 import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
 
-public class TurretTowerTestLauncher {
+public class TankTestLauncher {
    public static void main(String[] args) throws InterruptedException {
 
-      TurretTowerTestLauncher launcher = new TurretTowerTestLauncher();
+      TankTestLauncher launcher = new TankTestLauncher();
       launcher.launch();
    }
 
@@ -62,19 +66,9 @@ public class TurretTowerTestLauncher {
       int padding = 30;
       int width = 30;
       int height = 5;
-      int radius = 10;
-      Position gridElementPos = Positions.of(50, 450).rotate(-90);
-      Position northTurretPos = Positions.of(400, 200).rotate(120);
-      Position southTurretPos = Positions.of(350, 300);
-
-      Position endPointMoveableStartPosition = Positions.of(50, 50).rotate(-60);
-
-      DetectorConfig turretDetectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorAngle(360)
-            .withDetectorReach(300)
-            .withEvasionAngle(0)
-            .withEvasionDistance(0)
-            .build();
+      Position turretPos = Positions.of(400, 400).rotate(120);
+      Position tankPos = Positions.of(200, 200).rotate(-90);
+      Position gridElementPos = Positions.of(300, 300).rotate(90);
 
       MirrorGrid grid = MirrorGridBuilder.builder()
             .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
@@ -86,120 +80,136 @@ public class TurretTowerTestLauncher {
             .withMinY(padding)
             .build();
 
-      TurretGridElement turretGridElementNorth = TurretGridElementBuilder.builder()
-            .withGrid(grid)
-            .withTurret(TurretBuilder.builder()
-                  .withDetector(DetectorBuilder.builder()
-                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
-                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
-                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
-                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
-                        .build())
-                  .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                        .withRotationSpeed(3)
-                        .withPosition(northTurretPos)
-                        .withGun(BulletGunBuilder.builder()
-                              .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(350)
-                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
-                                          .build())
-                                    .withVelocity(3)
-                                    .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(height)
-                                    .withWidth(width)
-                                    .withCenter(northTurretPos)
-                                    .withOrientation(Orientation.VERTICAL)
-                                    .build())
-                              .build())
-                        .withShape(CircleBuilder.builder()
-                              .withRadius(radius)
-                              .withAmountOfPoints(radius)
-                              .withCenter(northTurretPos)
-                              .build())
-                        .build())
-                  .build())
+      int tankWidth = 40;
+      int tankHeight = 90;
+      int gunCarriageRadius = 10;
+      double gunHeight = 25;
+      double gunWidth = 7;
+
+      DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(390)
+            .withDetectorAngle(180)
             .build();
 
-      TurretGridElement turretGridElementSouth = TurretGridElementBuilder.builder()
-            .withGrid(grid)
-            .withTurret(TurretBuilder.builder()
-                  .withDetector(DetectorBuilder.builder()
-                        .withAngleInc(turretDetectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(turretDetectorConfig.getDetectorAngle())
-                        .withDetectorReach(turretDetectorConfig.getDetectorReach())
-                        .withEvasionAngle(turretDetectorConfig.getDetectorAngle())
-                        .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
-                        .build())
-                  .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                        .withRotationSpeed(3)
-                        .withPosition(southTurretPos)
-                        .withGun(BulletGunBuilder.builder()
-                              .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(350)
-                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
-                                          .build())
-                                    .withVelocity(3)
-                                    .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(height)
-                                    .withWidth(width)
-                                    .withCenter(southTurretPos)
-                                    .withOrientation(Orientation.VERTICAL)
-                                    .build())
-                              .build())
-                        .withShape(CircleBuilder.builder()
-                              .withRadius(radius)
-                              .withAmountOfPoints(radius)
-                              .withCenter(southTurretPos)
-                              .build())
-                        .build())
-                  .build())
-            .build();
-
-      DetectorConfig mainDetectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(90)
-            .withEvasionDistance(90)
-            .withDetectorAngle(80)
-            .withEvasionAngle(80)
-            .withEvasionAngleInc(4)
-            .build();
-      EndPointMoveable endPointMoveable = buildEndPointMoveable(radius, endPointMoveableStartPosition, grid, mainDetectorConfig);
-
+      int gridElementRadius = 10;
       Moveable simpleGridElement = MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(gridElementPos)
             .withShape(CircleBuilder.builder()
-                  .withRadius(radius)
+                  .withRadius(gridElementRadius)
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
+                  .build())
+            .build();
+
+      TankGridElement tankGridElement = TankGridElementBuilder.builder()
+            .withGrid(grid)
+            .withTank(TankBuilder.builder()
+                  .withTurret(TurretGridElementBuilder.builder()
+                        .withGrid(grid)
+                        .withTurret(TurretBuilder.builder()
+                              .withDetector(DetectorBuilder.builder()
+                                    .withAngleInc(detectorConfig.getEvasionAngleInc())
+                                    .withDetectorAngle(detectorConfig.getDetectorAngle())
+                                    .withDetectorReach(detectorConfig.getDetectorReach())
+                                    .withEvasionAngle(detectorConfig.getDetectorAngle())
+                                    .withEvasionDistance(detectorConfig.getEvasionDistance())
+                                    .build())
+                              .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                              .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                                    .withRotationSpeed(3)
+                                    .withPosition(tankPos)
+                                    .withGun(BulletGunBuilder.builder()
+                                          .withGunConfig(GunConfigBuilder.builder()
+                                                .withSalveSize(1)
+                                                .withRoundsPerMinute(350)
+                                                .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                                      .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                      .build())
+                                                .withVelocity(3)
+                                                .build())
+                                          .withRectangle(RectangleBuilder.builder()
+                                                .withHeight(gunHeight)
+                                                .withWidth(gunWidth)
+                                                .withCenter(tankPos)
+                                                .withOrientation(Orientation.HORIZONTAL)
+                                                .build())
+                                          .build())
+                                    .withShape(CircleBuilder.builder()
+                                          .withRadius(gunCarriageRadius)
+                                          .withAmountOfPoints(gunCarriageRadius)
+                                          .withCenter(tankPos)
+                                          .build())
+                                    .build())
+                              .build())
+                        .build())
+                  .withHull(RectangleBuilder.builder()
+                        .withCenter(turretPos)
+                        .withHeight(tankHeight)
+                        .withWidth(tankWidth)
+                        .withOrientation(Orientation.HORIZONTAL)
+                        .build())
+                  .withPosition(tankPos)
+                  .build())
+            .build();
+
+      TurretGridElement turretGridElement = TurretGridElementBuilder.builder()
+            .withGrid(grid)
+            .withTurret(TurretBuilder.builder()
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withPosition(turretPos)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withRectangle(RectangleBuilder.builder()
+                                    .withHeight(gunHeight)
+                                    .withWidth(gunWidth)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.VERTICAL)
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(gunCarriageRadius)
+                              .withAmountOfPoints(gunCarriageRadius)
+                              .withCenter(turretPos)
+                              .build())
+                        .build())
                   .build())
             .build();
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
 
-      List<Renderer> renderers = new ArrayList<Renderer>();
-      List<TurretGridElement> turrets = Arrays.asList(turretGridElementSouth, turretGridElementNorth);
-      List<Moveable> moveables = Arrays.asList(simpleGridElement/*, endPointMoveable*/);
+      List<Renderer> renderers = new ArrayList<>();
+      List<TankGridElement> tanks = Arrays.asList(tankGridElement);
+      List<Moveable> moveables = new ArrayList<>();
+      moveables.add(tankGridElement);
+      moveables.add(simpleGridElement);
 
       renderers.addAll(
-            turrets.stream().map(turret -> new GridElementPainter(turret, getColor(turret), height, width)).collect(Collectors.toList()));
+            tanks.stream().map(tank -> new GridElementPainter(tank, getColor(tank), height, width)).collect(Collectors.toList()));
+      //      renderers.add(new GridElementPainter(turretGridElement, getColor(turretGridElement), height, width));
       renderers.addAll(moveables.stream()
-            .map(moveable -> moveable instanceof EndPointMoveable
-                  ? buildMoveablePainter(width, height, moveable, mainDetectorConfig)
-                  : new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), height, width))
+            .map(moveable -> new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), height, width))
             .collect(Collectors.toList()));
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, moveables, turrets, renderers);
+      showGuiAndStartPainter(mainWindow, grid, moveables, tanks, renderers);
    }
 
    private EndPointMoveable buildEndPointMoveable(int radius, Position endPointMoveableStartPosition, MirrorGrid grid, DetectorConfig config) {
@@ -248,7 +258,7 @@ public class TurretTowerTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Moveable> simpleGridElement,
-         List<TurretGridElement> turretTowers, List<Renderer> renderers) {
+         List<TankGridElement> tanks, List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       List<Moveable> moveables = new ArrayList<>();
       moveables.addAll(simpleGridElement);
@@ -267,8 +277,8 @@ public class TurretTowerTestLauncher {
       }, "GUI-Refresher").start();
       new Thread(() -> {
          while (true) {
-            turretTowers.stream()
-                  .forEach(Turret::autodetect);
+            tanks.stream()
+                  .forEach(Tank::autodetect);
             synchronized (moveables) {
                moveables.stream()
                      .filter(isGridElementAlive())

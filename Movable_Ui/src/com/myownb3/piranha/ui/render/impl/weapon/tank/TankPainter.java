@@ -1,31 +1,31 @@
-package com.myownb3.piranha.ui.render.impl.weapon.turret;
+package com.myownb3.piranha.ui.render.impl.weapon.tank;
 
 import java.awt.Color;
 import java.awt.Rectangle;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class TurretPainter extends Drawable<TurretShape> implements Renderer {
+public class TankPainter extends Drawable<TankShape> implements Renderer {
 
-   private Drawable<? extends Shape> shapeGunPainter;
-   private Drawable<? extends Shape> shapeGunCarriagePainter;
+   private Drawable<? extends Shape> turretPainter;
+   private Drawable<? extends Shape> tankPainter;
 
-   public TurretPainter(TurretShape turretShape, Color color) {
-      super(turretShape);
-      this.shapeGunPainter = ShapePainterFactory.getShapePainter(turretShape.getGunShape(), color, false);
-      this.shapeGunCarriagePainter = ShapePainterFactory.getShapePainter(turretShape.getGunCarriageShape(), color, false);
+   public TankPainter(TankShape tankShape, Color tankColor, Color turretColor) {
+      super(tankShape);
+      this.turretPainter = ShapePainterFactory.getShapePainter(tankShape.getTurretShape(), turretColor, false);
+      this.tankPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor, false);
    }
 
    @Override
    public void render(RenderContext graphicsCtx) {
-      shapeGunPainter.render(graphicsCtx);
-      shapeGunCarriagePainter.render(graphicsCtx);
+      tankPainter.render(graphicsCtx);
+      turretPainter.render(graphicsCtx);
    }
 
    @Override
