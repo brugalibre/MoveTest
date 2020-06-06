@@ -13,13 +13,11 @@ public class AbstractGunCarriage implements GunCarriage {
    private Shape shape;
    private Gun gun;
    private double rotationSpeed;
-   private double parkingAngle;
 
    protected AbstractGunCarriage(Shape shape, Gun gun, double rotationSpeed) {
       this.shape = requireNonNull(shape);
       this.gun = requireNonNull(gun);
       this.rotationSpeed = abs(rotationSpeed);
-      this.parkingAngle = getPosition().getDirection().getAngle();
       this.gun.evalAndSetGunPosition(shape.getForemostPosition());
    }
 
@@ -35,13 +33,9 @@ public class AbstractGunCarriage implements GunCarriage {
    }
 
    @Override
-   public void turn2ParkPosition() {
+   public void turn2ParkPosition(double parkingAngle) {
       double angleDiff = parkingAngle - getPosition().getDirection().getAngle();
       rotate(angleDiff);
-   }
-
-   public void setParkingPositionAngle(double parkingAngle) {
-      this.parkingAngle = parkingAngle;
    }
 
    private void rotate(double angleDiff) {
@@ -57,7 +51,7 @@ public class AbstractGunCarriage implements GunCarriage {
    }
 
    @Override
-   public boolean isInParkingPosition() {
+   public boolean isInParkingPosition(double parkingAngle) {
       return getPosition().getDirection().getAngle() == parkingAngle;
    }
 

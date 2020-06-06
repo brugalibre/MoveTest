@@ -1,11 +1,25 @@
 package com.myownb3.piranha.core.weapon.tank;
 
+import static java.util.Objects.nonNull;
+
+import java.util.List;
+
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TankImpl implements Tank {
 
@@ -22,11 +36,23 @@ public class TankImpl implements Tank {
    @Override
    public void autodetect() {
       turret.autodetect();
+      if (isNotShooting()) {
+         tankEngine.moveForward();
+      }
+   }
+
+   private boolean isNotShooting() {
+      return turret.getTurretStatus() != TurretState.SHOOTING;
    }
 
    @Override
    public Turret getTurret() {
       return turret;
+   }
+
+   @Override
+   public TankEngine getTankEngine() {
+      return tankEngine;
    }
 
    @Override
@@ -42,11 +68,14 @@ public class TankImpl implements Tank {
    public static final class TankBuilder {
 
       private Turret turret;
-      private TankEngine tankEngine;
       private Shape tankHull;
+      private Grid grid;
+      private int movingIncrement;
+      private List<EndPosition> endPositions;
+      private TankEngine tankEngine;
 
       private TankBuilder() {
-         // private
+         movingIncrement = 1;
       }
 
       public TankBuilder withTurret(Turret turret) {
@@ -59,18 +88,79 @@ public class TankImpl implements Tank {
          return this;
       }
 
-      public TankImpl build() {
-         TankShape tankShape = TankShapeBuilder.builder()
+      public TankBuilder withTankEngine(TankEngine tankEngine) {
+         this.tankEngine = tankEngine;
+         return this;
+      }
+
+      public TankBuilder withGrid(Grid grid) {
+         this.grid = grid;
+         return this;
+      }
+
+      public TankBuilder withEngineVelocity(int movingIncrement) {
+         this.movingIncrement = movingIncrement;
+         return this;
+      }
+
+      public TankBuilder withEndPositions(List<EndPosition> endPositions) {
+         this.endPositions = endPositions;
+         return this;
+      }
+
+      public Tank build() {
+         TankShape tankShape = buildTankShape();
+
+         TankHolder tankHolder = new TankHolder();
+         TankEngine tankEngine = buildNewOrGetExistingEngine(tankShape, this.tankEngine);
+         TankImpl tankImpl = new TankImpl(turret, tankEngine, tankShape);
+         return tankHolder
+               .setAndReturnTank(tankImpl);
+      }
+
+      private TankShape buildTankShape() {
+         return TankShapeBuilder.builder()
                .withHull(tankHull)
                .withTurretShape(turret.getShape())
                .build();
-         return new TankImpl(turret, tankEngine, tankShape);
+      }
+
+      private TankEngine buildNewOrGetExistingEngine(TankShape tankShape, TankEngine tankEngine) {
+         if (nonNull(tankEngine)) {
+            return tankEngine;
+         }
+         return TankEngineBuilder.builder()
+               .withMoveableController(MoveableControllerBuilder.builder()
+                     .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                     .withEndPositions(endPositions)
+                     .withEndPointMoveable()
+                     .withGrid(grid)
+                     .withStartPosition(tankShape.getCenter())
+                     .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                           .withDetector(DetectorBuilder.builder()
+                                 .build())
+                           .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                                 .withReturningAngleIncMultiplier(1)
+                                 .withOrientationAngle(1)
+                                 .withReturningMinDistance(1)
+                                 .withReturningAngleMargin(1)
+                                 .withPassingDistance(25)
+                                 .withPostEvasionReturnAngle(4)
+                                 .withDetectorConfig(DetectorConfigBuilder.builder()
+                                       .build())
+                                 .build())
+                           .build())
+                     .withShape(tankShape)
+                     .withMovingIncrement(movingIncrement)
+                     .buildAndReturnParentBuilder()
+                     .withPostMoveForwardHandler((m) -> {
+                     })
+                     .build())
+               .build();
       }
 
       public static TankBuilder builder() {
          return new TankBuilder();
       }
-
    }
-
 }

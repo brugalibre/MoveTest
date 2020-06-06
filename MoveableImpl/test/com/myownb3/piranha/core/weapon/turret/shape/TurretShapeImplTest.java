@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -16,15 +17,74 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.detector.IDetector;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 
 class TurretShapeImplTest {
+
+   @Test
+   void testDetectObject_DetectTurret() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withCollisionDetectionHandler()
+            .withGunCarriage(5, 5)
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .withGunCarriageShapeDetection()
+            .build();
+
+      // When
+      boolean actualDetection = tcb.turretTowerShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(true));
+   }
+
+   @Test
+   void testDetectObject_DetectHull() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withCollisionDetectionHandler()
+            .withGunCarriage(5, 5)
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .withGunDetection()
+            .build();
+
+      // When
+      boolean actualDetection = tcb.turretTowerShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(true));
+   }
+
+   @Test
+   void testDetectObject_NoDetection() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withGunCarriage(5, 10)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .build();
+
+      // When
+      boolean actualDetection = tcb.turretTowerShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(false));
+   }
 
    @Test
    void testBuildTurretShape() {
@@ -38,8 +98,8 @@ class TurretShapeImplTest {
             .build();
 
       // Then
-      GunCarriage gunCarriage = tcb.turretTowerShape.getGunCarriage();
-      assertThat(gunCarriage, is(tcb.gunCarriage));
+      Shape gunCarriageShape = tcb.turretTowerShape.getGunCarriageShape();
+      assertThat(gunCarriageShape, is(tcb.gunCarriage.getShape()));
       assertThat(tcb.turretTowerShape.getDimensionRadius(), is(expectedDimensionRadius));
       assertThat(tcb.turretTowerShape.buildPath4Detection(), is(Collections.emptyList()));
    }
@@ -101,13 +161,41 @@ class TurretShapeImplTest {
       private GunCarriage gunCarriage;
       private TurretShapeImpl turretTowerShape;
       private CollisionDetectionHandler collisionDetectionHandler;
+      private Position detectorPos;
+      private IDetector detector;
+      private GridElement gridElement;
 
       private TestCaseBuilder() {
          // priv
       }
 
+      public TestCaseBuilder withGridElement(GridElement gridElement) {
+         this.gridElement = gridElement;
+         return this;
+      }
+
       public TestCaseBuilder withCollisionDetectionHandler() {
          this.collisionDetectionHandler = mock(CollisionDetectionHandler.class);
+         return this;
+      }
+
+      public TestCaseBuilder withGunDetection() {
+         when(gunCarriage.getGun().getShape().detectObject(eq(detectorPos), eq(detector))).thenReturn(true);
+         return this;
+      }
+
+      public TestCaseBuilder withGunCarriageShapeDetection() {
+         when(gunCarriage.getShape().detectObject(eq(detectorPos), eq(detector))).thenReturn(true);
+         return this;
+      }
+
+      public TestCaseBuilder withDetector() {
+         this.detector = mock(IDetector.class);
+         return this;
+      }
+
+      public TestCaseBuilder withDetectorPos() {
+         this.detectorPos = mock(Position.class);
          return this;
       }
 
@@ -145,13 +233,13 @@ class TurretShapeImplTest {
 
       private void mockGun(double gunDimensionRadius) {
          when(gunCarriage.getGun()).thenReturn(mock(Gun.class));
-         when(gunCarriage.getGun().getShape()).thenReturn(mock(Rectangle.class));
+         when(gunCarriage.getGun().getShape()).thenReturn(mock(RectangleImpl.class));
          when(gunCarriage.getGun().getShape().getDimensionRadius()).thenReturn(gunDimensionRadius);
       }
 
       private void mockGunCarriage(double gunCarriageDimensionRadius) {
          this.gunCarriage = mock(GunCarriage.class);
-         when(gunCarriage.getShape()).thenReturn(mock(Circle.class));
+         when(gunCarriage.getShape()).thenReturn(mock(CircleImpl.class));
          when(gunCarriage.getShape().getCenter()).thenReturn(mock(Position.class));
          when(gunCarriage.getShape().getDimensionRadius()).thenReturn(gunCarriageDimensionRadius);
       }
@@ -160,6 +248,9 @@ class TurretShapeImplTest {
          turretTowerShape = TurretShapeBuilder.builder()
                .wighGunCarriage(gunCarriage)
                .build();
+         if (gridElement != null) {
+            turretTowerShape.setGridElement(gridElement);
+         }
          return this;
       }
    }

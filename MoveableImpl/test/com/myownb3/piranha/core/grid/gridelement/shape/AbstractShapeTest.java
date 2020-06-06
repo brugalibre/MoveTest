@@ -7,17 +7,39 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
+import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class AbstractShapeTest {
+
+
+
+   @Test
+   void testBuildPath4Collision() {
+
+      // Given
+      List<PathSegment> path = Collections.singletonList(new PathSegmentImpl(Positions.of(5, 5), Positions.of(5, 5)));
+      TestShape testShape = new TestShape(path, Positions.of(5, 5));
+
+      // When
+      List<Position> actualPath4Detection = testShape.buildPath4Detection();
+
+      // Then
+      assertThat(actualPath4Detection, is(Collections.emptyList()));
+   }
 
    @Test
    void testGetEvasionAngleRelative2_EvasionAngleMorePositiveThanNegative() {
@@ -147,6 +169,35 @@ class AbstractShapeTest {
       };
       // Then
       assertThrows(IllegalStateException.class, ex);
+   }
+
+   private static class TestShape extends AbstractShape {
+
+      protected TestShape(List<PathSegment> path, Position center) {
+         super(path, center);
+      }
+
+      @Override
+      public CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
+            List<GridElement> gridElements2Check) {
+         return null;
+      }
+
+      @Override
+      public Position getForemostPosition() {
+         return null;
+      }
+
+      @Override
+      public Position getRearmostPosition() {
+         return null;
+      }
+
+      @Override
+      public double getDimensionRadius() {
+         return 0;
+      }
+
    }
 
    private static class TestCaseBuilder {

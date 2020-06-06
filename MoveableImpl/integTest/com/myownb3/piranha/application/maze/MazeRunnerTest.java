@@ -116,7 +116,7 @@ class MazeRunnerTest {
    void testBuildMazeRunWithCustomMaze_WithoutEndPos() {
 
       // Given
-      double expectedXAxisValue = 463;
+      double expectedXAxisValue = 462;
       double expectedYAxisValue = 485.4113448726;
       Position startPos = Positions.of(130, 330);
       int wallThickness = 10;

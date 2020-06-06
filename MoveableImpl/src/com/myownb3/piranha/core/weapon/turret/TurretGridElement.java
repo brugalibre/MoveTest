@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.weapon.turret;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
@@ -11,6 +12,7 @@ import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridEle
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretGridElement implements Turret, GridElement {
 
@@ -34,6 +36,11 @@ public class TurretGridElement implements Turret, GridElement {
    @Override
    public GunCarriage getGunCarriage() {
       return turret.getGunCarriage();
+   }
+
+   @Override
+   public TurretState getTurretStatus() {
+      return turret.getTurretStatus();
    }
 
    @Override
@@ -91,6 +98,7 @@ public class TurretGridElement implements Turret, GridElement {
 
       private Grid grid;
       private Turret turret;
+      private GridElement gridElement;
 
       private TurretGridElementBuilder() {
          // private
@@ -101,12 +109,23 @@ public class TurretGridElement implements Turret, GridElement {
          return this;
       }
 
+      public TurretGridElementBuilder withTurretGridElement(GridElement gridElement) {
+         this.gridElement = gridElement;
+         return this;
+      }
+
       public TurretGridElementBuilder withTurret(Turret turret) {
          this.turret = turret;
          return this;
       }
 
       public TurretGridElement build() {
+         if (Objects.nonNull(gridElement)) {
+            // 4 Testing purpose
+            TurretGridElement turretGridElement = new TurretGridElement(grid, turret);
+            turretGridElement.turretGridElement = gridElement;
+            return turretGridElement;
+         }
          return new TurretGridElement(grid, turret);
       }
 

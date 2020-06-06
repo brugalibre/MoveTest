@@ -9,14 +9,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
-import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
@@ -42,7 +40,7 @@ import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleG
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -269,7 +267,6 @@ public class TurretTowerTestLauncher {
                   .forEach(Turret::autodetect);
             synchronized (moveables) {
                moveables.stream()
-                     .filter(isGridElementAlive())
                      .forEach(moveable -> moveable.moveForward(10));
             }
             try {
@@ -278,10 +275,6 @@ public class TurretTowerTestLauncher {
             }
          }
       }, "LogicHandler").start();
-   }
-
-   private static Predicate<? super Moveable> isGridElementAlive() {
-      return gridElement -> gridElement instanceof Destructible ? !((Destructible) gridElement).isDestroyed() : true;
    }
 
 }

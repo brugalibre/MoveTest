@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -22,6 +23,13 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       super(path, gunCarriage.getShape().getCenter());
       this.gunCarriage = gunCarriage;
       this.collisionDetector = buildCollisionDetector();
+   }
+
+   @Override
+   public void setGridElement(GridElement gridElement) {
+      super.setGridElement(gridElement);
+      ((AbstractShape) gunCarriage.getShape()).setGridElement(gridElement);
+      ((AbstractShape) gunCarriage.getGun().getShape()).setGridElement(gridElement);
    }
 
    @Override
@@ -52,10 +60,6 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       return Math.max(gunCarriage.getShape().getDimensionRadius(), getGunShape().getDimensionRadius());
    }
 
-   public GunCarriage getGunCarriage() {
-      return gunCarriage;
-   }
-
    @Override
    public void transform(Position position) {
       super.transform(position);
@@ -66,12 +70,16 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    protected List<Position> buildPath4Detection() {
-      return Collections.emptyList();// not needed since we are not moving yet!
+      return Collections.emptyList();// not needed because we override 'detectObject'
    }
 
    @Override
-   public List<Position> getPath4CollisionDetection() {
-      return buildPath4Detection();
+   public boolean detectObject(Position detectorPosition, Detector detector) {
+      boolean isGunCarriageDetected = getGunCarriageShape().detectObject(detectorPosition, detector);
+      if (!isGunCarriageDetected) {
+         return getGunShape().detectObject(detectorPosition, detector);
+      }
+      return true;
    }
 
    private static List<PathSegment> combinePath(Shape gunShape, Shape gunCarriageShape) {

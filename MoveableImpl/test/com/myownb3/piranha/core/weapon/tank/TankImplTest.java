@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DimensionImpl;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -24,12 +26,79 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
+import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TankImplTest {
+
+   @Test
+   void testMoveForwardWhenNotShooting() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+
+      Turret turret = mock(Turret.class);
+
+      when(turret.getTurretStatus()).thenReturn(TurretState.ACQUIRING);
+      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+      when(turret.getShape().getCenter()).thenReturn(turretPos);
+
+      Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
+            .withTurret(turret)
+            .withGrid(mock(Grid.class))
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(tankPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .build();
+
+      // When
+      tank.autodetect();
+
+      // Then
+      verify(tank.getTankEngine()).moveForward();
+   }
+
+   @Test
+   void testStopWhenShooting() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+
+      Turret turret = mock(Turret.class);
+      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+      when(turret.getTurretStatus()).thenReturn(TurretState.SHOOTING);
+      when(turret.getShape().getCenter()).thenReturn(turretPos);
+
+      Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
+            .withTurret(turret)
+            .withGrid(mock(Grid.class))
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(tankPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .build();
+
+      // When
+      tank.autodetect();
+
+      // Then
+      verify(tank.getTankEngine(), never()).moveForward();
+   }
 
    @Test
    void testAutodetectTank() {
@@ -45,7 +114,9 @@ class TankImplTest {
       when(turret.getShape().getCenter()).thenReturn(turretPos);
 
       Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
             .withTurret(turret)
+            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(tankPos)
                   .withHeight(tankHeight)
@@ -54,11 +125,9 @@ class TankImplTest {
             .build();
 
       // When
-
       tank.autodetect();
 
       // Then
-
       verify(turret).autodetect();
    }
 
@@ -66,7 +135,6 @@ class TankImplTest {
    void testBuildTank() {
 
       // Given
-
       Position turretPos = Positions.of(5, 5);
       int tankWidth = 10;
       int tankHeight = 30;
@@ -75,6 +143,7 @@ class TankImplTest {
 
       // When
       Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)
@@ -132,6 +201,7 @@ class TankImplTest {
       double gunHeight = 10;
       double gunWidth = 4;
       Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)

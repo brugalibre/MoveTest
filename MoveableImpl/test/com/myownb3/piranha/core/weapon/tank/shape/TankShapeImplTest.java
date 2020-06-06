@@ -17,14 +17,112 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.detector.IDetector;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 
 class TankShapeImplTest {
+
+   @Test
+   void testDetectObject_DetectTurret() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTank(5, 5)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .withTurretShapeDetection()
+            .build();
+      tcb.tankShape.setGridElement(tcb.gridElement);
+
+      // When
+      boolean actualDetection = tcb.tankShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(true));
+   }
+
+   @Test
+   void testDetectObject_DetectHull() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTank(5, 5)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .withHullDetection()
+            .build();
+      tcb.tankShape.setGridElement(tcb.gridElement);
+
+      // When
+      boolean actualDetection = tcb.tankShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(true));
+   }
+
+   @Test
+   void testDetectObject_NoDetection() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTank(5, 5)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .withDetector()
+            .withDetectorPos()
+            .build();
+      tcb.tankShape.setGridElement(tcb.gridElement);
+
+      // When
+      boolean actualDetection = tcb.tankShape.detectObject(tcb.detectorPos, tcb.detector);
+
+      // Then
+      assertThat(actualDetection, is(false));
+   }
+
+   @Test
+   void testTestForemostAndRearmostPosition() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTank(5, 5)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .build();
+
+      // When
+      tcb.tankShape.getForemostPosition();
+      tcb.tankShape.getRearmostPosition();
+
+      // Then
+      verify(tcb.hull).getForemostPosition(); // so far this is only delegating
+      verify(tcb.hull).getRearmostPosition();
+   }
+
+   @Test
+   void testTestSetGridElement() {
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTank(5, 5)
+            .withCollisionDetectionHandler()
+            .withGridElement(mock(GridElement.class))
+            .build();
+
+      // When
+      tcb.tankShape.setGridElement(tcb.gridElement);
+
+      // Then
+      verify(((AbstractShape) tcb.hull)).setGridElement(eq(tcb.gridElement));
+      verify(((AbstractShape) tcb.turretShape)).setGridElement(eq(tcb.gridElement));
+   }
 
    @Test
    void testTransformTankShape() {
@@ -118,12 +216,40 @@ class TankShapeImplTest {
 
    private static final class TestCaseBuilder {
       private TurretShape turretShape;
-      private TankShape tankShape;
+      private TankShapeImpl tankShape;
       private Shape hull;
       private CollisionDetectionHandler collisionDetectionHandler;
+      private GridElement gridElement;
+      private IDetector detector;
+      private Position detectorPos;
 
       private TestCaseBuilder() {
          tankShape = mock(TankShapeImpl.class);
+      }
+
+      public TestCaseBuilder withHullDetection() {
+         when(hull.detectObject(eq(detectorPos), eq(detector))).thenReturn(true);
+         return this;
+      }
+
+      public TestCaseBuilder withTurretShapeDetection() {
+         when(turretShape.detectObject(eq(detectorPos), eq(detector))).thenReturn(true);
+         return this;
+      }
+
+      public TestCaseBuilder withDetector() {
+         this.detector = mock(IDetector.class);
+         return this;
+      }
+
+      public TestCaseBuilder withDetectorPos() {
+         this.detectorPos = mock(Position.class);
+         return this;
+      }
+
+      public TestCaseBuilder withGridElement(GridElement gridElement) {
+         this.gridElement = gridElement;
+         return this;
       }
 
       public TestCaseBuilder withCollisionDetectionHandler() {
@@ -164,14 +290,14 @@ class TankShapeImplTest {
       }
 
       private void mockHull(double hullDimensionRadius) {
-         hull = mock(Rectangle.class);
+         hull = mock(RectangleImpl.class);
          when(hull.getCenter()).thenReturn(mock(Position.class));
          when(hull.getDimensionRadius()).thenReturn(hullDimensionRadius);
          when(tankShape.getHull()).thenReturn(hull);
       }
 
       private void mockTurret(double turretDimensionRadius) {
-         this.turretShape = mock(TurretShape.class);
+         this.turretShape = mock(TurretShapeImpl.class);
          when(turretShape.getCenter()).thenReturn(mock(Position.class));
          when(turretShape.getDimensionRadius()).thenReturn(turretDimensionRadius);
          when(tankShape.getTurretShape()).thenReturn(turretShape);

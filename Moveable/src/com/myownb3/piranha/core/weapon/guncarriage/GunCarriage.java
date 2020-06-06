@@ -29,10 +29,10 @@ public interface GunCarriage {
    /**
     * This will lead this {@link GunCarriage} to turn in order to reach it's parking {@link Position}
     * 
-    * @param targetPos
-    *        the {@link Position} this {@link GunCarriage} has to aim
+    * @param parkingAngle
+    *        the park-angle this {@link GunCarriage} has to reach u
     */
-   void turn2ParkPosition();
+   void turn2ParkPosition(double parkingAngle);
 
    /**
     * Evaluates and sets the {@link Position} for this {@link GunCarriage} regarding it's dimension
@@ -45,9 +45,10 @@ public interface GunCarriage {
 
    /**
     * @return <code>true</code> if this {@link GunCarriage} is in it's parking {@link Position} of <code>false</code> if not
-    * 
+    * @param parkingAngle
+    *        the parking angle
     */
-   boolean isInParkingPosition();
+   boolean isInParkingPosition(double parkingAngle);
 
    /**
     * @param acquiredTargetPos

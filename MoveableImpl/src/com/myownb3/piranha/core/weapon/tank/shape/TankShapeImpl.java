@@ -1,11 +1,11 @@
 package com.myownb3.piranha.core.weapon.tank.shape;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
+import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
@@ -26,8 +26,19 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    }
 
    @Override
-   protected List<Position> buildPath4Detection() {
-      return Collections.emptyList();
+   public boolean detectObject(Position detectorPosition, Detector detector) {
+      boolean isHullDetected = hull.detectObject(detectorPosition, detector);
+      if (!isHullDetected) {
+         return turretShape.detectObject(detectorPosition, detector);
+      }
+      return true;
+   }
+
+   @Override
+   public void setGridElement(GridElement gridElement) {
+      super.setGridElement(gridElement);
+      ((AbstractShape) hull).setGridElement(gridElement);
+      ((AbstractShape) turretShape).setGridElement(gridElement);
    }
 
    @Override

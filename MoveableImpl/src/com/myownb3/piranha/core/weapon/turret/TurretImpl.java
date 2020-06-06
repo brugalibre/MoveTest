@@ -4,7 +4,6 @@ import static java.util.Objects.nonNull;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -17,16 +16,17 @@ import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretImpl implements Turret {
 
-   private TurretState state;
+   protected TurretState state;
+   protected TurretShape shape;
+   protected double parkingAngle;
    private GunCarriage gunCarriage;
    private TurretScanner turretScanner;
-   private TurretShape shape;
 
-   private TurretImpl(GunCarriage gunCarriage, TurretShape turretShape) {
+   protected TurretImpl(GunCarriage gunCarriage, TurretShape turretShape) {
       init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
    }
 
-   private TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape) {
+   protected TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape) {
       this.turretScanner = turretScanner;
       init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
    }
@@ -35,6 +35,7 @@ public class TurretImpl implements Turret {
       this.gunCarriage = gunCarriage;
       this.shape = turretShape;
       this.state = TurretState.SCANNING;
+      this.parkingAngle = position.getDirection().getAngle();
    }
 
    @Override
@@ -61,8 +62,8 @@ public class TurretImpl implements Turret {
    }
 
    private void handleReturning() {
-      gunCarriage.turn2ParkPosition();
-      if (gunCarriage.isInParkingPosition()) {
+      gunCarriage.turn2ParkPosition(parkingAngle);
+      if (gunCarriage.isInParkingPosition(parkingAngle)) {
          state = TurretState.SCANNING;
       } else {
          handleScanningState();// Scan, maybe we found something else
@@ -98,8 +99,8 @@ public class TurretImpl implements Turret {
       return gunCarriage.hasTargetLocked(acquiredTargetPos) ? TurretState.SHOOTING : TurretState.ACQUIRING;
    }
 
-   @Visible4Testing
-   TurretState getTurretStatus() {
+   @Override
+   public TurretState getTurretStatus() {
       return state;
    }
 
@@ -113,45 +114,49 @@ public class TurretImpl implements Turret {
       return shape;
    }
 
-   public static class TurretBuilder {
+   public static abstract class GenericTurretBuilder<T> {
 
-      private TurretShape turretShape;
-      private GunCarriage gunCarriage;
+      protected TurretShape turretShape;
+      protected GunCarriage gunCarriage;
       private IDetector detector;
-      private TurretScanner turretScanner;
+      protected TurretScanner turretScanner;
       private TargetPositionLeadEvaluator targetPositionLeadEvaluator;
       private GridElementEvaluator gridElementsEvaluator;
 
-      private TurretBuilder() {
-         // private
-      }
-
-      public TurretBuilder withGridElementEvaluator(GridElementEvaluator gridElementsEvaluator) {
+      public T withGridElementEvaluator(GridElementEvaluator gridElementsEvaluator) {
          this.gridElementsEvaluator = gridElementsEvaluator;
-         return this;
+         return getThis();
       }
 
-      public TurretBuilder withGunCarriage(GunCarriage gunCarriage) {
+      public T withGunCarriage(GunCarriage gunCarriage) {
          this.gunCarriage = gunCarriage;
-         return this;
+         return getThis();
       }
 
-      public TurretBuilder withDetector(IDetector detector) {
+      public T withDetector(IDetector detector) {
          this.detector = detector;
-         return this;
+         return getThis();
       }
 
-      public TurretBuilder withTurretScanner(TurretScanner turretScanner) {
+      public T withTurretScanner(TurretScanner turretScanner) {
          this.turretScanner = turretScanner;
-         return this;
+         return getThis();
       }
 
-      public TurretBuilder withTargetPositionLeadEvaluator(TargetPositionLeadEvaluator targetPositionLeadEvaluator) {
+      public T withTargetPositionLeadEvaluator(TargetPositionLeadEvaluator targetPositionLeadEvaluator) {
          this.targetPositionLeadEvaluator = targetPositionLeadEvaluator;
-         return this;
+         return getThis();
       }
 
-      private void setTurretScanner(TurretImpl abstractTurret) {
+      protected abstract T getThis();
+
+      protected void buildTurretShape() {
+         turretShape = TurretShapeBuilder.builder()
+               .wighGunCarriage(gunCarriage)
+               .build();
+      }
+
+      protected void setTurretScanner(TurretImpl abstractTurret) {
          TargetPositionLeadEvaluator leadEvaluator = targetPositionLeadEvaluator != null ? targetPositionLeadEvaluator
                : new TargetPositionLeadEvaluatorImpl(getProjectilVelocity(abstractTurret));
          abstractTurret.turretScanner = TurretScannerBuilder.builder()
@@ -163,9 +168,7 @@ public class TurretImpl implements Turret {
       }
 
       public TurretImpl build() {
-         turretShape = TurretShapeBuilder.builder()
-               .wighGunCarriage(gunCarriage)
-               .build();
+         buildTurretShape();
          if (nonNull(turretScanner)) {
             return new TurretImpl(turretScanner, gunCarriage, turretShape);
          }
@@ -181,8 +184,20 @@ public class TurretImpl implements Turret {
                .getVeloCity();
       }
 
-      public static TurretBuilder builder() {
-         return new TurretBuilder();
+      public static class TurretBuilder extends GenericTurretBuilder<TurretBuilder> {
+
+         protected TurretBuilder() {
+            // protected
+         }
+
+         public static TurretBuilder builder() {
+            return new TurretBuilder();
+         }
+
+         @Override
+         protected TurretBuilder getThis() {
+            return this;
+         }
       }
    }
 }

@@ -5,7 +5,6 @@ package com.myownb3.piranha.ui.render.impl;
 
 import java.awt.Color;
 
-import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.render.RenderContext;
@@ -22,7 +21,7 @@ public class AbstractGridElementPainter<T extends GridElement> extends Drawable<
 
    public AbstractGridElementPainter(T gridElement, Color color, int height, int width) {
       super(gridElement);
-      Shape shape = ((AbstractGridElement) gridElement).getShape();
+      Shape shape = gridElement.getShape();
       this.shapePainter = ShapePainterFactory.getShapePainter(shape, color, height, width);
    }
 

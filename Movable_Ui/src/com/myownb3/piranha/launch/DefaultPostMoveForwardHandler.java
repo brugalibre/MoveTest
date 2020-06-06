@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.core.moveables.MoveResult;
@@ -48,7 +49,8 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       moveGridElementsForward(moveables);
       //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
       checkTurret(gridElements);
-      ProjectilePaintUtil.addNewProjectilePainters(moveables.get(0).getGrid(), renderers, existingProjectiles, moveables);
+      Grid grid = moveables.get(0).getGrid();
+      ProjectilePaintUtil.addNewProjectilePainters(grid, renderers, existingProjectiles, moveables);
       ProjectilePaintUtil.removeDestroyedPainters(renderers);
 
       SwingUtilities.invokeLater(() -> windowHolder.mainWindow.refresh());

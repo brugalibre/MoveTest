@@ -33,7 +33,7 @@ import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 
 public class RandomMoveableWithEndPositionRunner implements MoveableApplication {
    private MoveableController moveableController;

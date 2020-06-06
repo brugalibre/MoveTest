@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.turret;
 import static com.myownb3.piranha.core.weapon.turret.states.TurretState.SCANNING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.detector.Detector;
@@ -26,6 +28,31 @@ import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TurretScannerTest {
+
+   @Test
+   void testScan_UnknownState() {
+
+      // Given
+      Position pos = Positions.of(0, 0);
+      Position gridElemPos = Positions.of(1, 1);
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTurret(pos)
+            .withTargetPos(gridElemPos)
+            .withDetectedGridElement()
+            .withPlacedDetector(pos)
+            .withGrid()
+            .withGridElementEvaluator()
+            .withTurretScanner()
+            .build();
+
+      // When
+      Executable exe = () -> {
+         tcb.turretScanner.scan(TurretState.NONE);
+      };
+
+      // Then
+      assertThrows(IllegalStateException.class, exe);
+   }
 
    @Test
    void testScan_TargetAlreadyAcquired() {

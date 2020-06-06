@@ -36,7 +36,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 

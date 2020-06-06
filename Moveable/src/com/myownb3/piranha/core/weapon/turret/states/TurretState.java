@@ -22,4 +22,7 @@ public enum TurretState {
 
    /** A {@link Turret} returns to it's initial {@link Position} after a target was destroyed or lost */
    RETURNING,
+
+   /** No actual state - only for testing purpose */
+   NONE,
 }

@@ -4,6 +4,7 @@ import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 /**
  * The interface {@link Turret} represents a automated turret. A {@link Turret} consist always of three elements:
@@ -26,4 +27,9 @@ public interface Turret extends AutoDetectable {
     * @return the {@link TurretShape} of this {@link Turret}
     */
    TurretShape getShape();
+
+   /**
+    * @return the current state of this Turret
+    */
+   TurretState getTurretStatus();
 }

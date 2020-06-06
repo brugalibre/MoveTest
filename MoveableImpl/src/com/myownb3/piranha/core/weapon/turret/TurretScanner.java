@@ -31,6 +31,8 @@ public class TurretScanner {
 
    public TurretState scan(TurretState currentState) {
       switch (currentState) {
+         case RETURNING:
+            //fall through
          case SCANNING:
             return getNearestTargetPosAndEvalNextState(currentState);
          case ACQUIRING:
@@ -39,7 +41,7 @@ public class TurretScanner {
          case SHOOTING:
             return getNearestTargetPosAndEvalNextState(currentState);
          default:
-            return currentState;
+            throw new IllegalStateException("Unknown State '" + currentState + "'");
       }
    }
 

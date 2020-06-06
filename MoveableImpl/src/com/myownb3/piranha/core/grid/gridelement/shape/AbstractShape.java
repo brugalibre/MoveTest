@@ -60,7 +60,9 @@ public abstract class AbstractShape implements Shape {
     * 
     * @return the path of this Shape
     */
-   protected abstract List<Position> buildPath4Detection();
+   protected List<Position> buildPath4Detection() {
+      return Collections.emptyList();// subclasses has to override it, CombinedShape does not need it
+   }
 
    @Override
    public void transform(Position position) {
