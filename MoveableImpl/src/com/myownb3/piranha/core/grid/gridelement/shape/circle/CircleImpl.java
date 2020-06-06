@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.CollisionDetector;
-import com.myownb3.piranha.core.collision.detection.shape.circle.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
@@ -38,13 +36,6 @@ public class CircleImpl extends AbstractShape implements Circle {
       this.center = center;
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
       this.collisionDetector = buildCollisionDetector();
-   }
-
-   @Override
-   protected CollisionDetector buildCollisionDetector() {
-      return CircleCollisionDetectorBuilder.builder()
-            .withCircle(this)
-            .build();
    }
 
    @Override

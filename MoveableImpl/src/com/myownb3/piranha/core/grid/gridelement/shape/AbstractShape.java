@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetector;
+import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
@@ -44,7 +45,11 @@ public abstract class AbstractShape implements Shape {
     * 
     * @return the {@link CollisionDetector}
     */
-   protected abstract CollisionDetector buildCollisionDetector();
+   protected CollisionDetector buildCollisionDetector() {
+      return DefaultCollisionDetectorBuilder.builder()
+            .withShape(this)
+            .build();
+   }
 
    /**
     * Builds a List of {@link Position} which is used to verify if the {@link GridElement} of this {@link Shape}

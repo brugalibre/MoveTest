@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.collision.detection.shape.circle;
+package com.myownb3.piranha.core.collision.detection;
 
 import static java.util.Objects.isNull;
 import static org.mockito.Matchers.any;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
-import com.myownb3.piranha.core.collision.detection.shape.circle.CircleCollisionDetectorImpl.CircleCollisionDetectorBuilder;
+import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -32,7 +32,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 
-class CircleCollisionDetectorImplTest {
+class DefaultCollisionDetectorImplTest {
 
    @Test
    void testCheckCollision_NotOnOrInsideCircle() {
@@ -221,7 +221,7 @@ class CircleCollisionDetectorImplTest {
    private static class TestCaseBuilder {
 
       private Shape shape;
-      public CircleCollisionDetectorImpl detectorImpl;
+      public DefaultCollisionDetectorImpl detectorImpl;
       public CollisionDetectionHandler collisionDetectionHandler;
       public GridElement gridElement;
       public Position oldPos;
@@ -270,8 +270,8 @@ class CircleCollisionDetectorImplTest {
       }
 
       public TestCaseBuilder withCircleDetectorImpl() {
-         this.detectorImpl = CircleCollisionDetectorBuilder.builder()
-               .withCircle(circle)
+         this.detectorImpl = DefaultCollisionDetectorBuilder.builder()
+               .withShape(circle)
                .build();
          return this;
       }

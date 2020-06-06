@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.collision.detection.shape.circle;
+package com.myownb3.piranha.core.collision.detection;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,31 +6,29 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.detection.AbstractCollisionDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
- * A {@link CircleCollisionDetectorImpl} detects collision within a circle
+ * A {@link DefaultCollisionDetectorImpl} detects collision within a shape
  * 
  * @author Dominic
  *
  */
-public class CircleCollisionDetectorImpl extends AbstractCollisionDetector {
+public class DefaultCollisionDetectorImpl extends AbstractCollisionDetector {
 
-   private Circle circle;
+   private Shape shape;
 
-   private CircleCollisionDetectorImpl(Circle circle) {
+   private DefaultCollisionDetectorImpl(Shape shape) {
       super();
-      this.circle = circle;
+      this.shape = shape;
    }
 
    @Override
    public CollisionDetectionResult checkCollision(CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement,
          Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
-      Shape ourCircleAtNewPos = getOurShapeAtNewPos(newPosition, circle);
+      Shape ourCircleAtNewPos = getOurShapeAtNewPos(newPosition, shape);
       return gridElements2Check.stream()
             .map(getNearestIntersectionWithGridElement(newPosition, ourCircleAtNewPos))
             .filter(Optional::isPresent)
@@ -39,25 +37,25 @@ public class CircleCollisionDetectorImpl extends AbstractCollisionDetector {
                   returnCollisionDetectionResult(collisionDetectionHandler, movedGridElement, newPosition)));
    }
 
-   public static class CircleCollisionDetectorBuilder {
+   public static class DefaultCollisionDetectorBuilder {
 
-      private Circle circle;
+      private Shape shape;
 
-      private CircleCollisionDetectorBuilder() {
+      private DefaultCollisionDetectorBuilder() {
          super();
       }
 
-      public static CircleCollisionDetectorBuilder builder() {
-         return new CircleCollisionDetectorBuilder();
+      public static DefaultCollisionDetectorBuilder builder() {
+         return new DefaultCollisionDetectorBuilder();
       }
 
-      public CircleCollisionDetectorBuilder withCircle(Circle circle) {
-         this.circle = circle;
+      public DefaultCollisionDetectorBuilder withShape(Shape shape) {
+         this.shape = shape;
          return this;
       }
 
-      public CircleCollisionDetectorImpl build() {
-         return new CircleCollisionDetectorImpl(circle);
+      public DefaultCollisionDetectorImpl build() {
+         return new DefaultCollisionDetectorImpl(shape);
       }
    }
 
