@@ -22,7 +22,7 @@ public class SimpleGridElement extends AbstractGridElement {
       super(grid, pos, shape);
    }
 
-   public static class SimpleGridElementBuilder extends AbstractGridElementBuilder<SimpleGridElement> {
+   public static class SimpleGridElementBuilder extends AbstractGridElementBuilder<SimpleGridElement, SimpleGridElementBuilder> {
 
       private SimpleGridElementBuilder() {
          // private
@@ -30,6 +30,11 @@ public class SimpleGridElement extends AbstractGridElement {
 
       public static SimpleGridElementBuilder builder() {
          return new SimpleGridElementBuilder();
+      }
+
+      @Override
+      protected SimpleGridElementBuilder getThis() {
+         return this;
       }
 
       @Override

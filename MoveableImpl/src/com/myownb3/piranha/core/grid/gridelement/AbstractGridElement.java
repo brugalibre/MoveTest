@@ -127,7 +127,7 @@ public abstract class AbstractGridElement implements GridElement {
       return name;
    }
 
-   public abstract static class AbstractGridElementBuilder<T extends AbstractGridElement> {
+   public abstract static class AbstractGridElementBuilder<V extends AbstractGridElement, T extends AbstractGridElementBuilder<V, T>> {
 
       protected Position position;
       protected Grid grid;
@@ -137,21 +137,23 @@ public abstract class AbstractGridElement implements GridElement {
          // private
       }
 
-      public AbstractGridElementBuilder<T> withShape(Shape shape) {
+      public T withShape(Shape shape) {
          this.shape = shape;
-         return this;
+         return getThis();
       }
 
-      public AbstractGridElementBuilder<T> withPosition(Position position) {
+      public T withPosition(Position position) {
          this.position = position;
-         return this;
+         return getThis();
       }
 
-      public AbstractGridElementBuilder<T> withGrid(Grid grid) {
+      public T withGrid(Grid grid) {
          this.grid = grid;
-         return this;
+         return getThis();
       }
 
-      public abstract T build();
+      protected abstract T getThis();
+
+      public abstract V build();
    }
 }

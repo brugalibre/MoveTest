@@ -57,7 +57,7 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle {
             .build();
    }
 
-   public static class ObstacleBuilder extends AbstractGridElementBuilder<ObstacleImpl> {
+   public static class ObstacleBuilder extends AbstractGridElementBuilder<ObstacleImpl, ObstacleBuilder> {
 
       private DestructionHelper destructionHelper;
 
@@ -71,6 +71,11 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle {
 
       public ObstacleBuilder withDestructionHelper(DestructionHelper destructionHelper) {
          this.destructionHelper = destructionHelper;
+         return this;
+      }
+
+      @Override
+      protected ObstacleBuilder getThis() {
          return this;
       }
 

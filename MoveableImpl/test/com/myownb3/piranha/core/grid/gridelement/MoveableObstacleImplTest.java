@@ -48,13 +48,13 @@ class MoveableObstacleImplTest {
 
       // Given
       DestructionHelper destructionHelper = mock(DestructionHelper.class);
-      MoveableObstacleImpl moveable = ((MoveableObstacleBuilder) MoveableObstacleBuilder.builder()
+      MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0)))
-                  .withDamage(3)
-                  .withHealth(50)
-                  .withDestructionHelper(destructionHelper)
-                  .build();
+            .withPosition(Positions.of(0, 0))
+            .withDamage(3)
+            .withHealth(50)
+            .withDestructionHelper(destructionHelper)
+            .build();
 
       // When
       moveable.isDestroyed();

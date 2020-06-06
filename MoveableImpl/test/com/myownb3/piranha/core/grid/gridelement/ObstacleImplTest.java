@@ -32,17 +32,17 @@ class ObstacleImplTest {
       // Given
       OnDestroyedCallbackHandler onDestroyedCallbackHandler = mock(OnDestroyedCallbackHandler.class);
 
-      Obstacle obstacle = ((ObstacleBuilder) ObstacleBuilder.builder()
+      Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(mock(Position.class)))
-                  .withDestructionHelper(DestructionHelperBuilder.builder()
-                        .withDamage(DamageImpl.of(1))
-                        .withHealth(HealthImpl.of(3))
-                        .withSelfDestructiveDamage(SelfDestructive.of(1))
-                        .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
-                        .build())
-                  .withShape(mock(CircleImpl.class))
-                  .build();
+            .withPosition(mock(Position.class))
+            .withDestructionHelper(DestructionHelperBuilder.builder()
+                  .withDamage(DamageImpl.of(1))
+                  .withHealth(HealthImpl.of(3))
+                  .withSelfDestructiveDamage(SelfDestructive.of(1))
+                  .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
+                  .build())
+            .withShape(mock(CircleImpl.class))
+            .build();
 
       // When
       List<GridElement> gridElements = Collections.singletonList(mock(Obstacle.class));
