@@ -12,7 +12,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
-import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrier;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;

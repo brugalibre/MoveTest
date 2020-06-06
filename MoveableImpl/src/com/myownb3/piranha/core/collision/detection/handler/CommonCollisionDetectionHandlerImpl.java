@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.collision.detection;
+package com.myownb3.piranha.core.collision.detection.handler;
 
 import static java.util.Collections.singletonList;
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;

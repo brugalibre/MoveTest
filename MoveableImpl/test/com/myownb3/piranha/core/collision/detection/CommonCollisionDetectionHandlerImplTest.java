@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.collision.CollisionGridElement;
 import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
+import com.myownb3.piranha.core.collision.detection.handler.CommonCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;

@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.collision.detection;
+package com.myownb3.piranha.core.collision.detection.handler;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.position.Position;

@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.collision.detection.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;

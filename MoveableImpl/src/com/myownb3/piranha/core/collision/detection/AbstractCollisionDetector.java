@@ -17,6 +17,7 @@ import com.myownb3.piranha.core.collision.CollisionGridElement;
 import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
 import com.myownb3.piranha.core.collision.IntersectionImpl;
+import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;

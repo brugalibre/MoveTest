@@ -14,7 +14,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.random.RandomMoveableWithEndPositionRunner.RandomRunnerWithEndPositionsBuilder;
-import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Dimension;
