@@ -199,7 +199,6 @@ class RandomMoveableWithEndPositionRunnerTest {
             .withRandomEndPositions(1)
             .withCircleRadius(width)
             .withTurret(mock(IDetector.class), SimpleGunCarriageBuilder.builder()
-                  .withPosition(pos)
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)

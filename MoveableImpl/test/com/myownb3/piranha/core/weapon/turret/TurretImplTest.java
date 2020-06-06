@@ -37,6 +37,7 @@ import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.TurretBuilder;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TurretImplTest {
@@ -63,7 +64,6 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withPosition(pos)
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
@@ -83,14 +83,15 @@ class TurretImplTest {
                   .withShape(CircleBuilder.builder()
                         .withRadius((int) radius)
                         .withAmountOfPoints((int) radius)
-                        .withCenter(anyPos)
+                        .withCenter(pos)
                         .build())
                   .build())
             .build();
 
       // When
-      Position rearmostPosition = turretImpl.getShape().getRearmostPosition();
-      Position foremostPosition = turretImpl.getForemostPosition();
+      TurretShape turretShape = turretImpl.getShape();
+      Position rearmostPosition = turretShape.getRearmostPosition();
+      Position foremostPosition = turretShape.getForemostPosition();
 
       // Then
       assertThat(rearmostPosition, is(Positions.of(5, -1)));
@@ -109,7 +110,6 @@ class TurretImplTest {
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withPosition(pos)
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
@@ -174,7 +174,6 @@ class TurretImplTest {
                   .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withPosition(pos)
                   .withRotationSpeed(turnIncrement)
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
@@ -257,7 +256,6 @@ class TurretImplTest {
                   .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withPosition(pos)
                   .withRotationSpeed(turnIncrement)
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
@@ -291,7 +289,7 @@ class TurretImplTest {
       turretImpl.autodetect();// 4. continue acquiring -> now we reached the other angle
 
       GunCarriage gunCarriage = turretImpl.getGunCarriage();
-      assertThat(gunCarriage.getPosition().getDirection(), is(not(pos.getDirection())));
+      assertThat(gunCarriage.getShape().getCenter().getDirection(), is(not(pos.getDirection())));
 
       simpleGridElement.moveForward(500);
 
@@ -302,7 +300,7 @@ class TurretImplTest {
       turretImpl.autodetect();// 9. return back
 
       // Then
-      assertThat(turretImpl.getPosition().getDirection(), is(pos.getDirection()));
+      assertThat(turretImpl.getShape().getCenter().getDirection(), is(pos.getDirection()));
    }
 
    private final class TestTargetPositionLeadEvaluator implements TargetPositionLeadEvaluator {

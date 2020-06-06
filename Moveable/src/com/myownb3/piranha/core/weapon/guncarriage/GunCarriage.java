@@ -65,9 +65,4 @@ public interface GunCarriage {
     * @return the {@link Gun} of this {@link GunCarriage}
     */
    Gun getGun();
-
-   /**
-    * @return the {@link Position} of this {@link GunCarriage}
-    */
-   Position getPosition();
 }

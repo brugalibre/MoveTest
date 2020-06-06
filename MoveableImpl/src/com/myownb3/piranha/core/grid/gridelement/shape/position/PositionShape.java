@@ -35,7 +35,7 @@ public class PositionShape extends AbstractShape {
     * @param gridElemPos
     */
    private PositionShape(Position gridElemPos) {
-      super(Collections.singletonList(requireNonNull(createPathSegment(gridElemPos))));
+      super(Collections.singletonList(requireNonNull(createPathSegment(gridElemPos))), gridElemPos);
       this.collisionDetector = buildCollisionDetector();
    }
 
@@ -68,6 +68,7 @@ public class PositionShape extends AbstractShape {
 
    @Override
    public void transform(Position position) {
+      super.transform(position);
       this.path = Collections.singletonList(createPathSegment(position));
    }
 
@@ -87,7 +88,7 @@ public class PositionShape extends AbstractShape {
    }
 
    public Position getPosition() {
-      return path.get(0).getBegin();
+      return getCenter();
    }
 
    private static PathSegmentImpl createPathSegment(Position gridElemPos) {

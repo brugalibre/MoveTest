@@ -54,7 +54,7 @@ class TurretGridElementTest {
    private Turret mockTurret() {
       Turret turret = mock(Turret.class);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
-      when(turret.getPosition()).thenReturn(Positions.of(5, 5));
+      when(turret.getShape().getCenter()).thenReturn(Positions.of(5, 5));
       return turret;
    }
 

@@ -29,7 +29,6 @@ class SimpleGunCarriageImplTest {
       Position expectedPos = Positions.of(radius, radius).rotate(degree);
       Position expectedGunPos = Positions.movePositionForward4Distance(expectedPos, radius + height / 2);
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
-            .withPosition(pos)
             .withRotationSpeed(90)
             .withGun(BulletGunBuilder.builder()
                   .withRectangle(RectangleBuilder.builder()
@@ -58,7 +57,7 @@ class SimpleGunCarriageImplTest {
       gunCarriage.aimTargetPos(expectedGunPos);
 
       // Then
-      assertThat(gunCarriage.getPosition(), is(expectedPos));
-      assertThat(gunCarriage.getGun().getPosition(), is(expectedGunPos));
+      assertThat(gunCarriage.getShape().getCenter(), is(expectedPos));
+      assertThat(gunCarriage.getGun().getShape().getCenter(), is(expectedGunPos));
    }
 }

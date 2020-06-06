@@ -23,12 +23,12 @@ public class TurretImpl implements Turret {
    private TurretShape shape;
 
    private TurretImpl(GunCarriage gunCarriage, TurretShape turretShape) {
-      init(gunCarriage.getPosition(), gunCarriage, turretShape);
+      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
    }
 
    private TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape) {
       this.turretScanner = turretScanner;
-      init(gunCarriage.getPosition(), gunCarriage, turretShape);
+      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
    }
 
    private void init(Position position, GunCarriage gunCarriage, TurretShape turretShape) {
@@ -56,6 +56,8 @@ public class TurretImpl implements Turret {
          default:
             break;
       }
+      // The Position of the GunCarriage is master 
+      shape.transform(gunCarriage.getShape().getCenter());
    }
 
    private void handleReturning() {
@@ -104,16 +106,6 @@ public class TurretImpl implements Turret {
    @Override
    public GunCarriage getGunCarriage() {
       return gunCarriage;
-   }
-
-   @Override
-   public Position getForemostPosition() {
-      return shape.getForemostPosition();
-   }
-
-   @Override
-   public Position getPosition() {
-      return gunCarriage.getPosition();
    }
 
    @Override

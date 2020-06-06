@@ -165,12 +165,14 @@ class TankShapeImplTest {
 
       private void mockHull(double hullDimensionRadius) {
          hull = mock(Rectangle.class);
+         when(hull.getCenter()).thenReturn(mock(Position.class));
          when(hull.getDimensionRadius()).thenReturn(hullDimensionRadius);
          when(tankShape.getHull()).thenReturn(hull);
       }
 
       private void mockTurret(double turretDimensionRadius) {
          this.turretShape = mock(TurretShape.class);
+         when(turretShape.getCenter()).thenReturn(mock(Position.class));
          when(turretShape.getDimensionRadius()).thenReturn(turretDimensionRadius);
          when(tankShape.getTurretShape()).thenReturn(turretShape);
       }

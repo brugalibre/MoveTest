@@ -89,7 +89,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
 
    @Override
    public void transform(Position position) {
-      this.center = position;
+      super.transform(position);
       this.path = buildRectangleWithCenter(position, width, height, orientation);
       this.path4Detection = buildPath4DetectionPrivate();
    }

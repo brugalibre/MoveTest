@@ -23,7 +23,6 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 public abstract class AbstractGun implements Gun {
 
    private static final int TIME_BETWEEN_SALVES = 110;
-   private Position position;
    private Rectangle shape;
    private AtomicLong lastTimeStamp;
 
@@ -85,13 +84,8 @@ public abstract class AbstractGun implements Gun {
 
    @Override
    public void evalAndSetGunPosition(Position gunMountPosition) {
-      this.position = Positions.movePositionForward4Distance(gunMountPosition, shape.getHeight() / 2);
-      this.shape.transform(position);
-   }
-
-   @Override
-   public Position getPosition() {
-      return position;
+      Position gunPos = Positions.movePositionForward4Distance(gunMountPosition, shape.getHeight() / 2);
+      this.shape.transform(gunPos);
    }
 
    @Override

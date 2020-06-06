@@ -28,12 +28,10 @@ public class CircleImpl extends AbstractShape implements Circle {
    private static final int AMOUNT_OF_PATH_POINTS_4_DETECTION = 150;
    private int amountOfPoints;
    private int radius;
-   private Position center;
 
    private CircleImpl(List<PathSegment> path, Position center, int amountOfPoints, int radius) {
-      super(path);
+      super(path, center);
       this.radius = Math.abs(radius);
-      this.center = center;
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
       this.collisionDetector = buildCollisionDetector();
    }
@@ -62,7 +60,7 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    @Override
    public void transform(Position position) {
-      this.center = position;
+      super.transform(position);
       this.path = buildCircleWithCenter(center, amountOfPoints, radius);
    }
 

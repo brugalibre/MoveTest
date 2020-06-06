@@ -20,7 +20,7 @@ public class TurretGridElement implements Turret, GridElement {
    private TurretGridElement(Grid grid, Turret turret) {
       turretGridElement = SimpleGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(turret.getPosition())
+            .withPosition(turret.getShape().getCenter())
             .withShape(turret.getShape())
             .build();
       this.turret = turret;

@@ -1,6 +1,5 @@
 package com.myownb3.piranha.core.weapon.turret;
 
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -22,18 +21,6 @@ public interface Turret extends AutoDetectable {
     * @return the {@link GunCarriage} of this {@link Turret}
     */
    GunCarriage getGunCarriage();
-
-   /**
-    * By definition the foremost {@link Position} of a {@link Turret} is the foremost Position of it's {@link Gun}
-    * 
-    * @return returns the foremost Position of it's {@link GunCarriage}
-    */
-   Position getForemostPosition();
-
-   /**
-    * @return the {@link Position} of this {@link Turret}
-    */
-   Position getPosition();
 
    /**
     * @return the {@link TurretShape} of this {@link Turret}

@@ -12,17 +12,14 @@ public class AbstractGunCarriage implements GunCarriage {
 
    private Shape shape;
    private Gun gun;
-   private Position position;
    private double rotationSpeed;
    private double parkingAngle;
 
-   protected AbstractGunCarriage(Shape shape, Gun gun, Position position, double rotationSpeed) {
-      this.position = requireNonNull(position);
-      this.parkingAngle = position.getDirection().getAngle();
+   protected AbstractGunCarriage(Shape shape, Gun gun, double rotationSpeed) {
       this.shape = requireNonNull(shape);
       this.gun = requireNonNull(gun);
       this.rotationSpeed = abs(rotationSpeed);
-      this.shape.transform(position);
+      this.parkingAngle = getPosition().getDirection().getAngle();
       this.gun.evalAndSetGunPosition(shape.getForemostPosition());
    }
 
@@ -33,13 +30,13 @@ public class AbstractGunCarriage implements GunCarriage {
 
    @Override
    public void aimTargetPos(Position targetPos) {
-      double angleDiff = position.calcAngleRelativeTo(targetPos);
+      double angleDiff = getPosition().calcAngleRelativeTo(targetPos);
       rotate(angleDiff);
    }
 
    @Override
    public void turn2ParkPosition() {
-      double angleDiff = parkingAngle - position.getDirection().getAngle();
+      double angleDiff = parkingAngle - getPosition().getDirection().getAngle();
       rotate(angleDiff);
    }
 
@@ -55,30 +52,28 @@ public class AbstractGunCarriage implements GunCarriage {
       } else /*if (abs(angleDiff) > 0)*/ {
          angle2Turn = angleDiff;
       }
-      position = position.rotate(angle2Turn);
+      Position position = getPosition().rotate(angle2Turn);
       evalAndSetPosition(position);
    }
 
    @Override
    public boolean isInParkingPosition() {
-      return position.getDirection().getAngle() == parkingAngle;
+      return getPosition().getDirection().getAngle() == parkingAngle;
    }
 
    @Override
    public boolean hasTargetLocked(Position acquiredTargetPos) {
-      return position.calcAngleRelativeTo(acquiredTargetPos) == 0;
+      return getPosition().calcAngleRelativeTo(acquiredTargetPos) == 0;
    }
 
    @Override
    public void evalAndSetPosition(Position position) {
-      this.position = position;
       shape.transform(position);
       gun.evalAndSetGunPosition(shape.getForemostPosition());
    }
 
-   @Override
-   public Position getPosition() {
-      return position;
+   private Position getPosition() {
+      return shape.getCenter();
    }
 
    @Override
@@ -95,7 +90,6 @@ public class AbstractGunCarriage implements GunCarriage {
 
       protected Shape shape;
       protected Gun gun;
-      protected Position position;
       protected double rotationSpeed;
 
       protected AbstractGunCarriageBuilder() {
@@ -109,11 +103,6 @@ public class AbstractGunCarriage implements GunCarriage {
 
       public AbstractGunCarriageBuilder<T> withGun(Gun gun) {
          this.gun = gun;
-         return this;
-      }
-
-      public AbstractGunCarriageBuilder<T> withPosition(Position position) {
-         this.position = position;
          return this;
       }
 

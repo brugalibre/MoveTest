@@ -92,6 +92,11 @@ public interface Shape extends Cloneable {
    Position getRearmostPosition();
 
    /**
+    * @return the center of this {@link Shape}
+    */
+   Position getCenter();
+
+   /**
     * @return the radius within this {@link Shape} could be placed
     */
    double getDimensionRadius();

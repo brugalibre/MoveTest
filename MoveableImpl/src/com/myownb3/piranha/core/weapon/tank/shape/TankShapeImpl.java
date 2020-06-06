@@ -19,11 +19,10 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    private TurretShape turretShape;
    private Shape hull;
 
-   public TankShapeImpl(Shape tankShape, TurretShape turretShape, Position position) {
-      super(combinePath(tankShape, turretShape), position);
+   private TankShapeImpl(Shape tankShape, TurretShape turretShape) {
+      super(combinePath(tankShape, turretShape), tankShape.getCenter());
       this.hull = tankShape;
       this.turretShape = turretShape;
-      transform(position);
    }
 
    @Override
@@ -62,16 +61,16 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
 
    @Override
    public void transform(Position newPposition) {
-      this.center = newPposition;
-      Position newTurretPosition = getNewTurretPosition(center);
+      super.transform(newPposition);
+      Position newTurretPosition = getNewTurretPosition();
       turretShape.transform(newTurretPosition);
       hull.transform(center);
       path = combinePath(hull, turretShape);
    }
 
-   private Position getNewTurretPosition(Position newPposition) {
-      Position currentTurretPosition = turretShape.getPosition();
-      return Positions.of(currentTurretPosition.getDirection(), newPposition.getX(), newPposition.getY());
+   private Position getNewTurretPosition() {
+      Position currentTurretPosition = turretShape.getCenter();
+      return Positions.of(currentTurretPosition.getDirection(), center.getX(), center.getY());
    }
 
    @Override
@@ -94,7 +93,6 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
 
       private TurretShape turretShape;
       private Shape tankShape;
-      private Position tankPosition;
 
       private TankShapeBuilder() {
          // private
@@ -110,13 +108,8 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
          return this;
       }
 
-      public TankShapeBuilder withPosition(Position tankPosition) {
-         this.tankPosition = tankPosition;
-         return this;
-      }
-
       public TankShapeImpl build() {
-         return new TankShapeImpl(tankShape, turretShape, tankPosition);
+         return new TankShapeImpl(tankShape, turretShape);
       }
 
       public static TankShapeBuilder builder() {

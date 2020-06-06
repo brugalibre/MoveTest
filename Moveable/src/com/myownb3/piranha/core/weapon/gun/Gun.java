@@ -20,11 +20,6 @@ public interface Gun {
    Rectangle getShape();
 
    /**
-    * @return the {@link Position} of this {@link Gun}
-    */
-   Position getPosition();
-
-   /**
     * Fires one salve of this {@link Gun} - depending on the actual implementation
     */
    void fire();

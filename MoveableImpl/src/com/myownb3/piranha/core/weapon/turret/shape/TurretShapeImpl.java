@@ -19,7 +19,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
    private GunCarriage gunCarriage;
 
    private TurretShapeImpl(List<PathSegment> path, GunCarriage gunCarriage) {
-      super(path);
+      super(path, gunCarriage.getShape().getCenter());
       this.gunCarriage = gunCarriage;
       this.collisionDetector = buildCollisionDetector();
    }
@@ -49,7 +49,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    public double getDimensionRadius() {
-      return gunCarriage.getShape().getDimensionRadius() + getGunShape().getDimensionRadius();
+      return Math.max(gunCarriage.getShape().getDimensionRadius(), getGunShape().getDimensionRadius());
    }
 
    public GunCarriage getGunCarriage() {
@@ -58,6 +58,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    public void transform(Position position) {
+      super.transform(position);
       Rectangle gunShape = getGunShape();
       gunCarriage.evalAndSetPosition(position);
       this.path = combinePath(gunShape, gunCarriage.getShape());

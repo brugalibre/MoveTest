@@ -25,13 +25,14 @@ public abstract class AbstractShape implements Shape {
    protected GridElement gridElement;
    protected CollisionDetector collisionDetector;
    protected List<Position> path4Detection;
+   protected Position center;
 
    /**
     * Creates a new {@link AbstractShape}
     */
    protected AbstractShape(List<PathSegment> path, Position center) {
-      this.path = path;
-      this.center = center;
+      this.path = requireNonNull(path);
+      this.center = requireNonNull(center);
    }
 
    @Override
@@ -60,6 +61,16 @@ public abstract class AbstractShape implements Shape {
     * @return the path of this Shape
     */
    protected abstract List<Position> buildPath4Detection();
+
+   @Override
+   public void transform(Position position) {
+      this.center = position;
+   }
+
+   @Override
+   public Position getCenter() {
+      return center;
+   }
 
    @Override
    public Shape clone() {

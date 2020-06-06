@@ -152,6 +152,7 @@ class TurretShapeImplTest {
       private void mockGunCarriage(double gunCarriageDimensionRadius) {
          this.gunCarriage = mock(GunCarriage.class);
          when(gunCarriage.getShape()).thenReturn(mock(Circle.class));
+         when(gunCarriage.getShape().getCenter()).thenReturn(mock(Position.class));
          when(gunCarriage.getShape().getDimensionRadius()).thenReturn(gunCarriageDimensionRadius);
       }
 

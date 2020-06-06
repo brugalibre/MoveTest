@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 import com.myownb3.piranha.core.weapon.turret.TurretScanner.TurretScannerBuilder;
+import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TurretScannerTest {
@@ -83,7 +84,8 @@ class TurretScannerTest {
 
       public TestCaseBuilder withTurret(Position turretPos) {
          this.turret = mock(Turret.class);
-         when(turret.getForemostPosition()).thenReturn(turretPos);
+         when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+         when(turret.getShape().getForemostPosition()).thenReturn(turretPos);
          return this;
       }
 

@@ -142,7 +142,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .build(),
                   SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withPosition(turret1Pos)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
@@ -174,7 +173,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .build(),
                   SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withPosition(turret2Pos)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)

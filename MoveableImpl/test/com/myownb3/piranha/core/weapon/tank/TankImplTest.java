@@ -42,16 +42,15 @@ class TankImplTest {
 
       Turret turret = mock(Turret.class);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
-      when(turret.getShape().getPosition()).thenReturn(turretPos);
+      when(turret.getShape().getCenter()).thenReturn(turretPos);
 
       Tank tank = TankBuilder.builder()
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
-                  .withCenter(turretPos)
+                  .withCenter(tankPos)
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
-            .withPosition(tankPos)
             .build();
 
       // When
@@ -68,7 +67,6 @@ class TankImplTest {
 
       // Given
 
-      Position tankPos = Positions.of(10, 10).rotate(-45);
       Position turretPos = Positions.of(5, 5);
       int tankWidth = 10;
       int tankHeight = 30;
@@ -88,7 +86,6 @@ class TankImplTest {
                   .withGridElementEvaluator((position, distance) -> Collections.emptyList())
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withPosition(turretPos)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
@@ -117,11 +114,10 @@ class TankImplTest {
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
-            .withPosition(tankPos)
             .build();
 
       // Then
-      assertThat(tank.getTurret().getPosition(), is(tank.getPosition()));
+      assertThat(tank.getTurret().getShape().getCenter(), is(tank.getPosition()));
       assertThat(tank.getShape(), isA(TankShape.class));
    }
 
@@ -129,7 +125,6 @@ class TankImplTest {
    void testReSetTankPosition() {
 
       // Given
-      Position tankPos = Positions.of(10, 10);
       Position newTankPos = Positions.of(65, 43).rotate(465);
       Position turretPos = Positions.of(5, 5);
       int tankWidth = 10;
@@ -148,7 +143,6 @@ class TankImplTest {
                   .withGridElementEvaluator((position, distance) -> Collections.emptyList())
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withPosition(turretPos)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
@@ -177,7 +171,6 @@ class TankImplTest {
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
-            .withPosition(tankPos)
             .build();
 
       // When
@@ -185,7 +178,7 @@ class TankImplTest {
       tank.getShape().transform(newTankPos);
 
       // Then
-      Position actualTurretPos = tank.getTurret().getPosition();
+      Position actualTurretPos = tank.getTurret().getShape().getCenter();
 
       assertThat(tank.getPosition(), is(newTankPos));
       assertThat(actualTurretPos.getX(), is(tank.getPosition().getX()));

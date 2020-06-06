@@ -44,7 +44,6 @@ public class TankImpl implements Tank {
       private Turret turret;
       private TankEngine tankEngine;
       private Shape tankHull;
-      private Position tankPosition;
 
       private TankBuilder() {
          // private
@@ -60,16 +59,10 @@ public class TankImpl implements Tank {
          return this;
       }
 
-      public TankBuilder withPosition(Position tankPosition) {
-         this.tankPosition = tankPosition;
-         return this;
-      }
-
       public TankImpl build() {
          TankShape tankShape = TankShapeBuilder.builder()
                .withHull(tankHull)
                .withTurretShape(turret.getShape())
-               .withPosition(tankPosition)
                .build();
          return new TankImpl(turret, tankEngine, tankShape);
       }

@@ -58,12 +58,12 @@ public class TurretScanner {
    }
 
    private Predicate<? super GridElement> isGridElementDetected() {
-      Position detectorPos = turret.getForemostPosition();
+      Position detectorPos = turret.getShape().getForemostPosition();
       return gridElement -> gridElement.isDetectedBy(detectorPos, detector);
    }
 
    private Optional<Position> getNearestTargetPos() {
-      Position detectorPos = turret.getForemostPosition();
+      Position detectorPos = turret.getShape().getForemostPosition();
       return getAllPotentialTargetsWithinReach(detectorPos).stream()
             .filter(GridElement::isAimable)
             .filter(isGridElementDetected())
