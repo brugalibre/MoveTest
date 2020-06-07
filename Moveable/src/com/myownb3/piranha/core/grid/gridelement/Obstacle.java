@@ -17,4 +17,9 @@ public interface Obstacle extends GridElement, CollisionSensitive, Destructible 
    default boolean isAvoidable() {
       return true;
    }
+
+   @Override
+   default boolean isAimable() {
+      return true;
+   }
 }

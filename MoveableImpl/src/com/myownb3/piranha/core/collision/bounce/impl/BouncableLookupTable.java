@@ -34,8 +34,11 @@ public class BouncableLookupTable {
       }
    }
 
+   /*
+    * A Projectile can only bounce from GridElements which are not Projectiles and are not 'aimable'.
+    */
    private static boolean isProjectileBouncableForCollisionWith(GridElement gridElement) {
-      return false; // right now, a projectile can not bounce on any GridElement
+      return !gridElement.isAimable() && !isProjectile(gridElement);
    }
 
    private static boolean isProjectile(GridElement movedGridElement) {

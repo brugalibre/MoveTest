@@ -1,7 +1,10 @@
 package com.myownb3.piranha.core.weapon.tank;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,6 +25,28 @@ import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl;
 
 class TankGridElementTest {
 
+
+   @Test
+   void testIsAimable() {
+
+      // Given
+      Moveable actualMoveableMock = mock(Moveable.class);
+      TankGridElement tankGridElement = TankGridElementBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(5)
+                  .withMinX(5)
+                  .build())
+            .withTankMoveable(actualMoveableMock)
+            .withTank(mockTank())
+            .build();
+
+      // When
+      boolean isActualAimable = tankGridElement.isAimable();
+
+      // Then
+      assertThat(isActualAimable, is(false));
+   }
+
    @Test
    void testOtherDelegateMethods() {
       // Given
@@ -37,6 +62,7 @@ class TankGridElementTest {
             .build();
 
       // When
+      boolean isTankAvoidable = tankGridElement.isAvoidable();
       tankGridElement.getTurret();
       tankGridElement.getTankEngine();
       tankGridElement.getPosition();
@@ -55,6 +81,7 @@ class TankGridElementTest {
       verify(tank).getPosition();
       verify(tank).getTurret();
       verify(tank, times(2)).getShape();
+      verify(actualMoveableMock, never()).isAvoidable();
       verify(actualMoveableMock).getForemostPosition();
       verify(actualMoveableMock).getRearmostPosition();
       verify(actualMoveableMock).getGrid();
@@ -63,6 +90,7 @@ class TankGridElementTest {
       verify(actualMoveableMock).isDetectedBy(any(), any());
       verify(actualMoveableMock).check4Collision(any(), any(), any());
       verify(actualMoveableMock).onCollision(Collections.emptyList());
+      assertThat(isTankAvoidable, is(true));
    }
 
    @Test

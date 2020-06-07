@@ -111,7 +111,7 @@ public interface GridElement extends CollisionSensitive {
     * 
     */
    default boolean isAimable() {
-      return true;
+      return false;
    }
 
    /**

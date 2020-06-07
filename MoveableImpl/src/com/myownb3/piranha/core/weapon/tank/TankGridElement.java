@@ -91,6 +91,11 @@ public class TankGridElement implements Tank, GridElement {
       return tank.getTankEngine();
    }
 
+   @Override
+   public boolean isAvoidable() {
+      return true;
+   }
+
    public static class TankGridElementBuilder {
 
       private Grid grid;

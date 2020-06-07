@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionDetector;
@@ -60,9 +61,9 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
             .collect(Collectors.toList());
    }
 
-   private boolean isNotDestroyed(CollisionGridElement gridElement) {
-      return gridElement.getGridElement() instanceof Destructible
-            && !((Destructible) gridElement.getGridElement()).isDestroyed();
+   @Visible4Testing
+   boolean isNotDestroyed(CollisionGridElement gridElement) {
+      return gridElement.getGridElement() instanceof Destructible ? !((Destructible) gridElement.getGridElement()).isDestroyed() : true;
    }
 
    protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(Position newPosition,

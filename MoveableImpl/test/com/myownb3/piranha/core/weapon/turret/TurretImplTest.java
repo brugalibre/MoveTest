@@ -21,8 +21,8 @@ import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
+import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -159,7 +159,7 @@ class TurretImplTest {
 
       int turnIncrement = 4;
 
-      SimpleGridElement simpleGridElement = SimpleGridElementBuilder.builder()
+      Obstacle simpleGridElement = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
             .withPosition(targetGridElemPos)
             .build();

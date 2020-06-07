@@ -38,7 +38,6 @@ import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
@@ -54,7 +53,6 @@ import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
 import com.myownb3.piranha.util.MathUtil;
 
 public class TankTestLauncher {
-
    private static final int padding = 30;
 
    public static void main(String[] args) throws InterruptedException {
@@ -71,7 +69,7 @@ public class TankTestLauncher {
       Position tankPos = Positions.of(480, 100).rotate(180);
 
       List<EndPosition> endPositions = new ArrayList<>();
-      endPositions.add(EndPositions.of(Positions.of(300, 210), 10));
+      endPositions.add(EndPositions.of(Positions.of(350, 210), 10));
       endPositions.add(EndPositions.of(Positions.of(450, 400), 10));
       endPositions.add(EndPositions.of(Positions.of(450, 100), 10));
 
@@ -92,8 +90,8 @@ public class TankTestLauncher {
       double gunWidth = 7;
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(390)
-            .withDetectorAngle(180)
+            .withDetectorReach(250)
+            .withDetectorAngle(360)
             .build();
 
       Moveable simpleGridElement = buildNewMoveable(grid);
@@ -164,8 +162,8 @@ public class TankTestLauncher {
                         .withRotationSpeed(3)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(2)
-                                    .withRoundsPerMinute(40)
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(120)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
                                           .build())
@@ -201,8 +199,8 @@ public class TankTestLauncher {
                         .withRotationSpeed(3)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(2)
-                                    .withRoundsPerMinute(40)
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(120)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
                                           .build())
@@ -272,8 +270,6 @@ public class TankTestLauncher {
       new Thread(() -> {
          int cycleCounter = 0;
          while (true) {
-            addNewProjectilePainters(grid, renderers, existingProjectiles, moveables);
-            removeDestroyedPainters(renderers);
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             cycleCounter++;
 
@@ -290,8 +286,9 @@ public class TankTestLauncher {
       new Thread(() -> {
          while (true) {
             autoDetectables.stream()
-                  .filter(Tank.class::isInstance)
                   .forEach(AutoDetectable::autodetect);
+            addNewProjectilePainters(grid, renderers, existingProjectiles, moveables);
+            removeDestroyedPainters(renderers);
             synchronized (moveables) {
                moveables.stream()
                      .filter(isGridElementAlive(grid))
