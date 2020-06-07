@@ -181,7 +181,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                   .withPosition(randomPosition)
                   .withShape(CircleBuilder.builder()
                         .withRadius(circleRadius)
-                        .withAmountOfPoints(5)
+                        .withAmountOfPoints(20)
                         .withCenter(randomPosition)
                         .build())
                   .build();
