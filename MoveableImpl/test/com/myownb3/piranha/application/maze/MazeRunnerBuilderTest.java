@@ -22,7 +22,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 
 class MazeRunnerBuilderTest {
@@ -134,7 +134,7 @@ class MazeRunnerBuilderTest {
       Grid grid = mock(Grid.class);
       List<Position> expectedPositionList = Collections.emptyList();
       MoveableController moveableController = mock(MoveableController.class);
-      Moveable moveable = mock(Moveable.class);
+      EndPointMoveable moveable = mock(EndPointMoveable.class);
       when(moveable.getPositionHistory()).thenReturn(expectedPositionList);
       when(moveableController.getMoveable()).thenReturn(moveable);
 

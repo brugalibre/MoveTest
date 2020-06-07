@@ -27,6 +27,11 @@ public enum MovingStrategy {
    FORWARD_WITHOUT_END_POS,
 
    /**
+    * Leads the {@link Moveable} forward for one increment.
+    */
+   FORWARD_INCREMENTAL,
+
+   /**
     * Indicates that the {@link MoveableController} leads a {@link Moveable} by
     * moving it 'backward'
     */

@@ -8,9 +8,12 @@ import java.util.List;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
-import com.myownb3.piranha.core.moveables.MoveResult;
-import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.moveables.controller.forwardstrategy.ForwardStrategyHandler;
+import com.myownb3.piranha.core.moveables.controller.forwardstrategy.MoveForwardRequest;
+import com.myownb3.piranha.core.moveables.controller.forwardstrategy.impl.EndPositionForwardStrategyHandler;
+import com.myownb3.piranha.core.moveables.controller.forwardstrategy.impl.IncrementalForwardStrategyHandler;
+import com.myownb3.piranha.core.moveables.controller.forwardstrategy.impl.WithoutEndPosForwardStrategyHandler;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 import com.myownb3.piranha.exception.NotImplementedException;
 
@@ -20,7 +23,7 @@ import com.myownb3.piranha.exception.NotImplementedException;
  */
 public class MoveableController {
 
-   private MovingStrategy strategie;
+   private ForwardStrategyHandler forwardStrategyHandler;
    private EndPointMoveable moveable;
    private List<EndPosition> endPosList;
    private PostMoveForwardHandler handler;
@@ -39,57 +42,28 @@ public class MoveableController {
    public MoveableController(EndPointMoveable moveable, MovingStrategy strategie, List<EndPosition> endPosList) {
       isRunning = true;
       this.moveable = moveable;
-      this.strategie = strategie;
       this.endPosList = endPosList;
       handler = result -> {
       };
+      forwardStrategyHandler = buildForwardStrategyHandler4Strategy(strategie);
+   }
 
+   private ForwardStrategyHandler buildForwardStrategyHandler4Strategy(MovingStrategy movingStrategy) {
+      switch (movingStrategy) {
+         case FORWARD:
+            return new EndPositionForwardStrategyHandler(this);
+         case FORWARD_WITHOUT_END_POS:
+            return new WithoutEndPosForwardStrategyHandler(this);
+         case FORWARD_INCREMENTAL:
+            return new IncrementalForwardStrategyHandler();
+         default:
+            throw new NotImplementedException("Not supported Strategie '" + movingStrategy + "'");
+      }
    }
 
    public void leadMoveable() {
-      switch (strategie) {
-         case FORWARD:
-            leadMoveableWithEndPoints();
-            break;
-
-         case FORWARD_WITHOUT_END_POS:
-            leadMoveableForward();
-            break;
-
-         default:
-            throw new NotImplementedException("Not supported Strategie '" + strategie + "'");
-      }
+      forwardStrategyHandler.moveMoveableForward(MoveForwardRequest.of(moveable, endPosList, handler));
    }
-
-   private void leadMoveableForward() {
-      while (isRunning) {
-         moveable.moveForward();
-         MoveResultImpl moveResult = new MoveResultImpl(moveable.getPosition());
-         handler.handlePostMoveForward(moveResult);
-      }
-   }
-
-   private void leadMoveableWithEndPoints() {
-      for (EndPosition endPos : endPosList) {
-         leadMoveable2EndPos(endPos);
-      }
-   }
-
-   /*
-    * First turn the moveable in the right direction then move forward until we
-    * reach our end position.
-    */
-   private void leadMoveable2EndPos(EndPosition endPos) {
-      moveable.setEndPosition(endPos);
-      while (isRunning) {
-         MoveResult moveResult = moveable.moveForward2EndPos();
-         handler.handlePostMoveForward(moveResult);
-         if (moveResult.isDone()) {
-            break;// We are done
-         }
-      }
-   }
-
 
    /**
     * Stops this {@link MoveableController}
@@ -138,9 +112,8 @@ public class MoveableController {
       }
 
       public MoveableController build() {
-         MoveableController moveableController = new MoveableController(endPointMoveable, endPosList);
+         MoveableController moveableController = new MoveableController(endPointMoveable, movingStrategie, endPosList);
          moveableController.endPosList = endPosList;
-         moveableController.strategie = movingStrategie;
          moveableController.handler = postMoveForwardHandler;
          return moveableController;
       }
@@ -150,7 +123,11 @@ public class MoveableController {
       return this.moveable.getCurrentEndPos();
    }
 
-   public Moveable getMoveable() {
+   public EndPointMoveable getMoveable() {
       return moveable;
+   }
+
+   public boolean isRunning() {
+      return isRunning;
    }
 }
