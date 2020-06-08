@@ -12,7 +12,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
@@ -96,6 +98,82 @@ class DefaultGridTest {
 
       // Then
       verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle1)));
+   }
+
+   @Test
+   void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAwayButBehindMovingGridElement1() {
+
+      // Given
+      int radius = 5;
+      Position moveablePos = Positions.of(Directions.N, 0, 2.99);
+      Position obstaclePos1 = Positions.of(0, 1);
+      Position obstaclePos2 = Positions.of(0, -3);
+      Position obstaclePos3 = Positions.of(0, 3);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(100)
+            .withMaxY(100)
+            .withMinX(-5)
+            .withMinY(-5)
+            .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
+            .build();
+      Moveable moveable = spy(buildMoveable(grid, moveablePos));
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos1)
+            .withShape(buildCircle(obstaclePos1, radius))
+            .build();
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos2)
+            .withShape(buildCircle(obstaclePos2, radius))
+            .build();
+      ObstacleImpl obstacle3 = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos3)
+            .withShape(buildCircle(obstaclePos3, radius))
+            .build();
+      grid.prepare();
+
+      // When
+      moveable.moveForward();
+
+      // Then
+      verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle3)));
+   }
+
+   @Test
+   void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAwayButBehindMovingGridElement2() {
+
+      // Given
+      int radius = 5;
+      Position moveablePos = Positions.of(Directions.S, 0, 0);
+      Position obstaclePos1 = Positions.of(0, 1);
+      Position obstaclePos2 = Positions.of(0, -3);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(100)
+            .withMaxY(100)
+            .withMinX(-5)
+            .withMinY(-5)
+            .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
+            .build();
+      Moveable moveable = spy(buildMoveable(grid, moveablePos));
+      ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos1)
+            .withShape(buildCircle(obstaclePos1, radius))
+            .build();
+      ObstacleImpl obstacle2 = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(obstaclePos2)
+            .withShape(buildCircle(obstaclePos2, radius))
+            .build();
+      grid.prepare();
+
+      // When
+      moveable.moveForward();
+
+      // Then
+      verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle2)));
    }
 
    private CircleImpl buildCircle(Position obstaclePos2, int radius) {

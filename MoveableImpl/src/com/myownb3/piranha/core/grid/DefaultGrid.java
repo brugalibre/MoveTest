@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
+import com.myownb3.piranha.util.MathUtil;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -208,7 +209,15 @@ public class DefaultGrid implements Grid {
       return getAllAvoidableGridElements(gridElement)
             .stream()
             .filter(isGridElementWithinDistance(gridElemPos, distance))
+            .filter(gridElementIsInfrontOf(gridElement))
             .collect(Collectors.toList());
+   }
+
+   private Predicate<? super GridElement> gridElementIsInfrontOf(GridElement movedGridElement) {
+      return gridElement2Check -> {
+         double angleBetweenPositions = MathUtil.calcAngleBetweenPositions(movedGridElement.getPosition(), gridElement2Check.getPosition());
+         return angleBetweenPositions < 180.0;
+      };
    }
 
    private Predicate<? super GridElement> isGridElementWithinDistance(Position gridElemPos, Double distance) {
