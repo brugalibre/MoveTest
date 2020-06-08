@@ -22,9 +22,9 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.Gun;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 
@@ -233,7 +233,7 @@ class TurretShapeImplTest {
 
       private void mockGun(double gunDimensionRadius) {
          when(gunCarriage.getGun()).thenReturn(mock(Gun.class));
-         when(gunCarriage.getGun().getShape()).thenReturn(mock(RectangleImpl.class));
+         when(gunCarriage.getGun().getShape()).thenReturn(mock(GunShapeImpl.class));
          when(gunCarriage.getGun().getShape().getDimensionRadius()).thenReturn(gunDimensionRadius);
       }
 

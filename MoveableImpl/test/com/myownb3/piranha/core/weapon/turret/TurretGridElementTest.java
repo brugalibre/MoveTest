@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.weapon.turret;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,6 +15,25 @@ import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElemen
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 
 class TurretGridElementTest {
+   @Test
+   void testIsTurretAvoidable() {
+      // Given
+      Turret turret = mockTurret();
+      TurretGridElement turretTower = TurretGridElementBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(5)
+                  .withMinX(5)
+                  .build())
+            .withTurret(turret)
+            .build();
+
+      // When
+      boolean actualIsAvoidable = turretTower.isAvoidable();
+
+      // Then
+      assertThat(actualIsAvoidable, is(true));
+   }
+
    @Test
    void testOtherDelegateMethods() {
       // Given

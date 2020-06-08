@@ -36,6 +36,7 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuild
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
@@ -106,11 +107,13 @@ public class TurretTowerTestLauncher {
                                           .build())
                                     .withVelocity(3)
                                     .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(height)
-                                    .withWidth(width)
-                                    .withCenter(northTurretPos)
-                                    .withOrientation(Orientation.VERTICAL)
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(height)
+                                          .withWidth(width)
+                                          .withCenter(northTurretPos)
+                                          .withOrientation(Orientation.VERTICAL)
+                                          .build())
                                     .build())
                               .build())
                         .withShape(CircleBuilder.builder()
@@ -144,11 +147,13 @@ public class TurretTowerTestLauncher {
                                           .build())
                                     .withVelocity(3)
                                     .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(height)
-                                    .withWidth(width)
-                                    .withCenter(southTurretPos)
-                                    .withOrientation(Orientation.VERTICAL)
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(height)
+                                          .withWidth(width)
+                                          .withCenter(southTurretPos)
+                                          .withOrientation(Orientation.VERTICAL)
+                                          .build())
                                     .build())
                               .build())
                         .withShape(CircleBuilder.builder()

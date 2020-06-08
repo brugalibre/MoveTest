@@ -37,6 +37,7 @@ import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
@@ -124,11 +125,19 @@ public class TankTestLauncher {
                                                 .build())
                                           .withVelocity(3)
                                           .build())
-                                    .withRectangle(RectangleBuilder.builder()
-                                          .withHeight(gunHeight)
-                                          .withWidth(gunWidth)
-                                          .withCenter(tankPos)
-                                          .withOrientation(Orientation.HORIZONTAL)
+                                    .withGunShape(GunShapeBuilder.builder()
+                                          .withBarrel(RectangleBuilder.builder()
+                                                .withHeight(gunHeight)
+                                                .withWidth(gunWidth)
+                                                .withCenter(tankPos)
+                                                .withOrientation(Orientation.HORIZONTAL)
+                                                .build())
+                                          .withMuzzleBreak(RectangleBuilder.builder()
+                                                .withHeight(gunWidth * 1.5)
+                                                .withWidth(gunWidth * 1.5)
+                                                .withCenter(tankPos)
+                                                .withOrientation(Orientation.HORIZONTAL)
+                                                .build())
                                           .build())
                                     .build())
                               .withShape(CircleBuilder.builder()
@@ -169,11 +178,13 @@ public class TankTestLauncher {
                                           .build())
                                     .withVelocity(3)
                                     .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(gunHeight)
-                                    .withWidth(gunWidth)
-                                    .withCenter(turretSouthPos)
-                                    .withOrientation(Orientation.HORIZONTAL)
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(gunHeight)
+                                          .withWidth(gunWidth)
+                                          .withCenter(turretSouthPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
                                     .build())
                               .build())
                         .withShape(CircleBuilder.builder()
@@ -206,11 +217,13 @@ public class TankTestLauncher {
                                           .build())
                                     .withVelocity(3)
                                     .build())
-                              .withRectangle(RectangleBuilder.builder()
-                                    .withHeight(gunHeight)
-                                    .withWidth(gunWidth)
-                                    .withCenter(turretNorthPos)
-                                    .withOrientation(Orientation.HORIZONTAL)
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(gunHeight)
+                                          .withWidth(gunWidth)
+                                          .withCenter(turretNorthPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
                                     .build())
                               .build())
                         .withShape(CircleBuilder.builder()
@@ -275,7 +288,12 @@ public class TankTestLauncher {
 
             if (cycleCounter == 400) {
                cycleCounter = 0;
-               buildAndAddMoveable(grid, renderers, moveables);
+               double moveableCounter = moveables.stream()
+                     .filter(isGridElementAlive(grid))
+                     .count();
+               if (moveableCounter <= 3) {
+                  buildAndAddMoveable(grid, renderers, moveables);
+               }
             }
             try {
                Thread.sleep(cycleTime);

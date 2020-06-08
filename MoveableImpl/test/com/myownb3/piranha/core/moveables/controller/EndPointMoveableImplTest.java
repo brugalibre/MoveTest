@@ -26,6 +26,47 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigImpl;
 class EndPointMoveableImplTest {
 
    @Test
+   void testIsNotAimable() {
+      // Given
+      boolean expectedIsAimable = false;
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withStartPosition(Positions.of(0, 0.9))
+            .withMovingIncrement(1)
+            .withMoveablePostActionHandler((g, a) -> {
+            })
+            .build();
+
+      // When
+      boolean actualIsAimable = moveable.isAimable();
+
+      // Then
+      assertThat(actualIsAimable, is(expectedIsAimable));
+   }
+
+   @Test
+   void testIsAimable() {
+      // Given
+      boolean expectedIsAimable = true;
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withStartPosition(Positions.of(0, 0.9))
+            .withIsAimable(true)
+            .withMovingIncrement(1)
+            .withMoveablePostActionHandler((g, a) -> {
+            })
+            .build();
+
+      // When
+      boolean actualIsAimable = moveable.isAimable();
+
+      // Then
+      assertThat(actualIsAimable, is(expectedIsAimable));
+   }
+
+   @Test
    void testMoveBackwards() {
       // Given
       Object expectedPosition = Positions.of(0, 0.7);

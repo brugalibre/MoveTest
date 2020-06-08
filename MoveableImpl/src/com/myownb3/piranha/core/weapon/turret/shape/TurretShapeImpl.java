@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.weapon.turret.shape;
 
-import java.util.ArrayList;
+import static com.myownb3.piranha.core.grid.gridelement.shape.ShapeUtil.combinePath;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -11,8 +12,8 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 
 public class TurretShapeImpl extends AbstractShape implements TurretShape {
@@ -46,7 +47,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    public Position getForemostPosition() {
-      Rectangle gunShape = getGunShape();
+      GunShape gunShape = getGunShape();
       return gunShape.getForemostPosition();
    }
 
@@ -63,7 +64,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
    @Override
    public void transform(Position position) {
       super.transform(position);
-      Rectangle gunShape = getGunShape();
+      GunShape gunShape = getGunShape();
       gunCarriage.evalAndSetPosition(position);
       this.path = combinePath(gunShape, gunCarriage.getShape());
    }
@@ -82,14 +83,8 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       return true;
    }
 
-   private static List<PathSegment> combinePath(Shape gunShape, Shape gunCarriageShape) {
-      List<PathSegment> combinedPath = new ArrayList<PathSegment>(gunShape.getPath());
-      combinedPath.addAll(gunCarriageShape.getPath());
-      return combinedPath;
-   }
-
    @Override
-   public Rectangle getGunShape() {
+   public GunShape getGunShape() {
       return gunCarriage.getGun().getShape();
    }
 
@@ -111,7 +106,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       }
 
       public TurretShapeImpl build() {
-         Rectangle gunShape = gunCarriage.getGun().getShape();
+         GunShape gunShape = gunCarriage.getGun().getShape();
          List<PathSegment> combinedPath = combinePath(gunShape, gunCarriage.getShape());
          return new TurretShapeImpl(combinedPath, gunCarriage);
       }

@@ -1,9 +1,8 @@
 package com.myownb3.piranha.core.weapon.gun;
 
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 
 /**
@@ -15,9 +14,9 @@ import com.myownb3.piranha.core.weapon.turret.Turret;
 public interface Gun {
 
    /**
-    * @return the {@link Shape} of this {@link Gun}
+    * @return the {@link GunShape} of this {@link Gun}
     */
-   Rectangle getShape();
+   GunShape getShape();
 
    /**
     * Fires one salve of this {@link Gun} - depending on the actual implementation

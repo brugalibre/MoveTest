@@ -1,13 +1,13 @@
 package com.myownb3.piranha.core.weapon.gun;
 
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 
 public class BulletGunImpl extends AbstractGun {
 
-   private BulletGunImpl(Rectangle rectangle, GunConfig gunConfig) {
-      super(rectangle, gunConfig);
+   private BulletGunImpl(GunShape gunShape, GunConfig gunConfig) {
+      super(gunShape, gunConfig);
    }
 
    @Override
@@ -23,7 +23,7 @@ public class BulletGunImpl extends AbstractGun {
 
       @Override
       public BulletGunImpl build() {
-         return new BulletGunImpl(rectangle, gunConfig);
+         return new BulletGunImpl(gunShape, gunConfig);
       }
 
       public static BulletGunBuilder builder() {

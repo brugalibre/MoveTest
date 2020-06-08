@@ -9,12 +9,14 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
 import com.myownb3.piranha.ui.render.impl.shape.position.PositionPainter;
 import com.myownb3.piranha.ui.render.impl.shape.rectangle.RectanglePainter;
+import com.myownb3.piranha.ui.render.impl.weapon.gun.GunPainter;
 import com.myownb3.piranha.ui.render.impl.weapon.tank.TankPainter;
 import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretPainter;
 
@@ -59,6 +61,8 @@ public class ShapePainterFactory {
          return new RectanglePainter((Rectangle) shape, color, drawBorder);
       } else if (shape instanceof TurretShape) {
          return new TurretPainter((TurretShape) shape, color);
+      } else if (shape instanceof GunShape) {
+         return new GunPainter((GunShape) shape, color);
       } else {
          throw new RuntimeException("Unknown Shape '" + shape + "'!");
       }

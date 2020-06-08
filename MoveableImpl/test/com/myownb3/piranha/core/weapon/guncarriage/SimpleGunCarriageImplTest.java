@@ -14,6 +14,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 
 class SimpleGunCarriageImplTest {
@@ -31,11 +32,13 @@ class SimpleGunCarriageImplTest {
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
             .withRotationSpeed(90)
             .withGun(BulletGunBuilder.builder()
-                  .withRectangle(RectangleBuilder.builder()
-                        .withHeight(height)
-                        .withWidth(height)
-                        .withCenter(pos)
-                        .withOrientation(Orientation.VERTICAL)
+                  .withGunShape(GunShapeBuilder.builder()
+                        .withBarrel(RectangleBuilder.builder()
+                              .withHeight(height)
+                              .withWidth(height)
+                              .withCenter(pos)
+                              .withOrientation(Orientation.VERTICAL)
+                              .build())
                         .build())
                   .withGunConfig(GunConfigBuilder.builder()
                         .withRoundsPerMinute(5)

@@ -29,16 +29,22 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private EndPosition endPos;
    private int movingIncrement;
    private double prevDistance;
+   private boolean isAimable;
 
-   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
-         Shape shape) {
+   protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
+         Shape shape, boolean isAimable) {
       super(grid, position, handler, shape);
-      this.movingIncrement = movingIncrement;
+      init(movingIncrement, isAimable);
    }
 
-   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement) {
+   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement, boolean isAimable) {
       super(grid, position, handler);
+      init(movingIncrement, isAimable);
+   }
+
+   private void init(int movingIncrement, boolean isAimable) {
       this.movingIncrement = movingIncrement;
+      this.isAimable = isAimable;
    }
 
    @Override
@@ -79,6 +85,11 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       return endPos;
    }
 
+   @Override
+   public boolean isAimable() {
+      return isAimable;
+   }
+
    public static class EndPointMoveableBuilder {
       private Grid grid;
       private Position startPosition;
@@ -86,6 +97,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       private int movingIncrement;
       private Shape shape;
       private MoveableControllerBuilder controllerBuilder;
+      private boolean isAimable;
 
       private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
          this();
@@ -121,13 +133,18 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          return this;
       }
 
+      public EndPointMoveableBuilder withIsAimable(boolean isAimable) {
+         this.isAimable = isAimable;
+         return this;
+      }
+
       public EndPointMoveable build() {
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
          if (nonNull(shape)) {
-            return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape);
+            return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, isAimable);
          }
-         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement);
+         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, isAimable);
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {

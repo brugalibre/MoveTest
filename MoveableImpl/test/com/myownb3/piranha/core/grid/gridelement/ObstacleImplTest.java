@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.destruction.DamageImpl;
+import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
-import com.myownb3.piranha.core.destruction.SelfDestructive;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
@@ -38,7 +38,7 @@ class ObstacleImplTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(DamageImpl.of(1))
                   .withHealth(HealthImpl.of(3))
-                  .withSelfDestructiveDamage(SelfDestructive.of(1))
+                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
                   .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
                   .build())
             .withShape(mock(CircleImpl.class))

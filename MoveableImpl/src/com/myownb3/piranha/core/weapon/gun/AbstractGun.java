@@ -11,26 +11,26 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public abstract class AbstractGun implements Gun {
 
    private static final int TIME_BETWEEN_SALVES = 110;
-   private Rectangle shape;
    private AtomicLong lastTimeStamp;
+   private int minTimeBetweenShooting;
+   private GunShape gunShape;
 
    protected GunConfig gunConfig;
-   private int minTimeBetweenShooting;
 
-   protected AbstractGun(Rectangle shape, GunConfig gunConfig) {
-      this.shape = requireNonNull(shape);
+   protected AbstractGun(GunShape gunShape, GunConfig gunConfig) {
+      this.gunShape = requireNonNull(gunShape);
       this.gunConfig = gunConfig;
       this.minTimeBetweenShooting = 60 * 3600 / gunConfig.getRoundsPerMinute();
       lastTimeStamp = new AtomicLong(System.currentTimeMillis() - minTimeBetweenShooting);
@@ -40,7 +40,7 @@ public abstract class AbstractGun implements Gun {
    public void fire() {
       long now = System.currentTimeMillis();
       if (now - lastTimeStamp.get() >= minTimeBetweenShooting) {
-         Position projectileStartPos = createProjectilStartPos(shape.getForemostPosition(), gunConfig);
+         Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig);
          fireSalve(projectileStartPos);
       }
    }
@@ -84,13 +84,13 @@ public abstract class AbstractGun implements Gun {
 
    @Override
    public void evalAndSetGunPosition(Position gunMountPosition) {
-      Position gunPos = Positions.movePositionForward4Distance(gunMountPosition, shape.getHeight() / 2);
-      this.shape.transform(gunPos);
+      Position gunPos = Positions.movePositionForward4Distance(gunMountPosition, gunShape.getLength() / 2);
+      this.gunShape.transform(gunPos);
    }
 
    @Override
-   public Rectangle getShape() {
-      return shape;
+   public GunShape getShape() {
+      return gunShape;
    }
 
    @Override
@@ -108,7 +108,7 @@ public abstract class AbstractGun implements Gun {
    }
 
    public static abstract class AbstractGunBuilder<T extends AbstractGun> {
-      protected Rectangle rectangle;
+      protected GunShape gunShape;
       protected GunConfig gunConfig;
 
       protected AbstractGunBuilder() {
@@ -120,8 +120,8 @@ public abstract class AbstractGun implements Gun {
          return this;
       }
 
-      public AbstractGunBuilder<T> withRectangle(Rectangle rectangle) {
-         this.rectangle = rectangle;
+      public AbstractGunBuilder<T> withGunShape(GunShape gunShape) {
+         this.gunShape = gunShape;
          return this;
       }
 

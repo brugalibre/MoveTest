@@ -120,6 +120,20 @@ public class Positions {
    }
 
    /**
+    * Creates a new {@link Position} by moving the given position backward for the given distance
+    * 
+    * @param pos
+    *        the Position to move
+    * @param distance
+    *        the distance
+    * 
+    * @return a new {@link Position} by moving the given position for the given distance
+    */
+   public static Position movePositionBackward4Distance(Position pos, double distance) {
+      return POSITION_HELPER.movePositionBackward4Distance(pos, distance);
+   }
+
+   /**
     * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s
     * 
     * @param pos1
@@ -344,5 +358,4 @@ public class Positions {
          return "Direction: '" + direction + "', X-Axis: '" + x + "', Y-Axis: '" + y + "'";
       }
    }
-
 }

@@ -2,7 +2,6 @@ package com.myownb3.piranha.core.destruction;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -20,13 +19,13 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
 
    private Health health;
    private Damage damage;
-   private Destructive selfDestructiveDamage;
+   private SelfDestructive selfDestructive;
    private OnDestroyedCallbackHandler callbackHandler;
 
-   private DestructionHelper(Health health, Damage damage, Destructive selfDestructiveDamage, OnDestroyedCallbackHandler callbackHandler) {
+   private DestructionHelper(Health health, Damage damage, SelfDestructive selfDestructive, OnDestroyedCallbackHandler callbackHandler) {
       this.health = health;
       this.damage = damage;
-      this.selfDestructiveDamage = selfDestructiveDamage;
+      this.selfDestructive = selfDestructive;
       this.callbackHandler = callbackHandler;
    }
 
@@ -42,11 +41,8 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
    }
 
    private void applySelfCausedDamage(List<GridElement> gridElements) {
-      Predicate<? super GridElement> isDestructive = Destructive.class::isInstance;
       gridElements.stream()
-            .filter(isDestructive.negate())
             .map(map2SelfDestructiveDamage())
-            .map(Destructive::getDamage)
             .forEach(health::causeDamage);
    }
 
@@ -68,14 +64,14 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
       return !health.isHealthy();
    }
 
-   private Function<? super GridElement, ? extends Destructive> map2SelfDestructiveDamage() {
-      return gridElement -> this.selfDestructiveDamage;
+   private Function<? super GridElement, ? extends Damage> map2SelfDestructiveDamage() {
+      return gridElement -> this.selfDestructive.getDamage(gridElement);
    }
 
    public static class DestructionHelperBuilder {
       private Health health;
       private Damage damage;
-      private Destructive selfDestructiveDamage;
+      private SelfDestructive selfDestructiveDamage;
       private OnDestroyedCallbackHandler callbackHandler;
 
       private DestructionHelperBuilder() {
@@ -87,7 +83,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
          return this;
       }
 
-      public DestructionHelperBuilder withSelfDestructiveDamage(Destructive selfDestructiveDamage) {
+      public DestructionHelperBuilder withSelfDestructiveDamage(SelfDestructive selfDestructiveDamage) {
          this.selfDestructiveDamage = selfDestructiveDamage;
          return this;
       }

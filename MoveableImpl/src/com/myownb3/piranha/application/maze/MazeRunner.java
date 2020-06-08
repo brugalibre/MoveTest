@@ -131,6 +131,7 @@ public class MazeRunner implements MoveableApplication {
                .withEndPositions(maze.getEndPositions())
                .withPostMoveForwardHandler(postMoveFowardHandler)
                .withEndPointMoveable()
+               .withIsAimable(true)
                .withGrid(maze.getGrid())
                .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()

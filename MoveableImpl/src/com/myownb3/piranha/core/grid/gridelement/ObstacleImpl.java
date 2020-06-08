@@ -9,10 +9,10 @@ import static java.util.Objects.nonNull;
 import java.util.List;
 
 import com.myownb3.piranha.core.destruction.DamageImpl;
+import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.destruction.HealthImpl;
-import com.myownb3.piranha.core.destruction.SelfDestructive;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -52,7 +52,7 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle {
       return DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(OBSTACLE_DAMAGE))
             .withHealth(HealthImpl.of(OBSTACLE_HEALTH))
-            .withSelfDestructiveDamage(SelfDestructive.of(0))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
             .withOnDestroyedCallbackHandler(() -> grid.remove(this))
             .build();
    }

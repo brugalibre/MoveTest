@@ -27,6 +27,7 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 class SimpleBulletGunTest {
@@ -59,10 +60,12 @@ class SimpleBulletGunTest {
                         .withDimension(new DimensionImpl(0, 0, projectileRadius, projectileRadius))
                         .build())
                   .build())
-            .withRectangle(RectangleBuilder.builder()
-                  .withCenter(position)
-                  .withHeight(projectileRadius)
-                  .withWidth(projectileRadius)
+            .withGunShape(GunShapeBuilder.builder()
+                  .withBarrel(RectangleBuilder.builder()
+                        .withCenter(position)
+                        .withHeight(projectileRadius)
+                        .withWidth(projectileRadius)
+                        .build())
                   .build())
             .build());
       simpleBulletGun.evalAndSetGunPosition(position);
@@ -90,10 +93,12 @@ class SimpleBulletGunTest {
                         .withDimension(new DimensionImpl(0, 0, radius, radius))
                         .build())
                   .build())
-            .withRectangle(RectangleBuilder.builder()
-                  .withCenter(position)
-                  .withHeight(5)
-                  .withWidth(5)
+            .withGunShape(GunShapeBuilder.builder()
+                  .withBarrel(RectangleBuilder.builder()
+                        .withCenter(position)
+                        .withHeight(5)
+                        .withWidth(5)
+                        .build())
                   .build())
             .build());
       simpleBulletGun.evalAndSetGunPosition(position);
@@ -119,10 +124,12 @@ class SimpleBulletGunTest {
                         .withDimension(new DimensionImpl(0, 0, 5, 5))
                         .build())
                   .build())
-            .withRectangle(RectangleBuilder.builder()
-                  .withCenter(Positions.of(5, 5))
-                  .withHeight(5)
-                  .withWidth(5)
+            .withGunShape(GunShapeBuilder.builder()
+                  .withBarrel(RectangleBuilder.builder()
+                        .withCenter(Positions.of(5, 5))
+                        .withHeight(5)
+                        .withWidth(5)
+                        .build())
                   .build())
             .build());
       simpleBulletGun.evalAndSetGunPosition(Positions.of(5, 5));

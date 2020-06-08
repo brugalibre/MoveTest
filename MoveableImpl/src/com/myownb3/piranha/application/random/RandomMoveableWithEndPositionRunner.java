@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.application.MoveableApplication;
-import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -31,9 +30,6 @@ import com.myownb3.piranha.core.moveables.controller.MoveableController.Moveable
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
-import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 
 public class RandomMoveableWithEndPositionRunner implements MoveableApplication {
    private MoveableController moveableController;
@@ -120,18 +116,6 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
 
       public RandomRunnerWithEndPositionsBuilder withGrid(Grid grid) {
          this.grid = grid;
-         return this;
-      }
-
-      public RandomRunnerWithEndPositionsBuilder withTurret(IDetector detector, GunCarriage gunCarriage) {
-         gridElements.add(TurretGridElementBuilder.builder()
-               .withGrid(grid)
-               .withTurret(TurretBuilder.builder()
-                     .withDetector(detector)
-                     .withGunCarriage(gunCarriage)
-                     .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                     .build())
-               .build());
          return this;
       }
 

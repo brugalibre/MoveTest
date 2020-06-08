@@ -11,7 +11,10 @@ import java.util.function.Function;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
+import com.myownb3.piranha.core.grid.gridelement.DummyGridWall;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -23,6 +26,8 @@ import com.myownb3.piranha.core.moveables.Moveable;
  *
  */
 public class MirrorGrid extends DefaultGrid {
+
+   private Wall mirrorGridWall;
 
    /**
     * 
@@ -46,6 +51,7 @@ public class MirrorGrid extends DefaultGrid {
     */
    private MirrorGrid(int maxX, int maxY, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
       super(maxX, maxY, minX, minY, collisionDetectionHandler);
+      this.mirrorGridWall = new DummyGridWall(this, Positions.of(minX, minY));
    }
 
    /*
@@ -91,7 +97,7 @@ public class MirrorGrid extends DefaultGrid {
 
    private void handleAfterMirroring(GridElement gridElement) {
       if (gridElement instanceof CollisionSensitive) {
-         ((CollisionSensitive) gridElement).onCollision(Collections.singletonList(gridElement));
+         ((CollisionSensitive) gridElement).onCollision(Collections.singletonList(mirrorGridWall));
       }
    }
 

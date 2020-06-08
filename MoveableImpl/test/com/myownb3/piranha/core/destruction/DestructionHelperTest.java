@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 
@@ -28,7 +29,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(damage))
             .withHealth(HealthImpl.of(3))
-            .withSelfDestructiveDamage(SelfDestructive.of(3))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
 
@@ -43,7 +44,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(1))
             .withHealth(HealthImpl.of(3))
-            .withSelfDestructiveDamage(SelfDestructive.of(3))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mock(Obstacle.class));
@@ -62,7 +63,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(1))
             .withHealth(HealthImpl.of(3))
-            .withSelfDestructiveDamage(SelfDestructive.of(1))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mock(TurretGridElement.class));// Turret is none destructive AND non destructible!
@@ -71,20 +72,20 @@ class DestructionHelperTest {
       destructionHelper.onCollision(gridElements);
 
       // Then
-      assertThat(destructionHelper.isDestroyed(), is(true));
+      assertThat(destructionHelper.isDestroyed(), is(false));
    }
 
    @Test
-   void testOnCollisionWithDestructiveElements_NotDestroyed() {
+   void testProjectileOnCollisionWithGrid_NotDestroyed() {
 
       // Given
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(1))
+            .withDamage(DamageImpl.of(3))
             .withHealth(HealthImpl.of(10))
-            .withSelfDestructiveDamage(SelfDestructive.of(1))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
-      List<GridElement> gridElements = Collections.singletonList(mockProjectileGridElementent(9));
+      List<GridElement> gridElements = Collections.singletonList(mock(Wall.class));
 
       // When
       destructionHelper.onCollision(gridElements);
@@ -100,7 +101,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(1))
             .withHealth(HealthImpl.of(10))
-            .withSelfDestructiveDamage(SelfDestructive.of(1))
+            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mockProjectileGridElementent(11));

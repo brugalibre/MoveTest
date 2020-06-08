@@ -1,9 +1,7 @@
 package com.myownb3.piranha.core.collision.detection;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
@@ -51,6 +49,6 @@ class CommonCollisionDetectionHandlerImplTest {
       collisionDetectionHandlerImpl.handleCollision(Collections.emptyList(), obstacle, newPosition);
 
       // Then
-      verify(obstacle, never()).onCollision(any());
+      verify(obstacle).onCollision(eq(Collections.emptyList()));
    }
 }

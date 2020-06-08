@@ -10,6 +10,7 @@ import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.destruction.SelfDestructive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 
 public class ProjectileImpl implements Projectile {
 
@@ -24,7 +25,7 @@ public class ProjectileImpl implements Projectile {
       return DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(damage))
             .withHealth(HealthImpl.of(health))
-            .withSelfDestructiveDamage(SelfDestructive.of(velocity))
+            .withSelfDestructiveDamage(new ProjectileSelfDestructive(health))
             .withOnDestroyedCallbackHandler(onDestroyCallbackHandler)
             .build();
    }
@@ -42,6 +43,27 @@ public class ProjectileImpl implements Projectile {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       destructionHelper.onCollision(gridElements);
+   }
+
+   private static class ProjectileSelfDestructive implements SelfDestructive {
+      private double initialHealth;
+
+      private ProjectileSelfDestructive(double initialHealth) {
+         this.initialHealth = initialHealth;
+      }
+
+      @Override
+      public Damage getDamage(GridElement gridElement) {
+         double damageValue = Integer.MAX_VALUE; // A Projectile never surfives a collision
+         if (isWall(gridElement)) {
+            damageValue = initialHealth / 2;// except we collided with a wall
+         }
+         return DamageImpl.of(damageValue);
+      }
+
+      private static boolean isWall(GridElement gridElement) {
+         return gridElement instanceof Wall;
+      }
    }
 
    public static class ProjectileBuilder {
