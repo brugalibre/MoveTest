@@ -27,9 +27,9 @@ import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretScanner;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 class TankTurretTest {
 

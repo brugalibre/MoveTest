@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.weapon.turret;
+package com.myownb3.piranha.core.weapon.turret.turretscanner;
 
 import java.util.List;
 

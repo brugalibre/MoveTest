@@ -3,9 +3,9 @@ package com.myownb3.piranha.core.weapon.tank.turret;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretScanner;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 public class TankTurret extends TurretImpl {
 

@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.weapon.turret;
+package com.myownb3.piranha.core.weapon.turret.turretscanner;
 
 import static com.myownb3.piranha.core.weapon.turret.states.TurretState.SCANNING;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,9 +23,10 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
-import com.myownb3.piranha.core.weapon.turret.TurretScanner.TurretScannerBuilder;
+import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner.TurretScannerBuilder;
 
 class TurretScannerTest {
 

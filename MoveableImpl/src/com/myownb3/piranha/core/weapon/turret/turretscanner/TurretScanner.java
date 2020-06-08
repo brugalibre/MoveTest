@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.weapon.turret;
+package com.myownb3.piranha.core.weapon.turret.turretscanner;
 
 import static java.util.Objects.requireNonNull;
 
@@ -11,6 +11,7 @@ import com.myownb3.piranha.core.detector.Pos2DistanceComparator;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
+import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretScanner {
