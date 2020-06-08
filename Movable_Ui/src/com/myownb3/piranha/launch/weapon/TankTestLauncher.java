@@ -25,6 +25,8 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -293,6 +295,7 @@ public class TankTestLauncher {
                      .count();
                if (moveableCounter <= 3) {
                   buildAndAddMoveable(grid, renderers, moveables);
+                  buildAndAddSimpleGridElement(grid, renderers);
                }
             }
             try {
@@ -318,6 +321,25 @@ public class TankTestLauncher {
             }
          }
       }, "LogicHandler").start();
+   }
+
+   private static void buildAndAddSimpleGridElement(Grid grid, List<Renderer> renderers) {
+      double yCordinate = MathUtil.getRandom(450) + padding;
+      double angle2Rotate = -MathUtil.getRandom(90) + 15;
+      Position gridElementPos = Positions.of(300, yCordinate).rotate(angle2Rotate);
+      int gridElementRadius = 10;
+      ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(gridElementPos)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(gridElementRadius)
+                  .withAmountOfPoints(20)
+                  .withCenter(gridElementPos)
+                  .build())
+            .build();
+      synchronized (renderers) {
+         renderers.add(new GridElementPainter(obstacleImpl, GridElementColorUtil.getColor(obstacleImpl), 0, 0));
+      }
    }
 
    private static void buildAndAddMoveable(Grid grid, List<Renderer> renderers, List<Moveable> moveables) {

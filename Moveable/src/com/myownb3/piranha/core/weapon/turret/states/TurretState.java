@@ -14,7 +14,13 @@ public enum TurretState {
    /** In this state a {@link Turret} is scanning the environment and checking for any target */
    SCANNING,
 
-   /** In this state a {@link Turret} has detected a target and is trying to acquiring it in order to shoot */
+   /** In this state a {@link Turret} has detected a Target and is evaluating the actual {@link Position} to acquire */
+   TARGET_DETECTED,
+
+   /**
+    * In this state a {@link Turret} has evaluated a {@link Position} to acquire and is trying to acquiring this very {@link Position} in
+    * order to shoot
+    */
    ACQUIRING,
 
    /** A {@link Turret} has successfully acquired a target and is now shooting */

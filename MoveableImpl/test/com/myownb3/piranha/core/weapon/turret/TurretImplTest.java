@@ -40,6 +40,7 @@ import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TargetGridElement;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 class TurretImplTest {
@@ -149,6 +150,77 @@ class TurretImplTest {
    }
 
    @Test
+   void testTurretImpl_DetectTwiceReachStateTargetDetecting() {
+
+      // Given
+      double radius = 5.0;
+      int height = 10;
+      Position pos = Positions.of(radius, radius);
+      Position targetGridElemPos = Positions.movePositionForward4Distance(Positions.of(9, 10), height * 2);
+
+      DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorAngle(45)
+            .withDetectorReach(30)
+            .withEvasionAngle(0)
+            .withEvasionDistance(0)
+            .build();
+
+      int turnIncrement = 4;
+
+      Obstacle simpleGridElement = ObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(targetGridElemPos)
+            .build();
+
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.singletonList(simpleGridElement))
+            .withDetector(DetectorBuilder.builder()
+                  .withAngleInc(detectorConfig.getEvasionAngleInc())
+                  .withDetectorAngle(detectorConfig.getDetectorAngle())
+                  .withDetectorReach(detectorConfig.getDetectorReach())
+                  .withEvasionAngle(detectorConfig.getDetectorAngle())
+                  .withEvasionDistance(detectorConfig.getEvasionDistance())
+                  .build())
+            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withRotationSpeed(turnIncrement)
+                  .withGun(BulletGunBuilder.builder()
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withVelocity(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(height)
+                                    .withWidth(2)
+                                    .withCenter(pos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius((int) radius)
+                        .withAmountOfPoints((int) radius)
+                        .withCenter(pos)
+                        .build())
+                  .build())
+            .withTargetPositionLeadEvaluator(new TestTargetPositionLeadEvaluator())
+            .build();
+
+      // When
+      turretImpl.autodetect();
+      TurretState stateAfterFirstDetect = turretImpl.state;
+      turretImpl.autodetect();
+
+      // Then
+      assertThat(stateAfterFirstDetect, is(TurretState.TARGET_DETECTED));
+      assertThat(turretImpl.state, is(TurretState.ACQUIRING));
+   }
+
+   @Test
    void testTurretImpl_DetectAndTurn() {
       // Given
       double radius = 5.0;
@@ -209,13 +281,14 @@ class TurretImplTest {
             .build();
 
       // When
-      turretImpl.autodetect();// 1. Detect the target
-      turretImpl.autodetect();// 2. continue
+      turretImpl.autodetect();// 1. Detect the target-GridElement
+      turretImpl.autodetect();// 2. Detect the target-Position (with or without lead)
       turretImpl.autodetect();// 3. continue
+      turretImpl.autodetect();// 4. continue
       TurretState stateStatus3rdRound = turretImpl.getTurretStatus();
-      turretImpl.autodetect();// 4. continue acquiring -> now we reached the other angle
+      turretImpl.autodetect();// 5. continue acquiring -> now we reached the other angle
       TurretState stateStatus4thRound = turretImpl.getTurretStatus();
-      turretImpl.autodetect();// 5. we don't turn again here, since we are done
+      turretImpl.autodetect();// 6. we don't turn again here, since we are done
       TurretState stateStatus5thRound = turretImpl.getTurretStatus();
 
       // Then
@@ -293,10 +366,11 @@ class TurretImplTest {
             .build();
 
       // When
-      turretImpl.autodetect();// 1. Detect the target
-      turretImpl.autodetect();// 2. continue
-      turretImpl.autodetect();// 3. continue
-      turretImpl.autodetect();// 4. continue acquiring -> now we reached the other angle
+      turretImpl.autodetect();// 1. Detect the target-GridElement
+      turretImpl.autodetect();// 2. Detect the target-Position (with or without lead)
+      turretImpl.autodetect();// 4. continue
+      turretImpl.autodetect();// 5. continue
+      turretImpl.autodetect();// 6. continue acquiring -> now we reached the other angle
 
       GunCarriage gunCarriage = turretImpl.getGunCarriage();
       assertThat(gunCarriage.getShape().getCenter().getDirection(), is(not(pos.getDirection())));
@@ -308,6 +382,7 @@ class TurretImplTest {
       turretImpl.autodetect();// 7. return back
       turretImpl.autodetect();// 8. return back
       turretImpl.autodetect();// 9. return back
+      turretImpl.autodetect();// 10. return back
 
       // Then
       assertThat(turretImpl.getShape().getCenter().getDirection(), is(pos.getDirection()));
@@ -315,8 +390,8 @@ class TurretImplTest {
 
    private final class TestTargetPositionLeadEvaluator implements TargetPositionLeadEvaluator {
       @Override
-      public Position calculateTargetConsideringLead(Position targetPosition, Position turretPos) {
-         return targetPosition;
+      public Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position turretPos) {
+         return targetGridElement.getCurrentGridElementPosition();
       }
    }
 

@@ -5,6 +5,7 @@ import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TargetGridElement;
 
 public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvaluator {
 
@@ -15,7 +16,16 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
    }
 
    @Override
-   public Position calculateTargetConsideringLead(Position targetPosition, Position turretPos) {
+   public Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position turretPos) {
+      Position targetPosition = targetGridElement.getCurrentGridElementPosition();
+      // Make sure the GridElement has moved. If not -> lets assume it's static and return it's current / initial Position
+      if (!targetGridElement.isMoving()) {
+         return targetPosition;
+      }
+      return calculateTargetConsideringLead(turretPos, targetPosition);
+   }
+
+   private Position calculateTargetConsideringLead(Position turretPos, Position targetPosition) {
       double distanceFromTurret2Target = calculateDistanceFromTurret2Target(targetPosition, turretPos);
       Position projectStartPos = getProjectileStartPosConsideringVelocity(turretPos);
       int cyclesNeededToReachTarget = calculateCyclesUntilProjectileReachesTarget(targetPosition, projectStartPos, distanceFromTurret2Target);

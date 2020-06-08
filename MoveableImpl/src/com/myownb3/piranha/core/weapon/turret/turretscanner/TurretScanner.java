@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.core.detector.Pos2DistanceComparator;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
@@ -19,45 +19,91 @@ public class TurretScanner {
    private IDetector detector;
    private TargetPositionLeadEvaluator leadEvaluator;
    private GridElementEvaluator gridElementEvaluator;
-   private Optional<Position> nearestDetectedTargetPositionOpt;
+   private Optional<TargetGridElement> nearestDetectedTargetGridElementOpt;
 
    private TurretScanner(Turret turret, IDetector detector, TargetPositionLeadEvaluator targetPositionLeadEvaluator,
          GridElementEvaluator gridElementEvaluator) {
       this.detector = requireNonNull(detector);
       this.gridElementEvaluator = requireNonNull(gridElementEvaluator);
       this.turret = requireNonNull(turret);
-      this.nearestDetectedTargetPositionOpt = Optional.empty();
+      resetNearestDetectedTargetGridElement();
       this.leadEvaluator = targetPositionLeadEvaluator;
    }
 
    public TurretState scan(TurretState currentState) {
+      boolean targetAcquired;
       switch (currentState) {
          case RETURNING:
             //fall through
          case SCANNING:
-            return getNearestTargetPosAndEvalNextState(currentState);
+            return evaluateNearestTargetGridElement(currentState);
+         case TARGET_DETECTED:
+            targetAcquired = evaluatePosition2Acquire4DetectedTargetGridElement();
+            return targetAcquired ? TurretState.ACQUIRING : TurretState.SCANNING;
          case ACQUIRING:
-            // Nothing to do
+            // Nothing to do, the turret is turning arround
             return currentState;
          case SHOOTING:
-            return getNearestTargetPosAndEvalNextState(currentState);
+            targetAcquired = evaluatePosition2Acquire4DetectedTargetGridElement();
+            return targetAcquired ? TurretState.SHOOTING : TurretState.SCANNING;
          default:
             throw new IllegalStateException("Unknown State '" + currentState + "'");
       }
    }
 
-   private TurretState getNearestTargetPosAndEvalNextState(TurretState currentState) {
-      this.nearestDetectedTargetPositionOpt = getNearestTargetPos();
-      return nearestDetectedTargetPositionOpt.map(nearestDetectedTargetPos -> TurretState.ACQUIRING)
+   private TurretState evaluateNearestTargetGridElement(TurretState currentState) {
+      this.nearestDetectedTargetGridElementOpt = getNearestTargetGridElement();
+      return nearestDetectedTargetGridElementOpt.map(nearestDetectedTargetPos -> TurretState.TARGET_DETECTED)
             .orElse(currentState);
    }
 
+   private boolean evaluatePosition2Acquire4DetectedTargetGridElement() {
+      Optional<TargetGridElement> currentTargetGridElementAvailable = getNearestTargetGridElement();
+      if (isStillSameTargetDetected(currentTargetGridElementAvailable)) {
+         TargetGridElement currentDetectedTargetGridElement = currentTargetGridElementAvailable.get();
+         TargetGridElement prevDetectedTargetGridElement = nearestDetectedTargetGridElementOpt.get();
+         currentDetectedTargetGridElement.setPrevAcquiredPos(prevDetectedTargetGridElement.getCurrentGridElementPosition());
+         Position targetPos2Acquire = evaluateTargetPositionFromIdentifiedGridElement(currentTargetGridElementAvailable.get());
+         updateNearestDetectedTargetGridElement(currentDetectedTargetGridElement, targetPos2Acquire);
+         return true;
+      }
+      resetNearestDetectedTargetGridElement();
+      return false;
+   }
+
+   private boolean isStillSameTargetDetected(Optional<TargetGridElement> currentTargetGridElementAvailable) {
+      return currentTargetGridElementAvailable
+            .map(TargetGridElement::getGridElement)
+            .map(isStillSameGridElementDetected())
+            .orElse(false);
+   }
+
+   private Function<? super GridElement, Boolean> isStillSameGridElementDetected() {
+      return currentEvaluatedTargetGridElement -> currentEvaluatedTargetGridElement == nearestDetectedTargetGridElementOpt.get()
+            .getGridElement();
+   }
+
+   private Position evaluateTargetPositionFromIdentifiedGridElement(TargetGridElement nearestTargetGridElement) {
+      Position turretPos = turret.getShape().getForemostPosition();
+      return leadEvaluator.calculateTargetConsideringLead(nearestTargetGridElement, turretPos);
+   }
+
+   private void updateNearestDetectedTargetGridElement(TargetGridElement currentNearestTargetGridElement, Position targetPos2Acquire) {
+      currentNearestTargetGridElement.setTargetPosWithLead2Acquire(targetPos2Acquire);
+      nearestDetectedTargetGridElementOpt = Optional.of(currentNearestTargetGridElement);
+   }
+
+   private void resetNearestDetectedTargetGridElement() {
+      this.nearestDetectedTargetGridElementOpt = Optional.empty();
+   }
+
    /**
-    * 
     * @return the nearest acquired or still acquiring {@link Position}
     */
    public Optional<Position> getNearestDetectedTargetPos() {
-      return nearestDetectedTargetPositionOpt;
+      return nearestDetectedTargetGridElementOpt
+            .map(TargetGridElement::getTargetPosWithLead2Acquire)
+            .flatMap(Optional::ofNullable);
    }
 
    private Predicate<? super GridElement> isGridElementDetected() {
@@ -65,14 +111,13 @@ public class TurretScanner {
       return gridElement -> gridElement.isDetectedBy(detectorPos, detector);
    }
 
-   private Optional<Position> getNearestTargetPos() {
+   private Optional<TargetGridElement> getNearestTargetGridElement() {
       Position detectorPos = turret.getShape().getForemostPosition();
       return getAllPotentialTargetsWithinReach(detectorPos).stream()
             .filter(GridElement::isAimable)
             .filter(isGridElementDetected())
-            .map(GridElement::getPosition)
-            .sorted(new Pos2DistanceComparator(detectorPos))
-            .map(acquiredPos -> leadEvaluator.calculateTargetConsideringLead(acquiredPos, detectorPos))
+            .sorted(new GridElement2DistanceComparator(detectorPos))
+            .map(TargetGridElement::of)
             .findFirst();
    }
 

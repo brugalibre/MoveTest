@@ -43,7 +43,8 @@ public class TurretImpl implements Turret {
    @Override
    public void autodetect() {
       switch (state) {
-         case SCANNING:
+         case SCANNING:// fall through
+         case TARGET_DETECTED:
             handleScanningState();
             break;
          case ACQUIRING:
