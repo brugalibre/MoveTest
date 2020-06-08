@@ -3,11 +3,9 @@
  */
 package com.myownb3.piranha.launch;
 
-import static com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.getPostMoveFowardHandler;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
 import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,8 +38,6 @@ import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
-import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MainWindowHolder;
-import com.myownb3.piranha.launch.DefaultPostMoveForwardHandler.MoveableControllerHolder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
@@ -82,12 +78,9 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       Position startPos = Positions.getRandomPosition(dimension, height, width);
 
       // Helper variables for later access
-      List<Renderer> renderers = new ArrayList<>();
-      List<GridElement> gridElements = new ArrayList<>();
-      MainWindowHolder mainWindowHolder = new MainWindowHolder(mainWindow);
+      PostMoveForwardHandlerCtx ctx = new PostMoveForwardHandlerCtx();
 
       int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
-      MoveableControllerHolder moveableControllerHolder = new MoveableControllerHolder();
       Position turret1Pos = Positions.getRandomPosition(dimension, mainWindowHeight, mainWindowWidth).rotate(Math.random() * 180);
       Position turret2Pos = Positions.getRandomPosition(dimension, mainWindowHeight, mainWindowWidth).rotate(Math.random() * 180);
 
@@ -195,22 +188,23 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                               .withCenter(turret2Pos)
                               .build())
                         .build())
-            .withMoveableController(getPostMoveFowardHandler(mainWindowHolder, moveableControllerHolder, gridElements, renderers))
+            .withMoveableController(new DefaultPostMoveForwardHandler(ctx))
             .build();
 
       Grid grid = endPositionRunner.getGrid();
       grid.prepare();
+      ctx.setGrid(grid);
       MoveableController moveableController = endPositionRunner.getMoveableController();
-      gridElements.addAll(endPositionRunner.getAllGridElements());
-      moveableControllerHolder.setMoveableController(moveableController);
+      ctx.getGridElements().addAll(endPositionRunner.getAllGridElements());
+      ctx.setMoveableController(moveableController);
       collisionDetectionHandler.setMoveableController(moveableController);
 
-      renderers.addAll(getRenderers(height, width, grid, gridElements, moveableController.getMoveable(), endPositionRunner.getConfig(),
-            endPositionRunner.getDetectorCluster()));
-      mainWindow.addSpielfeld(renderers, grid);
+      ctx.getRenderers().addAll(getRenderers(height, width, grid, ctx.getGridElements(), moveableController.getMoveable(),
+            endPositionRunner.getConfig(), endPositionRunner.getDetectorCluster()));
+      mainWindow.addSpielfeld(ctx.getRenderers(), grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
-
-      prepareAndMoveMoveables(endPositionRunner, mainWindow, gridElements, grid);
+      ctx.setMainWindow(mainWindow);
+      prepareAndMoveMoveables(endPositionRunner, mainWindow, ctx.getGridElements(), grid);
    }
 
    private void prepareAndMoveMoveables(RandomMoveableWithEndPositionRunner endPositionRunner, MainWindow mainWindow,
