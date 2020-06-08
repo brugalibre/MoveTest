@@ -71,7 +71,7 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
       return gridElement -> {
          Shape shape2Check = gridElement.getShape();
          return shape2Check.getPath()
-               .stream()
+               .parallelStream()
                .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, ourShapeAtNewPos, gridElement, newPosition))
                .filter(Objects::nonNull)
                .findAny();
