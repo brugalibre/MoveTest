@@ -55,7 +55,7 @@ public class RandomMoveableLauncher implements Stoppable {
    }
 
    private void launch(int height, int width) throws InterruptedException {
-      MainWindow mainWindow = new MainWindow(700, 700, padding, height);
+      MainWindow mainWindow = new MainWindow(400, 400, padding, height);
       CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(this, mainWindow);
 
       MirrorGrid grid = buildGrid(collisionDetector);
@@ -85,7 +85,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
       List<GridElement> gridelements = new ArrayList<>();
 
-      int amount = 40;
+      int amount = 25;
       for (int i = 0; i < amount; i++) {
          Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
          Obstacle obstacle = MoveableObstacleBuilder.builder()
@@ -93,7 +93,7 @@ public class RandomMoveableLauncher implements Stoppable {
                .withPosition(randomPosition)
                .withShape(CircleBuilder.builder()
                      .withRadius(width)
-                     .withAmountOfPoints(4)
+                     .withAmountOfPoints(20)
                      .withCenter(randomPosition)
                      .build())
                .build();
@@ -189,7 +189,7 @@ public class RandomMoveableLauncher implements Stoppable {
    private static Shape buildCircle(int width, Position pos) {
       return CircleBuilder.builder()
             .withRadius(width)
-            .withAmountOfPoints(4)
+            .withAmountOfPoints(15)
             .withCenter(pos)
             .build();//
    }
