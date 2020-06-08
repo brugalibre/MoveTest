@@ -6,12 +6,11 @@ import java.util.stream.Collectors;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
-import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.launch.weapon.ProjectilePaintUtil;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
@@ -29,9 +28,9 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       List<Moveable> moveables = getAllMoveables();
       setCurrentTargetPosition(ctx.getMoveableController(), ctx.getRenderers());
       moveGridElementsForward(moveables);
+      callAutoDetect(ctx.getGridElements());
       //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
-      checkTurret(ctx.getGridElements());
-      ProjectilePaintUtil.addNewProjectilePainters(ctx.getGrid(), ctx.getRenderers(), ctx.getExistingProjectiles(), moveables);
+      ProjectilePaintUtil.addNewProjectilePainters(ctx.getGrid(), ctx.getRenderers(), ctx.getExistingProjectiles(), ctx.getGridElements());
       ProjectilePaintUtil.removeDestroyedPainters(ctx.getRenderers());
 
       SwingUtilities.invokeLater(() -> ctx.getMainWindow().refresh());
@@ -42,17 +41,18 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       }
    }
 
-   private List<Moveable> getAllMoveables() {
-      return ctx.getGridElements().stream()
-            .filter(MoveableObstacleImpl.class::isInstance)
-            .map(MoveableObstacleImpl.class::cast).collect(Collectors.toList());
+   private void callAutoDetect(List<GridElement> gridElements) {
+      gridElements.stream()
+            .filter(AutoDetectable.class::isInstance)
+            .map(AutoDetectable.class::cast)
+            .forEach(AutoDetectable::autodetect);
    }
 
-   private void checkTurret(List<GridElement> allGridElements) {
-      allGridElements.stream()
-            .filter(Turret.class::isInstance)
-            .map(Turret.class::cast)
-            .forEach(Turret::autodetect);
+   private List<Moveable> getAllMoveables() {
+      return ctx.getGridElements().stream()
+            .filter(Moveable.class::isInstance)
+            .map(Moveable.class::cast)
+            .collect(Collectors.toList());
    }
 
    private static void moveGridElementsForward(List<Moveable> moveables) {

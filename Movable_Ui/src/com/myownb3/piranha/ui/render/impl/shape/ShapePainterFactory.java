@@ -46,7 +46,7 @@ public class ShapePainterFactory {
       } else if (shape instanceof TurretShape) {
          return new TurretPainter((TurretShape) shape, color);
       } else if (shape instanceof TankShape) {
-         return new TankPainter((TankShape) shape, color, color.darker());
+         return new TankPainter((TankShape) shape, color, color.darker().darker());
       } else {
          throw new RuntimeException("Unknown Shape '" + shape + "'!");
       }

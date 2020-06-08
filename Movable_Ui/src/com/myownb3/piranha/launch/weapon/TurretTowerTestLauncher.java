@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -251,7 +252,7 @@ public class TurretTowerTestLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Moveable> simpleGridElement,
          List<TurretGridElement> turretTowers, List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
-      List<Moveable> moveables = new ArrayList<>();
+      List<GridElement> moveables = new ArrayList<>();
       moveables.addAll(simpleGridElement);
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;
@@ -272,6 +273,8 @@ public class TurretTowerTestLauncher {
                   .forEach(Turret::autodetect);
             synchronized (moveables) {
                moveables.stream()
+                     .filter(Moveable.class::isInstance)
+                     .map(Moveable.class::cast)
                      .forEach(moveable -> moveable.moveForward(10));
             }
             try {

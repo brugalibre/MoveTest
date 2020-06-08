@@ -13,14 +13,18 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrier;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
+import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
@@ -31,6 +35,11 @@ import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 
 
 class MazeRunnerTest {
@@ -85,7 +94,9 @@ class MazeRunnerTest {
                   .appendCorridorLeftAngleBend()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
+                  .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .withEndPosition(CircleBuilder.builder()
@@ -116,8 +127,8 @@ class MazeRunnerTest {
    void testBuildMazeRunWithCustomMaze_WithoutEndPos() {
 
       // Given
-      double expectedXAxisValue = 462;
-      double expectedYAxisValue = 485.4113448726;
+      double expectedXAxisValue = 382;
+      double expectedYAxisValue = 565;
       Position startPos = Positions.of(130, 330);
       int wallThickness = 10;
       int coridorWidth = 80;
@@ -243,6 +254,46 @@ class MazeRunnerTest {
                   .withSegmentLenth(segmentLength)
                   .appendCorridorSegment()
                   .appendCorridorSegment()
+                  .withTurret(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(180)
+                        .withDetectorReach(200)
+                        .withEvasionAngle(180)
+                        .withEvasionDistance(22)
+                        .build(),
+                        SimpleGunCarriageBuilder.builder()
+                              .withRotationSpeed(2)
+                              .withGun(BulletGunBuilder.builder()
+                                    .withGunConfig(GunConfigBuilder.builder()
+                                          .withSalveSize(1)
+                                          .withRoundsPerMinute(70)
+                                          .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                                .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .build())
+                                          .withVelocity(4)
+                                          .build())
+                                    .withGunShape(GunShapeBuilder.builder()
+                                          .withBarrel(RectangleBuilder.builder()
+                                                .withHeight(10)
+                                                .withWidth(5)
+                                                .withCenter(Positions.of(5, 5))
+                                                .withOrientation(Orientation.VERTICAL)
+                                                .build())
+                                          .withMuzzleBreak(RectangleBuilder.builder()
+                                                .withHeight(5 * 1.5)
+                                                .withWidth(5 * 1.5)
+                                                .withCenter(Positions.of(5, 5))
+                                                .withOrientation(Orientation.VERTICAL)
+                                                .build())
+                                          .build())
+                                    .build())
+                              .withShape(CircleBuilder.builder()
+                                    .withRadius(5)
+                                    .withAmountOfPoints(5)
+                                    .withCenter(Positions.of(5, 5))
+                                    .build())
+                              .build(),
+                        CorridorSide.LEFT)
                   .build()
                   .build())
             .withMoveableController(res -> {

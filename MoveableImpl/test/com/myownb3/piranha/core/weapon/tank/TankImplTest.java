@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.weapon.tank;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.isA;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -190,7 +189,7 @@ class TankImplTest {
 
       // Then
       assertThat(tank.getTurret().getShape().getCenter(), is(tank.getPosition()));
-      assertThat(tank.getShape(), isA(TankShape.class));
+      assertThat(tank.getShape() instanceof TankShape, is(true));
    }
 
    @Test

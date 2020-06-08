@@ -64,8 +64,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       CollisionDetectionHandlerImpl collisionDetectionHandler = new CollisionDetectionHandlerImpl(this, mainWindow);
       Dimension dimension = new DimensionImpl(padding, padding, mainWindowWidth, mainWindowWidth);
 
-      int detectorReach = 70;
-      int evasionDistance = 50;
+      int detectorReach = 90;
+      int evasionDistance = 80;
       Position startPos = Positions.getRandomPosition(dimension, height, width);
 
       // Helper variables for later access
@@ -95,8 +95,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withDetectorConfig(DetectorConfigBuilder.builder()
                         .withDetectorReach(detectorReach)
                         .withEvasionDistance(evasionDistance)
-                        .withDetectorAngle(60)
-                        .withEvasionAngle(45)
+                        .withDetectorAngle(180)
+                        .withEvasionAngle(16)
                         .withEvasionAngleInc(1)
                         .build())
                   .build())
@@ -107,7 +107,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngle(45)
                   .withEvasionAngleInc(1)
                   .build())
-            .withDefaultDetectorCluster()
             .withMoveableController(new DefaultPostMoveForwardHandler(ctx))
             .build();
 

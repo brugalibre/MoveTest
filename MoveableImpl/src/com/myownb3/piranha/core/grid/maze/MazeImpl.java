@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.grid.maze;
 
+import static com.myownb3.piranha.core.grid.gridelement.position.Positions.movePositionBackward4Distance;
 import static java.util.Objects.isNull;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.Grid;
@@ -24,11 +26,16 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement.WallGridElementBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegmentImpl;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
+import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 
 public class MazeImpl implements Maze {
 
@@ -176,16 +183,64 @@ public class MazeImpl implements Maze {
          }
 
          public CorridorBuilder appendCorridorSegment() {
+            appendCorridorSegment(false);
+            return this;
+         }
 
+         private void appendCorridorSegment(boolean isAngleBend) {
             Position corridorSegmentCenter = getNextSegmentCenter();
             Position rectangleCenter = getRectangleCenter(corridorSegmentCenter, 90);
-            GridElement corridorSegmentWall1 = buildRectangleObstacle(grid, wallThickness, segmentLenth, rectangleCenter);
+            Wall corridorSegmentWall1 = buildWallGridElemenet(grid, wallThickness, segmentLenth, rectangleCenter);
 
             rectangleCenter = getRectangleCenter(corridorSegmentCenter, -90);
-            GridElement corridorSegmentWall2 = buildRectangleObstacle(grid, wallThickness, segmentLenth, rectangleCenter);
-            currentCorridorSegment = new CorridorSegmentImpl(corridorSegmentWall1, corridorSegmentWall2, corridorSegmentCenter);
+            Wall corridorSegmentWall2 = buildWallGridElemenet(grid, wallThickness, segmentLenth, rectangleCenter);
+            currentCorridorSegment = new CorridorSegmentImpl(corridorSegmentWall1, corridorSegmentWall2, corridorSegmentCenter, isAngleBend);
             corridorSegments.add(currentCorridorSegment);
+         }
+
+         public CorridorBuilder withTurret(IDetector detector, GunCarriage gunCarriage, CorridorSide corridorSide) {
+            Position corridorSegmentCenter = getTurretPosition(gunCarriage, corridorSide);
+            gunCarriage.getShape().transform(corridorSegmentCenter);
+            corridorGridElements.add(TurretGridElementBuilder.builder()
+                  .withGrid(grid)
+                  .withTurret(TurretBuilder.builder()
+                        .withDetector(detector)
+                        .withGunCarriage(gunCarriage)
+                        .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                        .build())
+                  .build());
             return this;
+         }
+
+         private Position getTurretPosition(GunCarriage gunCarriage, CorridorSide corridorSide) {
+            boolean isAngleBend = currentCorridorSegment.isAngleBend();
+            if (!isAngleBend) {
+               return getPositionOnWall(corridorSide, 0);
+            }
+            double offset2Corner = corridorWidth / 2 + gunCarriage.getShape().getDimensionRadius();
+            return getPositionOnAngleBendWall(offset2Corner);
+         }
+
+         private Position getPositionOnAngleBendWall(double offset2Corner) {
+            double angleBetweenLeftAndRightWall = calcAngleDiffBetweenWalls();
+            double angleDiff = adjustAngleDiff4TurnWithin180(angleBetweenLeftAndRightWall / 2);
+            return movePositionBackward4Distance(currentCorridorSegment.getCorridorSegCenter()
+                  .rotate(angleDiff), offset2Corner);
+         }
+
+         private double calcAngleDiffBetweenWalls() {
+            Wall corridorSegmentWallLeft = currentCorridorSegment.getCorridorSegmentWallLeft();
+            Wall corridorSegmentWallRight = currentCorridorSegment.getCorridorSegmentWallRight();
+            double angleRight = corridorSegmentWallRight.getPosition().getDirection().getAngle();
+            double angleLeft = corridorSegmentWallLeft.getPosition().getDirection().getAngle();
+            return angleLeft - angleRight;
+         }
+
+         private double adjustAngleDiff4TurnWithin180(double angleDiff) {
+            if (angleDiff < 0 && angleDiff < -90) {
+               angleDiff = angleDiff - 180;
+            }
+            return angleDiff;
          }
 
          public CorridorBuilder appendCorridorLeftAngleBend() {
@@ -224,22 +279,7 @@ public class MazeImpl implements Maze {
          }
 
          public CorridorBuilder withDetector(DetectorConfig detectorConfig, CorridorSide corridorSide) {
-            Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
-            Position detectorCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, segmentLenth / 2);
-            switch (corridorSide) {
-               case LEFT:
-                  detectorCenter = detectorCenter.rotate(-90);
-                  detectorCenter = Positions.movePositionForward4Distance(detectorCenter, corridorWidth / 2);
-                  detectorCenter = detectorCenter.rotate(-180);
-                  break;
-               case RIGHT:
-                  detectorCenter = detectorCenter.rotate(90);
-                  detectorCenter = Positions.movePositionForward4Distance(detectorCenter, corridorWidth / 2);
-                  detectorCenter = detectorCenter.rotate(180);
-                  break;
-               default:
-                  throw new IllegalStateException("Unknown corridor side'" + corridorSegmentCenter + "'");
-            }
+            Position detectorCenter = getPositionOnWall(corridorSide, segmentLenth / 2);
 
             currentCorridorSegment.setDetector(PlacedDetectorBuilder.builder()
                   .withIDetector(DetectorBuilder.builder()
@@ -254,6 +294,26 @@ public class MazeImpl implements Maze {
             return this;
          }
 
+         private Position getPositionOnWall(CorridorSide corridorSide, double offsetFromCenterAlongTheWall) {
+            Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
+            Position wallPosition = Positions.movePositionForward4Distance(corridorSegmentCenter, offsetFromCenterAlongTheWall);
+            switch (corridorSide) {
+               case LEFT:
+                  wallPosition = wallPosition.rotate(-90);
+                  wallPosition = Positions.movePositionForward4Distance(wallPosition, corridorWidth / 2);
+                  wallPosition = wallPosition.rotate(-180);
+                  break;
+               case RIGHT:
+                  wallPosition = wallPosition.rotate(90);
+                  wallPosition = Positions.movePositionForward4Distance(wallPosition, corridorWidth / 2);
+                  wallPosition = wallPosition.rotate(180);
+                  break;
+               default:
+                  throw new IllegalStateException("Unknown corridor side'" + corridorSegmentCenter + "'");
+            }
+            return wallPosition;
+         }
+
          public CorridorBuilder withEndPosition(Shape shape) {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             EndPosition endPosition = EndPositions.of(corridorSegmentCenter, endPositionPrecision);
@@ -266,21 +326,19 @@ public class MazeImpl implements Maze {
 
             // First build the angle (bendSegment) itself. It consist of two Corridor elements, like this: _| Note that the vertical element is slightly greater
             Position rectangleCenter = getRectangleCenter(corridorSegmentCenter, signum * 90);
-            GridElement bendSegment1 = buildRectangleObstacle(grid, wallThickness, segmentLenth, rectangleCenter);
+            Wall bendSegment1 = buildWallGridElemenet(grid, wallThickness, segmentLenth, rectangleCenter);
 
             // Move it at the end of the rectangle above
             rectangleCenter = corridorSegmentCenter.rotate(signum * -90);
             rectangleCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, halfThickness() + segmentLenth / 2);
-            GridElement bendSegment2 = buildRectangleObstacle(grid, wallThickness, corridorWidth + 2 * wallThickness, rectangleCenter);
+            Wall bendSegment2 = buildWallGridElemenet(grid, wallThickness, corridorWidth + 2 * wallThickness, rectangleCenter);
             corridorSegmentCenter = corridorSegmentCenter.rotate(signum * -90);
-            currentCorridorSegment = new CorridorSegmentImpl(bendSegment1, bendSegment2, corridorSegmentCenter);
+            currentCorridorSegment = new CorridorSegmentImpl(bendSegment1, bendSegment2, corridorSegmentCenter, true);
             corridorSegments.add(currentCorridorSegment);
 
             // and now add another corridor segment to finish the angle-bend
             corridorSegmentCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, (corridorWidth / 2) - 3.0 * wallThickness);
-            appendCorridorSegment();
          }
-
 
          public MazeBuilder build() {
             mazeBuilder.corridorSegments.addAll(corridorSegments);
@@ -311,8 +369,8 @@ public class MazeImpl implements Maze {
       }
    }
 
-   private static GridElement buildRectangleObstacle(Grid grid, double height, double width, Position center) {
-      return ObstacleBuilder.builder()
+   private static Wall buildWallGridElemenet(Grid grid, double height, double width, Position center) {
+      return WallGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(center)
             .withShape(RectangleBuilder.builder()

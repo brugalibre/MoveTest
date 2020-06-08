@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.application.MoveableApplication;
+import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -78,7 +79,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
       private Position startPosition;
       private int circleRadius;
 
-      private TrippleDetectorCluster trippleDetectorCluster;
+      private Detector detector;
       private EvasionStateMachineConfig config;
       private int movingIncrement;
       private DetectorConfig sideDetectorConfig;
@@ -130,7 +131,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
       }
 
       public RandomRunnerWithEndPositionsBuilder withDefaultDetectorCluster() {
-         trippleDetectorCluster = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(DetectorConfigImpl.of(config), sideDetectorConfig);
+         detector = TrippleDetectorClusterBuilder.buildDefaultDetectorCluster(DetectorConfigImpl.of(config), sideDetectorConfig);
          return this;
       }
 
@@ -144,7 +145,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                .withGrid(grid)
                .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
-                     .withDetector(trippleDetectorCluster)
+                     .withDetector(detector)
                      .withEvasionStateMachineConfig(config)
                      .build())
                .withShape(buildCircle(4, startPosition))
@@ -178,7 +179,9 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
       public RandomMoveableWithEndPositionRunner build() {
          RandomMoveableWithEndPositionRunner endPositionRunner = new RandomMoveableWithEndPositionRunner();
          endPositionRunner.moveableController = moveableController;
-         endPositionRunner.detectorCluster = trippleDetectorCluster;
+         if (detector instanceof TrippleDetectorCluster) {
+            endPositionRunner.detectorCluster = (TrippleDetectorCluster) detector;
+         }
          endPositionRunner.config = config;
          endPositionRunner.grid = grid;
          endPositionRunner.allGridElements.addAll(endPositions.stream()

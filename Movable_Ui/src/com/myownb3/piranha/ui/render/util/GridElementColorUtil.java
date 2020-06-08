@@ -28,11 +28,11 @@ public class GridElementColorUtil {
       if (gridElement instanceof Obstacle) {
          return Color.RED;
       } else if (gridElement instanceof Tank) {
-         return Color.ORANGE;
+         return new Color(105, 139, 34).darker();
       } else if (gridElement instanceof Turret) {
-         return Color.ORANGE.darker();
+         return Color.GRAY.darker();
       } else if (gridElement instanceof Projectile) {
-         return Color.GRAY;
+         return Color.BLACK;
       } else if (gridElement instanceof Moveable) {
          return new Color(0, 206, 209).darker();
       } else if (gridElement instanceof EndPositionGridElement) {

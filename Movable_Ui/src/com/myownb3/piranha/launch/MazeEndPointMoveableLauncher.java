@@ -18,17 +18,23 @@ import com.myownb3.piranha.application.maze.MazeRunner;
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
+import com.myownb3.piranha.core.detector.DetectorImpl;
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
+import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
+import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
@@ -37,6 +43,12 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
+import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl;
+import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -69,11 +81,26 @@ public class MazeEndPointMoveableLauncher {
       int evasionAngle = 60;
       int detectorAngle = 60;
 
+      DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(100)
+            .withDetectorAngle(180)
+            .build();
+
       Position startPos = Positions.of(100 + padding, 100 + padding);
       Position center = Positions.of(startPos);
       startPos = startPos.rotate(-45);
       PostMoveForwardHandlerCtx ctx = new PostMoveForwardHandlerCtx();
       MazePostMoveForwardHandler postMoveFowardHandler = new MazePostMoveForwardHandler(ctx);
+      double gunHeight = 5;
+      double gunWidth = 10;
+      int gunCarriageRadius = 8;
+      DetectorImpl turretScanner = DetectorBuilder.builder()
+            .withAngleInc(detectorConfig.getEvasionAngleInc())
+            .withDetectorAngle(detectorConfig.getDetectorAngle())
+            .withDetectorReach(detectorConfig.getDetectorReach())
+            .withEvasionAngle(detectorConfig.getDetectorAngle())
+            .withEvasionDistance(detectorConfig.getEvasionDistance())
+            .build();
       MazeRunner mazeRunner = MazeRunnerBuilder.builder()
             .withMovingIncrement(4)
             .withMaze(MazeBuilder.builder()
@@ -95,20 +122,30 @@ public class MazeEndPointMoveableLauncher {
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
-                  .withMoveableObstacle(CircleBuilder.builder()
+                  .withObstacle(CircleBuilder.builder()
                         .withRadius(circleRadius)
                         .withAmountOfPoints(circleRadius)
                         .withCenter(Positions.of(0, 0))
-                        .build(), 0, 0, -25)
+                        .build(), 0, 0)
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorRightAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.LEFT)
+                  .appendCorridorSegment()
                   .appendCorridorRightAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   //                  .withObstacle(CircleBuilder.builder()
@@ -118,15 +155,21 @@ public class MazeEndPointMoveableLauncher {
                   //                        .build(), -10, 0)
                   .appendCorridorSegment()
                   .appendCorridorLeftAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorRightAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorRightAngleBend()
+                  .withTurret(turretScanner, buildGunCarriage(gunHeight, gunWidth, gunCarriageRadius), CorridorSide.RIGHT)
+                  .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorSegment()
@@ -137,7 +180,7 @@ public class MazeEndPointMoveableLauncher {
                         .withDetectorReach(coridorWidth)
                         .withEvasionAngle(0)
                         .withEvasionDistance(0)
-                        .build(), CorridorSide.LEFT)
+                        .build(), CorridorSide.RIGHT)
 
                   //// Maze Bsp. 1
                   //                  .appendCorridorSegment()
@@ -199,7 +242,6 @@ public class MazeEndPointMoveableLauncher {
             .withPlacedDetector(evalDetector(mazeRunner.getMaze()))
             .build());
 
-
       MoveableController moveableController = mazeRunner.getMoveableController();
       ctx.getGridElements().addAll(mazeRunner.getAllGridElements());
       ctx.getGridElements().add(moveableController.getMoveable());
@@ -217,6 +259,41 @@ public class MazeEndPointMoveableLauncher {
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = mazeRunner.run();
       preparePositionListPainter(ctx.getRenderers(), positions);
+   }
+
+   private SimpleGunCarriageImpl buildGunCarriage(double gunHeight, double gunWidth, int gunCarriageRadius) {
+      return SimpleGunCarriageBuilder.builder()
+            .withRotationSpeed(2)
+            .withGun(BulletGunBuilder.builder()
+                  .withGunConfig(GunConfigBuilder.builder()
+                        .withSalveSize(1)
+                        .withRoundsPerMinute(70)
+                        .withProjectileConfig(ProjectileConfigBuilder.builder()
+                              .withDimension(new DimensionImpl(0, 0, 3, 3))
+                              .build())
+                        .withVelocity(4)
+                        .build())
+                  .withGunShape(GunShapeBuilder.builder()
+                        .withBarrel(RectangleBuilder.builder()
+                              .withHeight(gunHeight)
+                              .withWidth(gunWidth)
+                              .withCenter(Positions.of(5, 5))
+                              .withOrientation(Orientation.VERTICAL)
+                              .build())
+                        .withMuzzleBreak(RectangleBuilder.builder()
+                              .withHeight(gunHeight * 1.5)
+                              .withWidth(gunHeight * 1.5)
+                              .withCenter(Positions.of(5, 5))
+                              .withOrientation(Orientation.VERTICAL)
+                              .build())
+                        .build())
+                  .build())
+            .withShape(CircleBuilder.builder()
+                  .withRadius(gunCarriageRadius)
+                  .withAmountOfPoints(gunCarriageRadius)
+                  .withCenter(Positions.of(5, 5))
+                  .build())
+            .build();
    }
 
    private PlacedDetector evalDetector(Maze maze) {

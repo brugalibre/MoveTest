@@ -277,7 +277,7 @@ public class TankTestLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Moveable> simpleGridElements,
          List<AutoDetectable> autoDetectables, List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
-      List<Moveable> moveables = new ArrayList<>();
+      List<GridElement> moveables = new ArrayList<>();
       moveables.addAll(simpleGridElements);
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
@@ -312,6 +312,8 @@ public class TankTestLauncher {
             removeDestroyedPainters(renderers);
             synchronized (moveables) {
                moveables.stream()
+                     .filter(Moveable.class::isInstance)
+                     .map(Moveable.class::cast)
                      .filter(isGridElementAlive(grid))
                      .forEach(moveable -> moveable.moveForward(10));
             }
@@ -342,7 +344,7 @@ public class TankTestLauncher {
       }
    }
 
-   private static void buildAndAddMoveable(Grid grid, List<Renderer> renderers, List<Moveable> moveables) {
+   private static void buildAndAddMoveable(Grid grid, List<Renderer> renderers, List<GridElement> moveables) {
       Moveable moveable = buildNewMoveable(grid);
       synchronized (renderers) {
          renderers.add(new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), 0, 0));
@@ -352,7 +354,7 @@ public class TankTestLauncher {
       }
    }
 
-   private static Predicate<? super Moveable> isGridElementAlive(Grid grid) {
+   private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
       return gridElement -> grid.containsElement(gridElement);
    }
 }

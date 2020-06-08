@@ -26,7 +26,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
       this.health = health;
       this.damage = damage;
       this.selfDestructive = selfDestructive;
-      this.callbackHandler = callbackHandler;
+      this.callbackHandler = callbackHandler;// can be null for objects which are not destroyable
    }
 
    @Override
