@@ -30,14 +30,14 @@ class TankGridElementTest {
    void testIsAimable() {
 
       // Given
-      Moveable actualMoveableMock = mock(Moveable.class);
+      Moveable actualMoveableMock = mockMoveable();
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .withMaxX(5)
                   .withMinX(5)
                   .build())
             .withTankMoveable(actualMoveableMock)
-            .withTank(mockTank())
+            .withTank(mockTank(actualMoveableMock))
             .build();
 
       // When
@@ -47,11 +47,17 @@ class TankGridElementTest {
       assertThat(isActualAimable, is(false));
    }
 
+   private Moveable mockMoveable() {
+      Moveable moveable = mock(Moveable.class);
+      when(moveable.getShape()).thenReturn(mock(TankShapeImpl.class));
+      return moveable;
+   }
+
    @Test
    void testOtherDelegateMethods() {
       // Given
-      Tank tank = mockTank();
-      Moveable actualMoveableMock = mock(Moveable.class);
+      Moveable actualMoveableMock = mockMoveable();
+      Tank tank = mockTank(actualMoveableMock);
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .withMaxX(5)
@@ -96,7 +102,8 @@ class TankGridElementTest {
    @Test
    void testAutodetect() {
       // Given
-      Tank turret = mockTank();
+      Moveable moveable = mockMoveable();
+      Tank turret = mockTank(moveable);
       TankGridElement turretTower = TankGridElementBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .withMaxX(5)
@@ -112,11 +119,13 @@ class TankGridElementTest {
       verify(turret).autodetect();
    }
 
-   private Tank mockTank() {
+   private Tank mockTank(Moveable moveable) {
       Tank tank = mock(Tank.class);
       when(tank.getShape()).thenReturn(mock(TankShapeImpl.class));
       when(tank.getShape().getCenter()).thenReturn(Positions.of(5, 5));
-      when(tank.getTankEngine()).thenReturn(mock(TankEngineImpl.class));
+      TankEngineImpl tankEngine = mock(TankEngineImpl.class);
+      when(tankEngine.getMoveable()).thenReturn(moveable);
+      when(tank.getTankEngine()).thenReturn(tankEngine);
       return tank;
    }
 }

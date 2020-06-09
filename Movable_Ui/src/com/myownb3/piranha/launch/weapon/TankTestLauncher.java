@@ -70,6 +70,7 @@ public class TankTestLauncher {
       Position turretSouthPos = Positions.of(390, 430).rotate(120);
       Position turretNorthPos = Positions.of(390, 70).rotate(60);
       Position tankPos = Positions.of(480, 100).rotate(180);
+      Position tankTurretPos = Positions.movePositionForward4Distance(tankPos, 20);
 
       List<EndPosition> endPositions = new ArrayList<>();
       endPositions.add(EndPositions.of(Positions.of(350, 210), 10));
@@ -120,8 +121,8 @@ public class TankTestLauncher {
                               .withRotationSpeed(4)
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
-                                          .withSalveSize(1)
-                                          .withRoundsPerMinute(350)
+                                          .withSalveSize(3)
+                                          .withRoundsPerMinute(150)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimension(new DimensionImpl(0, 0, 3, 3))
                                                 .build())
@@ -131,13 +132,13 @@ public class TankTestLauncher {
                                           .withBarrel(RectangleBuilder.builder()
                                                 .withHeight(gunHeight)
                                                 .withWidth(gunWidth)
-                                                .withCenter(tankPos)
+                                                .withCenter(tankTurretPos)
                                                 .withOrientation(Orientation.HORIZONTAL)
                                                 .build())
                                           .withMuzzleBreak(RectangleBuilder.builder()
                                                 .withHeight(gunWidth * 1.5)
                                                 .withWidth(gunWidth * 1.5)
-                                                .withCenter(tankPos)
+                                                .withCenter(tankTurretPos)
                                                 .withOrientation(Orientation.HORIZONTAL)
                                                 .build())
                                           .build())
@@ -145,7 +146,7 @@ public class TankTestLauncher {
                               .withShape(CircleBuilder.builder()
                                     .withRadius(gunCarriageRadius)
                                     .withAmountOfPoints(gunCarriageRadius)
-                                    .withCenter(tankPos)
+                                    .withCenter(tankTurretPos)
                                     .build())
                               .build())
                         .build())
@@ -173,8 +174,8 @@ public class TankTestLauncher {
                         .withRotationSpeed(3)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(120)
+                                    .withSalveSize(3)
+                                    .withRoundsPerMinute(80)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
                                           .build())
@@ -212,8 +213,8 @@ public class TankTestLauncher {
                         .withRotationSpeed(3)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(120)
+                                    .withSalveSize(3)
+                                    .withRoundsPerMinute(80)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
                                           .build())

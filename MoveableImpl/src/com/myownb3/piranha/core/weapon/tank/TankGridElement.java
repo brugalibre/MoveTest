@@ -9,6 +9,7 @@ import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
@@ -23,6 +24,7 @@ public class TankGridElement implements Tank, GridElement {
    public TankGridElement(Grid grid, Tank tank) {
       this.tank = tank;
       this.moveable = tank.getTankEngine().getMoveable();
+      ((AbstractShape) moveable.getShape()).setGridElement(moveable);
    }
 
    @Override

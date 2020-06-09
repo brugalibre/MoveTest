@@ -34,6 +34,7 @@ class TankShapeImplTest {
    void testDetectObject_DetectTurret() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .withGridElement(mock(GridElement.class))
@@ -54,6 +55,7 @@ class TankShapeImplTest {
    void testDetectObject_DetectHull() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .withGridElement(mock(GridElement.class))
@@ -74,6 +76,7 @@ class TankShapeImplTest {
    void testDetectObject_NoDetection() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .withGridElement(mock(GridElement.class))
@@ -93,6 +96,7 @@ class TankShapeImplTest {
    void testTestForemostAndRearmostPosition() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .withGridElement(mock(GridElement.class))
@@ -111,6 +115,7 @@ class TankShapeImplTest {
    void testTestSetGridElement() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .withGridElement(mock(GridElement.class))
@@ -129,6 +134,7 @@ class TankShapeImplTest {
       // Given
       Position newPos = Positions.of(5, 5);
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(5, 5)
             .withCollisionDetectionHandler()
             .build();
@@ -150,6 +156,7 @@ class TankShapeImplTest {
 
       // When
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(turretShapeDimensionRadius, hullDimensionRadius)
             .withCollisionDetectionHandler()
             .build();
@@ -165,6 +172,7 @@ class TankShapeImplTest {
    void testCheck4Collision_NoCollisionAtAll() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(0, 0)
             .withCollisionDetectionHandler()
             .build();
@@ -182,6 +190,7 @@ class TankShapeImplTest {
    void testCheck4Collision_CollisionWithHull() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(0, 0)
             .withCollisionDetectionHandler()
             .withCollisionWithHull(Positions.of(8, 8))
@@ -200,6 +209,7 @@ class TankShapeImplTest {
    void testCheck4Collision_CollisionWithTurret() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
+            .withTankPosition(Positions.of(1, 1))
             .withTank(0, 0)
             .withCollisionDetectionHandler()
             .withCollisionWithTurret(Positions.of(3, 21))
@@ -222,9 +232,15 @@ class TankShapeImplTest {
       private GridElement gridElement;
       private IDetector detector;
       private Position detectorPos;
+      private Position currentPos;
 
       private TestCaseBuilder() {
          tankShape = mock(TankShapeImpl.class);
+      }
+
+      public TestCaseBuilder withTankPosition(Position currentPos) {
+         this.currentPos = currentPos;
+         return this;
       }
 
       public TestCaseBuilder withHullDetection() {
@@ -291,14 +307,14 @@ class TankShapeImplTest {
 
       private void mockHull(double hullDimensionRadius) {
          hull = mock(RectangleImpl.class);
-         when(hull.getCenter()).thenReturn(mock(Position.class));
+         when(hull.getCenter()).thenReturn(currentPos);
          when(hull.getDimensionRadius()).thenReturn(hullDimensionRadius);
          when(tankShape.getHull()).thenReturn(hull);
       }
 
       private void mockTurret(double turretDimensionRadius) {
          this.turretShape = mock(TurretShapeImpl.class);
-         when(turretShape.getCenter()).thenReturn(mock(Position.class));
+         when(turretShape.getCenter()).thenReturn(currentPos);
          when(turretShape.getDimensionRadius()).thenReturn(turretDimensionRadius);
          when(tankShape.getTurretShape()).thenReturn(turretShape);
       }

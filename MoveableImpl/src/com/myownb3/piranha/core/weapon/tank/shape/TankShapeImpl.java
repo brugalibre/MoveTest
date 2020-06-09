@@ -7,7 +7,9 @@ import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.position.VectorPositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
@@ -18,11 +20,13 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
 
    private TurretShape turretShape;
    private Shape hull;
+   private PositionTransformator positionTransformator;
 
    private TankShapeImpl(Shape tankShape, TurretShape turretShape) {
       super(combinePath(tankShape, turretShape), tankShape.getCenter());
       this.hull = tankShape;
       this.turretShape = turretShape;
+      this.positionTransformator = VectorPositionTransformator.of(hull.getCenter(), turretShape.getCenter());
    }
 
    @Override
@@ -71,17 +75,18 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    }
 
    @Override
-   public void transform(Position newPposition) {
-      super.transform(newPposition);
-      Position newTurretPosition = getNewTurretPosition();
+   public void transform(Position newPosition) {
+      super.transform(newPosition);
+      Position transformedTankPos4Turret = positionTransformator.transform(newPosition);
+      Position newTurretPosition = getNewTurretPosButKeepDirection(transformedTankPos4Turret);
       turretShape.transform(newTurretPosition);
-      hull.transform(center);
+      hull.transform(newPosition);
       path = combinePath(hull, turretShape);
    }
 
-   private Position getNewTurretPosition() {
+   private Position getNewTurretPosButKeepDirection(Position newTurretOriginPos) {
       Position currentTurretPosition = turretShape.getCenter();
-      return Positions.of(currentTurretPosition.getDirection(), center.getX(), center.getY());
+      return Positions.of(currentTurretPosition.getDirection(), newTurretOriginPos.getX(), newTurretOriginPos.getY());
    }
 
    @Override
