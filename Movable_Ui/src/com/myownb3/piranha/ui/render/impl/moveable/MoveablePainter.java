@@ -32,13 +32,15 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       super(moveable, color, height, width);
       this.detectorColor = Color.MAGENTA.brighter();
       this.drawMoveableDirection = config.isDrawMoveableDirection();
-      detectorPainter = new DetectorPainter(moveable, detectorColor, height, width,
-            DetectorPainterConfig.of(config.getDetectorCluster(), DetectorConfigBuilder.builder()
-                  .withDetectorAngle(config.getDetectorAngle())
-                  .withDetectorReach(config.getDetectorReach())
-                  .withEvasionAngle(config.getEvasionAngle())
-                  .withEvasionDistance(config.getEvasionReach())
-                  .build()));
+      if (config.isDrawDetector()) {
+         detectorPainter = new DetectorPainter(moveable, detectorColor, height, width,
+               DetectorPainterConfig.of(config.getDetectorCluster(), DetectorConfigBuilder.builder()
+                     .withDetectorAngle(config.getDetectorAngle())
+                     .withDetectorReach(config.getDetectorReach())
+                     .withEvasionAngle(config.getEvasionAngle())
+                     .withEvasionDistance(config.getEvasionReach())
+                     .build()));
+      }
    }
 
    @Override
@@ -48,7 +50,9 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
       Graphics graphics = context.getGraphics();
 
       drawMoveableDirection(graphics, getValue().getPosition());
-      detectorPainter.render(graphicsCtx);
+      if (detectorPainter != null) {
+         detectorPainter.render(graphicsCtx);
+      }
    }
 
    private void drawMoveableDirection(Graphics graphics, Position gridElemPos) {
