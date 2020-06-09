@@ -82,7 +82,7 @@ public class MazeEndPointMoveableLauncher {
       int detectorAngle = 60;
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(100)
+            .withDetectorReach(120)
             .withDetectorAngle(180)
             .build();
 
@@ -271,7 +271,7 @@ public class MazeEndPointMoveableLauncher {
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimension(new DimensionImpl(0, 0, 3, 3))
                               .build())
-                        .withVelocity(4)
+                        .withVelocity(5)
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
                         .withBarrel(RectangleBuilder.builder()
@@ -332,7 +332,7 @@ public class MazeEndPointMoveableLauncher {
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, height))
             .collect(Collectors.toList());
       renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, height));
-      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
+      MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, false, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, height, moveablePainterConfig));
       renderers.addAll(corridorDetectors.stream()
             .map(buildDetectorPainter(grid, height))
