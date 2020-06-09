@@ -2,6 +2,10 @@ package com.myownb3.piranha.core.weapon.guncarriage;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +16,91 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 
 class SimpleGunCarriageImplTest {
+
+   @Test
+   void testGunCarriageRotateBackToParking_FromAngleGreaterThan180() {
+
+      // Given
+      double parkingAngle = 300.0;
+      double expectedDegree = -90.0;
+
+      Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-60));
+      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+            .withRotationSpeed(180)
+            .withGun(mock(Gun.class))
+            .withShape(CircleBuilder.builder()
+                  .withRadius(5)
+                  .withAmountOfPoints(5)
+                  .withCenter(gunCarriagePos)
+                  .build())
+            .build();
+
+      // When
+      gunCarriage.turn2ParkPosition(parkingAngle);
+
+      // Then
+      assertThat(gunCarriage.getShape().getCenter().getDirection().getAngle(), is(parkingAngle));
+      verify(gunCarriagePos).rotate(eq(expectedDegree));
+   }
+
+   @Test
+   void testGunCarriageRotateBackToParking_FromAngleLessThan180AndGreaterZero() {
+
+      // Given
+      double parkingAngle = 180.0;
+      double expectedDegree = 150.0;
+
+      Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-60));
+      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+            .withRotationSpeed(180)
+            .withGun(mock(Gun.class))
+            .withShape(CircleBuilder.builder()
+                  .withRadius(5)
+                  .withAmountOfPoints(5)
+                  .withCenter(gunCarriagePos)
+                  .build())
+            .build();
+
+      // When
+      gunCarriage.turn2ParkPosition(parkingAngle);
+
+      // Then
+      assertThat(gunCarriage.getShape().getCenter().getDirection().getAngle(), is(parkingAngle));
+      verify(gunCarriagePos).rotate(eq(expectedDegree));
+   }
+
+   @Test
+   void testGunCarriageRotateBackToParking_FromAngleSmallerThanMinu180() {
+
+      // Given
+      double parkingAngle = 0.0;
+      double expectedDegree = 90.0;
+
+      Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-180));
+      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+            .withRotationSpeed(180)
+            .withGun(mock(Gun.class))
+            .withShape(CircleBuilder.builder()
+                  .withRadius(5)
+                  .withAmountOfPoints(5)
+                  .withCenter(gunCarriagePos)
+                  .build())
+            .build();
+
+      // When
+      gunCarriage.turn2ParkPosition(parkingAngle);
+
+      // Then
+      assertThat(gunCarriage.getShape().getCenter().getDirection().getAngle(), is(parkingAngle));
+      verify(gunCarriagePos).rotate(eq(expectedDegree));
+   }
 
    @Test
    void testGunCarriageTurn90DegreesRight() {

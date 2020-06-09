@@ -29,13 +29,24 @@ public class AbstractGunCarriage implements GunCarriage {
    @Override
    public void aimTargetPos(Position targetPos) {
       double angleDiff = getPosition().calcAngleRelativeTo(targetPos);
+      angleDiff = adjustAngleDiff4TurnWithin180(angleDiff);
       rotate(angleDiff);
    }
 
    @Override
    public void turn2ParkPosition(double parkingAngle) {
       double angleDiff = parkingAngle - getPosition().getDirection().getAngle();
+      angleDiff = adjustAngleDiff4TurnWithin180(angleDiff);
       rotate(angleDiff);
+   }
+
+   private double adjustAngleDiff4TurnWithin180(double angleDiff) {
+      if (angleDiff > 180) {
+         angleDiff = angleDiff - 360;
+      } else if (angleDiff < -180) {
+         angleDiff = 360 - abs(angleDiff);
+      }
+      return angleDiff;
    }
 
    private void rotate(double angleDiff) {
