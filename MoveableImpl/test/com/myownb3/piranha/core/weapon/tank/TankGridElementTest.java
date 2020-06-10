@@ -13,6 +13,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
@@ -24,28 +25,6 @@ import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl;
 
 class TankGridElementTest {
-
-
-   @Test
-   void testIsAimable() {
-
-      // Given
-      Moveable actualMoveableMock = mockMoveable();
-      TankGridElement tankGridElement = TankGridElementBuilder.builder()
-            .withGrid(GridBuilder.builder()
-                  .withMaxX(5)
-                  .withMinX(5)
-                  .build())
-            .withTankMoveable(actualMoveableMock)
-            .withTank(mockTank(actualMoveableMock))
-            .build();
-
-      // When
-      boolean isActualAimable = tankGridElement.isAimable();
-
-      // Then
-      assertThat(isActualAimable, is(false));
-   }
 
    private Moveable mockMoveable() {
       Moveable moveable = mock(Moveable.class);
@@ -80,13 +59,17 @@ class TankGridElementTest {
       tankGridElement.isDetectedBy(mock(Position.class), mock(Detector.class));
       tankGridElement.check4Collision(mock(CollisionDetectionHandler.class), mock(Position.class), Collections.emptyList());
       tankGridElement.getShape();
+      Belligerent belligerent = mock(Belligerent.class);
+      tankGridElement.isEnemy(belligerent);
+      tankGridElement.getBelligerentParty();
       tankGridElement.onCollision(Collections.emptyList());
 
       // Then
       verify(tank, times(2)).getTankEngine();
       verify(tank).getPosition();
       verify(tank).getTurret();
-      verify(tank, times(2)).getShape();
+      verify(tank).isEnemy(belligerent);
+      verify(tank).getBelligerentParty();
       verify(actualMoveableMock, never()).isAvoidable();
       verify(actualMoveableMock).getForemostPosition();
       verify(actualMoveableMock).getRearmostPosition();

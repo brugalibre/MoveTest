@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.collision.bounce.impl;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 
 /**
@@ -35,10 +36,10 @@ public class BouncableLookupTable {
    }
 
    /*
-    * A Projectile can only bounce from GridElements which are not Projectiles and are not 'aimable'.
+    * A Projectile can only bounce from Walls so far
     */
    private static boolean isProjectileBouncableForCollisionWith(GridElement gridElement) {
-      return !gridElement.isAimable() && !isProjectile(gridElement);
+      return gridElement instanceof Wall;
    }
 
    private static boolean isProjectile(GridElement movedGridElement) {

@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.moveables;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -13,7 +14,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface EndPointMoveable extends Moveable {
+public interface EndPointMoveable extends Moveable, Belligerent {
 
    /**
     * Moving this {@link EndPointMoveable} one increment closer to it's end-point
@@ -38,11 +39,6 @@ public interface EndPointMoveable extends Moveable {
 
    @Override
    default boolean isAvoidable() {
-      return true;
-   }
-   
-   @Override
-   default boolean isAimable() {
       return true;
    }
 }

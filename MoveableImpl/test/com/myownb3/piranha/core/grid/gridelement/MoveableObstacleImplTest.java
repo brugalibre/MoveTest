@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.Rebel;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
@@ -24,6 +25,21 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class MoveableObstacleImplTest {
+
+   @Test
+   void testIfRebelIsEnemyToAObstacleImpl() {
+      // Given
+      MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(Positions.of(0, 0))
+            .build();
+
+      // When
+      boolean actualIsEnemy = moveable.isEnemy(new Rebel());
+
+      // Then
+      assertThat(actualIsEnemy, is(true));
+   }
 
    @Test
    void testMoveableObstacleImpl_WithDestructiveHelper_GetsDestroyed() {

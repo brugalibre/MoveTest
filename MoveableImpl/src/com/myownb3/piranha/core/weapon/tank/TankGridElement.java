@@ -4,6 +4,8 @@ import static java.util.Objects.nonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
@@ -25,6 +27,16 @@ public class TankGridElement implements Tank, GridElement {
       this.tank = tank;
       this.moveable = tank.getTankEngine().getMoveable();
       ((AbstractShape) moveable.getShape()).setGridElement(moveable);
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return tank.getBelligerentParty();
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return tank.isEnemy(otherBelligerent);
    }
 
    @Override

@@ -9,6 +9,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -273,7 +274,7 @@ class TankTurretTest {
 
       protected ShootingTankTurret(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape,
             ParkingAngleEvaluator parkingAngleEvaluator) {
-         super(turretScanner, gunCarriage, turretShape, parkingAngleEvaluator);
+         super(turretScanner, gunCarriage, turretShape, parkingAngleEvaluator, BelligerentPartyConst.REBEL_ALLIANCE);
          this.state = TurretState.SHOOTING;
       }
    }

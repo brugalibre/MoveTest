@@ -9,6 +9,9 @@ import static org.mockito.Mockito.spy;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.Rebel;
+import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
@@ -26,7 +29,28 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigImpl;
 class EndPointMoveableImplTest {
 
    @Test
-   void testIsNotAimable() {
+   void testIsEnemy() {
+      // Given
+      boolean expectedIsAimable = true;
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withStartPosition(Positions.of(0, 0.9))
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withMovingIncrement(1)
+            .withMoveablePostActionHandler((g, a) -> {
+            })
+            .build();
+
+      // When
+      boolean actualIsEnemy = moveable.isEnemy(new StroomTrooper());
+
+      // Then
+      assertThat(actualIsEnemy, is(expectedIsAimable));
+   }
+
+   @Test
+   void testIsNotEnemy() {
       // Given
       boolean expectedIsAimable = false;
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
@@ -34,36 +58,17 @@ class EndPointMoveableImplTest {
                   .build())
             .withStartPosition(Positions.of(0, 0.9))
             .withMovingIncrement(1)
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .withMoveablePostActionHandler((g, a) -> {
             })
             .build();
 
       // When
-      boolean actualIsAimable = moveable.isAimable();
+      boolean actualIsEnemy = moveable.isEnemy(new Rebel());
 
       // Then
-      assertThat(actualIsAimable, is(expectedIsAimable));
-   }
-
-   @Test
-   void testIsAimable() {
-      // Given
-      boolean expectedIsAimable = true;
-      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
-            .withGrid(GridBuilder.builder()
-                  .build())
-            .withStartPosition(Positions.of(0, 0.9))
-            .withIsAimable(true)
-            .withMovingIncrement(1)
-            .withMoveablePostActionHandler((g, a) -> {
-            })
-            .build();
-
-      // When
-      boolean actualIsAimable = moveable.isAimable();
-
-      // Then
-      assertThat(actualIsAimable, is(expectedIsAimable));
+      assertThat(actualIsEnemy, is(expectedIsAimable));
+      assertThat(moveable.getBelligerentParty(), is(BelligerentPartyConst.REBEL_ALLIANCE));
    }
 
    @Test

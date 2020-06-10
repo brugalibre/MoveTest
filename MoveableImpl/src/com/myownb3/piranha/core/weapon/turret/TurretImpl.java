@@ -4,6 +4,9 @@ import static java.util.Objects.nonNull;
 
 import java.util.Optional;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -23,20 +26,22 @@ public class TurretImpl implements Turret {
    protected double parkingAngle;
    private GunCarriage gunCarriage;
    private TurretScanner turretScanner;
+   private BelligerentParty belligerentParty;
 
-   protected TurretImpl(GunCarriage gunCarriage, TurretShape turretShape) {
-      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
+   protected TurretImpl(GunCarriage gunCarriage, TurretShape turretShape, BelligerentParty belligerentParty) {
+      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape, belligerentParty);
    }
 
-   protected TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape) {
+   protected TurretImpl(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape, BelligerentParty belligerentParty) {
       this.turretScanner = turretScanner;
-      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape);
+      init(gunCarriage.getShape().getCenter(), gunCarriage, turretShape, belligerentParty);
    }
 
-   private void init(Position position, GunCarriage gunCarriage, TurretShape turretShape) {
+   private void init(Position position, GunCarriage gunCarriage, TurretShape turretShape, BelligerentParty belligerentParty) {
       this.gunCarriage = gunCarriage;
       this.shape = turretShape;
       this.state = TurretState.SCANNING;
+      this.belligerentParty = belligerentParty;
       this.parkingAngle = position.getDirection().getAngle();
    }
 
@@ -103,6 +108,16 @@ public class TurretImpl implements Turret {
    }
 
    @Override
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
+   }
+
+   @Override
    public TurretState getTurretStatus() {
       return state;
    }
@@ -119,12 +134,17 @@ public class TurretImpl implements Turret {
 
    public static abstract class GenericTurretBuilder<T> {
 
+      protected BelligerentParty belligerentParty;
       protected TurretShape turretShape;
       protected GunCarriage gunCarriage;
       private IDetector detector;
       protected TurretScanner turretScanner;
       private TargetPositionLeadEvaluator targetPositionLeadEvaluator;
       private GridElementEvaluator gridElementsEvaluator;
+
+      protected GenericTurretBuilder() {
+         belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+      }
 
       public T withGridElementEvaluator(GridElementEvaluator gridElementsEvaluator) {
          this.gridElementsEvaluator = gridElementsEvaluator;
@@ -143,6 +163,11 @@ public class TurretImpl implements Turret {
 
       public T withTurretScanner(TurretScanner turretScanner) {
          this.turretScanner = turretScanner;
+         return getThis();
+      }
+
+      public T withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
          return getThis();
       }
 
@@ -173,9 +198,9 @@ public class TurretImpl implements Turret {
       public TurretImpl build() {
          buildTurretShape();
          if (nonNull(turretScanner)) {
-            return new TurretImpl(turretScanner, gunCarriage, turretShape);
+            return new TurretImpl(turretScanner, gunCarriage, turretShape, belligerentParty);
          }
-         TurretImpl turretImpl = new TurretImpl(gunCarriage, turretShape);
+         TurretImpl turretImpl = new TurretImpl(gunCarriage, turretShape, belligerentParty);
          setTurretScanner(turretImpl);
          return turretImpl;
       }

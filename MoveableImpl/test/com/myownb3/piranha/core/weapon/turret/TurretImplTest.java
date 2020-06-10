@@ -13,6 +13,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -53,6 +56,131 @@ class TurretImplTest {
    @AfterEach
    public void tearDown() {
       ProjectileFactory.INSTANCE.degisterGrid();
+   }
+
+   @Test
+   void testCustomWithBelligerent() {
+
+      // Given
+      Position turretPos = Positions.of(5, 5);
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGun(BulletGunBuilder.builder()
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withVelocity(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(2)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius((int) 5)
+                        .withAmountOfPoints((int) 5)
+                        .withCenter(turretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      BelligerentParty actualBelligerentParty = turretImpl.getBelligerentParty();
+
+      // Then
+      assertThat(actualBelligerentParty, is(BelligerentPartyConst.GALACTIC_EMPIRE));
+   }
+
+   @Test
+   void testDefaultWithBelligerent() {
+
+      Position turretPos = Positions.of(5, 5);
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
+            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGun(BulletGunBuilder.builder()
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withVelocity(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(2)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius((int) 5)
+                        .withAmountOfPoints((int) 5)
+                        .withCenter(turretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      BelligerentParty actualBelligerentParty = turretImpl.getBelligerentParty();
+
+      // Then
+      assertThat(actualBelligerentParty, is(BelligerentPartyConst.REBEL_ALLIANCE));
+   }
+
+   @Test
+   void testDefaultWithBelligerent_IsEmpireEnemy() {
+
+      Position turretPos = Positions.of(5, 5);
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
+            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGun(BulletGunBuilder.builder()
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withVelocity(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(2)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius((int) 5)
+                        .withAmountOfPoints((int) 5)
+                        .withCenter(turretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      boolean isActualEnemy = turretImpl.isEnemy(new StroomTrooper());
+
+      // Then
+      assertThat(isActualEnemy, is(true));
    }
 
    @Test

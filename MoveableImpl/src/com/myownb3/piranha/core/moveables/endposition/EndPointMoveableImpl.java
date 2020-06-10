@@ -8,6 +8,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -29,22 +32,23 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private EndPosition endPos;
    private int movingIncrement;
    private double prevDistance;
-   private boolean isAimable;
+   private BelligerentParty belligerentParty;
 
    protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
-         Shape shape, boolean isAimable) {
+         Shape shape, BelligerentParty belligerentParty) {
       super(grid, position, handler, shape);
-      init(movingIncrement, isAimable);
+      init(movingIncrement, belligerentParty);
    }
 
-   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement, boolean isAimable) {
+   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
+         BelligerentParty belligerentParty) {
       super(grid, position, handler);
-      init(movingIncrement, isAimable);
+      init(movingIncrement, belligerentParty);
    }
 
-   private void init(int movingIncrement, boolean isAimable) {
+   private void init(int movingIncrement, BelligerentParty belligerentParty) {
       this.movingIncrement = movingIncrement;
-      this.isAimable = isAimable;
+      this.belligerentParty = belligerentParty;
    }
 
    @Override
@@ -86,8 +90,13 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    }
 
    @Override
-   public boolean isAimable() {
-      return isAimable;
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    public static class EndPointMoveableBuilder {
@@ -97,7 +106,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       private int movingIncrement;
       private Shape shape;
       private MoveableControllerBuilder controllerBuilder;
-      private boolean isAimable;
+      private BelligerentParty belligerentParty;
 
       private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
          this();
@@ -106,6 +115,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
       private EndPointMoveableBuilder() {
          movingIncrement = 1;
+         this.belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
       }
 
       public EndPointMoveableBuilder withGrid(Grid grid) {
@@ -133,8 +143,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          return this;
       }
 
-      public EndPointMoveableBuilder withIsAimable(boolean isAimable) {
-         this.isAimable = isAimable;
+      public EndPointMoveableBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
          return this;
       }
 
@@ -142,9 +152,9 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
          if (nonNull(shape)) {
-            return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, isAimable);
+            return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, belligerentParty);
          }
-         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, isAimable);
+         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, belligerentParty);
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {

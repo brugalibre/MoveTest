@@ -7,9 +7,12 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
@@ -113,12 +116,23 @@ public class TurretScanner {
 
    private Optional<TargetGridElement> getNearestTargetGridElement() {
       Position detectorPos = turret.getShape().getForemostPosition();
+      Predicate<GridElement> isProjectile = Projectile.class::isInstance;
       return getAllPotentialTargetsWithinReach(detectorPos).stream()
-            .filter(GridElement::isAimable)
+            .filter(isProjectile.negate())
+            .filter(isEnemy())
             .filter(isGridElementDetected())
             .sorted(new GridElement2DistanceComparator(detectorPos))
             .map(TargetGridElement::of)
             .findFirst();
+   }
+
+   private Predicate<? super GridElement> isEnemy() {
+      return gridElement -> isGridElementEnemy(gridElement);
+   }
+
+   @Visible4Testing
+   boolean isGridElementEnemy(GridElement gridElement) {
+      return (gridElement instanceof Belligerent) ? turret.isEnemy((Belligerent) gridElement) : false;
    }
 
    private List<GridElement> getAllPotentialTargetsWithinReach(Position detectorPos) {

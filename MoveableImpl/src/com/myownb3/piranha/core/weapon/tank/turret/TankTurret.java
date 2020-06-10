@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.tank.turret;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
@@ -11,8 +12,9 @@ public class TankTurret extends TurretImpl {
 
    private ParkingAngleEvaluator parkingAngleEvaluator;
 
-   protected TankTurret(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape, ParkingAngleEvaluator parkingAngleEvaluator) {
-      super(turretScanner, gunCarriage, turretShape);
+   protected TankTurret(TurretScanner turretScanner, GunCarriage gunCarriage, TurretShape turretShape, ParkingAngleEvaluator parkingAngleEvaluator,
+         BelligerentParty belligerentParty) {
+      super(turretScanner, gunCarriage, turretShape, belligerentParty);
       this.parkingAngleEvaluator = parkingAngleEvaluator;
    }
 
@@ -67,7 +69,7 @@ public class TankTurret extends TurretImpl {
       @Override
       public TankTurret build() {
          buildTurretShape();
-         TankTurret tankTurret = new TankTurret(turretScanner, gunCarriage, turretShape, parkingAngleEvaluator);
+         TankTurret tankTurret = new TankTurret(turretScanner, gunCarriage, turretShape, parkingAngleEvaluator, belligerentParty);
          setTurretScanner(tankTurret);
          return tankTurret;
       }

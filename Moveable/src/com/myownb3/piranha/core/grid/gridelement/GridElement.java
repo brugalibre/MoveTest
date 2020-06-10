@@ -14,7 +14,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.Gun;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a
@@ -105,14 +104,6 @@ public interface GridElement extends CollisionSensitive {
     */
    CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
          List<GridElement> gridElements2Check);
-
-   /**
-    * @return <code>true</code> if this {@link GridElement} is can be aimed by a {@link Gun} or <code>false</code> if not.
-    * 
-    */
-   default boolean isAimable() {
-      return false;
-   }
 
    /**
     * Returns <code>true</code> if this {@link GridElement} can be avoided or <code>false</code> if not.

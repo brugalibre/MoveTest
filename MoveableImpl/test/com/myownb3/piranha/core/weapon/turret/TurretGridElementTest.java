@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
@@ -49,9 +50,14 @@ class TurretGridElementTest {
       // When
       turretTower.getTurretStatus();
       turretTower.getShape();
+      Belligerent belligerent = mock(Belligerent.class);
+      turretTower.isEnemy(belligerent);
+      turretTower.getBelligerentParty();
 
       // Then
       verify(turret).getTurretStatus();
+      verify(turret).isEnemy(belligerent);
+      verify(turret).getBelligerentParty();
       verify(turret, times(4)).getShape();
    }
 

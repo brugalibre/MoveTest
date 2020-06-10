@@ -13,9 +13,4 @@ public class DummyGridWall extends AbstractGridElement implements Wall {
    public boolean isAvoidable() {
       return false;
    }
-
-   @Override
-   public boolean isAimable() {
-      return false;
-   }
 }

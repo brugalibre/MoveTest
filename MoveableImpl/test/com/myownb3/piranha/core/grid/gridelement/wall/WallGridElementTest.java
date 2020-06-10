@@ -64,25 +64,4 @@ class WallGridElementTest {
       // Then
       assertThat(actualIsDestroyed, is(expectedIsDestroyed));
    }
-
-   @Test
-   void testIsAimable() {
-      // Given
-      boolean expectedIsAimable = false;
-      Position position = Positions.of(5, 5);
-      WallGridElement wallGridElement = WallGridElementBuilder.builder()
-            .withGrid(mock(Grid.class))
-            .withPosition(position)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(position)
-                  .build())
-            .build();
-
-      // When
-      boolean actualIsAimable = wallGridElement.isAimable();
-
-      // Then
-      assertThat(actualIsAimable, is(expectedIsAimable));
-   }
-
 }

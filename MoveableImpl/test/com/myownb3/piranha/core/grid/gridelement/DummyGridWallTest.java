@@ -19,11 +19,9 @@ class DummyGridWallTest {
 
       // When
       boolean actualIsAvoidable = dummyGridWall.isAvoidable();
-      boolean actualIsAimable = dummyGridWall.isAimable();
 
       // Then
       assertThat(actualIsAvoidable, is(false));
-      assertThat(actualIsAimable, is(false));
    }
 
 }

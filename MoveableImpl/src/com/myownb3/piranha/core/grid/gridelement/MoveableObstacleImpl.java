@@ -8,6 +8,9 @@ import static java.util.Objects.nonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
@@ -22,7 +25,7 @@ import com.myownb3.piranha.core.moveables.AbstractMoveable;
  * @author Dominic
  *
  */
-public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle {
+public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, Belligerent {
 
    private DestructionHelper destructionHelper;
 
@@ -53,6 +56,16 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle {
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(getVelocity()))
             .withOnDestroyedCallbackHandler(() -> grid.remove(this))
             .build();
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return BelligerentPartyConst.GALACTIC_EMPIRE;// So far, a MoveableObstacleImpl is a member of the galactic empire
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    public static class MoveableObstacleBuilder extends AbstractGridElementBuilder<MoveableObstacleImpl, MoveableObstacleBuilder> {

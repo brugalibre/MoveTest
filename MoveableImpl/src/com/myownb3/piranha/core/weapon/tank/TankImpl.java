@@ -4,6 +4,9 @@ import static java.util.Objects.nonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Grid;
@@ -26,11 +29,13 @@ public class TankImpl implements Tank {
    private Turret turret;
    private TankEngine tankEngine;
    private TankShape tankShape;
+   private BelligerentParty belligerentParty;
 
-   private TankImpl(Turret turret, TankEngine tankEngine, TankShape tankShape) {
+   private TankImpl(Turret turret, TankEngine tankEngine, TankShape tankShape, BelligerentParty belligerentParty) {
       this.turret = turret;
       this.tankEngine = tankEngine;
       this.tankShape = tankShape;
+      this.belligerentParty = belligerentParty;
    }
 
    @Override
@@ -39,6 +44,16 @@ public class TankImpl implements Tank {
       if (isNotShooting()) {
          tankEngine.moveForward();
       }
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    private boolean isNotShooting() {
@@ -73,9 +88,16 @@ public class TankImpl implements Tank {
       private int movingIncrement;
       private List<EndPosition> endPositions;
       private TankEngine tankEngine;
+      private BelligerentParty belligerentParty;
 
       private TankBuilder() {
          movingIncrement = 1;
+         belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+      }
+
+      public TankBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
       }
 
       public TankBuilder withTurret(Turret turret) {
@@ -113,7 +135,7 @@ public class TankImpl implements Tank {
 
          TankHolder tankHolder = new TankHolder();
          TankEngine tankEngine = buildNewOrGetExistingEngine(tankShape, this.tankEngine);
-         TankImpl tankImpl = new TankImpl(turret, tankEngine, tankShape);
+         TankImpl tankImpl = new TankImpl(turret, tankEngine, tankShape, belligerentParty);
          return tankHolder
                .setAndReturnTank(tankImpl);
       }
@@ -134,6 +156,7 @@ public class TankImpl implements Tank {
                      .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                      .withEndPositions(endPositions)
                      .withEndPointMoveable()
+                     .withBelligerentParty(belligerentParty)
                      .withGrid(grid)
                      .withStartPosition(tankShape.getCenter())
                      .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()

@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.turret;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -16,7 +17,7 @@ import com.myownb3.piranha.core.weapon.turret.states.TurretState;
  * @author Dominic
  *
  */
-public interface Turret extends AutoDetectable {
+public interface Turret extends AutoDetectable, Belligerent {
 
    /**
     * @return the {@link GunCarriage} of this {@link Turret}

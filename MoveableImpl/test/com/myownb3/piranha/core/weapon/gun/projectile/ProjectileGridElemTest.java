@@ -41,7 +41,6 @@ class ProjectileGridElemTest {
       // When
 
       // Then
-      assertThat(projectileGridElementent.isAimable(), is(false));
       assertThat(projectileGridElementent.isAvoidable(), is(true));
    }
 

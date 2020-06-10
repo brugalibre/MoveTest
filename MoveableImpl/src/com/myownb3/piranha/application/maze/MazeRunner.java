@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.application.MoveableApplication;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -131,7 +132,7 @@ public class MazeRunner implements MoveableApplication {
                .withEndPositions(maze.getEndPositions())
                .withPostMoveForwardHandler(postMoveFowardHandler)
                .withEndPointMoveable()
-               .withIsAimable(true)
+               .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                .withGrid(maze.getGrid())
                .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()

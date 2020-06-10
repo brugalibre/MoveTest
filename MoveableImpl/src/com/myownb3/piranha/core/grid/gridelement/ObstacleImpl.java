@@ -8,6 +8,9 @@ import static java.util.Objects.nonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
@@ -21,7 +24,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public class ObstacleImpl extends AbstractGridElement implements Obstacle {
+public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belligerent {
 
    private static final int OBSTACLE_DAMAGE = 3;
    private static final int OBSTACLE_HEALTH = 5;
@@ -55,6 +58,16 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle {
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
             .withOnDestroyedCallbackHandler(() -> grid.remove(this))
             .build();
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return BelligerentPartyConst.GALACTIC_EMPIRE;// So far, a ObstacleImpl is a member of the galactic empire
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    public static class ObstacleBuilder extends AbstractGridElementBuilder<ObstacleImpl, ObstacleBuilder> {

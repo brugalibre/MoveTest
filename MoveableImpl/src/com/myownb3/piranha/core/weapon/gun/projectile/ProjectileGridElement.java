@@ -52,11 +52,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    }
 
    @Override
-   public boolean isAimable() {
-      return false;
-   }
-
-   @Override
    public boolean isAvoidable() {
       return true;
    }

@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.battle.belligerent.Rebel;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
@@ -25,6 +26,27 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class ObstacleImplTest {
+
+   @Test
+   void testIfRebelIsEnemyToAObstacleImpl() {
+      // Given
+      ObstacleImpl obstacle = ObstacleBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withPosition(mock(Position.class))
+            .withDestructionHelper(DestructionHelperBuilder.builder()
+                  .withDamage(DamageImpl.of(1))
+                  .withHealth(HealthImpl.of(3))
+                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .build())
+            .withShape(mock(CircleImpl.class))
+            .build();
+
+      // When
+      boolean actualIsEnemy = obstacle.isEnemy(new Rebel());
+
+      // Then
+      assertThat(actualIsEnemy, is(true));
+   }
 
    @Test
    void testMoveableObstacleImpl_WithDestructiveHelper_GetsDestroyed() {

@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.weapon.turret;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -21,6 +23,16 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
    }
 
    @Override
+   public BelligerentParty getBelligerentParty() {
+      return turret.getBelligerentParty();
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return turret.isEnemy(otherBelligerent);
+   }
+
+   @Override
    public GunCarriage getGunCarriage() {
       return turret.getGunCarriage();
    }
@@ -29,7 +41,6 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
    public TurretState getTurretStatus() {
       return turret.getTurretStatus();
    }
-
 
    @Override
    public TurretShape getShape() {

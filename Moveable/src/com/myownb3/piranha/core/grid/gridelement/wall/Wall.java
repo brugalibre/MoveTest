@@ -20,9 +20,4 @@ public interface Wall extends Obstacle {
    public default boolean isDestroyed() {
       return false;
    }
-
-   @Override
-   public default boolean isAimable() {
-      return false;
-   }
 }
