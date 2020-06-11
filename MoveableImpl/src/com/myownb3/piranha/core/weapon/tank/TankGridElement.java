@@ -65,11 +65,6 @@ public class TankGridElement implements Tank, GridElement {
    }
 
    @Override
-   public Grid getGrid() {
-      return moveable.getGrid();
-   }
-
-   @Override
    public double getDimensionRadius() {
       return moveable.getDimensionRadius();
    }

@@ -12,6 +12,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -48,13 +49,14 @@ class ProjectileGridElemTest {
    void testOnCollision_Twice_RemoveDestroyedProjectile() {
 
       // Given
+      MirrorGrid grid = spy(MirrorGridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinX(0)
+            .withMinY(0)
+            .build());
       ProjectileGridElement projectileGridElementent = ProjectileGridElementBuilder.builder()
-            .withGrid(spy(MirrorGridBuilder.builder()
-                  .withMaxX(10)
-                  .withMaxY(10)
-                  .withMinX(0)
-                  .withMinY(0)
-                  .build()))
+            .withGrid(grid)
             .withPosition(Positions.of(9.5, 8.5))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(9.5, 8.5))
@@ -67,20 +69,21 @@ class ProjectileGridElemTest {
 
       // Then
       assertThat(projectileGridElementent.isDestroyed(), is(true));
-      verify(projectileGridElementent.getGrid()).remove(eq(projectileGridElementent));
+      verify(grid).remove(eq(projectileGridElementent));
    }
 
    @Test
    void testOnCollision_Once_NotRemoveDestroyedSinceNotDestroyedProjectile() {
 
       // Given
+      MirrorGrid grid = spy(MirrorGridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinX(0)
+            .withMinY(0)
+            .build());
       ProjectileGridElement projectileGridElementent = ProjectileGridElementBuilder.builder()
-            .withGrid(spy(MirrorGridBuilder.builder()
-                  .withMaxX(10)
-                  .withMaxY(10)
-                  .withMinX(0)
-                  .withMinY(0)
-                  .build()))
+            .withGrid(grid)
             .withHealth(100)
             .withDamage(5)
             .withPosition(Positions.of(9.5, 8.5))
@@ -94,20 +97,21 @@ class ProjectileGridElemTest {
 
       // Then
       assertThat(projectileGridElementent.isDestroyed(), is(false));
-      verify(projectileGridElementent.getGrid(), never()).remove(eq(projectileGridElementent));
+      verify(grid, never()).remove(eq(projectileGridElementent));
    }
 
    @Test
    void testOnCollision_Once_RemoveDestroyedSinceNotDestroyedProjectile() {
 
       // Given
+      MirrorGrid grid = spy(MirrorGridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinX(0)
+            .withMinY(0)
+            .build());
       ProjectileGridElement projectileGridElementent = ProjectileGridElementBuilder.builder()
-            .withGrid(spy(MirrorGridBuilder.builder()
-                  .withMaxX(10)
-                  .withMaxY(10)
-                  .withMinX(0)
-                  .withMinY(0)
-                  .build()))
+            .withGrid(grid)
             .withHealth(100)
             .withDamage(5)
             .withPosition(Positions.of(9.5, 8.5))
@@ -121,6 +125,6 @@ class ProjectileGridElemTest {
 
       // Then
       assertThat(projectileGridElementent.isDestroyed(), is(true));
-      verify(projectileGridElementent.getGrid()).remove(eq(projectileGridElementent));
+      verify(grid).remove(eq(projectileGridElementent));
    }
 }

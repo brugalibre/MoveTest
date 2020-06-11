@@ -50,11 +50,6 @@ public interface GridElement extends CollisionSensitive {
    Position getRearmostPosition();
 
    /**
-    * @return the Grid of this {@link GridElement}
-    */
-   Grid getGrid();
-
-   /**
     * Returns the Shape of this {@link GridElement}
     * 
     * @return the Shape of this {@link GridElement}

@@ -95,11 +95,6 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public Grid getGrid() {
-      return grid;
-   }
-
-   @Override
    public Shape getShape() {
       return shape;
    }

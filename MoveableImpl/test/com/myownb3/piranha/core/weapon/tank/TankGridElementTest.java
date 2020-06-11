@@ -53,7 +53,6 @@ class TankGridElementTest {
       tankGridElement.getPosition();
       tankGridElement.getForemostPosition();
       tankGridElement.getRearmostPosition();
-      tankGridElement.getGrid();
       tankGridElement.getDimensionRadius();
       tankGridElement.hasGridElementDetected(actualMoveableMock, mock(Detector.class));
       tankGridElement.isDetectedBy(mock(Position.class), mock(Detector.class));
@@ -73,7 +72,6 @@ class TankGridElementTest {
       verify(actualMoveableMock, never()).isAvoidable();
       verify(actualMoveableMock).getForemostPosition();
       verify(actualMoveableMock).getRearmostPosition();
-      verify(actualMoveableMock).getGrid();
       verify(actualMoveableMock).getDimensionRadius();
       verify(actualMoveableMock).hasGridElementDetected(any(), any());
       verify(actualMoveableMock).isDetectedBy(any(), any());
