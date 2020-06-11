@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -270,7 +271,7 @@ class PostEvasionStateHandlerWithEndPosTest {
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, Moveable moveable) {
+      public boolean check4Evasion(Grid grid, GridElement gridElement) {
          return isCheck4EvasionTrue;
       }
    }

@@ -64,11 +64,6 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
-   public void hasGridElementDetected(GridElement gridElement, Detector detector) {
-      gridElement.isDetectedBy(getForemostPosition(), detector);
-   }
-
-   @Override
    public boolean isDetectedBy(Position detectorPosition, Detector detector) {
       return shape.detectObject(detectorPosition, detector);
    }

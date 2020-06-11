@@ -61,7 +61,7 @@ public class MoveableBuilder {
       } else {
          moveable = new SimpleMoveable(grid, position, handler, shape);
       }
-      handler.handlePostConditions(moveable.getGrid(), moveable);
+      handler.handlePostConditions(grid, moveable);
       return this.moveable;
    }
 

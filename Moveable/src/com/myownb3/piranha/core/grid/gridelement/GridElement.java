@@ -67,16 +67,6 @@ public interface GridElement extends CollisionSensitive {
    double getDimensionRadius();
 
    /**
-    * Checks if this {@link GridElement} has detected the given {@link GridElement}
-    * 
-    * @param gridElement
-    *        the {@link GridElement} to check
-    * @param detector
-    *        the {@link Detector} used for the actual detection
-    */
-   void hasGridElementDetected(GridElement gridElement, Detector detector);
-
-   /**
     * Checks if this {@link GridElement} is detected by the given {@link Detector} and from the given Position
     * 
     * @param detectionPos
