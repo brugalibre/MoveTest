@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.weapon.turret.turretscanner;
+package com.myownb3.piranha.core.grid.gridelement.evaluator;
 
 import java.util.List;
 

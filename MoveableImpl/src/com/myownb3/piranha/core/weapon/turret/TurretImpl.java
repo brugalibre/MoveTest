@@ -8,6 +8,7 @@ import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
+import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
@@ -15,7 +16,6 @@ import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluat
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
-import com.myownb3.piranha.core.weapon.turret.turretscanner.GridElementEvaluator;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner.TurretScannerBuilder;
 
