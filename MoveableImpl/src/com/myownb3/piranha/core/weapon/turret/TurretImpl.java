@@ -108,6 +108,11 @@ public class TurretImpl implements Turret {
    }
 
    @Override
+   public boolean isShooting() {
+      return getTurretStatus() == TurretState.SHOOTING;
+   }
+
+   @Override
    public BelligerentParty getBelligerentParty() {
       return belligerentParty;
    }

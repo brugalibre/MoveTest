@@ -423,6 +423,7 @@ class TurretImplTest {
       assertThat(stateStatus3rdRound, is(TurretState.ACQUIRING));
       assertThat(stateStatus4thRound, is(TurretState.SHOOTING));
       assertThat(stateStatus5thRound, is(TurretState.SHOOTING));
+      assertThat(turretImpl.isShooting(), is(true));
    }
 
    @Test

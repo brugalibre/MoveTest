@@ -53,12 +53,14 @@ class TurretGridElementTest {
       Belligerent belligerent = mock(Belligerent.class);
       turretTower.isEnemy(belligerent);
       turretTower.getBelligerentParty();
+      turretTower.isShooting();
 
       // Then
       verify(turret).getTurretStatus();
       verify(turret).isEnemy(belligerent);
       verify(turret).getBelligerentParty();
       verify(turret, times(4)).getShape();
+      verify(turret).isShooting();
    }
 
    @Test

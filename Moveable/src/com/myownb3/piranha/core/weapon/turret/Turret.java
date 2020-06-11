@@ -33,4 +33,9 @@ public interface Turret extends AutoDetectable, Belligerent {
     * @return the current state of this Turret
     */
    TurretState getTurretStatus();
+
+   /**
+    * @return <code>true</code> if this {@link Turret} is currently shooting or <code>false</code> if not
+    */
+   boolean isShooting();
 }
