@@ -5,6 +5,7 @@ import static java.util.Objects.nonNull;
 import java.util.List;
 import java.util.UUID;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -43,7 +44,12 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
 
    @Override
    public boolean isDestroyed() {
-      return projectile.isDestroyed();
+      return isDestroyed(projectile);
+   }
+
+   @Visible4Testing
+   static boolean isDestroyed(Projectile projectile) {
+      return projectile == null ? true : projectile.isDestroyed();
    }
 
    @Override

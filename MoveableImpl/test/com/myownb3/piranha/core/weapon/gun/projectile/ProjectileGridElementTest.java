@@ -16,6 +16,18 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.Proj
 class ProjectileGridElementTest {
 
    @Test
+   void testIsProjectileDestroyed() {
+
+      // Given
+
+      // When
+      boolean actualIsDestroyed = ProjectileGridElement.isDestroyed(null);
+
+      // Then
+      assertThat(actualIsDestroyed, is(true));
+   }
+
+   @Test
    void testGetDamage() {
 
       // Given
