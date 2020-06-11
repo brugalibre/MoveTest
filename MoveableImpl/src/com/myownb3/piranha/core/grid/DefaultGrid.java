@@ -159,7 +159,9 @@ public class DefaultGrid implements Grid {
    @Override
    public void addElement(GridElement gridElement) {
       checkBounds(gridElement.getPosition());
-      gridElements.add(gridElement);
+      synchronized (gridElements) {
+         gridElements.add(gridElement);
+      }
    }
 
    /**
@@ -196,7 +198,7 @@ public class DefaultGrid implements Grid {
    public List<GridElement> getAllAvoidableGridElements(GridElement gridElement) {
       return getAllGridElements(gridElement).stream()
             .filter(GridElement::isAvoidable)
-            .collect(Collectors.toList());
+            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 
    @Override
@@ -210,7 +212,7 @@ public class DefaultGrid implements Grid {
             .stream()
             .filter(isGridElementWithinDistance(gridElemPos, distance))
             .filter(gridElementIsInfrontOf(gridElement))
-            .collect(Collectors.toList());
+            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 
    private Predicate<? super GridElement> gridElementIsInfrontOf(GridElement movedGridElement) {
@@ -250,7 +252,7 @@ public class DefaultGrid implements Grid {
    public List<GridElement> getAllGridElementsWithinDistance(Position position, int distance) {
       return getAllGridElements(null).stream()
             .filter(isGridElementWithinDistance(position, Double.valueOf(distance)))
-            .collect(Collectors.toList());
+            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 
    @Override
