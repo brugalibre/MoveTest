@@ -153,6 +153,7 @@ public class RandomMoveableLauncher implements Stoppable {
             .withGrid(grid)
             .withPosition(pos)
             .withHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .withDetectorReach(config.getDetectorReach())
                         .withEvasionDistance(config.getEvasionDistance())

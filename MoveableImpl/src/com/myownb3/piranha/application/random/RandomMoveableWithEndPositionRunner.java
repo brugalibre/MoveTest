@@ -146,6 +146,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                      .withDetector(detector)
+                     .withGrid(grid)
                      .withEvasionStateMachineConfig(config)
                      .build())
                .withShape(buildCircle(4, startPosition))

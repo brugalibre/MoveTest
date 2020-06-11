@@ -28,8 +28,8 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
       // First re-check the surrounding. Maybe because of the correction of an
       // EvasionStateHandler that situation may have changed. After verify if there is
       // a evasion
-      helper.checkSurrounding(evenStateInput.getGrid(), evenStateInput.getMoveable());
-      boolean hasEvasion = helper.check4Evasion(evenStateInput.getGrid(), evenStateInput.getMoveable());
+      helper.checkSurrounding(evenStateInput.getMoveable());
+      boolean hasEvasion = helper.check4Evasion(evenStateInput.getMoveable());
       return hasEvasion ? EvasionStates.EVASION : nextState;
    }
 

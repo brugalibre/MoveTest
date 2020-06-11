@@ -212,12 +212,13 @@ class MoveableControllerTest {
       double endPosDistance = 10;
       EndPosition endPos1 = EndPositions.of(0, 12);
       EndPosition endPos2 = EndPositions.of(0, 13);
+      DefaultGrid grid = GridBuilder.builder(30, 30)
+            .build();
       EvasionStateMachine handler = spy(EvasionStateMachineBuilder.builder()
+            .withGrid(grid)
             .withDetector(mock(Detector.class))
             .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
             .build());
-      DefaultGrid grid = GridBuilder.builder(30, 30)
-            .build();
       MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
       EndPointMoveable moveable = spy(EndPointMoveableBuilder.builder()
             .withGrid(grid)
@@ -481,6 +482,7 @@ class MoveableControllerTest {
       public TestCaseBuilder withStateMachine() {
          stateMachine = EvasionStateMachineBuilder.builder()
                .withDetector(detector)
+               .withGrid(grid)
                .withEndPosition(endPos)
                .withEvasionStateMachineConfig(config)
                .build();

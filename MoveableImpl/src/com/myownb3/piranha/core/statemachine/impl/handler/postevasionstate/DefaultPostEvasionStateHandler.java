@@ -56,11 +56,11 @@ public class DefaultPostEvasionStateHandler extends
     */
    private static void checkSurroundingsAndTurnBackIfNecessary(Moveable moveable, DetectableMoveableHelper helper,
          Grid grid, double angle2Turn) {
-      helper.checkSurrounding(grid, moveable);
-      if (helper.check4Evasion(grid, moveable)) {
+      helper.checkSurrounding(moveable);
+      if (helper.check4Evasion(moveable)) {
          moveable.makeTurnWithoutPostConditions(angle2Turn);
       }
-      helper.checkSurrounding(grid, moveable);
+      helper.checkSurrounding(moveable);
    }
 
    private double getAngle2Turn(Position moveablePos, double startPosAngle) {

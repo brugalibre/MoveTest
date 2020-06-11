@@ -40,6 +40,6 @@ public class PassingStateHandler extends CommonEvasionStateHandlerImpl<PassingEv
       boolean isDistanceFarEnough = evenStateInput.getPositionBeforeEvasion()
             .calcDistanceTo(position) > passingDistance;
 
-      return isDistanceFarEnough && !helper.check4Evasion(evenStateInput.getGrid(), moveable);
+      return isDistanceFarEnough && !helper.check4Evasion(moveable);
    }
 }

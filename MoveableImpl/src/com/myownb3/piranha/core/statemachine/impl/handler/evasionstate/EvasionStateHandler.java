@@ -38,7 +38,7 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
 
    private EvasionStateResult handleEvasionState(Grid grid, Moveable moveable, Detector detector,
          DetectableMoveableHelper helper, Position posBeforeEvasion) {
-      if (helper.check4Evasion(grid, moveable)) {
+      if (helper.check4Evasion(moveable)) {
          hadEvasionBefore = true;
          EvasionStateResult evasionStateResult = handleEvasionManeuvre(grid, moveable, detector, helper);
          if (nonNull(evasionStateResult)) {
@@ -60,8 +60,8 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
       double avoidAngle = detector.getEvasionAngleRelative2(moveable.getForemostPosition());
       avoidAngle = registerAndGetAvoidAngle(avoidAngle);
       moveable.makeTurnWithoutPostConditions(avoidAngle);
-      helper.checkSurrounding(grid, moveable);
-      if (helper.check4Evasion(grid, moveable)) {
+      helper.checkSurrounding(moveable);
+      if (helper.check4Evasion(moveable)) {
          return EvasionStateResult.of(EVASION, EVASION, true);
       }
       return null;

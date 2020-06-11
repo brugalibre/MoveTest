@@ -27,7 +27,7 @@ public class DefaultStateHandler extends CommonEvasionStateHandlerImpl<DefaultSt
    }
 
    private CommonEvasionStateResult handleDefaultState(Grid grid, Moveable moveable, DetectableMoveableHelper detectionHelper, EndPosition endPos) {
-      boolean isEvasion = detectionHelper.check4Evasion(grid, moveable);
+      boolean isEvasion = detectionHelper.check4Evasion(moveable);
       if (isEvasion) {
          return CommonEvasionStateResult.of(DEFAULT, DEFAULT.nextState(), moveable.getPosition());
       } else if (orientationHelper.isOrientatingNecessary(moveable, endPos)) {

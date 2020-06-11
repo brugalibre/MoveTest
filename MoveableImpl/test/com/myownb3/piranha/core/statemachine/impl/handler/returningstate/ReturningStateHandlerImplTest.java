@@ -104,7 +104,7 @@ class ReturningStateHandlerImplTest {
       }
 
       public TestCaseBuilder build() {
-         helper = new DetectableMoveableHelper(mock(Detector.class));
+         helper = new DetectableMoveableHelper(mock(Grid.class), mock(Detector.class));
          returningStateHandler = new ReturningStateHandlerImpl(EvasionStateMachineConfigBuilder.builder()
                .withDetectorConfig(DetectorConfigBuilder.builder()
                      .withEvasionAngleInc(evasionAngleInc)

@@ -21,28 +21,30 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 public class GridElementDetectorImpl implements GridElementDetector {
 
    private static final int DETECTABLE_RANGE_MARGIN = 2;
+   private Grid grid;
    protected Detector detector;
 
-   public GridElementDetectorImpl(Detector detector) {
+   public GridElementDetectorImpl(Grid grid, Detector detector) {
       super();
+      this.grid = grid;
       this.detector = detector;
    }
 
    @Override
-   public boolean check4Evasion(Grid grid, GridElement gridElement) {
+   public boolean check4Evasion(GridElement gridElement) {
       return grid.getAllAvoidableGridElementsWithinDistance(gridElement, getDetectableRange())
             .stream()
             .anyMatch(avoidableGridElement -> detector.isEvasion(avoidableGridElement));
    }
 
    @Override
-   public void checkSurrounding(Grid grid, GridElement detectableGridElement) {
+   public void checkSurrounding(GridElement detectableGridElement) {
       grid.getAllAvoidableGridElementsWithinDistance(detectableGridElement, getDetectableRange())
             .forEach(gridElement -> gridElement.isDetectedBy(detectableGridElement.getForemostPosition(), detector));
    }
 
    @Override
-   public List<GridElement> getDetectedGridElement(Grid grid, GridElement detectableGridElement) {
+   public List<GridElement> getDetectedGridElement(GridElement detectableGridElement) {
       return grid.getAllAvoidableGridElements(detectableGridElement)
             .stream()
             .filter(gridElement -> detector.hasObjectDetected(gridElement))

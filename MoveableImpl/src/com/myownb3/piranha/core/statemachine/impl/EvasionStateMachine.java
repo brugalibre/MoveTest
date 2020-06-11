@@ -19,10 +19,11 @@ import java.util.Optional;
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.handler.EvasionStatesHandler;
@@ -46,39 +47,34 @@ import com.myownb3.piranha.core.statemachine.impl.handler.returningstate.input.R
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 
 /**
- * An {@link EvasionStateMachine} completes the {@link EvasionMoveableHelper}
- * because the {@link EvasionStateMachine} can handle the complete evasion
- * maneuvre evasion
- * 
- * The minimum distance to correctly recognize an {@link Obstacle} and handle an
- * evasion maneuvre is three ints. So e.g the first Obstacle is placed at
- * Position (5, 5) and that means, the second can be placed the earliest at
- * Position (8, 8)
+ * An {@link EvasionStateMachine} implements the {@link MoveablePostActionHandler} whereas it not only can detect toher
+ * {@link GridElement} it also can handle the complete evasion maneuvres in order to avoid an evasion
  * 
  * @author Dominic
  *
  */
-public class EvasionStateMachine extends DetectableMoveableHelper {
+public class EvasionStateMachine implements MoveablePostActionHandler {
 
    @Visible4Testing
    EvasionStates evasionState;
+   private DetectableMoveableHelper detectableMoveableHelper;
    private Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap;
    private EvasionStateMachineConfig config;
    private Position positionBeforeEvasion;
    private EndPosition endPosition;
 
-   private EvasionStateMachine(Detector detector, EndPosition endPos, EvasionStateMachineConfig config) {
-      this(detector, endPos, config, createAndInitHandlerMap(config, detector, endPos));
+   private EvasionStateMachine(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPos, EvasionStateMachineConfig config) {
+      this(detectableMoveableHelper, endPos, config, createAndInitHandlerMap(config, detectableMoveableHelper.getDetector(), endPos));
    }
 
-   private EvasionStateMachine(Detector detector, EndPosition endPosition, EvasionStateMachineConfig config,
+   private EvasionStateMachine(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPosition, EvasionStateMachineConfig config,
          Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap) {
-      super(detector);
       this.config = config;
       this.endPosition = endPosition;
       this.evasionState = DEFAULT;
       this.positionBeforeEvasion = null;
-      evasionStatesHandler2StateMap = handlerMap;
+      this.detectableMoveableHelper = detectableMoveableHelper;
+      this.evasionStatesHandler2StateMap = handlerMap;
    }
 
    private static Map<EvasionStates, EvasionStatesHandler<?, ?>> createAndInitHandlerMap(EvasionStateMachineConfig config, Detector detector,
@@ -102,7 +98,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    }
 
    private void beforePostConditions(Grid grid, Moveable moveable) {
-      super.handlePostConditions(grid, moveable);
+      detectableMoveableHelper.handlePostConditions(grid, moveable);
    }
 
    private CommonEvasionStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
@@ -110,13 +106,13 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
       switch (evasionState) {
          case DEFAULT:
             DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
-            DefaultStateInput defaultStateInput = DefaultStateInput.of(grid, moveable, this, endPosition);
+            DefaultStateInput defaultStateInput = DefaultStateInput.of(grid, moveable, detectableMoveableHelper, endPosition);
             eventStateResult = defaultStateHandler.handle(defaultStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case ORIENTING:
             OrientatingStateHandler orientatingStateHandler = getHandler4State(evasionState);
-            OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(grid, moveable, this, endPosition);
+            OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(grid, moveable, detectableMoveableHelper, endPosition);
             eventStateResult = orientatingStateHandler.handle(orientatingStateInput);
             evasionState = eventStateResult.getNextState();
             break;
@@ -192,20 +188,20 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    }
 
    private PassingEventStateInput buildPassingEventStateInput(Grid grid, Moveable moveable) {
-      return PassingEventStateInput.of(this, grid, moveable,
+      return PassingEventStateInput.of(detectableMoveableHelper, grid, moveable,
             positionBeforeEvasion);
    }
 
    private EvasionEventStateInput buildEvasionEventStateInput(Grid grid, Moveable moveable) {
-      return EvasionEventStateInput.of(grid, moveable, detector, this, positionBeforeEvasion);
+      return EvasionEventStateInput.of(grid, moveable, detectableMoveableHelper.getDetector(), detectableMoveableHelper, positionBeforeEvasion);
    }
 
    private PostEvasionEventStateInput buildPostEvasionEventStateInput(Grid grid, Moveable moveable) {
-      return PostEvasionEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
+      return PostEvasionEventStateInput.of(detectableMoveableHelper, grid, moveable, positionBeforeEvasion, endPosition);
    }
 
    private ReturningEventStateInput buildReturningEventStateInput(Grid grid, Moveable moveable) {
-      return ReturningEventStateInput.of(this, grid, moveable, positionBeforeEvasion, endPosition);
+      return ReturningEventStateInput.of(detectableMoveableHelper, grid, moveable, positionBeforeEvasion, endPosition);
    }
 
    public void setEndPosition(EndPosition endPos) {
@@ -215,6 +211,7 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
    }
 
    public static class EvasionStateMachineBuilder {
+      private Grid grid;
       private EvasionStateMachineConfig config;
       private EndPosition endPosition;
       private Detector detector;
@@ -222,6 +219,11 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
 
       private EvasionStateMachineBuilder() {
          // private
+      }
+
+      public EvasionStateMachineBuilder withGrid(Grid grid) {
+         this.grid = grid;
+         return this;
       }
 
       public EvasionStateMachineBuilder withDetector(Detector detector) {
@@ -248,9 +250,9 @@ public class EvasionStateMachine extends DetectableMoveableHelper {
          if (nonNull(postEvasionStateHandler)) {
             Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap = createAndInitHandlerMap(config, detector, endPosition);
             handlerMap.put(EvasionStates.POST_EVASION, postEvasionStateHandler);
-            return new EvasionStateMachine(detector, endPosition, config, handlerMap);
+            return new EvasionStateMachine(new DetectableMoveableHelper(grid, detector), endPosition, config, handlerMap);
          }
-         return new EvasionStateMachine(detector, endPosition, config);
+         return new EvasionStateMachine(new DetectableMoveableHelper(grid, detector), endPosition, config);
       }
 
       public static EvasionStateMachineBuilder builder() {

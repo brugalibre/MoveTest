@@ -44,7 +44,7 @@ class PassingStateHandlerTest {
       int passingDistance = 5;
       Position positionBeforeEvasion = Positions.of(0, 0);
       Moveable moveable = mockMoveable(Positions.of(10, 10));
-      DetectableMoveableHelper helper = new OneTimeDetectableMoveableHelper(null);
+      DetectableMoveableHelper helper = new OneTimeDetectableMoveableHelper(null, null);
       PassingStateHandler passingStateHandler = new PassingStateHandler(passingDistance);
 
       PassingEventStateInput evenStateInput = build(positionBeforeEvasion, moveable, helper);
@@ -86,7 +86,7 @@ class PassingStateHandlerTest {
 
    private static DetectableMoveableHelper mockDetectableMoveableHelper(boolean isEvasion) {
       DetectableMoveableHelper helper = mock(DetectableMoveableHelper.class);
-      when(helper.check4Evasion(any(), any())).thenReturn(isEvasion);
+      when(helper.check4Evasion(any())).thenReturn(isEvasion);
       return helper;
    }
 

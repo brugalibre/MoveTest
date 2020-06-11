@@ -35,6 +35,7 @@ class EvasionStateMachineTest {
       EvasionStateMachineConfig config = mock(EvasionStateMachineConfig.class);
       Detector detector = mock(Detector.class);
       EvasionStateMachine evasionStateMachine = EvasionStateMachineBuilder.builder()
+            .withGrid(mock(Grid.class))
             .withDetector(detector)
             .withEvasionStateMachineConfig(config)
             .build();
@@ -65,6 +66,7 @@ class EvasionStateMachineTest {
 
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);
       EvasionStateMachine evasionStateMachine = EvasionStateMachineBuilder.builder()
+            .withGrid(grid)
             .withDetector(DetectorBuilder.builder()
                   .withDetectorReach(8)
                   .withDetectorAngle(45)

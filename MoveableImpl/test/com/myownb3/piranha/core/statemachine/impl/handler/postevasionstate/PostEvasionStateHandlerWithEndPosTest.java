@@ -104,8 +104,8 @@ class PostEvasionStateHandlerWithEndPosTest {
       assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
       verify(tcb.moveable).makeTurnWithoutPostConditions(
             Mockito.eq(tcb.handler.testSignum * mingAngle2Turn));
-      verify(tcb.helper, times(1)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
-      verify(tcb.helper, times(1)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
+      verify(tcb.helper, times(1)).checkSurrounding(eq(tcb.moveable));
+      verify(tcb.helper, times(1)).check4Evasion(eq(tcb.moveable));
    }
 
    @Test
@@ -139,8 +139,8 @@ class PostEvasionStateHandlerWithEndPosTest {
       assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
       verify(tcb.moveable, times(2))
             .makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * expectedAngle));
-      verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
-      verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
+      verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.moveable));
+      verify(tcb.helper, times(2)).check4Evasion(eq(tcb.moveable));
    }
 
    @Test
@@ -173,8 +173,8 @@ class PostEvasionStateHandlerWithEndPosTest {
       assertThat(tcb.handler.state, is(PostEvasionStates.POST_EVASION));
       verify(tcb.moveable, times(2))
             .makeTurnWithoutPostConditions(Mockito.eq(tcb.handler.testSignum * expectedAngle));
-      verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.grid), eq(tcb.moveable));
-      verify(tcb.helper, times(2)).check4Evasion(eq(tcb.grid), eq(tcb.moveable));
+      verify(tcb.helper, times(2)).checkSurrounding(eq(tcb.moveable));
+      verify(tcb.helper, times(2)).check4Evasion(eq(tcb.moveable));
    }
 
    private static class TestCaseBuilder {
@@ -266,12 +266,12 @@ class PostEvasionStateHandlerWithEndPosTest {
       private boolean isCheck4EvasionTrue;
 
       public TestDetectableMoveableHelper() {
-         super(mock(Detector.class));
+         super(mock(Grid.class), mock(Detector.class));
          isCheck4EvasionTrue = false;
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, GridElement gridElement) {
+      public boolean check4Evasion(GridElement gridElement) {
          return isCheck4EvasionTrue;
       }
    }

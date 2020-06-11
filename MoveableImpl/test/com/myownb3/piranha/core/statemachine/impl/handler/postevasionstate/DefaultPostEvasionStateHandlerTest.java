@@ -155,11 +155,11 @@ class DefaultPostEvasionStateHandlerTest {
    private static class NeverEvasionDetectableMoveableHelper extends DetectableMoveableHelper {
 
       public NeverEvasionDetectableMoveableHelper() {
-         super(mock(Detector.class));
+         super(mock(Grid.class), mock(Detector.class));
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, GridElement gridElement) {
+      public boolean check4Evasion(GridElement gridElement) {
          return false;
       }
    }
@@ -169,12 +169,12 @@ class DefaultPostEvasionStateHandlerTest {
       private boolean isCheck4EvasionTrue;
 
       public OneTimeEvasionDetectableMoveableHelper() {
-         super(mock(Detector.class));
+         super(mock(Grid.class), mock(Detector.class));
          isCheck4EvasionTrue = true;
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, GridElement gridElement) {
+      public boolean check4Evasion(GridElement gridElement) {
          boolean isCheck4EvasionTmp = isCheck4EvasionTrue;
          isCheck4EvasionTrue = !isCheck4EvasionTrue;
          return isCheck4EvasionTmp;

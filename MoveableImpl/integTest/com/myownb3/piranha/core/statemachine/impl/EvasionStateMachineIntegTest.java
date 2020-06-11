@@ -278,6 +278,7 @@ public class EvasionStateMachineIntegTest {
       public TestCaseBuilder withStateMachine() {
          stateMachine = EvasionStateMachineBuilder.builder()
                .withDetector(detector)
+               .withGrid(grid)
                .withEndPosition(endPos)
                .withEvasionStateMachineConfig(config)
                .build();

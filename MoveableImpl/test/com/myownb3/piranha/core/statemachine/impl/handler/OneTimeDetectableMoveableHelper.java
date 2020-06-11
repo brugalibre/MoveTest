@@ -8,13 +8,13 @@ import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelp
 public class OneTimeDetectableMoveableHelper extends DetectableMoveableHelper {
    private boolean hasAllreadyChecked;
 
-   public OneTimeDetectableMoveableHelper(Detector detector) {
-      super(detector);
+   public OneTimeDetectableMoveableHelper(Grid grid, Detector detector) {
+      super(grid, detector);
       hasAllreadyChecked = false;
    }
 
    @Override
-   public boolean check4Evasion(Grid grid, GridElement gridElement) {
+   public boolean check4Evasion(GridElement gridElement) {
       if (!hasAllreadyChecked) {
          hasAllreadyChecked = true;
          return true;
@@ -23,5 +23,5 @@ public class OneTimeDetectableMoveableHelper extends DetectableMoveableHelper {
    }
 
    @Override
-   public void checkSurrounding(Grid grid, GridElement gridElement) {}
+   public void checkSurrounding(GridElement gridElement) {}
 }

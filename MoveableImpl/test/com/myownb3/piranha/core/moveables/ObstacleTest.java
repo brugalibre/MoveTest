@@ -41,7 +41,7 @@ class ObstacleTest {
       MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(1, 1))
-            .withHandler(new DetectableMoveableHelper(detector))
+            .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
       boolean isRecognized = true;
 
@@ -70,7 +70,7 @@ class ObstacleTest {
       MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(1, 1))
-            .withHandler(new DetectableMoveableHelper(detector))
+            .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
       boolean isRecognized = true;
 
@@ -100,7 +100,7 @@ class ObstacleTest {
       MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(1, 1))
-            .withHandler(new DetectableMoveableHelper(detector))
+            .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
 
       boolean notRecognized = false;
@@ -130,7 +130,7 @@ class ObstacleTest {
       MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(1, 1))
-            .withHandler(new DetectableMoveableHelper(detector))
+            .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
       boolean notRecognized = false;
 

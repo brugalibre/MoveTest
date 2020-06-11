@@ -21,12 +21,19 @@ import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
  */
 public class DetectableMoveableHelper extends GridElementDetectorImpl implements MoveablePostActionHandler {
 
-   public DetectableMoveableHelper(Detector detector) {
-      super(detector);
+   public DetectableMoveableHelper(Grid grid, Detector detector) {
+      super(grid, detector);
    }
 
    @Override
    public void handlePostConditions(Grid grid, Moveable moveable) {
-      checkSurrounding(grid, moveable);
+      checkSurrounding(moveable);
+   }
+
+   /**
+    * @return the {@link Detector} of this {@link DetectableMoveableHelper}
+    */
+   public Detector getDetector() {
+      return detector;
    }
 }

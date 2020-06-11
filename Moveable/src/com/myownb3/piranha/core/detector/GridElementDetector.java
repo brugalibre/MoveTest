@@ -18,34 +18,29 @@ public interface GridElementDetector {
     * Verifies if there is any {@link GridElement} on the {@link Grid} for which
     * there is currently an evasion with the given {@link Moveable}
     * 
-    * @param grid
-    *        the {@link Grid}
     * @param gridElement
     *        the {@link GridElement} for which the evasion is checked
+    * 
     * @return <code>true</code> if there is any evasion or <code>false</code> if
     *         not
     */
-   boolean check4Evasion(Grid grid, GridElement gridElement);
+   boolean check4Evasion(GridElement gridElement);
 
    /**
-    * Checks the surrounding of the given {@link Moveable} on the given
-    * {@link Grid}
+    * Checks the surrounding of the given {@link Moveable} the {@link Grid}
     * 
-    * @param grid
-    *        the {@link Grid}
     * @param gridElement
     *        the given {@link GridElement}
     */
-   void checkSurrounding(Grid grid, GridElement gridElement);
+   void checkSurrounding(GridElement gridElement);
 
    /**
-    * Evaluates all {@link GridElement} which are currently detected by this {@link GridElementDetector} on the given {@link Grid}
+    * Evaluates all {@link GridElement} which are currently detected by this {@link GridElementDetector} on the {@link Grid}
     * 
-    * @param grid
-    *        the {@link Grid}
     * @param detectableGridElement
     *        the {@link GridElement} which wants to know all detected {@link GridElement}
+    * 
     * @return all {@link GridElement} which are currently detected
     */
-   List<GridElement> getDetectedGridElement(Grid grid, GridElement detectableGridElement);
+   List<GridElement> getDetectedGridElement(GridElement detectableGridElement);
 }

@@ -37,11 +37,11 @@ class DetectableMoveableHelperTest {
             .withMoveable()
             .withExpectedObstacles(mockExpectedGridElements(detectedGridElement))
             .withGrid()
-            .withHelper(new DetectableMoveableHelper(detector))
+            .withHelper(detector)
             .build();
 
       // When
-      List<GridElement> actualDetectedGridElement = tcb.helper.getDetectedGridElement(tcb.grid, tcb.moveable);
+      List<GridElement> actualDetectedGridElement = tcb.helper.getDetectedGridElement(tcb.moveable);
 
       // Then
       assertThat(actualDetectedGridElement.size(), is(1));
@@ -70,8 +70,8 @@ class DetectableMoveableHelperTest {
          return this;
       }
 
-      public TestCaseBuilder withHelper(DetectableMoveableHelper helper) {
-         this.helper = helper;
+      public TestCaseBuilder withHelper(Detector detector) {
+         this.helper = new DetectableMoveableHelper(grid, detector);
          return this;
       }
 

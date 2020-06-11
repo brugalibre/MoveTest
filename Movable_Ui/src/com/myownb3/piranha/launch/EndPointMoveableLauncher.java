@@ -256,6 +256,7 @@ public class EndPointMoveableLauncher {
             .withGrid(grid)
             .withStartPosition(pos)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .withDetectorReach(config.getDetectorReach())
                         .withEvasionDistance(config.getEvasionDistance())

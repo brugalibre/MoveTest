@@ -36,7 +36,7 @@ class EvasionStateHandlerTest {
       Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
-      DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
+      DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(grid, detector));
 
       EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
@@ -63,7 +63,7 @@ class EvasionStateHandlerTest {
             .withHandler((a, b) -> {
             }).build();
 
-      DetectableMoveableHelper helper = new DummyDetectableMoveableHelper(detector);
+      DetectableMoveableHelper helper = new DummyDetectableMoveableHelper(grid, detector);
 
       EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
@@ -86,7 +86,7 @@ class EvasionStateHandlerTest {
       Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
-      DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(detector));
+      DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(grid, detector));
 
       EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
@@ -97,8 +97,8 @@ class EvasionStateHandlerTest {
       // Then
       assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION.nextState()));
       verify(moveable).makeTurnWithoutPostConditions(Mockito.anyDouble());
-      verify(helper).checkSurrounding(eq(grid), eq(moveable));
-      verify(helper, times(2)).check4Evasion(eq(grid), eq(moveable));
+      verify(helper).checkSurrounding(eq(moveable));
+      verify(helper, times(2)).check4Evasion(eq(moveable));
       assertThat(evasionStateResult.isEvasion(), is(false));
    }
 
@@ -112,7 +112,7 @@ class EvasionStateHandlerTest {
       Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = spyMoveable();
 
-      DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(detector));
+      DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(grid, detector));
 
       EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
@@ -123,8 +123,8 @@ class EvasionStateHandlerTest {
       // Then
       assertThat(evasionStateResult.getNextState(), is(EvasionStates.EVASION));
       verify(moveable).makeTurnWithoutPostConditions(Mockito.anyDouble());
-      verify(helper).checkSurrounding(eq(grid), eq(moveable));
-      verify(helper, times(2)).check4Evasion(eq(grid), eq(moveable));
+      verify(helper).checkSurrounding(eq(moveable));
+      verify(helper, times(2)).check4Evasion(eq(moveable));
       assertThat(evasionStateResult.isEvasion(), is(true));
    }
 
@@ -142,30 +142,30 @@ class EvasionStateHandlerTest {
    }
 
    private static class AlwaysEvasionDetectableMoveableHelper extends DetectableMoveableHelper {
-      public AlwaysEvasionDetectableMoveableHelper(Detector detector) {
-         super(detector);
+      public AlwaysEvasionDetectableMoveableHelper(Grid grid, Detector detector) {
+         super(grid, detector);
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, GridElement gridElement) {
+      public boolean check4Evasion(GridElement gridElement) {
          return true;
       }
 
       @Override
-      public void checkSurrounding(Grid grid, GridElement gridElement) {}
+      public void checkSurrounding(GridElement gridElement) {}
    }
 
    private static class DummyDetectableMoveableHelper extends DetectableMoveableHelper {
-      public DummyDetectableMoveableHelper(Detector detector) {
-         super(detector);
+      public DummyDetectableMoveableHelper(Grid grid, Detector detector) {
+         super(grid, detector);
       }
 
       @Override
-      public boolean check4Evasion(Grid grid, GridElement gridElement) {
+      public boolean check4Evasion(GridElement gridElement) {
          return false;
       }
 
       @Override
-      public void checkSurrounding(Grid grid, GridElement gridElement) {}
+      public void checkSurrounding(GridElement gridElement) {}
    }
 }
