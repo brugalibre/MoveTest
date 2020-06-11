@@ -372,7 +372,7 @@ class TestMove {
       moveable.makeTurn(angle);
 
       // Then
-      verify(spyHandler).handlePostConditions(grid, moveable);// one time, becaus creating a moveable calls
+      verify(spyHandler).handlePostConditions(moveable);// one time, becaus creating a moveable calls
       // this method
       verify(pos, never()).rotate(angle);
    }
@@ -434,7 +434,7 @@ class TestMove {
    private static class MoveablePostActionHandlerTest implements MoveablePostActionHandler {
 
       @Override
-      public void handlePostConditions(Grid grid, Moveable moveable) {
+      public void handlePostConditions(Moveable moveable) {
          // Nothing to do
       }
    }

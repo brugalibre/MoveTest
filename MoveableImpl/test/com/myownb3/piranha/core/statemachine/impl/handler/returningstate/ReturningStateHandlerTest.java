@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -46,8 +45,8 @@ class ReturningStateHandlerTest {
    private ReturningEventStateInput mockInput() {
       Moveable moveable = mock(Moveable.class);
       when(moveable.getPosition()).thenReturn(Positions.of(1, 1));
-      return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), moveable,
-            Positions.of(0, 0), EndPositions.of(50, 50));
+      return ReturningEventStateInput.of(mock(DetectableMoveableHelper.class), moveable, Positions.of(0, 0),
+            EndPositions.of(50, 50));
    }
 
 }

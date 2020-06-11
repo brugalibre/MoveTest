@@ -81,7 +81,7 @@ class MoveableControllerTest {
             .withGrid(mock(DefaultGrid.class))
             .withStartPosition(startPos)
             .withShape(shape)
-            .withMoveablePostActionHandler((a, b) -> {
+            .withMoveablePostActionHandler((b) -> {
             })
             .buildAndReturnParentBuilder()
             .build();//
@@ -109,7 +109,7 @@ class MoveableControllerTest {
                   .withPosition(startPos)
                   .build())
             .withStartPosition(startPos)
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             })
             .build();
 
@@ -149,7 +149,7 @@ class MoveableControllerTest {
                   .withPosition(startPos)
                   .build())
             .withStartPosition(startPos)
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             })
             .build());
 
@@ -190,7 +190,7 @@ class MoveableControllerTest {
                   .withAmountOfPoints(4)
                   .withCenter(startPos)
                   .build())
-            .withMoveablePostActionHandler((a, b) -> {
+            .withMoveablePostActionHandler((b) -> {
             })
             .buildAndReturnParentBuilder()
             .build();//
@@ -287,7 +287,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             })
             .build();
 
@@ -310,7 +310,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             }).build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
@@ -340,7 +340,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             }).build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
@@ -365,7 +365,7 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(startPos)
-            .withMoveablePostActionHandler((g, m) -> {
+            .withMoveablePostActionHandler((m) -> {
             })
             .build();
 

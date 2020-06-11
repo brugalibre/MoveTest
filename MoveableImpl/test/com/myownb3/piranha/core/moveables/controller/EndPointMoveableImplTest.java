@@ -38,7 +38,7 @@ class EndPointMoveableImplTest {
             .withStartPosition(Positions.of(0, 0.9))
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .withMovingIncrement(1)
-            .withMoveablePostActionHandler((g, a) -> {
+            .withMoveablePostActionHandler((a) -> {
             })
             .build();
 
@@ -59,7 +59,7 @@ class EndPointMoveableImplTest {
             .withStartPosition(Positions.of(0, 0.9))
             .withMovingIncrement(1)
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .withMoveablePostActionHandler((g, a) -> {
+            .withMoveablePostActionHandler((a) -> {
             })
             .build();
 
@@ -81,7 +81,7 @@ class EndPointMoveableImplTest {
                   .build())
             .withStartPosition(Positions.of(0, 0.9))
             .withMovingIncrement(movingIncrement)
-            .withMoveablePostActionHandler((g, a) -> {
+            .withMoveablePostActionHandler((a) -> {
             })
             .build();
 

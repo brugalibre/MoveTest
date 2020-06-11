@@ -184,13 +184,11 @@ class PostEvasionStateHandlerWithEndPosTest {
       private Position endPos;
       private Position positionBeforeEvasion;
       private DetectableMoveableHelper helper;
-      private Grid grid;
       private Moveable moveable;
       private TestPostEvasionStateHandler handler;
 
       public TestCaseBuilder() {
          helper = mock(DetectableMoveableHelper.class);
-         grid = mock(Grid.class);
          moveable = spyMoveable();
       }
 
@@ -215,7 +213,7 @@ class PostEvasionStateHandlerWithEndPosTest {
       }
 
       private TestCaseBuilder withEventStateInput() {
-         evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion, EndPositions.of(1, 1));
+         evenStateInput = PostEvasionEventStateInput.of(helper, moveable, positionBeforeEvasion, EndPositions.of(1, 1));
          return this;
       }
 

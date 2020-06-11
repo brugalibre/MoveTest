@@ -136,7 +136,7 @@ class DefaultPostEvasionStateHandlerTest {
          Objects.requireNonNull(moveable, "We need a moveable");
          Objects.requireNonNull(grid, "We need a grid");
          Objects.requireNonNull(positionBeforeEvasion, "We need a positionBeforeEvasion");
-         evenStateInput = PostEvasionEventStateInput.of(helper, grid, moveable, positionBeforeEvasion);
+         evenStateInput = PostEvasionEventStateInput.of(helper, moveable, positionBeforeEvasion);
          return this;
       }
 

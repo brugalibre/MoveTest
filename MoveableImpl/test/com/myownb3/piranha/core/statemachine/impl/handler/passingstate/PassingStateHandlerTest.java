@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -81,7 +80,7 @@ class PassingStateHandlerTest {
    }
 
    private PassingEventStateInput build(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper) {
-      return PassingEventStateInput.of(helper, mock(Grid.class), moveable, positionBeforeEvasion);
+      return PassingEventStateInput.of(helper, moveable, positionBeforeEvasion);
    }
 
    private static DetectableMoveableHelper mockDetectableMoveableHelper(boolean isEvasion) {

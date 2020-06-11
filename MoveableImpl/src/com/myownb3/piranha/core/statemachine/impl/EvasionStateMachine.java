@@ -91,52 +91,52 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
    }
 
    @Override
-   public void handlePostConditions(Grid grid, Moveable moveable) {
-      beforePostConditions(grid, moveable);
-      CommonEvasionStateResult eventStateResult = handlePostConditionsInternal(grid, moveable);
+   public void handlePostConditions(Moveable moveable) {
+      beforePostConditions(moveable);
+      CommonEvasionStateResult eventStateResult = handlePostConditionsInternal(moveable);
       afterPostConditions(eventStateResult);
    }
 
-   private void beforePostConditions(Grid grid, Moveable moveable) {
-      detectableMoveableHelper.handlePostConditions(grid, moveable);
+   private void beforePostConditions(Moveable moveable) {
+      detectableMoveableHelper.handlePostConditions(moveable);
    }
 
-   private CommonEvasionStateResult handlePostConditionsInternal(Grid grid, Moveable moveable) {
+   private CommonEvasionStateResult handlePostConditionsInternal(Moveable moveable) {
       CommonEvasionStateResult eventStateResult = null;
       switch (evasionState) {
          case DEFAULT:
             DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
-            DefaultStateInput defaultStateInput = DefaultStateInput.of(grid, moveable, detectableMoveableHelper, endPosition);
+            DefaultStateInput defaultStateInput = DefaultStateInput.of(moveable, detectableMoveableHelper, endPosition);
             eventStateResult = defaultStateHandler.handle(defaultStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case ORIENTING:
             OrientatingStateHandler orientatingStateHandler = getHandler4State(evasionState);
-            OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(grid, moveable, detectableMoveableHelper, endPosition);
+            OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(moveable, detectableMoveableHelper, endPosition);
             eventStateResult = orientatingStateHandler.handle(orientatingStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case EVASION:
             EvasionStateHandler evasionStateHandler = getHandler4State(evasionState);
-            EvasionEventStateInput evasionEventStateInput = buildEvasionEventStateInput(grid, moveable);
+            EvasionEventStateInput evasionEventStateInput = buildEvasionEventStateInput(moveable);
             eventStateResult = evasionStateHandler.handle(evasionEventStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case POST_EVASION:
             PostEvasionStateHandler postEvastionStateHandler = getHandler4State(evasionState);
-            PostEvasionEventStateInput postEvasionStateInput = buildPostEvasionEventStateInput(grid, moveable);
+            PostEvasionEventStateInput postEvasionStateInput = buildPostEvasionEventStateInput(moveable);
             eventStateResult = postEvastionStateHandler.handle(postEvasionStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case PASSING:
             PassingStateHandler passingStateHandler = getHandler4State(evasionState);
-            PassingEventStateInput passingEventStateInput = buildPassingEventStateInput(grid, moveable);
+            PassingEventStateInput passingEventStateInput = buildPassingEventStateInput(moveable);
             eventStateResult = passingStateHandler.handle(passingEventStateInput);
             evasionState = eventStateResult.getNextState();
             break;
          case RETURNING:
             ReturningStateHandler returningStateHandler = getHandler4State(evasionState);
-            ReturningEventStateInput returingStateInput = buildReturningEventStateInput(grid, moveable);
+            ReturningEventStateInput returingStateInput = buildReturningEventStateInput(moveable);
             eventStateResult = returningStateHandler.handle(returingStateInput);
             evasionState = eventStateResult.getNextState();
             break;
@@ -187,21 +187,20 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
       throw new IllegalStateException("No EvasionStatesHandler registered for state '" + state + "'");
    }
 
-   private PassingEventStateInput buildPassingEventStateInput(Grid grid, Moveable moveable) {
-      return PassingEventStateInput.of(detectableMoveableHelper, grid, moveable,
-            positionBeforeEvasion);
+   private PassingEventStateInput buildPassingEventStateInput(Moveable moveable) {
+      return PassingEventStateInput.of(detectableMoveableHelper, moveable, positionBeforeEvasion);
    }
 
-   private EvasionEventStateInput buildEvasionEventStateInput(Grid grid, Moveable moveable) {
-      return EvasionEventStateInput.of(grid, moveable, detectableMoveableHelper.getDetector(), detectableMoveableHelper, positionBeforeEvasion);
+   private EvasionEventStateInput buildEvasionEventStateInput(Moveable moveable) {
+      return EvasionEventStateInput.of(moveable, detectableMoveableHelper.getDetector(), detectableMoveableHelper, positionBeforeEvasion);
    }
 
-   private PostEvasionEventStateInput buildPostEvasionEventStateInput(Grid grid, Moveable moveable) {
-      return PostEvasionEventStateInput.of(detectableMoveableHelper, grid, moveable, positionBeforeEvasion, endPosition);
+   private PostEvasionEventStateInput buildPostEvasionEventStateInput(Moveable moveable) {
+      return PostEvasionEventStateInput.of(detectableMoveableHelper, moveable, positionBeforeEvasion, endPosition);
    }
 
-   private ReturningEventStateInput buildReturningEventStateInput(Grid grid, Moveable moveable) {
-      return ReturningEventStateInput.of(detectableMoveableHelper, grid, moveable, positionBeforeEvasion, endPosition);
+   private ReturningEventStateInput buildReturningEventStateInput(Moveable moveable) {
+      return ReturningEventStateInput.of(detectableMoveableHelper, moveable, positionBeforeEvasion, endPosition);
    }
 
    public void setEndPosition(EndPosition endPos) {

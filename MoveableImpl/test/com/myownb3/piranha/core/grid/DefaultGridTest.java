@@ -257,7 +257,7 @@ class DefaultGridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
-            .withMoveablePostActionHandler((a, b) -> {
+            .withMoveablePostActionHandler((b) -> {
             })
             .build();
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()

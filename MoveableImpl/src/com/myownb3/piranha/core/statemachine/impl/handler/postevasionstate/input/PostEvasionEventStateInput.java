@@ -2,7 +2,6 @@ package com.myownb3.piranha.core.statemachine.impl.handler.postevasionstate.inpu
 
 import static java.util.Objects.requireNonNull;
 
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -15,9 +14,9 @@ public class PostEvasionEventStateInput extends CommonEvasionStateInput {
    private Position positionBeforeEvasion;
    private EndPosition endPosition;
 
-   private PostEvasionEventStateInput(Grid grid, DetectableMoveableHelper helper, Moveable moveable,
-         Position positionBeforeEvasion, EndPosition endPosition) {
-      super(grid, moveable, helper);
+   private PostEvasionEventStateInput(DetectableMoveableHelper helper, Moveable moveable, Position positionBeforeEvasion,
+         EndPosition endPosition) {
+      super(moveable, helper);
       this.positionBeforeEvasion = requireNonNull(positionBeforeEvasion);
       this.endPosition = endPosition;
    }
@@ -27,8 +26,6 @@ public class PostEvasionEventStateInput extends CommonEvasionStateInput {
     * 
     * @param helper
     *        the {@link DetectableMoveableHelper}
-    * @param grid
-    *        the {@link Grid}
     * @param moveable
     *        the {@link Moveable}
     * @param positionBeforeEvasion
@@ -38,9 +35,9 @@ public class PostEvasionEventStateInput extends CommonEvasionStateInput {
     *        the end-position
     * @return a {@link PassingEventStateInput}
     */
-   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-         Position positionBeforeEvasion, EndPosition endPosition) {
-      return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, endPosition);
+   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Moveable moveable, Position positionBeforeEvasion,
+         EndPosition endPosition) {
+      return new PostEvasionEventStateInput(helper, moveable, positionBeforeEvasion, endPosition);
    }
 
    /**
@@ -48,8 +45,6 @@ public class PostEvasionEventStateInput extends CommonEvasionStateInput {
     * 
     * @param helper
     *        the {@link DetectableMoveableHelper}
-    * @param grid
-    *        the {@link Grid}
     * @param moveable
     *        the {@link Moveable}
     * @param positionBeforeEvasion
@@ -57,9 +52,8 @@ public class PostEvasionEventStateInput extends CommonEvasionStateInput {
     *        evasion
     * @return a {@link PassingEventStateInput}
     */
-   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Grid grid, Moveable moveable,
-         Position positionBeforeEvasion) {
-      return new PostEvasionEventStateInput(grid, helper, moveable, positionBeforeEvasion, null);
+   public static PostEvasionEventStateInput of(DetectableMoveableHelper helper, Moveable moveable, Position positionBeforeEvasion) {
+      return new PostEvasionEventStateInput(helper, moveable, positionBeforeEvasion, null);
    }
 
    public final Position getPositionBeforeEvasion() {

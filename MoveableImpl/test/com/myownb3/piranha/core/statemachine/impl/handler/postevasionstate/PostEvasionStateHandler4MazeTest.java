@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
@@ -31,7 +30,7 @@ class PostEvasionStateHandler4MazeTest {
    }
 
    private static PostEvasionEventStateInput buildEmptyInput() {
-      return PostEvasionEventStateInput.of(mock(DetectableMoveableHelper.class), mock(Grid.class), mockMoveable(), Positions.of(0, 0));
+      return PostEvasionEventStateInput.of(mock(DetectableMoveableHelper.class), mockMoveable(), Positions.of(0, 0));
    }
 
    private static Moveable mockMoveable() {

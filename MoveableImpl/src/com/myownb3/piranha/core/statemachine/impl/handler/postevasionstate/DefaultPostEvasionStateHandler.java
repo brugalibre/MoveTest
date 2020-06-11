@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.statemachine.impl.handler.postevasionstate;
 import static com.myownb3.piranha.core.statemachine.states.EvasionStates.POST_EVASION;
 import static java.lang.Math.abs;
 
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
@@ -33,7 +32,7 @@ public class DefaultPostEvasionStateHandler extends
       Moveable moveable = evenStateInput.getMoveable();
       boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable);
       if (isAngleCorrectionNecessary) {
-         adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getGrid(), evenStateInput.getHelper());
+         adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper());
          return POST_EVASION;
       }
       return POST_EVASION.nextState();
@@ -44,18 +43,18 @@ public class DefaultPostEvasionStateHandler extends
       return !movPos.getDirection().equals(position.getDirection());
    }
 
-   private void adjustDirection(Position startPos, Moveable moveable, Grid grid, DetectableMoveableHelper helper) {
+   private void adjustDirection(Position startPos, Moveable moveable, DetectableMoveableHelper helper) {
       double effectAngle2Turn = getAngle2Turn(moveable.getPosition(), startPos.getDirection().getAngle());
       moveable.makeTurnWithoutPostConditions(effectAngle2Turn);
 
-      checkSurroundingsAndTurnBackIfNecessary(moveable, helper, grid, -effectAngle2Turn / 2);
+      checkSurroundingsAndTurnBackIfNecessary(moveable, helper, -effectAngle2Turn / 2);
    }
 
    /*
     * If the moveable has detected an evasion, revert the turn
     */
    private static void checkSurroundingsAndTurnBackIfNecessary(Moveable moveable, DetectableMoveableHelper helper,
-         Grid grid, double angle2Turn) {
+         double angle2Turn) {
       helper.checkSurrounding(moveable);
       if (helper.check4Evasion(moveable)) {
          moveable.makeTurnWithoutPostConditions(angle2Turn);

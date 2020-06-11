@@ -41,7 +41,7 @@ class OrientatingStateHandlerTest {
             .build();
 
       OrientatingStateInput input =
-            OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
+            OrientatingStateInput.of(moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
       CommonEvasionStateResult stateResult = handler.handle(input);
@@ -64,7 +64,7 @@ class OrientatingStateHandlerTest {
             .build();
 
       OrientatingStateInput input =
-            OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
+            OrientatingStateInput.of(moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
       CommonEvasionStateResult stateResult = handler.handle(input);
@@ -88,7 +88,7 @@ class OrientatingStateHandlerTest {
             .build();
 
       OrientatingStateInput input =
-            OrientatingStateInput.of(grid, moveable, mock(DetectableMoveableHelper.class), endPos);
+            OrientatingStateInput.of(moveable, mock(DetectableMoveableHelper.class), endPos);
 
       // When
       CommonEvasionStateResult stateResult1 = handler.handle(input);
@@ -107,7 +107,7 @@ class OrientatingStateHandlerTest {
       EndPosition endPos = null;
       Position moveablePos = spy(Positions.of(0, 0));
       OrientatingStateInput input =
-            OrientatingStateInput.of(mock(Grid.class), mockMoveable(moveablePos), mock(DetectableMoveableHelper.class), endPos);
+            OrientatingStateInput.of(mockMoveable(moveablePos), mock(DetectableMoveableHelper.class), endPos);
 
       // When
       CommonEvasionStateResult stateResult = handler.handle(input);

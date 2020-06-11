@@ -6,7 +6,6 @@ import static java.util.Objects.requireNonNull;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -68,8 +67,7 @@ public class PostEvasionStateHandlerWithEndPos extends
       Position endPosition = evenStateInput.getEndPosition();
       boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable, endPosition);
       if (isAngleCorrectionNecessary) {
-         adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), evenStateInput.getGrid(),
-               endPosition);
+         adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), endPosition);
          return POST_EVASION;
       }
       return POST_EVASION.nextState();
@@ -82,7 +80,7 @@ public class PostEvasionStateHandlerWithEndPos extends
    }
 
    private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,
-         Grid grid, Position endPos) {
+         Position endPos) {
       Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
       double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
       moveable.makeTurnWithoutPostConditions(signum * angle2Turn);

@@ -31,7 +31,7 @@ public class MoveableBuilder {
    }
 
    private MoveableBuilder() {
-      handler = (a, b) -> {
+      handler = (b) -> {
       };
    }
 
@@ -61,7 +61,7 @@ public class MoveableBuilder {
       } else {
          moveable = new SimpleMoveable(grid, position, handler, shape);
       }
-      handler.handlePostConditions(grid, moveable);
+      handler.handlePostConditions(moveable);
       return this.moveable;
    }
 

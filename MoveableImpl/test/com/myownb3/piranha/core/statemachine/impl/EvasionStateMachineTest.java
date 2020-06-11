@@ -78,7 +78,7 @@ class EvasionStateMachineTest {
 
       // When
       Executable ex = () -> {
-         evasionStateMachine.handlePostConditions(grid, moveable);
+         evasionStateMachine.handlePostConditions(moveable);
       };
 
       // Then

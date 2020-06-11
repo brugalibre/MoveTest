@@ -29,28 +29,28 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
       super(grid, position, shape);
-      init(grid, handler);
+      init(handler);
    }
 
    public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
       super(grid, position);
-      init(grid, handler);
+      init(handler);
    }
 
-   private void init(Grid grid, MoveablePostActionHandler handler) {
+   private void init(MoveablePostActionHandler handler) {
       posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
-      this.handler.handlePostConditions(grid, this);
+      this.handler.handlePostConditions(this);
    }
 
    public AbstractMoveable(Grid grid, Position position, Shape shape) {
-      this(grid, position, (g, m) -> {/* This empty handler does nothing */
+      this(grid, position, (m) -> {/* This empty handler does nothing */
       }, shape);
    }
 
    public AbstractMoveable(Grid grid, Position position) {
-      this(grid, position, (g, m) -> {/* This empty handler does nothing */
+      this(grid, position, (m) -> {/* This empty handler does nothing */
       });
    }
 
@@ -70,7 +70,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    public void moveForward(int amount) {
       moveForwardOrBackwardInternal(amount, () -> {
          moveForwardInternal();
-         handler.handlePostConditions(grid, this);
+         handler.handlePostConditions(this);
       });
    }
 
@@ -90,7 +90,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    public void moveBackward(int amount) {
       moveForwardOrBackwardInternal(amount, () -> {
          moveBackwardInternal();
-         handler.handlePostConditions(grid, this);
+         handler.handlePostConditions(this);
       });
    }
 
@@ -120,7 +120,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    public void makeTurn(double degree) {
       makeTurnInternal(degree);
       if (degree != 0) {
-         handler.handlePostConditions(grid, this);
+         handler.handlePostConditions(this);
       }
    }
 

@@ -5,7 +5,6 @@ import static com.myownb3.piranha.util.ObjectUtils.firstNonNull;
 import static java.util.Objects.nonNull;
 
 import com.myownb3.piranha.core.detector.Detector;
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
@@ -32,15 +31,15 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
 
    @Override
    public EvasionStateResult handle(EvasionEventStateInput evenStateInput) {
-      return handleEvasionState(evenStateInput.getGrid(), evenStateInput.getMoveable(), evenStateInput.getDetector(),
-            evenStateInput.getHelper(), evenStateInput.getPosBeforeEvasion());
+      return handleEvasionState(evenStateInput.getMoveable(), evenStateInput.getDetector(), evenStateInput.getHelper(),
+            evenStateInput.getPosBeforeEvasion());
    }
 
-   private EvasionStateResult handleEvasionState(Grid grid, Moveable moveable, Detector detector,
-         DetectableMoveableHelper helper, Position posBeforeEvasion) {
+   private EvasionStateResult handleEvasionState(Moveable moveable, Detector detector, DetectableMoveableHelper helper,
+         Position posBeforeEvasion) {
       if (helper.check4Evasion(moveable)) {
          hadEvasionBefore = true;
-         EvasionStateResult evasionStateResult = handleEvasionManeuvre(grid, moveable, detector, helper);
+         EvasionStateResult evasionStateResult = handleEvasionManeuvre(moveable, detector, helper);
          if (nonNull(evasionStateResult)) {
             return evasionStateResult;
          }
@@ -56,7 +55,7 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
       return EvasionStateResult.of(EVASION, EVASION.nextState(), false);
    }
 
-   private EvasionStateResult handleEvasionManeuvre(Grid grid, Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
+   private EvasionStateResult handleEvasionManeuvre(Moveable moveable, Detector detector, DetectableMoveableHelper helper) {
       double avoidAngle = detector.getEvasionAngleRelative2(moveable.getForemostPosition());
       avoidAngle = registerAndGetAvoidAngle(avoidAngle);
       moveable.makeTurnWithoutPostConditions(avoidAngle);

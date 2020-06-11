@@ -44,7 +44,7 @@ class ReturningStateHandlerImplTest {
 
       // When
       ReturningEventStateInput evenStateInput =
-            ReturningEventStateInput.of(tcb.helper, tcb.grid, tcb.moveable, tcb.positionBeforeEvasion, tcb.endPosition);
+            ReturningEventStateInput.of(tcb.helper, tcb.moveable, tcb.positionBeforeEvasion, tcb.endPosition);
       tcb.returningStateHandler.handle(evenStateInput);
 
       // Then

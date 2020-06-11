@@ -38,7 +38,7 @@ class EvasionStateHandlerTest {
 
       DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(grid, detector));
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
@@ -60,12 +60,12 @@ class EvasionStateHandlerTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
-            .withHandler((a, b) -> {
+            .withHandler((b) -> {
             }).build();
 
       DetectableMoveableHelper helper = new DummyDetectableMoveableHelper(grid, detector);
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
@@ -88,7 +88,7 @@ class EvasionStateHandlerTest {
 
       DetectableMoveableHelper helper = spy(new OneTimeDetectableMoveableHelper(grid, detector));
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
@@ -114,7 +114,7 @@ class EvasionStateHandlerTest {
 
       DetectableMoveableHelper helper = spy(new AlwaysEvasionDetectableMoveableHelper(grid, detector));
 
-      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(grid, moveable, detector, helper, Positions.of(0, 0));
+      EvasionEventStateInput evenStateInput = EvasionEventStateInput.of(moveable, detector, helper, Positions.of(0, 0));
       EvasionStateHandler test = new EvasionStateHandler(postEvasionDelayDistance);
 
       // When
