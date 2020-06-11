@@ -55,6 +55,11 @@ public class TankGridElement implements Tank, GridElement {
    }
 
    @Override
+   public boolean isDestroyed() {
+      return tank.isDestroyed();
+   }
+
+   @Override
    public Position getForemostPosition() {
       return moveable.getForemostPosition();
    }
@@ -87,7 +92,7 @@ public class TankGridElement implements Tank, GridElement {
 
    @Override
    public void onCollision(List<GridElement> gridElements) {
-      moveable.onCollision(gridElements);
+      tank.onCollision(gridElements);
    }
 
    @Override

@@ -2,6 +2,8 @@ package com.myownb3.piranha.core.weapon.gun.projectile;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
@@ -15,9 +17,12 @@ import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 public class ProjectileImpl implements Projectile {
 
    private DestructionHelper destructionHelper;
+   private BelligerentParty belligerentParty;
 
-   protected ProjectileImpl(double damage, double health, double velocity, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
+   protected ProjectileImpl(BelligerentParty belligerentParty, double damage, double health, double velocity,
+         OnDestroyedCallbackHandler onDestroyCallbackHandler) {
       this.destructionHelper = getDestructionHelper(damage, health, velocity, onDestroyCallbackHandler);
+      this.belligerentParty = belligerentParty;
    }
 
    private DestructionHelper getDestructionHelper(double damage, double health, double velocity,
@@ -28,6 +33,16 @@ public class ProjectileImpl implements Projectile {
             .withSelfDestructiveDamage(new ProjectileSelfDestructive(health))
             .withOnDestroyedCallbackHandler(onDestroyCallbackHandler)
             .build();
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
+   }
+
+   @Override
+   public boolean isEnemy(Belligerent otherBelligerent) {
+      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    @Override
@@ -72,6 +87,7 @@ public class ProjectileImpl implements Projectile {
       private double health;
       private double velocity;
       private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
+      private BelligerentParty belligerentParty;
 
       private ProjectileBuilder() {
          // private
@@ -97,8 +113,13 @@ public class ProjectileImpl implements Projectile {
          return this;
       }
 
+      public ProjectileBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
+      }
+
       public ProjectileImpl build() {
-         return new ProjectileImpl(damage, health, velocity, onDestroyedCallbackHandler);
+         return new ProjectileImpl(belligerentParty, damage, health, velocity, onDestroyedCallbackHandler);
       }
 
       public static ProjectileBuilder builder() {

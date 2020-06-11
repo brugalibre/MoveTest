@@ -69,6 +69,7 @@ class TankGridElementTest {
       verify(tank).getTurret();
       verify(tank).isEnemy(belligerent);
       verify(tank).getBelligerentParty();
+      verify(tank).onCollision(Collections.emptyList());
       verify(actualMoveableMock, never()).isAvoidable();
       verify(actualMoveableMock).getForemostPosition();
       verify(actualMoveableMock).getRearmostPosition();
@@ -76,7 +77,6 @@ class TankGridElementTest {
       verify(actualMoveableMock).hasGridElementDetected(any(), any());
       verify(actualMoveableMock).isDetectedBy(any(), any());
       verify(actualMoveableMock).check4Collision(any(), any(), any());
-      verify(actualMoveableMock).onCollision(Collections.emptyList());
       assertThat(isTankAvoidable, is(true));
    }
 

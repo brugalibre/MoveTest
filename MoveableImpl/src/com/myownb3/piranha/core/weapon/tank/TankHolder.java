@@ -6,6 +6,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class TankHolder {
    private Tank tank;
+   private TankGridElement tankGridElement;
 
    /**
     * Set and return the given {@link Tank}
@@ -24,5 +25,13 @@ public class TankHolder {
     */
    public Position getPosition() {
       return nonNull(tank) ? tank.getPosition() : null;
+   }
+
+   public TankGridElement getTankGridElement() {
+      return tankGridElement;
+   }
+
+   public void setTankGridElement(TankGridElement tankGridElement) {
+      this.tankGridElement = tankGridElement;
    }
 }

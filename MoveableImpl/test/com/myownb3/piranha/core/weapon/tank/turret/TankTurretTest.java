@@ -26,6 +26,7 @@ import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleG
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
@@ -50,6 +51,8 @@ class TankTurretTest {
       Position turretPos = Positions.of(200, 200).rotate(180);
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(TankTurretBuilder.builder()
                   .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
                   .withDetector(DetectorBuilder.builder()
@@ -121,6 +124,7 @@ class TankTurretTest {
       TurretScanner turretScanner = mock(TurretScanner.class);
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(ShootingTankTurretBuilder.builder()
                   .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
                   .withTurretScanner(turretScanner)
@@ -192,6 +196,7 @@ class TankTurretTest {
       TurretScanner turretScanner = mock(TurretScanner.class);
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(TankTurretBuilder.builder()
                   .withParkingAngleEvaluator(() -> turretPos.getDirection().getAngle())
                   .withTurretScanner(turretScanner)

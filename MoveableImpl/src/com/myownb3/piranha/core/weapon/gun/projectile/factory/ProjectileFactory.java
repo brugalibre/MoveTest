@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.gun.projectile.factory;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
@@ -47,13 +48,14 @@ public class ProjectileFactory {
          default:
             throw new IllegalArgumentException("Unsupported type of projectile '" + type + "'");
       }
-      return createNewProjectile(position, projectileShape);
+      return createNewProjectile(position, projectileShape, projectileConfig.getBelligerentParty());
    }
 
-   private ProjectileGridElement createNewProjectile(Position position, Shape projectileShape) {
+   private ProjectileGridElement createNewProjectile(Position position, Shape projectileShape, BelligerentParty belligerentParty) {
       return ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(position)
+            .withBelligerentParty(belligerentParty)
             .withShape(projectileShape)
             .build();
    }

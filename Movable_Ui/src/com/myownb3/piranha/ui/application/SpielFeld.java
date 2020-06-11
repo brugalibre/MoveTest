@@ -6,6 +6,7 @@ package com.myownb3.piranha.ui.application;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -49,11 +50,9 @@ public class SpielFeld extends JComponent {
    private void paintMoveableContent(Graphics2D g2) {
       GraphicsContext graphicsContext = new GraphicsContext(g2);
       renderMoveable(graphicsContext);
-      synchronized (renderers) {
-         renderers.stream()
-               .filter(isMoveablePainter().negate())
-               .forEach(renderer -> renderer.render(graphicsContext));
-      }
+      new ArrayList<>(renderers).stream()
+            .filter(isMoveablePainter().negate())
+            .forEach(renderer -> renderer.render(graphicsContext));
    }
 
    /**

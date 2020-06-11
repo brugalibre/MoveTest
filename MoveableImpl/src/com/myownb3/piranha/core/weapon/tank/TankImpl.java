@@ -7,9 +7,15 @@ import java.util.List;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.destruction.DamageImpl;
+import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
+import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
+import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -17,12 +23,12 @@ import com.myownb3.piranha.core.moveables.controller.MoveableController.Moveable
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.weapon.turret.Turret;
-import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TankImpl implements Tank {
 
@@ -30,25 +36,40 @@ public class TankImpl implements Tank {
    private TankEngine tankEngine;
    private TankShape tankShape;
    private BelligerentParty belligerentParty;
+   private TankDetector tankDetector;
+   private DestructionHelper destructionHelper;
 
-   private TankImpl(Turret turret, TankEngine tankEngine, TankShape tankShape, BelligerentParty belligerentParty) {
+   private TankImpl(Turret turret, TankEngine tankEngine, TankShape tankShape, BelligerentParty belligerentParty, TankDetector tankDetector,
+         DestructionHelper destructionHelper) {
       this.turret = turret;
       this.tankEngine = tankEngine;
       this.tankShape = tankShape;
       this.belligerentParty = belligerentParty;
+      this.tankDetector = tankDetector;
+      this.destructionHelper = destructionHelper;
    }
 
    @Override
    public void autodetect() {
       turret.autodetect();
-      if (isNotShooting()) {
+      tankDetector.autodetect();
+      if (has2MoveForward()) {
          tankEngine.moveForward();
       }
    }
 
+   private boolean has2MoveForward() {
+      return !turret.isShooting() || tankDetector.isUnderFire();
+   }
+
    @Override
-   public BelligerentParty getBelligerentParty() {
-      return belligerentParty;
+   public boolean isDestroyed() {
+      return destructionHelper.isDestroyed();
+   }
+
+   @Override
+   public void onCollision(List<GridElement> gridElements) {
+      destructionHelper.onCollision(gridElements);
    }
 
    @Override
@@ -56,13 +77,14 @@ public class TankImpl implements Tank {
       return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
-   private boolean isNotShooting() {
-      return turret.getTurretStatus() != TurretState.SHOOTING;
-   }
-
    @Override
    public Turret getTurret() {
       return turret;
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
    }
 
    @Override
@@ -89,10 +111,14 @@ public class TankImpl implements Tank {
       private List<EndPosition> endPositions;
       private TankEngine tankEngine;
       private BelligerentParty belligerentParty;
+      private TankDetector tankDetector;
+      private DestructionHelper destructionHelper;
+      private double health;
 
       private TankBuilder() {
          movingIncrement = 1;
          belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+         health = Integer.MAX_VALUE;
       }
 
       public TankBuilder withBelligerentParty(BelligerentParty belligerentParty) {
@@ -115,6 +141,11 @@ public class TankImpl implements Tank {
          return this;
       }
 
+      public TankBuilder withHealth(double health) {
+         this.health = health;
+         return this;
+      }
+
       public TankBuilder withGrid(Grid grid) {
          this.grid = grid;
          return this;
@@ -130,14 +161,29 @@ public class TankImpl implements Tank {
          return this;
       }
 
+      public TankBuilder withTankDetector(TankDetector tankDetector) {
+         this.tankDetector = tankDetector;
+         return this;
+      }
+
       public Tank build() {
          TankShape tankShape = buildTankShape();
-
          TankHolder tankHolder = new TankHolder();
          TankEngine tankEngine = buildNewOrGetExistingEngine(tankShape, this.tankEngine);
-         TankImpl tankImpl = new TankImpl(turret, tankEngine, tankShape, belligerentParty);
+         this.destructionHelper = buildDestructionHelper(health);
+         TankImpl tankImpl = new TankImpl(turret, tankEngine, tankShape, belligerentParty, tankDetector, destructionHelper);
          return tankHolder
                .setAndReturnTank(tankImpl);
+      }
+
+      private DestructionHelper buildDestructionHelper(double health) {
+         return DestructionHelperBuilder.builder()
+               .withDamage(DamageImpl.of(0))
+               .withHealth(HealthImpl.of(health))
+               .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
+               .withOnDestroyedCallbackHandler(() -> {
+               })
+               .build();
       }
 
       private TankShape buildTankShape() {
@@ -160,6 +206,7 @@ public class TankImpl implements Tank {
                      .withGrid(grid)
                      .withStartPosition(tankShape.getCenter())
                      .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                           .withGrid(grid)
                            .withDetector(DetectorBuilder.builder()
                                  .build())
                            .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()

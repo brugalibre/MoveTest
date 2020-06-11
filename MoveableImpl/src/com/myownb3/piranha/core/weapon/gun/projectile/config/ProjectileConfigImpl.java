@@ -1,14 +1,18 @@
 package com.myownb3.piranha.core.weapon.gun.projectile.config;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 
 public class ProjectileConfigImpl implements ProjectileConfig {
 
    private Dimension projectileDimension;
+   private BelligerentParty belligerentParty;
 
-   private ProjectileConfigImpl(Dimension projectileDimension) {
+   private ProjectileConfigImpl(Dimension projectileDimension, BelligerentParty belligerentParty) {
       this.projectileDimension = projectileDimension;
+      this.belligerentParty = belligerentParty;
    }
 
    @Override
@@ -16,11 +20,17 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       return projectileDimension;
    }
 
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return belligerentParty;
+   }
+
    public static class ProjectileConfigBuilder {
       private Dimension projectileDimension;
+      private BelligerentParty belligerentParty;
 
       private ProjectileConfigBuilder() {
-         // private
+         belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
       }
 
       public ProjectileConfigBuilder withDimension(Dimension projectileDimension) {
@@ -28,9 +38,13 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return this;
       }
 
+      public ProjectileConfigBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
+      }
 
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(projectileDimension);
+         return new ProjectileConfigImpl(projectileDimension, belligerentParty);
       }
 
       public static ProjectileConfigBuilder builder() {

@@ -15,7 +15,9 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
@@ -27,10 +29,13 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
@@ -39,6 +44,71 @@ import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TankImplTest {
+
+   @Test
+   void testDestroyTank() {
+
+      // Given
+      double health = 4;
+      Tank tank = TankBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withEndPositions(Collections.singletonList(EndPositions.of(5, 5)))
+            .withTankDetector(mock(TankDetector.class))
+            .withTurret(TurretBuilder.builder()
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withRotationSpeed(3)
+                        .withGun(BulletGunBuilder.builder()
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(350)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .build())
+                                    .withVelocity(3)
+                                    .build())
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(5)
+                                          .withWidth(5)
+                                          .withCenter(Positions.of(5, 5))
+                                          .withOrientation(Orientation.VERTICAL)
+                                          .build())
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(5)
+                              .withAmountOfPoints(5)
+                              .withCenter(Positions.of(5, 5))
+                              .build())
+                        .build())
+                  .build())
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(Positions.of(5, 5))
+                  .withHeight(30)
+                  .withWidth(30)
+                  .build())
+            .withHealth(health)
+            .build();
+
+      ProjectileGridElement projectile = mock(ProjectileGridElement.class);
+      when(projectile.getDamage()).thenReturn(DamageImpl.of(health + 1));
+
+      // When
+      tank.onCollision(Collections.singletonList(projectile));
+      boolean actualIsDestroyed = tank.isDestroyed();
+
+      // Then
+      assertThat(actualIsDestroyed, is(true));
+   }
+
 
    @Test
    void testThatEngineMoveableHasSamePartyThanTank() {
@@ -51,9 +121,19 @@ class TankImplTest {
       double gunWidth = 4;
 
       // When
+      Grid grid = mock(Grid.class);
       Tank tank = TankBuilder.builder()
-            .withGrid(mock(Grid.class))
+            .withGrid(grid)
             .withEndPositions(Collections.singletonList(EndPositions.of(5, 5)))
+            .withTankDetector(TankDetectorBuilder.builder()
+                  .withGridElementDetector(new GridElementDetectorImpl(grid, DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build()))
+                  .build())
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)
@@ -203,6 +283,7 @@ class TankImplTest {
 
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
@@ -235,6 +316,7 @@ class TankImplTest {
 
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
@@ -266,6 +348,7 @@ class TankImplTest {
 
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()

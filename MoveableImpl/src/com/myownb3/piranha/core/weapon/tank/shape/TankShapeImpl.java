@@ -77,8 +77,8 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    @Override
    public void transform(Position newPosition) {
       super.transform(newPosition);
-      Position transformedTankPos4Turret = positionTransformator.transform(newPosition);
-      Position newTurretPosition = getNewTurretPosButKeepDirection(transformedTankPos4Turret);
+      //      Position transformedTankPos4Turret = positionTransformator.transform(newPosition);
+      Position newTurretPosition = getNewTurretPosButKeepDirection(newPosition);
       turretShape.transform(newTurretPosition);
       hull.transform(newPosition);
       path = combinePath(hull, turretShape);

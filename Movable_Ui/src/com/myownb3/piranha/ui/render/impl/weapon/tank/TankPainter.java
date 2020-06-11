@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -16,8 +17,9 @@ public class TankPainter extends Drawable<TankShape> implements Renderer {
    private Drawable<? extends Shape> turretPainter;
    private Drawable<? extends Shape> tankPainter;
 
-   public TankPainter(TankShape tankShape, Color tankColor, Color turretColor) {
-      super(tankShape);
+   public TankPainter(Tank tank, Color tankColor, Color turretColor) {
+      super(tank.getShape());
+      TankShape tankShape = tank.getShape();
       this.turretPainter = ShapePainterFactory.getShapePainter(tankShape.getTurretShape(), turretColor, false);
       this.tankPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor, false);
    }

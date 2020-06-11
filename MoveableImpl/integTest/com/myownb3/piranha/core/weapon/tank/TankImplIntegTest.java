@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.tank;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +11,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
+import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.DimensionImpl;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -25,6 +28,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImp
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 
 class TankImplIntegTest {
@@ -40,8 +44,21 @@ class TankImplIntegTest {
       EndPosition endPos = EndPositions.of(50, 50.1);
       Position expectedPosition = Positions.of(10, 10.2);
       List<EndPosition> endPositions = Collections.singletonList(endPos);
+      Grid grid = mock(Grid.class);
 
       Tank tank = TankBuilder.builder()
+            .withTankDetector(TankDetectorBuilder.builder()
+                  .withTankGridElement(() -> mock(TankGridElement.class))
+                  .withGridElementDetector(new GridElementDetectorImpl(grid, DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(1)
+                        .withDetectorReach(1)
+                        .withEvasionAngle(1)
+                        .withEvasionDistance(1)
+                        .build()))
+                  .build())
+            .withEngineVelocity(10)
+            .withEndPositions(endPositions)
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(0)

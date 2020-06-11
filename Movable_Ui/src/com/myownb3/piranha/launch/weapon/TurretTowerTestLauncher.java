@@ -22,7 +22,6 @@ import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -214,6 +213,7 @@ public class TurretTowerTestLauncher {
                   .withCenter(endPointMoveableStartPosition)
                   .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .withDetectorReach(config.getDetectorReach())
                         .withEvasionDistance(config.getEvasionDistance())
@@ -252,31 +252,21 @@ public class TurretTowerTestLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Moveable> simpleGridElement,
          List<TurretGridElement> turretTowers, List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
-      List<GridElement> moveables = new ArrayList<>();
+      List<Moveable> moveables = new ArrayList<>();
       moveables.addAll(simpleGridElement);
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;
       new Thread(() -> {
          while (true) {
+            turretTowers.stream()
+                  .forEach(Turret::autodetect);
+            new ArrayList<>(moveables).parallelStream()
+                  .filter(Moveable.class::isInstance)
+                  .map(Moveable.class::cast)
+                  .forEach(moveable -> moveable.moveForward(10));
             addNewProjectilePainters(grid, renderers, existingProjectiles, moveables);
             removeDestroyedPainters(renderers);
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            try {
-               Thread.sleep(cycleTime);
-            } catch (InterruptedException e) {
-            }
-         }
-      }, "GUI-Refresher").start();
-      new Thread(() -> {
-         while (true) {
-            turretTowers.stream()
-                  .forEach(Turret::autodetect);
-            synchronized (moveables) {
-               moveables.stream()
-                     .filter(Moveable.class::isInstance)
-                     .map(Moveable.class::cast)
-                     .forEach(moveable -> moveable.moveForward(10));
-            }
             try {
                Thread.sleep(cycleTime);
             } catch (InterruptedException e) {

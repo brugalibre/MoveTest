@@ -1,6 +1,8 @@
 package com.myownb3.piranha.core.weapon.tank;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.collision.CollisionSensitive;
+import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
@@ -13,7 +15,7 @@ import com.myownb3.piranha.core.weapon.turret.Turret;
  * @author Dominic
  *
  */
-public interface Tank extends AutoDetectable, Belligerent {
+public interface Tank extends AutoDetectable, Belligerent, Destructible, CollisionSensitive {
 
    /**
     * @return the Shape of this {@link Tank}

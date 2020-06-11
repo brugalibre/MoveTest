@@ -2,6 +2,9 @@ package com.myownb3.piranha.ui.render.util;
 
 import java.awt.Color;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyTypes;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
@@ -28,9 +31,9 @@ public class GridElementColorUtil {
       if (gridElement instanceof Obstacle) {
          return Color.RED;
       } else if (gridElement instanceof Tank) {
-         return new Color(105, 139, 34).darker();
+         return getTankColor(((Belligerent) gridElement).getBelligerentParty());
       } else if (gridElement instanceof Turret) {
-         return Color.GRAY.darker();
+         return getTurretColor(((Belligerent) gridElement).getBelligerentParty());
       } else if (gridElement instanceof Projectile) {
          return Color.BLACK;
       } else if (gridElement instanceof Moveable) {
@@ -41,6 +44,24 @@ public class GridElementColorUtil {
          return Color.BLACK;
       }
       throw new IllegalStateException("Unknown GridElement '" + gridElement + "'!");
+   }
+
+   public static Color getTankColor(BelligerentParty belligerentParty) {
+      if (isGalacticEmpire(belligerentParty)) {
+         return new Color(105, 139, 34).darker().darker();
+      }
+      return Color.GRAY.darker().darker();
+   }
+
+   public static Color getTurretColor(BelligerentParty belligerentParty) {
+      if (isGalacticEmpire(belligerentParty)) {
+         return Color.BLACK;
+      }
+      return Color.RED.darker();
+   }
+
+   private static boolean isGalacticEmpire(BelligerentParty belligerentParty) {
+      return belligerentParty.getBelligerentPartyType() == BelligerentPartyTypes.GALACTIC_EMPIRE;
    }
 
    /**

@@ -10,29 +10,28 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class ProjectilePaintUtil {
 
    public static void addNewProjectilePainters(Grid grid, List<Renderer> renderers, Set<String> existingProjectiles,
-         List<GridElement> gridElements) {
-      List<AbstractGridElement> newProjectiles = getNewProjectiles(grid, existingProjectiles);
-      addNewProjectilePainters(renderers, existingProjectiles, gridElements, newProjectiles);
+         List<Moveable> moveables) {
+      List<ProjectileGridElement> newProjectiles = getNewProjectiles(grid, existingProjectiles);
+      addNewProjectilePainters(renderers, existingProjectiles, moveables, newProjectiles);
    }
 
-   private static void addNewProjectilePainters(List<Renderer> renderers, Set<String> existingProjectiles, List<GridElement> gridElements,
-         List<AbstractGridElement> newProjectiles) {
+   private static void addNewProjectilePainters(List<Renderer> renderers, Set<String> existingProjectiles, List<Moveable> moveables,
+         List<ProjectileGridElement> newProjectiles) {
       newProjectiles.stream()
             .forEach(gridElement -> {
                existingProjectiles.add(gridElement.getName());
-               synchronized (renderers) {
-                  renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
-               }
-               synchronized (gridElements) {
-                  gridElements.add(gridElement);
+               renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
+               synchronized (moveables) {
+                  moveables.add(gridElement);
                }
             });
    }
@@ -46,17 +45,17 @@ public class ProjectilePaintUtil {
             .collect(Collectors.toList());
    }
 
-   private static List<AbstractGridElement> getNewProjectiles(Grid grid, Set<String> existingProjectiles) {
-      return getNewOrExistingProjectiles(grid, existingProjectiles, gridElement -> !existingProjectiles.contains(gridElement.getName()));
+   private static List<ProjectileGridElement> getNewProjectiles(Grid grid, Set<String> existingProjectiles) {
+      return getNewProjectiles(grid, existingProjectiles, gridElement -> !existingProjectiles.contains(gridElement.getName()));
    }
 
-   public static List<AbstractGridElement> getNewOrExistingProjectiles(Grid grid, Set<String> existingProjectiles,
-         Predicate<? super AbstractGridElement> isNewOrExisting) {
+   public static List<ProjectileGridElement> getNewProjectiles(Grid grid, Set<String> existingProjectiles,
+         Predicate<? super AbstractGridElement> isNewProjectile) {
       return grid.getAllGridElements(null)
             .stream()
-            .map(AbstractGridElement.class::cast)
             .filter(Projectile.class::isInstance)
-            .filter(isNewOrExisting)
+            .map(ProjectileGridElement.class::cast)
+            .filter(isNewProjectile)
             .collect(Collectors.toList());
    }
 
