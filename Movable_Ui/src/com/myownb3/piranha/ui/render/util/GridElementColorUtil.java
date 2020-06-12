@@ -8,12 +8,16 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyTypes;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
+import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 
 public class GridElementColorUtil {
+
+   private static final Color DARKER_GRAY = Color.GRAY.darker();
+   private static final Color DARKER_DARKER_GRAY = DARKER_GRAY.darker();
 
    private GridElementColorUtil() {
       // private
@@ -28,8 +32,10 @@ public class GridElementColorUtil {
     */
    public static Color getColor(GridElement gridElement) {
 
-      if (gridElement instanceof Obstacle) {
-         return Color.RED;
+      if (gridElement instanceof Wall) {
+         return DARKER_GRAY;
+      } else if (gridElement instanceof Obstacle) {
+         return getObstacleColor(((Belligerent) gridElement).getBelligerentParty());
       } else if (gridElement instanceof Tank) {
          return getTankColor(((Belligerent) gridElement).getBelligerentParty());
       } else if (gridElement instanceof Turret) {
@@ -46,11 +52,18 @@ public class GridElementColorUtil {
       throw new IllegalStateException("Unknown GridElement '" + gridElement + "'!");
    }
 
+   public static Color getObstacleColor(BelligerentParty belligerentParty) {
+      if (isGalacticEmpire(belligerentParty)) {
+         return DARKER_DARKER_GRAY;
+      }
+      return Color.RED;
+   }
+
    public static Color getTankColor(BelligerentParty belligerentParty) {
       if (isGalacticEmpire(belligerentParty)) {
          return new Color(105, 139, 34).darker().darker();
       }
-      return Color.GRAY.darker().darker();
+      return DARKER_DARKER_GRAY;
    }
 
    public static Color getTurretColor(BelligerentParty belligerentParty) {

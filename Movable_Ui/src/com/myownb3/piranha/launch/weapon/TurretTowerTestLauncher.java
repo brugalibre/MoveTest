@@ -30,8 +30,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.R
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
@@ -66,7 +64,7 @@ public class TurretTowerTestLauncher {
       Position northTurretPos = Positions.of(400, 200).rotate(120);
       Position southTurretPos = Positions.of(350, 300);
 
-      Position endPointMoveableStartPosition = Positions.of(50, 50).rotate(-60);
+      //      Position endPointMoveableStartPosition = Positions.of(50, 50).rotate(-60);
 
       DetectorConfig turretDetectorConfig = DetectorConfigBuilder.builder()
             .withDetectorAngle(360)
@@ -172,7 +170,7 @@ public class TurretTowerTestLauncher {
             .withEvasionAngle(80)
             .withEvasionAngleInc(4)
             .build();
-      EndPointMoveable endPointMoveable = buildEndPointMoveable(radius, endPointMoveableStartPosition, grid, mainDetectorConfig);
+      //      EndPointMoveable endPointMoveable = buildEndPointMoveable(radius, endPointMoveableStartPosition, grid, mainDetectorConfig);
 
       Moveable simpleGridElement = MoveableObstacleBuilder.builder()
             .withGrid(grid)
@@ -200,40 +198,40 @@ public class TurretTowerTestLauncher {
             .collect(Collectors.toList()));
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, moveables, turrets, renderers);
+      showGuiAndStartPainter(mainWindow, grid, turrets, renderers);
    }
 
-   private EndPointMoveable buildEndPointMoveable(int radius, Position endPointMoveableStartPosition, MirrorGrid grid, DetectorConfig config) {
-      return EndPointMoveableBuilder.builder()
-            .withGrid(grid)
-            .withStartPosition(endPointMoveableStartPosition)
-            .withShape(CircleBuilder.builder()
-                  .withRadius(radius)
-                  .withAmountOfPoints(20)
-                  .withCenter(endPointMoveableStartPosition)
-                  .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
-                  .withGrid(grid)
-                  .withDetector(DetectorBuilder.builder()
-                        .withDetectorReach(config.getDetectorReach())
-                        .withEvasionDistance(config.getEvasionDistance())
-                        .withDetectorAngle(config.getDetectorAngle())
-                        .withEvasionAngle(config.getEvasionAngle())
-                        .withAngleInc(config.getEvasionAngleInc())
-                        .build())
-                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
-                        .withReturningAngleIncMultiplier(1)
-                        .withOrientationAngle(1)
-                        .withReturningMinDistance(0.06)
-                        .withReturningAngleMargin(0.7d)
-                        .withPassingDistance(25)
-                        .withPostEvasionReturnAngle(4)
-                        .withDetectorConfig(config)
-                        .build())
-                  .build())
-            .withMovingIncrement(2)
-            .build();
-   }
+   //   private EndPointMoveable buildEndPointMoveable(int radius, Position endPointMoveableStartPosition, MirrorGrid grid, DetectorConfig config) {
+   //      return EndPointMoveableBuilder.builder()
+   //            .withGrid(grid)
+   //            .withStartPosition(endPointMoveableStartPosition)
+   //            .withShape(CircleBuilder.builder()
+   //                  .withRadius(radius)
+   //                  .withAmountOfPoints(20)
+   //                  .withCenter(endPointMoveableStartPosition)
+   //                  .build())
+   //            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+   //                  .withGrid(grid)
+   //                  .withDetector(DetectorBuilder.builder()
+   //                        .withDetectorReach(config.getDetectorReach())
+   //                        .withEvasionDistance(config.getEvasionDistance())
+   //                        .withDetectorAngle(config.getDetectorAngle())
+   //                        .withEvasionAngle(config.getEvasionAngle())
+   //                        .withAngleInc(config.getEvasionAngleInc())
+   //                        .build())
+   //                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+   //                        .withReturningAngleIncMultiplier(1)
+   //                        .withOrientationAngle(1)
+   //                        .withReturningMinDistance(0.06)
+   //                        .withReturningAngleMargin(0.7d)
+   //                        .withPassingDistance(25)
+   //                        .withPostEvasionReturnAngle(4)
+   //                        .withDetectorConfig(config)
+   //                        .build())
+   //                  .build())
+   //            .withMovingIncrement(2)
+   //            .build();
+   //   }
 
    private MoveablePainter buildMoveablePainter(int width, int height, Moveable moveable, DetectorConfig mainDetectorConfig) {
       return new MoveablePainter(moveable, getColor(moveable), height, width,
@@ -249,22 +247,20 @@ public class TurretTowerTestLauncher {
                   true, false));
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Moveable> simpleGridElement,
-         List<TurretGridElement> turretTowers, List<Renderer> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<TurretGridElement> turretTowers,
+         List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
-      List<Moveable> moveables = new ArrayList<>();
-      moveables.addAll(simpleGridElement);
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;
       new Thread(() -> {
          while (true) {
             turretTowers.stream()
                   .forEach(Turret::autodetect);
-            new ArrayList<>(moveables).parallelStream()
+            new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
                   .filter(Moveable.class::isInstance)
                   .map(Moveable.class::cast)
                   .forEach(moveable -> moveable.moveForward(10));
-            addNewProjectilePainters(grid, renderers, existingProjectiles, moveables);
+            addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             try {

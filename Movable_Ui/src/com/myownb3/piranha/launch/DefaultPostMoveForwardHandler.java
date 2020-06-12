@@ -26,7 +26,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       setCurrentTargetPosition(ctx.getMoveableController(), ctx.getRenderers());
       callAutoDetect(ctx.getGrid().getAllGridElements(null));
       //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
-      ProjectilePaintUtil.addNewProjectilePainters(ctx.getGrid(), ctx.getRenderers(), ctx.getExistingProjectiles(), moveables);
+      ProjectilePaintUtil.addNewProjectilePainters(ctx.getGrid(), ctx.getRenderers(), ctx.getExistingProjectiles());
       ProjectilePaintUtil.removeDestroyedPainters(ctx.getRenderers());
 
       SwingUtilities.invokeLater(() -> ctx.getMainWindow().refresh());

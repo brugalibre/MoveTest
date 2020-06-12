@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
-import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -18,20 +17,18 @@ import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class ProjectilePaintUtil {
 
-   public static void addNewProjectilePainters(Grid grid, List<Renderer> renderers, Set<String> existingProjectiles,
-         List<Moveable> moveables) {
+   public static void addNewProjectilePainters(Grid grid, List<Renderer> renderers, Set<String> existingProjectiles) {
       List<ProjectileGridElement> newProjectiles = getNewProjectiles(grid, existingProjectiles);
-      addNewProjectilePainters(renderers, existingProjectiles, moveables, newProjectiles);
+      addNewProjectilePainters(renderers, existingProjectiles, newProjectiles);
    }
 
-   private static void addNewProjectilePainters(List<Renderer> renderers, Set<String> existingProjectiles, List<Moveable> moveables,
+   private static void addNewProjectilePainters(List<Renderer> renderers, Set<String> existingProjectiles,
          List<ProjectileGridElement> newProjectiles) {
       newProjectiles.stream()
             .forEach(gridElement -> {
                existingProjectiles.add(gridElement.getName());
-               renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
-               synchronized (moveables) {
-                  moveables.add(gridElement);
+               synchronized (renderers) {
+                  renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
                }
             });
    }
