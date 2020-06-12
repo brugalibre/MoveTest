@@ -94,6 +94,11 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return this;
       }
 
+      public RandomRunnerWithEndPositionsBuilder withMovingIncrement(int movingIncrement) {
+         this.movingIncrement = movingIncrement;
+         return this;
+      }
+
       public RandomRunnerWithEndPositionsBuilder withStartPos(Position startPosition) {
          this.startPosition = startPosition;
          return this;

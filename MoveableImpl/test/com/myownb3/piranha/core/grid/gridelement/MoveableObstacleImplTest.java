@@ -3,8 +3,10 @@ package com.myownb3.piranha.core.grid.gridelement;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -79,6 +81,27 @@ class MoveableObstacleImplTest {
       // Then
       verify(destructionHelper).isDestroyed();
       verify(destructionHelper).onCollision(eq(Collections.emptyList()));
+   }
+
+   @Test
+   void testAutoDetectMoveableObstacleImpl() {
+
+      // Given
+      Grid grid = mock(Grid.class);
+      when(grid.moveForward(any())).thenReturn(Positions.of(1, 0));
+      MoveableObstacleImpl moveable = spy(MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 0))
+                  .build())
+            .withPosition(Positions.of(0, 1))
+            .build());
+
+      // When
+      moveable.autodetect();
+
+      // Then
+      verify(moveable).moveForward(eq(10));
    }
 
    @Test

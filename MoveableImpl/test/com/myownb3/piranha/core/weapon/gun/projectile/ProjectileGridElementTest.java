@@ -3,19 +3,42 @@ package com.myownb3.piranha.core.weapon.gun.projectile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
 class ProjectileGridElementTest {
 
    @Test
+   void testAutoDetectable() {
+
+      // Given
+      ProjectileGridElement projectileGridElement = Mockito.spy(ProjectileGridElementBuilder.builder()
+            .withDamage(10)
+            .withGrid(mock(Grid.class))
+            .withHealth(5)
+            .withPosition(Positions.of(5, 5))
+            .withShape(mock(AbstractShape.class))
+            .withProjectile(ProjectileBuilder.builder()
+                  .build())
+            .build());
+
+      // When
+      projectileGridElement.autodetect();
+
+      // Then
+      verify(projectileGridElement).moveForward();
+   }
+
    void testIsProjectileDestroyed() {
 
       // Given

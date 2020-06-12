@@ -75,6 +75,7 @@ class RandomMoveableWithEndPositionRunnerTest {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
+            .withMovingIncrement(2)
             .withMoveableController(moveableController)
             .build();
 

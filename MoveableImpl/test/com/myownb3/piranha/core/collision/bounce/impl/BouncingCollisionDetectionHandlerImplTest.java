@@ -27,7 +27,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleB
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.MoveableBuilder;
+import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 
 class BouncingCollisionDetectionHandlerImplTest {
 

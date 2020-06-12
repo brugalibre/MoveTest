@@ -12,9 +12,10 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
+import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
-public class ProjectileGridElement extends AbstractMoveable implements Projectile {
+public class ProjectileGridElement extends AbstractMoveable implements Projectile, AutoDetectable {
 
    private Projectile projectile;
 
@@ -35,6 +36,11 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
       super(grid, position, shape);
       this.projectile = projectile;
       setName(UUID.randomUUID().toString());
+   }
+
+   @Override
+   public void autodetect() {
+      moveForward();
    }
 
    @Override
