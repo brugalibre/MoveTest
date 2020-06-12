@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.tank.engine;
 
+import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 
@@ -21,5 +22,5 @@ public interface TankEngine {
     * 
     * @return get the {@link Moveable} of this {@link TankEngine}
     */
-   Moveable getMoveable();
+   EndPointMoveable getMoveable();
 }

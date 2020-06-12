@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
@@ -35,7 +36,7 @@ class TankEngineImplTest {
    void testGetMoveable() {
 
       MoveableController moveableController = mock(MoveableController.class);
-      Moveable expectedMoveable = mock(Moveable.class);
+      EndPointMoveable expectedMoveable = mock(EndPointMoveable.class);
       Mockito.when(moveableController.getMoveable()).thenReturn(expectedMoveable);
 
       // Given

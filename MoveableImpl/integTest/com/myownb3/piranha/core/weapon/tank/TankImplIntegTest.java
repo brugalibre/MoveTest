@@ -1,18 +1,22 @@
 
 package com.myownb3.piranha.core.weapon.tank;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
-import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
+import com.myownb3.piranha.core.detector.config.DetectorConfig;
+import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
@@ -20,16 +24,21 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
-import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.MoveResult;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
+import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
+import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
 
 class TankImplIntegTest {
 
@@ -38,80 +47,124 @@ class TankImplIntegTest {
 
       // Given
       Position tankPos = Positions.of(10, 10);
-      Position turretPos = Positions.of(50, 50);
       int tankWidth = 10;
       int tankHeight = 30;
-      EndPosition endPos = EndPositions.of(50, 50.1);
-      Position expectedPosition = Positions.of(10, 10.2);
-      List<EndPosition> endPositions = Collections.singletonList(endPos);
       Grid grid = mock(Grid.class);
 
-      Tank tank = TankBuilder.builder()
-            .withTankDetector(TankDetectorBuilder.builder()
-                  .withTankGridElement(() -> mock(TankGridElement.class))
-                  .withGridElementDetector(new GridElementDetectorImpl(grid, DetectorBuilder.builder()
+      int gunCarriageRadius = 10;
+      double gunHeight = 25;
+      double gunWidth = 7;
+
+      DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(350)
+            .withDetectorAngle(180)
+            .build();
+
+      TankHolder tankHolder = new TankHolder();
+      TankDetectorImpl tankDetector = spy(TankDetectorBuilder.builder()
+            .withTankGridElement(() -> tankHolder.getTankGridElement())
+            .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
+                  .withCenterDetector(DetectorBuilder.builder()
                         .withAngleInc(1)
-                        .withDetectorAngle(1)
-                        .withDetectorReach(1)
-                        .withEvasionAngle(1)
-                        .withEvasionDistance(1)
-                        .build()))
-                  .build())
-            .withEngineVelocity(10)
-            .withEndPositions(endPositions)
-            .withTurret(TurretBuilder.builder()
-                  .withDetector(DetectorBuilder.builder()
-                        .withAngleInc(0)
-                        .withDetectorAngle(0)
-                        .withDetectorReach(0)
-                        .withEvasionAngle(0)
-                        .withEvasionDistance(0)
+                        .withDetectorAngle(90)
+                        .withDetectorReach(400)
+                        .withEvasionAngle(90)
+                        .withEvasionDistance(400)
                         .build())
-                  .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+                  .withLeftSideDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(90)
+                        .withDetectorReach(400)
+                        .withEvasionAngle(90)
+                        .withEvasionDistance(400)
+                        .build(), 90)
+                  .withRightSideDetector(DetectorBuilder.builder()
+                        .withAngleInc(1)
+                        .withDetectorAngle(90)
+                        .withDetectorReach(400)
+                        .withEvasionAngle(90)
+                        .withEvasionDistance(400)
+                        .build(), 90)
+                  .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                  .withAutoDetectionStrategyHandler()
+                  .build()))
+            .build());
+      Tank tank = TankBuilder.builder()
+            .withTankEngine(TankEngineBuilder.builder()
+                  .withMoveableController(MoveableControllerBuilder.builder()
+                        .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                        .withEndPositions(Collections.singletonList(EndPositions.of(50, 50.1)))
+                        .withLazyMoveable(() -> tankHolder.getTankGridElement())
+                        .withPostMoveForwardHandler(res -> {
+                        })
+                        .build())
+                  .build())
+            .withTankDetector(tankDetector)
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withTurret(TankTurretBuilder.builder()
+                  .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(detectorConfig.getEvasionAngleInc())
+                        .withDetectorAngle(detectorConfig.getDetectorAngle())
+                        .withDetectorReach(detectorConfig.getDetectorReach())
+                        .withEvasionAngle(detectorConfig.getDetectorAngle())
+                        .withEvasionDistance(detectorConfig.getEvasionDistance())
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                        .withRotationSpeed(3)
+                        .withRotationSpeed(4)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(350)
+                                    .withSalveSize(2)
+                                    .withRoundsPerMinute(250)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
                                           .build())
                                     .withVelocity(3)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
-                                          .withHeight(10)
-                                          .withWidth(5)
-                                          .withCenter(turretPos)
-                                          .withOrientation(Orientation.VERTICAL)
+                                          .withHeight(gunHeight)
+                                          .withWidth(gunWidth)
+                                          .withCenter(tankPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
+                                    .withMuzzleBreak(RectangleBuilder.builder()
+                                          .withHeight(gunWidth * 1.5)
+                                          .withWidth(gunWidth * 1.5)
+                                          .withCenter(tankPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
                                           .build())
                                     .build())
                               .build())
                         .withShape(CircleBuilder.builder()
-                              .withRadius(5)
-                              .withAmountOfPoints(5)
-                              .withCenter(turretPos)
+                              .withRadius(gunCarriageRadius)
+                              .withAmountOfPoints(gunCarriageRadius)
+                              .withCenter(tankPos)
                               .build())
                         .build())
                   .build())
-            .withGrid(GridBuilder.builder()
-                  .withMaxX(50)
-                  .withMaxY(50)
-                  .build())
-            .withEngineVelocity(2)
-            .withEndPositions(endPositions)
             .withHull(RectangleBuilder.builder()
                   .withCenter(tankPos)
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
+                  .withOrientation(Orientation.HORIZONTAL)
                   .build())
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
+
+      tankHolder.setAndReturnTank(tank);
+      TankGridElement tankGridElement = mock(TankGridElement.class);
+      when(tankGridElement.moveForward2EndPos()).thenReturn(mock(MoveResult.class));
+      tankHolder.setTankGridElement(tankGridElement);
 
       // When
       tank.autodetect();
 
       // Then
-      assertThat(tank.getPosition(), is(expectedPosition));
+      verify(tank.getTankEngine().getMoveable()).moveForward2EndPos();
+      verify(tankDetector).autodetect();
    }
 }

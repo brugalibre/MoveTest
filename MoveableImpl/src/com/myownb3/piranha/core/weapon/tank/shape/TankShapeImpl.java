@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.weapon.tank.shape;
 
-import java.util.ArrayList;
+import static com.myownb3.piranha.core.grid.gridelement.shape.ShapeUtil.combinePath;
+
 import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
@@ -12,7 +13,6 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.position.VectorPositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 
@@ -77,8 +77,8 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    @Override
    public void transform(Position newPosition) {
       super.transform(newPosition);
-      //      Position transformedTankPos4Turret = positionTransformator.transform(newPosition);
-      Position newTurretPosition = getNewTurretPosButKeepDirection(newPosition);
+      Position transformedTankPos4Turret = positionTransformator.transform(newPosition);
+      Position newTurretPosition = getNewTurretPosButKeepDirection(transformedTankPos4Turret);
       turretShape.transform(newTurretPosition);
       hull.transform(newPosition);
       path = combinePath(hull, turretShape);
@@ -97,12 +97,6 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    @Override
    public TurretShape getTurretShape() {
       return turretShape;
-   }
-
-   private static List<PathSegment> combinePath(Shape tankShape, Shape turretShape) {
-      List<PathSegment> combinedPath = new ArrayList<PathSegment>(tankShape.getPath());
-      combinedPath.addAll(turretShape.getPath());
-      return combinedPath;
    }
 
    public static final class TankShapeBuilder {

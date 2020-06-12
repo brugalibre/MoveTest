@@ -20,12 +20,13 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
+import com.myownb3.piranha.core.weapon.AutoDetectable;
 
 /**
  * @author Dominic
  *
  */
-public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, Belligerent {
+public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, Belligerent, AutoDetectable {
 
    private DestructionHelper destructionHelper;
 
@@ -61,6 +62,11 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
    @Override
    public boolean isEnemy(Belligerent otherBelligerent) {
       return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
+   }
+
+   @Override
+   public void autodetect() {
+      moveForward();
    }
 
    public static class MoveableObstacleBuilder extends AbstractGridElementBuilder<MoveableObstacleImpl, MoveableObstacleBuilder> {

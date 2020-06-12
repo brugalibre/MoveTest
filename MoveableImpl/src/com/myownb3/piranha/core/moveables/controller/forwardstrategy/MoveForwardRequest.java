@@ -45,7 +45,7 @@ public class MoveForwardRequest {
     * @return the {@link PostMoveForwardHandler} for every action after moving
     */
    public PostMoveForwardHandler getPostMoveForwardHandler() {
-      return requireNonNull(postMoveForwardHandler);
+      return requireNonNull(postMoveForwardHandler, "A MoveForwardRequest needs a PostMOveForwardHandler!");
    }
 
    /**

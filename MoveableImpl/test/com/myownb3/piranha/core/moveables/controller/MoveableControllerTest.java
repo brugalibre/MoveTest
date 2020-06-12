@@ -300,7 +300,7 @@ class MoveableControllerTest {
 
       // When
       Executable ex = () -> {
-         new MoveableController(moveable, MovingStrategy.BACKWARD, Collections.singletonList(expectedEndPos));
+         new MoveableController(() -> moveable, MovingStrategy.BACKWARD, Collections.singletonList(expectedEndPos));
       };
       // Then
       Assertions.assertThrows(NotImplementedException.class, ex);

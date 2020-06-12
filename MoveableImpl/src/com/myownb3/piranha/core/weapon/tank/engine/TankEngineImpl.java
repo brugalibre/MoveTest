@@ -2,7 +2,7 @@ package com.myownb3.piranha.core.weapon.tank.engine;
 
 import static java.util.Objects.requireNonNull;
 
-import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 
 public class TankEngineImpl implements TankEngine {
@@ -19,7 +19,7 @@ public class TankEngineImpl implements TankEngine {
    }
 
    @Override
-   public Moveable getMoveable() {
+   public EndPointMoveable getMoveable() {
       return moveableController.getMoveable();
    }
 

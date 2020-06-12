@@ -28,6 +28,7 @@ import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
+import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
@@ -96,6 +97,7 @@ class TankTurretTest {
                   .withWidth(tankWidth)
                   .withOrientation(Orientation.HORIZONTAL)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // when
@@ -169,6 +171,7 @@ class TankTurretTest {
                   .withWidth(tankWidth)
                   .withOrientation(Orientation.HORIZONTAL)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // when
@@ -241,6 +244,7 @@ class TankTurretTest {
                   .withWidth(tankWidth)
                   .withOrientation(Orientation.HORIZONTAL)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // when

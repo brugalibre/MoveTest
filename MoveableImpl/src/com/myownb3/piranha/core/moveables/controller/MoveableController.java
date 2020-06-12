@@ -3,7 +3,11 @@
  */
 package com.myownb3.piranha.core.moveables.controller;
 
+import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -24,7 +28,7 @@ import com.myownb3.piranha.exception.NotImplementedException;
 public class MoveableController {
 
    private ForwardStrategyHandler forwardStrategyHandler;
-   private EndPointMoveable moveable;
+   private Supplier<EndPointMoveable> endPointMoveableSupplier;
    private List<EndPosition> endPosList;
    private PostMoveForwardHandler handler;
    private boolean isRunning;
@@ -33,17 +37,17 @@ public class MoveableController {
     * @param moveable
     */
    public MoveableController(EndPointMoveable moveable, List<EndPosition> endPosList) {
-      this(moveable, MovingStrategy.FORWARD, endPosList);
+      this(() -> moveable, MovingStrategy.FORWARD, endPosList);
    }
 
    /**
-    * @param moveable
+    * @param supplier
     */
-   public MoveableController(EndPointMoveable moveable, MovingStrategy strategie, List<EndPosition> endPosList) {
-      isRunning = true;
-      this.moveable = moveable;
+   public MoveableController(Supplier<EndPointMoveable> endPointMoveableSupplier, MovingStrategy strategie, List<EndPosition> endPosList) {
+      this.isRunning = true;
+      this.endPointMoveableSupplier = endPointMoveableSupplier;
       this.endPosList = endPosList;
-      handler = result -> {
+      this.handler = result -> {
       };
       forwardStrategyHandler = buildForwardStrategyHandler4Strategy(strategie);
    }
@@ -62,7 +66,7 @@ public class MoveableController {
    }
 
    public void leadMoveable() {
-      forwardStrategyHandler.moveMoveableForward(MoveForwardRequest.of(moveable, endPosList, handler));
+      forwardStrategyHandler.moveMoveableForward(MoveForwardRequest.of(endPointMoveableSupplier.get(), endPosList, handler));
    }
 
    /**
@@ -78,6 +82,7 @@ public class MoveableController {
       private MovingStrategy movingStrategie;
       private PostMoveForwardHandler postMoveForwardHandler;
       private EndPointMoveable endPointMoveable;
+      private Supplier<EndPointMoveable> endPointMoveableSupplier;
 
       private MoveableControllerBuilder() {
          // private
@@ -89,6 +94,11 @@ public class MoveableController {
 
       public MoveableControllerBuilder withMoveable(EndPointMoveable endPointMoveable) {
          this.endPointMoveable = endPointMoveable;
+         return this;
+      }
+
+      public MoveableControllerBuilder withLazyMoveable(Supplier<EndPointMoveable> endPointMoveableSupplier) {
+         this.endPointMoveableSupplier = endPointMoveableSupplier;
          return this;
       }
 
@@ -112,7 +122,10 @@ public class MoveableController {
       }
 
       public MoveableController build() {
-         MoveableController moveableController = new MoveableController(endPointMoveable, movingStrategie, endPosList);
+         if (nonNull(endPointMoveable)) {
+            endPointMoveableSupplier = () -> endPointMoveable;
+         }
+         MoveableController moveableController = new MoveableController(requireNonNull(endPointMoveableSupplier), movingStrategie, endPosList);
          moveableController.endPosList = endPosList;
          moveableController.handler = postMoveForwardHandler;
          return moveableController;
@@ -120,11 +133,11 @@ public class MoveableController {
    }
 
    public final Position getCurrentEndPos() {
-      return this.moveable.getCurrentEndPos();
+      return endPointMoveableSupplier.get().getCurrentEndPos();
    }
 
    public EndPointMoveable getMoveable() {
-      return moveable;
+      return endPointMoveableSupplier.get();
    }
 
    public boolean isRunning() {

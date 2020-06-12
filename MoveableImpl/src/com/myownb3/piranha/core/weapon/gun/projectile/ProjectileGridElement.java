@@ -18,7 +18,6 @@ import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
 public class ProjectileGridElement extends AbstractMoveable implements Projectile, AutoDetectable {
-
    private Projectile projectile;
 
    private ProjectileGridElement(Grid grid, Position position, Shape shape, BelligerentParty belligerentParty, double damage,

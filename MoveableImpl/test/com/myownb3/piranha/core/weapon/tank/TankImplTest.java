@@ -20,13 +20,11 @@ import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
@@ -38,6 +36,7 @@ import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
+import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
@@ -51,8 +50,7 @@ class TankImplTest {
       // Given
       double health = 4;
       Tank tank = TankBuilder.builder()
-            .withGrid(mock(Grid.class))
-            .withEndPositions(Collections.singletonList(EndPositions.of(5, 5)))
+            .withTankEngine(mock(TankEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
@@ -96,6 +94,7 @@ class TankImplTest {
                   .withWidth(30)
                   .build())
             .withHealth(health)
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       ProjectileGridElement projectile = mock(ProjectileGridElement.class);
@@ -111,7 +110,7 @@ class TankImplTest {
 
 
    @Test
-   void testThatEngineMoveableHasSamePartyThanTank() {
+   void testThatTurretHasSamePartyThanTank() {
 
       // Given
       Position turretPos = Positions.of(5, 5);
@@ -123,8 +122,7 @@ class TankImplTest {
       // When
       Grid grid = mock(Grid.class);
       Tank tank = TankBuilder.builder()
-            .withGrid(grid)
-            .withEndPositions(Collections.singletonList(EndPositions.of(5, 5)))
+            .withTankEngine(mock(TankEngine.class))
             .withTankDetector(TankDetectorBuilder.builder()
                   .withGridElementDetector(new GridElementDetectorImpl(grid, DetectorBuilder.builder()
                         .withAngleInc(1)
@@ -175,12 +173,13 @@ class TankImplTest {
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // Then
       assertThat(tank.getTurret().getShape().getCenter(), is(tank.getPosition()));
       assertThat(tank.getShape() instanceof TankShape, is(true));
-      assertThat(tank.getBelligerentParty(), is(((EndPointMoveableImpl) tank.getTankEngine().getMoveable()).getBelligerentParty()));
+      assertThat(tank.getBelligerentParty(), is(tank.getTurret().getBelligerentParty()));
    }
 
    @Test
@@ -197,12 +196,12 @@ class TankImplTest {
             .withTankEngine(mock(TankEngine.class))
             .withTurret(turret)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
                   .withWidth(10)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -224,12 +223,12 @@ class TankImplTest {
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
             .withTurret(turret)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
                   .withWidth(10)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -251,12 +250,12 @@ class TankImplTest {
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
             .withTurret(turret)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
                   .withHeight(10)
                   .withWidth(10)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -264,6 +263,42 @@ class TankImplTest {
 
       // Then
       assertThat(isActualEnemy, is(true));
+   }
+
+   @Test
+   void testAlwaysMoveForward() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+
+      Turret turret = mock(Turret.class);
+
+      when(turret.getTurretStatus()).thenReturn(TurretState.SHOOTING);
+      when(turret.isShooting()).thenReturn(true);
+      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+      when(turret.getShape().getCenter()).thenReturn(turretPos);
+
+      Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(mock(TankDetector.class))
+            .withTurret(turret)
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(tankPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
+            .build();
+
+      // When
+      tank.autodetect();
+
+      // Then
+      verify(tank.getTankEngine()).moveForward();
+      verify(turret).autodetect();
    }
 
    @Test
@@ -285,12 +320,12 @@ class TankImplTest {
             .withTankEngine(mock(TankEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(tankPos)
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -309,21 +344,17 @@ class TankImplTest {
       int tankWidth = 10;
       int tankHeight = 30;
 
-      Turret turret = mock(Turret.class);
-      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
-      when(turret.getTurretStatus()).thenReturn(TurretState.SHOOTING);
-      when(turret.getShape().getCenter()).thenReturn(turretPos);
-
+      Turret turret = mockShootingTurret(turretPos);
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(tankPos)
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -331,6 +362,45 @@ class TankImplTest {
 
       // Then
       verify(tank.getTankEngine(), never()).moveForward();
+   }
+
+   @Test
+   void testMoveWhenUnderFireAndShooting() {
+
+      // Given
+      Position tankPos = Positions.of(10, 10).rotate(-45);
+      Position turretPos = Positions.of(5, 5);
+      int tankWidth = 10;
+      int tankHeight = 30;
+
+      Turret turret = mockShootingTurret(turretPos);
+      TankDetector detector = mock(TankDetector.class);
+      when(detector.isUnderFire()).thenReturn(true);
+      Tank tank = TankBuilder.builder()
+            .withTankEngine(mock(TankEngine.class))
+            .withTankDetector(detector)
+            .withTurret(turret)
+            .withHull(RectangleBuilder.builder()
+                  .withCenter(tankPos)
+                  .withHeight(tankHeight)
+                  .withWidth(tankWidth)
+                  .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
+            .build();
+
+      // When
+      tank.autodetect();
+
+      // Then
+      verify(tank.getTankEngine()).moveForward();
+   }
+
+   private static Turret mockShootingTurret(Position turretPos) {
+      Turret turret = mock(Turret.class);
+      when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
+      when(turret.isShooting()).thenReturn(true);
+      when(turret.getShape().getCenter()).thenReturn(turretPos);
+      return turret;
    }
 
    @Test
@@ -350,12 +420,12 @@ class TankImplTest {
             .withTankEngine(mock(TankEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
-            .withGrid(mock(Grid.class))
             .withHull(RectangleBuilder.builder()
                   .withCenter(tankPos)
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When
@@ -419,6 +489,7 @@ class TankImplTest {
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // Then
@@ -479,6 +550,7 @@ class TankImplTest {
                   .withHeight(tankHeight)
                   .withWidth(tankWidth)
                   .build())
+            .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
             .build();
 
       // When

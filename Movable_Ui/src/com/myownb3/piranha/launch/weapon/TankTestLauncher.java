@@ -5,12 +5,10 @@ import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.removeDestro
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
@@ -38,18 +36,23 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.R
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
+import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
@@ -108,7 +111,32 @@ public class TankTestLauncher {
 
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
+            .withEngineVelocity(10)
+            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(DetectorBuilder.builder()
+                        .build())
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .withReturningAngleIncMultiplier(1)
+                        .withOrientationAngle(1)
+                        .withReturningMinDistance(1)
+                        .withReturningAngleMargin(1)
+                        .withPassingDistance(25)
+                        .withPostEvasionReturnAngle(4)
+                        .withDetectorConfig(DetectorConfigBuilder.builder()
+                              .build())
+                        .build())
+                  .build())
             .withTank(TankBuilder.builder()
+                  .withTankEngine(TankEngineBuilder.builder()
+                        .withMoveableController(MoveableControllerBuilder.builder()
+                              .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                              .withEndPositions(endPositions)
+                              .withLazyMoveable(() -> tankHolder.getTankGridElement())
+                              .withPostMoveForwardHandler(res -> {
+                              })
+                              .build())
+                        .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> tankHolder.getTankGridElement())
                         .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
@@ -137,9 +165,6 @@ public class TankTestLauncher {
                               .withAutoDetectionStrategyHandler()
                               .build()))
                         .build())
-                  .withGrid(grid)
-                  .withEngineVelocity(10)
-                  .withEndPositions(endPositions)
                   .withTurret(TankTurretBuilder.builder()
                         .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
                         .withDetector(DetectorBuilder.builder()
@@ -151,7 +176,7 @@ public class TankTestLauncher {
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                              .withRotationSpeed(4)
+                              .withRotationSpeed(3)
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
                                           .withSalveSize(3)
@@ -189,6 +214,7 @@ public class TankTestLauncher {
                         .withWidth(tankWidth)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
+                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .build())
             .build();
 
@@ -204,7 +230,7 @@ public class TankTestLauncher {
                         .build())
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                        .withRotationSpeed(3)
+                        .withRotationSpeed(2)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
@@ -243,7 +269,7 @@ public class TankTestLauncher {
                         .build())
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                        .withRotationSpeed(3)
+                        .withRotationSpeed(2)
                         .withGun(BulletGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
@@ -277,15 +303,13 @@ public class TankTestLauncher {
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
 
       List<Renderer> renderers = new ArrayList<>();
-      List<AutoDetectable> autoDetectables = Arrays.asList(tankGridElement, southTurretGridElement, northTurretGridElement);
-
-      renderers.addAll(autoDetectables.stream().map(tank -> new GridElementPainter((GridElement) tank, getColor((GridElement) tank), height, width))
-            .collect(Collectors.toList()));
       renderers.add(new GridElementPainter(southTurretGridElement, getColor(southTurretGridElement), height, width));
+      renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));
       renderers.add(new GridElementPainter(simpleGridElement, getColor(simpleGridElement), height, width));
+      renderers.add(new GridElementPainter(tankGridElement, getColor(tankGridElement), height, width));
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, autoDetectables, renderers);
+      showGuiAndStartPainter(mainWindow, grid, renderers);
    }
 
    private static Moveable buildNewMoveable(Grid grid) {
@@ -305,9 +329,8 @@ public class TankTestLauncher {
             .build();
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<AutoDetectable> autoDetectables, List<Renderer> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
-      List<Moveable> moveables = new ArrayList<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
       int cycleTime = 15;
@@ -315,26 +338,23 @@ public class TankTestLauncher {
          int cycleCounter = 0;
          while (true) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            autoDetectables.stream()
-                  .filter(Tank.class::isInstance)
-                  .forEach(AutoDetectable::autodetect);
             addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             new ArrayList<>(grid.getAllGridElements(null)).stream()
-                  .filter(Moveable.class::isInstance)
-                  .map(Moveable.class::cast)
                   .filter(isGridElementAlive(grid))
-                  .filter(isNotTank())
-                  .forEach(moveable -> moveable.moveForward(10));
+                  .filter(AutoDetectable.class::isInstance)
+                  .map(AutoDetectable.class::cast)
+                  .forEach(AutoDetectable::autodetect);
 
             cycleCounter++;
             if (cycleCounter == 400) {
                cycleCounter = 0;
-               double moveableCounter = moveables.stream()
+               double moveableCounter = new ArrayList<>(grid.getAllGridElements(null)).stream()
+                     .filter(isMoveable())
                      .filter(isGridElementAlive(grid))
                      .count();
                if (moveableCounter <= 3) {
-                  buildAndAddMoveable(grid, renderers, moveables);
+                  buildAndAddMoveable(grid, renderers);
                   buildAndAddSimpleGridElement(grid, renderers);
                }
             }
@@ -346,8 +366,8 @@ public class TankTestLauncher {
       }, "LogicHandler").start();
    }
 
-   private static Predicate<? super Moveable> isNotTank() {
-      return moveable -> !(moveable instanceof TankGridElement);
+   private static Predicate<? super GridElement> isMoveable() {
+      return moveable -> moveable instanceof Moveable;
    }
 
    private static void buildAndAddSimpleGridElement(Grid grid, List<Renderer> renderers) {
@@ -369,10 +389,9 @@ public class TankTestLauncher {
       }
    }
 
-   private static void buildAndAddMoveable(Grid grid, List<Renderer> renderers, List<Moveable> moveables) {
+   private static void buildAndAddMoveable(Grid grid, List<Renderer> renderers) {
       Moveable moveable = buildNewMoveable(grid);
       renderers.add(new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), 0, 0));
-      moveables.add(moveable);
    }
 
    private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {

@@ -41,9 +41,10 @@ class ProjectileGridElementTest {
       projectileGridElement.autodetect();
 
       // Then
-      verify(projectileGridElement).moveForward();
+      verify(projectileGridElement).moveForward(10);
    }
 
+   @Test
    void testBelligerentProjectile() {
 
       // Given

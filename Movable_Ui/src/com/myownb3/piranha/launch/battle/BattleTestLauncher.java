@@ -36,6 +36,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.R
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
@@ -47,6 +51,8 @@ import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuild
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
+import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -66,7 +72,7 @@ public class BattleTestLauncher {
 
       int width = 30;
       int height = 5;
-      Position imperialTankPos = Positions.of(450, 600).rotate(180);
+      Position imperialTankPos = Positions.of(450, 600).rotate(80);
       Position rebelTankPos = Positions.of(200, 100);
 
       List<EndPosition> imperialTankEndPositions = new ArrayList<>();
@@ -101,7 +107,33 @@ public class BattleTestLauncher {
       TankHolder imperialTankHolder = new TankHolder();
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
+            .withEngineVelocity(5)
+            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(DetectorBuilder.builder()
+                        .build())
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .withReturningAngleIncMultiplier(1)
+                        .withOrientationAngle(1)
+                        .withReturningMinDistance(1)
+                        .withReturningAngleMargin(1)
+                        .withPassingDistance(25)
+                        .withPostEvasionReturnAngle(4)
+                        .withDetectorConfig(DetectorConfigBuilder.builder()
+                              .build())
+                        .build())
+                  .build())
             .withTank(TankBuilder.builder()
+                  .withTankEngine(TankEngineBuilder.builder()
+                        .withMoveableController(MoveableControllerBuilder.builder()
+                              .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                              .withEndPositions(imperialTankEndPositions)
+                              //                              .withEndPositions(rebelTankEndPositions)
+                              .withLazyMoveable(() -> imperialTankHolder.getTankGridElement())
+                              .withPostMoveForwardHandler(res -> {
+                              })
+                              .build())
+                        .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> imperialTankHolder.getTankGridElement())
                         .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
@@ -130,10 +162,7 @@ public class BattleTestLauncher {
                               .withAutoDetectionStrategyHandler()
                               .build()))
                         .build())
-                  .withGrid(grid)
-                  .withEngineVelocity(10)
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                  .withEndPositions(imperialTankEndPositions)
                   .withTurret(TankTurretBuilder.builder()
                         .withParkingAngleEvaluator(() -> imperialTankHolder.getPosition().getDirection().getAngle())
                         .withDetector(DetectorBuilder.builder()
@@ -185,12 +214,39 @@ public class BattleTestLauncher {
                         .withWidth(tankWidth)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
+                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .build())
             .build();
+
       TankHolder rebellTankHolder = new TankHolder();
       TankGridElement rebellTank = TankGridElementBuilder.builder()
             .withGrid(grid)
+            .withEngineVelocity(5)
+            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(DetectorBuilder.builder()
+                        .build())
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .withReturningAngleIncMultiplier(1)
+                        .withOrientationAngle(1)
+                        .withReturningMinDistance(1)
+                        .withReturningAngleMargin(1)
+                        .withPassingDistance(25)
+                        .withPostEvasionReturnAngle(4)
+                        .withDetectorConfig(DetectorConfigBuilder.builder()
+                              .build())
+                        .build())
+                  .build())
             .withTank(TankBuilder.builder()
+                  .withTankEngine(TankEngineBuilder.builder()
+                        .withMoveableController(MoveableControllerBuilder.builder()
+                              .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                              .withEndPositions(rebelTankEndPositions)
+                              .withLazyMoveable(() -> rebellTankHolder.getTankGridElement())
+                              .withPostMoveForwardHandler(res -> {
+                              })
+                              .build())
+                        .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> rebellTankHolder.getTankGridElement())
                         .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
@@ -219,10 +275,7 @@ public class BattleTestLauncher {
                               .withAutoDetectionStrategyHandler()
                               .build()))
                         .build())
-                  .withGrid(grid)
-                  .withEngineVelocity(10)
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                  .withEndPositions(rebelTankEndPositions)
                   .withTurret(TankTurretBuilder.builder()
                         .withParkingAngleEvaluator(() -> rebellTankHolder.getPosition().getDirection().getAngle())
                         .withDetector(DetectorBuilder.builder()
@@ -237,13 +290,13 @@ public class BattleTestLauncher {
                               .withRotationSpeed(4)
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
-                                          .withSalveSize(2)
-                                          .withRoundsPerMinute(250)
+                                          .withSalveSize(3)
+                                          .withRoundsPerMinute(300)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                                                 .withDimension(new DimensionImpl(0, 0, 3, 3))
                                                 .build())
-                                          .withVelocity(3)
+                                          .withVelocity(10)
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
                                           .withBarrel(RectangleBuilder.builder()
@@ -274,6 +327,7 @@ public class BattleTestLauncher {
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .build())
             .build();
 
