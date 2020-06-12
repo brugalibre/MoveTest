@@ -9,14 +9,14 @@ import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelp
 import com.myownb3.piranha.core.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.core.statemachine.impl.handler.defaultstate.input.DefaultStateInput;
-import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orientation2EndPosHelper;
+import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orientation2PositionHelper;
 
 public class DefaultStateHandler extends CommonEvasionStateHandlerImpl<DefaultStateInput, CommonEvasionStateResult> {
 
-   private Orientation2EndPosHelper orientationHelper;
+   private Orientation2PositionHelper orientationHelper;
 
    public DefaultStateHandler() {
-      orientationHelper = new Orientation2EndPosHelper();
+      orientationHelper = new Orientation2PositionHelper();
    }
 
    @Override

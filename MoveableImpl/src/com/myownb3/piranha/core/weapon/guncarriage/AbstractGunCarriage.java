@@ -5,20 +5,22 @@ import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orientation2PositionHelper;
 import com.myownb3.piranha.core.weapon.gun.Gun;
-import com.myownb3.piranha.util.MathUtil;
 
 public class AbstractGunCarriage implements GunCarriage {
 
    private Shape shape;
    private Gun gun;
    private double rotationSpeed;
+   private Orientation2PositionHelper helper;
 
    protected AbstractGunCarriage(Shape shape, Gun gun, double rotationSpeed) {
       this.shape = requireNonNull(shape);
       this.gun = requireNonNull(gun);
       this.rotationSpeed = abs(rotationSpeed);
       this.gun.evalAndSetGunPosition(shape.getForemostPosition());
+      this.helper = new Orientation2PositionHelper();
    }
 
    @Override
@@ -29,34 +31,18 @@ public class AbstractGunCarriage implements GunCarriage {
    @Override
    public void aimTargetPos(Position targetPos) {
       double angleDiff = getPosition().calcAngleRelativeTo(targetPos);
-      angleDiff = adjustAngleDiff4TurnWithin180(angleDiff);
-      rotate(angleDiff);
+      double angle2Turn = helper.getAngle2Turn(angleDiff, rotationSpeed);
+      rotate(angle2Turn);
    }
 
    @Override
    public void turn2ParkPosition(double parkingAngle) {
       double angleDiff = parkingAngle - getPosition().getDirection().getAngle();
-      angleDiff = adjustAngleDiff4TurnWithin180(angleDiff);
-      rotate(angleDiff);
+      double angle2Turn = helper.getAngle2Turn(angleDiff, rotationSpeed);
+      rotate(angle2Turn);
    }
 
-   private double adjustAngleDiff4TurnWithin180(double angleDiff) {
-      if (angleDiff > 180) {
-         angleDiff = angleDiff - 360;
-      } else if (angleDiff < -180) {
-         angleDiff = 360 - abs(angleDiff);
-      }
-      return angleDiff;
-   }
-
-   private void rotate(double angleDiff) {
-      double angle2Turn;
-      int signum = MathUtil.getSignum(angleDiff);
-      if (abs(angleDiff) > rotationSpeed) {
-         angle2Turn = signum * rotationSpeed;
-      } else /*if (abs(angleDiff) > 0)*/ {
-         angle2Turn = angleDiff;
-      }
+   private void rotate(double angle2Turn) {
       Position position = getPosition().rotate(angle2Turn);
       evalAndSetPosition(position);
    }

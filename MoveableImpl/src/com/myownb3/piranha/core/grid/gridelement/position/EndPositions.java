@@ -140,7 +140,7 @@ public class EndPositions {
       private boolean isPositionOnLine(Position currentPos, Position posBefore, double distancePosBefore2CurrentPos) {
          double distancePosBefore2EndPos = posBefore.calcDistanceTo(this);
          double distanceCurrentPosEndPos = currentPos.calcDistanceTo(this);
-         return round(distancePosBefore2CurrentPos, 10) == round(distancePosBefore2EndPos + distanceCurrentPosEndPos, 10);
+         return round(distancePosBefore2CurrentPos, 10) <= round(distancePosBefore2EndPos + distanceCurrentPosEndPos, 10);
       }
    }
 }

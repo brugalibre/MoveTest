@@ -1,7 +1,5 @@
 package com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate;
 
-import static java.lang.Math.abs;
-
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -9,16 +7,15 @@ import com.myownb3.piranha.core.statemachine.impl.handler.common.CommonEvasionSt
 import com.myownb3.piranha.core.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.input.OrientatingStateInput;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
-import com.myownb3.piranha.util.MathUtil;
 
 public class OrientatingStateHandler extends CommonEvasionStateHandlerImpl<OrientatingStateInput, CommonEvasionStateResult> {
 
    private double correctionAngle;
-   private Orientation2EndPosHelper helper;
+   private Orientation2PositionHelper helper;
 
    public OrientatingStateHandler(double correctionAngle) {
       this.correctionAngle = correctionAngle;
-      helper = new Orientation2EndPosHelper();
+      helper = new Orientation2PositionHelper();
    }
 
    @Override
@@ -43,18 +40,11 @@ public class OrientatingStateHandler extends CommonEvasionStateHandlerImpl<Orien
       return EvasionStates.ORIENTING;
    }
 
-   private void correctAngle(Moveable moveable, Position endPos) {
+   private void correctAngle(Moveable moveable, EndPosition endPos) {
       Position moveablePosition = moveable.getPosition();
-      double diffAngle = getAngle2Turn(endPos, moveablePosition);
+      double angleDiff = helper.calcAngle2EndPos(moveablePosition, endPos);
+      double diffAngle = helper.getAngle2Turn(angleDiff, correctionAngle);
       moveable.makeTurnWithoutPostConditions(diffAngle);
    }
 
-   private double getAngle2Turn(Position endPos, Position moveablePosition) {
-      double angleRelativeTo = moveablePosition.calcAngleRelativeTo(endPos);
-      if (abs(angleRelativeTo) > abs(correctionAngle)) {
-         int signum = MathUtil.getSignum(angleRelativeTo);
-         return signum * correctionAngle;
-      }
-      return angleRelativeTo;
-   }
 }
