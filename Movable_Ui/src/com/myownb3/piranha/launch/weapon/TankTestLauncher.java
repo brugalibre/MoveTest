@@ -76,14 +76,15 @@ public class TankTestLauncher {
       int width = 30;
       int height = 5;
       Position turretSouthPos = Positions.of(390, 430).rotate(120);
-      Position turretNorthPos = Positions.of(390, 70).rotate(60);
-      Position tankPos = Positions.of(480, 100).rotate(180);
+      Position turretNorthPos = Positions.of(70, 70).rotate(-60);
+      Position tankPos = Positions.of(400, 100).rotate(180);
       Position tankTurretPos = Positions.movePositionForward4Distance(tankPos, 20);
 
       List<EndPosition> endPositions = new ArrayList<>();
-      endPositions.add(EndPositions.of(Positions.of(350, 210), 10));
-      endPositions.add(EndPositions.of(Positions.of(450, 400), 10));
-      endPositions.add(EndPositions.of(Positions.of(450, 100), 10));
+      endPositions.add(EndPositions.of(Positions.of(290, 100), 10));
+      endPositions.add(EndPositions.of(Positions.of(290, 300), 10));
+      endPositions.add(EndPositions.of(Positions.of(400, 300), 10));
+      endPositions.add(EndPositions.of(tankPos, 10));
 
       MirrorGrid grid = MirrorGridBuilder.builder()
             .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
@@ -111,7 +112,7 @@ public class TankTestLauncher {
 
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
-            .withEngineVelocity(10)
+            .withEngineVelocity(8)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -176,11 +177,11 @@ public class TankTestLauncher {
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                              .withRotationSpeed(3)
+                              .withRotationSpeed(5)
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
                                           .withSalveSize(3)
-                                          .withRoundsPerMinute(200)
+                                          .withRoundsPerMinute(350)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimension(new DimensionImpl(0, 0, 3, 3))
                                                 .build())
@@ -214,7 +215,7 @@ public class TankTestLauncher {
                         .withWidth(tankWidth)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
-                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
+                  .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
                   .build())
             .build();
 
