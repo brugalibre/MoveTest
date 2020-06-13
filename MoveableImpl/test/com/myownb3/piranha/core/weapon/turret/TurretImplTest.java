@@ -55,7 +55,7 @@ class TurretImplTest {
 
    @AfterEach
    public void tearDown() {
-      ProjectileFactory.INSTANCE.degisterGrid();
+      ProjectileFactory.INSTANCE.deregisterGrid();
    }
 
    @Test

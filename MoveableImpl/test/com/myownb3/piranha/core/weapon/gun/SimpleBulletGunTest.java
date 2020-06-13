@@ -1,8 +1,7 @@
 package com.myownb3.piranha.core.weapon.gun;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -18,8 +17,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DimensionImpl;
-import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -33,26 +34,28 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 class SimpleBulletGunTest {
 
+   private TestGrid grid = new TestGrid(100, 100, -100, -100);
+
    @BeforeEach
    public void setUp() {
-      ProjectileFactory.INSTANCE.registerGrid(mock(Grid.class));
+      ProjectileFactory.INSTANCE.registerGrid(grid);
       WorkerThreadFactory.INSTANCE.restart();
    }
 
    @AfterEach
    public void tearDown() {
-      ProjectileFactory.INSTANCE.degisterGrid();
+      ProjectileFactory.INSTANCE.deregisterGrid();
       WorkerThreadFactory.INSTANCE.shutdown();
    }
 
    @Test
-   void testFireGun() {
+   void testFireGun() throws InterruptedException {
       // Given
       int projectileRadius = 5;
       int velocityMulti = 2;
       int salve = 1;
       Position position = Positions.of(5, 5);
-      BulletGunImpl simpleBulletGun = spy(BulletGunBuilder.builder()
+      BulletGunImpl simpleBulletGun = BulletGunBuilder.builder()
             .withGunConfig(GunConfigBuilder.builder()
                   .withVelocity(velocityMulti)
                   .withSalveSize(salve)
@@ -69,15 +72,17 @@ class SimpleBulletGunTest {
                         .withWidth(projectileRadius)
                         .build())
                   .build())
-            .build());
+            .build();
       simpleBulletGun.evalAndSetGunPosition(position);
-      Position expectedProjectilPosition = Positions.movePositionForward4Distance(simpleBulletGun.getShape().getForemostPosition(), projectileRadius);
+      Position expectedProjectilPosition =
+            Positions.movePositionForward4Distance(simpleBulletGun.getShape().getForemostPosition(), 10 + projectileRadius);
 
       // When
       simpleBulletGun.fire();
+      Thread.sleep(200);// wait until the WorkerThreadFactory has created the new GridElement
 
       // Then
-      verify(simpleBulletGun).getFireCallable(eq(expectedProjectilPosition));
+      assertThat(grid.addedGridElemPos, is(expectedProjectilPosition));
    }
 
    @Test
@@ -106,7 +111,7 @@ class SimpleBulletGunTest {
       simpleBulletGun.evalAndSetGunPosition(position);
 
       // When
-      Callable<List<Projectile>> fireCallable = simpleBulletGun.getFireCallable(position);
+      Callable<List<Projectile>> fireCallable = simpleBulletGun.getFireCallable();
       List<Projectile> projectiles = fireCallable.call();
 
       // Then
@@ -136,7 +141,7 @@ class SimpleBulletGunTest {
             .build());
       simpleBulletGun.evalAndSetGunPosition(Positions.of(5, 5));
 
-      when(simpleBulletGun.getFireCallable(any())).thenReturn(() -> {
+      when(simpleBulletGun.getFireCallable()).thenReturn(() -> {
          simpleBulletGun.setTimeStamp();
          return Collections.emptyList();
       });
@@ -147,6 +152,21 @@ class SimpleBulletGunTest {
       simpleBulletGun.fire();
 
       // Then
-      verify(simpleBulletGun).getFireCallable(any());
+      verify(simpleBulletGun).getFireCallable();
+   }
+
+   private static class TestGrid extends DefaultGrid {
+
+      private Position addedGridElemPos;
+
+      public TestGrid(int maxY, int maxX, int minX, int minY) {
+         super(maxY, maxX, minX, minY, mock(DefaultCollisionDetectionHandlerImpl.class));
+      }
+
+      @Override
+      public void addElement(GridElement gridElement) {
+         super.addElement(gridElement);
+         addedGridElemPos = Positions.of(gridElement.getPosition());
+      }
    }
 }

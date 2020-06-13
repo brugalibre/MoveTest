@@ -81,7 +81,7 @@ public class ProjectileFactory {
    /**
     * removes a previously registered {@link Grid}
     */
-   public void degisterGrid() {
+   public void deregisterGrid() {
       this.grid = null;
    }
 }

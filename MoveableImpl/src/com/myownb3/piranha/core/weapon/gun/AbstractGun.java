@@ -22,7 +22,8 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public abstract class AbstractGun implements Gun {
 
-   private static final int TIME_BETWEEN_SALVES = 110;
+   private static final int PROJECTILE_START_POS_OFFSET = 10;// an additionally offset, so the firing a salve the projectiles don't collide with each other
+   private static final int TIME_BETWEEN_SALVES = 150;
    private AtomicLong lastTimeStamp;
    private int minTimeBetweenShooting;
    private GunShape gunShape;
@@ -40,21 +41,21 @@ public abstract class AbstractGun implements Gun {
    public void fire() {
       long now = System.currentTimeMillis();
       if (now - lastTimeStamp.get() >= minTimeBetweenShooting) {
-         Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig);
-         fireSalve(projectileStartPos);
+         fireSalve();
       }
    }
 
-   private void fireSalve(final Position projectileStartPos) {
-      Callable<List<Projectile>> fireSalveCallable = getFireCallable(projectileStartPos);
+   private void fireSalve() {
+      Callable<List<Projectile>> fireSalveCallable = getFireCallable();
       WorkerThreadFactory.INSTANCE.executeAsync(fireSalveCallable);
    }
 
    @Visible4Testing
-   Callable<List<Projectile>> getFireCallable(final Position projectileStartPos) {
+   Callable<List<Projectile>> getFireCallable() {
       return () -> {
          List<Projectile> firedProjectiles = new ArrayList<>();
          for (int i = 0; i < gunConfig.getSalveSize(); i++) {
+            Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig);
             firedProjectiles.add(fireShot(projectileStartPos));
             setTimeStamp();
             delayNextShot();
@@ -76,7 +77,8 @@ public abstract class AbstractGun implements Gun {
    private static Position createProjectilStartPos(Position foremostPosition, GunConfig gunConfig) {
       ProjectileConfig projectileConfig = gunConfig.getProjectileConfig();
       Position projectileStartWithinGun =
-            Positions.movePositionForward4Distance(foremostPosition, projectileConfig.getProjectileDimension().getHeight());
+            Positions.movePositionForward4Distance(foremostPosition,
+                  PROJECTILE_START_POS_OFFSET + projectileConfig.getProjectileDimension().getHeight());
       Direction direction = foremostPosition.getDirection();
       Direction startDirection = Directions.of(direction.getForwardX() * gunConfig.getVeloCity(), direction.getForwardY() * gunConfig.getVeloCity());
       return Positions.of(startDirection, projectileStartWithinGun.getX(), projectileStartWithinGun.getY());
