@@ -1,30 +1,21 @@
 package com.myownb3.piranha.core.weapon.gun.projectile.config;
 
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 
 public class ProjectileConfigImpl implements ProjectileConfig {
 
    private Dimension projectileDimension;
-   private BelligerentParty belligerentParty;
    private int velocity;
 
-   private ProjectileConfigImpl(Dimension projectileDimension, BelligerentParty belligerentParty, int velocity) {
+   private ProjectileConfigImpl(Dimension projectileDimension, int velocity) {
       this.projectileDimension = projectileDimension;
-      this.belligerentParty = belligerentParty;
       this.velocity = verifVelocity(velocity);
    }
 
    @Override
    public Dimension getProjectileDimension() {
       return projectileDimension;
-   }
-
-   @Override
-   public BelligerentParty getBelligerentParty() {
-      return belligerentParty;
    }
 
    @Override
@@ -41,20 +32,14 @@ public class ProjectileConfigImpl implements ProjectileConfig {
 
    public static class ProjectileConfigBuilder {
       private Dimension projectileDimension;
-      private BelligerentParty belligerentParty;
       private int velocity;
 
       private ProjectileConfigBuilder() {
-         belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+         // private
       }
 
       public ProjectileConfigBuilder withDimension(Dimension projectileDimension) {
          this.projectileDimension = projectileDimension;
-         return this;
-      }
-
-      public ProjectileConfigBuilder withBelligerentParty(BelligerentParty belligerentParty) {
-         this.belligerentParty = belligerentParty;
          return this;
       }
 
@@ -64,7 +49,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       }
 
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(projectileDimension, belligerentParty, velocity);
+         return new ProjectileConfigImpl(projectileDimension, velocity);
       }
 
       public static ProjectileConfigBuilder builder() {

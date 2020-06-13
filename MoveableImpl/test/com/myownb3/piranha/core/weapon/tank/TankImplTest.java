@@ -17,7 +17,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
+import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -124,13 +124,16 @@ class TankImplTest {
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
             .withTankDetector(TankDetectorBuilder.builder()
-                  .withGridElementDetector(new GridElementDetectorImpl(grid, DetectorBuilder.builder()
-                        .withAngleInc(1)
-                        .withDetectorAngle(1)
-                        .withDetectorReach(1)
-                        .withEvasionAngle(1)
-                        .withEvasionDistance(1)
-                        .build()))
+                  .withGridElementDetector(GridElementDetectorBuilder.builder()
+                        .withGrid(grid)
+                        .withDetector(DetectorBuilder.builder()
+                              .withAngleInc(1)
+                              .withDetectorAngle(1)
+                              .withDetectorReach(1)
+                              .withEvasionAngle(1)
+                              .withEvasionDistance(1)
+                              .build())
+                        .build())
                   .build())
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()

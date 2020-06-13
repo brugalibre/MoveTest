@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
+import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
@@ -24,6 +24,8 @@ import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
+import com.myownb3.piranha.core.grid.filter.ProjectileGridElementsFilter;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
@@ -110,6 +112,8 @@ public class TankTestLauncher {
       Moveable simpleGridElement = buildNewMoveable(grid);
       TankHolder tankHolder = new TankHolder();
 
+      ProjectileGridElementsFilter projectileGridElementsFilter = new ProjectileGridElementsFilter();
+
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(2)
@@ -140,31 +144,36 @@ public class TankTestLauncher {
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> tankHolder.getTankGridElement())
-                        .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
-                              .withCenterDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
+                        .withGridElementDetector(GridElementDetectorBuilder.builder()
+                              .withGrid(grid)
+                              .withDetector(TrippleDetectorClusterBuilder.builder()
+                                    .withCenterDetector(DetectorBuilder.builder()
+                                          .withAngleInc(1)
+                                          .withDetectorAngle(90)
+                                          .withDetectorReach(400)
+                                          .withEvasionAngle(90)
+                                          .withEvasionDistance(400)
+                                          .build())
+                                    .withLeftSideDetector(DetectorBuilder.builder()
+                                          .withAngleInc(1)
+                                          .withDetectorAngle(90)
+                                          .withDetectorReach(400)
+                                          .withEvasionAngle(90)
+                                          .withEvasionDistance(400)
+                                          .build(), 90)
+                                    .withRightSideDetector(DetectorBuilder.builder()
+                                          .withAngleInc(1)
+                                          .withDetectorAngle(90)
+                                          .withDetectorReach(400)
+                                          .withEvasionAngle(90)
+                                          .withEvasionDistance(400)
+                                          .build(), 90)
+                                    .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                                    .withAutoDetectionStrategyHandler()
                                     .build())
-                              .withLeftSideDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
-                                    .build(), 90)
-                              .withRightSideDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
-                                    .build(), 90)
-                              .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                              .withAutoDetectionStrategyHandler()
-                              .build()))
+                              .withDetectingGridElementFilter(
+                                    FilterGridElementsMovingAway.of(tankHolder.getTankGridElement()).and(projectileGridElementsFilter::test))
+                              .build())
                         .build())
                   .withTurret(TankTurretBuilder.builder()
                         .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
@@ -215,7 +224,7 @@ public class TankTestLauncher {
                         .withWidth(tankWidth)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
-                  .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
+                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .build())
             .build();
 

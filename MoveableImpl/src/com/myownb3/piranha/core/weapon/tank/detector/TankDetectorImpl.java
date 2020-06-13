@@ -1,11 +1,8 @@
 package com.myownb3.piranha.core.weapon.tank.detector;
 
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.detector.GridElementDetector;
-import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 
 public class TankDetectorImpl implements TankDetector {
@@ -20,23 +17,15 @@ public class TankDetectorImpl implements TankDetector {
 
    @Override
    public void autodetect() {
-      gridElementDetector.checkSurrounding(tankGridElementSupplier.get());
+      TankGridElement tankGridElement = tankGridElementSupplier.get();
+      gridElementDetector.checkSurroundingFromPosition(tankGridElement, tankGridElement.getPosition());
    }
 
    @Override
    public boolean isUnderFire() {
       return gridElementDetector.getDetectedGridElement(tankGridElementSupplier.get())
             .stream()
-            .filter(Projectile.class::isInstance)
-            .map(Belligerent.class::cast)
-            .anyMatch(isEnemyProjectile());
-   }
-
-   private Predicate<? super Belligerent> isEnemyProjectile() {
-      return projectile -> {
-         TankGridElement otherBelligerent = tankGridElementSupplier.get();
-         return projectile.isEnemy(otherBelligerent);
-      };
+            .count() > 0;
    }
 
    public static class TankDetectorBuilder {
@@ -64,7 +53,5 @@ public class TankDetectorImpl implements TankDetector {
       public static TankDetectorBuilder builder() {
          return new TankDetectorBuilder();
       }
-
    }
-
 }

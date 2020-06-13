@@ -16,7 +16,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DimensionImpl;
@@ -61,7 +60,6 @@ class SimpleBulletGunTest {
                   .withRoundsPerMinute(1)
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
                         .withDimension(new DimensionImpl(0, 0, projectileRadius, projectileRadius))
-                        .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                         .withVelocity(velocityMulti)
                         .build())
                   .build())

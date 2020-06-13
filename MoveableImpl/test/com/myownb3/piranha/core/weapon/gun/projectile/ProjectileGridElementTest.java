@@ -9,10 +9,6 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
-import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -33,7 +29,6 @@ class ProjectileGridElementTest {
             .withPosition(Positions.of(5, 5))
             .withShape(mock(AbstractShape.class))
             .withProjectile(ProjectileBuilder.builder()
-                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .build())
             .withVelocity(10)
             .build());
@@ -43,32 +38,6 @@ class ProjectileGridElementTest {
 
       // Then
       verify(projectileGridElement).moveForward(10);
-   }
-
-   @Test
-   void testBelligerentProjectile() {
-
-      // Given
-      ProjectileGridElement projectileGridElement = ProjectileGridElementBuilder.builder()
-            .withDamage(10)
-            .withGrid(mock(Grid.class))
-            .withHealth(5)
-            .withPosition(Positions.of(5, 5))
-            .withShape(mock(AbstractShape.class))
-            .withProjectile(ProjectileBuilder.builder()
-                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                  .build())
-            .withVelocity(10)
-            .build();
-      Belligerent belligerent = new StroomTrooper();
-
-      // When
-      BelligerentParty actualBelligerentParty = projectileGridElement.getBelligerentParty();
-      boolean actualIsEnemy = projectileGridElement.isEnemy(belligerent);
-
-      // Then
-      assertThat(actualBelligerentParty, is(BelligerentPartyConst.REBEL_ALLIANCE));
-      assertThat(actualIsEnemy, is(true));
    }
 
    @Test

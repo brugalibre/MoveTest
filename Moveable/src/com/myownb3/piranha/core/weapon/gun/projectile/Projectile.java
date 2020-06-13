@@ -1,6 +1,5 @@
 package com.myownb3.piranha.core.weapon.gun.projectile;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.destruction.Destructive;
@@ -12,6 +11,6 @@ import com.myownb3.piranha.core.weapon.gun.Gun;
  * @author Dominic
  *
  */
-public interface Projectile extends Destructible, Destructive, CollisionSensitive, Belligerent {
+public interface Projectile extends Destructible, Destructive, CollisionSensitive {
    // no-op
 }

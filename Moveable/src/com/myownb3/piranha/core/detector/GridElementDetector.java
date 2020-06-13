@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
@@ -34,6 +35,17 @@ public interface GridElementDetector {
     *        the given {@link GridElement}
     */
    void checkSurrounding(GridElement gridElement);
+
+   /**
+    * Checks the surrounding of the given {@link Moveable} the {@link Grid}
+    * The {@link Detector} uses the given {@link Position} to detect other {@link GridElement}
+    * 
+    * @param gridElement
+    *        the given {@link GridElement}
+    * @param detectorPos
+    *        the {@link Position} from thich the {@link Detector} detects
+    */
+   void checkSurroundingFromPosition(GridElement gridElement, Position detectorPos);
 
    /**
     * Evaluates all {@link GridElement} which are currently detected by this {@link GridElementDetector} on the {@link Grid}

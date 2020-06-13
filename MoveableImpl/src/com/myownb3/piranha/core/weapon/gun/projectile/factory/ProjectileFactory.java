@@ -54,7 +54,6 @@ public class ProjectileFactory {
       return ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(position)
-            .withBelligerentParty(projectileConfig.getBelligerentParty())
             .withShape(projectileShape)
             .withVelocity(projectileConfig.getVelocity())
             .build();

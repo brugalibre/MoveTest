@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -21,14 +19,13 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileB
 public class ProjectileGridElement extends AbstractMoveable implements Projectile, AutoDetectable {
    private Projectile projectile;
 
-   private ProjectileGridElement(Grid grid, Position position, Shape shape, BelligerentParty belligerentParty, double damage,
-         double health, int velocity) {
+   private ProjectileGridElement(Grid grid, Position position, Shape shape, double damage, double health,
+         int velocity) {
       super(grid, position, shape, velocity);
       this.projectile = ProjectileBuilder.builder()
             .withDamage(damage)
             .withHealth(health)
             .withVelocity(getVelocity())
-            .withBelligerentParty(belligerentParty)
             .withOnDestroyedCallbackHandler(() -> grid.remove(this))
             .build();
       setName(UUID.randomUUID().toString());
@@ -44,15 +41,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    @Override
    public void autodetect() {
       moveForward(getVelocity());
-   }
-
-   public BelligerentParty getBelligerentParty() {
-      return projectile.getBelligerentParty();
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return projectile.isEnemy(otherBelligerent);
    }
 
    @Override
@@ -88,7 +76,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
       private double damage;
       private Integer velocity;
       private Projectile projectile;
-      private BelligerentParty belligerentParty;
 
       private ProjectileGridElementBuilder() {
          this.health = 4;
@@ -124,11 +111,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
          return this;
       }
 
-      public ProjectileGridElementBuilder withBelligerentParty(BelligerentParty belligerentParty) {
-         this.belligerentParty = belligerentParty;
-         return this;
-      }
-
       public ProjectileGridElementBuilder withHealth(double health) {
          this.health = health;
          return this;
@@ -144,7 +126,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
          if (nonNull(projectile)) {
             return new ProjectileGridElement(projectile, grid, position, shape, damage, health, velocity);
          }
-         return new ProjectileGridElement(grid, position, shape, belligerentParty, damage, health, velocity);
+         return new ProjectileGridElement(grid, position, shape, damage, health, velocity);
       }
    }
 }
