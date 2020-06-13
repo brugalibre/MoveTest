@@ -1,8 +1,6 @@
 package com.myownb3.piranha.core.collision.detection;
 
 import static java.util.Objects.isNull;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -18,7 +16,6 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.collision.CollisionGridElement;
 import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
 import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
@@ -26,7 +23,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -37,48 +33,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class DefaultCollisionDetectorImplTest {
-
-   @Test
-   void testIsNotDestroyedGridElement() {
-
-      // Given
-      GridElement gridElement = mock(GridElement.class);
-      CollisionGridElement collisionGridElement = CollisionGridElementImpl.of(mock(Intersection.class), gridElement);
-
-      DefaultCollisionDetectorImpl collisionDetectorImpl = DefaultCollisionDetectorBuilder.builder()
-            .withShape(mock(Shape.class))
-            .build();
-      // When
-      boolean actualIsNotDestroyed = collisionDetectorImpl.isNotDestroyed(collisionGridElement);
-
-      // Then
-      assertThat(actualIsNotDestroyed, is(true));
-   }
-
-   @Test
-   void testIsNotDestroyedDestructible() {
-
-      // Given
-      boolean isGridElement1Destroyed = false;
-      boolean isGridElement2Destroyed = true;
-      Obstacle destructibleGridElement1 = mock(ObstacleImpl.class);
-      when(destructibleGridElement1.isDestroyed()).thenReturn(isGridElement1Destroyed);
-      Obstacle destructibleGridElement2 = mock(ObstacleImpl.class);
-      when(destructibleGridElement2.isDestroyed()).thenReturn(isGridElement2Destroyed);
-      CollisionGridElement collisionGridElement1 = CollisionGridElementImpl.of(mock(Intersection.class), destructibleGridElement1);
-      CollisionGridElement collisionGridElement2 = CollisionGridElementImpl.of(mock(Intersection.class), destructibleGridElement2);
-
-      DefaultCollisionDetectorImpl collisionDetectorImpl = DefaultCollisionDetectorBuilder.builder()
-            .withShape(mock(Shape.class))
-            .build();
-      // When
-      boolean actualIsNotDestroyed1 = collisionDetectorImpl.isNotDestroyed(collisionGridElement1);
-      boolean actualIsNotDestroyed2 = collisionDetectorImpl.isNotDestroyed(collisionGridElement2);
-
-      // Then
-      assertThat(actualIsNotDestroyed1, is(!isGridElement1Destroyed));
-      assertThat(actualIsNotDestroyed2, is(!isGridElement2Destroyed));
-   }
 
    @Test
    void testCheckCollision_NotOnOrInsideCircle() {

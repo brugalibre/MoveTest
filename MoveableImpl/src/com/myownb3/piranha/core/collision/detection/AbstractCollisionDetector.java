@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionDetector;
@@ -19,7 +17,6 @@ import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
 import com.myownb3.piranha.core.collision.IntersectionImpl;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
-import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -51,19 +48,8 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
 
    protected Function<List<CollisionGridElement>, CollisionDetectionResult> returnCollisionDetectionResult(
          CollisionDetectionHandler collisionDetectionHandler, GridElement movedGridElement, Position newPosition) {
-      return collisionGridElements -> filterDestroyedGridElements(collisionGridElements).isEmpty() ? new CollisionDetectionResultImpl(newPosition)
-            : collisionDetectionHandler.handleCollision(filterDestroyedGridElements(collisionGridElements), movedGridElement, newPosition);
-   }
-
-   private List<CollisionGridElement> filterDestroyedGridElements(List<CollisionGridElement> collisionGridElements) {
-      return collisionGridElements.stream()
-            .filter(this::isNotDestroyed)
-            .collect(Collectors.toList());
-   }
-
-   @Visible4Testing
-   boolean isNotDestroyed(CollisionGridElement gridElement) {
-      return gridElement.getGridElement() instanceof Destructible ? !((Destructible) gridElement.getGridElement()).isDestroyed() : true;
+      return collisionGridElements -> collisionGridElements.isEmpty() ? new CollisionDetectionResultImpl(newPosition)
+            : collisionDetectionHandler.handleCollision(collisionGridElements, movedGridElement, newPosition);
    }
 
    protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(Position newPosition,

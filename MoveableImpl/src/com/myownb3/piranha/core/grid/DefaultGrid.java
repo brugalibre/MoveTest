@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -41,6 +42,7 @@ public class DefaultGrid implements Grid {
    protected int minX;
    protected int minY;
    private CollisionDetectionHandler collisionDetectionHandler;
+   private Object lock = new Object();
 
    /**
     * Creates a default Grid which has a size of 10 to 10
@@ -103,7 +105,7 @@ public class DefaultGrid implements Grid {
 
    @Override
    public void remove(GridElement gridElement) {
-      synchronized (gridElements) {
+      synchronized (lock) {
          gridElements.remove(gridElement);
       }
    }
@@ -153,13 +155,15 @@ public class DefaultGrid implements Grid {
 
    @Override
    public boolean containsElement(GridElement gridElement) {
-      return gridElements.contains(gridElement);
+      synchronized (lock) {
+         return gridElements.contains(gridElement);
+      }
    }
 
    @Override
    public void addElement(GridElement gridElement) {
       checkBounds(gridElement.getPosition());
-      synchronized (gridElements) {
+      synchronized (lock) {
          gridElements.add(gridElement);
       }
    }
@@ -241,8 +245,9 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<GridElement> getAllGridElements(GridElement gridElement) {
-      synchronized (gridElements) {
+      synchronized (lock) {
          return gridElements.stream()
+               .filter(DestructionHelper::isNotDestroyed)
                .filter(currenGridEl -> !currenGridEl.equals(gridElement))
                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
       }

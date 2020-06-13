@@ -13,11 +13,45 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 
 class DestructionHelperTest {
+
+   @Test
+   void testIsNotDestroyedGridElement() {
+
+      // Given
+      GridElement gridElement = mock(GridElement.class);
+
+      // When
+      boolean actualIsNotDestroyed = DestructionHelper.isNotDestroyed(gridElement);
+
+      // Then
+      assertThat(actualIsNotDestroyed, is(true));
+   }
+
+   @Test
+   void testIsNotDestroyedDestructible() {
+
+      // Given
+      boolean isGridElement1Destroyed = false;
+      boolean isGridElement2Destroyed = true;
+      Obstacle destructibleGridElement1 = mock(ObstacleImpl.class);
+      when(destructibleGridElement1.isDestroyed()).thenReturn(isGridElement1Destroyed);
+      Obstacle destructibleGridElement2 = mock(ObstacleImpl.class);
+      when(destructibleGridElement2.isDestroyed()).thenReturn(isGridElement2Destroyed);
+
+      // When
+      boolean actualIsNotDestroyed1 = DestructionHelper.isNotDestroyed(destructibleGridElement1);
+      boolean actualIsNotDestroyed2 = DestructionHelper.isNotDestroyed(destructibleGridElement2);
+
+      // Then
+      assertThat(actualIsNotDestroyed1, is(!isGridElement1Destroyed));
+      assertThat(actualIsNotDestroyed2, is(!isGridElement2Destroyed));
+   }
 
    @Test
    void testBuildDestructionHelper() {
