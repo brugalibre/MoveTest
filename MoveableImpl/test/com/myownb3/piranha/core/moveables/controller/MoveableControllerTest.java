@@ -223,6 +223,9 @@ class MoveableControllerTest {
       EndPointMoveable moveable = spy(EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(endPos1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(endPos1)
+                  .build())
             .withMoveablePostActionHandler(handler)
             .withMovingIncrement(10)
             .build());
@@ -287,6 +290,9 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler((m) -> {
             })
             .build();
@@ -310,6 +316,9 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler((m) -> {
             }).build();
 
@@ -336,10 +345,16 @@ class MoveableControllerTest {
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 10))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler((m) -> {
             }).build();
 
@@ -365,6 +380,9 @@ class MoveableControllerTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(startPos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler((m) -> {
             })
             .build();
@@ -493,6 +511,9 @@ class MoveableControllerTest {
          moveable = EndPointMoveableBuilder.builder()
                .withGrid(grid)
                .withStartPosition(startPos)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(startPos)
+                     .build())
                .withMoveablePostActionHandler(stateMachine)
                .withMovingIncrement(movingIncrement)
                .build();

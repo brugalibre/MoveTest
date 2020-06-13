@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.core.moveables;
 
-import static java.util.Objects.isNull;
-
 import java.util.Objects;
 
 import com.myownb3.piranha.core.grid.Grid;
@@ -56,9 +54,6 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
    protected abstract AbstractMoveableBuilder<V, T> getThis();
 
    public static class SimpleMoveable extends AbstractMoveable {
-      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-         super(grid, position, handler);
-      }
 
       private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
          super(grid, position, handler, shape);
@@ -68,11 +63,7 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
    public static class MoveableBuilder extends AbstractMoveableBuilder<SimpleMoveable, MoveableBuilder> {
 
       public SimpleMoveable build() {
-         if (isNull(shape)) {
-            moveable = new SimpleMoveable(grid, position, handler);
-         } else {
-            moveable = new SimpleMoveable(grid, position, handler, shape);
-         }
+         moveable = new SimpleMoveable(grid, position, handler, shape);
          handler.handlePostConditions(moveable);
          return (SimpleMoveable) this.moveable;
       }

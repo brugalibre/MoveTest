@@ -16,6 +16,7 @@ import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
@@ -62,6 +63,9 @@ class EvasionStateMachineTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 8, 45, 11.25);

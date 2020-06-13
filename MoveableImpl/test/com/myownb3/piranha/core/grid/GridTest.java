@@ -27,6 +27,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -163,6 +164,9 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(1, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
       boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
 
@@ -186,6 +190,9 @@ class GridTest {
          MoveableBuilder.builder()
                .withGrid(grid)
                .withPosition(Positions.of(20, 20))
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(Positions.of(20, 20))
+                     .build())
                .build();
       };
       // Then
@@ -200,6 +207,9 @@ class GridTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -219,6 +229,9 @@ class GridTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -242,6 +255,9 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -266,6 +282,9 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -285,6 +304,9 @@ class GridTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
       Position expectedEndPosition = Positions.of(0, -1);
       // When
@@ -352,6 +374,9 @@ class GridTest {
          moveable = MoveableBuilder.builder()
                .withGrid(grid)
                .withPosition(moveablePos)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(moveablePos)
+                     .build())
                .build();
          return this;
       }

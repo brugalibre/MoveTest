@@ -3,8 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.gridelement;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
@@ -28,11 +28,6 @@ import com.myownb3.piranha.core.moveables.AbstractMoveable;
 public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, Belligerent {
 
    private DestructionHelper destructionHelper;
-
-   private MoveableObstacleImpl(Grid grid, Position position, double damage, double health) {
-      super(grid, position);
-      this.destructionHelper = getDestructionHelper(damage, health);
-   }
 
    private MoveableObstacleImpl(Grid grid, Position position, Shape shape, double damage, double health) {
       super(grid, position, shape);
@@ -106,11 +101,8 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
       @Override
       public MoveableObstacleImpl build() {
          MoveableObstacleImpl moveableObstacleImpl;
-         if (isNull(shape)) {
-            moveableObstacleImpl = new MoveableObstacleImpl(grid, position, damage, health);
-         } else {
-            moveableObstacleImpl = new MoveableObstacleImpl(grid, position, shape, damage, health);
-         }
+         requireNonNull(shape, "A MoveableObstacle needs a shape!");
+         moveableObstacleImpl = new MoveableObstacleImpl(grid, position, shape, damage, health);
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }

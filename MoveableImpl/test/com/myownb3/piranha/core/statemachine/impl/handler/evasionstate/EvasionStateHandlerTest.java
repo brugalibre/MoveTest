@@ -17,6 +17,7 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
@@ -60,6 +61,9 @@ class EvasionStateHandlerTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 1))
+                  .build())
             .withHandler((b) -> {
             }).build();
 

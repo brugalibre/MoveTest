@@ -17,6 +17,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
@@ -38,6 +39,9 @@ class OrientatingStateHandlerTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(moveablePos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(moveablePos)
+                  .build())
             .build();
 
       OrientatingStateInput input =
@@ -61,6 +65,9 @@ class OrientatingStateHandlerTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(moveablePos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(moveablePos)
+                  .build())
             .build();
 
       OrientatingStateInput input =
@@ -85,6 +92,9 @@ class OrientatingStateHandlerTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(moveablePos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(moveablePos)
+                  .build())
             .build();
 
       OrientatingStateInput input =

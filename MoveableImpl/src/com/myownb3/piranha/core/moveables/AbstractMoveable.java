@@ -27,13 +27,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    protected Position posBefore;
    private List<Position> positionHistory;
 
-   public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
       super(grid, position, shape);
-      init(handler);
-   }
-
-   public AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-      super(grid, position);
       init(handler);
    }
 
@@ -41,17 +36,11 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
-      this.handler.handlePostConditions(this);
    }
 
-   public AbstractMoveable(Grid grid, Position position, Shape shape) {
+   protected AbstractMoveable(Grid grid, Position position, Shape shape) {
       this(grid, position, (m) -> {/* This empty handler does nothing */
       }, shape);
-   }
-
-   public AbstractMoveable(Grid grid, Position position) {
-      this(grid, position, (m) -> {/* This empty handler does nothing */
-      });
    }
 
    @Override

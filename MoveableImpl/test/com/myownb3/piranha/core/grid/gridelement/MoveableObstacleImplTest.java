@@ -34,6 +34,9 @@ class MoveableObstacleImplTest {
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -51,6 +54,9 @@ class MoveableObstacleImplTest {
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -72,6 +78,9 @@ class MoveableObstacleImplTest {
             .withDamage(3)
             .withHealth(50)
             .withDestructionHelper(destructionHelper)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -111,6 +120,9 @@ class MoveableObstacleImplTest {
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When

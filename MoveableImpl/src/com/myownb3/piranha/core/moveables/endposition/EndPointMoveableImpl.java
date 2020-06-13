@@ -3,7 +3,6 @@
  */
 package com.myownb3.piranha.core.moveables.endposition;
 
-import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
@@ -37,12 +36,6 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
          Shape shape, BelligerentParty belligerentParty) {
       super(grid, position, handler, shape);
-      init(movingIncrement, belligerentParty);
-   }
-
-   private EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
-         BelligerentParty belligerentParty) {
-      super(grid, position, handler);
       init(movingIncrement, belligerentParty);
    }
 
@@ -151,10 +144,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       public EndPointMoveable build() {
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
-         if (nonNull(shape)) {
-            return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, belligerentParty);
-         }
-         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, belligerentParty);
+         Objects.requireNonNull(shape, "Attribute 'shape' must not be null!");
+         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, belligerentParty);
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {

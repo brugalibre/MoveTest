@@ -23,6 +23,7 @@ import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.DirectionImpl;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
@@ -40,6 +41,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
 
@@ -67,6 +71,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -82,6 +89,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
 
@@ -113,6 +123,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
       Direction[] resultList = new DirectionImpl[] {Directions.O, Directions.S, Directions.W, Directions.N};
 
@@ -138,6 +151,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
@@ -170,6 +186,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
@@ -208,6 +227,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
       Direction[] resultList = new DirectionImpl[] {Directions.W, Directions.S, Directions.O, Directions.N};
 
@@ -237,6 +259,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -257,6 +282,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
@@ -288,6 +316,9 @@ class TestMove {
       // Given
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withGrid(GridBuilder.builder()
                   .build())
             .build();
@@ -323,6 +354,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
       DirectionImpl expectedDirection = Directions.N;
 
@@ -344,6 +378,9 @@ class TestMove {
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .build();
 
@@ -373,8 +410,26 @@ class TestMove {
       moveable.makeTurn(angle);
 
       // Then
-      verify(spyHandler).handlePostConditions(moveable);// one time, becaus creating a moveable calls
+      verify(spyHandler, never()).handlePostConditions(moveable);// No PostActions while creating a moveable!
+
       // this method
+      verify(pos, never()).rotate(angle);
+   }
+
+   @Test
+   public void testTestEmptyPostActionHandler() {
+
+      // Given
+      int angle = 0;
+      Position pos = spy(Positions.of(0, 0));
+      Moveable moveable = new SimpleTestMoveable(GridBuilder.builder()
+            .build(), pos, res -> {
+            });
+
+      // When
+      moveable.makeTurn(angle);
+
+      // Then
       verify(pos, never()).rotate(angle);
    }
 
@@ -384,6 +439,9 @@ class TestMove {
       // Given
       Moveable moveable = MoveableBuilder.builder()
             .withPosition(Positions.of(0, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withGrid(GridBuilder.builder()
                   .build())
             .build();
@@ -419,6 +477,9 @@ class TestMove {
             .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .build();
 
       // When
@@ -443,8 +504,9 @@ class TestMove {
    private static class SimpleTestMoveable extends AbstractMoveable {
 
       public SimpleTestMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-         super(grid, position, handler);
-
+         super(grid, position, handler, PositionShapeBuilder.builder()
+               .withPosition(position)
+               .build());
       }
    }
 }

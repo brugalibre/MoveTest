@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
@@ -296,6 +297,9 @@ public class EvasionStateMachineIntegTest {
                .withStartPosition(startPos)
                .withMoveablePostActionHandler(stateMachine)
                .withMovingIncrement(movingIncrement)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(startPos)
+                     .build())
                .build();
          return this;
       }

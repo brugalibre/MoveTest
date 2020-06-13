@@ -17,6 +17,7 @@ import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
@@ -36,6 +37,9 @@ class EndPointMoveableImplTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withStartPosition(Positions.of(0, 0.9))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .withMovingIncrement(1)
             .withMoveablePostActionHandler((a) -> {
@@ -57,6 +61,9 @@ class EndPointMoveableImplTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withStartPosition(Positions.of(0, 0.9))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMovingIncrement(1)
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .withMoveablePostActionHandler((a) -> {
@@ -80,6 +87,9 @@ class EndPointMoveableImplTest {
             .withGrid(GridBuilder.builder()
                   .build())
             .withStartPosition(Positions.of(0, 0.9))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMovingIncrement(movingIncrement)
             .withMoveablePostActionHandler((a) -> {
             })
@@ -105,6 +115,9 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(pos)
+                  .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
@@ -134,6 +147,9 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
@@ -164,6 +180,9 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
@@ -195,6 +214,9 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
@@ -225,6 +247,9 @@ class EndPointMoveableImplTest {
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
             .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
