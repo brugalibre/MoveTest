@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
@@ -19,11 +18,11 @@ import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDete
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
+import com.myownb3.piranha.core.grid.filter.GridElementFilter;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
-import com.myownb3.piranha.util.MathUtil;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -34,7 +33,6 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class DefaultGrid implements Grid {
 
-   private Double maxDistance;
    private List<GridElement> gridElements;
    private boolean checkLowerBoundarys;
    protected int maxX;
@@ -94,12 +92,6 @@ public class DefaultGrid implements Grid {
 
    @Override
    public void prepare() {
-      maxDistance = 1.5 * gridElements.stream()
-            .filter(GridElement::isAvoidable)
-            .map(GridElement::getDimensionRadius)
-            .mapToDouble(value -> value)
-            .max()
-            .orElse(0);
       ProjectileFactory.INSTANCE.registerGrid(this);
    }
 
@@ -130,8 +122,13 @@ public class DefaultGrid implements Grid {
    }
 
    private CollisionDetectionResult checkCollision(GridElement gridElement, Position newPosition) {
-      List<GridElement> gridElements2Check = getGridElements4CollisionCheckWithinDistanceInternal(gridElement, maxDistance);
+      List<GridElement> gridElements2Check =
+            getGridElements4CollisionCheckWithinDistanceInternal(gridElement, getCollisionCheckDistance(gridElement));
       return gridElement.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
+   }
+
+   private double getCollisionCheckDistance(GridElement gridElement) {
+      return gridElement.getDimensionRadius() + 2 * gridElement.getSmallestStepWith();
    }
 
    /**
@@ -207,40 +204,17 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<GridElement> getAllAvoidableGridElementsWithinDistance(GridElement gridElement, int distance) {
-      return getGridElements4CollisionCheckWithinDistanceInternal(gridElement, Double.valueOf(distance));
+      return getGridElements4CollisionCheckWithinDistanceInternal(gridElement, distance);
    }
 
-   private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, Double distance) {
+   private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, double distance) {
       Position gridElemPos = gridElement.getForemostPosition();
+      GridElementFilter gridElementFilter = GridElementFilter.of(gridElement, gridElemPos, distance);
       return getAllAvoidableGridElements(gridElement)
             .stream()
-            .filter(isGridElementWithinDistance(gridElemPos, distance))
-            .filter(gridElementIsInfrontOf(gridElement))
+            .filter(gridElementFilter::isGridElementWithinDistance)
+            .filter(gridElementFilter::isGridElementInfrontOf)
             .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-   }
-
-   private Predicate<? super GridElement> gridElementIsInfrontOf(GridElement movedGridElement) {
-      return gridElement2Check -> {
-         double angleBetweenPositions = MathUtil.calcAngleBetweenPositions(movedGridElement.getPosition(), gridElement2Check.getPosition());
-         return angleBetweenPositions < 180.0;
-      };
-   }
-
-   private Predicate<? super GridElement> isGridElementWithinDistance(Position gridElemPos, Double distance) {
-      return gridElement -> {
-         if (distance == null) {
-            return true;
-         }
-         double movedGridElement2GridElemDistance = calcDistanceFromGridElement2Pos(gridElemPos, gridElement);
-         return movedGridElement2GridElemDistance <= distance;
-      };
-   }
-
-   /*
-    * We have to subtract the 'Dimension-Radius' from the calculated distance. 
-    */
-   private double calcDistanceFromGridElement2Pos(Position gridElemPos, GridElement otherGridElement) {
-      return gridElemPos.calcDistanceTo(otherGridElement.getPosition()) - otherGridElement.getDimensionRadius();
    }
 
    @Override
@@ -255,8 +229,9 @@ public class DefaultGrid implements Grid {
 
    @Override
    public List<GridElement> getAllGridElementsWithinDistance(Position position, int distance) {
+      GridElementFilter gridElementFilter = GridElementFilter.of(position, distance);
       return getAllGridElements(null).stream()
-            .filter(isGridElementWithinDistance(position, Double.valueOf(distance)))
+            .filter(gridElementFilter::isGridElementWithinDistance)
             .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 

@@ -7,6 +7,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionRe
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
@@ -46,7 +49,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos));
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(obstaclePos1)
@@ -80,7 +83,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos));
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       Obstacle obstacle1 = ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(obstaclePos1)
@@ -101,6 +104,58 @@ class DefaultGridTest {
    }
 
    @Test
+   void testGetAllGridElements2Check_CollisionWithinDistance_DontIgnoreSlowerMoveablesInFront_ToClose() {
+
+      // Given
+      int moveableVelocity = 5;
+      int radius = 5;
+      Position moveablePos = Positions.of(Directions.N, 0, 2.99);
+      Position moveableObstaclePos1 = Positions.of(0, 1);
+      Position moveableObstaclePos2 = Positions.of(0, 3.1);
+      Position moveableObstaclePos3 = Positions.of(0, 3);
+      Position moveableObstaclePos4 = Positions.of(0, 3).rotate(180);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(100)
+            .withMaxY(100)
+            .withMinX(-5)
+            .withMinY(-5)
+            .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
+            .build();
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, moveableVelocity));
+      MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveableObstaclePos1)
+            .withShape(buildCircle(moveableObstaclePos1, radius))
+            .withVelocity(10)
+            .build();
+      MoveableObstacleImpl obstacle2 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveableObstaclePos2)
+            .withShape(buildCircle(moveableObstaclePos2, radius))
+            .withVelocity(4)
+            .build();
+      MoveableObstacleImpl obstacle3 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveableObstaclePos3)
+            .withShape(buildCircle(moveableObstaclePos3, radius))
+            .withVelocity(4)
+            .build();
+      MoveableObstacleImpl obstacle4 = MoveableObstacleBuilder.builder()
+            .withGrid(grid)
+            .withPosition(moveableObstaclePos4)
+            .withShape(buildCircle(moveableObstaclePos4, radius))
+            .withVelocity(4)
+            .build();
+      grid.prepare();
+
+      // When
+      moveable.moveForward();
+
+      // Then
+      verify(moveable).check4Collision(any(), any(), eq(Arrays.asList(obstacle2, obstacle3, obstacle4)));
+   }
+
+   @Test
    void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAwayButBehindMovingGridElement1() {
 
       // Given
@@ -116,7 +171,7 @@ class DefaultGridTest {
             .withMinY(-5)
             .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
             .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos));
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(obstaclePos1)
@@ -141,41 +196,6 @@ class DefaultGridTest {
       verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle3)));
    }
 
-   @Test
-   void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAwayButBehindMovingGridElement2() {
-
-      // Given
-      int radius = 5;
-      Position moveablePos = Positions.of(Directions.S, 0, 0);
-      Position obstaclePos1 = Positions.of(0, 1);
-      Position obstaclePos2 = Positions.of(0, -3);
-      Grid grid = GridBuilder.builder()
-            .withMaxX(100)
-            .withMaxY(100)
-            .withMinX(-5)
-            .withMinY(-5)
-            .withCollisionDetectionHandler((a, b, c) -> new CollisionDetectionResultImpl(c))
-            .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos));
-      ObstacleBuilder.builder()
-            .withGrid(grid)
-            .withPosition(obstaclePos1)
-            .withShape(buildCircle(obstaclePos1, radius))
-            .build();
-      ObstacleImpl obstacle2 = ObstacleBuilder.builder()
-            .withGrid(grid)
-            .withPosition(obstaclePos2)
-            .withShape(buildCircle(obstaclePos2, radius))
-            .build();
-      grid.prepare();
-
-      // When
-      moveable.moveForward();
-
-      // Then
-      verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle2)));
-   }
-
    private CircleImpl buildCircle(Position obstaclePos2, int radius) {
       return CircleBuilder.builder()
             .withRadius(radius)
@@ -197,7 +217,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = buildMoveable(grid, moveablePos);
+      Moveable moveable = buildMoveable(grid, moveablePos, 5);
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(obstaclePos1)
@@ -227,7 +247,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = buildMoveable(grid, moveablePos);
+      Moveable moveable = buildMoveable(grid, moveablePos, 5);
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(obstaclePos)
@@ -257,6 +277,7 @@ class DefaultGridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withMovingIncrement(1)
             .withMoveablePostActionHandler((b) -> {
             })
             .build();
@@ -266,11 +287,11 @@ class DefaultGridTest {
             .build();
 
       // When
-      List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(obstacleImpl, 5);
+      List<GridElement> allGridElementsWithinDistance = grid.getAllAvoidableGridElementsWithinDistance(moveable, 5);
 
       // Then
       assertThat(allGridElementsWithinDistance.size(), is(1));
-      assertThat(allGridElementsWithinDistance.get(0), is(moveable));
+      assertThat(allGridElementsWithinDistance.get(0), is(obstacleImpl));
    }
 
    @Test
@@ -289,6 +310,7 @@ class DefaultGridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
 
       ObstacleBuilder.builder()
@@ -304,13 +326,14 @@ class DefaultGridTest {
       assertThat(allGridElementsWithinDistance.get(0), is(bulletImpl));
    }
 
-   private Moveable buildMoveable(Grid grid, Position gridElemPos) {
+   private Moveable buildMoveable(Grid grid, Position gridElemPos, int velocity) {
       return MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())
+            .withVelocity(velocity)
             .build();
    }
 }
