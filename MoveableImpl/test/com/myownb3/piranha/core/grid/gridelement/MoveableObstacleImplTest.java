@@ -37,6 +37,7 @@ class MoveableObstacleImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(8)
             .build();
 
       // When
@@ -57,6 +58,7 @@ class MoveableObstacleImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(8)
             .build();
 
       // When
@@ -81,6 +83,7 @@ class MoveableObstacleImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(8)
             .build();
 
       // When
@@ -98,19 +101,21 @@ class MoveableObstacleImplTest {
       // Given
       Grid grid = mock(Grid.class);
       when(grid.moveForward(any())).thenReturn(Positions.of(1, 0));
+      int velocity = 8;
       MoveableObstacleImpl moveable = spy(MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 0))
                   .build())
             .withPosition(Positions.of(0, 1))
+            .withVelocity(velocity)
             .build());
 
       // When
       moveable.autodetect();
 
       // Then
-      verify(moveable).moveForward(eq(10));
+      verify(moveable).moveForward(eq(velocity));
    }
 
    @Test
@@ -123,6 +128,7 @@ class MoveableObstacleImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(8)
             .build();
 
       // When
@@ -146,6 +152,7 @@ class MoveableObstacleImplTest {
             .withGrid(mock(Grid.class))
             .withPosition(Positions.of(0, 0))
             .withShape(shape)
+            .withVelocity(8)
             .build();
 
       // Then

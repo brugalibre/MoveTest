@@ -37,6 +37,7 @@ class ProjectileGridElemTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
+            .withVelocity(10)
             .build();
 
       // When
@@ -61,6 +62,7 @@ class ProjectileGridElemTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
+            .withVelocity(10)
             .build();
 
       // When
@@ -90,6 +92,7 @@ class ProjectileGridElemTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
+            .withVelocity(10)
             .build();
 
       // When
@@ -118,6 +121,7 @@ class ProjectileGridElemTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
+            .withVelocity(10)
             .build();
 
       // When

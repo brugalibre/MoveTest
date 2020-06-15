@@ -242,8 +242,8 @@ public class MazeEndPointMoveableLauncher {
                         .withRoundsPerMinute(70)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimension(new DimensionImpl(0, 0, 3, 3))
+                              .withVelocity(1)
                               .build())
-                        .withVelocity(6)
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
                         .withBarrel(RectangleBuilder.builder()
@@ -291,7 +291,7 @@ public class MazeEndPointMoveableLauncher {
          while (true) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             try {
-               Thread.sleep(1);
+               Thread.sleep(15);
             } catch (InterruptedException e) {
             }
          }

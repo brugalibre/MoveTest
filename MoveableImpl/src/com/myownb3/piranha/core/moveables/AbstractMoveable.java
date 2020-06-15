@@ -25,22 +25,24 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    protected MoveablePostActionHandler handler;
    protected Position posBefore;
+   protected int velocity;
    private List<Position> positionHistory;
 
-   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
+   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
       super(grid, position, shape);
-      init(handler);
+      init(handler, velocity);
    }
 
-   private void init(MoveablePostActionHandler handler) {
+   private void init(MoveablePostActionHandler handler, int velocity) {
       posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
+      this.velocity = velocity;
    }
 
-   protected AbstractMoveable(Grid grid, Position position, Shape shape) {
+   protected AbstractMoveable(Grid grid, Position position, Shape shape, int velocity) {
       this(grid, position, (m) -> {/* This empty handler does nothing */
-      }, shape);
+      }, shape, velocity);
    }
 
    @Override
@@ -122,6 +124,11 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    @Override
+   public int getVelocity() {
+      return velocity;
+   }
+
+   @Override
    public Position getPositionBefore() {
       return posBefore;
    }
@@ -129,15 +136,6 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    @Override
    public List<Position> getPositionHistory() {
       return Collections.unmodifiableList(positionHistory);
-   }
-
-   /**
-    * 
-    * @return the velocity of this {@link AbstractMoveable}
-    */
-   protected double getVelocity() {
-      Position movedForwardPosition = Positions.movePositionForward(position);
-      return position.calcDistanceTo(movedForwardPosition);
    }
 
    private void verifyAmount(int amount) {

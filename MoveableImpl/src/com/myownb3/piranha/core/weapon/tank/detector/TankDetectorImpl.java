@@ -33,7 +33,10 @@ public class TankDetectorImpl implements TankDetector {
    }
 
    private Predicate<? super Belligerent> isEnemyProjectile() {
-      return projectile -> projectile.isEnemy(tankGridElementSupplier.get());
+      return projectile -> {
+         TankGridElement otherBelligerent = tankGridElementSupplier.get();
+         return projectile.isEnemy(otherBelligerent);
+      };
    }
 
    public static class TankDetectorBuilder {

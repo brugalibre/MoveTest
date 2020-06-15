@@ -100,4 +100,16 @@ public interface GridElement extends CollisionSensitive {
    default boolean isAvoidable() {
       return false;
    }
+
+   /**
+    * @return the velocity of this {@link GridElement}
+    */
+   int getVelocity();
+
+   /**
+    * @return 0.0 because by default a {@link GridElement} can't move forward
+    */
+   default double getSmallestStepWith() {
+      return 0.0;
+   }
 }

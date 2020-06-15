@@ -175,6 +175,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                         .withAmountOfPoints(20)
                         .withCenter(randomPosition)
                         .build())
+                  .withVelocity(8)
                   .build();
 
             gridElements.add(obstacle);
@@ -210,7 +211,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
    private static List<EndPosition> getEndPosList(int height, int width, Dimension dimension, int amountOfEndPos) {
       List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
       for (int i = 0; i < amountOfEndPos; i++) {
-         endPosList.add(EndPositions.of(Positions.getRandomPosition(dimension, height, width)));
+         endPosList.add(EndPositions.of(Positions.getRandomPosition(dimension, height, width), 5));
       }
       return endPosList;
    }

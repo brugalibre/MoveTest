@@ -273,6 +273,7 @@ public class MazeImpl implements Maze {
                   .withGrid(grid)
                   .withPosition(gridElementPos)
                   .withShape(shape)
+                  .withVelocity(8)
                   .build();
             this.corridorGridElements.add(gridElement);
             return this;

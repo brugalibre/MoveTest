@@ -28,6 +28,7 @@ public interface GridElementDetector {
 
    /**
     * Checks the surrounding of the given {@link Moveable} the {@link Grid}
+    * The {@link Detector} uses the given {@link GridElement#getForemostPosition()} to detect other {@link GridElement}
     * 
     * @param gridElement
     *        the given {@link GridElement}

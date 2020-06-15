@@ -23,8 +23,10 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
    protected Position position;
    protected Grid grid;
    protected Shape shape;
+   protected int velocity;
 
    protected AbstractMoveableBuilder() {
+      velocity = 1;
       handler = (b) -> {
       };
    }
@@ -44,6 +46,11 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
       return getThis();
    }
 
+   public AbstractMoveableBuilder<V, T> withVelocity(int velocity) {
+      this.velocity = velocity;
+      return getThis();
+   }
+
    public AbstractMoveableBuilder<V, T> withHandler(MoveablePostActionHandler handler) {
       this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
       return this;
@@ -55,15 +62,15 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    public static class SimpleMoveable extends AbstractMoveable {
 
-      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
-         super(grid, position, handler, shape);
+      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
+         super(grid, position, handler, shape, velocity);
       }
    }
 
    public static class MoveableBuilder extends AbstractMoveableBuilder<SimpleMoveable, MoveableBuilder> {
 
       public SimpleMoveable build() {
-         moveable = new SimpleMoveable(grid, position, handler, shape);
+         moveable = new SimpleMoveable(grid, position, handler, shape, velocity);
          handler.handlePostConditions(moveable);
          return (SimpleMoveable) this.moveable;
       }

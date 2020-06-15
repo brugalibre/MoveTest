@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.turret.turretscanner;
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
@@ -51,5 +52,19 @@ public class TargetGridElement {
 
    public void setPrevAcquiredPos(Position prevAcquiredPos) {
       this.prevAcquiredPos = prevAcquiredPos;
+   }
+
+   /**
+    * Returns the velocity of this {@link GridElement}. Thant means the amount of 'movements' per cycle the TargetGridElement does
+    * 
+    * @return the velocity of this {@link GridElement}
+    */
+   public int getTargetVelocity() {
+      Position targetPosition = getCurrentGridElementPosition();
+
+      double distanceCoveredInOneCycleWithoutVelocity = targetPosition.calcDistanceTo(Positions.movePositionForward(targetPosition));
+      double distancecoveredInOneCycleWithVelocity = prevAcquiredPos.calcDistanceTo(currentAcquiredPos);
+
+      return (int) Math.ceil(distancecoveredInOneCycleWithVelocity / distanceCoveredInOneCycleWithoutVelocity);
    }
 }

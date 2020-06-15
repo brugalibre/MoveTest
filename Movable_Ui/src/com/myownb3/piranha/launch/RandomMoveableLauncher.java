@@ -96,6 +96,7 @@ public class RandomMoveableLauncher implements Stoppable {
                      .withAmountOfPoints(20)
                      .withCenter(randomPosition)
                      .build())
+               .withVelocity(8)
                .build();
 
          gridelements.add(obstacle);

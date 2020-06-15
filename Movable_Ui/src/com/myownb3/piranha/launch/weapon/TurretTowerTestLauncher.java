@@ -102,8 +102,8 @@ public class TurretTowerTestLauncher {
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withVelocity(3)
                                           .build())
-                                    .withVelocity(3)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
@@ -142,8 +142,8 @@ public class TurretTowerTestLauncher {
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withVelocity(3)
                                           .build())
-                                    .withVelocity(3)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
@@ -180,6 +180,7 @@ public class TurretTowerTestLauncher {
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
                   .build())
+            .withVelocity(8)
             .build();
 
       grid.prepare();

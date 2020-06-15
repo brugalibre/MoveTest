@@ -20,4 +20,9 @@ public interface ProjectileConfig {
     * @return the {@link BelligerentParty} of this {@link ProjectileConfig}
     */
    BelligerentParty getBelligerentParty();
+
+   /**
+    * @return the velocity of the {@link Projectile}
+    */
+   int getVelocity();
 }

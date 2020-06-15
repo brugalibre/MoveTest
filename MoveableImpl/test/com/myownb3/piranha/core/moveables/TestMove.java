@@ -506,7 +506,7 @@ class TestMove {
       public SimpleTestMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
          super(grid, position, handler, PositionShapeBuilder.builder()
                .withPosition(position)
-               .build());
+               .build(), 1);
       }
    }
 }

@@ -75,6 +75,11 @@ public abstract class AbstractGridElement implements GridElement {
    }
 
    @Override
+   public int getVelocity() {
+      return 0;
+   }
+
+   @Override
    public void onCollision(List<GridElement> destructives) {
       // we don't do that here, may be in a subclass?
    }

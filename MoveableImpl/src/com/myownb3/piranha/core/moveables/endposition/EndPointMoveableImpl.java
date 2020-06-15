@@ -29,18 +29,16 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
 public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMoveable {
 
    private EndPosition endPos;
-   private int movingIncrement;
    private double prevDistance;
    private BelligerentParty belligerentParty;
 
    protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
          Shape shape, BelligerentParty belligerentParty) {
-      super(grid, position, handler, shape);
-      init(movingIncrement, belligerentParty);
+      super(grid, position, handler, shape, movingIncrement);
+      init(belligerentParty);
    }
 
-   private void init(int movingIncrement, BelligerentParty belligerentParty) {
-      this.movingIncrement = movingIncrement;
+   private void init(BelligerentParty belligerentParty) {
       this.belligerentParty = belligerentParty;
    }
 
@@ -55,19 +53,19 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
    @Override
    public void moveForward() {
-      super.moveForward(movingIncrement);
+      super.moveForward(velocity);
    }
 
    @Override
    public void moveBackward() {
-      super.moveBackward(movingIncrement);
+      super.moveBackward(velocity);
    }
 
    @Override
    public MoveResult moveForward2EndPos() {
       double distance = endPos.calcDistanceTo(position);
       if (distance >= getSmallestStepWith()) {
-         moveForward(movingIncrement);
+         moveForward(velocity);
          if (endPos.checkIfHasReached(this)) {
             return new MoveResultImpl(distance, prevDistance, true);
          }

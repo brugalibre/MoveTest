@@ -140,6 +140,7 @@ public class EndPointMoveableLauncher {
                   .withAmountOfPoints(5)
                   .withCenter(randomPosition)
                   .build())
+            .withVelocity(8)
             .build();
       MoveableObstacleImpl obstacle2 = MoveableObstacleBuilder.builder()
             .withGrid(grid)

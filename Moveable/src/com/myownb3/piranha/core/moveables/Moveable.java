@@ -102,6 +102,7 @@ public interface Moveable extends GridElement {
     * 
     * @return
     */
+   @Override
    default double getSmallestStepWith() {
       return 1d / STEP_WITDH;
    }

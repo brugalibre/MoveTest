@@ -53,6 +53,7 @@ class MirrorGridTest {
             .withGrid(grid)
             .withPosition(position)
             .withShape(buildCircle(position, radius))
+            .withVelocity(10)
             .build());
 
       // When

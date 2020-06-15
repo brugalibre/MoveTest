@@ -24,9 +24,9 @@ class GunConfigImplTest {
                .withRoundsPerMinute(roundsPerMinute)
                .withProjectileConfig(ProjectileConfigBuilder.builder()
                      .withDimension(mock(Dimension.class))
+                     .withVelocity(1)
                      .build())
                .withSalveSize(1)
-               .withVelocity(1)
                .build();
       };
 
@@ -46,9 +46,9 @@ class GunConfigImplTest {
                .withRoundsPerMinute(1)
                .withProjectileConfig(ProjectileConfigBuilder.builder()
                      .withDimension(mock(Dimension.class))
+                     .withVelocity(1)
                      .build())
                .withSalveSize(salveSize)
-               .withVelocity(1)
                .build();
       };
 
@@ -68,9 +68,9 @@ class GunConfigImplTest {
                .withRoundsPerMinute(1)
                .withProjectileConfig(ProjectileConfigBuilder.builder()
                      .withDimension(mock(Dimension.class))
+                     .withVelocity(velocity)
                      .build())
                .withSalveSize(1)
-               .withVelocity(velocity)
                .build();
       };
 

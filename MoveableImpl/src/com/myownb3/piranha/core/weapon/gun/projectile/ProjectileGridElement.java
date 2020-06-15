@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.weapon.gun.projectile;
 
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +22,8 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    private Projectile projectile;
 
    private ProjectileGridElement(Grid grid, Position position, Shape shape, BelligerentParty belligerentParty, double damage,
-         double health) {
-      super(grid, position, shape);
+         double health, int velocity) {
+      super(grid, position, shape, velocity);
       this.projectile = ProjectileBuilder.builder()
             .withDamage(damage)
             .withHealth(health)
@@ -34,15 +35,15 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    }
 
    private ProjectileGridElement(Projectile projectile, Grid grid, Position position, Shape shape, double damage,
-         double health) {
-      super(grid, position, shape);
+         double health, int velocity) {
+      super(grid, position, shape, velocity);
       this.projectile = projectile;
       setName(UUID.randomUUID().toString());
    }
 
    @Override
    public void autodetect() {
-      moveForward();
+      moveForward(getVelocity());
    }
 
    public BelligerentParty getBelligerentParty() {
@@ -85,6 +86,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
       private Shape shape;
       private double health;
       private double damage;
+      private Integer velocity;
       private Projectile projectile;
       private BelligerentParty belligerentParty;
 
@@ -112,6 +114,11 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
          return this;
       }
 
+      public ProjectileGridElementBuilder withVelocity(int velocity) {
+         this.velocity = velocity;
+         return this;
+      }
+
       public ProjectileGridElementBuilder withProjectile(Projectile projectile) {
          this.projectile = projectile;
          return this;
@@ -133,10 +140,11 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
       }
 
       public ProjectileGridElement build() {
+         requireNonNull(velocity, "A Projectile needs a velocity!");
          if (nonNull(projectile)) {
-            return new ProjectileGridElement(projectile, grid, position, shape, damage, health);
+            return new ProjectileGridElement(projectile, grid, position, shape, damage, health, velocity);
          }
-         return new ProjectileGridElement(grid, position, shape, belligerentParty, damage, health);
+         return new ProjectileGridElement(grid, position, shape, belligerentParty, damage, health, velocity);
       }
    }
 }

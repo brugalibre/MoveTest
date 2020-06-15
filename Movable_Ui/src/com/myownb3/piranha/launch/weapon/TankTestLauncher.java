@@ -112,7 +112,7 @@ public class TankTestLauncher {
 
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
-            .withEngineVelocity(8)
+            .withEngineVelocity(2)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -184,8 +184,8 @@ public class TankTestLauncher {
                                           .withRoundsPerMinute(350)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .withVelocity(10)
                                                 .build())
-                                          .withVelocity(3)
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
                                           .withBarrel(RectangleBuilder.builder()
@@ -238,8 +238,8 @@ public class TankTestLauncher {
                                     .withRoundsPerMinute(100)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withVelocity(10)
                                           .build())
-                                    .withVelocity(3)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
@@ -277,8 +277,8 @@ public class TankTestLauncher {
                                     .withRoundsPerMinute(100)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withVelocity(10)
                                           .build())
-                                    .withVelocity(3)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
@@ -327,6 +327,7 @@ public class TankTestLauncher {
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
                   .build())
+            .withVelocity(2)
             .build();
    }
 
@@ -334,7 +335,7 @@ public class TankTestLauncher {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
 
-      int cycleTime = 15;
+      int cycleTime = 5;
       new Thread(() -> {
          int cycleCounter = 0;
          while (true) {
@@ -348,7 +349,7 @@ public class TankTestLauncher {
                   .forEach(AutoDetectable::autodetect);
 
             cycleCounter++;
-            if (cycleCounter == 400) {
+            if (cycleCounter == 800) {
                cycleCounter = 0;
                double moveableCounter = new ArrayList<>(grid.getAllGridElements(null)).stream()
                      .filter(isMoveable())

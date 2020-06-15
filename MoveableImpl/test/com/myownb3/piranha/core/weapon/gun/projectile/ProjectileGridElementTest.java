@@ -35,6 +35,7 @@ class ProjectileGridElementTest {
             .withProjectile(ProjectileBuilder.builder()
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .build())
+            .withVelocity(10)
             .build());
 
       // When
@@ -57,6 +58,7 @@ class ProjectileGridElementTest {
             .withProjectile(ProjectileBuilder.builder()
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .build())
+            .withVelocity(10)
             .build();
       Belligerent belligerent = new StroomTrooper();
 
@@ -93,6 +95,7 @@ class ProjectileGridElementTest {
             .withHealth(5)
             .withPosition(Positions.of(5, 5))
             .withShape(mock(AbstractShape.class))
+            .withVelocity(10)
             .withProjectile(projectile)
             .build();
 

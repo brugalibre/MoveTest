@@ -8,8 +8,8 @@ import com.myownb3.piranha.core.weapon.AutoDetectable;
 
 public class AutoMoveable extends AbstractMoveable implements AutoDetectable {
 
-   public AutoMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape) {
-      super(grid, position, handler, shape);
+   public AutoMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
+      super(grid, position, handler, shape, velocity);
    }
 
    @Override
@@ -24,8 +24,7 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable {
       }
 
       public AutoMoveable build() {
-         moveable = new AutoMoveable(grid, position, handler, shape);
-         handler.handlePostConditions(moveable);
+         moveable = new AutoMoveable(grid, position, handler, shape, velocity);
          return (AutoMoveable) this.moveable;
       }
 

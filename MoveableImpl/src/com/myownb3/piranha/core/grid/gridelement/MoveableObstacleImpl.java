@@ -30,8 +30,8 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    private DestructionHelper destructionHelper;
 
-   private MoveableObstacleImpl(Grid grid, Position position, Shape shape, double damage, double health) {
-      super(grid, position, shape);
+   private MoveableObstacleImpl(Grid grid, Position position, Shape shape, double damage, double health, int velocity) {
+      super(grid, position, shape, velocity);
       this.destructionHelper = getDestructionHelper(damage, health);
    }
 
@@ -66,7 +66,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    @Override
    public void autodetect() {
-      moveForward();
+      moveForward(getVelocity());
    }
 
    public static class MoveableObstacleBuilder extends AbstractGridElementBuilder<MoveableObstacleImpl, MoveableObstacleBuilder> {
@@ -74,6 +74,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
       private DestructionHelper destructionHelper;
       private double damage;
       private double health;
+      private Integer velocity;
 
       private MoveableObstacleBuilder() {
          damage = 3;
@@ -94,6 +95,11 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
          return this;
       }
 
+      public MoveableObstacleBuilder withVelocity(int velocity) {
+         this.velocity = velocity;
+         return this;
+      }
+
       public MoveableObstacleBuilder withDestructionHelper(DestructionHelper destructionHelper) {
          this.destructionHelper = destructionHelper;
          return this;
@@ -108,7 +114,8 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
       public MoveableObstacleImpl build() {
          MoveableObstacleImpl moveableObstacleImpl;
          requireNonNull(shape, "A MoveableObstacle needs a shape!");
-         moveableObstacleImpl = new MoveableObstacleImpl(grid, position, shape, damage, health);
+         requireNonNull(velocity, "A MoveableObstacle needs a velocity!");
+         moveableObstacleImpl = new MoveableObstacleImpl(grid, position, shape, damage, health, velocity);
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }

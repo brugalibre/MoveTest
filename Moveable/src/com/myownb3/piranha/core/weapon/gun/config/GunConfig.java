@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.weapon.gun.config;
 
 import com.myownb3.piranha.core.weapon.gun.Gun;
-import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 
 /**
@@ -26,10 +25,4 @@ public interface GunConfig {
     * @return {@link ProjectileConfig}
     */
    ProjectileConfig getProjectileConfig();
-
-   /**
-    * @return the velocity of the {@link Projectile}
-    */
-   double getVeloCity();
-
 }

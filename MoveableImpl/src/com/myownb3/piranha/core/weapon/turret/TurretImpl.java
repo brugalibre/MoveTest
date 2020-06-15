@@ -10,6 +10,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
@@ -191,7 +192,7 @@ public class TurretImpl implements Turret {
 
       protected void setTurretScanner(TurretImpl abstractTurret) {
          TargetPositionLeadEvaluator leadEvaluator = targetPositionLeadEvaluator != null ? targetPositionLeadEvaluator
-               : new TargetPositionLeadEvaluatorImpl(getProjectilVelocity(abstractTurret));
+               : new TargetPositionLeadEvaluatorImpl(getProjectilConfig(abstractTurret));
          abstractTurret.turretScanner = TurretScannerBuilder.builder()
                .withTurret(abstractTurret)
                .withGridElementEvaluator(gridElementsEvaluator)
@@ -210,11 +211,11 @@ public class TurretImpl implements Turret {
          return turretImpl;
       }
 
-      private static double getProjectilVelocity(Turret turret) {
+      private static ProjectileConfig getProjectilConfig(Turret turret) {
          return turret.getGunCarriage()
                .getGun()
                .getGunConfig()
-               .getVeloCity();
+               .getProjectileConfig();
       }
 
       public static class TurretBuilder extends GenericTurretBuilder<TurretBuilder> {

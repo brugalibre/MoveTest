@@ -39,6 +39,7 @@ import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
@@ -92,8 +93,8 @@ class MazeImplTest {
                                     .withRoundsPerMinute(20)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withVelocity(4)
                                           .build())
-                                    .withVelocity(4)
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
@@ -311,6 +312,7 @@ class MazeImplTest {
    private Gun mockGun() {
       Gun gun = mock(Gun.class);
       when(gun.getGunConfig()).thenReturn(mock(GunConfig.class));
+      when(gun.getGunConfig().getProjectileConfig()).thenReturn(mock(ProjectileConfig.class));
       GunShape gunShape = mock(GunShapeImpl.class);
       when(gunShape.getPath()).thenReturn(Collections.emptyList());
       when(gun.getShape()).thenReturn(gunShape);

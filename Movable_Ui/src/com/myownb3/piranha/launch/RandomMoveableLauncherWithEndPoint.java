@@ -108,7 +108,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
-            .withMovingIncrement(2)
+            .withMovingIncrement(10)
             .withMoveableController(new DefaultPostMoveForwardHandler(ctx))
             .build();
 

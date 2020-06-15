@@ -9,10 +9,12 @@ public class ProjectileConfigImpl implements ProjectileConfig {
 
    private Dimension projectileDimension;
    private BelligerentParty belligerentParty;
+   private int velocity;
 
-   private ProjectileConfigImpl(Dimension projectileDimension, BelligerentParty belligerentParty) {
+   private ProjectileConfigImpl(Dimension projectileDimension, BelligerentParty belligerentParty, int velocity) {
       this.projectileDimension = projectileDimension;
       this.belligerentParty = belligerentParty;
+      this.velocity = verifVelocity(velocity);
    }
 
    @Override
@@ -25,9 +27,22 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       return belligerentParty;
    }
 
+   @Override
+   public int getVelocity() {
+      return velocity;
+   }
+
+   private static int verifVelocity(int velocity) {
+      if (velocity < 1) {
+         throw new IllegalArgumentException("The velocity must be greater or equal than one!");
+      }
+      return velocity;
+   }
+
    public static class ProjectileConfigBuilder {
       private Dimension projectileDimension;
       private BelligerentParty belligerentParty;
+      private int velocity;
 
       private ProjectileConfigBuilder() {
          belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
@@ -43,8 +58,13 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return this;
       }
 
+      public ProjectileConfigBuilder withVelocity(int velocity) {
+         this.velocity = velocity;
+         return this;
+      }
+
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(projectileDimension, belligerentParty);
+         return new ProjectileConfigImpl(projectileDimension, belligerentParty, velocity);
       }
 
       public static ProjectileConfigBuilder builder() {

@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.direction.Direction;
-import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
@@ -55,7 +54,7 @@ public abstract class AbstractGun implements Gun {
       return () -> {
          List<Projectile> firedProjectiles = new ArrayList<>();
          for (int i = 0; i < gunConfig.getSalveSize(); i++) {
-            Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig);
+            Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig.getProjectileConfig());
             firedProjectiles.add(fireShot(projectileStartPos));
             setTimeStamp();
             delayNextShot();
@@ -74,14 +73,11 @@ public abstract class AbstractGun implements Gun {
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
    }
 
-   private static Position createProjectilStartPos(Position foremostPosition, GunConfig gunConfig) {
-      ProjectileConfig projectileConfig = gunConfig.getProjectileConfig();
-      Position projectileStartWithinGun =
-            Positions.movePositionForward4Distance(foremostPosition,
-                  PROJECTILE_START_POS_OFFSET + projectileConfig.getProjectileDimension().getHeight());
+   public static Position createProjectilStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
+      Position projectileStartWithinGun = Positions.movePositionForward4Distance(foremostPosition,
+            PROJECTILE_START_POS_OFFSET + projectileConfig.getProjectileDimension().getHeight());
       Direction direction = foremostPosition.getDirection();
-      Direction startDirection = Directions.of(direction.getForwardX() * gunConfig.getVeloCity(), direction.getForwardY() * gunConfig.getVeloCity());
-      return Positions.of(startDirection, projectileStartWithinGun.getX(), projectileStartWithinGun.getY());
+      return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY());
    }
 
    @Override
