@@ -69,7 +69,7 @@ public class ProjectileImpl implements Projectile {
 
       @Override
       public Damage getDamage(GridElement gridElement) {
-         double damageValue = Integer.MAX_VALUE; // A Projectile never surfives a collision
+         double damageValue = Integer.MAX_VALUE; // A Projectile never survives a collision
          if (isWall(gridElement)) {
             damageValue = initialHealth / 2;// except we collided with a wall
          }

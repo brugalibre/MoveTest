@@ -175,7 +175,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                         .withAmountOfPoints(20)
                         .withCenter(randomPosition)
                         .build())
-                  .withVelocity(8)
+                  .withVelocity(6)
                   .build();
 
             gridElements.add(obstacle);

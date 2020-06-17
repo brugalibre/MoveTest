@@ -54,7 +54,7 @@ public abstract class AbstractGun implements Gun {
       return () -> {
          List<Projectile> firedProjectiles = new ArrayList<>();
          for (int i = 0; i < gunConfig.getSalveSize(); i++) {
-            Position projectileStartPos = createProjectilStartPos(gunShape.getForemostPosition(), gunConfig.getProjectileConfig());
+            Position projectileStartPos = createProjectileStartPos(gunShape.getForemostPosition(), gunConfig.getProjectileConfig());
             firedProjectiles.add(fireShot(projectileStartPos));
             setTimeStamp();
             delayNextShot();
@@ -73,7 +73,7 @@ public abstract class AbstractGun implements Gun {
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
    }
 
-   public static Position createProjectilStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
+   private static Position createProjectileStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
       Position projectileStartWithinGun = Positions.movePositionForward4Distance(foremostPosition,
             PROJECTILE_START_POS_OFFSET + projectileConfig.getProjectileDimension().getHeight());
       Direction direction = foremostPosition.getDirection();

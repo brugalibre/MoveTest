@@ -69,6 +69,24 @@ class SimpleGridElementTest {
    }
 
    @Test
+   void testVelocity() {
+      // Given
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(4, 4))
+                  .build())
+            .build();
+
+      // When
+      int actualVelocity = gridElement.getVelocity();
+
+      // Then
+      assertThat(actualVelocity, is(0));
+   }
+
+   @Test
    void testGetRearmostPosition() {
       // Given
       Position gridElemPos = Positions.of(4, 4);

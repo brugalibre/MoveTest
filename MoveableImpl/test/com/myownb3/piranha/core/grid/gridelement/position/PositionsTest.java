@@ -21,4 +21,32 @@ class PositionsTest {
       // Then
       assertThat(actualPosition, is(expectedPosition));
    }
+
+   @Test
+   void testMovePositionBackward() {
+
+      // Given
+      Position position2Move = Positions.of(5, 5);
+      Position expectedPosition = Positions.of(5, 4.9);
+
+      // When
+      Position actualPosition = Positions.movePositionBackward(position2Move);
+
+      // Then
+      assertThat(actualPosition, is(expectedPosition));
+   }
+
+   @Test
+   void testMovePositionForward() {
+
+      // Given
+      Position position2Move = Positions.of(5, 5);
+      Position expectedPosition = Positions.of(5, 5.1);
+
+      // When
+      Position actualPosition = Positions.movePositionForward(position2Move);
+
+      // Then
+      assertThat(actualPosition, is(expectedPosition));
+   }
 }

@@ -31,12 +31,12 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
@@ -102,7 +102,7 @@ public class TurretTowerTestLauncher {
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
-                                          .withVelocity(3)
+                                          .withVelocity(10)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
@@ -142,7 +142,7 @@ public class TurretTowerTestLauncher {
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimension(new DimensionImpl(0, 0, 3, 3))
-                                          .withVelocity(3)
+                                          .withVelocity(10)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
@@ -180,7 +180,7 @@ public class TurretTowerTestLauncher {
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
                   .build())
-            .withVelocity(8)
+            .withVelocity(3)
             .build();
 
       grid.prepare();
@@ -255,12 +255,10 @@ public class TurretTowerTestLauncher {
       int cycleTime = 15;
       new Thread(() -> {
          while (true) {
-            turretTowers.stream()
-                  .forEach(Turret::autodetect);
-            new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
-                  .filter(Moveable.class::isInstance)
-                  .map(Moveable.class::cast)
-                  .forEach(moveable -> moveable.moveForward(10));
+            grid.getAllGridElements(null).parallelStream()
+                  .filter(AutoDetectable.class::isInstance)
+                  .map(AutoDetectable.class::cast)
+                  .forEach(AutoDetectable::autodetect);
             addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             SwingUtilities.invokeLater(() -> mainWindow.refresh());

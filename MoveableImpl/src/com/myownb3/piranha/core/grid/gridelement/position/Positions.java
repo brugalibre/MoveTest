@@ -134,6 +134,19 @@ public class Positions {
    }
 
    /**
+    * Creates a new {@link Position} with the new x-axis value =
+    * {@link Direction#getBackwardX()} + {@link Position#getX()} and the new y-axis
+    * value = {@link Direction#getBackwardY()} + {@link Position#getY()}
+    * 
+    * @param position
+    *        the position
+    * @return a new {@link Position}
+    */
+   public static Position movePositionBackward(Position pos) {
+      return POSITION_HELPER.movePositionBackward(pos);
+   }
+
+   /**
     * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s
     * 
     * @param pos1

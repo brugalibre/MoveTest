@@ -25,10 +25,10 @@ public interface TargetPositionLeadEvaluator {
     * 
     * @param targetGridElement
     *        the evaluated target-Position
-    * @param turretPos
-    *        the Position of the {@link Turret}
+    * @param sourcePos
+    *        the Position from which the lead is caluclated. E.g. a {@link Turret} or {@link Gun}
     * @return the actual target {@link Position}
     */
-   Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position turretPos);
+   Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position sourcePos);
 
 }

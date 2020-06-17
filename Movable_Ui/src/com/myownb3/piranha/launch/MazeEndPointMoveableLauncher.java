@@ -242,7 +242,7 @@ public class MazeEndPointMoveableLauncher {
                         .withRoundsPerMinute(70)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimension(new DimensionImpl(0, 0, 3, 3))
-                              .withVelocity(1)
+                              .withVelocity(5)
                               .build())
                         .build())
                   .withGunShape(GunShapeBuilder.builder()

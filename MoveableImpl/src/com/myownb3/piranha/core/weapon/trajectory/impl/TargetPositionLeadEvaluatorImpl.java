@@ -1,7 +1,10 @@
 package com.myownb3.piranha.core.weapon.trajectory.impl;
 
-import static com.myownb3.piranha.core.weapon.gun.AbstractGun.createProjectilStartPos;
+import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.core.grid.direction.Direction;
+import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
@@ -17,45 +20,53 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
    }
 
    @Override
-   public Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position turretPos) {
+   public Position calculateTargetConsideringLead(TargetGridElement targetGridElement, Position sourcePos) {
       Position targetPosition = targetGridElement.getCurrentGridElementPosition();
       // Make sure the GridElement has moved. If not -> lets assume it's static and return it's current / initial Position
       if (!targetGridElement.isMoving()) {
          return targetPosition;
       }
-      Position calculateTargetConsideringLead = calculateTargetConsideringLead(turretPos, targetGridElement);
-      return calculateTargetConsideringLead;
-   }
-
-   private Position calculateTargetConsideringLead(Position turretPos, TargetGridElement targetGridElement) {
-      Position targetPosition = targetGridElement.getCurrentGridElementPosition();
-      double calcAngleRelativeTo = targetPosition.calcAngleRelativeTo(targetPosition);
-      Position projectStartPos = createProjectilStartPos(turretPos, projectileConfig).rotate(calcAngleRelativeTo);
-
-      double distanceFromTurret2Target = projectStartPos.calcDistanceTo(targetPosition);
-      int cyclesNeededToReachTarget = calculateCyclesUntilProjectileReachesTarget(projectStartPos, distanceFromTurret2Target);
-      return calcEstimatedTargetPosWithinCycles(targetGridElement, cyclesNeededToReachTarget);
+      return computeTargetConsideringLead(sourcePos, targetGridElement);
    }
 
    /*
-    * 2. With the velocity from the projectile and the actual distance to the target, we have to calculate the amount of time it needs the projectile to get there. 
-    * The time is calculated in "cycles"
+    * Lets compute the target lead using the formula dt=-B +- sqrt(B^2 - 4*A*C)
+    * Thanks to duhprey (http://www.tosos.com/pages/calculating-a-lead-on-a-target/)
     */
-   private int calculateCyclesUntilProjectileReachesTarget(Position projectStartPos, double distanceFromTurret2Target) {
-      Position projectilePosAfterOneCycle = Positions.movePositionForward(projectStartPos, projectileConfig.getVelocity());
-      double coveredProjectileDistanceInOneCicle = projectStartPos.calcDistanceTo(projectilePosAfterOneCycle);
-      return (int) Math.ceil(distanceFromTurret2Target / coveredProjectileDistanceInOneCicle);
+   private Position computeTargetConsideringLead(Position sourcePos, TargetGridElement targetGridElement) {
+
+      // Target-Position & velocity-Vector
+      Position targetPosition = targetGridElement.getCurrentGridElementPosition();
+      Direction targetPosDirection = Directions.of(targetPosition.getDirection(), targetGridElement.getTargetVelocity());
+
+      // Source-Position & velocity-Vector
+      double angleBetweenSourceAndTarget = sourcePos.calcAngleRelativeTo(targetPosition);
+      sourcePos = sourcePos.rotate(angleBetweenSourceAndTarget);
+      Direction sourcePosDirection = Directions.of(sourcePos.getDirection(), projectileConfig.getVelocity());
+
+      Float64Vector targetVMinusSourceV = targetPosition.getVector().minus(sourcePos.getVector());
+      double A = targetPosDirection.getVector().normValue() * targetPosDirection.getVector().normValue()
+            - (sourcePosDirection.getVector().normValue() * sourcePosDirection.getVector().normValue());
+      double B = 2 * targetVMinusSourceV.times(targetPosDirection.getVector()).doubleValue();
+      double C = targetVMinusSourceV.normValue() * targetVMinusSourceV.normValue();
+
+      if (A >= 0) {
+         return targetPosition;
+      }
+      double sqrt = Math.sqrt(B * B - 4 * A * C);
+      double dt1 = solveQuadraticFormula(A, B, sqrt, -1);
+      double dt = computeDeltaT(A, B, sqrt, dt1);
+      Float64Vector targetDirVectorWithTime = targetPosDirection.getVector().times(dt);
+      return Positions.of(targetPosition.getX() + targetDirVectorWithTime.getValue(0), targetPosition.getY() + targetDirVectorWithTime.getValue(1));
    }
 
-   /*
-     * Now we know how long it takes the projectile to reach it's target. With this we can estimate, how far the target comes when
-     *  it moves forward with it's current speed for the calculated amount of time
-     *  
-   *  -> The Position where the target may reach in this time is the actual target we have to aim
-     */
-   private Position calcEstimatedTargetPosWithinCycles(TargetGridElement targetGridElement, int cyclesNeededToReachTarget) {
-      Position targetPosition = targetGridElement.getCurrentGridElementPosition();
-      int targetVelocity = targetGridElement.getTargetVelocity();
-      return Positions.movePositionForward(targetPosition, (int) (cyclesNeededToReachTarget / targetVelocity));
+   @Visible4Testing
+   double computeDeltaT(double A, double B, double sqrt, double dt1) {
+      return dt1 < 0 ? solveQuadraticFormula(A, B, sqrt, 1) : dt1;
    }
+
+   private static double solveQuadraticFormula(double A, double B, double sqrt, int plusOrMinus) {
+      return (-B + plusOrMinus * sqrt) / (2 * A);
+   }
+
 }

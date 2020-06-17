@@ -52,6 +52,17 @@ public class PositionHelper {
    }
 
    /**
+    * The given {@link Position} is moved backward for the given amount
+    * 
+    * @param position
+    *        the {@link Position} to move backward
+    * @return a new {@link Position}
+    */
+   public Position movePositionBackward(Position pos) {
+      return movePositionForward(pos.rotate(180)).rotate(180);
+   }
+
+   /**
     * Creates a new {@link Position} by moving the given position for the given distance
     * 
     * @param pos

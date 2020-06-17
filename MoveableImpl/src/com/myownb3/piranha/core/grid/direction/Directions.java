@@ -25,4 +25,18 @@ public class Directions {
    public static Direction of(double forwardX, double forwardY) {
       return new DirectionImpl(forwardX, forwardY);
    }
+
+   /**
+    * Creates a new {@link Direction} build with the given {@link Direction} but multiplied its {@link Direction#getForwardX()} and
+    * {@link Direction#getForwardX()} with the given multiplier
+    * 
+    * @param direction
+    *        the given {@link Direction}
+    * @param multiplier
+    *        the multiplier
+    * @return a new instance of {@link Direction}
+    */
+   public static Direction of(Direction direction, int multiplier) {
+      return Directions.of(direction.getForwardX() * multiplier, direction.getForwardY() * multiplier);
+   }
 }

@@ -314,14 +314,14 @@ public class TankTestLauncher {
    }
 
    private static Moveable buildNewMoveable(Grid grid) {
-      double yCordinate = MathUtil.getRandom(450) + padding;
-      double angle2Rotate = -MathUtil.getRandom(90) + 15;
-      Position gridElementPos = Positions.of(100, yCordinate).rotate(angle2Rotate);
+      double yCordinate = 100;// MathUtil.getRandom(450) + padding;
+      double angle2Rotate = 0;//-MathUtil.getRandom(90) + 15;
+      Position gridElementPos = Positions.of(200, yCordinate).rotate(angle2Rotate);
       int gridElementRadius = 10;
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withPosition(gridElementPos)
-            .withHealth(80)
+            .withHealth(480)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)
                   .withAmountOfPoints(20)
@@ -342,16 +342,16 @@ public class TankTestLauncher {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
-            new ArrayList<>(grid.getAllGridElements(null)).stream()
+            grid.getAllGridElements(null).parallelStream()
                   .filter(isGridElementAlive(grid))
                   .filter(AutoDetectable.class::isInstance)
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
 
             cycleCounter++;
-            if (cycleCounter == 800) {
+            if (cycleCounter >= 100) {
                cycleCounter = 0;
-               double moveableCounter = new ArrayList<>(grid.getAllGridElements(null)).stream()
+               double moveableCounter = grid.getAllGridElements(null).stream()
                      .filter(isMoveable())
                      .filter(isGridElementAlive(grid))
                      .count();
@@ -397,6 +397,6 @@ public class TankTestLauncher {
    }
 
    private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement);
+      return gridElement -> grid.containsElement(gridElement) && !(gridElement instanceof TurretGridElement);
    }
 }
