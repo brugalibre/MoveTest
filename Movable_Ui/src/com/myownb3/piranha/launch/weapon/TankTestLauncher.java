@@ -172,7 +172,7 @@ public class TankTestLauncher {
                                     .withAutoDetectionStrategyHandler()
                                     .build())
                               .withDetectingGridElementFilter(
-                                    FilterGridElementsMovingAway.of(tankHolder.getTankGridElement()).and(projectileGridElementsFilter::test))
+                                    FilterGridElementsMovingAway.of(() -> tankHolder.getTankGridElement()).and(projectileGridElementsFilter::test))
                               .build())
                         .build())
                   .withTurret(TankTurretBuilder.builder()

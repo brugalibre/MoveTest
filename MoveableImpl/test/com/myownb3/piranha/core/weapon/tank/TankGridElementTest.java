@@ -138,7 +138,7 @@ class TankGridElementTest {
                                     .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                                     .withAutoDetectionStrategyHandler()
                                     .build())
-                              .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(tankHolder.getTankGridElement()))
+                              .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(() -> tankHolder.getTankGridElement()))
                               .build())
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)

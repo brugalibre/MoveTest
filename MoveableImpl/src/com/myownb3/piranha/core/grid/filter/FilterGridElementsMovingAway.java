@@ -3,16 +3,17 @@ package com.myownb3.piranha.core.grid.filter;
 import static com.myownb3.piranha.core.grid.gridelement.position.Positions.movePositionForward;
 
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 
 public class FilterGridElementsMovingAway implements Predicate<GridElement> {
-   private GridElement movedGridElement;
+   private Supplier<GridElement> movedGridElementSupplier;
 
-   private FilterGridElementsMovingAway(GridElement movedGridElement) {
-      this.movedGridElement = movedGridElement;
+   private FilterGridElementsMovingAway(Supplier<GridElement> movedGridElementSupplier) {
+      this.movedGridElementSupplier = movedGridElementSupplier;
    }
 
    /**
@@ -44,22 +45,26 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
 
    private double calcDistance2MovedGridElementAfter(GridElement avoidableGridElement) {
       Position movedAvoidableGridElemPos = movePositionForward(avoidableGridElement.getPosition(), avoidableGridElement.getVelocity());
-      return movedGridElement.getPosition().calcDistanceTo(movedAvoidableGridElemPos);
+      return getMovedGridElement().getPosition().calcDistanceTo(movedAvoidableGridElemPos);
    }
 
    private double calcDistance2MovedGridElementBefore(GridElement avoidableGridElement) {
-      return movedGridElement.getPosition().calcDistanceTo(avoidableGridElement.getPosition());
+      return getMovedGridElement().getPosition().calcDistanceTo(avoidableGridElement.getPosition());
+   }
+
+   private GridElement getMovedGridElement() {
+      return movedGridElementSupplier.get();
    }
 
    /**
     * Creates a new {@link GridElementFilter} with the given filter criterias
     * 
-    * @param movedGridElement
-    *        the {@link GridElement} which was moved on the {@link Grid} and for which there are other {@link GridElement}s
-    *        to filter
+    * @param movedGridElementSupplier
+    *        a {@link Supplier} for the {@link GridElement} which was moved on the {@link Grid} and for which there are other
+    *        {@link GridElement}s to filter
     * @return a new {@link GridElementFilter}
     */
-   public static FilterGridElementsMovingAway of(GridElement movedGridElement) {
-      return new FilterGridElementsMovingAway(movedGridElement);
+   public static FilterGridElementsMovingAway of(Supplier<GridElement> movedGridElementSupplier) {
+      return new FilterGridElementsMovingAway(movedGridElementSupplier);
    }
 }

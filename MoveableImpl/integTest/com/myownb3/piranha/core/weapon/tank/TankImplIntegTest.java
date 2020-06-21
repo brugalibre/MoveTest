@@ -91,7 +91,7 @@ class TankImplIntegTest {
                         .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                         .withAutoDetectionStrategyHandler()
                         .build())
-                  .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(tankHolder.getTankGridElement()))
+                  .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(() -> tankHolder.getTankGridElement()))
                   .build())
             .build());
       Tank tank = TankBuilder.builder()

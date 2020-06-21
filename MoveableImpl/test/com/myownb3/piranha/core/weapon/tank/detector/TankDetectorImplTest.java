@@ -222,7 +222,7 @@ class TankDetectorImplTest {
                      .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                      .withAutoDetectionStrategyHandler()
                      .build())
-               .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(tankGridElement))
+               .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(() -> tankGridElement))
                .build();
          return this;
       }

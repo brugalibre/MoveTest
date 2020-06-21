@@ -76,7 +76,7 @@ class FilterGridElementsMovingAwayTest {
       }
 
       private TestCaseBuilder build() {
-         gridElementsMovingAwayFilter = FilterGridElementsMovingAway.of(movedGridElement);
+         gridElementsMovingAwayFilter = FilterGridElementsMovingAway.of(() -> movedGridElement);
          return this;
       }
 
