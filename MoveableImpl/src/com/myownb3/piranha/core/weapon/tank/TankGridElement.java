@@ -12,7 +12,7 @@ import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 
-public class TankGridElement extends EndPointMoveableImpl implements Tank, GridElement {
+public class TankGridElement extends EndPointMoveableImpl implements Tank {
 
    private Tank tank;
 
@@ -104,6 +104,5 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank, GridE
       public static TankGridElementBuilder builder() {
          return new TankGridElementBuilder();
       }
-
    }
 }

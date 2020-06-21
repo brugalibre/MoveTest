@@ -30,19 +30,19 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    }
 
    @Override
+   public void setGridElement(GridElement gridElement) {
+      super.setGridElement(gridElement);
+      ((AbstractShape) hull).setGridElement(gridElement);
+      ((AbstractShape) turretShape).setGridElement(gridElement);
+   }
+
+   @Override
    public boolean detectObject(Position detectorPosition, Detector detector) {
       boolean isHullDetected = hull.detectObject(detectorPosition, detector);
       if (!isHullDetected) {
          return turretShape.detectObject(detectorPosition, detector);
       }
       return true;
-   }
-
-   @Override
-   public void setGridElement(GridElement gridElement) {
-      super.setGridElement(gridElement);
-      ((AbstractShape) hull).setGridElement(gridElement);
-      ((AbstractShape) turretShape).setGridElement(gridElement);
    }
 
    @Override

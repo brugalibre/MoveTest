@@ -186,7 +186,7 @@ public class TankTestLauncher {
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                              .withRotationSpeed(5)
+                              .withRotationSpeed(2)
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
                                           .withSalveSize(3)
@@ -406,6 +406,6 @@ public class TankTestLauncher {
    }
 
    private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement) && !(gridElement instanceof TurretGridElement);
+      return gridElement -> grid.containsElement(gridElement);
    }
 }

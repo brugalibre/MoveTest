@@ -170,7 +170,6 @@ public class TurretTowerTestLauncher {
             .withEvasionAngle(80)
             .withEvasionAngleInc(4)
             .build();
-      //      EndPointMoveable endPointMoveable = buildEndPointMoveable(radius, endPointMoveableStartPosition, grid, mainDetectorConfig);
 
       Moveable simpleGridElement = MoveableObstacleBuilder.builder()
             .withGrid(grid)
@@ -201,38 +200,6 @@ public class TurretTowerTestLauncher {
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, turrets, renderers);
    }
-
-   //   private EndPointMoveable buildEndPointMoveable(int radius, Position endPointMoveableStartPosition, MirrorGrid grid, DetectorConfig config) {
-   //      return EndPointMoveableBuilder.builder()
-   //            .withGrid(grid)
-   //            .withStartPosition(endPointMoveableStartPosition)
-   //            .withShape(CircleBuilder.builder()
-   //                  .withRadius(radius)
-   //                  .withAmountOfPoints(20)
-   //                  .withCenter(endPointMoveableStartPosition)
-   //                  .build())
-   //            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
-   //                  .withGrid(grid)
-   //                  .withDetector(DetectorBuilder.builder()
-   //                        .withDetectorReach(config.getDetectorReach())
-   //                        .withEvasionDistance(config.getEvasionDistance())
-   //                        .withDetectorAngle(config.getDetectorAngle())
-   //                        .withEvasionAngle(config.getEvasionAngle())
-   //                        .withAngleInc(config.getEvasionAngleInc())
-   //                        .build())
-   //                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
-   //                        .withReturningAngleIncMultiplier(1)
-   //                        .withOrientationAngle(1)
-   //                        .withReturningMinDistance(0.06)
-   //                        .withReturningAngleMargin(0.7d)
-   //                        .withPassingDistance(25)
-   //                        .withPostEvasionReturnAngle(4)
-   //                        .withDetectorConfig(config)
-   //                        .build())
-   //                  .build())
-   //            .withMovingIncrement(2)
-   //            .build();
-   //   }
 
    private MoveablePainter buildMoveablePainter(int width, int height, Moveable moveable, DetectorConfig mainDetectorConfig) {
       return new MoveablePainter(moveable, getColor(moveable), height, width,
