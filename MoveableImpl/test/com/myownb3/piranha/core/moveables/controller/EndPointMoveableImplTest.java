@@ -135,6 +135,38 @@ class EndPointMoveableImplTest {
    }
 
    @Test
+   void testIsDoneBecauseToClose() {
+      EndPosition endPos = EndPositions.of(0, 1.001);
+      Position pos = Positions.of(0, 1);
+      Grid grid = GridBuilder.builder()
+            .build();
+      Detector detector = mock(Detector.class);
+      EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(0, 0, 0, 0, 0, 0, 0);
+
+      // Given
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(grid)
+            .withStartPosition(pos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(pos)
+                  .build())
+            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(detector)
+                  .withEndPosition(endPos)
+                  .withEvasionStateMachineConfig(config)
+                  .build())
+            .build();
+      moveable.setEndPosition(endPos);
+
+      // When
+      MoveResult moveResult = moveable.moveForward2EndPos();
+
+      // Then
+      assertThat(moveResult.isDone(), is(true));
+   }
+
+   @Test
    void testIsDone() {
       EndPosition endPos = EndPositions.of(0, 1);
       Position pos = Positions.of(0, 0.9);
