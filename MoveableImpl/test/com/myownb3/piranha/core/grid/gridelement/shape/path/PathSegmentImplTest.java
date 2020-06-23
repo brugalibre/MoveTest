@@ -2,6 +2,9 @@ package com.myownb3.piranha.core.grid.gridelement.shape.path;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 import org.jscience.mathematics.vector.Float64Vector;
 import org.junit.jupiter.api.Test;
@@ -10,6 +13,24 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class PathSegmentImplTest {
+
+   @Test
+   void testCreatePathSegment_getLenghtPos() {
+
+      // Given
+      Position begPos = spy(Positions.of(0, 0));
+      Position endPos = Positions.of(5, 0);
+      double expectedLenght = 5;
+      PathSegmentImpl pathSegmentImpl = new PathSegmentImpl(begPos, endPos);
+
+      // When
+      double actualLenght = pathSegmentImpl.getLenght();
+      actualLenght = pathSegmentImpl.getLenght();
+
+      // Then
+      assertThat(actualLenght, is(expectedLenght));
+      verify(begPos).calcDistanceTo(eq(endPos));
+   }
 
    @Test
    void testCreatePathSegment_getNormalVectorBeginPos() {

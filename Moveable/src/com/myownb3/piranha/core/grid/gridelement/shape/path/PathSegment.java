@@ -28,6 +28,11 @@ public interface PathSegment {
    Position getEnd();
 
    /**
+    * @return the length of this {@link PathSegment}
+    */
+   double getLenght();
+
+   /**
     * @return the {@link Float64Vector} describing the direction from the begin-Position to the end-Position
     */
    Float64Vector getVector();

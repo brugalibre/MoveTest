@@ -16,6 +16,7 @@ public class PathSegmentImpl implements PathSegment {
    private Float64Vector vector;
    private Float64Vector normalBeginPosVector;
    private Float64Vector normalEndPosVector;
+   private Double lenght;
 
    public PathSegmentImpl(Position beginPos, Position endPos) {
       this.beginPos = beginPos;
@@ -31,6 +32,15 @@ public class PathSegmentImpl implements PathSegment {
    @Override
    public Position getEnd() {
       return endPos;
+   }
+
+   @Override
+   public double getLenght() {
+      if (nonNull(lenght)) {
+         return lenght;
+      }
+      lenght = beginPos.calcDistanceTo(endPos);
+      return lenght;
    }
 
    @Override
