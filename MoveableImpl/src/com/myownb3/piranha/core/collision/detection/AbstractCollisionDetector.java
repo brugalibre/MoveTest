@@ -17,7 +17,6 @@ import com.myownb3.piranha.core.collision.CollisionGridElementImpl;
 import com.myownb3.piranha.core.collision.Intersection;
 import com.myownb3.piranha.core.collision.IntersectionImpl;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSeg2Distance;
@@ -53,50 +52,50 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
    }
 
    protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(Position newPosition,
-         Shape ourShapeAtNewPos) {
-      return gridElement -> {
-         Shape shape2Check = gridElement.getShape();
+         Shape movedShapeAtNewPos) {
+      return gridElement2Check -> {
+         Shape shape2Check = gridElement2Check.getShape();
          return shape2Check.getPath()
                .parallelStream()
-               .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, ourShapeAtNewPos, gridElement, newPosition))
+               .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, movedShapeAtNewPos, gridElement2Check, newPosition))
                .filter(Objects::nonNull)
                .findAny();
       };
    }
 
-   protected Function<Position, CollisionGridElement> createCollisionGridElement(PathSegment pathSegment2Check,
+   private Function<Position, CollisionGridElement> createCollisionGridElement(PathSegment pathSegment2Check,
          GridElement gridElement, Position newPosition) {
-      return pathSegPos -> {
+      return movedPathSegmentPos -> {
          // We need to turn the collision-Position into the same direction then the shape is heading
-         double angle = pathSegPos.calcAngleRelativeTo(newPosition);
-         Intersection intersection = createIntersection(pathSegment2Check, pathSegPos.rotate(angle));
+         double angle = movedPathSegmentPos.calcAngleRelativeTo(newPosition);
+         Intersection intersection = createIntersection(pathSegment2Check, movedPathSegmentPos.rotate(angle));
          return CollisionGridElementImpl.of(intersection, gridElement);
       };
    }
 
-   private CollisionGridElement getNearestIntersectionWithPathSegment(PathSegment pathSegment2Check, Shape ourShapeAtNewPos,
-         GridElement gridElement, Position newPosition) {
-      List<PathSeg2Distance> pathSegments2Distances = fillupPathSegment2DistanceMap(pathSegment2Check.getBegin(), ourShapeAtNewPos.getPath());
+   private CollisionGridElement getNearestIntersectionWithPathSegment(PathSegment pathSegment2Check, Shape movedShapeAtNewPos,
+         GridElement gridElement2Check, Position newPosition) {
+      List<PathSeg2Distance> pathSegments2Distances = fillupPathSegment2DistanceMap(pathSegment2Check.getBegin(), movedShapeAtNewPos.getPath());
       return pathSegments2Distances.stream()
             .sorted(Comparator.comparing(PathSeg2Distance::getDistance))
             .map(PathSeg2Distance::getPathSegment)
             .map(PathSegment::getBegin)
-            .filter(pathSegPos -> isPositionInsideOrOnShape(pathSegment2Check, pathSegPos))
+            .filter(movedPathPosition -> hasMovedSegmentIntersectionWithOther(pathSegment2Check, movedPathPosition))
             .findAny()
-            .map(createCollisionGridElement(pathSegment2Check, gridElement, newPosition))
+            .map(createCollisionGridElement(pathSegment2Check, gridElement2Check, newPosition))
             .orElse(null);
    }
 
-   private boolean isPositionInsideOrOnShape(PathSegment pathSegment2Check, Position pathPosition) {
-      double distanceFromForemostPosToPathSegment =
-            calcDistanceFromPositionToLine(pathPosition, pathSegment2Check.getBegin(), pathSegment2Check.getVector());
-      if (isPositionInBetweenBeginAndEndOfSegment(pathPosition, pathSegment2Check)) {
-         return hasReachedPathSegment(distanceFromForemostPosToPathSegment);
+   private boolean hasMovedSegmentIntersectionWithOther(PathSegment pathSegment2Check, Position movedPathPosition) {
+      if (isPositionInBetweenBeginAndEndOfSegment2Check(movedPathPosition, pathSegment2Check)) {
+         return hasReachedPathSegment(pathSegment2Check, movedPathPosition);
       }
       return false;
    }
 
-   private boolean hasReachedPathSegment(double distanceFromCenterToPathSegment) {
+   private boolean hasReachedPathSegment(PathSegment pathSegment2Check, Position movedPathPosition) {
+      double distanceFromCenterToPathSegment =
+            calcDistanceFromPositionToLine(movedPathPosition, pathSegment2Check.getBegin(), pathSegment2Check.getVector());
       return distanceFromCenterToPathSegment - margin < 0;
    }
 
@@ -119,14 +118,18 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
     * Return false
     * @formatter:on
     * 
-    * @param newPosition the new evaluated {@link Position} by the {@link Grid} 
-    * @param pathSegment the current {@link PathSegment}
-    * @return <code>true</code> if the new {@link Position} is in between the given {@link PathSegment} 
+    * @param beginPosOfMovedPathSegment
+    *        the {@link Position} at the begin of the current {@link PathSegment} of the {@link Shape} which is currently checking for
+    *        collision
+    * @param pathSegment2Check
+    *        the {@link PathSegment} of another {@link Shape} which may have collided with us
+    * @return <code>true</code> if the new {@link Position} is in between the given {@link PathSegment}
     */
-   private static boolean isPositionInBetweenBeginAndEndOfSegment(Position newPosition, PathSegment pathSegment) {
-      double pathSegLenght = pathSegment.getBegin().calcDistanceTo(pathSegment.getEnd());
-      double center2PathSegBegin = newPosition.calcDistanceTo(pathSegment.getBegin());
-      double center2PathSegEndBegin = newPosition.calcDistanceTo(pathSegment.getEnd());
+   private static boolean isPositionInBetweenBeginAndEndOfSegment2Check(Position beginPosOfMovedPathSegment, PathSegment pathSegment2Check) {
+      double pathSegLenght = pathSegment2Check.getBegin().calcDistanceTo(pathSegment2Check.getEnd());
+
+      double center2PathSegBegin = beginPosOfMovedPathSegment.calcDistanceTo(pathSegment2Check.getBegin());
+      double center2PathSegEndBegin = beginPosOfMovedPathSegment.calcDistanceTo(pathSegment2Check.getEnd());
       return center2PathSegBegin <= pathSegLenght && pathSegLenght >= center2PathSegEndBegin;
    }
 
