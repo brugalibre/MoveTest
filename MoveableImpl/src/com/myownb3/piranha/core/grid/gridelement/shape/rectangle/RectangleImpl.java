@@ -17,8 +17,6 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
-import com.myownb3.piranha.core.collision.CollisionDetector;
-import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
@@ -45,13 +43,6 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       this.distanceBetweenPosOnColDetectionPath = distanceBetweenPosOnColDetectionPath;
       this.collisionDetector = buildCollisionDetector();
       this.path4Detection = buildPath4DetectionPrivate();
-   }
-
-   @Override
-   protected CollisionDetector buildCollisionDetector() {
-      return DefaultCollisionDetectorBuilder.builder()
-            .withShape(this)
-            .build();
    }
 
    @Override
