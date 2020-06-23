@@ -7,6 +7,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.collision.CollisionDetector;
 import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
@@ -57,11 +58,16 @@ public abstract class AbstractShape implements Shape {
    /**
     * Builds a List of {@link Position} which is used to verify if the {@link GridElement} of this {@link Shape}
     * has been detected
+    * For precision reasons the 'path4Detection' may consist of more {@link Position} then it's normal path, which is
+    * only used to describe the {@link Shape}s shape. This may have an inpact on performance, that's why each shape can
+    * handle it's 'collision detection path' individually
     * 
     * @return the path of this Shape
     */
    protected List<Position> buildPath4Detection() {
-      return Collections.emptyList();// subclasses has to override it, CombinedShape does not need it
+      return path.stream()
+            .map(PathSegment::getBegin)
+            .collect(Collectors.toList());
    }
 
    @Override

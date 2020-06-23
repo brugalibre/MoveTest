@@ -25,8 +25,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 class AbstractShapeTest {
 
-
-
    @Test
    void testBuildPath4Collision() {
 
@@ -38,7 +36,7 @@ class AbstractShapeTest {
       List<Position> actualPath4Detection = testShape.buildPath4Detection();
 
       // Then
-      assertThat(actualPath4Detection, is(Collections.emptyList()));
+      assertThat(actualPath4Detection, is(Collections.singletonList(testShape.center)));
    }
 
    @Test

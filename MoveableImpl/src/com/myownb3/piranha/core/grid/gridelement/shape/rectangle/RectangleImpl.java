@@ -18,7 +18,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionDetector;
-import com.myownb3.piranha.core.collision.detection.shape.rectangle.RectangleCollisionDetectorImpl.RectangleCollisionDetectorBuilder;
+import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl.DefaultCollisionDetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
@@ -44,13 +44,13 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       this.orientation = orientation;
       this.distanceBetweenPosOnColDetectionPath = distanceBetweenPosOnColDetectionPath;
       this.collisionDetector = buildCollisionDetector();
-      path4Detection = buildPath4DetectionPrivate();
+      this.path4Detection = buildPath4DetectionPrivate();
    }
 
    @Override
    protected CollisionDetector buildCollisionDetector() {
-      return RectangleCollisionDetectorBuilder.builder()
-            .withRectangle(this)
+      return DefaultCollisionDetectorBuilder.builder()
+            .withShape(this)
             .build();
    }
 
@@ -138,6 +138,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
             throw new IllegalStateException("Unknown Orientation '" + orientation + "'!");
       }
    }
+
 
    private static List<PathSegment> buildPath(Position center, double width, double height, double angle) {
       List<PathSegment> path = new LinkedList<>();
