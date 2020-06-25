@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -19,6 +20,11 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 class ProjectileFactoryTest {
+
+   @BeforeEach
+   public void tearDown() {
+      ProjectileFactory.INSTANCE.deregisterGrid();
+   }
 
    @Test
    void testCreateFromTypeBullet() {
