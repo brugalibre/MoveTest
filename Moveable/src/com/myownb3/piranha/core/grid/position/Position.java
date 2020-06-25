@@ -9,7 +9,8 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
 
 /**
- * Defines a specific position on a {@link Grid}
+ * Defines a two dimensional point on a {@link Grid}. Although a {@link Position} defines a z-axis, this value is only used to determine
+ * the distance from the ground (e.g. Grid)
  * 
  * @author Dominic
  *
@@ -28,6 +29,11 @@ public interface Position {
     * @return the Direction in which this Positions shows
     */
    Direction getDirection();
+
+   /**
+    * @return the z-axis value
+    */
+   double getZ();
 
    /**
     * @return the y-axis value

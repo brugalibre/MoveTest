@@ -10,9 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
@@ -35,7 +35,7 @@ class ProjectileFactoryTest {
 
       // When
       ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
-      when(projectileConfig.getProjectileDimension()).thenReturn(new DimensionImpl(0, 0, 5, 5));
+      when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
       Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.BULLET, pos, projectileConfig);
 
       // Then

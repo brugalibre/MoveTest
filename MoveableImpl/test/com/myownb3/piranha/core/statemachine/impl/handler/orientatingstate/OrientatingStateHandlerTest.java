@@ -61,7 +61,7 @@ class OrientatingStateHandlerTest {
       Grid grid = mock(Grid.class);
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
       EndPosition endPos = EndPositions.of(0, 0);
-      Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
+      Position moveablePos = spy(Positions.of(Directions.O, 0, 0, 0));
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
             .withPosition(moveablePos)
@@ -87,7 +87,7 @@ class OrientatingStateHandlerTest {
       Grid grid = mock(Grid.class);
       OrientatingStateHandler handler = new OrientatingStateHandler(45);
       EndPosition endPos = EndPositions.of(0, 0);
-      Position moveablePos = spy(Positions.of(Directions.O, 0, 0));
+      Position moveablePos = spy(Positions.of(Directions.O, 0, 0, 0));
 
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)

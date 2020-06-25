@@ -18,11 +18,11 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrier;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierImpl.LightBarrierBuilder;
 import com.myownb3.piranha.core.detector.lightbarrier.LightBarrierPassedCallbackHandler;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
@@ -268,7 +268,7 @@ class MazeRunnerTest {
                                           .withSalveSize(1)
                                           .withRoundsPerMinute(70)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                                 .withVelocity(4)
                                                 .build())
                                           .build())

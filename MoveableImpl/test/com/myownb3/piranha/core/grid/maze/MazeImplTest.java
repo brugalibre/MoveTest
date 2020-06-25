@@ -20,7 +20,6 @@ import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.PlacedDetector;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
@@ -28,6 +27,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
@@ -92,7 +92,7 @@ class MazeImplTest {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(20)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(4)
                                           .build())
                                     .build())
@@ -421,7 +421,7 @@ class MazeImplTest {
       int coridorWidth = 50;
       int segmentLength = 60;
       Position center = Positions.of(0, 0);
-      Position expectedDetectorPos = Positions.of(Directions.W, 25, 60);
+      Position expectedDetectorPos = Positions.of(Directions.W, 25, 60, 0);
 
       // When
       Maze maze = MazeBuilder.builder()
@@ -461,7 +461,7 @@ class MazeImplTest {
       int coridorWidth = 50;
       int segmentLength = 60;
       Position center = Positions.of(0, 0);
-      Position expectedDetectorPos = Positions.of(Directions.O, -25, 60);
+      Position expectedDetectorPos = Positions.of(Directions.O, -25, 60, 0);
 
       // When
       Maze maze = MazeBuilder.builder()

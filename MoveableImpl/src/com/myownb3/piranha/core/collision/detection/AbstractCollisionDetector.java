@@ -51,11 +51,10 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
             : collisionDetectionHandler.handleCollision(collisionGridElements, movedGridElement, newPosition);
    }
 
-   protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(Position newPosition,
-         Shape movedShapeAtNewPos) {
+   protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(GridElement movedGridElement,
+         Position newPosition, Shape movedShapeAtNewPos) {
       return gridElement2Check -> {
-         Shape shape2Check = gridElement2Check.getShape();
-         return shape2Check.getPath()
+         return gridElement2Check.getPath(movedGridElement.getDimensionInfo())
                .parallelStream()
                .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, movedShapeAtNewPos, gridElement2Check, newPosition))
                .filter(Objects::nonNull)

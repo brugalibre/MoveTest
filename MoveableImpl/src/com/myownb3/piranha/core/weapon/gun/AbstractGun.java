@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
@@ -68,16 +69,17 @@ public abstract class AbstractGun implements Gun {
       lastTimeStamp.set(System.currentTimeMillis());
    }
 
-   private Projectile fireShot(final Position projectileStartPos) {
+   private Projectile fireShot(Position projectileStartPos) {
       ProjectileTypes projectileType = getType();
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
    }
 
    private static Position createProjectileStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
+      DimensionInfo projctileDimensionInfo = projectileConfig.getDimensionInfo();
       Position projectileStartWithinGun = Positions.movePositionForward4Distance(foremostPosition,
-            PROJECTILE_START_POS_OFFSET + projectileConfig.getProjectileDimension().getHeight());
+            PROJECTILE_START_POS_OFFSET + projctileDimensionInfo.getDimensionRadius());
       Direction direction = foremostPosition.getDirection();
-      return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY());
+      return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY(), projctileDimensionInfo.getDistanceToGround());
    }
 
    @Override

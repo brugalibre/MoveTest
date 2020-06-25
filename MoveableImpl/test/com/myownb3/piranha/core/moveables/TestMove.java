@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.moveables;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -136,7 +137,7 @@ class TestMove {
 
          // Then
          Position endPosition = moveable.getPosition();
-         Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
+         Position expectedEndPosition = Positions.of(Directions.N, 0, 0, 0);
          Direction expectedDirection = resultList[i];
 
          MatcherAssert.assertThat(endPosition, is(expectedEndPosition));
@@ -170,7 +171,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(Directions.S, 0, -1);
+      Position expectedEndPosition = Positions.of(Directions.S, 0, -1, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
@@ -206,7 +207,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(Directions.W, -1, 0);
+      Position expectedEndPosition = Positions.of(Directions.W, -1, 0, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
@@ -239,7 +240,7 @@ class TestMove {
 
          // Then
          Position endPosition = moveable.getPosition();
-         Position expectedEndPosition = Positions.of(Directions.N, 0, 0);
+         Position expectedEndPosition = Positions.of(Directions.N, 0, 0, 0);
          Direction expectedDirection = resultList[i];
 
          MatcherAssert.assertThat(endPosition, is(expectedEndPosition));
@@ -270,7 +271,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(Directions.W, 1, 0);
+      Position expectedEndPosition = Positions.of(Directions.W, 1, 0, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
    }
@@ -301,7 +302,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(Directions.S, 0, 1);
+      Position expectedEndPosition = Positions.of(Directions.S, 0, 1, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
@@ -337,7 +338,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(Directions.O, -1, 0);
+      Position expectedEndPosition = Positions.of(Directions.O, -1, 0, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
 
@@ -390,7 +391,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(null, -7.071, 7.071);
+      Position expectedEndPosition = Positions.of(null, -7.071, 7.071, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
    }
@@ -445,9 +446,9 @@ class TestMove {
             .withGrid(GridBuilder.builder()
                   .build())
             .build();
-      Position expectedStopover1 = Positions.of(null, -3.536, 3.536);
-      Position expectedStopover2 = Positions.of(null, -6.433, 4.312);
-      Position expectedStopover3 = Positions.of(null, -5.398, 0.448);
+      Position expectedStopover1 = Positions.of(null, -3.536, 3.536, 0);
+      Position expectedStopover2 = Positions.of(null, -6.433, 4.312, 0);
+      Position expectedStopover3 = Positions.of(null, -5.398, 0.448, 0);
 
       // When
       moveable.makeTurn(45); // 135; x:-0.7071 ; y:+0.7071
@@ -488,7 +489,7 @@ class TestMove {
 
       // Then
       Position endPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(null, -5, -8.66);
+      Position expectedEndPosition = Positions.of(null, -5, -8.66, 0);
 
       com.myownb3.piranha.test.Assert.assertThatPosition(endPosition, is(expectedEndPosition), 3);
    }
@@ -506,7 +507,7 @@ class TestMove {
       public SimpleTestMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
          super(grid, position, handler, PositionShapeBuilder.builder()
                .withPosition(position)
-               .build(), 1);
+               .build(), getDefaultDimensionInfo(1), 1);
       }
    }
 }

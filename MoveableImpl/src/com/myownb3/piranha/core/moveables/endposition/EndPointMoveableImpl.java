@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.moveables.endposition;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
@@ -12,6 +13,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
@@ -33,8 +35,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private BelligerentParty belligerentParty;
 
    protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
-         Shape shape, BelligerentParty belligerentParty) {
-      super(grid, position, handler, shape, movingIncrement);
+         Shape shape, DimensionInfo dimensionInfo, BelligerentParty belligerentParty) {
+      super(grid, position, handler, shape, dimensionInfo, movingIncrement);
       init(belligerentParty);
    }
 
@@ -143,7 +145,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
          Objects.requireNonNull(shape, "Attribute 'shape' must not be null!");
-         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, belligerentParty);
+         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, getDefaultDimensionInfo(shape.getDimensionRadius()),
+               belligerentParty);
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {

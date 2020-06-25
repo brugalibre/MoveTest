@@ -75,7 +75,7 @@ class PathSegmentImplTest {
       Position endPos = Positions.of(5, 5);
       PathSegmentImpl pathSegmentImpl = new PathSegmentImpl(begPos, endPos);
       String expectedString =
-            "Begin-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '0.0', Y-Axis: '0.0''; End-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '5.0', Y-Axis: '5.0''; Vector '{5.0, 5.0, 0.0}";
+            "Begin-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '0.0', Y-Axis: '0.0', Z-Axis: '0.0''; End-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '5.0', Y-Axis: '5.0', Z-Axis: '0.0''; Vector '{5.0, 5.0, 0.0}";
 
       // When
       String actual2String = pathSegmentImpl.toString();

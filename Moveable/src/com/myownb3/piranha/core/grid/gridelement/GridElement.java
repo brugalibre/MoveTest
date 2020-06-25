@@ -12,6 +12,8 @@ import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -57,9 +59,20 @@ public interface GridElement extends CollisionSensitive {
    Shape getShape();
 
    /**
-    * @return the radius within this {@link Shape} could be placed
+    * Returns the path as a list of {@link PathSegment} of this {@link GridElement}.
+    * If this {@link GridElement} is placed higher then the
+    * 
+    * @param dimensionInfo
+    *        the {@link DimensionInfo} with information about the distance to the ground
+    * @return a {@link List} of {@link PathSegment}
     */
-   double getDimensionRadius();
+   List<PathSegment> getPath(DimensionInfo dimensionInfo);
+
+   /**
+    * 
+    * @return the {@link DimensionInfo} for this {@link GridElement}
+    */
+   DimensionInfo getDimensionInfo();
 
    /**
     * Checks if this {@link GridElement} is detected by the given {@link Detector} and from the given Position

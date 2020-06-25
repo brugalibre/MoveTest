@@ -66,7 +66,7 @@ class MathUtilTest {
       double expectedCalcAngleBetweenVectors = 54.462;
 
       Position gridElementPos = Positions.of(8, -4);
-      Position moveablePosition = Positions.of(Directions.S, 1, 1);
+      Position moveablePosition = Positions.of(Directions.S, 1, 1, 0);
 
       // When
       double actualCalcAngleBetweenVectors = round(
@@ -83,7 +83,7 @@ class MathUtilTest {
       double expectedCalcAngleBetweenVectors = 52.12;
 
       Position gridElementPos = Positions.of(8, -4);
-      Position moveablePosition = Positions.of(Directions.S, -2, -2);
+      Position moveablePosition = Positions.of(Directions.S, -2, -2, 0);
       moveablePosition = moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
 
       // When

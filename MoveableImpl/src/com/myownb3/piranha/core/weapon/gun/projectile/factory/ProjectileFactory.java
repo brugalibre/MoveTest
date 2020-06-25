@@ -56,13 +56,14 @@ public class ProjectileFactory {
             .withPosition(position)
             .withShape(projectileShape)
             .withVelocity(projectileConfig.getVelocity())
+            .withDimensionInfo(projectileConfig.getDimensionInfo())
             .build();
    }
 
    private static CircleImpl buildBulletShape(Position position, ProjectileConfig projectileConfig) {
       return CircleBuilder.builder()
             .withAmountOfPoints(AMOINT_OF_CIRCLE_BULLET_POINTS)
-            .withRadius(projectileConfig.getProjectileDimension().getHeight())
+            .withRadius((int) projectileConfig.getDimensionInfo().getDimensionRadius())
             .withCenter(position)
             .build();
    }

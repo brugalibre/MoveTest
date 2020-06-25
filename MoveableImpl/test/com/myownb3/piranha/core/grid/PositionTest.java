@@ -78,7 +78,7 @@ class PositionTest {
    public void testNANAngleDirectionSouth() {
 
       // Given
-      Position pos = Positions.of(Directions.S, 0, 0);
+      Position pos = Positions.of(Directions.S, 0, 0, 0);
       double actualAngle = 270;
 
       // When
@@ -176,7 +176,7 @@ class PositionTest {
    public void testAngleCalculation_ZeroZeroNorthRelative2Position() {
 
       // Given
-      Position testPos1 = Positions.of(Directions.N, 0, 0);
+      Position testPos1 = Positions.of(Directions.N, 0, 0, 0);
       Position testPos2 = Positions.of(0, 0).rotate(-45);
       Position pos2ComparteWith = Positions.of(5, 5);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
@@ -186,7 +186,7 @@ class PositionTest {
    public void testAngleCalculation_ZeroZeroWestRelative2Position() {
 
       // Given
-      Position testPos1 = Positions.of(Directions.W, 0, 0);
+      Position testPos1 = Positions.of(Directions.W, 0, 0, 0);
       Position testPos2 = Positions.of(0, 0).rotate(45);
       Position pos2ComparteWith = Positions.of(-5, 5);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
@@ -208,7 +208,7 @@ class PositionTest {
    public void testAngleCalculationRelative2Position_1Quadrant() {
 
       // Given
-      Position testPos1 = Positions.of(Directions.N, 0, 10);
+      Position testPos1 = Positions.of(Directions.N, 0, 10, 0);
       Position testPos2 = Positions.of(0, 10).rotate(-45);
       Position pos2ComparteWith = Positions.of(5, 15);
       testAngeCalculationRelative2PositionInternal(testPos1, -45, testPos2, 0, pos2ComparteWith);
@@ -245,7 +245,7 @@ class PositionTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(Directions.S, 0, 0))
+            .withPosition(Positions.of(Directions.S, 0, 0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -290,10 +290,10 @@ class PositionTest {
    void testHashCode() {
 
       // Given
-      Position pos = Positions.of(Directions.N, 0, 0);
+      Position pos = Positions.of(Directions.N, 0, 0, 0);
 
       // When
-      Position anotherPos = Positions.of(Directions.N, 0, 0);
+      Position anotherPos = Positions.of(Directions.N, 0, 0, 0);
 
       // Then
       MatcherAssert.assertThat(anotherPos.hashCode(), is(pos.hashCode()));
@@ -303,10 +303,10 @@ class PositionTest {
    void testEquals() {
 
       // Given
-      Position pos = Positions.of(Directions.N, 0, 0);
+      Position pos = Positions.of(Directions.N, 0, 0, 5);
 
       // When
-      Position anotherPos = Positions.of(Directions.N, 0, 0);
+      Position anotherPos = Positions.of(Directions.N, 0, 0, 5);
 
       // Then
       MatcherAssert.assertThat(pos, is(anotherPos));
@@ -318,17 +318,30 @@ class PositionTest {
    void testNotEquals() {
 
       // Given
-      Position pos = Positions.of(Directions.N, 0, 0);
+      Position pos = Positions.of(Directions.N, 0, 0, 0);
 
       // When
-      Position anotherNotExactlySamePos = Positions.of(Directions.N, 1, 0);
-      Position anotherNotExactlySamePos2 = Positions.of(Directions.S, 0, 1);
+      Position anotherNotExactlySamePos = Positions.of(Directions.N, 1, 0, 0);
+      Position anotherNotExactlySamePos2 = Positions.of(Directions.S, 0, 1, 0);
 
       // Then
       Assert.assertFalse(pos.equals(null));
       Assert.assertFalse(pos.equals(new Object()));
       Assert.assertFalse(pos.equals(anotherNotExactlySamePos));
       Assert.assertFalse(pos.equals(anotherNotExactlySamePos2));
+   }
+
+   @Test
+   void testNotEqualsWithZAxis() {
+
+      // Given
+      Position pos = Positions.of(Directions.N, 1, 0, 6);
+
+      // When
+      Position anotherNotExactlySamePos = Positions.of(Directions.N, 1, 0, 0);
+
+      // Then
+      Assert.assertFalse(pos.equals(anotherNotExactlySamePos));
    }
 
    // @Test
@@ -357,9 +370,9 @@ class PositionTest {
    void testToString() {
 
       // Given
-      Position pos = Positions.of(Directions.N, 0, 0);
+      Position pos = Positions.of(Directions.N, 0, 0, 0);
       // When
-      Position anotherPos = Positions.of(Directions.N, 0, 0);
+      Position anotherPos = Positions.of(Directions.N, 0, 0, 0);
 
       // Then
       assertThat(pos.toString(), is(anotherPos.toString()));

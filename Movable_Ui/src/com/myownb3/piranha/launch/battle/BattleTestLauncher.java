@@ -24,7 +24,6 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterI
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
@@ -33,6 +32,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -186,7 +186,7 @@ public class BattleTestLauncher {
                                           .withSalveSize(2)
                                           .withRoundsPerMinute(250)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                                 .withVelocity(7)
                                                 .build())
                                           .build())
@@ -298,7 +298,7 @@ public class BattleTestLauncher {
                                           .withSalveSize(3)
                                           .withRoundsPerMinute(300)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                                 .withVelocity(10)
                                                 .build())
                                           .build())

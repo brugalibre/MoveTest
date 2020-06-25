@@ -117,7 +117,7 @@ public class DefaultGrid implements Grid {
       double newX = getNewXValue(gridElement, direction.getBackwardX());
       double newY = getNewYValue(gridElement, direction.getBackwardY());
       checkBounds(newX, newY);
-      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY));
+      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY, position.getZ()));
       return collisionDetectionResult.getMovedPosition();
    }
 
@@ -128,7 +128,7 @@ public class DefaultGrid implements Grid {
    }
 
    private double getCollisionCheckDistance(GridElement gridElement) {
-      return gridElement.getDimensionRadius() + 2 * gridElement.getSmallestStepWith();
+      return gridElement.getDimensionInfo().getDimensionRadius() + 2 * gridElement.getSmallestStepWith();
    }
 
    /**
@@ -146,7 +146,7 @@ public class DefaultGrid implements Grid {
       double newX = getNewXValue(gridElement, direction.getForwardX());
       double newY = getNewYValue(gridElement, direction.getForwardY());
       checkBounds(newX, newY);
-      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY));
+      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY, position.getZ()));
       return collisionDetectionResult.getMovedPosition();
    }
 

@@ -99,7 +99,7 @@ class CircleImplTest {
       Circle circle = CircleBuilder.builder()
             .withRadius(radius)
             .withAmountOfPoints(4)
-            .withCenter(Positions.of(Directions.N, 0, 0))
+            .withCenter(Positions.of(Directions.N, 0, 0, 0))
             .build();
 
       // Then

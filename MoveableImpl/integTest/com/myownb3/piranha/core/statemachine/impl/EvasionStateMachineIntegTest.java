@@ -128,7 +128,7 @@ public class EvasionStateMachineIntegTest {
    void test_MoveForward_NorthEast_WithMultipleObstaclesAndOffsetStartPos() throws InterruptedException {
 
       // Given
-      Position startPos = Positions.of(Directions.S, 4, 2);
+      Position startPos = Positions.of(Directions.S, 4, 2, 0);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withDefaultGrid(200, 200)
             .withEndPos(EndPositions.of(30, 30, true))

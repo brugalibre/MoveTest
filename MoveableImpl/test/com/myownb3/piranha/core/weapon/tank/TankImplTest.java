@@ -18,10 +18,10 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -68,7 +68,7 @@ class TankImplTest {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(3)
                                           .build())
                                     .build())
@@ -151,7 +151,7 @@ class TankImplTest {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(3)
                                           .build())
                                     .build())
@@ -467,7 +467,7 @@ class TankImplTest {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(3)
                                           .build())
                                     .build())
@@ -528,7 +528,7 @@ class TankImplTest {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(3)
                                           .build())
                                     .build())

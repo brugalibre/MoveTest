@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.moveables;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
+
 import java.util.Objects;
 
 import com.myownb3.piranha.core.grid.Grid;
@@ -63,7 +65,7 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
    public static class SimpleMoveable extends AbstractMoveable {
 
       private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
-         super(grid, position, handler, shape, velocity);
+         super(grid, position, handler, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
       }
    }
 

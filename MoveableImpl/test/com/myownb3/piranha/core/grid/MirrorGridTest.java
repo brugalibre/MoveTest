@@ -23,6 +23,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
@@ -47,13 +48,14 @@ class MirrorGridTest {
             .withMinY(0)
             .build();
       Direction direction = mockDirection(forwardX, forwardY);
-      Position position = Positions.of(direction, 9.5, 8.5);
+      Position position = Positions.of(direction, 9.5, 8.5, 0.0);
 
       ProjectileGridElement projectile = spy(ProjectileGridElementBuilder.builder()
             .withGrid(grid)
             .withPosition(position)
             .withShape(buildCircle(position, radius))
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(radius))
             .build());
 
       // When
@@ -106,8 +108,8 @@ class MirrorGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Position position = Positions.of(Directions.N, 0, 0);
-      Position position2 = Positions.of(Directions.N, 6, 0);
+      Position position = Positions.of(Directions.N, 0, 0, 0);
+      Position position2 = Positions.of(Directions.N, 6, 0, 0);
       position = position.rotate(-45);
       position2 = position2.rotate(-45);
       double expectedEndDegree = 225;
@@ -145,8 +147,8 @@ class MirrorGridTest {
       // Given
       Grid grid = MirrorGridBuilder.builder(15, 20)
             .build();
-      Position position = Positions.of(Directions.N, 0, 0);
-      Position position2 = Positions.of(Directions.N, 4, 0);
+      Position position = Positions.of(Directions.N, 0, 0, 0);
+      Position position2 = Positions.of(Directions.N, 4, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 315;
@@ -165,8 +167,8 @@ class MirrorGridTest {
             .withMinX(0)
             .withMinY(-20)
             .build();
-      Position position = Positions.of(Directions.W, 0, 0);
-      Position position2 = Positions.of(Directions.W, 6.5, 0);
+      Position position = Positions.of(Directions.W, 0, 0, 0);
+      Position position2 = Positions.of(Directions.W, 6.5, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 315;
@@ -185,8 +187,8 @@ class MirrorGridTest {
             .withMinX(0)
             .withMinY(-20)
             .build();
-      Position position = Positions.of(Directions.S, 0, 0);
-      Position position2 = Positions.of(Directions.S, 7.4, 0);
+      Position position = Positions.of(Directions.S, 0, 0, 0);
+      Position position2 = Positions.of(Directions.S, 7.4, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 225;
@@ -205,8 +207,8 @@ class MirrorGridTest {
             .withMinX(-200)
             .withMinY(0)
             .build();
-      Position position = Positions.of(Directions.N, 0, 0);
-      Position position2 = Positions.of(Directions.N, 7.4, 0);
+      Position position = Positions.of(Directions.N, 0, 0, 0);
+      Position position2 = Positions.of(Directions.N, 7.4, 0, 0);
       position = position.rotate(-45);
       position2 = position2.rotate(-45);
       double expectedEndDegree = 315;
@@ -225,8 +227,8 @@ class MirrorGridTest {
             .withMinX(-200)
             .withMinY(0)
             .build();
-      Position position = Positions.of(Directions.N, 0, 0);
-      Position position2 = Positions.of(Directions.N, 4, 0);
+      Position position = Positions.of(Directions.N, 0, 0, 0);
+      Position position2 = Positions.of(Directions.N, 4, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 225;
@@ -245,8 +247,8 @@ class MirrorGridTest {
             .withMinX(-200)
             .withMinY(0)
             .build();
-      Position position = Positions.of(Directions.W, 0, 0);
-      Position position2 = Positions.of(Directions.W, 6.5, 0);
+      Position position = Positions.of(Directions.W, 0, 0, 0);
+      Position position2 = Positions.of(Directions.W, 6.5, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 135;
@@ -265,8 +267,8 @@ class MirrorGridTest {
             .withMinX(-200)
             .withMinY(0)
             .build();
-      Position position = Positions.of(Directions.S, 0, 0);
-      Position position2 = Positions.of(Directions.S, 7.4, 0);
+      Position position = Positions.of(Directions.S, 0, 0, 0);
+      Position position2 = Positions.of(Directions.S, 7.4, 0, 0);
       position = position.rotate(45);
       position2 = position2.rotate(45);
       double expectedEndDegree = 45;

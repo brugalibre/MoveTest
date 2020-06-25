@@ -6,8 +6,9 @@ package com.myownb3.piranha.core.grid.gridelement;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,9 @@ import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridEle
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -26,6 +29,73 @@ import com.myownb3.piranha.core.grid.position.Position;
  *
  */
 class SimpleGridElementTest {
+
+   @Test
+   void testGetEmptyPath_OtherDimensionInfoToHigh() {
+
+      //  Given
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) 5)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .build();
+
+      DimensionInfo projectileDimensionInfo = DimensionInfoBuilder.builder()
+            .withDimensionRadius(5)
+            .withDistanceToGround(5000)
+            .build();
+      // When
+      List<PathSegment> actualPath = gridElement.getPath(projectileDimensionInfo);
+
+      // Then
+      assertThat(actualPath, is(Collections.emptyList()));
+   }
+
+   @Test
+   void testGridElementDimension_VerifyHeightAndDistanceFromGround() {
+      // Given
+      double radius = 54.0;
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) radius)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .build();
+
+      // When
+      DimensionInfo dimension = gridElement.getDimensionInfo();
+
+      // Then
+      assertThat(dimension.getDimensionRadius(), is(radius));
+   }
+
+   @Test
+   void testGridElementDimension_VerifyDimensionRadius() {
+      // Given
+      double radius = 54.0;
+      GridElement gridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) radius)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .build();
+
+      // When
+      DimensionInfo dimension = gridElement.getDimensionInfo();
+
+      // Then
+      assertThat(dimension.getDimensionRadius(), is(radius));
+   }
 
    @Test
    void testTransformShapeAfterGridElementCreation() {
@@ -49,23 +119,22 @@ class SimpleGridElementTest {
    }
 
    @Test
-   void testGetDimensionRadius() {
+   void testGetDimensionInfo() {
       // Given
       Position gridElemPos = Positions.of(4, 4);
-      PositionShape pointShape = spy(PositionShapeBuilder.builder()
-            .withPosition(gridElemPos)
-            .build());
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
             .withPosition(gridElemPos)
-            .withShape(pointShape)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(gridElemPos)
+                  .build())
             .build();
 
       // When
-      gridElement.getDimensionRadius();
+      double actualDimensionRadius = gridElement.getDimensionInfo().getDimensionRadius();
 
       // Then
-      verify(pointShape).getDimensionRadius();
+      assertThat(actualDimensionRadius, is(gridElement.getShape().getDimensionRadius()));
    }
 
    @Test
@@ -156,7 +225,7 @@ class SimpleGridElementTest {
             .withPosition(position)
             .build();
       String expectedToString =
-            "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";
+            "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0', Z-Axis: '0.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";
 
       // When
       String toString = element.toString();

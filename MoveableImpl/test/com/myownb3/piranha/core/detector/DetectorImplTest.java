@@ -125,7 +125,7 @@ class DetectorImplTest {
             .withAngleInc(11.25)
             .build();
       Position detectorPosition = Positions.of(0, 1);
-      Position gridElementPos = Positions.of(Directions.S, -1.49, 4);
+      Position gridElementPos = Positions.of(Directions.S, -1.49, 4, 0);
       GridElement gridElement = mock(GridElement.class);
 
       // When
@@ -146,7 +146,7 @@ class DetectorImplTest {
             .withAngleInc(11.25)
             .build();
       Position detectorPosition = Positions.of(0, 1);
-      Position gridElementPos = Positions.of(Directions.S, 1.51, 4);
+      Position gridElementPos = Positions.of(Directions.S, 1.51, 4, 0);
       GridElement gridElement = mock(GridElement.class);
 
       // When

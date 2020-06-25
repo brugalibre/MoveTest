@@ -9,9 +9,9 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -127,7 +127,7 @@ class SimpleGunCarriageImplTest {
                         .withRoundsPerMinute(5)
                         .withSalveSize(1)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
-                              .withDimension(new DimensionImpl(0, 0, 5, 5))
+                              .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
                               .withVelocity(1)
                               .build())
                         .build())

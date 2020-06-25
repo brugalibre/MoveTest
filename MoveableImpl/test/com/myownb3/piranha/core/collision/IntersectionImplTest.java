@@ -35,11 +35,10 @@ class IntersectionImplTest {
 
       // When
       Intersection intersection = IntersectionImpl.of(pathSegment, position);
-      String expectedString =
-            "CollisionPosition: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0'';"
-                  + " PathSegment: 'Begin-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', "
-                  + "Y-Axis: '1.0''; End-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0''; Vector '{0.0, 0.0, 0.0}'";
-
+      String expectedString = "CollisionPosition: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0',"
+            + " Z-Axis: '0.0''; PathSegment: 'Begin-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis:"
+            + " '1.0', Y-Axis: '1.0', Z-Axis: '0.0''; End-Position: 'Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: "
+            + "'1.0', Y-Axis: '1.0', Z-Axis: '0.0''; Vector '{0.0, 0.0, 0.0}'";
       // When
       String actual2String = intersection.toString();
 

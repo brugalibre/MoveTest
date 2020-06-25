@@ -21,7 +21,6 @@ import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl;
@@ -29,6 +28,7 @@ import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
@@ -415,7 +415,7 @@ class TurretScannerTest {
    private static ProjectileConfig mockProjectileConfig(int velocity) {
       ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
       when(projectileConfig.getVelocity()).thenReturn(velocity);
-      when(projectileConfig.getProjectileDimension()).thenReturn(new DimensionImpl(0, 0, 5, 5));
+      when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
       return projectileConfig;
    }
 

@@ -16,6 +16,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
@@ -38,6 +39,7 @@ class ProjectileGridElemTest {
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build();
 
       // When
@@ -63,6 +65,7 @@ class ProjectileGridElemTest {
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build();
 
       // When
@@ -93,6 +96,7 @@ class ProjectileGridElemTest {
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build();
 
       // When
@@ -122,6 +126,7 @@ class ProjectileGridElemTest {
                   .withPosition(Positions.of(9.5, 8.5))
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build();
 
       // When

@@ -57,7 +57,8 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
       double dt1 = solveQuadraticFormula(A, B, sqrt, -1);
       double dt = computeDeltaT(A, B, sqrt, dt1);
       Float64Vector targetDirVectorWithTime = targetPosDirection.getVector().times(dt);
-      return Positions.of(targetPosition.getX() + targetDirVectorWithTime.getValue(0), targetPosition.getY() + targetDirVectorWithTime.getValue(1));
+      return Positions.of(targetPosition.getX() + targetDirVectorWithTime.getValue(0), targetPosition.getY() + targetDirVectorWithTime.getValue(1),
+            sourcePos.getZ());
    }
 
    @Visible4Testing

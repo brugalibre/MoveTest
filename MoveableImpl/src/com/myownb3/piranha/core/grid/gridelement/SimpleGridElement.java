@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.grid.gridelement;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static java.util.Objects.isNull;
 
 import com.myownb3.piranha.core.grid.Grid;
@@ -19,7 +20,7 @@ public class SimpleGridElement extends AbstractGridElement {
    }
 
    private SimpleGridElement(Grid grid, Position pos, Shape shape) {
-      super(grid, pos, shape);
+      super(grid, pos, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
    }
 
    public static class SimpleGridElementBuilder extends AbstractGridElementBuilder<SimpleGridElement, SimpleGridElementBuilder> {

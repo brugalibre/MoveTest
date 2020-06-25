@@ -4,6 +4,8 @@ import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
@@ -12,8 +14,8 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
 
    private Turret turret;
 
-   private TurretGridElement(Grid grid, Turret turret) {
-      super(grid, turret.getShape().getCenter(), turret.getShape());
+   private TurretGridElement(Grid grid, Turret turret, DimensionInfo dimensionInfo) {
+      super(grid, turret.getShape().getCenter(), turret.getShape(), dimensionInfo);
       this.turret = turret;
    }
 
@@ -61,6 +63,7 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
 
       private Grid grid;
       private Turret turret;
+      private double heightFromBottom;
 
       private TurretGridElementBuilder() {
          // private
@@ -76,8 +79,18 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
          return this;
       }
 
+      public TurretGridElementBuilder withHeightFromBottom(double heightFromBottom) {
+         this.heightFromBottom = heightFromBottom;
+         return this;
+      }
+
       public TurretGridElement build() {
-         return new TurretGridElement(grid, turret);
+         TurretShape turretShape = turret.getShape();
+         return new TurretGridElement(grid, turret, DimensionInfoBuilder.builder()
+               .withDimensionRadius(turretShape.getDimensionRadius())
+               .withDistanceToGround(turretShape.getCenter().getZ())
+               .withHeightFromBottom(heightFromBottom)
+               .build());
       }
 
       public static TurretGridElementBuilder builder() {

@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
@@ -31,6 +32,7 @@ class ProjectileGridElementTest {
             .withProjectile(ProjectileBuilder.builder()
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build());
 
       // When
@@ -66,6 +68,7 @@ class ProjectileGridElementTest {
             .withShape(mock(AbstractShape.class))
             .withVelocity(10)
             .withProjectile(projectile)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
             .build();
 
       // When

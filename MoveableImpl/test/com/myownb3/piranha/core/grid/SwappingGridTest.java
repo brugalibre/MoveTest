@@ -28,12 +28,12 @@ class SwappingGridTest {
       // Given
       Grid grid = SwappingGridBuilder.builder(10, 10)
             .build();
-      Position expectedPosition = Positions.of(Directions.N, 10, 0.1);
-      Position expectedPosition2 = Positions.of(Directions.O, 0.1, 10);
+      Position expectedPosition = Positions.of(Directions.N, 10, 0.1, 0);
+      Position expectedPosition2 = Positions.of(Directions.O, 0.1, 10, 0);
 
       // When
-      Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10)));
-      Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10)));
+      Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10, 0)));
+      Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10, 0)));
 
       // Then
       Assert.assertThatPosition(createdPosition, is(expectedPosition), 3);
@@ -46,12 +46,12 @@ class SwappingGridTest {
       // Given
       Grid grid = SwappingGridBuilder.builder(10, 10)
             .build();
-      Position expectedPosition = Positions.of(Directions.N, 4, 9.9);
-      Position expectedPosition2 = Positions.of(Directions.O, 9.9, 4);
+      Position expectedPosition = Positions.of(Directions.N, 4, 9.9, 0);
+      Position expectedPosition2 = Positions.of(Directions.O, 9.9, 4, 0);
 
       // When
-      Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 4, 0)));
-      Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 0, 4)));
+      Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 4, 0, 0)));
+      Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 0, 4, 0)));
 
       // Then
       assertThat(createdPosition, is(expectedPosition));
@@ -68,14 +68,14 @@ class SwappingGridTest {
             .withMinX(5)
             .withMinY(5)
             .build();
-      Position expectedPosition = Positions.of(Directions.N, 10, 5.1);
-      Position expectedPosition2 = Positions.of(Directions.O, 5.1, 10);
-      Position expectedPosition3 = Positions.of(Directions.S, 10, 9.9);
+      Position expectedPosition = Positions.of(Directions.N, 10, 5.1, 0);
+      Position expectedPosition2 = Positions.of(Directions.O, 5.1, 10, 0);
+      Position expectedPosition3 = Positions.of(Directions.S, 10, 9.9, 0);
 
       // When
-      Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10)));
-      Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10)));
-      Position createdPosition3 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.S, 10, 5)));
+      Position createdPosition = grid.moveForward(buildGridElement(grid, Positions.of(Directions.N, 10, 10, 0)));
+      Position createdPosition2 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.O, 10, 10, 0)));
+      Position createdPosition3 = grid.moveForward(buildGridElement(grid, Positions.of(Directions.S, 10, 5, 0)));
 
       // Then
       assertThat(createdPosition, is(expectedPosition));
@@ -93,14 +93,14 @@ class SwappingGridTest {
             .withMinX(5)
             .withMinY(5)
             .build();
-      Position expectedPosition = Positions.of(Directions.N, 9, 9.9);
-      Position expectedPosition2 = Positions.of(Directions.O, 9.9, 9);
-      Position expectedPosition3 = Positions.of(Directions.S, 5, 5.1);
+      Position expectedPosition = Positions.of(Directions.N, 9, 9.9, 0);
+      Position expectedPosition2 = Positions.of(Directions.O, 9.9, 9, 0);
+      Position expectedPosition3 = Positions.of(Directions.S, 5, 5.1, 0);
 
       // When
-      Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 9, 5)));
-      Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 5, 9)));
-      Position createdPosition3 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.S, 5, 10)));
+      Position createdPosition = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.N, 9, 5, 0)));
+      Position createdPosition2 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.O, 5, 9, 0)));
+      Position createdPosition3 = grid.moveBackward(buildGridElement(grid, Positions.of(Directions.S, 5, 10, 0)));
 
       // Then
       assertThat(createdPosition, is(expectedPosition));

@@ -30,7 +30,7 @@ public class DefaultCollisionDetectorImpl extends AbstractCollisionDetector {
          Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Shape ourCircleAtNewPos = getOurShapeAtNewPos(newPosition, shape);
       return gridElements2Check.parallelStream()
-            .map(getNearestIntersectionWithGridElement(newPosition, ourCircleAtNewPos))
+            .map(getNearestIntersectionWithGridElement(movedGridElement, newPosition, ourCircleAtNewPos))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.collectingAndThen(Collectors.toList(),

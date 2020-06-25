@@ -11,6 +11,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 
@@ -28,8 +29,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    protected int velocity;
    private List<Position> positionHistory;
 
-   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
-      super(grid, position, shape);
+   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, DimensionInfo dimensionInfo,
+         int velocity) {
+      super(grid, position, shape, dimensionInfo);
       init(handler, velocity);
    }
 
@@ -40,9 +42,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       this.velocity = velocity;
    }
 
-   protected AbstractMoveable(Grid grid, Position position, Shape shape, int velocity) {
+   protected AbstractMoveable(Grid grid, Position position, Shape shape, DimensionInfo dimensionInfo, int velocity) {
       this(grid, position, (m) -> {/* This empty handler does nothing */
-      }, shape, velocity);
+      }, shape, dimensionInfo, velocity);
    }
 
    @Override

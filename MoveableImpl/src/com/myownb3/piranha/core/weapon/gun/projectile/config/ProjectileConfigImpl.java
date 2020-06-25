@@ -1,21 +1,23 @@
 package com.myownb3.piranha.core.weapon.gun.projectile.config;
 
-import com.myownb3.piranha.core.grid.Dimension;
+import static java.util.Objects.requireNonNull;
+
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 
 public class ProjectileConfigImpl implements ProjectileConfig {
 
-   private Dimension projectileDimension;
+   private DimensionInfo dimensionInfo;
    private int velocity;
 
-   private ProjectileConfigImpl(Dimension projectileDimension, int velocity) {
-      this.projectileDimension = projectileDimension;
+   private ProjectileConfigImpl(DimensionInfo dimensionInfo, int velocity) {
+      this.dimensionInfo = requireNonNull(dimensionInfo);
       this.velocity = verifVelocity(velocity);
    }
 
    @Override
-   public Dimension getProjectileDimension() {
-      return projectileDimension;
+   public DimensionInfo getDimensionInfo() {
+      return dimensionInfo;
    }
 
    @Override
@@ -31,15 +33,15 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    }
 
    public static class ProjectileConfigBuilder {
-      private Dimension projectileDimension;
       private int velocity;
+      private DimensionInfo dimensionInfo;
 
       private ProjectileConfigBuilder() {
          // private
       }
 
-      public ProjectileConfigBuilder withDimension(Dimension projectileDimension) {
-         this.projectileDimension = projectileDimension;
+      public ProjectileConfigBuilder withDimensionInfo(DimensionInfo dimensionInfo) {
+         this.dimensionInfo = dimensionInfo;
          return this;
       }
 
@@ -49,7 +51,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       }
 
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(projectileDimension, velocity);
+         return new ProjectileConfigImpl(dimensionInfo, velocity);
       }
 
       public static ProjectileConfigBuilder builder() {

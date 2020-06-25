@@ -39,7 +39,7 @@ public class Positions {
     * @return a new created Position
     */
    public static Position of(double x, double y) {
-      return new PositionImpl(x, y);
+      return new PositionImpl(x, y, 0.0);
    }
 
    /**
@@ -49,12 +49,44 @@ public class Positions {
     *        the x-axis coordinate
     * @param y
     *        the y-axis coordinate
+    * @param z
+    *        the x-axis coordinate
     * @return a new created Position
     */
-   public static Position of(Direction direction, double x, double y) {
-      return new PositionImpl(direction, x, y);
+   public static Position of(double x, double y, double z) {
+      return new PositionImpl(x, y, z);
    }
 
+   /**
+    * Creates a new {@link Position} with the given coordinates
+    * 
+    * @param direction
+    *        the {@link Direction} of th new {@link Position} to create
+    * @param x
+    *        the x-axis coordinate
+    * @param y
+    *        the y-axis coordinate
+    * @param z
+    *        the x-axis coordinate
+    * @return a new created Position
+    */
+   public static Position of(Direction direction, double x, double y, double z) {
+      return new PositionImpl(direction, x, y, z);
+   }
+
+   /**
+    * Creates a new {@link Position} with the coordinates from the given {@link Position}
+    * 
+    * @param direction
+    *        the {@link Direction} of th new {@link Position} to create
+    * @param position
+    *        the {@link Position} which coordinates are used for the new Position
+    *        the x-axis coordinate
+    * @return a new created Position
+    */
+   public static Position of(Direction direction, Position position) {
+      return of(direction, position.getX(), position.getY(), position.getZ());
+   }
 
    /**
     * @param vector
@@ -65,7 +97,7 @@ public class Positions {
     * 
     */
    public static Position of(Float64Vector vector, int decimals) {
-      return new PositionImpl(round(vector.getValue(0), decimals), round(vector.getValue(1), decimals));
+      return new PositionImpl(round(vector.getValue(0), decimals), round(vector.getValue(1), decimals), 0.0);
    }
 
    /**
@@ -76,7 +108,7 @@ public class Positions {
     */
    public static Position of(Position position) {
       Direction direction = Directions.of(position.getDirection());
-      return Positions.of(direction, position.getX(), position.getY());
+      return Positions.of(direction, position.getX(), position.getY(), position.getZ());
    }
 
    /**
@@ -187,6 +219,7 @@ public class Positions {
 
       private double y;
       private double x;
+      private double z;
       private Direction direction;
       private Float64Vector vector;
 
@@ -198,9 +231,10 @@ public class Positions {
        *        the x axis value
        * @param y
        *        the y axis value
+       * @param z
        */
-      public PositionImpl(double x, double y) {
-         this(Directions.N, x, y);
+      protected PositionImpl(double x, double y, double z) {
+         this(Directions.N, x, y, z);
       }
 
       /**
@@ -214,10 +248,11 @@ public class Positions {
        * @param y
        *        the y axis value
        */
-      public PositionImpl(Direction direction, double x, double y) {
+      private PositionImpl(Direction direction, double x, double y, double z) {
          this.direction = direction;
          this.x = MathUtil.round(x, 10);
          this.y = MathUtil.round(y, 10);
+         this.z = MathUtil.round(z, 10);
       }
 
       /**
@@ -226,7 +261,7 @@ public class Positions {
       @Override
       public Position rotate(double degree) {
          Direction newDirection = direction.rotate(degree);
-         return Positions.of(newDirection, x, y);
+         return Positions.of(newDirection, x, y, z);
       }
 
       /**
@@ -235,6 +270,11 @@ public class Positions {
       @Override
       public Direction getDirection() {
          return this.direction;
+      }
+
+      @Override
+      public double getZ() {
+         return z;
       }
 
       @Override
@@ -347,6 +387,7 @@ public class Positions {
          double result = 1;
          result = prime * result + this.x;
          result = prime * result + this.y;
+         result = prime * result + this.z;
          return (int) result;
       }
 
@@ -363,12 +404,14 @@ public class Positions {
             return false;
          if (this.y != other.y)
             return false;
+         if (this.z != other.z)
+            return false;
          return true;
       }
 
       @Override
       public String toString() {
-         return "Direction: '" + direction + "', X-Axis: '" + x + "', Y-Axis: '" + y + "'";
+         return "Direction: '" + direction + "', X-Axis: '" + x + "', Y-Axis: '" + y + "', Z-Axis: '" + z + "'";
       }
    }
 }

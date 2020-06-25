@@ -1,6 +1,6 @@
 package com.myownb3.piranha.core.weapon.gun.projectile;
 
-import com.myownb3.piranha.core.grid.Dimension;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 
 /**
  * The {@link ProjectileConfig} contains the configuration for a {@link Projectile}
@@ -11,12 +11,13 @@ import com.myownb3.piranha.core.grid.Dimension;
 public interface ProjectileConfig {
 
    /**
-    * @return dimension of the {@link Projectile}
+    * @return the {@link DimensionInfo} for a {@link Projectile}
     */
-   Dimension getProjectileDimension();
+   DimensionInfo getDimensionInfo();
 
    /**
     * @return the velocity of the {@link Projectile}
     */
    int getVelocity();
+
 }

@@ -20,7 +20,6 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterI
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
@@ -30,9 +29,11 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -114,9 +115,14 @@ public class TankTestLauncher {
 
       ProjectileGridElementsFilter projectileGridElementsFilter = new ProjectileGridElementsFilter();
 
+      double turretHeight = GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM;
+      double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
+      double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(2)
+            .withTankheightFromBottom(tankTurretHeight)
+            .withTurretHeightFromBottom(tankTurretHeight)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -190,9 +196,13 @@ public class TankTestLauncher {
                               .withGun(BulletGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
                                           .withSalveSize(3)
-                                          .withRoundsPerMinute(350)
+                                          .withRoundsPerMinute(300)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                                .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                      .withDimensionRadius(3)
+                                                      .withHeightFromBottom(3)
+                                                      .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
+                                                      .build())
                                                 .withVelocity(10)
                                                 .build())
                                           .build())
@@ -230,6 +240,7 @@ public class TankTestLauncher {
 
       TurretGridElement southTurretGridElement = TurretGridElementBuilder.builder()
             .withGrid(grid)
+            .withHeightFromBottom(turretHeight)
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(detectorConfig.getEvasionAngleInc())
@@ -246,7 +257,7 @@ public class TankTestLauncher {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(100)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(10)
                                           .build())
                                     .build())
@@ -269,6 +280,7 @@ public class TankTestLauncher {
             .build();
       TurretGridElement northTurretGridElement = TurretGridElementBuilder.builder()
             .withGrid(grid)
+            .withHeightFromBottom(turretHeight)
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(detectorConfig.getEvasionAngleInc())
@@ -285,7 +297,7 @@ public class TankTestLauncher {
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(100)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimension(new DimensionImpl(0, 0, 3, 3))
+                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
                                           .withVelocity(10)
                                           .build())
                                     .build())

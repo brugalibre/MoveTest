@@ -33,6 +33,6 @@ public class BouncedPositionEvaluatorImpl implements BouncedPositionEvaluator {
       Float64Vector currentVelocityWComponent = currentVelocity.minus(currentVelocityUComponent);
       Float64Vector newVelocityAsVector = currentVelocityWComponent.minus(currentVelocityUComponent);
       Direction newVelocityDirection = Directions.of(newVelocityAsVector.getValue(0), newVelocityAsVector.getValue(1));
-      return Positions.of(newVelocityDirection, gridElemPosition.getX(), gridElemPosition.getY());
+      return Positions.of(newVelocityDirection, gridElemPosition.getX(), gridElemPosition.getY(), gridElemPosition.getZ());
    }
 }

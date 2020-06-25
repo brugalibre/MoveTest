@@ -30,7 +30,7 @@ public class PositionHelper {
       Direction direction = position.getDirection();
       double newX = position.getX() + direction.getForwardX();
       double newY = position.getY() + direction.getForwardY();
-      return Positions.of(direction, newX, newY);
+      return Positions.of(direction, newX, newY, position.getZ());
    }
 
    /**

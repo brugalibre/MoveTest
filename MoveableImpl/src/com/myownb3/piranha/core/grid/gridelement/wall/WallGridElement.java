@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.wall;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
+
 import java.util.List;
 
 import com.myownb3.piranha.core.destruction.DamageImpl;
@@ -18,7 +20,7 @@ public class WallGridElement extends AbstractGridElement implements Wall {
    private DestructionHelper destructionHelper;
 
    protected WallGridElement(Grid grid, Position position, Shape shape) {
-      super(grid, position, shape);
+      super(grid, position, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
       this.destructionHelper = getDestructionHelper(0, Integer.MAX_VALUE);
    }
 

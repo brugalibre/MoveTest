@@ -21,13 +21,13 @@ import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -73,7 +73,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -114,7 +114,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -155,7 +155,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -200,7 +200,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -248,7 +248,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -316,7 +316,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -386,7 +386,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())
@@ -473,7 +473,7 @@ class TurretImplTest {
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                    .withDimension(new DimensionImpl(0, 0, 0, 0))
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
                                     .withVelocity(1)
                                     .build())
                               .build())

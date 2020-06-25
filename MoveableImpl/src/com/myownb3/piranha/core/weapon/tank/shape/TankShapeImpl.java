@@ -86,7 +86,7 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
 
    private Position getNewTurretPosButKeepDirection(Position newTurretOriginPos) {
       Position currentTurretPosition = turretShape.getCenter();
-      return Positions.of(currentTurretPosition.getDirection(), newTurretOriginPos.getX(), newTurretOriginPos.getY());
+      return Positions.of(currentTurretPosition.getDirection(), newTurretOriginPos);
    }
 
    @Override

@@ -92,7 +92,7 @@ public class EndPositions {
       private boolean adHocVerification;// Defines if the 'hasReached' method does a fresh calculation or just return a previously calculated value
 
       private EndPositionImpl(double x, double y) {
-         super(x, y);
+         super(x, y, 0.0);
          moveable2HasReachedMap = new HashMap<>();
          adHocVerification = false;
          distancePrecision = 0.001;

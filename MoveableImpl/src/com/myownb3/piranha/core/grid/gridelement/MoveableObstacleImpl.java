@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.grid.gridelement;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
@@ -31,7 +32,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
    private DestructionHelper destructionHelper;
 
    private MoveableObstacleImpl(Grid grid, Position position, Shape shape, double damage, double health, int velocity) {
-      super(grid, position, shape, velocity);
+      super(grid, position, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
       this.destructionHelper = getDestructionHelper(damage, health);
    }
 

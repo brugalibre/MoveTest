@@ -11,16 +11,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
@@ -50,16 +49,21 @@ class SimpleBulletGunTest {
    @Test
    void testFireGun() throws InterruptedException {
       // Given
-      int projectileRadius = 5;
+      double heightFromBottom = 15;
+      double projectileRadius = 5.0;
       int velocityMulti = 2;
       int salve = 1;
-      Position position = Positions.of(5, 5);
+      Position position = Positions.of(5, 5, heightFromBottom);
       BulletGunImpl simpleBulletGun = BulletGunBuilder.builder()
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(salve)
                   .withRoundsPerMinute(1)
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
-                        .withDimension(new DimensionImpl(0, 0, projectileRadius, projectileRadius))
+                        .withDimensionInfo(DimensionInfoBuilder.builder()
+                              .withDimensionRadius(projectileRadius)
+                              .withDistanceToGround(heightFromBottom)
+                              .withHeightFromBottom(projectileRadius / 2)
+                              .build())
                         .withVelocity(velocityMulti)
                         .build())
                   .build())
@@ -72,8 +76,11 @@ class SimpleBulletGunTest {
                   .build())
             .build();
       simpleBulletGun.evalAndSetGunPosition(position);
-      Position expectedProjectilPosition =
-            Positions.movePositionForward4Distance(simpleBulletGun.getShape().getForemostPosition(), 10 + projectileRadius);
+
+
+      Position foremostGunPosition = simpleBulletGun.getShape().getForemostPosition();
+      foremostGunPosition = Positions.of(foremostGunPosition.getX(), foremostGunPosition.getY(), heightFromBottom);
+      Position expectedProjectilPosition = Positions.movePositionForward4Distance(foremostGunPosition, 10 + projectileRadius);
 
       // When
       simpleBulletGun.fire();
@@ -95,7 +102,7 @@ class SimpleBulletGunTest {
                   .withRoundsPerMinute(1)
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
                         .withVelocity(2)
-                        .withDimension(new DimensionImpl(0, 0, radius, radius))
+                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(radius))
                         .build())
                   .build())
             .withGunShape(GunShapeBuilder.builder()
@@ -113,7 +120,7 @@ class SimpleBulletGunTest {
       List<Projectile> projectiles = fireCallable.call();
 
       // Then
-      assertThat(projectiles.size(), CoreMatchers.is(salve));
+      assertThat(projectiles.size(), is(salve));
    }
 
    @Test
@@ -125,7 +132,7 @@ class SimpleBulletGunTest {
                   .withSalveSize(1)
                   .withRoundsPerMinute(1)
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
-                        .withDimension(new DimensionImpl(0, 0, 5, 5))
+                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
                         .withVelocity(1)
                         .build())
                   .build())

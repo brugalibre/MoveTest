@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.grid;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
@@ -109,11 +110,11 @@ class DefaultGridTest {
       // Given
       int moveableVelocity = 5;
       int radius = 5;
-      Position moveablePos = Positions.of(Directions.N, 0, 2.99);
-      Position moveableObstaclePos1 = Positions.of(0, 1);
-      Position moveableObstaclePos2 = Positions.of(0, 3.1);
-      Position moveableObstaclePos3 = Positions.of(0, 3);
-      Position moveableObstaclePos4 = Positions.of(0, 3).rotate(180);
+      Position moveablePos = Positions.of(Directions.N, 0, 2.99, 0);
+      Position moveableObstaclePos1 = Positions.of(0, 1, 0);
+      Position moveableObstaclePos2 = Positions.of(0, 3.1, 0);
+      Position moveableObstaclePos3 = Positions.of(0, 3, 0);
+      Position moveableObstaclePos4 = Positions.of(0, 3, 0).rotate(180);
       Grid grid = GridBuilder.builder()
             .withMaxX(100)
             .withMaxY(100)
@@ -160,10 +161,10 @@ class DefaultGridTest {
 
       // Given
       int radius = 5;
-      Position moveablePos = Positions.of(Directions.N, 0, 2.99);
-      Position obstaclePos1 = Positions.of(0, 1);
-      Position obstaclePos2 = Positions.of(0, -3);
-      Position obstaclePos3 = Positions.of(0, 3);
+      Position moveablePos = Positions.of(Directions.N, 0, 2.99, 0);
+      Position obstaclePos1 = Positions.of(0, 1, 0);
+      Position obstaclePos2 = Positions.of(0, -3, 0);
+      Position obstaclePos3 = Positions.of(0, 3, 0);
       Grid grid = GridBuilder.builder()
             .withMaxX(100)
             .withMaxY(100)
@@ -311,6 +312,7 @@ class DefaultGridTest {
                   .withPosition(Positions.of(0, 0))
                   .build())
             .withVelocity(10)
+            .withDimensionInfo(getDefaultDimensionInfo(1))
             .build();
 
       ObstacleBuilder.builder()

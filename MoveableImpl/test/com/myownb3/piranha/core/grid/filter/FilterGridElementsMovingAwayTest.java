@@ -33,7 +33,7 @@ class FilterGridElementsMovingAwayTest {
    void testIsTrue_MovingGridElementMovesCloser() {
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withAvoidableGridElementElement(Positions.of(Directions.S, 0, 5), 1)
+            .withAvoidableGridElementElement(Positions.of(Directions.S, 0, 5, 0), 1)
             .withMovedGridElement(Positions.of(0, 1), 0)
             .build();
 

@@ -19,6 +19,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -208,6 +209,7 @@ public class MazeImpl implements Maze {
                         .withGunCarriage(gunCarriage)
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .build())
+                  .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
                   .build());
             return this;
          }

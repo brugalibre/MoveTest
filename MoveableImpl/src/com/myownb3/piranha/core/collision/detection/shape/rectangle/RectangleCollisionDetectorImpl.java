@@ -51,16 +51,15 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
          Position oldPosition, Position newPosition, List<GridElement> gridElements2Check) {
       Rectangle transformedRectangle = getTransformedRectangle(newPosition);
       return gridElements2Check.stream()
-            .map(getNearestIntersection(transformedRectangle))
+            .map(getNearestIntersection(movedGridElement, transformedRectangle))
             .filter(Objects::nonNull)
             .collect(Collectors.collectingAndThen(Collectors.toList(),
                   returnCollisionDetectionResult(collisionDetectionHandler, movedGridElement, newPosition)));
    }
 
-   private Function<GridElement, CollisionGridElement> getNearestIntersection(Rectangle transformedRectangle) {
+   private Function<GridElement, CollisionGridElement> getNearestIntersection(GridElement movedGridElement, Rectangle transformedRectangle) {
       return gridElement -> {
-         return gridElement.getShape()
-               .getPath()
+         return gridElement.getPath(movedGridElement.getDimensionInfo())
                .stream()
                .map(PathSegment::getBegin)
                .filter(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle))

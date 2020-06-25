@@ -9,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -19,11 +18,13 @@ import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionDetector;
 import com.myownb3.piranha.core.collision.CollisionGridElement;
 import com.myownb3.piranha.core.collision.detection.shape.rectangle.RectangleCollisionDetectorImpl.RectangleCollisionDetectorBuilder;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -190,13 +191,13 @@ class RectangleCollisionDetectorImplTest {
    }
 
    private Obstacle mockObstacle(Position position) {
-      Obstacle obstacle = mock(Obstacle.class);
-      Shape shape = mock(Shape.class);
-      when(obstacle.getShape()).thenReturn(shape);
-      PathSegment pathSegment = mock(PathSegment.class);
-      when(pathSegment.getBegin()).thenReturn(position);
-      when(shape.getPath()).thenReturn(Collections.singletonList(pathSegment));
-      return obstacle;
+      return ObstacleBuilder.builder()
+            .withPosition(position)
+            .withGrid(mock(Grid.class))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
+            .build();
    }
 
    private static class TestCaseBuilder {
@@ -271,6 +272,7 @@ class RectangleCollisionDetectorImplTest {
 
       private TestCaseBuilder withMovedGridElement() {
          this.movedGridElement = mock(GridElement.class);
+         when(movedGridElement.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(1));
          return this;
       }
 

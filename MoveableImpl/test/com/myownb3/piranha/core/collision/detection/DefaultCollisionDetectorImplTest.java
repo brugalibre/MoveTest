@@ -90,7 +90,7 @@ class DefaultCollisionDetectorImplTest {
 
       // Given
       int radius = 5;
-      List<PathSegment> pathOfShape = createPathSegment(Positions.of(5.01, 5.01), Positions.of(4.99, 5.01));
+      List<PathSegment> pathOfShape = createPathSegment(Positions.of(5.01, 5.01, 1), Positions.of(4.99, 5.01, 1));
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withCollisionDetectionHandler(spy(CollisionDetectionHandler.class))
             .withCircle(radius)
@@ -98,7 +98,7 @@ class DefaultCollisionDetectorImplTest {
             .withPathOfShape(pathOfShape)
             .withObstacle()
             .withGridElement()
-            .withNewPosition(Positions.of(5, 0))
+            .withNewPosition(Positions.of(5, 0, 1))
             .build();
 
       // When
@@ -235,7 +235,7 @@ class DefaultCollisionDetectorImplTest {
          this.circle = CircleBuilder.builder()
                .withRadius(radius)
                .withAmountOfPoints(4)
-               .withCenter(Positions.of(Directions.N, 0, 0))
+               .withCenter(Positions.of(Directions.N, 0, 0, 0))
                .build();
          return this;
       }
@@ -290,6 +290,7 @@ class DefaultCollisionDetectorImplTest {
 
          Obstacle obstacle = mock(Obstacle.class);
          when(obstacle.getShape()).thenReturn(shape);
+         when(obstacle.getPath(any())).thenReturn(pathOfShape);
          return obstacle;
       }
    }

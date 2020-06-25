@@ -52,7 +52,7 @@ public class GridElementFilter {
     * We have to subtract the 'Dimension-Radius' from the calculated distance. 
     */
    private static double calcDistanceFromGridElement2Pos(Position gridElemPos, GridElement otherGridElement) {
-      return gridElemPos.calcDistanceTo(otherGridElement.getPosition()) - otherGridElement.getDimensionRadius();
+      return gridElemPos.calcDistanceTo(otherGridElement.getPosition()) - otherGridElement.getDimensionInfo().getDimensionRadius();
    }
 
    /**

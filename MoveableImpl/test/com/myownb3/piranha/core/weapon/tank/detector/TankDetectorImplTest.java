@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.tank.detector;
 
+import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
@@ -23,6 +24,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
@@ -180,6 +182,8 @@ class TankDetectorImplTest {
          when(tankGridElement.getBelligerentParty()).thenReturn(BelligerentPartyConst.REBEL_ALLIANCE);
          when(tankGridElement.getPosition()).thenReturn(position);
          when(tankGridElement.getForemostPosition()).thenReturn(position);
+         DimensionInfo dimensionInfo = getDefaultDimensionInfo(1);
+         when(tankGridElement.getDimensionInfo()).thenReturn(dimensionInfo);
          return this;
       }
 
@@ -245,6 +249,7 @@ class TankDetectorImplTest {
                      .withPosition(position)
                      .build())
                .withVelocity(5)
+               .withDimensionInfo(getDefaultDimensionInfo(1))
                .build();
          return projectileGridElement;
       }
