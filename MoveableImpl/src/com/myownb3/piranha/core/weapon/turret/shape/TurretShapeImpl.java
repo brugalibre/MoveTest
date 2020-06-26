@@ -33,16 +33,15 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
    @Override
    public void setGridElement(GridElement gridElement) {
       super.setGridElement(gridElement);
-      ((AbstractShape) gunCarriage.getShape()).setGridElement(gridElement);
-      ((AbstractShape) gunCarriage.getGun().getShape()).setGridElement(gridElement);
+      ((AbstractShape) getGunCarriageShape()).setGridElement(gridElement);
+      ((AbstractShape) getGunShape()).setGridElement(gridElement);
    }
 
    @Override
    public CollisionDetectionResult check4Collision(CollisionDetectionHandler collisionDetectionHandler, Position newPosition,
          List<GridElement> gridElements2Check) {
-      Shape gunCarriageShape = gunCarriage.getShape();
       CollisionDetectionResult collisionWithGunCarriageDetectionResult =
-            gunCarriageShape.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
+            getGunCarriageShape().check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
       if (collisionWithGunCarriageDetectionResult.isCollision()) {
          return collisionWithGunCarriageDetectionResult;
       }
@@ -51,8 +50,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    public Position getForemostPosition() {
-      GunShape gunShape = getGunShape();
-      return gunShape.getForemostPosition();
+      return getGunShape().getForemostPosition();
    }
 
    @Override
@@ -62,7 +60,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
    @Override
    public double getDimensionRadius() {
-      return Math.max(gunCarriage.getShape().getDimensionRadius(), getGunShape().getDimensionRadius());
+      return Math.max(getGunCarriageShape().getDimensionRadius(), getGunShape().getDimensionRadius());
    }
 
    @Override
