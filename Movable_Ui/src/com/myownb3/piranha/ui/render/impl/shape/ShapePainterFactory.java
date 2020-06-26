@@ -12,6 +12,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.tank.Tank;
+import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
@@ -28,16 +29,6 @@ import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
  */
 public class ShapePainterFactory {
 
-   public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color, PaintMode paintMode, int height, int width) {
-      if (shape instanceof Circle) {
-         return new CirclePainter((Circle) shape, paintMode, color, height, width);
-      } else if (shape instanceof PositionShape) {
-         return new PositionPainter((PositionShape) shape, color, height, width);
-      } else {
-         throw new RuntimeException("Unknown Shape '" + shape + "'!");
-      }
-   }
-
    public static Drawable<? extends Shape> getShapePainter(GridElement gridElement, Color color) {
 
       Shape shape = gridElement.getShape();
@@ -45,8 +36,8 @@ public class ShapePainterFactory {
          return new CirclePainter((Circle) shape, PaintMode.SHAPE, color, 0, 0);
       } else if (shape instanceof Rectangle) {
          return new RectanglePainter((Rectangle) shape, color);
-      } else if (shape instanceof TurretShape) {
-         return new TurretPainter((TurretShape) shape, color);
+      } else if (gridElement instanceof Turret) {
+         return new TurretPainter((Turret) gridElement, color);
       } else if (gridElement instanceof Tank) {
          Color tankTurretColor = GridElementColorUtil.getTurretColor(((Tank) gridElement).getTurret().getBelligerentParty());
          return new TankPainter((Tank) gridElement, color, tankTurretColor);
@@ -65,7 +56,7 @@ public class ShapePainterFactory {
       } else if (shape instanceof Rectangle) {
          return new RectanglePainter((Rectangle) shape, color, drawBorder);
       } else if (shape instanceof TurretShape) {
-         return new TurretPainter((TurretShape) shape, color);
+         return new TurretPainter(shape, color);
       } else if (shape instanceof GunShape) {
          return new GunPainter((GunShape) shape, color);
       } else {

@@ -11,7 +11,7 @@ import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class TurretPainter extends Drawable<TurretShape> implements Renderer {
+public class TurretPainter extends Drawable<Shape> implements Renderer {
 
    private Drawable<? extends Shape> shapeGunPainter;
    private Drawable<? extends Shape> shapeGunCarriagePainter;

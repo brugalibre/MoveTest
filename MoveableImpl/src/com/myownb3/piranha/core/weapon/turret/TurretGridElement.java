@@ -4,11 +4,9 @@ import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
-import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 public class TurretGridElement extends AbstractGridElement implements Turret {
 
@@ -35,18 +33,13 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
    }
 
    @Override
-   public GunCarriage getGunCarriage() {
-      return turret.getGunCarriage();
-   }
-
-   @Override
-   public TurretState getTurretStatus() {
-      return turret.getTurretStatus();
-   }
-
-   @Override
-   public TurretShape getShape() {
+   public Shape getShape() {
       return turret.getShape();
+   }
+
+   @Override
+   public boolean isAcquiring() {
+      return turret.isAcquiring();
    }
 
    @Override
@@ -85,7 +78,7 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
       }
 
       public TurretGridElement build() {
-         TurretShape turretShape = turret.getShape();
+         Shape turretShape = turret.getShape();
          return new TurretGridElement(grid, turret, DimensionInfoBuilder.builder()
                .withDimensionRadius(turretShape.getDimensionRadius())
                .withDistanceToGround(turretShape.getCenter().getZ())

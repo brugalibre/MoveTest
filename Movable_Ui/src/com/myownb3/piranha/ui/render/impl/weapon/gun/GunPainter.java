@@ -17,12 +17,12 @@ public class GunPainter extends Drawable<GunShape> implements Renderer {
    private Drawable<? extends Shape> barrelPainter;
    private Optional<Drawable<? extends Shape>> muzzlePainterOpt;
 
-   public GunPainter(GunShape turretShape, Color color) {
-      super(turretShape);
-      barrelPainter = ShapePainterFactory.getShapePainter(turretShape.getBarrel(), color, false);
+   public GunPainter(GunShape gunShape, Color color) {
+      super(gunShape);
+      barrelPainter = ShapePainterFactory.getShapePainter(gunShape.getBarrel(), color, false);
       muzzlePainterOpt = Optional.empty();
-      if (turretShape.getMuzzleBreak().isPresent()) {
-         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(turretShape.getMuzzleBreak().get(), color, false));
+      if (gunShape.getMuzzleBreak().isPresent()) {
+         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(gunShape.getMuzzleBreak().get(), color, false));
       }
    }
 

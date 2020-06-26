@@ -14,15 +14,14 @@ import com.myownb3.piranha.core.grid.gridelement.position.VectorPositionTransfor
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 
 public class TankShapeImpl extends AbstractShape implements TankShape {
 
-   private TurretShape turretShape;
+   private Shape turretShape;
    private Shape hull;
    private PositionTransformator positionTransformator;
 
-   private TankShapeImpl(Shape tankShape, TurretShape turretShape) {
+   private TankShapeImpl(Shape tankShape, Shape turretShape) {
       super(combinePath(tankShape, turretShape), tankShape.getCenter());
       this.hull = tankShape;
       this.turretShape = turretShape;
@@ -95,20 +94,20 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
    }
 
    @Override
-   public TurretShape getTurretShape() {
+   public Shape getTurretShape() {
       return turretShape;
    }
 
    public static final class TankShapeBuilder {
 
-      private TurretShape turretShape;
+      private Shape turretShape;
       private Shape tankShape;
 
       private TankShapeBuilder() {
          // private
       }
 
-      public TankShapeBuilder withTurretShape(TurretShape turretShape) {
+      public TankShapeBuilder withTurretShape(Shape turretShape) {
          this.turretShape = turretShape;
          return this;
       }

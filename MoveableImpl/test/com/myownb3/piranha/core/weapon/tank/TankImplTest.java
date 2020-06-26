@@ -40,7 +40,6 @@ import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
-import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class TankImplTest {
 
@@ -192,7 +191,6 @@ class TankImplTest {
       Position turretPos = Positions.of(5, 5);
       Turret turret = mock(Turret.class);
 
-      when(turret.getTurretStatus()).thenReturn(TurretState.ACQUIRING);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
@@ -220,7 +218,6 @@ class TankImplTest {
       Position turretPos = Positions.of(5, 5);
       Turret turret = mock(Turret.class);
 
-      when(turret.getTurretStatus()).thenReturn(TurretState.ACQUIRING);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
@@ -247,7 +244,6 @@ class TankImplTest {
       Position turretPos = Positions.of(5, 5);
       Turret turret = mock(Turret.class);
 
-      when(turret.getTurretStatus()).thenReturn(TurretState.ACQUIRING);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
@@ -279,7 +275,6 @@ class TankImplTest {
 
       Turret turret = mock(Turret.class);
 
-      when(turret.getTurretStatus()).thenReturn(TurretState.SHOOTING);
       when(turret.isShooting()).thenReturn(true);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
@@ -315,7 +310,6 @@ class TankImplTest {
 
       Turret turret = mock(Turret.class);
 
-      when(turret.getTurretStatus()).thenReturn(TurretState.ACQUIRING);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
 

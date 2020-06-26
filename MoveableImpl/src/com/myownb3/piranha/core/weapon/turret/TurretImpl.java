@@ -114,6 +114,11 @@ public class TurretImpl implements Turret {
    }
 
    @Override
+   public boolean isAcquiring() {
+      return getTurretStatus() == TurretState.ACQUIRING;
+   }
+
+   @Override
    public BelligerentParty getBelligerentParty() {
       return belligerentParty;
    }
@@ -123,14 +128,8 @@ public class TurretImpl implements Turret {
       return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
-   @Override
-   public TurretState getTurretStatus() {
+   private TurretState getTurretStatus() {
       return state;
-   }
-
-   @Override
-   public GunCarriage getGunCarriage() {
-      return gunCarriage;
    }
 
    @Override
@@ -190,11 +189,11 @@ public class TurretImpl implements Turret {
                .build();
       }
 
-      protected void setTurretScanner(TurretImpl abstractTurret) {
+      protected void setTurretScanner(TurretImpl turretImpl) {
          TargetPositionLeadEvaluator leadEvaluator = targetPositionLeadEvaluator != null ? targetPositionLeadEvaluator
-               : new TargetPositionLeadEvaluatorImpl(getProjectilConfig(abstractTurret));
-         abstractTurret.turretScanner = TurretScannerBuilder.builder()
-               .withTurret(abstractTurret)
+               : new TargetPositionLeadEvaluatorImpl(getProjectilConfig(turretImpl));
+         turretImpl.turretScanner = TurretScannerBuilder.builder()
+               .withTurret(turretImpl)
                .withGridElementEvaluator(gridElementsEvaluator)
                .withDetector(detector)
                .withTargetPositionLeadEvaluator(leadEvaluator)
@@ -211,8 +210,8 @@ public class TurretImpl implements Turret {
          return turretImpl;
       }
 
-      private static ProjectileConfig getProjectilConfig(Turret turret) {
-         return turret.getGunCarriage()
+      private static ProjectileConfig getProjectilConfig(TurretImpl turretImpl) {
+         return turretImpl.gunCarriage
                .getGun()
                .getGunConfig()
                .getProjectileConfig();

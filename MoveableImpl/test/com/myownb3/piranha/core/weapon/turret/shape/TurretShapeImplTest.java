@@ -20,7 +20,6 @@ import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionRe
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.Gun;
@@ -98,8 +97,6 @@ class TurretShapeImplTest {
             .build();
 
       // Then
-      Shape gunCarriageShape = tcb.turretTowerShape.getGunCarriageShape();
-      assertThat(gunCarriageShape, is(tcb.gunCarriage.getShape()));
       assertThat(tcb.turretTowerShape.getDimensionRadius(), is(expectedDimensionRadius));
       assertThat(tcb.turretTowerShape.buildPath4Detection(), is(Collections.emptyList()));
    }

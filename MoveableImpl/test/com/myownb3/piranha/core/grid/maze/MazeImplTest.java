@@ -47,7 +47,6 @@ import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
-import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 
 class MazeImplTest {
 
@@ -133,7 +132,7 @@ class MazeImplTest {
       turret.autodetect(); // acquiring
 
       // Then
-      assertThat(turret.getTurretStatus(), is(TurretState.ACQUIRING));
+      assertThat(turret.isAcquiring(), is(true));
    }
 
    @Test

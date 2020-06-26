@@ -69,7 +69,7 @@ class TurretGridElementTest {
             .build();
 
       // When
-      turretTower.getTurretStatus();
+      turretTower.isAcquiring();
       turretTower.getShape();
       Belligerent belligerent = mock(Belligerent.class);
       turretTower.isEnemy(belligerent);
@@ -77,7 +77,7 @@ class TurretGridElementTest {
       turretTower.isShooting();
 
       // Then
-      verify(turret).getTurretStatus();
+      verify(turret).isAcquiring();
       verify(turret).isEnemy(belligerent);
       verify(turret).getBelligerentParty();
       verify(turret, times(5)).getShape();
@@ -101,25 +101,6 @@ class TurretGridElementTest {
 
       // Then
       verify(turret).autodetect();
-   }
-
-   @Test
-   void testGetGunCarriage() {
-      // Given
-      Turret turret = mockTurret(Positions.of(5, 5));
-      TurretGridElement turretTower = TurretGridElementBuilder.builder()
-            .withGrid(GridBuilder.builder()
-                  .withMaxX(5)
-                  .withMinX(5)
-                  .build())
-            .withTurret(turret)
-            .build();
-
-      // When
-      turretTower.getGunCarriage();
-
-      // Then
-      verify(turret).getGunCarriage();
    }
 
    private Turret mockTurret(Position position) {

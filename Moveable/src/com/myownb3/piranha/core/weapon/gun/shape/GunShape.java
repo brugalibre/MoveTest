@@ -2,10 +2,10 @@ package com.myownb3.piranha.core.weapon.gun.shape;
 
 import java.util.Optional;
 
-import com.myownb3.piranha.core.grid.gridelement.shape.CombinedShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 
-public interface GunShape extends CombinedShape {
+public interface GunShape extends Shape {
 
    /**
     * @return the length of this {@link GunShape}
