@@ -32,6 +32,7 @@ import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.position.VectorPositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -183,6 +184,7 @@ public class TankTestLauncher {
                         .build())
                   .withTurret(TankTurretBuilder.builder()
                         .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
+                        .withPositionTransformator(VectorPositionTransformator.of(tankPos, turretNorthPos))
                         .withDetector(DetectorBuilder.builder()
                               .withAngleInc(detectorConfig.getEvasionAngleInc())
                               .withDetectorAngle(detectorConfig.getDetectorAngle())

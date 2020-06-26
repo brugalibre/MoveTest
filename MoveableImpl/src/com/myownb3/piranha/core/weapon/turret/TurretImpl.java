@@ -9,6 +9,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
+import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
@@ -146,9 +147,11 @@ public class TurretImpl implements Turret {
       protected TurretScanner turretScanner;
       private TargetPositionLeadEvaluator targetPositionLeadEvaluator;
       private GridElementEvaluator gridElementsEvaluator;
+      private PositionTransformator positionTransformator;
 
       protected GenericTurretBuilder() {
          belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+         positionTransformator = pos -> pos;
       }
 
       public T withGridElementEvaluator(GridElementEvaluator gridElementsEvaluator) {
@@ -181,11 +184,17 @@ public class TurretImpl implements Turret {
          return getThis();
       }
 
+      public T wighPositionTransformator(PositionTransformator positionTransformator) {
+         this.positionTransformator = positionTransformator;
+         return getThis();
+      }
+
       protected abstract T getThis();
 
       protected void buildTurretShape() {
          turretShape = TurretShapeBuilder.builder()
                .wighGunCarriage(gunCarriage)
+               .wighPositionTransformator(positionTransformator)
                .build();
       }
 
