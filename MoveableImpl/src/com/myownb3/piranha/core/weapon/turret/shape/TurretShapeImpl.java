@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.weapon.turret.shape;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.ShapeUtil.combinePath;
-import static java.util.Objects.requireNonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -71,14 +70,12 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       Position transformedTankPos4Turret = positionTransformator.transform(position);
       Position newTurretPos = getNewTurretPosButKeepDirection(transformedTankPos4Turret);
       super.transform(newTurretPos);
-      GunShape gunShape = getGunShape();
-      gunCarriage.evalAndSetPosition(newTurretPos);
-      this.path = combinePath(gunShape, gunCarriage.getShape());
+      this.gunCarriage.evalAndSetPosition(newTurretPos);
+      this.path = combinePath(getGunShape(), getGunCarriageShape());
    }
 
    private Position getNewTurretPosButKeepDirection(Position newTurretOriginPos) {
-      Position currentTurretPosition = getCenter();
-      return Positions.of(currentTurretPosition.getDirection(), newTurretOriginPos);
+      return Positions.of(getCenter().getDirection(), newTurretOriginPos);
    }
 
    @Override
@@ -96,6 +93,11 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
    }
 
    @Override
+   public Position getCenter() {
+      return getGunCarriageShape().getCenter();
+   }
+
+   @Override
    public GunShape getGunShape() {
       return gunCarriage.getGun().getShape();
    }
@@ -110,7 +112,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       private PositionTransformator positionTransformator;
 
       private TurretShapeBuilder() {
-         //
+         positionTransformator = pos -> pos;
       }
 
       public TurretShapeBuilder wighGunCarriage(GunCarriage gunCarriage) {
@@ -126,7 +128,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       public TurretShapeImpl build() {
          GunShape gunShape = gunCarriage.getGun().getShape();
          List<PathSegment> combinedPath = combinePath(gunShape, gunCarriage.getShape());
-         return new TurretShapeImpl(combinedPath, gunCarriage, requireNonNull(positionTransformator));
+         return new TurretShapeImpl(combinedPath, gunCarriage, positionTransformator);
       }
 
       public static TurretShapeBuilder builder() {

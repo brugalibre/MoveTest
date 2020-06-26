@@ -25,6 +25,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
@@ -56,6 +57,53 @@ class TurretImplTest {
    @AfterEach
    public void tearDown() {
       ProjectileFactory.INSTANCE.deregisterGrid();
+   }
+
+   @Test
+   void testPositionTransformator() {
+
+      // Given
+      Position turretPos = Positions.of(5, 5);
+      Position transformedPosition = Positions.of(10, 10);
+      PositionTransformator positionTransformator = pos -> transformedPosition;
+
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withPositionTransformator(positionTransformator)
+            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGun(BulletGunBuilder.builder()
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
+                                    .withVelocity(1)
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(2)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius(5)
+                        .withAmountOfPoints(5)
+                        .withCenter(turretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      turretImpl.getShape().transform(turretPos);
+
+      // Then
+      assertThat(turretImpl.getShape().getCenter(), is(transformedPosition));
    }
 
    @Test

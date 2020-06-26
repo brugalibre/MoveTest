@@ -18,9 +18,9 @@ public interface PositionTransformator {
    /**
     * Transforms the given Position according the rules of this {@link PositionTransformator}
     * 
-    * @param position
+    * @param pos2Transfer
     *        the {@link Position} to transform
     * @return a transformed {@link Position}
     */
-   Position transform(Position position);
+   Position transform(Position pos2Transfer);
 }

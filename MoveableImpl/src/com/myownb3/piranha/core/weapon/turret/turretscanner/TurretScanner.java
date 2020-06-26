@@ -12,6 +12,7 @@ import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
@@ -89,7 +90,7 @@ public class TurretScanner {
 
    private Position evaluateTargetPositionFromIdentifiedGridElement(TargetGridElement nearestTargetGridElement) {
       Position turretPos = turret.getShape().getForemostPosition();
-      return leadEvaluator.calculateTargetConsideringLead(nearestTargetGridElement, turretPos);
+      return leadEvaluator.calculateTargetConsideringLead(nearestTargetGridElement, Positions.of(turretPos));
    }
 
    private void updateNearestDetectedTargetGridElement(TargetGridElement currentNearestTargetGridElement, Position targetPos2Acquire) {

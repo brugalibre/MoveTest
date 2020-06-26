@@ -67,8 +67,6 @@ public class TurretImpl implements Turret {
          default:
             break;
       }
-      // The Position of the GunCarriage is master 
-      shape.transform(gunCarriage.getShape().getCenter());
    }
 
    private void handleReturning() {

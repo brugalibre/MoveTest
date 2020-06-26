@@ -32,7 +32,6 @@ import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.position.VectorPositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -83,8 +82,8 @@ public class TankTestLauncher {
       Position turretSouthPos = Positions.of(390, 430).rotate(120);
       Position turretNorthPos = Positions.of(70, 70).rotate(-60);
       Position tankPos = Positions.of(400, 100).rotate(180);
-      Position tankTurret1Pos = Positions.movePositionForward4Distance(tankPos, 10);
-      Position tankTurret2Pos = Positions.movePositionForward4Distance(tankPos, 30);
+      Position tankTurret1Pos = Positions.of(410, 100).rotate(180);
+      Position tankTurret2Pos = Positions.of(390, 100).rotate(180);
 
       List<EndPosition> endPositions = new ArrayList<>();
       endPositions.add(EndPositions.of(Positions.of(290, 100), 10));
@@ -188,7 +187,7 @@ public class TankTestLauncher {
                         .withPosition(tankPos)
                         .withTurret(TankTurretBuilder.builder()
                               .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
-                              .withPositionTransformator(VectorPositionTransformator.of(tankPos, turretNorthPos))
+                              .withPositionTransformator(transformedTankPos -> Positions.movePositionBackward4Distance(transformedTankPos, 30))
                               .withDetector(DetectorBuilder.builder()
                                     .withAngleInc(detectorConfig.getEvasionAngleInc())
                                     .withDetectorAngle(detectorConfig.getDetectorAngle())
@@ -236,6 +235,7 @@ public class TankTestLauncher {
                               .build())
                         .withTurret(TankTurretBuilder.builder()
                               .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
+                              .withPositionTransformator(transformedTankPos -> Positions.movePositionForward4Distance(transformedTankPos, 30))
                               .withDetector(DetectorBuilder.builder()
                                     .withAngleInc(detectorConfig.getEvasionAngleInc())
                                     .withDetectorAngle(detectorConfig.getDetectorAngle())
