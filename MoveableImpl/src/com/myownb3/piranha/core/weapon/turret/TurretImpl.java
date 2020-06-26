@@ -184,7 +184,7 @@ public class TurretImpl implements Turret {
          return getThis();
       }
 
-      public T wighPositionTransformator(PositionTransformator positionTransformator) {
+      public T withPositionTransformator(PositionTransformator positionTransformator) {
          this.positionTransformator = positionTransformator;
          return getThis();
       }
