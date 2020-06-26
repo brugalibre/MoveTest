@@ -17,6 +17,8 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.launch.weapon.listener.KeyListener;
+import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.render.Renderer;
 
 /**
@@ -49,6 +51,12 @@ public class MainWindow {
 
    public void showCollisionInfo() {
       JLabel label = new JLabel("Kollision!");
+      content.add(label, BorderLayout.PAGE_END);
+      mainWindow.pack();
+   }
+
+   public void showDoneInfo() {
+      JLabel label = new JLabel("Fertig!");
       content.add(label, BorderLayout.PAGE_END);
       mainWindow.pack();
    }
@@ -96,5 +104,14 @@ public class MainWindow {
 
    public void refresh() {
       mainWindow.repaint();
+   }
+
+   public void addMouseListener(MouseListener mouseListener) {
+      mainWindow.addMouseMotionListener(mouseListener);
+      mainWindow.addMouseListener(mouseListener);
+   }
+
+   public void addKeyListener(KeyListener keyListener) {
+      mainWindow.addKeyListener(keyListener);
    }
 }

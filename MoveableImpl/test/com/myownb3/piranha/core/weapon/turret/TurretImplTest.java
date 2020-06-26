@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
@@ -38,12 +39,14 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
+import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TargetGridElement;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
@@ -57,6 +60,51 @@ class TurretImplTest {
    @AfterEach
    public void tearDown() {
       ProjectileFactory.INSTANCE.deregisterGrid();
+   }
+
+   @Test
+   void testTurretImpl_WithHumanTurret() {
+
+      // Given
+      double radius = 5.0;
+      Position gunCarriagePos = Positions.of(radius, radius);
+
+      GunCarriage gunCarriage = spy(SimpleGunCarriageBuilder.builder()
+            .withGun(BulletGunBuilder.builder()
+                  .withGunConfig(GunConfigBuilder.builder()
+                        .withRoundsPerMinute(1)
+                        .withSalveSize(1)
+                        .withProjectileConfig(ProjectileConfigBuilder.builder()
+                              .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
+                              .withVelocity(1)
+                              .build())
+                        .build())
+                  .withGunShape(GunShapeBuilder.builder()
+                        .withBarrel(RectangleBuilder.builder()
+                              .withHeight(5)
+                              .withWidth(2)
+                              .withCenter(gunCarriagePos)
+                              .withOrientation(Orientation.HORIZONTAL)
+                              .build())
+                        .build())
+                  .build())
+            .withShape(CircleBuilder.builder()
+                  .withRadius(5)
+                  .withAmountOfPoints(5)
+                  .withCenter(gunCarriagePos)
+                  .build())
+            .build());
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withGunCarriage(gunCarriage)
+            .withTurretStrategyHandler(new HumanControlledTurretStrategyHandler(gunCarriage))
+            .build();
+
+      // When
+      turretImpl.autodetect();
+
+      // Then
+      verify(gunCarriage).aimTargetPos(eq(gunCarriagePos));
    }
 
    @Test
@@ -290,6 +338,7 @@ class TurretImplTest {
       TurretScanner turretScanner = mock(TurretScanner.class);
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withGun(BulletGunBuilder.builder()
                         .withGunConfig(GunConfigBuilder.builder()
@@ -388,12 +437,12 @@ class TurretImplTest {
 
       // When
       turretImpl.autodetect();
-      TurretState stateAfterFirstDetect = turretImpl.state;
+      TurretState stateAfterFirstDetect = turretImpl.turretStrategyHandler.getTurretStatus();
       turretImpl.autodetect();
 
       // Then
       assertThat(stateAfterFirstDetect, is(TurretState.TARGET_DETECTED));
-      assertThat(turretImpl.state, is(TurretState.ACQUIRING));
+      assertThat(turretImpl.turretStrategyHandler.getTurretStatus(), is(TurretState.ACQUIRING));
    }
 
    @Test

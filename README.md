@@ -25,9 +25,7 @@ Tank/turret example:
 ![tankturretexample](https://user-images.githubusercontent.com/29772244/85270835-34056500-b47a-11ea-82dc-aa66d41c5e68.png)
 
 Whats missing:
-- The collision detection system is going to be improved.
-- GridElements will have a distance from ground and a height (in 3. dimension) in order to support flying objects which does not collide
-- A HumanTank and HumanTurret will be introduced in order to support some human interraction on the battle field
+- The collision detection system is going to be improve, especially when a Tank moves forward
 - And also in the near futur I'll add some sound and visual effects for explosions and stuff.
 
 

@@ -39,7 +39,7 @@ import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
-import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
+import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
 
 class TankImplIntegTest {
 

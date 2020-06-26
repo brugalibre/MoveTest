@@ -62,7 +62,7 @@ import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
-import com.myownb3.piranha.core.weapon.tank.turret.TankTurret.TankTurretBuilder;
+import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 class TankGridElementTest {
@@ -99,6 +99,7 @@ class TankGridElementTest {
                         .withDetector(mock(IDetector.class))
                         .withTurretScanner(mock(TurretScanner.class))
                         .withGridElementEvaluator(mock(GridElementEvaluator.class))
+                        .withParkingAngleEvaluator(() -> 0)
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
                               .withGun(BulletGunBuilder.builder()
                                     .withGunShape(mock(GunShapeImpl.class))
@@ -156,6 +157,7 @@ class TankGridElementTest {
                   .withTankDetector(mock(TankDetector.class))
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTurret(TankTurretBuilder.builder()
+                        .withParkingAngleEvaluator(() -> 0)
                         .withDetector(mock(IDetector.class))
                         .withTurretScanner(mock(TurretScanner.class))
                         .withGridElementEvaluator(mock(GridElementEvaluator.class))

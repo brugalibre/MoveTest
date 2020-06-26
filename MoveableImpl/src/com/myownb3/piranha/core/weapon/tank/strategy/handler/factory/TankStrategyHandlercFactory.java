@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.tank.strategy.handler.factory;
 
+import com.myownb3.piranha.core.weapon.tank.human.HumanControlledTankStrategyHandler;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.strategy.handler.TankStrategyHandler;
 import com.myownb3.piranha.core.weapon.tank.strategy.handler.impl.AlwayMoveForwardTankStrategyHandler;
@@ -26,6 +27,8 @@ public class TankStrategyHandlercFactory {
             return new AlwayMoveForwardTankStrategyHandler(tankStrategyHandleInput);
          case WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE:
             return new WaitWhileShootingTankStrategyHandler(tankStrategyHandleInput);
+         case HUMAN_CONTROLLED:
+            return new HumanControlledTankStrategyHandler(tankStrategyHandleInput);
          default:
             throw new IllegalStateException("Unknown TankStrategy '" + tankStrategy + "'");
       }

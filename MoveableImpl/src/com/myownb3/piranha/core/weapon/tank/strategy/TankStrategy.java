@@ -11,6 +11,11 @@ import com.myownb3.piranha.core.weapon.tank.Tank;
 public enum TankStrategy {
 
    /**
+    * With this {@link TankStrategy} a {@link Tank} is under the controll of a human being
+    */
+   HUMAN_CONTROLLED,
+
+   /**
     * With this {@link TankStrategy} a {@link Tank} whites while it is shooting except it's under fire itself
     */
    WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE,

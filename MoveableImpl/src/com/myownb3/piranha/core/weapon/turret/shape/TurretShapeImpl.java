@@ -110,7 +110,7 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       private PositionTransformator positionTransformator;
 
       private TurretShapeBuilder() {
-         positionTransformator = pos -> pos;
+         // private
       }
 
       public TurretShapeBuilder wighGunCarriage(GunCarriage gunCarriage) {
