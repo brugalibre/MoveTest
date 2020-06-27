@@ -81,7 +81,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
 
       private ProjectileGridElementBuilder() {
          this.health = 4;
-         this.damage = 10;
       }
 
       public static ProjectileGridElementBuilder builder() {

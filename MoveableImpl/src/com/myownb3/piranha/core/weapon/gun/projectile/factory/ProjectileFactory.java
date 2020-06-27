@@ -57,6 +57,7 @@ public class ProjectileFactory {
             .withShape(projectileShape)
             .withVelocity(projectileConfig.getVelocity())
             .withDimensionInfo(projectileConfig.getDimensionInfo())
+            .withDamage(projectileConfig.getProjectileDamage())
             .build();
    }
 

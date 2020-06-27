@@ -20,4 +20,9 @@ public interface ProjectileConfig {
     */
    int getVelocity();
 
+   /**
+    * @return the damage of the {@link Projectile}
+    */
+   double getProjectileDamage();
+
 }

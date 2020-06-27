@@ -9,15 +9,22 @@ public class ProjectileConfigImpl implements ProjectileConfig {
 
    private DimensionInfo dimensionInfo;
    private int velocity;
+   private double projectileDamage;
 
-   private ProjectileConfigImpl(DimensionInfo dimensionInfo, int velocity) {
+   private ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, int velocity) {
       this.dimensionInfo = requireNonNull(dimensionInfo);
       this.velocity = verifVelocity(velocity);
+      this.projectileDamage = projectileDamage;
    }
 
    @Override
    public DimensionInfo getDimensionInfo() {
       return dimensionInfo;
+   }
+
+   @Override
+   public double getProjectileDamage() {
+      return projectileDamage;
    }
 
    @Override
@@ -35,9 +42,10 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    public static class ProjectileConfigBuilder {
       private int velocity;
       private DimensionInfo dimensionInfo;
+      private double projectileDamage;
 
       private ProjectileConfigBuilder() {
-         // private
+         this.projectileDamage = 10;
       }
 
       public ProjectileConfigBuilder withDimensionInfo(DimensionInfo dimensionInfo) {
@@ -50,12 +58,18 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return this;
       }
 
+      public ProjectileConfigBuilder withProjectileDamate(double projectileDamage) {
+         this.projectileDamage = projectileDamage;
+         return this;
+      }
+
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(dimensionInfo, velocity);
+         return new ProjectileConfigImpl(dimensionInfo, projectileDamage, velocity);
       }
 
       public static ProjectileConfigBuilder builder() {
          return new ProjectileConfigBuilder();
       }
+
    }
 }
