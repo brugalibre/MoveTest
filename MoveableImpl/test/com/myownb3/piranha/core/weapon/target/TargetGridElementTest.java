@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.weapon.turret.turretscanner;
+package com.myownb3.piranha.core.weapon.target;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

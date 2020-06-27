@@ -8,8 +8,8 @@ import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
-import com.myownb3.piranha.core.weapon.turret.turretscanner.TargetGridElement;
 
 public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvaluator {
 

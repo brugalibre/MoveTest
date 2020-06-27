@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.Grid;
@@ -32,7 +33,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
-import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
@@ -40,82 +40,6 @@ import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner.TurretScannerBuilder;
 
 class TurretScannerTest {
-
-   @Test
-   void testScan_GridElementIsNotEnemy() {
-
-      // Given
-      Position pos = Positions.of(0, 0);
-      Position gridElemPos = Positions.of(1, 1);
-      TestCaseBuilder tcb = new TestCaseBuilder()
-            .withTurret(pos)
-            .withTargetPos(gridElemPos)
-            .withDetectedGridElement()
-            .withPlacedDetector(pos)
-            .withGrid()
-            .withGridElementEvaluator()
-            .withTurretScanner()
-            .build();
-      GridElement gridElement = mock(GridElement.class);
-
-      // When
-      boolean actualIsEnemy = tcb.turretScanner.isGridElementEnemy(gridElement);
-
-      // Then
-      assertThat(actualIsEnemy, is(false));
-   }
-
-   @Test
-   void testScan_TankGridElementIsEnemy() {
-
-      // Given
-      Position pos = Positions.of(0, 0);
-      Position gridElemPos = Positions.of(1, 1);
-      TestCaseBuilder tcb = new TestCaseBuilder()
-            .withTurret(pos)
-            .withTargetPos(gridElemPos)
-            .withDetectedGridElement()
-            .withPlacedDetector(pos)
-            .withGrid()
-            .withGridElementEvaluator()
-            .withTurretScanner()
-            .build();
-
-      TankGridElement gridElement = mock(TankGridElement.class);
-      when(tcb.turret.isEnemy(eq(gridElement))).thenReturn(true);
-
-      // When
-      boolean actualIsEnemy = tcb.turretScanner.isGridElementEnemy(gridElement);
-
-      // Then
-      assertThat(actualIsEnemy, is(true));
-   }
-
-   @Test
-   void testScan_TankGridElementIsNotEnemy() {
-
-      // Given
-      Position pos = Positions.of(0, 0);
-      Position gridElemPos = Positions.of(1, 1);
-      TestCaseBuilder tcb = new TestCaseBuilder()
-            .withTurret(pos)
-            .withTargetPos(gridElemPos)
-            .withDetectedGridElement()
-            .withPlacedDetector(pos)
-            .withGrid()
-            .withGridElementEvaluator()
-            .withTurretScanner()
-            .build();
-
-      TankGridElement gridElement = mock(TankGridElement.class);
-      when(tcb.turret.isEnemy(eq(gridElement))).thenReturn(false);
-
-      // When
-      boolean actualIsEnemy = tcb.turretScanner.isGridElementEnemy(gridElement);
-
-      // Then
-      assertThat(actualIsEnemy, is(false));
-   }
 
    @Test
    void testScan_UnknownState() {
@@ -491,6 +415,7 @@ class TurretScannerTest {
       Turret turret = mock(Turret.class);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getForemostPosition()).thenReturn(turretPos);
+      when(turret.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       return turret;
    }
 
@@ -500,7 +425,10 @@ class TurretScannerTest {
       when(gridElement.getPosition()).thenReturn(gridElemPos);
       when(gridElement.isDetectedBy(any(), any())).thenReturn(isDetected);
       when(gridElement.getVelocity()).thenReturn(velocity);
-      when(turret.isEnemy(any())).thenReturn(true);
+      when(gridElement.getVelocity()).thenReturn(velocity);
+      if (gridElement instanceof Belligerent) {
+         when(((Belligerent) gridElement).getBelligerentParty()).thenReturn(BelligerentPartyConst.REBEL_ALLIANCE);
+      }
       return gridElement;
    }
 

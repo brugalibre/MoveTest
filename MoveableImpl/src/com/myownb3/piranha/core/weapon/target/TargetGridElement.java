@@ -1,9 +1,10 @@
-package com.myownb3.piranha.core.weapon.turret.turretscanner;
+package com.myownb3.piranha.core.weapon.target;
 
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 /**
  * The {@link TargetGridElement} describes a {@link GridElement} which was acquired by a {@link TurretScanner}

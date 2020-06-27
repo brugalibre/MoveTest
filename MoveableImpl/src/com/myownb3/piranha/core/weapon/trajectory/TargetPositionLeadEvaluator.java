@@ -3,9 +3,9 @@ package com.myownb3.piranha.core.weapon.trajectory;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.Gun;
+import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 import com.myownb3.piranha.core.weapon.turret.Turret;
-import com.myownb3.piranha.core.weapon.turret.turretscanner.TargetGridElement;
 
 /**
  * The {@link TargetPositionLeadEvaluator} is responsible for evaluating the {@link Position} a {@link Gun} should aim in order to hit a
