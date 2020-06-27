@@ -29,6 +29,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.Po
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 
@@ -242,11 +244,13 @@ class TankDetectorImplTest {
       private ProjectileGridElement mockProjectileGridElement(Position position) {
          ProjectileGridElement projectileGridElement = ProjectileGridElementBuilder.builder()
                .withGrid(grid)
-               .withHealth(10)
-               .withDamage(10)
-               .withPosition(position)
-               .withShape(PositionShapeBuilder.builder()
-                     .withPosition(position)
+               .withProjectile(ProjectileBuilder.builder()
+                     .withHealth(10)
+                     .withDamage(10)
+                     .withShape(PositionShapeBuilder.builder()
+                           .withPosition(position)
+                           .build())
+                     .withProjectileTypes(ProjectileTypes.BULLET)
                      .build())
                .withVelocity(5)
                .withDimensionInfo(getDefaultDimensionInfo(1))

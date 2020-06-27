@@ -5,9 +5,9 @@ package com.myownb3.piranha.core.detector;
 
 import static java.util.Objects.isNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.detector.detectionaware.DetectionAware;
 import com.myownb3.piranha.core.detector.detectionaware.impl.DefaultDetectionAware;
@@ -43,13 +43,10 @@ public class DetectorImpl implements IDetector {
 
    @Override
    public void detectObjectAlongPath(GridElement gridElement, List<Position> gridElementPath, Position detectorPosition) {
-      Collections.sort(gridElementPath, new Pos2DistanceComparator(detectorPosition));
       preDetecting(gridElement);
-      List<DetectionResult> detectionResults = new ArrayList<>();
-      for (Position gridElemPathPos : gridElementPath) {
-         DetectionResult detectionResult = detectObjectInternal(gridElement, gridElemPathPos, detectorPosition);
-         detectionResults.add(detectionResult);
-      }
+      List<DetectionResult> detectionResults = gridElementPath.parallelStream()
+            .map(gridElemPathPos -> detectObjectInternal(gridElement, gridElemPathPos, detectorPosition))
+            .collect(Collectors.toList());
       postDetecting(gridElement, detectionResults);
    }
 

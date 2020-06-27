@@ -12,6 +12,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
+import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
@@ -24,7 +25,11 @@ public class TurretScanner {
 
    private TurretScanner(Turret turret, IDetector detector, TargetPositionLeadEvaluator targetPositionLeadEvaluator,
          GridElementEvaluator gridElementEvaluator) {
-      this.targetGridElementEvaluator = TargetGridElementEvaluator.of(turret.getBelligerentParty(), detector, gridElementEvaluator);
+      this.targetGridElementEvaluator = TargetGridElementEvaluatorBuilder.builder()
+            .withBelligerentParty(turret.getBelligerentParty())
+            .withDetector(detector)
+            .withGridElementEvaluator(gridElementEvaluator)
+            .build();
       this.turret = requireNonNull(turret);
       this.leadEvaluator = targetPositionLeadEvaluator;
       resetNearestDetectedTargetGridElement();

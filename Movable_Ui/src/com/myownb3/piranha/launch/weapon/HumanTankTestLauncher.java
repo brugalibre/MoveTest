@@ -40,6 +40,7 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionSta
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.TorpedoGunImpl.TropedoGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -56,6 +57,7 @@ import com.myownb3.piranha.core.weapon.tank.engine.human.HumanTankEngine;
 import com.myownb3.piranha.core.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
+import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
@@ -105,6 +107,10 @@ public class HumanTankTestLauncher {
             .withDetectorAngle(180)
             .build();
 
+      DetectorConfig torpedoDetectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(250)
+            .withDetectorAngle(180)
+            .build();
 
       MirrorGrid grid = MirrorGridBuilder.builder()
             .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
@@ -190,17 +196,26 @@ public class HumanTankTestLauncher {
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
                               .withRotationSpeed(4)
-                              .withGun(BulletGunBuilder.builder()
+                              .withGun(TropedoGunBuilder.builder()
                                     .withGunConfig(GunConfigBuilder.builder()
-                                          .withSalveSize(3)
-                                          .withRoundsPerMinute(300)
+                                          .withSalveSize(1)
+                                          .withRoundsPerMinute(70)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimensionInfo(DimensionInfoBuilder.builder()
                                                       .withDimensionRadius(3)
                                                       .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                       .build())
                                                 .withVelocity(projectileVelocity)
-                                                .withProjectileDamage(30)
+                                                .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
+                                                      .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                                                      .withDetector(DetectorBuilder.builder()
+                                                            .withDetectorAngle(torpedoDetectorConfig.getDetectorAngle())
+                                                            .withDetectorReach(torpedoDetectorConfig.getDetectorReach())
+                                                            .build())
+                                                      .withGridElementEvaluator(
+                                                            (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                                                      .build())
+                                                .withProjectileDamage(100)
                                                 .build())
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()

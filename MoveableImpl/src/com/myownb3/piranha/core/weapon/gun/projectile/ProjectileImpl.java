@@ -12,27 +12,24 @@ import com.myownb3.piranha.core.destruction.SelfDestructive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
-import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
+import com.myownb3.piranha.core.weapon.gun.projectile.strategy.factory.ProjectileStrategyHandlerFactory;
 
 public class ProjectileImpl implements Projectile {
 
    private DestructionHelper destructionHelper;
-   private DescentHandler descentHandler;
    private Shape shape;
+   private ProjectileStrategyHandler projectileStrategyHandler;
 
-   protected ProjectileImpl(Shape shape, double damage, double health, double velocity,
+   protected ProjectileImpl(Shape shape, ProjectileTypes projectileType, ProjectileConfig projectileConfig, double damage, double health,
          OnDestroyedCallbackHandler onDestroyCallbackHandler) {
-      this.destructionHelper = getDestructionHelper(damage, health, velocity, onDestroyCallbackHandler);
+      this.destructionHelper = getDestructionHelper(damage, health, onDestroyCallbackHandler);
       this.shape = shape;
-      this.descentHandler = buildDecentHandler(shape.getCenter(), shape.getDimensionRadius());
+      this.projectileStrategyHandler =
+            ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, projectileConfig, shape);
    }
 
-   private DescentHandler buildDecentHandler(Position position, double dimensionRadius) {
-      return new DescentHandler(position, dimensionRadius * 10, 0);
-   }
-
-   private DestructionHelper getDestructionHelper(double damage, double health, double velocity,
-         OnDestroyedCallbackHandler onDestroyCallbackHandler) {
+   private DestructionHelper getDestructionHelper(double damage, double health, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
       return DestructionHelperBuilder.builder()
             .withDamage(DamageImpl.of(damage))
             .withHealth(HealthImpl.of(health))
@@ -58,8 +55,7 @@ public class ProjectileImpl implements Projectile {
 
    @Override
    public void autodetect() {
-      Position position = descentHandler.evlPositionForNewHeight(shape.getCenter());
-      shape.transform(position);
+      projectileStrategyHandler.handleProjectileStrategy();
    }
 
    @Override
@@ -90,14 +86,15 @@ public class ProjectileImpl implements Projectile {
 
    public static class ProjectileBuilder {
 
+      private ProjectileTypes projectileType;
       private double damage;
       private double health;
-      private double velocity;
       private Shape shape;
       private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
+      private ProjectileConfig projectileConfig;
 
       private ProjectileBuilder() {
-         // private
+         this.health = 4;
       }
 
       public ProjectileBuilder withHealth(double health) {
@@ -110,13 +107,18 @@ public class ProjectileImpl implements Projectile {
          return this;
       }
 
-      public ProjectileBuilder withVelocity(double velocity) {
-         this.velocity = velocity;
+      public ProjectileBuilder withShape(Shape shape) {
+         this.shape = shape;
          return this;
       }
 
-      public ProjectileBuilder withShape(Shape shape) {
-         this.shape = shape;
+      public ProjectileBuilder withProjectileTypes(ProjectileTypes projectileType) {
+         this.projectileType = projectileType;
+         return this;
+      }
+
+      public ProjectileBuilder withProjectileConfig(ProjectileConfig projectileConfig) {
+         this.projectileConfig = projectileConfig;
          return this;
       }
 
@@ -126,11 +128,12 @@ public class ProjectileImpl implements Projectile {
       }
 
       public ProjectileImpl build() {
-         return new ProjectileImpl(shape, damage, health, velocity, onDestroyedCallbackHandler);
+         return new ProjectileImpl(shape, projectileType, projectileConfig, damage, health, onDestroyedCallbackHandler);
       }
 
       public static ProjectileBuilder builder() {
          return new ProjectileBuilder();
       }
+
    }
 }

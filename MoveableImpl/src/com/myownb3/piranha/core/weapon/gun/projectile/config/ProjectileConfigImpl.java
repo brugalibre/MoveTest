@@ -4,17 +4,21 @@ import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
 
 public class ProjectileConfigImpl implements ProjectileConfig {
 
+   private TargetGridElementEvaluator targetGridElementEvaluator;
    private DimensionInfo dimensionInfo;
    private int velocity;
    private double projectileDamage;
 
-   private ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, int velocity) {
+   private ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, TargetGridElementEvaluator targetGridElementEvaluator,
+         int velocity) {
       this.dimensionInfo = requireNonNull(dimensionInfo);
       this.velocity = verifVelocity(velocity);
       this.projectileDamage = projectileDamage;
+      this.targetGridElementEvaluator = targetGridElementEvaluator;
    }
 
    @Override
@@ -25,6 +29,11 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    @Override
    public double getProjectileDamage() {
       return projectileDamage;
+   }
+
+   @Override
+   public TargetGridElementEvaluator getTargetGridElementEvaluator() {
+      return targetGridElementEvaluator;
    }
 
    @Override
@@ -43,6 +52,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       private int velocity;
       private DimensionInfo dimensionInfo;
       private double projectileDamage;
+      private TargetGridElementEvaluator targetGridElementEvaluator;
 
       private ProjectileConfigBuilder() {
          this.projectileDamage = 10;
@@ -63,8 +73,13 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return this;
       }
 
+      public ProjectileConfigBuilder withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
+         this.targetGridElementEvaluator = targetGridElementEvaluator;
+         return this;
+      }
+
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(dimensionInfo, projectileDamage, velocity);
+         return new ProjectileConfigImpl(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity);
       }
 
       public static ProjectileConfigBuilder builder() {

@@ -27,6 +27,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 /**
  * @author Dominic
@@ -52,8 +54,12 @@ class MirrorGridTest {
 
       ProjectileGridElement projectile = spy(ProjectileGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(position)
-            .withShape(buildCircle(position, radius))
+            .withProjectile(ProjectileBuilder.builder()
+                  .withProjectileTypes(ProjectileTypes.BULLET)
+                  .withShape(buildCircle(position, radius))
+                  .withOnDestroyedCallbackHandler(() -> {
+                  })
+                  .build())
             .withVelocity(10)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(radius))
             .build());

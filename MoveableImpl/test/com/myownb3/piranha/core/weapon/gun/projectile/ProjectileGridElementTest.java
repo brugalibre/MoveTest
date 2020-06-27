@@ -13,7 +13,6 @@ import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -28,15 +27,17 @@ class ProjectileGridElementTest {
       Position startPos = Positions.of(0, 0);
       Position expectedPosition = Positions.of(0, 0.1);
       ProjectileGridElement moveable = ProjectileGridElementBuilder.builder()
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(startPos)
+            .withProjectile(ProjectileBuilder.builder()
+                  .withShape(PositionShapeBuilder.builder()
+                        .withPosition(startPos)
+                        .build())
+                  .withHealth(-2)
+                  .withProjectileTypes(ProjectileTypes.BULLET)
                   .build())
             .withVelocity(10)
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
-            .withHealth(-2)
             .build();
 
       // When
@@ -51,18 +52,21 @@ class ProjectileGridElementTest {
 
       // Given
       ProjectileGridElement projectileGridElement = spy(ProjectileGridElementBuilder.builder()
-            .withDamage(10)
-            .withGrid(mock(Grid.class))
-            .withHealth(5)
-            .withPosition(Positions.of(5, 5))
-            .withShape(mock(AbstractShape.class))
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(50)
+                  .withMaxY(50)
+                  .build())
             .withProjectile(ProjectileBuilder.builder()
+                  .withDamage(10)
+                  .withHealth(5)
+                  .withShape(PositionShapeBuilder.builder()
+                        .withPosition(Positions.of(5, 5))
+                        .build())
+                  .withProjectileTypes(ProjectileTypes.BULLET)
                   .build())
             .withVelocity(10)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
-            .withPosition(Positions.of(5, 5))
             .build());
-      when(projectileGridElement.getPosition()).thenReturn(Positions.of(5, 5));
 
       // When
       projectileGridElement.autodetect();
@@ -90,11 +94,7 @@ class ProjectileGridElementTest {
       double damageValue = 10;
       Projectile projectile = mockProjectile(damageValue);
       ProjectileGridElement projectileGridElement = ProjectileGridElementBuilder.builder()
-            .withDamage(damageValue)
             .withGrid(mock(Grid.class))
-            .withHealth(5)
-            .withPosition(Positions.of(5, 5))
-            .withShape(mock(AbstractShape.class))
             .withVelocity(10)
             .withProjectile(projectile)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
@@ -111,6 +111,9 @@ class ProjectileGridElementTest {
       Projectile projectile = mock(Projectile.class);
       Damage damage = mockDamage(damageValue);
       when(projectile.getDamage()).thenReturn(damage);
+      when(projectile.getShape()).thenReturn(PositionShapeBuilder.builder()
+            .withPosition(Positions.of(5, 5))
+            .build());
       return projectile;
    }
 

@@ -39,7 +39,7 @@ public abstract class AbstractShape implements Shape {
    @Override
    public boolean detectObject(Position detectorPosition, Detector detector) {
       requireNonNull(gridElement, "A Shape needs a GridElement when calling 'detectObject'");
-      List<Position> path4Detection = buildPath4Detection();
+      List<Position> path4Detection = Collections.unmodifiableList(buildPath4Detection());
       detector.detectObjectAlongPath(gridElement, path4Detection, detectorPosition);
       return detector.hasObjectDetected(gridElement);
    }

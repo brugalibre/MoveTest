@@ -30,7 +30,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
-class SimpleBulletGunTest {
+class BulletGunImplTest {
 
    private TestGrid grid = new TestGrid(100, 100, -100, -100);
 

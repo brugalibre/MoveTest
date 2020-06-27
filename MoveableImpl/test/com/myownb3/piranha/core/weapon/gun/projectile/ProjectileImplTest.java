@@ -22,6 +22,7 @@ class ProjectileImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(5, 5))
                   .build())
+            .withProjectileTypes(ProjectileTypes.BULLET)
             .build();
 
       // When

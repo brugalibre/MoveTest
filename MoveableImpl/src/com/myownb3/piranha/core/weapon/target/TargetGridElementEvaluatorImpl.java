@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
@@ -16,18 +15,19 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.GridElement2DistanceComparator;
 
-public class TargetGridElementEvaluator {
+public class TargetGridElementEvaluatorImpl implements TargetGridElementEvaluator {
 
    private GridElementEvaluator gridElementEvaluator;
    private BelligerentParty belligerentParty;
-   private Detector detector;
+   private IDetector detector;
 
-   private TargetGridElementEvaluator(BelligerentParty belligerentParty, IDetector detector, GridElementEvaluator gridElementEvaluator) {
+   private TargetGridElementEvaluatorImpl(BelligerentParty belligerentParty, IDetector detector, GridElementEvaluator gridElementEvaluator) {
       this.belligerentParty = requireNonNull(belligerentParty);
       this.detector = requireNonNull(detector);
       this.gridElementEvaluator = requireNonNull(gridElementEvaluator);
    }
 
+   @Override
    public Optional<TargetGridElement> getNearestTargetGridElement(Position detectorPos) {
       Predicate<GridElement> isProjectile = Projectile.class::isInstance;
       return getAllPotentialTargetsWithinReach(detectorPos).stream()
@@ -35,7 +35,7 @@ public class TargetGridElementEvaluator {
             .filter(isEnemy())
             .filter(isGridElementDetected(detectorPos))
             .sorted(new GridElement2DistanceComparator(detectorPos))
-            .map(TargetGridElement::of)
+            .map(TargetGridElementImpl::of)
             .findFirst();
    }
 
@@ -55,18 +55,42 @@ public class TargetGridElementEvaluator {
       return gridElementEvaluator.evaluateGridElementsWithinDistance(detectorPos, detector.getDetectorRange());
    }
 
-   /**
-    * Creates a new {@link TargetGridElementEvaluator}
-    * 
-    * @param belligerentParty
-    *        the {@link BelligerentParty} of this evaluator
-    * @param detector
-    *        the {@link IDetector} to detect enemys
-    * @param gridElementEvaluator
-    *        the {@link GridElementEvaluator} to evaluate all {@link GridElement}s in the first place
-    * @return
-    */
-   public static TargetGridElementEvaluator of(BelligerentParty belligerentParty, IDetector detector, GridElementEvaluator gridElementEvaluator) {
-      return new TargetGridElementEvaluator(belligerentParty, detector, gridElementEvaluator);
+   public static class TargetGridElementEvaluatorBuilder {
+
+      private GridElementEvaluator gridElementEvaluator;
+      private BelligerentParty belligerentParty;
+      private IDetector detector;
+
+      private TargetGridElementEvaluatorBuilder() {
+         // privatos
+      }
+
+      public TargetGridElementEvaluatorBuilder withGridElementEvaluator(GridElementEvaluator gridElementEvaluator) {
+         this.gridElementEvaluator = gridElementEvaluator;
+         return this;
+      }
+
+      public TargetGridElementEvaluatorBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
+      }
+
+      public TargetGridElementEvaluatorBuilder withDetector(IDetector detector) {
+         this.detector = detector;
+         return this;
+      }
+
+      public static TargetGridElementEvaluatorBuilder builder() {
+         return new TargetGridElementEvaluatorBuilder();
+      }
+
+      /**
+       * Creates a new {@link TargetGridElementEvaluator}
+       * 
+       * @return new {@link TargetGridElementEvaluator}
+       */
+      public TargetGridElementEvaluator build() {
+         return new TargetGridElementEvaluatorImpl(belligerentParty, detector, gridElementEvaluator);
+      }
    }
 }

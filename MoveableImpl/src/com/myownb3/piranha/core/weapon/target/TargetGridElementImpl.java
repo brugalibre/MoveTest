@@ -12,54 +12,56 @@ import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
  * @author Dominic
  *
  */
-public class TargetGridElement {
+public class TargetGridElementImpl implements TargetGridElement {
 
    private GridElement gridElement;
    private Position prevAcquiredPos;
    private Position currentAcquiredPos;
    private Position targetPosWithLead2Acquire;
 
-   private TargetGridElement(GridElement gridElement) {
+   private TargetGridElementImpl(GridElement gridElement) {
       this.gridElement = gridElement;
       this.currentAcquiredPos = gridElement.getPosition();
    }
 
+   @Override
    public boolean isMoving() {
       requireNonNull(prevAcquiredPos, "We need a previous acquired Position! This should actually never be null..");
       return currentAcquiredPos.getX() != prevAcquiredPos.getX()
             || currentAcquiredPos.getY() != prevAcquiredPos.getY();
    }
 
-   public static TargetGridElement of(GridElement gridElement) {
-      return new TargetGridElement(gridElement);
-   }
-
+   @Override
    public GridElement getGridElement() {
       return gridElement;
    }
 
+   @Override
    public Position getTargetPosWithLead2Acquire() {
       return targetPosWithLead2Acquire;
    }
 
+   @Override
    public Position getCurrentGridElementPosition() {
       return currentAcquiredPos;
    }
 
+   @Override
    public void setTargetPosWithLead2Acquire(Position targetPosWithLead2Acquire) {
       this.targetPosWithLead2Acquire = targetPosWithLead2Acquire;
    }
 
+   @Override
    public void setPrevAcquiredPos(Position prevAcquiredPos) {
       this.prevAcquiredPos = prevAcquiredPos;
    }
 
-   /**
-    * Returns the velocity of this {@link GridElement}. Thant means the amount of 'movements' per cycle the TargetGridElement does
-    * 
-    * @return the velocity of this {@link GridElement}
-    */
+   @Override
    public int getTargetVelocity() {
       return gridElement.getVelocity();
+   }
+
+   public static TargetGridElement of(GridElement gridElement) {
+      return new TargetGridElementImpl(gridElement);
    }
 }

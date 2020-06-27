@@ -28,7 +28,7 @@ class TargetGridElementTest {
                   .build())
             .withGrid(mock(Grid.class))
             .build();
-      TargetGridElement targetGridElement = TargetGridElement.of(gridElement);
+      TargetGridElement targetGridElement = TargetGridElementImpl.of(gridElement);
       targetGridElement.setPrevAcquiredPos(position);
 
       // When
@@ -51,7 +51,7 @@ class TargetGridElementTest {
                   .build())
             .withGrid(mock(Grid.class))
             .build();
-      TargetGridElement targetGridElement = TargetGridElement.of(gridElement);
+      TargetGridElement targetGridElement = TargetGridElementImpl.of(gridElement);
       targetGridElement.setPrevAcquiredPos(position);
 
       // When
@@ -74,7 +74,7 @@ class TargetGridElementTest {
                   .build())
             .withGrid(mock(Grid.class))
             .build();
-      TargetGridElement targetGridElement = TargetGridElement.of(gridElement);
+      TargetGridElement targetGridElement = TargetGridElementImpl.of(gridElement);
       targetGridElement.setPrevAcquiredPos(position);
 
       // When
