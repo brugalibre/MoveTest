@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.statemachine.impl.handler.postevasionstate;
 
 import static com.myownb3.piranha.core.statemachine.states.EvasionStates.POST_EVASION;
+import static java.lang.Math.abs;
 import static java.util.Objects.requireNonNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -76,7 +77,7 @@ public class PostEvasionStateHandlerWithEndPos extends
    private boolean isAngleCorrectionNecessary(Position positionBeforeEvasion, Moveable moveable, Position endPos) {
       Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
       double angle = calcAngle(moveable.getPosition(), endPosLine);
-      return angle != 0.0d;
+      return abs(angle) > 0.0d;
    }
 
    private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,

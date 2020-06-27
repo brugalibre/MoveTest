@@ -35,7 +35,7 @@ public class Orientation2PositionHelper {
       if (has2CheckOrientation(moveable, endPos)) {
          Position moveablePosition = moveable.getPosition();
          double calcedAngle = calcAngle2EndPos(moveablePosition, endPos);
-         return abs(calcedAngle) != 0.0d;
+         return abs(calcedAngle) > 0.0d;
       }
       return false;
    }

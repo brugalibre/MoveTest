@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.moveables;
 
+import static java.lang.Math.abs;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,13 +114,13 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    @Override
    public void makeTurn(double degree) {
       makeTurnInternal(degree);
-      if (degree != 0) {
+      if (abs(degree) > 0) {
          handler.handlePostConditions(this);
       }
    }
 
    private void makeTurnInternal(double degree) {
-      if (degree != 0) {
+      if (abs(degree) > 0) {
          position = position.rotate(degree);
          trackPosition(position);
          shape.transform(position);
