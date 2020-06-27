@@ -52,7 +52,7 @@ class TurretGridElementTest {
             .build();
 
       // Then
-      assertThat(turretTower.getDimensionInfo().getDistanceToGround(), is(distanceToGround));
+      assertThat(turretTower.getPosition().getZ(), is(distanceToGround));
       assertThat(turretTower.getDimensionInfo().getHeightFromBottom(), is(heightFromBottom));
    }
 

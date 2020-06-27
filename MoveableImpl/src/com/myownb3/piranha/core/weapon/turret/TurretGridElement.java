@@ -81,7 +81,6 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
          Shape turretShape = turret.getShape();
          return new TurretGridElement(grid, turret, DimensionInfoBuilder.builder()
                .withDimensionRadius(turretShape.getDimensionRadius())
-               .withDistanceToGround(turretShape.getCenter().getZ())
                .withHeightFromBottom(heightFromBottom)
                .build());
       }

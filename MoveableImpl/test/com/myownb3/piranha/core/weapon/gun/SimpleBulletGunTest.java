@@ -61,7 +61,6 @@ class SimpleBulletGunTest {
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
                         .withDimensionInfo(DimensionInfoBuilder.builder()
                               .withDimensionRadius(projectileRadius)
-                              .withDistanceToGround(heightFromBottom)
                               .withHeightFromBottom(projectileRadius / 2)
                               .build())
                         .withVelocity(velocityMulti)

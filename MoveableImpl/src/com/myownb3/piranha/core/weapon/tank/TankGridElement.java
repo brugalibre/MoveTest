@@ -30,13 +30,21 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
    }
 
    @Override
-   public List<PathSegment> getPath(DimensionInfo otherDimensionInfo) {
-      if (this.dimensionInfo.isWithinHeight(otherDimensionInfo)) {
+   public List<PathSegment> getPath(GridElement gridElement) {
+      double ourDistanceFromTheGround = getOurDistanceFromTheGround();
+      if (this.dimensionInfo.isWithinHeight(ourDistanceFromTheGround, gridElement.getPosition().getZ())) {
          return getShape().getHull().getPath();
-      } else if (turretDimensionInfo.isWithinHeight(otherDimensionInfo)) {
-         return getShape().getTurretShape().getPath();
+      } else {
+         double turretDistanceFromGround = ourDistanceFromTheGround + dimensionInfo.getHeightFromBottom();
+         if (turretDimensionInfo.isWithinHeight(turretDistanceFromGround, gridElement.getPosition().getZ())) {
+            return getShape().getTurretShape().getPath();
+         }
       }
       return Collections.emptyList();
+   }
+
+   private double getOurDistanceFromTheGround() {
+      return tank.getShape().getCenter().getZ();
    }
 
    @Override
@@ -131,12 +139,12 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
          TankShape tankShape = tank.getShape();
          DimensionInfoImpl tankDimension = DimensionInfoBuilder.builder()
                .withDimensionRadius(tankShape.getDimensionRadius())
-               .withDistanceToGround(tankShape.getCenter().getZ())
+               //               .withDistanceToGround(tankShape.getCenter().getZ())
                .withHeightFromBottom(tankheightFromBottom)
                .build();
          DimensionInfoImpl turretDimensionInfo = DimensionInfoBuilder.builder()
                .withDimensionRadius(tankShape.getDimensionRadius())
-               .withDistanceToGround(tankShape.getCenter().getZ() + tankheightFromBottom)
+               //               .withDistanceToGround(tankShape.getCenter().getZ() + tankheightFromBottom)
                .withHeightFromBottom(turretHeightFromGround)
                .build();
          return new TankGridElement(tank, grid, moveablePostActionHandler, tankDimension, turretDimensionInfo, movingIncrement);

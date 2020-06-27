@@ -17,24 +17,21 @@ public interface DimensionInfo {
    double getDimensionRadius();
 
    /**
-    * @return the distance a {@link GridElement} has from itself to the ground
-    */
-   double getDistanceToGround();
-
-   /**
     * 
     * @return the height of a {@link GridElement} measured from it's bottom
     */
    double getHeightFromBottom();
 
    /**
-    * Return <code>true</code> if this {@link DimensionInfo} is within the reach of the other regarding it's distance to the ground as well
+    * Return <code>true</code> if this {@link GridElement} is within the reach of the other regarding it's distance to the ground as well
     * it's height from ground. Returns <code>false</code> if not
     * 
-    * @param otherDimensionInfo
-    *        the other DimensionInfo
-    * @return <code>true</code> if this {@link DimensionInfo} is within the reach of the other or <code>false</code> if not
+    * @param ourDistanceToGround
+    *        the distance to the ground of the {@link GridElement} of this {@link DimensionInfo}
+    * @param otherGridElemDistanceToGround
+    *        the distance to the ground of the {@link GridElement} of the other {@link GridElement}
+    * 
+    * @return <code>true</code> if this {@link GridElement} is within the reach of the other or <code>false</code> if not
     */
-   boolean isWithinHeight(DimensionInfo otherDimensionInfo);
-
+   boolean isWithinHeight(double ourDistanceToGround, double otherGridElemDistanceToGround);
 }

@@ -89,7 +89,7 @@ public class HumanTankTestLauncher {
       int projectileVelocity = 25;
 
       // Rebel
-      Position rebelTankPos = Positions.of(450, 600).rotate(80);
+      Position rebelTankPos = Positions.of(450, 600, tankHeightFromGround).rotate(80);
       int rebelTankVelocity = 25;
       double rebelHealth = 250;
 
@@ -249,7 +249,7 @@ public class HumanTankTestLauncher {
                               .withDimensionInfo(DimensionInfoBuilder.builder()
                                     .withDimensionRadius(3)
                                     .withHeightFromBottom(3)
-                                    .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
+                                    //                                    .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
                                     .build())
                               .withVelocity(projectileVelocity)
                               .withProjectileDamate(50)

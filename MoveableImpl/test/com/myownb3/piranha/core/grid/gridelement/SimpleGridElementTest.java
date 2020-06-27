@@ -44,12 +44,21 @@ class SimpleGridElementTest {
                   .build())
             .build();
 
-      DimensionInfo projectileDimensionInfo = DimensionInfoBuilder.builder()
-            .withDimensionRadius(5)
-            .withDistanceToGround(5000)
+      GridElement otherGridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4, 5000))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) 5)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.builder()
+                  .withDimensionRadius(5)
+                  .build())
             .build();
+
       // When
-      List<PathSegment> actualPath = gridElement.getPath(projectileDimensionInfo);
+      List<PathSegment> actualPath = gridElement.getPath(otherGridElement);
 
       // Then
       assertThat(actualPath, is(Collections.emptyList()));

@@ -273,6 +273,7 @@ class RectangleCollisionDetectorImplTest {
       private TestCaseBuilder withMovedGridElement() {
          this.movedGridElement = mock(GridElement.class);
          when(movedGridElement.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(1));
+         when(movedGridElement.getPosition()).thenReturn(Positions.of(0, 0));
          return this;
       }
 

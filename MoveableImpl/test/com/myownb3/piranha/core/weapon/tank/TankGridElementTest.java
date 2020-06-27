@@ -22,16 +22,18 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterI
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
+import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
@@ -118,12 +120,21 @@ class TankGridElementTest {
                   .build())
             .build();
 
-      DimensionInfo projectileDimensionInfo = DimensionInfoBuilder.builder()
-            .withDimensionRadius(5)
-            .withDistanceToGround(tankHeightFromGround + 5)
+      GridElement otherGridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4, tankHeightFromGround + 5))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) 5)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.builder()
+                  .withDimensionRadius(5)
+                  .build())
             .build();
+
       // When
-      List<PathSegment> actualPath = tankGridElement.getPath(projectileDimensionInfo);
+      List<PathSegment> actualPath = tankGridElement.getPath(otherGridElement);
 
       // Then
       assertThat(actualPath, is(turretShape.getPath()));
@@ -179,12 +190,21 @@ class TankGridElementTest {
                   .build())
             .build();
 
-      DimensionInfo projectileDimensionInfo = DimensionInfoBuilder.builder()
-            .withDimensionRadius(5)
-            .withDistanceToGround(0)
+      GridElement otherGridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4, 0))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) 5)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.builder()
+                  .withDimensionRadius(5)
+                  .build())
             .build();
+
       // When
-      List<PathSegment> actualPath = tankGridElement.getPath(projectileDimensionInfo);
+      List<PathSegment> actualPath = tankGridElement.getPath(otherGridElement);
 
       // Then
       assertThat(actualPath, is(tankShape.getPath()));
@@ -200,15 +220,25 @@ class TankGridElementTest {
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
             .withMoveablePostActionHandler(mock(EvasionStateMachine.class))
-            .withTank(mockTank(Positions.of(5, 5, 50)))
+            .withTank(mockTank(Positions.of(5, 5, 50), 5.0))
             .build();
 
-      DimensionInfo projectileDimensionInfo = DimensionInfoBuilder.builder()
-            .withDimensionRadius(5)
-            .withDistanceToGround(5000)
+
+      GridElement otherGridElement = SimpleGridElementBuilder.builder()
+            .withGrid(mock(DefaultGrid.class))
+            .withPosition(Positions.of(4, 4, 5000))
+            .withShape(CircleBuilder.builder()
+                  .withRadius((int) 5)
+                  .withAmountOfPoints(4)
+                  .withCenter(Positions.of(4, 4))
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.builder()
+                  .withDimensionRadius(5)
+                  .build())
             .build();
+
       // When
-      List<PathSegment> actualPath = tankGridElement.getPath(projectileDimensionInfo);
+      List<PathSegment> actualPath = tankGridElement.getPath(otherGridElement);
 
       // Then
       assertThat(actualPath, is(Collections.emptyList()));
@@ -219,8 +249,8 @@ class TankGridElementTest {
 
       //  Given
       double tankHeightFromGround = 10.0;
-      double distanceToGround = 50.0;
-      Tank tank = mockTank(Positions.of(5, 5, 50));
+      double dimensionRadius = 5.0;
+      Tank tank = mockTank(Positions.of(5, 5, 50), dimensionRadius);
 
       // When
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
@@ -232,7 +262,7 @@ class TankGridElementTest {
             .build();
 
       // Then
-      assertThat(tankGridElement.getDimensionInfo().getDistanceToGround(), is(distanceToGround));
+      assertThat(tankGridElement.getDimensionInfo().getDimensionRadius(), is(dimensionRadius));
       assertThat(tankGridElement.getDimensionInfo().getHeightFromBottom(), is(tankHeightFromGround));
    }
 
@@ -382,7 +412,7 @@ class TankGridElementTest {
    @Test
    void testOtherDelegateMethods() {
       // Given
-      Tank tank = mockTank(Positions.of(5, 5));
+      Tank tank = mockTank(Positions.of(5, 5), 5.0);
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withMoveablePostActionHandler(res -> {
             })
@@ -416,12 +446,12 @@ class TankGridElementTest {
       assertThat(isTankAvoidable, is(true));
    }
 
-   private Tank mockTank(Position shapeCenter) {
+   private Tank mockTank(Position shapeCenter, double dimensionRadius) {
       Tank tank = mock(Tank.class);
       TankShapeImpl shape = mock(TankShapeImpl.class);
       when(tank.getShape()).thenReturn(shape);
       when(shape.getCenter()).thenReturn(shapeCenter);
-      when(shape.getDimensionRadius()).thenReturn(5.0);
+      when(shape.getDimensionRadius()).thenReturn(dimensionRadius);
       TankEngineImpl tankEngine = mock(TankEngineImpl.class);
       when(tank.getTankEngine()).thenReturn(tankEngine);
       return tank;

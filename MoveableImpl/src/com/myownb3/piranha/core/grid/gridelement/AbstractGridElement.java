@@ -91,9 +91,10 @@ public abstract class AbstractGridElement implements GridElement {
       // we don't do that here, may be in a subclass?
    }
 
+
    @Override
-   public List<PathSegment> getPath(DimensionInfo otherDimensionInfo) {
-      if (this.dimensionInfo.isWithinHeight(otherDimensionInfo)) {
+   public List<PathSegment> getPath(GridElement gridElement) {
+      if (this.dimensionInfo.isWithinHeight(position.getZ(), gridElement.getPosition().getZ())) {
          return shape.getPath();
       }
       return Collections.emptyList();
@@ -155,6 +156,11 @@ public abstract class AbstractGridElement implements GridElement {
 
       public T withPosition(Position position) {
          this.position = position;
+         return getThis();
+      }
+
+      public T withDimensionInfo(DimensionInfo dimensionInfo) {
+         this.dimensionInfo = dimensionInfo;
          return getThis();
       }
 

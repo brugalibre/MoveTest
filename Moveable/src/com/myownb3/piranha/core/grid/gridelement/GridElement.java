@@ -60,13 +60,13 @@ public interface GridElement extends CollisionSensitive {
 
    /**
     * Returns the path as a list of {@link PathSegment} of this {@link GridElement}.
-    * If this {@link GridElement} is placed higher then the
+    * If this {@link GridElement} is placed higher then the other {@link GridElement} an empty list is returned
     * 
-    * @param dimensionInfo
-    *        the {@link DimensionInfo} with information about the distance to the ground
+    * @param gridElement
+    *        the {@link GridElement} which want the {@link PathSegment}s
     * @return a {@link List} of {@link PathSegment}
     */
-   List<PathSegment> getPath(DimensionInfo dimensionInfo);
+   List<PathSegment> getPath(GridElement gridElement);
 
    /**
     * 

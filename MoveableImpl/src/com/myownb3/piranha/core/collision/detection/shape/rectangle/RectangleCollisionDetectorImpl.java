@@ -59,7 +59,7 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
 
    private Function<GridElement, CollisionGridElement> getNearestIntersection(GridElement movedGridElement, Rectangle transformedRectangle) {
       return gridElement -> {
-         return gridElement.getPath(movedGridElement.getDimensionInfo())
+         return gridElement.getPath(movedGridElement)
                .stream()
                .map(PathSegment::getBegin)
                .filter(posOnShapePath -> isPositionInsideRectangle(posOnShapePath, transformedRectangle))
