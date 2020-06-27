@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -93,6 +94,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       verifyAmount(amount);
       for (int i = 0; i < amount; i++) {
          runnable.run();
+         if (!DestructionHelper.isNotDestroyed(this)) {
+            break;
+         }
       }
    }
 

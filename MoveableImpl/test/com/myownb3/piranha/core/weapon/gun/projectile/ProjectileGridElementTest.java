@@ -10,14 +10,41 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.destruction.Damage;
+import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
 class ProjectileGridElementTest {
+   @Test
+   void test_StopMovingWhenDestroyed() {
+
+      // Given
+      Position startPos = Positions.of(0, 0);
+      Position expectedPosition = Positions.of(0, 0.1);
+      ProjectileGridElement moveable = ProjectileGridElementBuilder.builder()
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(startPos)
+                  .build())
+            .withVelocity(10)
+            .withPosition(Positions.of(0, 0))
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+            .withHealth(-2)
+            .build();
+
+      // When
+      moveable.moveForward(10);
+
+      // Then
+      assertThat(moveable.getPosition(), is(expectedPosition));
+   }
 
    @Test
    void testAutoDetectable() {
