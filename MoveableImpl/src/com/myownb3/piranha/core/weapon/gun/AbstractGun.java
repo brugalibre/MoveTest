@@ -79,7 +79,8 @@ public abstract class AbstractGun implements Gun {
       Position projectileStartWithinGun = Positions.movePositionForward4Distance(foremostPosition,
             PROJECTILE_START_POS_OFFSET + projctileDimensionInfo.getDimensionRadius());
       Direction direction = foremostPosition.getDirection();
-      return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY(), projectileStartWithinGun.getZ());
+      double distance2Ground = projectileStartWithinGun.getZ() + projctileDimensionInfo.getHeightFromBottom();
+      return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY(), distance2Ground);
    }
 
    @Override

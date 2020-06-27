@@ -3,11 +3,11 @@ package com.myownb3.piranha.core.weapon.gun.projectile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.destruction.Damage;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
@@ -50,7 +50,7 @@ class ProjectileGridElementTest {
    void testAutoDetectable() {
 
       // Given
-      ProjectileGridElement projectileGridElement = Mockito.spy(ProjectileGridElementBuilder.builder()
+      ProjectileGridElement projectileGridElement = spy(ProjectileGridElementBuilder.builder()
             .withDamage(10)
             .withGrid(mock(Grid.class))
             .withHealth(5)
@@ -60,7 +60,9 @@ class ProjectileGridElementTest {
                   .build())
             .withVelocity(10)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
+            .withPosition(Positions.of(5, 5))
             .build());
+      when(projectileGridElement.getPosition()).thenReturn(Positions.of(5, 5));
 
       // When
       projectileGridElement.autodetect();

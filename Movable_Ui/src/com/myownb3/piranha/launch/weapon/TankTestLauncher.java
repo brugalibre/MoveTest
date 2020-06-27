@@ -82,7 +82,7 @@ public class TankTestLauncher {
       double turretHeight = GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM;
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
-      Position tankPos = Positions.of(550, 100, tankHeightFromGround).rotate(180);
+      Position tankPos = Positions.of(550, 100).rotate(180);
       Position tankTurretPos = Positions.of(410, 100).rotate(180);
 
       List<EndPosition> endPositions = new ArrayList<>();
@@ -200,8 +200,7 @@ public class TankTestLauncher {
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimensionInfo(DimensionInfoBuilder.builder()
                                                       .withDimensionRadius(3)
-                                                      .withHeightFromBottom(3)
-                                                      //                                                      .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
+                                                      .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                       .build())
                                                 .withVelocity(projectileVelocity)
                                                 .build())
@@ -433,7 +432,6 @@ public class TankTestLauncher {
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
                                                             .withDimensionRadius(3)
                                                             .withHeightFromBottom(3)
-                                                            //                                                            .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
                                                       .build())
@@ -490,7 +488,10 @@ public class TankTestLauncher {
                                     .withSalveSize(2)
                                     .withRoundsPerMinute(100)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
+                                          .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                .withDimensionRadius(3)
+                                                .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                                .build())
                                           .withVelocity(projectileVelocity)
                                           .build())
                                     .build())

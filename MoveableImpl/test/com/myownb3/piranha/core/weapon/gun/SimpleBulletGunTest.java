@@ -50,10 +50,11 @@ class SimpleBulletGunTest {
    void testFireGun() throws InterruptedException {
       // Given
       double heightFromBottom = 15;
+      int distanceToBottom = 2;
       double projectileRadius = 5.0;
       int velocityMulti = 2;
       int salve = 1;
-      Position position = Positions.of(5, 5, heightFromBottom);
+      Position position = Positions.of(5, 5, distanceToBottom);
       BulletGunImpl simpleBulletGun = BulletGunBuilder.builder()
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(salve)
@@ -61,7 +62,7 @@ class SimpleBulletGunTest {
                   .withProjectileConfig(ProjectileConfigBuilder.builder()
                         .withDimensionInfo(DimensionInfoBuilder.builder()
                               .withDimensionRadius(projectileRadius)
-                              .withHeightFromBottom(projectileRadius / 2)
+                              .withHeightFromBottom(heightFromBottom)
                               .build())
                         .withVelocity(velocityMulti)
                         .build())
@@ -78,7 +79,7 @@ class SimpleBulletGunTest {
 
 
       Position foremostGunPosition = simpleBulletGun.getShape().getForemostPosition();
-      foremostGunPosition = Positions.of(foremostGunPosition.getX(), foremostGunPosition.getY(), heightFromBottom);
+      foremostGunPosition = Positions.of(foremostGunPosition.getX(), foremostGunPosition.getY(), heightFromBottom + distanceToBottom);
       Position expectedProjectilPosition = Positions.movePositionForward4Distance(foremostGunPosition, 10 + projectileRadius);
 
       // When

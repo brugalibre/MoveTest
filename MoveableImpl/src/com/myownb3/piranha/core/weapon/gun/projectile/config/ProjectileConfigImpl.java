@@ -58,7 +58,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return this;
       }
 
-      public ProjectileConfigBuilder withProjectileDamate(double projectileDamage) {
+      public ProjectileConfigBuilder withProjectileDamage(double projectileDamage) {
          this.projectileDamage = projectileDamage;
          return this;
       }

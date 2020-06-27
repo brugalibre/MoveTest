@@ -14,10 +14,9 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
-import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 
-public class ProjectileGridElement extends AbstractMoveable implements Projectile, AutoDetectable {
+public class ProjectileGridElement extends AbstractMoveable implements Projectile {
    private Projectile projectile;
 
    private ProjectileGridElement(Grid grid, Position position, Shape shape, DimensionInfo dimensionInfo, double damage, double health,
@@ -28,6 +27,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
             .withHealth(health)
             .withVelocity(getVelocity())
             .withOnDestroyedCallbackHandler(() -> grid.remove(this))
+            .withShape(shape)
             .build();
       setName(UUID.randomUUID().toString());
    }
@@ -42,6 +42,12 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    @Override
    public void autodetect() {
       moveForward(getVelocity());
+      projectile.autodetect();
+   }
+
+   @Override
+   public Position getPosition() {
+      return shape.getCenter();
    }
 
    @Override

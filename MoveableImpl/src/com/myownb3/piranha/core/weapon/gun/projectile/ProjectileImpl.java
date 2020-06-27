@@ -10,14 +10,25 @@ import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.destruction.SelfDestructive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
+import com.myownb3.piranha.core.grid.position.Position;
 
 public class ProjectileImpl implements Projectile {
 
    private DestructionHelper destructionHelper;
+   private DescentHandler descentHandler;
+   private Shape shape;
 
-   protected ProjectileImpl(double damage, double health, double velocity, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
+   protected ProjectileImpl(Shape shape, double damage, double health, double velocity,
+         OnDestroyedCallbackHandler onDestroyCallbackHandler) {
       this.destructionHelper = getDestructionHelper(damage, health, velocity, onDestroyCallbackHandler);
+      this.shape = shape;
+      this.descentHandler = buildDecentHandler(shape.getCenter(), shape.getDimensionRadius());
+   }
+
+   private DescentHandler buildDecentHandler(Position position, double dimensionRadius) {
+      return new DescentHandler(position, dimensionRadius * 10, 0);
    }
 
    private DestructionHelper getDestructionHelper(double damage, double health, double velocity,
@@ -43,6 +54,17 @@ public class ProjectileImpl implements Projectile {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       destructionHelper.onCollision(gridElements);
+   }
+
+   @Override
+   public void autodetect() {
+      Position position = descentHandler.evlPositionForNewHeight(shape.getCenter());
+      shape.transform(position);
+   }
+
+   @Override
+   public Shape getShape() {
+      return shape;
    }
 
    private static class ProjectileSelfDestructive implements SelfDestructive {
@@ -71,6 +93,7 @@ public class ProjectileImpl implements Projectile {
       private double damage;
       private double health;
       private double velocity;
+      private Shape shape;
       private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
 
       private ProjectileBuilder() {
@@ -92,13 +115,18 @@ public class ProjectileImpl implements Projectile {
          return this;
       }
 
+      public ProjectileBuilder withShape(Shape shape) {
+         this.shape = shape;
+         return this;
+      }
+
       public ProjectileBuilder withOnDestroyedCallbackHandler(OnDestroyedCallbackHandler onDestroyedCallbackHandler) {
          this.onDestroyedCallbackHandler = onDestroyedCallbackHandler;
          return this;
       }
 
       public ProjectileImpl build() {
-         return new ProjectileImpl(damage, health, velocity, onDestroyedCallbackHandler);
+         return new ProjectileImpl(shape, damage, health, velocity, onDestroyedCallbackHandler);
       }
 
       public static ProjectileBuilder builder() {

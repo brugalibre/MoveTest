@@ -89,7 +89,7 @@ public class HumanTankTestLauncher {
       int projectileVelocity = 25;
 
       // Rebel
-      Position rebelTankPos = Positions.of(450, 600, tankHeightFromGround).rotate(80);
+      Position rebelTankPos = Positions.of(450, 600).rotate(80);
       int rebelTankVelocity = 25;
       double rebelHealth = 250;
 
@@ -120,6 +120,8 @@ public class HumanTankTestLauncher {
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(imperialTankVelocity)
+            .withTankheightFromBottom(tankHeightFromGround)
+            .withTurretHeightFromBottom(tankTurretHeight)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -193,8 +195,12 @@ public class HumanTankTestLauncher {
                                           .withSalveSize(3)
                                           .withRoundsPerMinute(300)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
+                                                .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                      .withDimensionRadius(3)
+                                                      .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                                      .build())
                                                 .withVelocity(projectileVelocity)
+                                                .withProjectileDamage(30)
                                                 .build())
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
@@ -243,16 +249,14 @@ public class HumanTankTestLauncher {
             .withRotationSpeed(5)
             .withGun(BulletGunBuilder.builder()
                   .withGunConfig(GunConfigBuilder.builder()
-                        .withSalveSize(2)
+                        .withSalveSize(1)
                         .withRoundsPerMinute(550)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimensionInfo(DimensionInfoBuilder.builder()
                                     .withDimensionRadius(3)
-                                    .withHeightFromBottom(3)
-                                    //                                    .withDistanceToGround(tankHeightFromGround + tankTurretHeight)
+                                    .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                     .build())
                               .withVelocity(projectileVelocity)
-                              .withProjectileDamate(50)
                               .build())
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
@@ -281,7 +285,7 @@ public class HumanTankTestLauncher {
       TankGridElement humanRebelTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(5)
-            .withTankheightFromBottom(tankTurretHeight)
+            .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(tankTurretHeight)
             .withMoveablePostActionHandler(res -> {
             })
@@ -292,7 +296,7 @@ public class HumanTankTestLauncher {
                   .withTurret(TurretBuilder.builder()
                         .withGunCarriage(gunCarriage)
                         .withTurretStrategyHandler(turretStrategyHandler)
-                        .withPositionTransformator(pos -> Positions.movePositionForward(pos, 100))
+                        .withPositionTransformator(pos -> Positions.movePositionForward(pos, 150))
                         .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                         .build())
                   .withHull(RectangleBuilder.builder()
