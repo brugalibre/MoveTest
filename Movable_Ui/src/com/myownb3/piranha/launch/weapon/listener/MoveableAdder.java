@@ -52,7 +52,6 @@ public class MoveableAdder {
       int gridElementRadius = 10;
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(gridElementPos)
             .withHealth(480)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)
@@ -70,7 +69,6 @@ public class MoveableAdder {
       int gridElementRadius = 10;
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(gridElementPos)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)
                   .withAmountOfPoints(20)

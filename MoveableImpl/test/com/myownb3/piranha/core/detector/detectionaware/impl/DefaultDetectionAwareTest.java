@@ -19,6 +19,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
 public class DefaultDetectionAwareTest {
@@ -51,15 +52,21 @@ public class DefaultDetectionAwareTest {
 
       Obstacle g1 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG1)
+                  .build())
             .build();
       Obstacle g2 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG2)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG2)
+                  .build())
             .build();
       Obstacle g3 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG3)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG3)
+                  .build())
             .build();
       List<Obstacle> obstacles = Arrays.asList(g1, g2, g3);
       Collections.shuffle(obstacles);
@@ -85,15 +92,21 @@ public class DefaultDetectionAwareTest {
 
       Obstacle g1 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG1)
+                  .build())
             .build();
       Obstacle g2 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG2)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG2)
+                  .build())
             .build();
       Obstacle g3 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(positionG3)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(positionG3)
+                  .build())
             .build();
       List<Obstacle> obstacles = Arrays.asList(g1, g2, g3);
       Collections.shuffle(obstacles);

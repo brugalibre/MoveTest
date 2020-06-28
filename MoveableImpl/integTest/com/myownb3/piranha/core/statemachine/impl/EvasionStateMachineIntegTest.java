@@ -229,7 +229,9 @@ public class EvasionStateMachineIntegTest {
          Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
          obstacle = ObstacleBuilder.builder()
                .withGrid(grid)
-               .withPosition(obstaclePos)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(obstaclePos)
+                     .build())
                .build();
          obstacles.add(obstacle);
          return this;
@@ -250,7 +252,9 @@ public class EvasionStateMachineIntegTest {
       public TestCaseBuilder addObstacle(Position obstaclePos) {
          Obstacle obstacle = ObstacleBuilder.builder()
                .withGrid(grid)
-               .withPosition(obstaclePos)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(obstaclePos)
+                     .build())
                .build();
          obstacles.add(obstacle);
          return this;
@@ -294,7 +298,6 @@ public class EvasionStateMachineIntegTest {
       public TestCaseBuilder withMoveable(Position startPos) {
          moveable = EndPointMoveableBuilder.builder()
                .withGrid(grid)
-               .withStartPosition(startPos)
                .withMoveablePostActionHandler(stateMachine)
                .withMovingIncrement(movingIncrement)
                .withShape(PositionShapeBuilder.builder()

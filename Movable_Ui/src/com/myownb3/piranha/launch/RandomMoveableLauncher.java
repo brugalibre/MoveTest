@@ -90,7 +90,6 @@ public class RandomMoveableLauncher implements Stoppable {
          Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
          Obstacle obstacle = MoveableObstacleBuilder.builder()
                .withGrid(grid)
-               .withPosition(randomPosition)
                .withShape(CircleBuilder.builder()
                      .withRadius(width)
                      .withAmountOfPoints(20)
@@ -152,7 +151,6 @@ public class RandomMoveableLauncher implements Stoppable {
       Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(pos)
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()

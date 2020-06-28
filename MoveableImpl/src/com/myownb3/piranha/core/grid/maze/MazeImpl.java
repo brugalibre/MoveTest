@@ -131,7 +131,7 @@ public class MazeImpl implements Maze {
 
       private Consumer<EndPosition> createAndAddEndPosGridElement() {
          return endPos -> {
-            mazeGridElements.add(new EndPositionGridElement(grid, endPos, CircleBuilder.builder()
+            mazeGridElements.add(new EndPositionGridElement(grid, CircleBuilder.builder()
                   .withRadius(4)
                   .withAmountOfPoints(4)
                   .withCenter(endPos)
@@ -201,7 +201,7 @@ public class MazeImpl implements Maze {
 
          public CorridorBuilder withTurret(IDetector detector, GunCarriage gunCarriage, CorridorSide corridorSide) {
             Position corridorSegmentCenter = getTurretPosition(gunCarriage, corridorSide);
-            gunCarriage.getShape().transform(corridorSegmentCenter);
+            gunCarriage.evalAndSetPosition(corridorSegmentCenter);
             corridorGridElements.add(TurretGridElementBuilder.builder()
                   .withGrid(grid)
                   .withTurret(TurretBuilder.builder()
@@ -258,9 +258,9 @@ public class MazeImpl implements Maze {
          public CorridorBuilder withObstacle(Shape shape, int xOffset, int yOffset) {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset);
+            shape.transform(gridElementPos);
             GridElement gridElement = ObstacleBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(gridElementPos)
                   .withShape(shape)
                   .build();
             this.corridorGridElements.add(gridElement);
@@ -271,9 +271,9 @@ public class MazeImpl implements Maze {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             Position gridElementPos = Positions.of(corridorSegmentCenter.getX() + xOffset, corridorSegmentCenter.getY() + yOffset)
                   .rotate(angleOffset);
+            shape.transform(gridElementPos);
             GridElement gridElement = MoveableObstacleBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(gridElementPos)
                   .withShape(shape)
                   .withVelocity(8)
                   .build();
@@ -375,7 +375,6 @@ public class MazeImpl implements Maze {
    private static Wall buildWallGridElemenet(Grid grid, double height, double width, Position center) {
       return WallGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(center)
             .withShape(RectangleBuilder.builder()
                   .withCenter(center)
                   .withHeight(height)

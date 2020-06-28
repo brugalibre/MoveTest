@@ -26,6 +26,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 
@@ -45,7 +46,6 @@ class BouncingCollisionDetectionHandlerImplTest {
             .withSimpleBouncePositionEvaluator(spy(new TestBouncePositionEvaluator(bouncedMoveablePos)))
             .withMovedGridElement(MoveableBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(moveablePos)
                   .withShape(CircleBuilder.builder()
                         .withCenter(moveablePos)
                         .withAmountOfPoints(4)
@@ -54,7 +54,6 @@ class BouncingCollisionDetectionHandlerImplTest {
                   .build())
             .withOtherGridElement(MoveableBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(moveablePos)
                   .withShape(CircleBuilder.builder()
                         .withCenter(moveablePos)
                         .withAmountOfPoints(4)
@@ -84,7 +83,6 @@ class BouncingCollisionDetectionHandlerImplTest {
             .withSimpleBouncePositionEvaluator(spy(new BouncedPositionEvaluatorImpl()))
             .withMovedGridElement(MoveableBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(moveablePos)
                   .withShape(CircleBuilder.builder()
                         .withCenter(moveablePos)
                         .withAmountOfPoints(4)
@@ -93,7 +91,9 @@ class BouncingCollisionDetectionHandlerImplTest {
                   .build())
             .withOtherGridElement(SimpleGridElementBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(moveablePos)
+                  .withShape(PositionShapeBuilder.builder()
+                        .withPosition(moveablePos)
+                        .build())
                   .build())
             .withIntersection(IntersectionImpl.of(new PathSegmentImpl(moveablePos, moveablePos), moveablePos))
             .build();

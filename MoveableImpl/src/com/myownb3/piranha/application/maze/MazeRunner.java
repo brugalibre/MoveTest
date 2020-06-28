@@ -134,7 +134,6 @@ public class MazeRunner implements MoveableApplication {
                .withEndPointMoveable()
                .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                .withGrid(maze.getGrid())
-               .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                      .withDetector(detectorCluster)
                      .withGrid(maze.getGrid())

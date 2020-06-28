@@ -15,7 +15,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.EndPosition;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
@@ -34,9 +33,9 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private double prevDistance;
    private BelligerentParty belligerentParty;
 
-   protected EndPointMoveableImpl(Grid grid, Position position, MoveablePostActionHandler handler, int movingIncrement,
+   protected EndPointMoveableImpl(Grid grid, MoveablePostActionHandler handler, int movingIncrement,
          Shape shape, DimensionInfo dimensionInfo, BelligerentParty belligerentParty) {
-      super(grid, position, handler, shape, dimensionInfo, movingIncrement);
+      super(grid, handler, shape, dimensionInfo, movingIncrement);
       init(belligerentParty);
    }
 
@@ -94,7 +93,6 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
    public static class EndPointMoveableBuilder {
       private Grid grid;
-      private Position startPosition;
       private MoveablePostActionHandler handler;
       private int movingIncrement;
       private Shape shape;
@@ -113,11 +111,6 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
       public EndPointMoveableBuilder withGrid(Grid grid) {
          this.grid = grid;
-         return this;
-      }
-
-      public EndPointMoveableBuilder withStartPosition(Position startPosition) {
-         this.startPosition = startPosition;
          return this;
       }
 
@@ -143,9 +136,8 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
       public EndPointMoveable build() {
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
-         Objects.requireNonNull(startPosition, "Attribute 'startPosition' must not be null!");
          Objects.requireNonNull(shape, "Attribute 'shape' must not be null!");
-         return new EndPointMoveableImpl(grid, startPosition, handler, movingIncrement, shape, getDefaultDimensionInfo(shape.getDimensionRadius()),
+         return new EndPointMoveableImpl(grid, handler, movingIncrement, shape, getDefaultDimensionInfo(shape.getDimensionRadius()),
                belligerentParty);
       }
 

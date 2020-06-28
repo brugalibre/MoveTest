@@ -134,7 +134,6 @@ public class EndPointMoveableLauncher {
       Position randomPosition4 = Positions.of(110 + padding, 300 + padding);
       MoveableObstacleImpl obstacle = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(randomPosition)
             .withShape(CircleBuilder.builder()
                   .withRadius(width)
                   .withAmountOfPoints(5)
@@ -144,7 +143,6 @@ public class EndPointMoveableLauncher {
             .build();
       MoveableObstacleImpl obstacle2 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(randomPosition2)
             .withShape(CircleBuilder.builder()
                   .withRadius(width)
                   .withAmountOfPoints(5)
@@ -153,7 +151,6 @@ public class EndPointMoveableLauncher {
             .build();
       MoveableObstacleImpl obstacle3 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(randomPosition3)
             .withShape(CircleBuilder.builder()
                   .withRadius(width)
                   .withAmountOfPoints(5)
@@ -162,7 +159,6 @@ public class EndPointMoveableLauncher {
             .build();
       MoveableObstacleImpl obstacle4 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(randomPosition4)
             .withShape(CircleBuilder.builder()
                   .withRadius(width)
                   .withAmountOfPoints(5)
@@ -189,7 +185,6 @@ public class EndPointMoveableLauncher {
       for (EndPosition endPos : endPositions) {
          allGridElement.add(SimpleGridElementBuilder.builder()
                .withGrid(grid)
-               .withPosition(endPos)
                .withShape(buildCircle(width, endPos))
                .build());
       }
@@ -255,7 +250,6 @@ public class EndPointMoveableLauncher {
       Position pos = Positions.of(posX + padding, posY + padding);
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(pos)
             .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()

@@ -38,7 +38,6 @@ class OrientatingStateHandlerTest {
       Position moveablePos = spy(Positions.of(0, 0));
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveablePos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(moveablePos)
                   .build())
@@ -64,7 +63,6 @@ class OrientatingStateHandlerTest {
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0, 0));
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveablePos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(moveablePos)
                   .build())
@@ -91,7 +89,6 @@ class OrientatingStateHandlerTest {
 
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveablePos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(moveablePos)
                   .build())

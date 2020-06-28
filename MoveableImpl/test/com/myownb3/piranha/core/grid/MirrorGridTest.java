@@ -24,6 +24,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
@@ -143,7 +144,9 @@ class MirrorGridTest {
    private static GridElement buildGridElement(Grid grid, Position position) {
       return SimpleGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(position)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
             .build();
    }
 
@@ -294,7 +297,6 @@ class MirrorGridTest {
    private static GridElement buildGridElement(Grid grid, Position position, Shape shape) {
       return SimpleGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(position)
             .withShape(shape)
             .build();
    }

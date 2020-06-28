@@ -22,7 +22,6 @@ class TargetGridElementTest {
       Position position = Positions.of(1, 1);
       Position gridElementPos = Positions.of(0, 1);
       GridElement gridElement = SimpleGridElementBuilder.builder()
-            .withPosition(gridElementPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElementPos)
                   .build())
@@ -45,7 +44,6 @@ class TargetGridElementTest {
       Position position = Positions.of(1, 1);
       Position gridElementPos = Positions.of(1, 0);
       GridElement gridElement = SimpleGridElementBuilder.builder()
-            .withPosition(gridElementPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElementPos)
                   .build())
@@ -68,7 +66,6 @@ class TargetGridElementTest {
       Position position = Positions.of(1, 1);
       Position gridElementPos = Positions.of(1, 1);
       GridElement gridElement = SimpleGridElementBuilder.builder()
-            .withPosition(gridElementPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElementPos)
                   .build())

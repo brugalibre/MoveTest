@@ -80,7 +80,7 @@ class TurretGridElementTest {
       verify(turret).isAcquiring();
       verify(turret).isEnemy(belligerent);
       verify(turret).getBelligerentParty();
-      verify(turret, times(5)).getShape();
+      verify(turret, times(4)).getShape();
       verify(turret).isShooting();
    }
 

@@ -245,9 +245,8 @@ class PositionTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(Directions.S, 0, 0, 0))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(0, 0))
+                  .withPosition(Positions.of(Directions.S, 0, 0, 0))
                   .build())
             .build();
       moveable.moveForward(100);

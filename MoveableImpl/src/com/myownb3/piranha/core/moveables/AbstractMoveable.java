@@ -32,9 +32,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    protected int velocity;
    private List<Position> positionHistory;
 
-   protected AbstractMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, DimensionInfo dimensionInfo,
+   protected AbstractMoveable(Grid grid, MoveablePostActionHandler handler, Shape shape, DimensionInfo dimensionInfo,
          int velocity) {
-      super(grid, position, shape, dimensionInfo);
+      super(grid, shape, dimensionInfo);
       init(handler, velocity);
    }
 
@@ -45,8 +45,8 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       this.velocity = velocity;
    }
 
-   protected AbstractMoveable(Grid grid, Position position, Shape shape, DimensionInfo dimensionInfo, int velocity) {
-      this(grid, position, (m) -> {/* This empty handler does nothing */
+   protected AbstractMoveable(Grid grid, Shape shape, DimensionInfo dimensionInfo, int velocity) {
+      this(grid, (m) -> {/* This empty handler does nothing */
       }, shape, dimensionInfo, velocity);
    }
 

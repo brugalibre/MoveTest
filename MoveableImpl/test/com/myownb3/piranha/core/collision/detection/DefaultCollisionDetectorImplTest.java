@@ -261,9 +261,9 @@ class DefaultCollisionDetectorImplTest {
       }
 
       public TestCaseBuilder withGridElement() {
+         circle.transform(Positions.of(0, 0));
          this.gridElement = SimpleGridElementBuilder.builder()
                .withGrid(mock(Grid.class))
-               .withPosition(Positions.of(0, 0))
                .withShape(circle)
                .build();
          return this;

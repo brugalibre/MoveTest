@@ -20,7 +20,6 @@ import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 
@@ -32,8 +31,8 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    private DestructionHelper destructionHelper;
 
-   private MoveableObstacleImpl(Grid grid, Position position, Shape shape, double damage, double health, int velocity) {
-      super(grid, position, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
+   private MoveableObstacleImpl(Grid grid, Shape shape, double damage, double health, int velocity) {
+      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
       this.destructionHelper = getDestructionHelper(damage, health);
    }
 
@@ -117,7 +116,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
          MoveableObstacleImpl moveableObstacleImpl;
          requireNonNull(shape, "A MoveableObstacle needs a shape!");
          requireNonNull(velocity, "A MoveableObstacle needs a velocity!");
-         moveableObstacleImpl = new MoveableObstacleImpl(grid, position, shape, damage, health, velocity);
+         moveableObstacleImpl = new MoveableObstacleImpl(grid, shape, damage, health, velocity);
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }

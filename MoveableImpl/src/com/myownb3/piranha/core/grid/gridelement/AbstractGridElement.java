@@ -14,9 +14,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
-import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
-import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
 /**
@@ -34,21 +32,6 @@ public abstract class AbstractGridElement implements GridElement {
    private String name;
 
    /**
-    * Creates a new {@link AbstractGridElement} with the given {@link Grid} and start
-    * {@link Position}
-    * 
-    * @param grid
-    *        the Grid on which this {@link AbstractGridElement} is placed
-    * @param position
-    *        the start {@link Position}
-    */
-   protected AbstractGridElement(Grid grid, Position position) {
-      this(grid, position, PositionShapeBuilder.builder()
-            .withPosition(position)
-            .build(), DimensionInfoBuilder.getDefaultDimensionInfo(1));
-   }
-
-   /**
     * Creates a new {@link AbstractGridElement} with the given {@link Grid}, start
     * {@link Position} and {@link Shape}
     * 
@@ -59,14 +42,13 @@ public abstract class AbstractGridElement implements GridElement {
     * @param shape
     *        the {@link Shape}
     */
-   protected AbstractGridElement(Grid grid, Position position, Shape shape, DimensionInfo dimensionInfo) {
+   protected AbstractGridElement(Grid grid, Shape shape, DimensionInfo dimensionInfo) {
       super();
-      this.position = position;
+      this.position = shape.getCenter();
       this.grid = grid;
       this.shape = shape;
       this.dimensionInfo = Objects.requireNonNull(dimensionInfo);
       ((AbstractShape) shape).setGridElement(this);
-      shape.transform(position);
       grid.addElement(this);
    }
 
@@ -90,7 +72,6 @@ public abstract class AbstractGridElement implements GridElement {
    public void onCollision(List<GridElement> destructives) {
       // we don't do that here, may be in a subclass?
    }
-
 
    @Override
    public List<PathSegment> getPath(GridElement gridElement) {
@@ -140,7 +121,6 @@ public abstract class AbstractGridElement implements GridElement {
 
    public abstract static class AbstractGridElementBuilder<V extends AbstractGridElement, T extends AbstractGridElementBuilder<V, T>> {
 
-      protected Position position;
       protected Grid grid;
       protected Shape shape;
       protected DimensionInfo dimensionInfo;
@@ -151,11 +131,6 @@ public abstract class AbstractGridElement implements GridElement {
 
       public T withShape(Shape shape) {
          this.shape = shape;
-         return getThis();
-      }
-
-      public T withPosition(Position position) {
-         this.position = position;
          return getThis();
       }
 

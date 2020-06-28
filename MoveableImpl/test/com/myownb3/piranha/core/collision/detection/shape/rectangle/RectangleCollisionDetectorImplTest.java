@@ -192,7 +192,6 @@ class RectangleCollisionDetectorImplTest {
 
    private Obstacle mockObstacle(Position position) {
       return ObstacleBuilder.builder()
-            .withPosition(position)
             .withGrid(mock(Grid.class))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(position)

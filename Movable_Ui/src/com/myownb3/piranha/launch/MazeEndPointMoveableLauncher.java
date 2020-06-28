@@ -33,6 +33,7 @@ import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridEle
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
@@ -317,7 +318,9 @@ public class MazeEndPointMoveableLauncher {
          IDetector detector = corridorDetector.getDetector();
          return new DetectorPainter(SimpleGridElementBuilder.builder()
                .withGrid(grid)
-               .withPosition(corridorDetector.getPosition())
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(corridorDetector.getPosition())
+                     .build())
                .build(), getPositionListColor(), height, height,
                DetectorPainterConfig.of(Optional.empty(), DetectorConfigBuilder.builder()
                      .withDetectorAngle(detector.getDetectorAngle())

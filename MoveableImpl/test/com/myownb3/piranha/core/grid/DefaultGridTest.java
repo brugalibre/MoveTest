@@ -55,12 +55,16 @@ class DefaultGridTest {
       Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos1)
+                  .build())
             .withShape(buildCircle(obstaclePos1, radius))
             .build();
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos2)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos2)
+                  .build())
             .withShape(buildCircle(obstaclePos2, radius))
             .build();
       grid.prepare();
@@ -89,12 +93,16 @@ class DefaultGridTest {
       Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       Obstacle obstacle1 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos1)
+                  .build())
             .withShape(buildCircle(obstaclePos1, radius))
             .build();
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos2)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos2)
+                  .build())
             .withShape(buildCircle(obstaclePos2, radius))
             .build();
       grid.prepare();
@@ -127,25 +135,21 @@ class DefaultGridTest {
       Moveable moveable = spy(buildMoveable(grid, moveablePos, moveableVelocity));
       MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveableObstaclePos1)
             .withShape(buildCircle(moveableObstaclePos1, radius))
             .withVelocity(10)
             .build();
       MoveableObstacleImpl obstacle2 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveableObstaclePos2)
             .withShape(buildCircle(moveableObstaclePos2, radius))
             .withVelocity(4)
             .build();
       MoveableObstacleImpl obstacle3 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveableObstaclePos3)
             .withShape(buildCircle(moveableObstaclePos3, radius))
             .withVelocity(4)
             .build();
       MoveableObstacleImpl obstacle4 = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(moveableObstaclePos4)
             .withShape(buildCircle(moveableObstaclePos4, radius))
             .withVelocity(4)
             .build();
@@ -177,17 +181,14 @@ class DefaultGridTest {
       Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos1)
             .withShape(buildCircle(obstaclePos1, radius))
             .build();
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos2)
             .withShape(buildCircle(obstaclePos2, radius))
             .build();
       ObstacleImpl obstacle3 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos3)
             .withShape(buildCircle(obstaclePos3, radius))
             .build();
       grid.prepare();
@@ -223,11 +224,15 @@ class DefaultGridTest {
       Moveable moveable = buildMoveable(grid, moveablePos, 5);
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos1)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos1)
+                  .build())
             .build();
       Obstacle obstacle2 = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos2)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos2)
+                  .build())
             .build();
 
       // When
@@ -253,7 +258,9 @@ class DefaultGridTest {
       Moveable moveable = buildMoveable(grid, moveablePos, 5);
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(obstaclePos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(obstaclePos)
+                  .build())
             .build();
 
       // When
@@ -275,7 +282,6 @@ class DefaultGridTest {
             .withMinY(0)
             .build();
       Moveable moveable = EndPointMoveableBuilder.builder()
-            .withStartPosition(Positions.of(0, 0))
             .withGrid(grid)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
@@ -286,7 +292,9 @@ class DefaultGridTest {
             .build();
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(5, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(5, 0))
+                  .build())
             .build();
 
       // When
@@ -322,7 +330,9 @@ class DefaultGridTest {
 
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(10, 0))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(10, 0))
+                  .build())
             .build();
 
       // When
@@ -336,7 +346,6 @@ class DefaultGridTest {
    private Moveable buildMoveable(Grid grid, Position gridElemPos, int velocity) {
       return MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())

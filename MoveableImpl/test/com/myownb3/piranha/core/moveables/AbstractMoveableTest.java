@@ -34,7 +34,6 @@ class AbstractMoveableTest {
       // When
       Moveable moveable = MoveableBuilder.builder()
             .withShape(shape)
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .build();

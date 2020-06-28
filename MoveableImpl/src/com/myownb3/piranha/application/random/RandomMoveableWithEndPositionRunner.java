@@ -148,7 +148,6 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                .withPostMoveForwardHandler(postMoveFowardHandler)
                .withEndPointMoveable()
                .withGrid(grid)
-               .withStartPosition(startPosition)
                .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
                      .withDetector(detector)
                      .withGrid(grid)
@@ -169,7 +168,6 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
             Position randomPosition = Positions.getRandomPosition(dimension, circleRadius, circleRadius);
             Obstacle obstacle = MoveableObstacleBuilder.builder()
                   .withGrid(grid)
-                  .withPosition(randomPosition)
                   .withShape(CircleBuilder.builder()
                         .withRadius(circleRadius)
                         .withAmountOfPoints(20)
@@ -192,7 +190,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          endPositionRunner.config = config;
          endPositionRunner.grid = grid;
          endPositionRunner.allGridElements.addAll(endPositions.stream()
-               .map(endPos -> new EndPositionGridElement(grid, endPos, CircleBuilder.builder()
+               .map(endPos -> new EndPositionGridElement(grid, CircleBuilder.builder()
                      .withRadius(circleRadius)
                      .withAmountOfPoints(5)
                      .withCenter(endPos)

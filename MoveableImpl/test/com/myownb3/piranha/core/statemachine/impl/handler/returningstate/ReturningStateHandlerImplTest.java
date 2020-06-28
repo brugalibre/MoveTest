@@ -93,7 +93,6 @@ class ReturningStateHandlerImplTest {
       public TestCaseBuilder withMoveable(Position pos) {
          moveable = spy(MoveableBuilder.builder()
                .withGrid(grid)
-               .withPosition(pos)
                .withShape(CircleBuilder.builder()
                      .withRadius(4)
                      .withAmountOfPoints(4)

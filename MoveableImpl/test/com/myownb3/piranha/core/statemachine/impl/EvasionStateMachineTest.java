@@ -62,7 +62,6 @@ class EvasionStateMachineTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())

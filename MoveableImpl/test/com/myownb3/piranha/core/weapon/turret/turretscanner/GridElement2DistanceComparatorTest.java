@@ -29,7 +29,6 @@ class GridElement2DistanceComparatorTest {
       Position posToComapreTo = Positions.of(0, 0);
       targetGridElements.add(SimpleGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(gridElement1Pos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElement1Pos)
                   .build())
@@ -37,7 +36,6 @@ class GridElement2DistanceComparatorTest {
 
       targetGridElements.add(SimpleGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(gridElement2Pos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElement2Pos)
                   .build())

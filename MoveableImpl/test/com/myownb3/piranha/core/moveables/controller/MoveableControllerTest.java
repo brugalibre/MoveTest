@@ -79,7 +79,6 @@ class MoveableControllerTest {
             })
             .withEndPointMoveable()
             .withGrid(mock(DefaultGrid.class))
-            .withStartPosition(startPos)
             .withShape(shape)
             .withMoveablePostActionHandler((b) -> {
             })
@@ -108,7 +107,6 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(startPos)
                   .build())
-            .withStartPosition(startPos)
             .withMoveablePostActionHandler((m) -> {
             })
             .build();
@@ -148,7 +146,6 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(startPos)
                   .build())
-            .withStartPosition(startPos)
             .withMoveablePostActionHandler((m) -> {
             })
             .build());
@@ -184,7 +181,6 @@ class MoveableControllerTest {
             .withEndPointMoveable()
             .withGrid(GridBuilder.builder(30, 30)
                   .build())
-            .withStartPosition(startPos)
             .withShape(CircleBuilder.builder()
                   .withRadius(5)
                   .withAmountOfPoints(4)
@@ -222,7 +218,6 @@ class MoveableControllerTest {
       MoveResult result = new MoveResultImpl(endPosDistance, 0, true);
       EndPointMoveable moveable = spy(EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(endPos1)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(endPos1)
                   .build())
@@ -289,7 +284,6 @@ class MoveableControllerTest {
       EndPosition expectedEndPos = EndPositions.of(0, 12);
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -315,7 +309,6 @@ class MoveableControllerTest {
       EndPosition expectedEndPos = EndPositions.of(0, 12);
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -344,14 +337,12 @@ class MoveableControllerTest {
       EndPosition expectedEndPos = EndPositions.of(0, 12);
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 10))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(0, 0))
+                  .withPosition(Positions.of(0, 10))
                   .build())
             .build();
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -379,9 +370,8 @@ class MoveableControllerTest {
       Position startPos = Positions.of(0, 0).rotate(180);
       EndPointMoveable moveable = EndPointMoveableBuilder.builder()
             .withGrid(grid)
-            .withStartPosition(startPos)
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(0, 0))
+                  .withPosition(startPos)
                   .build())
             .withMoveablePostActionHandler((m) -> {
             })
@@ -459,7 +449,9 @@ class MoveableControllerTest {
          Objects.requireNonNull(grid, "We need a Grid to add any GridElement!");
          obstacle = ObstacleBuilder.builder()
                .withGrid(grid)
-               .withPosition(obstaclePos)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(obstaclePos)
+                     .build())
                .build();
          obstacles.add(obstacle);
          return this;
@@ -510,7 +502,6 @@ class MoveableControllerTest {
       public TestCaseBuilder withMoveable(Position startPos) {
          moveable = EndPointMoveableBuilder.builder()
                .withGrid(grid)
-               .withStartPosition(startPos)
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(startPos)
                      .build())

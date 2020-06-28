@@ -60,9 +60,8 @@ class EvasionStateHandlerTest {
       Detector detector = mockDetector(expectedAngle, postEvasionDelayDistance);
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .withHandler((b) -> {
             }).build();

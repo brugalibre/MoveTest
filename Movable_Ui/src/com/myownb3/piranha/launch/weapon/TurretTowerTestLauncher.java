@@ -174,7 +174,6 @@ public class TurretTowerTestLauncher {
 
       Moveable simpleGridElement = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(gridElementPos)
             .withShape(CircleBuilder.builder()
                   .withRadius(radius)
                   .withAmountOfPoints(20)

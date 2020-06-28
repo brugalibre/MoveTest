@@ -17,7 +17,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    private Projectile projectile;
 
    private ProjectileGridElement(Projectile projectile, Grid grid, DimensionInfo dimensionInfo, int velocity) {
-      super(grid, projectile.getShape().getCenter(), projectile.getShape(), dimensionInfo, velocity);
+      super(grid, projectile.getShape(), dimensionInfo, velocity);
       this.projectile = projectile;
       setName(UUID.randomUUID().toString());
    }

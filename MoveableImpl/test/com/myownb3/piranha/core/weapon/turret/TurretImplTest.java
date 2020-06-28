@@ -30,6 +30,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -394,7 +395,9 @@ class TurretImplTest {
 
       Obstacle simpleGridElement = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(targetGridElemPos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(targetGridElemPos)
+                  .build())
             .build();
 
       TurretImpl turretImpl = TurretBuilder.builder()
@@ -464,7 +467,9 @@ class TurretImplTest {
 
       Obstacle simpleGridElement = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(targetGridElemPos)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(targetGridElemPos)
+                  .build())
             .build();
 
       TurretImpl turretImpl = TurretBuilder.builder()
@@ -547,7 +552,6 @@ class TurretImplTest {
                   .withMaxX(500)
                   .withMaxY(500)
                   .build())
-            .withPosition(targetGridElemPos)
             .withShape(CircleBuilder.builder()
                   .withRadius((int) obstacleRadius)
                   .withAmountOfPoints(5)

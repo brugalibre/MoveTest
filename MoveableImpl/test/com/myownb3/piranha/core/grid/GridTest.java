@@ -140,7 +140,9 @@ class GridTest {
       // When
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
 
       boolean isElementEffectivelyOnGrid = grid.containsElement(obstacle);
@@ -163,7 +165,6 @@ class GridTest {
       // When
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7.1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 7.1))
                   .build())
@@ -189,7 +190,6 @@ class GridTest {
       Executable ex = () -> {
          MoveableBuilder.builder()
                .withGrid(grid)
-               .withPosition(Positions.of(20, 20))
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(Positions.of(20, 20))
                      .build())
@@ -206,7 +206,6 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .build())
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -228,7 +227,6 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .build())
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -254,7 +252,6 @@ class GridTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -281,7 +278,6 @@ class GridTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -303,7 +299,6 @@ class GridTest {
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .build())
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -326,11 +321,15 @@ class GridTest {
       // When
       ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
       Obstacle antoherObstacle = ObstacleBuilder.builder()
             .withGrid(new DefaultGrid())
-            .withPosition(Positions.of(1, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
 
       boolean isElementEffectivelyOnGrid = grid.containsElement(antoherObstacle);
@@ -373,7 +372,6 @@ class GridTest {
       public CollisionTestCaseBuilder withMoveable() {
          moveable = MoveableBuilder.builder()
                .withGrid(grid)
-               .withPosition(moveablePos)
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(moveablePos)
                      .build())
@@ -384,7 +382,9 @@ class GridTest {
       public CollisionTestCaseBuilder withObstacle() {
          ObstacleBuilder.builder()
                .withGrid(grid)
-               .withPosition(obstaclePosition)
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(obstaclePosition)
+                     .build())
                .build();
          return this;
       }

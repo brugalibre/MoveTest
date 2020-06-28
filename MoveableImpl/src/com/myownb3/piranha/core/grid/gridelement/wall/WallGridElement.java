@@ -13,14 +13,13 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.position.Position;
 
 public class WallGridElement extends AbstractGridElement implements Wall {
 
    private DestructionHelper destructionHelper;
 
-   protected WallGridElement(Grid grid, Position position, Shape shape) {
-      super(grid, position, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
+   protected WallGridElement(Grid grid, Shape shape) {
+      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
       this.destructionHelper = getDestructionHelper(0, Integer.MAX_VALUE);
    }
 
@@ -54,7 +53,7 @@ public class WallGridElement extends AbstractGridElement implements Wall {
 
       @Override
       public WallGridElement build() {
-         return new WallGridElement(grid, position, shape);
+         return new WallGridElement(grid, shape);
       }
    }
 }

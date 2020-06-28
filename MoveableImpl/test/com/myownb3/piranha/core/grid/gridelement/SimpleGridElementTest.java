@@ -36,7 +36,6 @@ class SimpleGridElementTest {
       //  Given
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4))
             .withShape(CircleBuilder.builder()
                   .withRadius((int) 5)
                   .withAmountOfPoints(4)
@@ -46,11 +45,10 @@ class SimpleGridElementTest {
 
       GridElement otherGridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4, 5000))
             .withShape(CircleBuilder.builder()
                   .withRadius((int) 5)
                   .withAmountOfPoints(4)
-                  .withCenter(Positions.of(4, 4))
+                  .withCenter(Positions.of(4, 4, 5000))
                   .build())
             .withDimensionInfo(DimensionInfoBuilder.builder()
                   .withDimensionRadius(5)
@@ -70,7 +68,6 @@ class SimpleGridElementTest {
       double radius = 54.0;
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4))
             .withShape(CircleBuilder.builder()
                   .withRadius((int) radius)
                   .withAmountOfPoints(4)
@@ -91,7 +88,6 @@ class SimpleGridElementTest {
       double radius = 54.0;
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4))
             .withShape(CircleBuilder.builder()
                   .withRadius((int) radius)
                   .withAmountOfPoints(4)
@@ -113,13 +109,12 @@ class SimpleGridElementTest {
       Circle circle = CircleBuilder.builder()
             .withRadius(54)
             .withAmountOfPoints(4)
-            .withCenter(Positions.of(0, 0))
+            .withCenter(gridElemPos)
             .build();
 
       // When
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(gridElemPos)
             .withShape(circle)
             .build();
 
@@ -133,7 +128,6 @@ class SimpleGridElementTest {
       Position gridElemPos = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())
@@ -151,7 +145,6 @@ class SimpleGridElementTest {
       // Given
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(4, 4))
                   .build())
@@ -171,7 +164,6 @@ class SimpleGridElementTest {
       Position expectedBackPos = gridElemPos.rotate(180);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())
@@ -190,7 +182,6 @@ class SimpleGridElementTest {
       Position gridElemPos = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(gridElemPos)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(gridElemPos)
                   .build())
@@ -208,7 +199,9 @@ class SimpleGridElementTest {
       // Given
       AbstractGridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
-            .withPosition(Positions.of(4, 4))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(4, 4))
+                  .build())
             .build();
       String expectedName = "name";
       gridElement.setName(expectedName);
@@ -231,7 +224,9 @@ class SimpleGridElementTest {
       AbstractGridElement element = SimpleGridElementBuilder.builder()
             .withGrid(GridBuilder.builder(5, 5)
                   .build())
-            .withPosition(position)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
             .build();
       String expectedToString =
             "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0', Z-Axis: '0.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";

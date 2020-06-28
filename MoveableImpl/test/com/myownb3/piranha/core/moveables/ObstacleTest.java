@@ -33,7 +33,9 @@ class ObstacleTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(2, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(2, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -42,7 +44,6 @@ class ObstacleTest {
             .build();
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
@@ -65,7 +66,9 @@ class ObstacleTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(-1, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(-1, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -74,7 +77,6 @@ class ObstacleTest {
             .build();
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
@@ -97,7 +99,9 @@ class ObstacleTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(4, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(4, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -107,7 +111,6 @@ class ObstacleTest {
 
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
@@ -131,7 +134,6 @@ class ObstacleTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(20, 70))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(20, 70))
                   .build())
@@ -143,7 +145,6 @@ class ObstacleTest {
             .build();
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())

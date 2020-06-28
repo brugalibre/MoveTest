@@ -536,7 +536,6 @@ public class TankTestLauncher {
       int gridElementRadius = 10;
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(gridElementPos)
             .withHealth(480)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)

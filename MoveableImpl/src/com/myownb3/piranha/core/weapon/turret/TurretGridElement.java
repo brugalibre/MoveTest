@@ -13,7 +13,7 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
    private Turret turret;
 
    private TurretGridElement(Grid grid, Turret turret, DimensionInfo dimensionInfo) {
-      super(grid, turret.getShape().getCenter(), turret.getShape(), dimensionInfo);
+      super(grid, turret.getShape(), dimensionInfo);
       this.turret = turret;
    }
 

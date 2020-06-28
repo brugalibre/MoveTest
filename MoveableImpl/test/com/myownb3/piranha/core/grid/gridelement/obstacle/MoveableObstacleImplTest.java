@@ -34,7 +34,6 @@ class MoveableObstacleImplTest {
       // Given
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -55,7 +54,6 @@ class MoveableObstacleImplTest {
       Grid grid = mock(Grid.class);
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -77,7 +75,6 @@ class MoveableObstacleImplTest {
       DestructionHelper destructionHelper = mock(DestructionHelper.class);
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0))
             .withDamage(3)
             .withHealth(50)
             .withDestructionHelper(destructionHelper)
@@ -106,9 +103,8 @@ class MoveableObstacleImplTest {
       MoveableObstacleImpl moveable = spy(MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 0))
+                  .withPosition(Positions.of(0, 1))
                   .build())
-            .withPosition(Positions.of(0, 1))
             .withVelocity(velocity)
             .build());
 
@@ -125,7 +121,6 @@ class MoveableObstacleImplTest {
       // Given
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -151,7 +146,6 @@ class MoveableObstacleImplTest {
       // When
       MoveableObstacleImpl moveable = MoveableObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0))
             .withShape(shape)
             .withVelocity(8)
             .build();

@@ -29,7 +29,6 @@ class WallGridElementTest {
       Position position = Positions.of(5, 5);
       WallGridElement wallGridElement = WallGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(position)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(position)
                   .build())
@@ -52,7 +51,6 @@ class WallGridElementTest {
       Position position = Positions.of(5, 5);
       WallGridElement wallGridElement = WallGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(position)
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(position)
                   .build())

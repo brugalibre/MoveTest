@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 
 /**
@@ -22,7 +21,6 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    protected AbstractMoveable moveable;
    protected MoveablePostActionHandler handler;
-   protected Position position;
    protected Grid grid;
    protected Shape shape;
    protected int velocity;
@@ -35,11 +33,6 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    public AbstractMoveableBuilder<V, T> withShape(Shape shape) {
       this.shape = shape;
-      return this;
-   }
-
-   public AbstractMoveableBuilder<V, T> withPosition(Position position) {
-      this.position = position;
       return this;
    }
 
@@ -64,15 +57,15 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    public static class SimpleMoveable extends AbstractMoveable {
 
-      private SimpleMoveable(Grid grid, Position position, MoveablePostActionHandler handler, Shape shape, int velocity) {
-         super(grid, position, handler, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
+      private SimpleMoveable(Grid grid, MoveablePostActionHandler handler, Shape shape, int velocity) {
+         super(grid, handler, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
       }
    }
 
    public static class MoveableBuilder extends AbstractMoveableBuilder<SimpleMoveable, MoveableBuilder> {
 
       public SimpleMoveable build() {
-         moveable = new SimpleMoveable(grid, position, handler, shape, velocity);
+         moveable = new SimpleMoveable(grid, handler, shape, velocity);
          handler.handlePostConditions(moveable);
          return (SimpleMoveable) this.moveable;
       }

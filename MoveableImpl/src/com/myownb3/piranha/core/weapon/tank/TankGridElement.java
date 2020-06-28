@@ -24,7 +24,7 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
 
    protected TankGridElement(Tank tank, Grid grid, MoveablePostActionHandler handler, DimensionInfo tankDimensionInfo,
          DimensionInfo turretDimensionInfo, int movingIncrement) {
-      super(grid, tank.getShape().getCenter(), handler, movingIncrement, tank.getShape(), tankDimensionInfo, tank.getBelligerentParty());
+      super(grid, handler, movingIncrement, tank.getShape(), tankDimensionInfo, tank.getBelligerentParty());
       this.tank = tank;
       this.turretDimensionInfo = turretDimensionInfo;
    }

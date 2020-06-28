@@ -44,7 +44,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -53,7 +55,6 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
@@ -80,7 +81,9 @@ class ScannerTest {
             .build();
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -89,7 +92,6 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
@@ -113,7 +115,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(7, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(7, 7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -122,9 +126,8 @@ class ScannerTest {
             .build();
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(8, 8))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(8, 8))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
@@ -147,7 +150,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7))
+                  .build())
             .build();
       int detectorReach = 45;
       int evasionDistance = 2 * detectorReach / 3;
@@ -160,9 +165,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(3, 2))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(3, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
@@ -184,7 +188,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -193,7 +199,6 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 1))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
@@ -218,7 +223,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, -1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, -1))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -227,9 +234,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 2))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(1, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
@@ -251,7 +257,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, -7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, -7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -261,9 +269,8 @@ class ScannerTest {
 
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, 2))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(1, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
@@ -289,7 +296,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(1, -7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, -7))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(8)
@@ -317,7 +326,9 @@ class ScannerTest {
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 75, 45, 5.625);
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 7.1))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(1, 7.1))
+                  .build())
             .build();
       Detector detector = DetectorBuilder.builder()
             .withDetectorReach(5)
@@ -326,9 +337,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 1))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(0, 1))
                   .build())
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
@@ -358,7 +368,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(-1.8195117, 5))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(-1.8195117, 5))
+                  .build())
             .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 2, 45, 45, 5.625);
       Detector detector = DetectorBuilder.builder()
@@ -368,9 +380,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 1))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(0, 1))
                   .build())
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
@@ -401,7 +412,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(-2.8867, 7))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(-2.8867, 7))
+                  .build())
             .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 5, 45, 45, 5.625);
       Detector detector = DetectorBuilder.builder()
@@ -411,9 +424,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
@@ -443,7 +455,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(20, 20))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(20, 20))
+                  .build())
             .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
       Detector detector = DetectorBuilder.builder()
@@ -453,9 +467,8 @@ class ScannerTest {
             .build();
       MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(0, 0))
                   .build())
             .withGrid(grid)
             .withHandler(EvasionStateMachineBuilder.builder()
@@ -484,7 +497,9 @@ class ScannerTest {
             .build();
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(5, 5))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(5, 5))
+                  .build())
             .build();
       EvasionStateMachineConfig config = new EvasionStateMachineConfigImpl(4, 0.05, 0.7d, 8, 45, 45, 11.25);
       Detector detector = DetectorBuilder.builder()
@@ -494,9 +509,8 @@ class ScannerTest {
             .build();
       Moveable moveable = MoveableBuilder.builder()
             .withGrid(grid)
-            .withPosition(Positions.of(6, 6))
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
+                  .withPosition(Positions.of(6, 6))
                   .build())
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)

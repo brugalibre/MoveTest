@@ -23,7 +23,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class ObstacleImplTest {
@@ -33,7 +32,6 @@ class ObstacleImplTest {
       // Given
       ObstacleImpl obstacle = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(mock(Position.class))
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(DamageImpl.of(1))
                   .withHealth(HealthImpl.of(3))
@@ -57,7 +55,6 @@ class ObstacleImplTest {
 
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(mock(Position.class))
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(DamageImpl.of(1))
                   .withHealth(HealthImpl.of(3))
@@ -82,8 +79,7 @@ class ObstacleImplTest {
       Grid grid = mock(Grid.class);
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(mock(Position.class))
-            .withShape(Mockito.mock(CircleImpl.class))
+            .withShape(mock(CircleImpl.class))
             .build();
 
       // When
@@ -98,13 +94,11 @@ class ObstacleImplTest {
 
       // Given
       Grid grid = Mockito.mock(Grid.class);
-      Position position = Mockito.mock(Position.class);
       CircleImpl shape = Mockito.mock(CircleImpl.class);
 
       // When
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
-            .withPosition(position)
             .withShape(shape)
             .build();
 

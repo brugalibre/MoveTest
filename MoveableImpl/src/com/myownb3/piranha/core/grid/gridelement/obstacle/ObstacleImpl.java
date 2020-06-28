@@ -4,8 +4,8 @@
 package com.myownb3.piranha.core.grid.gridelement.obstacle;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.grid.position.Position;
 
 /**
  * @author Dominic
@@ -34,13 +33,8 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
 
    private DestructionHelper destructionHelper;
 
-   private ObstacleImpl(Grid grid, Position position) {
-      super(grid, position);
-      destructionHelper = getDestructionHelper();
-   }
-
-   private ObstacleImpl(Grid grid, Position position, Shape shape) {
-      super(grid, position, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
+   private ObstacleImpl(Grid grid, Shape shape) {
+      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
       destructionHelper = getDestructionHelper();
    }
 
@@ -97,12 +91,8 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
 
       @Override
       public ObstacleImpl build() {
-         ObstacleImpl obstacleImpl;
-         if (isNull(shape)) {
-            obstacleImpl = new ObstacleImpl(grid, position);
-         } else {
-            obstacleImpl = new ObstacleImpl(grid, position, shape);
-         }
+         requireNonNull(shape, "A Obstacle always needs a shape!");
+         ObstacleImpl obstacleImpl = new ObstacleImpl(grid, shape);
          if (nonNull(destructionHelper)) {
             obstacleImpl.destructionHelper = destructionHelper;
          }

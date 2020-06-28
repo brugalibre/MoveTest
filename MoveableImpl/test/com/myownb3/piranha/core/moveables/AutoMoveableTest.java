@@ -22,7 +22,6 @@ class AutoMoveableTest {
       Position expectedPos = Positions.of(0, 0.1);
       AutoMoveable autoMoveable = AutoMoveableBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -44,7 +43,6 @@ class AutoMoveableTest {
                   .withMaxX(10)
                   .withMaxY(10)
                   .build())
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())

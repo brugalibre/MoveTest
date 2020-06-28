@@ -40,7 +40,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -69,7 +68,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -88,7 +86,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -121,7 +118,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -150,7 +146,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -185,7 +180,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -225,7 +219,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -257,7 +250,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -281,7 +273,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -316,7 +307,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -352,7 +342,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -377,7 +366,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -439,7 +427,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
@@ -475,7 +462,6 @@ class TestMove {
 
       // Given
       Moveable moveable = MoveableBuilder.builder()
-            .withPosition(Positions.of(0, 0))
             .withGrid(GridBuilder.builder()
                   .build())
             .withShape(PositionShapeBuilder.builder()
@@ -505,7 +491,7 @@ class TestMove {
    private static class SimpleTestMoveable extends AbstractMoveable {
 
       public SimpleTestMoveable(Grid grid, Position position, MoveablePostActionHandler handler) {
-         super(grid, position, handler, PositionShapeBuilder.builder()
+         super(grid, handler, PositionShapeBuilder.builder()
                .withPosition(position)
                .build(), getDefaultDimensionInfo(1), 1);
       }

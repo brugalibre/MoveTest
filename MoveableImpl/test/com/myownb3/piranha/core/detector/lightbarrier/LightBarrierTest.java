@@ -21,6 +21,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class LightBarrierTest {
@@ -55,7 +56,9 @@ class LightBarrierTest {
       Position position = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(position)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
             .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(true);
@@ -218,7 +221,9 @@ class LightBarrierTest {
       Position position = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(position)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
             .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(true);
@@ -253,7 +258,9 @@ class LightBarrierTest {
       Position position = Positions.of(4, 4);
       GridElement gridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(Grid.class))
-            .withPosition(position)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
             .build();
       IDetector detector = mock(IDetector.class);
       when(detector.hasObjectDetected(eq(gridElement))).thenReturn(false);
