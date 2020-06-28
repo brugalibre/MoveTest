@@ -543,7 +543,7 @@ public class TankTestLauncher {
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
 
-      List<Renderer> renderers = new ArrayList<>();
+      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));
       renderers.add(new GridElementPainter(simpleGridElement, getColor(simpleGridElement), height, width));
       renderers.add(new GridElementPainter(tankGridElement, getColor(tankGridElement), height, width));
@@ -570,7 +570,7 @@ public class TankTestLauncher {
             .build();
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
       MoveableAdder moveableAdder = new MoveableAdder();

@@ -344,7 +344,7 @@ public class BattleTestLauncher {
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
 
-      List<Renderer> renderers = new ArrayList<>();
+      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       List<AutoDetectable> autoDetectables = Arrays.asList(imperialTank, rebellTank);
       List<Moveable> moveables = new ArrayList<>();
 
@@ -359,7 +359,7 @@ public class BattleTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<AutoDetectable> autoDetectables,
-         List<Renderer> renderers) {
+         List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
 

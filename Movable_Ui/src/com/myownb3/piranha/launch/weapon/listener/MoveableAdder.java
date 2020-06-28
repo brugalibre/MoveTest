@@ -30,7 +30,7 @@ public class MoveableAdder {
 
    public MoveableAdder() {}
 
-   public boolean check4NewMoveables2Add(Grid grid, List<Renderer> renderers, int cycleCounter, int padding) {
+   public boolean check4NewMoveables2Add(Grid grid, List<Renderer<? extends GridElement>> renderers, int cycleCounter, int padding) {
       if (cycleCounter >= counter) {
          double moveableCounter = grid.getAllGridElements(null).stream()
                .filter(isMoveable())
@@ -62,7 +62,7 @@ public class MoveableAdder {
             .build();
    }
 
-   private static void buildAndAddSimpleGridElement(Grid grid, List<Renderer> renderers, double padding) {
+   private static void buildAndAddSimpleGridElement(Grid grid, List<Renderer<? extends GridElement>> renderers, double padding) {
       double yCordinate = MathUtil.getRandom(450) + padding;
       double angle2Rotate = -MathUtil.getRandom(90) + 15;
       Position gridElementPos = Positions.of(300, yCordinate).rotate(angle2Rotate);
@@ -80,7 +80,7 @@ public class MoveableAdder {
       }
    }
 
-   private void buildAndAddMoveable(Grid grid, List<Renderer> renderers, int padding) {
+   private void buildAndAddMoveable(Grid grid, List<Renderer<? extends GridElement>> renderers, int padding) {
       Moveable moveable = buildNewMoveable(grid, padding);
       renderers.add(new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), 0, 0));
    }

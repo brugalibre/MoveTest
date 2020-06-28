@@ -334,7 +334,7 @@ public class HumanTankTestLauncher {
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 
-      List<Renderer> renderers = new ArrayList<>();
+      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(humanRebelTank, getColor(humanRebelTank), height, width));
       renderers.add(new GridElementPainter(imperialTank, getColor(imperialTank), height, width));
 
@@ -343,7 +343,7 @@ public class HumanTankTestLauncher {
       showGuiAndStartPainter(mainWindow, grid, renderers);
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
 

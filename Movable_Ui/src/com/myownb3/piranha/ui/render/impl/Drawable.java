@@ -18,7 +18,7 @@ import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
  *        {@link MainUserInterface}
  * 
  */
-public abstract class Drawable<E> implements Renderer {
+public abstract class Drawable<E> implements Renderer<E> {
 
    protected E value; // the value this Drawable represents on a panel
    protected int x; // the x-coordinate in relation to it's position on the TimeLine (used for
@@ -134,6 +134,7 @@ public abstract class Drawable<E> implements Renderer {
     * 
     * @return the {@link #value} field
     */
+   @Override
    public E getValue() {
       return value;
    }

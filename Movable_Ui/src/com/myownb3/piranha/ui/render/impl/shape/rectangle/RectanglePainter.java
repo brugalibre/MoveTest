@@ -12,7 +12,6 @@ import java.awt.Polygon;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 
@@ -20,7 +19,7 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  * @author Dominic
  *
  */
-public class RectanglePainter extends Drawable<Rectangle> implements Renderer {
+public class RectanglePainter extends Drawable<Rectangle> {
    private Color color;
    private boolean drawBorder;
 

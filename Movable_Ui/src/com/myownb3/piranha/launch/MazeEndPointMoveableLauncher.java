@@ -6,7 +6,6 @@ package com.myownb3.piranha.launch;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -228,10 +227,10 @@ public class MazeEndPointMoveableLauncher {
       ctx.getRenderers().addAll(getRenderers(grid, 4, ctx.getGridElements(), moveableController.getMoveable(), mazeRunner.getDetectorCluster(),
             mazeRunner.getConfig(), detectors));
 
-      mainWindow.addSpielfeld(ctx.getRenderers(), grid);
+      mainWindow.addSpielfeld(ctx.getRenderers(), ctx.getEndPositionRenderers(), grid);
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = mazeRunner.run();
-      preparePositionListPainter(ctx.getRenderers(), positions);
+      preparePositionListPainter(ctx.getEndPositionRenderers(), positions);
    }
 
    private SimpleGunCarriageImpl buildGunCarriage(double gunHeight, double gunWidth, int gunCarriageRadius) {
@@ -279,7 +278,7 @@ public class MazeEndPointMoveableLauncher {
             .get();
    }
 
-   private static void preparePositionListPainter(List<Renderer> renderers, List<Position> positions) {
+   private static void preparePositionListPainter(List<Renderer<PositionListPainter>> renderers, List<Position> positions) {
       renderers.stream()
             .filter(PositionListPainter.class::isInstance)
             .map(PositionListPainter.class::cast)
@@ -299,12 +298,11 @@ public class MazeEndPointMoveableLauncher {
       }).start();
    }
 
-   private static List<Renderer> getRenderers(Grid grid, int height, List<GridElement> gridElements, Moveable moveable,
+   private static List<Renderer<? extends GridElement>> getRenderers(Grid grid, int height, List<GridElement> gridElements, Moveable moveable,
          TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config, List<PlacedDetector> corridorDetectors) {
-      List<Renderer> renderers = gridElements.stream()
+      List<Renderer<? extends GridElement>> renderers = gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, height))
             .collect(Collectors.toList());
-      renderers.add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), height, height));
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, false, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), height, height, moveablePainterConfig));
       renderers.addAll(corridorDetectors.stream()

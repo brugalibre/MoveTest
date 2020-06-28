@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 
 /**
  * @author Dominic
@@ -61,17 +63,26 @@ public class MainWindow {
       mainWindow.pack();
    }
 
-   public void addSpielfeld(List<Renderer> renderers, Grid grid) {
+   public void addSpielfeld(List<Renderer<? extends GridElement>> renderers, Grid grid) {
+      addSpielfeldInternal(renderers, Collections.emptyList(), grid);
+   }
+
+   private void addSpielfeldInternal(List<Renderer<? extends GridElement>> renderers, List<Renderer<PositionListPainter>> endPositionRenderers,
+         Grid grid) {
       com.myownb3.piranha.core.grid.Dimension gridDimension = grid.getDimension();
       Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 3 * padding,
             gridDimension.getHeight() + 3 * padding);
-      SpielFeld spielFeld = new SpielFeld(grid, renderers, padding, pointWidth);
+      SpielFeld spielFeld = new SpielFeld(grid, renderers, endPositionRenderers, padding, pointWidth);
       spielFeld.setPreferredSize(spielfeldDimension);
       spielFeld.setSize(spielfeldDimension);
       content.add(spielFeld, BorderLayout.CENTER);
       mainWindow.setPreferredSize(spielfeldDimension);
       mainWindow.setMinimumSize(spielfeldDimension);
       mainWindow.pack();
+   }
+
+   public void addSpielfeld(List<Renderer<? extends GridElement>> renderers, List<Renderer<PositionListPainter>> endPositionRenderers, Grid grid) {
+      addSpielfeldInternal(renderers, endPositionRenderers, grid);
    }
 
    public MainWindow(List<Obstacle> obstacles, List<GridElement> gridElements, int width, int height) {

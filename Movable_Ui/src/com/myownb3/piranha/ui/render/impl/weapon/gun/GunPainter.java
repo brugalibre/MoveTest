@@ -7,12 +7,11 @@ import java.util.Optional;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class GunPainter extends Drawable<GunShape> implements Renderer {
+public class GunPainter extends Drawable<GunShape> {
 
    private Drawable<? extends Shape> barrelPainter;
    private Optional<Drawable<? extends Shape>> muzzlePainterOpt;

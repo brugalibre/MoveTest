@@ -17,7 +17,7 @@ import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
  * @author Dominic
  *
  */
-public class PositionListPainter implements Renderer {
+public class PositionListPainter implements Renderer<List<Position>> {
 
    private List<Position> posList;
    private Color color;
@@ -69,5 +69,10 @@ public class PositionListPainter implements Renderer {
    @Override
    public void setColorSetMode(ColorSetMode drawMode) {
       throw new UnsupportedOperationException("Not allowed here!");
+   }
+
+   @Override
+   public List<Position> getValue() {
+      return posList;
    }
 }

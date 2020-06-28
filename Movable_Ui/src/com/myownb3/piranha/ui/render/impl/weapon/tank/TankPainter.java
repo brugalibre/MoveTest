@@ -7,12 +7,11 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class TankPainter extends Drawable<TankShape> implements Renderer {
+public class TankPainter extends Drawable<TankShape> {
 
    private Drawable<? extends Shape> turretPainter;
    private Drawable<? extends Shape> tankPainter;

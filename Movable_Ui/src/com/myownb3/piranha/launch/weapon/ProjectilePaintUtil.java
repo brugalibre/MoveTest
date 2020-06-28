@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -17,12 +18,12 @@ import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class ProjectilePaintUtil {
 
-   public static void addNewProjectilePainters(Grid grid, List<Renderer> renderers, Set<String> existingProjectiles) {
+   public static void addNewProjectilePainters(Grid grid, List<Renderer<? extends GridElement>> renderers, Set<String> existingProjectiles) {
       List<ProjectileGridElement> newProjectiles = getNewProjectiles(grid, existingProjectiles);
       addNewProjectilePainters(renderers, existingProjectiles, newProjectiles);
    }
 
-   private static void addNewProjectilePainters(List<Renderer> renderers, Set<String> existingProjectiles,
+   private static void addNewProjectilePainters(List<Renderer<? extends GridElement>> renderers, Set<String> existingProjectiles,
          List<ProjectileGridElement> newProjectiles) {
       newProjectiles.stream()
             .forEach(gridElement -> {
@@ -33,7 +34,7 @@ public class ProjectilePaintUtil {
             });
    }
 
-   public static List<Renderer> getRenderer4DestroyedProjectiles(List<Renderer> renderers) {
+   public static List<Renderer<? extends GridElement>> getRenderer4DestroyedProjectiles(List<Renderer<? extends GridElement>> renderers) {
       return renderers.stream()
             .filter(GridElementPainter.class::isInstance)
             .map(GridElementPainter.class::cast)
@@ -56,8 +57,8 @@ public class ProjectilePaintUtil {
             .collect(Collectors.toList());
    }
 
-   public static void removeDestroyedPainters(List<Renderer> renderers) {
-      List<Renderer> destroyedProjectiles = getRenderer4DestroyedProjectiles(renderers);
+   public static void removeDestroyedPainters(List<Renderer<? extends GridElement>> renderers) {
+      List<Renderer<? extends GridElement>> destroyedProjectiles = getRenderer4DestroyedProjectiles(renderers);
       synchronized (renderers) {
          renderers.removeAll(destroyedProjectiles);
       }

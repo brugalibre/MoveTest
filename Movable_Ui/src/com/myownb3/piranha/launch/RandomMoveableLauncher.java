@@ -62,7 +62,7 @@ public class RandomMoveableLauncher implements Stoppable {
       Moveable moveable = getMoveable(grid, height, width);
       GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), 1, 1);
       List<GridElement> gridElements = getAllGridElements(grid, height, width);
-      List<Renderer> renderers = getRenderers(gridElements);
+      List<Renderer<? extends GridElement>> renderers = getRenderers(gridElements);
       renderers.add(moveablePainter);
 
       mainWindow.addSpielfeld(renderers, grid);
@@ -136,7 +136,7 @@ public class RandomMoveableLauncher implements Stoppable {
             .forEach(obstacle -> obstacle.moveForward());
    }
 
-   private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements) {
+   private static <T extends GridElement> List<Renderer<? extends GridElement>> getRenderers(List<GridElement> gridElements) {
       return gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))
             .collect(Collectors.toList());

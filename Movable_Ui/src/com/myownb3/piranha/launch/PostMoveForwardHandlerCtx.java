@@ -10,18 +10,21 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 
 public class PostMoveForwardHandlerCtx {
 
    private MoveableController moveableController;
    private Grid grid;
    private MainWindow mainWindow;
-   private List<Renderer> renderers;
+   private List<Renderer<? extends GridElement>> renderers;
    private Set<String> existingProjectiles;
    private List<GridElement> gridElements;
+   private List<Renderer<PositionListPainter>> endPosRenderers;
 
    public PostMoveForwardHandlerCtx() {
       this.renderers = new ArrayList<>();
+      this.endPosRenderers = new ArrayList<>();
       this.existingProjectiles = new HashSet<>();
       this.gridElements = new ArrayList<>();
    }
@@ -54,11 +57,15 @@ public class PostMoveForwardHandlerCtx {
       return existingProjectiles;
    }
 
-   public List<Renderer> getRenderers() {
+   public List<Renderer<? extends GridElement>> getRenderers() {
       return renderers;
    }
 
    public List<GridElement> getGridElements() {
       return gridElements;
+   }
+
+   public List<Renderer<PositionListPainter>> getEndPositionRenderers() {
+      return endPosRenderers;
    }
 }

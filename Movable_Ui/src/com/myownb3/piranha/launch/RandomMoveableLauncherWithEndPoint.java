@@ -146,15 +146,15 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
    }
 
-   private static List<Renderer> getRenderers(int height, int width, Grid grid, List<GridElement> gridElements,
+   private static List<Renderer<? extends GridElement>> getRenderers(int height, int width, Grid grid, List<GridElement> gridElements,
          Moveable moveable, EvasionStateMachineConfig config, TrippleDetectorCluster detectorCluster) {
-      List<Renderer> renderers = getRenderers(gridElements);
+      List<Renderer<? extends GridElement>> renderers = getRenderers(gridElements);
       MoveablePainterConfig painterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
       renderers.add(new MoveablePainter(moveable, getColor(moveable), 1, 1, painterConfig));
       return renderers;
    }
 
-   private static <T extends GridElement> List<Renderer> getRenderers(List<GridElement> gridElements) {
+   private static <T extends GridElement> List<Renderer<? extends GridElement>> getRenderers(List<GridElement> gridElements) {
       return gridElements.stream()
             .map(toGridElementPainter())
             .collect(Collectors.toList());

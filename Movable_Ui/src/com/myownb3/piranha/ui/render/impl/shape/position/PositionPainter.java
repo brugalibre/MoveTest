@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 
@@ -18,7 +17,7 @@ import com.myownb3.piranha.ui.render.impl.GraphicsContext;
  * @author Dominic
  *
  */
-public class PositionPainter extends Drawable<PositionShape> implements Renderer {
+public class PositionPainter extends Drawable<PositionShape> {
    private Color color;
 
    public PositionPainter(PositionShape pointShape, Color color, int height, int width) {

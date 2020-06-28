@@ -16,7 +16,6 @@ import javax.swing.Timer;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
@@ -26,7 +25,7 @@ import com.myownb3.piranha.ui.render.impl.shape.PaintMode;
  * @author Dominic
  *
  */
-public class CirclePainter extends Drawable<Circle> implements Renderer, ActionListener {
+public class CirclePainter extends Drawable<Circle> implements ActionListener {
 
    private Color color;
    private Color initColor;

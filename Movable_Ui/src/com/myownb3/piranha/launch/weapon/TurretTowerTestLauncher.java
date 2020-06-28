@@ -21,6 +21,7 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -185,7 +186,7 @@ public class TurretTowerTestLauncher {
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
 
-      List<Renderer> renderers = new ArrayList<Renderer>();
+      List<Renderer<? extends GridElement>> renderers = new ArrayList<Renderer<? extends GridElement>>();
       List<TurretGridElement> turrets = Arrays.asList(turretGridElementSouth, turretGridElementNorth);
       List<Moveable> moveables = Arrays.asList(simpleGridElement/*, endPointMoveable*/);
 
@@ -216,7 +217,7 @@ public class TurretTowerTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<TurretGridElement> turretTowers,
-         List<Renderer> renderers) {
+         List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;

@@ -44,7 +44,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
             .forEach(AutoDetectable::autodetect);
    }
 
-   private static void setCurrentTargetPosition(MoveableController moveableController, List<Renderer> renderers) {
+   private static void setCurrentTargetPosition(MoveableController moveableController, List<Renderer<? extends GridElement>> renderers) {
       renderers.stream()
             .filter(EndPositionGridElementPainter.class::isInstance)
             .map(EndPositionGridElementPainter.class::cast)

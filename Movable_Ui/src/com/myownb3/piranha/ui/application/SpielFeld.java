@@ -6,18 +6,19 @@ package com.myownb3.piranha.ui.application;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.swing.JComponent;
 
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GraphicsContext;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
-import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
+import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 
 /**
  * @author Dominic
@@ -26,11 +27,14 @@ import com.myownb3.piranha.ui.render.impl.moveable.MoveablePainter;
 public class SpielFeld extends JComponent {
 
    private static final long serialVersionUID = 1L;
-   private List<Renderer> renderers;
+   private List<Renderer<? extends GridElement>> renderers;
+   private List<Renderer<PositionListPainter>> endPositionRenderers;
    private GridPainter gridPainter;
 
-   public SpielFeld(Grid grid, List<Renderer> renderers, int padding, int pointWidth) {
+   public SpielFeld(Grid grid, List<Renderer<? extends GridElement>> renderers, List<Renderer<PositionListPainter>> endPositionRenderers, int padding,
+         int pointWidth) {
       this.renderers = renderers;
+      this.endPositionRenderers = endPositionRenderers;
 
       Dimension gridDimension = grid.getDimension();
       this.gridPainter = new GridPainter(grid, padding, pointWidth, gridDimension.getHeight() + 2 * padding,
@@ -49,25 +53,27 @@ public class SpielFeld extends JComponent {
 
    private void paintMoveableContent(Graphics2D g2) {
       GraphicsContext graphicsContext = new GraphicsContext(g2);
-      renderMoveable(graphicsContext);
-      new ArrayList<>(renderers).stream()
-            .filter(isMoveablePainter().negate())
+      synchronized (renderers) {
+         renderers.stream()
+               .sorted(new RendererComparator())
+               .forEach(renderer -> renderer.render(graphicsContext));
+      }
+      endPositionRenderers.stream()
             .forEach(renderer -> renderer.render(graphicsContext));
    }
 
-   /**
-    * @param graphicsContext
-    */
-   private void renderMoveable(GraphicsContext graphicsContext) {
-      synchronized (renderers) {
-         renderers.stream()
-               .filter(isMoveablePainter())
-               .forEach(moveablePainter -> moveablePainter.render(graphicsContext));
-      }
-   }
+   private static class RendererComparator implements Comparator<Renderer<? extends GridElement>> {
 
-   private Predicate<? super Renderer> isMoveablePainter() {
-      return renderer -> renderer instanceof MoveablePainter;
+      @Override
+      public int compare(Renderer<? extends GridElement> o1, Renderer<? extends GridElement> o2) {
+         return compareGridElements(o1.getValue(), o2.getValue());
+      }
+
+      private int compareGridElements(GridElement value1, GridElement value2) {
+         Position gridElem1Pos = value1.getPosition();
+         Position gridElem2Pos = value2.getPosition();
+         return Double.valueOf(gridElem1Pos.getZ()).compareTo(Double.valueOf(gridElem2Pos.getZ()));
+      }
    }
 
    private void paintSpielfeld(Graphics2D g2) {

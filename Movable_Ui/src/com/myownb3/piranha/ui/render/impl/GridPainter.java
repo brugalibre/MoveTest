@@ -10,13 +10,12 @@ import java.awt.Rectangle;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.Renderer;
 
 /**
  * @author Dominic
  *
  */
-public class GridPainter extends Drawable<Grid> implements Renderer {
+public class GridPainter extends Drawable<Grid> {
 
    private int padding;
    private int axisIncrement;
