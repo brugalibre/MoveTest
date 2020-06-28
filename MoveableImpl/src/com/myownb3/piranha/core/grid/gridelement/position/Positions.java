@@ -4,7 +4,6 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
 import static com.myownb3.piranha.util.MathUtil.round;
-import static java.util.Objects.nonNull;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.MathUtil;
+import com.myownb3.piranha.util.attribute.LazyAttribute;
 
 /**
  * @author Dominic
@@ -221,7 +221,7 @@ public class Positions {
       private double x;
       private double z;
       private Direction direction;
-      private Float64Vector vector;
+      private LazyAttribute<Float64Vector> vector;
 
       /**
        * Creates a new {@link PositionImpl} with the given coordinates The
@@ -250,6 +250,7 @@ public class Positions {
        */
       private PositionImpl(Direction direction, double x, double y, double z) {
          this.direction = direction;
+         this.vector = new LazyAttribute<>(() -> Float64Vector.valueOf(x, y, 0));
          this.x = MathUtil.round(x, 10);
          this.y = MathUtil.round(y, 10);
          this.z = MathUtil.round(z, 10);
@@ -334,11 +335,7 @@ public class Positions {
 
       @Override
       public Float64Vector getVector() {
-         if (nonNull(vector)) {
-            return vector;
-         }
-         vector = Float64Vector.valueOf(x, y, 0);
-         return vector;
+         return vector.get();
       }
 
       /*

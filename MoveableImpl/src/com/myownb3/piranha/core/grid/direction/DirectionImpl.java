@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.core.grid.direction;
 
-import static java.util.Objects.nonNull;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +11,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.util.attribute.LazyAttribute;
 
 /**
  * @author Dominic
@@ -28,7 +27,7 @@ public class DirectionImpl implements Direction {
    private double forwardX;
    private double forwardY;
    private String cardinalDirection;
-   private Float64Vector vector;
+   private LazyAttribute<Float64Vector> vector;
 
    /**
     * @param rotation
@@ -39,6 +38,7 @@ public class DirectionImpl implements Direction {
       this.forwardX = Math.cos(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
       this.forwardY = Math.sin(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
       this.cardinalDirection = cardinalDirection;
+      this.vector = new LazyAttribute<>(() -> Float64Vector.valueOf(this.getForwardX(), this.getForwardY(), 0));
    }
 
    /**
@@ -58,6 +58,7 @@ public class DirectionImpl implements Direction {
       this.forwardY = forwardY;
       double angle = Math.toDegrees(Math.atan(forwardY / forwardX));
       this.rotation = PositionImpl.getAbsolutAngle(angle, forwardX, forwardY);
+      this.vector = new LazyAttribute<>(() -> Float64Vector.valueOf(this.getForwardX(), this.getForwardY(), 0));
    }
 
    @Override
@@ -96,11 +97,7 @@ public class DirectionImpl implements Direction {
 
    @Override
    public Float64Vector getVector() {
-      if (nonNull(vector)) {
-         return vector;
-      }
-      vector = Float64Vector.valueOf(this.getForwardX(), this.getForwardY(), 0);
-      return vector;
+      return vector.get();
    }
 
    @Override

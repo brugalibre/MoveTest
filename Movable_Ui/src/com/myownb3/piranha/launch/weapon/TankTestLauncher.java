@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
@@ -43,6 +44,7 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionSta
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.TorpedoGunImpl.TropedoGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -55,6 +57,7 @@ import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetect
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
+import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
@@ -467,6 +470,11 @@ public class TankTestLauncher {
                   .build())
             .build();
 
+
+      DetectorConfig torpedoDetectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(250)
+            .withDetectorAngle(180)
+            .build();
       TurretGridElement northTurretGridElement = TurretGridElementBuilder.builder()
             .withGrid(grid)
             .withHeightFromBottom(turretHeight)
@@ -481,22 +489,38 @@ public class TankTestLauncher {
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(2)
-                        .withGun(BulletGunBuilder.builder()
+                        .withGun(TropedoGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(2)
-                                    .withRoundsPerMinute(100)
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(70)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimensionInfo(DimensionInfoBuilder.builder()
                                                 .withDimensionRadius(3)
                                                 .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                 .build())
                                           .withVelocity(projectileVelocity)
+                                          .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
+                                                .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                                                .withDetector(DetectorBuilder.builder()
+                                                      .withDetectorAngle(torpedoDetectorConfig.getDetectorAngle())
+                                                      .withDetectorReach(torpedoDetectorConfig.getDetectorReach())
+                                                      .build())
+                                                .withGridElementEvaluator(
+                                                      (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                                                .build())
+                                          .withProjectileDamage(200)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
                                           .withHeight(gunHeight)
                                           .withWidth(gunWidth)
+                                          .withCenter(turretNorthPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
+                                    .withMuzzleBreak(RectangleBuilder.builder()
+                                          .withHeight(gunWidth * 1.5)
+                                          .withWidth(gunWidth * 1.5)
                                           .withCenter(turretNorthPos)
                                           .withOrientation(Orientation.HORIZONTAL)
                                           .build())

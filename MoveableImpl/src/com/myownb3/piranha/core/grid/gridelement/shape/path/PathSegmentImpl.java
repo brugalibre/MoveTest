@@ -1,27 +1,30 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.path;
 
 import static com.myownb3.piranha.util.MathUtil.calcAngleBetweenVectors;
-import static java.util.Objects.nonNull;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.util.attribute.LazyAttribute;
 import com.myownb3.piranha.util.vector.VectorUtil;
 
 public class PathSegmentImpl implements PathSegment {
 
    private Position beginPos;
    private Position endPos;
-   private Float64Vector vector;
-   private Float64Vector normalBeginPosVector;
-   private Float64Vector normalEndPosVector;
-   private Double lenght;
+   private LazyAttribute<Float64Vector> vector;
+   private LazyAttribute<Float64Vector> normalBeginPosVector;
+   private LazyAttribute<Float64Vector> normalEndPosVector;
+   private LazyAttribute<Double> lenght;
 
    public PathSegmentImpl(Position beginPos, Position endPos) {
       this.beginPos = beginPos;
       this.endPos = endPos;
-      this.vector = endPos.getVector().minus(beginPos.getVector());
+      this.vector = new LazyAttribute<>(() -> endPos.getVector().minus(beginPos.getVector()));
+      this.lenght = new LazyAttribute<>(() -> beginPos.calcDistanceTo(endPos));
+      this.normalBeginPosVector = new LazyAttribute<>(() -> getBeginOrEndPosVector(this, beginPos));
+      this.normalEndPosVector = new LazyAttribute<>(() -> getBeginOrEndPosVector(this, endPos));
    }
 
    @Override
@@ -36,29 +39,17 @@ public class PathSegmentImpl implements PathSegment {
 
    @Override
    public double getLenght() {
-      if (nonNull(lenght)) {
-         return lenght;
-      }
-      lenght = beginPos.calcDistanceTo(endPos);
-      return lenght;
+      return lenght.get();
    }
 
    @Override
    public Float64Vector getNormalVectorAtBeginPos() {
-      if (nonNull(normalBeginPosVector)) {
-         return normalBeginPosVector;
-      }
-      normalBeginPosVector = getBeginOrEndPosVector(this, beginPos);
-      return normalBeginPosVector;
+      return normalBeginPosVector.get();
    }
 
    @Override
    public Float64Vector getNormalVectorAtEndPos() {
-      if (nonNull(normalBeginPosVector)) {
-         return normalBeginPosVector;
-      }
-      normalEndPosVector = getBeginOrEndPosVector(this, endPos);
-      return normalEndPosVector;
+      return normalEndPosVector.get();
    }
 
    private static Float64Vector getBeginOrEndPosVector(PathSegment pathSegment, Position pathSegBeginOrEndPos) {
@@ -69,7 +60,7 @@ public class PathSegmentImpl implements PathSegment {
 
    @Override
    public Float64Vector getVector() {
-      return vector;
+      return vector.get();
    }
 
    @Override
