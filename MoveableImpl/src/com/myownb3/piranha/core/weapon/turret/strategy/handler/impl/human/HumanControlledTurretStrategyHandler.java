@@ -1,20 +1,22 @@
-package com.myownb3.piranha.core.weapon.turret.strategy.handler.impl;
+package com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.human;
 
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.turret.human.HumanToTurretInteractionCallbackHandler;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
 import com.myownb3.piranha.core.weapon.turret.strategy.handler.TurretStrategyHandler;
+import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.human.firemode.ShootMode;
 
 public class HumanControlledTurretStrategyHandler implements TurretStrategyHandler, HumanToTurretInteractionCallbackHandler {
 
    private GunCarriage gunCarriage;
    private Position target;
-   private boolean has2Fire;
+   private ShootMode shootMode;
 
    public HumanControlledTurretStrategyHandler(GunCarriage gunCarriage) {
       this.gunCarriage = gunCarriage;
       this.target = gunCarriage.getShape().getCenter();
+      this.shootMode = ShootMode.DONT_SHOOT;
    }
 
    @Override
@@ -25,15 +27,36 @@ public class HumanControlledTurretStrategyHandler implements TurretStrategyHandl
    @Override
    public void handleTankStrategy() {
       gunCarriage.aimTargetPos(target);
-      if (has2Fire) {
-         gunCarriage.fire();
+      handleShooting();
+   }
+
+   private void handleShooting() {
+      switch (shootMode) {
+         case ONE_SHOT:
+            gunCarriage.fire();
+            shootMode = ShootMode.DONT_SHOOT;
+            break;
+
+         case KEEP_SHOOTING:
+            gunCarriage.fire();
+            break;
+         default:
+            break;
       }
    }
 
    @Override
-   public void onFired(boolean startFire) {
-      has2Fire = startFire;
+   public void onSingleShotFired() {
+      shootMode = ShootMode.ONE_SHOT;
+   }
 
+   @Override
+   public void onStartFire(boolean startOrStop) {
+      if (startOrStop) {
+         shootMode = ShootMode.KEEP_SHOOTING;
+      } else {
+         shootMode = ShootMode.DONT_SHOOT;
+      }
    }
 
    @Override

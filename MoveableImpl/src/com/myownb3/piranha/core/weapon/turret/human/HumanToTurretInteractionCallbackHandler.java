@@ -13,12 +13,17 @@ import com.myownb3.piranha.core.weapon.turret.Turret;
 public interface HumanToTurretInteractionCallbackHandler {
 
    /**
-    * Is triggered when ever the humand indicated the {@link Turret} to fire
-    * 
-    * @param startFire
-    *        <code>true</code> when the {@link Turret} should start fire <code>false</code> if it should stop
+    * Is triggered when ever the humand indicated the {@link Turret} hit the trigger one time
     */
-   void onFired(boolean startFire);
+   void onSingleShotFired();
+
+   /**
+    * Is triggered when ever the humand indicated the {@link Turret} start fire
+    * 
+    * @param startOrStop
+    *        <code>true</code> whenn the user starts fire and <code>false</code> if he want to stop
+    */
+   void onStartFire(boolean startOrStop);
 
    /**
     * Is called when ever the humand indicated the {@link Turret} to change the direction of the {@link Gun}

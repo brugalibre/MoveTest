@@ -34,7 +34,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
    @Override
    public void mouseClicked(MouseEvent arg0) {
-      callbackHandler.onFired(true);
+      callbackHandler.onSingleShotFired();
    }
 
    @Override
@@ -49,11 +49,11 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
    @Override
    public void mousePressed(MouseEvent arg0) {
-      callbackHandler.onFired(true);
+      callbackHandler.onStartFire(true);
    }
 
    @Override
    public void mouseReleased(MouseEvent arg0) {
-      callbackHandler.onFired(true);
+      callbackHandler.onStartFire(false);
    }
 }

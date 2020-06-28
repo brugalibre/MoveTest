@@ -24,6 +24,7 @@ public class TorpedoProjectileStrategyHandler extends BulletProjectileStrategyHa
 
    @Override
    public void handleProjectileStrategy() {
+      super.handleProjectileStrategy();
       Optional<TargetGridElement> nearestTargetGridElementOpt = targetGridElementEvaluator.getNearestTargetGridElement(shape.getForemostPosition());
       nearestTargetGridElementOpt.ifPresent(nearestTargetGridElement -> {
          Position newTorpedoPos = evalNewTorpedoPosition(nearestTargetGridElement);

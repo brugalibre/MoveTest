@@ -1,10 +1,11 @@
-package com.myownb3.piranha.core.weapon.turret.strategy.handler.impl;
+package com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.human;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,13 +33,29 @@ class HumanControlledTurretStrategyHandlerTest {
    }
 
    @Test
-   void testOnFired() {
+   void testOnKeepFired() {
       // Given
       GunCarriage gunCarriage = mockGunCarriage();
       HumanControlledTurretStrategyHandler handler = new HumanControlledTurretStrategyHandler(gunCarriage);
 
       // When
-      handler.onFired(true);
+      handler.onStartFire(true);
+      handler.handleTankStrategy();
+      handler.handleTankStrategy();
+
+      // Then
+      verify(gunCarriage, times(2)).fire();
+   }
+
+   @Test
+   void testOnSingleShotFired() {
+      // Given
+      GunCarriage gunCarriage = mockGunCarriage();
+      HumanControlledTurretStrategyHandler handler = new HumanControlledTurretStrategyHandler(gunCarriage);
+
+      // When
+      handler.onSingleShotFired();
+      handler.handleTankStrategy();
       handler.handleTankStrategy();
 
       // Then
@@ -46,13 +63,13 @@ class HumanControlledTurretStrategyHandlerTest {
    }
 
    @Test
-   void testOnFired_NotFIre() {
+   void testOnKeepFired_NotFIre() {
       // Given
       GunCarriage gunCarriage = mockGunCarriage();
       HumanControlledTurretStrategyHandler handler = new HumanControlledTurretStrategyHandler(gunCarriage);
 
       // When
-      handler.onFired(false);
+      handler.onStartFire(false);
       handler.handleTankStrategy();
 
       // Then

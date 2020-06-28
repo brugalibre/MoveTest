@@ -59,7 +59,7 @@ import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
-import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.HumanControlledTurretStrategyHandler;
+import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.human.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
@@ -265,7 +265,7 @@ public class HumanTankTestLauncher {
             .withGun(BulletGunBuilder.builder()
                   .withGunConfig(GunConfigBuilder.builder()
                         .withSalveSize(1)
-                        .withRoundsPerMinute(550)
+                        .withRoundsPerMinute(350)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimensionInfo(DimensionInfoBuilder.builder()
                                     .withDimensionRadius(3)

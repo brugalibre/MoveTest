@@ -47,7 +47,7 @@ import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.states.TurretState;
-import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.HumanControlledTurretStrategyHandler;
+import com.myownb3.piranha.core.weapon.turret.strategy.handler.impl.human.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
 
 class TurretImplTest {
