@@ -57,20 +57,10 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    }
 
    @Override
-   public void moveForward() {
-      super.moveForward(velocity);
-   }
-
-   @Override
-   public void moveBackward() {
-      super.moveBackward(velocity);
-   }
-
-   @Override
    public MoveResult moveForward2EndPos() {
       double distance = endPos.calcDistanceTo(position);
       if (distance >= getSmallestStepWith()) {
-         moveForward(velocity);
+         moveForward();
          if (endPos.checkIfHasReached(this)) {
             return new MoveResultImpl(distance, prevDistance, true);
          }

@@ -168,10 +168,11 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 7.1))
                   .build())
+            .withVelocity(5)
             .build();
       boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
 
-      moveable.moveForward(5);
+      moveable.moveForward();
       boolean isElementEffectivelyOnGridBeforeMove = grid.containsElement(moveable);
 
       // Then
@@ -209,12 +210,13 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(110)
             .build();
 
       // When
       moveable.turnRight();
       Executable ex = () -> {
-         moveable.moveForward(110);
+         moveable.moveForward();
       };
       // Then
       assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -230,11 +232,12 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(110)
             .build();
 
       // When
       Executable ex = () -> {
-         moveable.moveForward(110);
+         moveable.moveForward();
       };
       // Then
       assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -255,12 +258,13 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(1)
             .build();
 
       // When
 
       Executable ex = () -> {
-         moveable.moveBackward(1);
+         moveable.moveBackward();
       };
       // Then
       assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -281,12 +285,13 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(3)
             .build();
 
       // When
       Executable ex = () -> {
          moveable.turnRight();
-         moveable.moveBackward(3);
+         moveable.moveBackward();
       };
       // Then
       assertThrows(GridElementOutOfBoundsException.class, ex);
@@ -302,10 +307,11 @@ class GridTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
       Position expectedEndPosition = Positions.of(0, -1);
       // When
-      moveable.moveBackward(10);
+      moveable.moveBackward();
       // Then
       Assert.assertThatPosition(moveable.getPosition(), is(expectedEndPosition), 3);
    }

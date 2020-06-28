@@ -77,7 +77,7 @@ public class MazeRunner implements MoveableApplication {
       private int movingIncrement;
 
       private MazeRunnerBuilder() {
-         movingIncrement = 2;
+         movingIncrement = 4;
       }
 
       public MazeRunnerBuilder withStartPos(Position startPosition) {

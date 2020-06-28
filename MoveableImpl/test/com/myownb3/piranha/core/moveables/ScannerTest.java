@@ -59,11 +59,12 @@ class ScannerTest {
                   .withPosition(Positions.of(1, 1))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
+            .withVelocity(50)
             .build();
       boolean isEvasion = true;
 
       // When
-      moveable.moveForward(50);
+      moveable.moveForward();
       boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
       // Then
@@ -95,12 +96,13 @@ class ScannerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(1, 1))
                   .build())
+            .withVelocity(50)
             .withHandler(new DetectableMoveableHelper(grid, detector))
             .build();
       boolean notEvasion = false;
 
       // When
-      moveable.moveForward(50);
+      moveable.moveForward();
       boolean isEffectivelyEvasion = detector.isEvasion(gridElement);
 
       // Then
@@ -169,11 +171,12 @@ class ScannerTest {
                   .withPosition(Positions.of(3, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
+            .withVelocity(4)
             .build();
       // GridElement angle is 81.87°
 
       // When
-      moveable.moveForward(4);
+      moveable.moveForward();
       boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
       // Then
@@ -203,11 +206,12 @@ class ScannerTest {
                   .withPosition(Positions.of(1, 1))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
+            .withVelocity(3)
             .build();
       boolean isEvasion = true;
 
       // When
-      moveable.moveForward(3);// Only moving forward 3 - so the obstacle stays out of 'avoiding' range
+      moveable.moveForward();// Only moving forward 3 - so the obstacle stays out of 'avoiding' range
       boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
       // Then
@@ -238,11 +242,12 @@ class ScannerTest {
                   .withPosition(Positions.of(1, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
+            .withVelocity(3)
             .build();
       boolean isEvasion = true;
 
       // When
-      moveable.moveBackward(3);
+      moveable.moveBackward();
       boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
 
       // Then
@@ -273,12 +278,13 @@ class ScannerTest {
                   .withPosition(Positions.of(1, 2))
                   .build())
             .withHandler(new DetectableMoveableHelper(grid, detector))
+            .withVelocity(60)
             .build();
       boolean isEvasionAfterTurn = true;
       boolean isEvasionBeforeTurn = false;
 
       // When
-      moveable.moveBackward(60);
+      moveable.moveBackward();
       boolean isEffectivelyEvasionBeforeTurn = detector.isEvasion(obstacle);
       moveable.makeTurn(180);
       boolean isEffectivelyEvasion = detector.isEvasion(obstacle);
@@ -345,12 +351,13 @@ class ScannerTest {
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
                   .build())
+            .withVelocity(30)
             .build();
       double expectedEndAngle = 90;
       boolean expectedIsEvasion = false;
 
       // When
-      moveable.moveForward(30);
+      moveable.moveForward();
       Direction direction = moveable.getPosition().getDirection();
       double effectEndAngle = direction.getAngle();
       boolean effectIsEvasion = detector.isEvasion(obstacle);
@@ -388,13 +395,14 @@ class ScannerTest {
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
                   .build())
+            .withVelocity(15)
             .build();
       double expectedEndAngle = 120;
       boolean expectedIsEvasion = false;
 
       // When
       moveable.makeTurn(30);
-      moveable.moveForward(15);
+      moveable.moveForward();
       Direction direction = moveable.getPosition().getDirection();
       double effectEndAngle = direction.getAngle();
       boolean effectIsEvasion = detector.isEvasion(obstacle);
@@ -432,13 +440,14 @@ class ScannerTest {
                   .withDetector(detector)
                   .withEvasionStateMachineConfig(config)
                   .build())
+            .withVelocity(7)
             .build();
       double expectedEndAngle = 100;
       boolean expectedIsEvasion = false;
 
       // When
       moveable.makeTurn(10);
-      moveable.moveForward(7);
+      moveable.moveForward();
       Direction direction = moveable.getPosition().getDirection();
       double effectEndAngle = direction.getAngle();
       boolean effectIsEvasion = detector.isEvasion(obstacle);

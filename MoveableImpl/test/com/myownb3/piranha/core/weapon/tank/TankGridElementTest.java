@@ -416,6 +416,7 @@ class TankGridElementTest {
                   .withMinX(5)
                   .build())
             .withTank(tank)
+            .withEngineVelocity(5)
             .build();
 
       // When

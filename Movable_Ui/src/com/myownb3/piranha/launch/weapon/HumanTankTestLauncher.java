@@ -255,7 +255,6 @@ public class HumanTankTestLauncher {
       TankHolder imperialTankTmpHolder = new TankHolder();
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
             .withLazyMoveable(() -> imperialTankTmpHolder.getTankGridElement())
-            .withVelocity(rebelTankVelocity)
             .build();
 
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
@@ -297,7 +296,7 @@ public class HumanTankTestLauncher {
 
       TankGridElement humanRebelTank = TankGridElementBuilder.builder()
             .withGrid(grid)
-            .withEngineVelocity(5)
+            .withEngineVelocity(rebelTankVelocity)
             .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(tankTurretHeight)
             .withTank(TankBuilder.builder()

@@ -41,7 +41,7 @@ class ProjectileGridElementTest {
             .build();
 
       // When
-      moveable.moveForward(10);
+      moveable.moveForward();
 
       // Then
       assertThat(moveable.getPosition(), is(expectedPosition));
@@ -72,7 +72,7 @@ class ProjectileGridElementTest {
       projectileGridElement.autodetect();
 
       // Then
-      verify(projectileGridElement).moveForward(10);
+      verify(projectileGridElement).moveForward();
    }
 
    @Test

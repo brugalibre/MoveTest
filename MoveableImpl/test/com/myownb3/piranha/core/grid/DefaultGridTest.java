@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
@@ -42,7 +43,8 @@ class DefaultGridTest {
    void testGetAllGridElements2CheckCollisionWithinDistance_ToFarAway() {
 
       // Given
-      int radius = 5;
+      int velocity = 5;
+      int radius = velocity;
       Position moveablePos = Positions.of(0, 0);
       Position obstaclePos1 = Positions.of(30, 30);
       Position obstaclePos2 = Positions.of(40, 40);
@@ -52,7 +54,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, velocity));
       ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(PositionShapeBuilder.builder()
@@ -73,13 +75,14 @@ class DefaultGridTest {
       moveable.moveForward();
 
       // Then
-      verify(moveable).check4Collision(any(), any(), eq(Collections.emptyList()));
+      verify(moveable, times(velocity)).check4Collision(any(), any(), eq(Collections.emptyList()));
    }
 
    @Test
    void testGetAllGridElements2CheckCollisionWithinDistance_OneCloseEnoughAway() {
 
       // Given
+      int velocity = 5;
       int radius = 5;
       Position moveablePos = Positions.of(0, 0);
       Position obstaclePos1 = Positions.of(3, 0);
@@ -90,7 +93,7 @@ class DefaultGridTest {
             .withMinX(0)
             .withMinY(0)
             .build();
-      Moveable moveable = spy(buildMoveable(grid, moveablePos, 5));
+      Moveable moveable = spy(buildMoveable(grid, moveablePos, velocity));
       Obstacle obstacle1 = ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(PositionShapeBuilder.builder()
@@ -111,7 +114,7 @@ class DefaultGridTest {
       moveable.moveForward();
 
       // Then
-      verify(moveable).check4Collision(any(), any(), eq(Collections.singletonList(obstacle1)));
+      verify(moveable, times(velocity)).check4Collision(any(), any(), eq(Collections.singletonList(obstacle1)));
    }
 
    @Test

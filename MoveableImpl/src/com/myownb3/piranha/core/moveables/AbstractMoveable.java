@@ -43,7 +43,7 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
-      this.velocity = velocity;
+      this.velocity = verifyAmount(velocity);
    }
 
    protected AbstractMoveable(Grid grid, Shape shape, DimensionInfo dimensionInfo, int velocity) {
@@ -52,10 +52,17 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    @Override
    public void moveForward() {
-      moveForward(1);
+      moveForward(velocity);
    }
 
-   protected void moveForwardInternal() {
+   private void moveForward(int amount) {
+      moveForwardOrBackwardInternal(amount, () -> {
+         moveForwardInternal();
+         return handler.handlePostConditions(this);
+      });
+   }
+
+   private void moveForwardInternal() {
       posBefore = position;
       position = grid.moveForward(this);
       shape.transform(position);
@@ -63,35 +70,25 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    @Override
-   public void moveForward(int amount) {
-      moveForwardOrBackwardInternal(amount, () -> {
-         moveForwardInternal();
-         return handler.handlePostConditions(this);
-      });
-   }
-
-   @Override
    public void moveBackward() {
-      moveBackward(1);
+      moveBackward(velocity);
    }
 
-   protected void moveBackwardInternal() {
-      posBefore = position;
-      position = grid.moveBackward(this);
-      trackPosition(position);
-      shape.transform(position);
-   }
-
-   @Override
-   public void moveBackward(int amount) {
+   private void moveBackward(int amount) {
       moveForwardOrBackwardInternal(amount, () -> {
          moveBackwardInternal();
          return handler.handlePostConditions(this);
       });
    }
 
+   private void moveBackwardInternal() {
+      posBefore = position;
+      position = grid.moveBackward(this);
+      trackPosition(position);
+      shape.transform(position);
+   }
+
    private void moveForwardOrBackwardInternal(int amount, Supplier<Boolean> moveForwardAndGetResult) {
-      verifyAmount(amount);
       for (int i = 0; i < amount; i++) {
          if (has2Abort(!moveForwardAndGetResult.get())) {
             break;
@@ -150,15 +147,17 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       return Collections.unmodifiableList(positionHistory);
    }
 
-   private void verifyAmount(int amount) {
-      if (amount <= 0) {
-         throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
-      }
-   }
-
    private void trackPosition(Position position) {
       synchronized (positionHistory) {
          positionHistory.add(position);
       }
    }
+
+   private int verifyAmount(int amount) {
+      if (amount <= 0) {
+         throw new IllegalArgumentException("The value 'amount' must not be zero or below!");
+      }
+      return amount;
+   }
+
 }

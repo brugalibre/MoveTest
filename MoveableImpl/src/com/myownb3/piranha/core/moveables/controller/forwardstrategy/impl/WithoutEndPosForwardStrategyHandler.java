@@ -20,7 +20,7 @@ public class WithoutEndPosForwardStrategyHandler implements ForwardStrategyHandl
 
    private void leadMoveableForward(Moveable moveable) {
       while (moveableController.isRunning()) {
-         moveable.moveForward(moveable.getVelocity());
+         moveable.moveForward();
       }
    }
 }

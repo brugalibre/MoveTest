@@ -372,7 +372,7 @@ public class BattleTestLauncher {
                   .filter(Moveable.class::isInstance)
                   .map(Moveable.class::cast)
                   .filter(isGridElementAlive(grid))
-                  .forEach(moveable -> moveable.moveForward(10));
+                  .forEach(moveable -> moveable.moveForward());
 
             try {
                Thread.sleep(cycleTime);

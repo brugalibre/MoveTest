@@ -8,10 +8,6 @@ public class MoveResultImpl implements MoveResult {
    double prevDistance2EndPos;
    boolean isDone;
 
-   public MoveResultImpl() {
-      this(-1, -1, false);
-   }
-
    public MoveResultImpl(double distance2EndPos, double prevDistance2EndPos) {
       this(distance2EndPos, prevDistance2EndPos, false);
    }

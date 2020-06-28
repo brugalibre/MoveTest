@@ -24,7 +24,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
 
    @Override
    public void autodetect() {
-      moveForward(getVelocity());
+      moveForward();
       projectile.autodetect();
    }
 

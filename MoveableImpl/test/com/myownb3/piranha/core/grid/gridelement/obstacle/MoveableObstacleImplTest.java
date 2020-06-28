@@ -112,7 +112,7 @@ class MoveableObstacleImplTest {
       moveable.autodetect();
 
       // Then
-      verify(moveable).moveForward(eq(velocity));
+      verify(moveable).moveForward();
    }
 
    @Test

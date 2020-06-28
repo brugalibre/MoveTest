@@ -67,16 +67,19 @@ class TestMove {
    void testMoveForwardNegativeValues() {
 
       // Given
-      Moveable moveable = MoveableBuilder.builder()
-            .withGrid(GridBuilder.builder()
-                  .build())
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(0, 0))
-                  .build())
-            .build();
+      int velocity = -3;;
 
       // When
-      Executable ex = () -> moveable.moveBackward(-3);
+      Executable ex = () -> {
+         MoveableBuilder.builder()
+               .withGrid(GridBuilder.builder()
+                     .build())
+               .withShape(PositionShapeBuilder.builder()
+                     .withPosition(Positions.of(0, 0))
+                     .build())
+               .withVelocity(velocity)
+               .build();
+      };
       // Then
       Assertions.assertThrows(IllegalArgumentException.class, ex);
    }
@@ -151,6 +154,7 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -162,7 +166,7 @@ class TestMove {
          moveable.turnRight();
          effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
       }
-      moveable.moveForward(10);
+      moveable.moveForward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -185,6 +189,7 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -197,7 +202,7 @@ class TestMove {
          moveable.turnRight();
          effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
       }
-      moveable.moveForward(10);
+      moveable.moveForward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -255,11 +260,12 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
 
       // When
       moveable.turnLeft();
-      moveable.moveBackward(10);
+      moveable.moveBackward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -278,6 +284,7 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -289,7 +296,7 @@ class TestMove {
          moveable.turnLeft();
          effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
       }
-      moveable.moveBackward(10);
+      moveable.moveBackward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -312,6 +319,7 @@ class TestMove {
                   .build())
             .withGrid(GridBuilder.builder()
                   .build())
+            .withVelocity(10)
             .build();
       Map<Integer, Direction> effectPositionToTurnMap = new HashMap<>();
       Map<Integer, Direction> expectedPositionToTurnMap = new HashMap<>();
@@ -324,7 +332,7 @@ class TestMove {
          moveable.turnLeft();
          effectPositionToTurnMap.put(Integer.valueOf(i), moveable.getPosition().getDirection());
       }
-      moveable.moveBackward(10);
+      moveable.moveBackward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -347,11 +355,12 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(10)
             .build();
       DirectionImpl expectedDirection = Directions.N;
 
       // When
-      moveable.moveBackward(10);
+      moveable.moveBackward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -371,11 +380,12 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(100)
             .build();
 
       // When
       moveable.makeTurn(45);
-      moveable.moveForward(100);
+      moveable.moveForward();
 
       // Then
       Position endPosition = moveable.getPosition();
@@ -431,6 +441,7 @@ class TestMove {
                   .build())
             .withGrid(GridBuilder.builder()
                   .build())
+            .withVelocity(50)
             .build();
       Position expectedStopover1 = Positions.of(null, -3.536, 3.536, 0);
       Position expectedStopover2 = Positions.of(null, -6.433, 4.312, 0);
@@ -438,16 +449,31 @@ class TestMove {
 
       // When
       moveable.makeTurn(45); // 135; x:-0.7071 ; y:+0.7071
-      moveable.moveForward(50); // x:-3.54 ; y: +3.54
-
+      moveable.moveForward(); // x:-3.54 ; y: +3.54
       Position effectStopover1 = moveable.getPosition();
+      moveable = MoveableBuilder.builder()
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(effectStopover1)
+                  .build())
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withVelocity(30)
+            .build();
 
       moveable.makeTurn(30); // 165; x:-0.965925 ; y: 0.25882
-      moveable.moveForward(30); // x: -2.8978; y: 0.7764
+      moveable.moveForward(); // x: -2.8978; y: 0.7764
       Position effectStopover2 = moveable.getPosition();
+      moveable = MoveableBuilder.builder()
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(effectStopover2)
+                  .build())
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withVelocity(40)
+            .build();
 
       moveable.makeTurn(-60); // 105; x: -0.258819; y:0.965925
-      moveable.moveBackward(40); // x:1.035276 ; y=3.8637
+      moveable.moveBackward(); // x:1.035276 ; y=3.8637
       Position effectStopover3 = moveable.getPosition();
 
       // Then
@@ -466,11 +492,12 @@ class TestMove {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withVelocity(100)
             .build();
 
       // When
       moveable.makeTurn(-30);
-      moveable.moveBackward(100);
+      moveable.moveBackward();
 
       // Then
       Position endPosition = moveable.getPosition();

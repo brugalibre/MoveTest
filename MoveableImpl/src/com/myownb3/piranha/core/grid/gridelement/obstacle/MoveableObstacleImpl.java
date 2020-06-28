@@ -67,7 +67,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    @Override
    public void autodetect() {
-      moveForward(getVelocity());
+      moveForward();
    }
 
    public static class MoveableObstacleBuilder extends AbstractGridElementBuilder<MoveableObstacleImpl, MoveableObstacleBuilder> {

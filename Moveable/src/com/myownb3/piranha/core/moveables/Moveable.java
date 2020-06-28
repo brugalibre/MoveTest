@@ -43,28 +43,10 @@ public interface Moveable extends GridElement {
    void moveForward();
 
    /**
-    * Moves this {@link Moveable} for the given amount of times forward,
-    * considering the current {@link Direction}
-    * 
-    * @param amount
-    *        the amount of units to move forward
-    */
-   void moveForward(int amount);
-
-   /**
     * Moves this {@link Moveable} one unit backward considering the current
     * {@link Direction}
     */
    void moveBackward();
-
-   /**
-    * Moves this {@link Moveable} for the given amount of times forward,
-    * considering the current {@link Direction}
-    * 
-    * @param amount
-    *        the amount of units to move backward
-    */
-   void moveBackward(int amount);
 
    /**
     * Turns this {@link Moveable} to the right

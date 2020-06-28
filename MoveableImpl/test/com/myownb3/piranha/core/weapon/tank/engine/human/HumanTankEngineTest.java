@@ -15,9 +15,7 @@ class HumanTankEngineTest {
    @Test
    void testOnForward_ButDontMove_StopedPressingForward() {
       // Given
-      int velocity = 5;
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .build();
 
@@ -26,15 +24,13 @@ class HumanTankEngineTest {
       humanTankEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveForward(eq(velocity));
+      verify(humanTankEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
    void testOnForward_ButDontMove() {
       // Given
-      int velocity = 5;
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .build();
 
@@ -42,16 +38,14 @@ class HumanTankEngineTest {
       humanTankEngine.onForward(true);
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveForward(eq(velocity));
+      verify(humanTankEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
    void testOnForward_AndMove() {
       // Given
-      int velocity = 5;
       EndPointMoveable moveable = mock(EndPointMoveable.class);
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> moveable)
             .build();
 
@@ -60,16 +54,14 @@ class HumanTankEngineTest {
       humanTankEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable()).moveForward(eq(velocity));
+      verify(humanTankEngine.getMoveable()).moveForward();
    }
 
    @Test
    void testOnBackward() {
       // Given
-      int velocity = 5;
       EndPointMoveable moveable = mock(EndPointMoveable.class);
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> moveable)
             .build();
 
@@ -78,15 +70,13 @@ class HumanTankEngineTest {
       humanTankEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable()).moveBackward(eq(velocity));
+      verify(humanTankEngine.getMoveable()).moveBackward();
    }
 
    @Test
    void testOnBackward_ButDontMove_StopedPressingForward() {
       // Given
-      int velocity = 5;
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .build();
 
@@ -95,16 +85,14 @@ class HumanTankEngineTest {
       humanTankEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveBackward(eq(velocity));
+      verify(humanTankEngine.getMoveable(), never()).moveBackward();
    }
 
    @Test
    void testOnTurnRight() {
       // Given
-      int velocity = 5;
       EndPointMoveable moveable = mock(EndPointMoveable.class);
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> moveable)
             .build();
 
@@ -119,10 +107,8 @@ class HumanTankEngineTest {
    @Test
    void testOnTurnLeft() {
       // Given
-      int velocity = 5;
       EndPointMoveable moveable = mock(EndPointMoveable.class);
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withVelocity(velocity)
             .withLazyMoveable(() -> moveable)
             .build();
 

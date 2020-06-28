@@ -73,7 +73,7 @@ class ProjectileFactoryTest {
       Position pos = Positions.of(5, 5);
 
       // When
-      ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
+      ProjectileConfig projectileConfig = mockProjectileConfig();
       when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
       Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.TORPEDO, pos, projectileConfig);
 
@@ -89,7 +89,7 @@ class ProjectileFactoryTest {
       Position pos = Positions.of(5, 5);
 
       // When
-      ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
+      ProjectileConfig projectileConfig = mockProjectileConfig();
       when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
       Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.BULLET, pos, projectileConfig);
 
@@ -124,6 +124,12 @@ class ProjectileFactoryTest {
 
       // Then
       assertThrows(IllegalStateException.class, exec);
+   }
+
+   private ProjectileConfig mockProjectileConfig() {
+      ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
+      when(projectileConfig.getVelocity()).thenReturn(1);
+      return projectileConfig;
    }
 
 }

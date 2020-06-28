@@ -250,10 +250,18 @@ class PositionTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(Directions.S, 0, 0, 0))
                   .build())
+            .withVelocity(100)
             .build();
-      moveable.moveForward(100);
+      moveable.moveForward();
       moveable.turnRight();
-      moveable.moveForward(50);
+      moveable = MoveableBuilder.builder()
+            .withGrid(grid)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(moveable.getPosition())
+                  .build())
+            .withVelocity(50)
+            .build();
+      moveable.moveForward();
       PositionImpl position = (PositionImpl) moveable.getPosition();
       moveable.makeTurn(position.calcAbsoluteAngle() - position.getDirection().getAngle());
       return moveable.getPosition();

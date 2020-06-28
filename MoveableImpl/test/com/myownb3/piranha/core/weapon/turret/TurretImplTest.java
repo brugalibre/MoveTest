@@ -557,7 +557,7 @@ class TurretImplTest {
                   .withAmountOfPoints(5)
                   .withCenter(targetGridElemPos)
                   .build())
-            .withVelocity(8)
+            .withVelocity(500)
             .build();
 
       SimpleGunCarriageImpl gunCarriage = SimpleGunCarriageBuilder.builder()
@@ -608,7 +608,7 @@ class TurretImplTest {
 
       assertThat(gunCarriage.getShape().getCenter().getDirection(), is(not(pos.getDirection())));
 
-      simpleGridElement.moveForward(500);
+      simpleGridElement.moveForward();
 
       turretImpl.autodetect();// 5. return back
       turretImpl.autodetect();// 6. return back

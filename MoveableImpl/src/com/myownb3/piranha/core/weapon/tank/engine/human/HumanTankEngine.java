@@ -9,7 +9,6 @@ import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallbackHandler {
 
    private Supplier<EndPointMoveable> endPointMoveableSupplier;
-   private int velocity;
    private boolean moveForward;
    private boolean moveBackward;
    private boolean turnLeft;
@@ -17,17 +16,16 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
    @Visible4Testing
    double turnAngle = 5.0;
 
-   private HumanTankEngine(Supplier<EndPointMoveable> endPointMoveableSupplier, int velocity) {
+   private HumanTankEngine(Supplier<EndPointMoveable> endPointMoveableSupplier) {
       this.endPointMoveableSupplier = endPointMoveableSupplier;
-      this.velocity = velocity;
    }
 
    @Override
    public void moveForward() {
       if (moveForward) {
-         getMoveable().moveForward(velocity);
+         getMoveable().moveForward();
       } else if (moveBackward) {
-         getMoveable().moveBackward(velocity);
+         getMoveable().moveBackward();
       }
 
       if (turnLeft) {
@@ -68,7 +66,6 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
 
    public static class HumanTankEngineBuilder {
       private Supplier<EndPointMoveable> endPointMoveableSupplier;
-      private int velocity;
 
       private HumanTankEngineBuilder() {
          // private 
@@ -83,13 +80,8 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
          return this;
       }
 
-      public HumanTankEngineBuilder withVelocity(int velocity) {
-         this.velocity = velocity;
-         return this;
-      }
-
       public HumanTankEngine build() {
-         return new HumanTankEngine(endPointMoveableSupplier, velocity);
+         return new HumanTankEngine(endPointMoveableSupplier);
       }
 
    }
