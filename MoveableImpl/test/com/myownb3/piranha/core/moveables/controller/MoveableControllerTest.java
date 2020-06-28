@@ -34,8 +34,8 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;

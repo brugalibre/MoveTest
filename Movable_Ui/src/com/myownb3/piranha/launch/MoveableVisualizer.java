@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.grid.SwappingGrid;
 import com.myownb3.piranha.core.grid.SwappingGrid.SwappingGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.application.MainWindow;
 

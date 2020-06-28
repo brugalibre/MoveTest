@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.grid.gridelement;
+package com.myownb3.piranha.core.grid.gridelement.obstacle;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,7 +20,8 @@ import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperB
 import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;

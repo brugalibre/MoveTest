@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.core.grid.gridelement;
+package com.myownb3.piranha.core.grid.gridelement.obstacle;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static java.util.Objects.isNull;
@@ -18,6 +18,8 @@ import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 

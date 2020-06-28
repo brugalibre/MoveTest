@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**

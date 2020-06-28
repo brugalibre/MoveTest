@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.render.Renderer;

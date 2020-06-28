@@ -22,8 +22,8 @@ import com.myownb3.piranha.core.collision.detection.DefaultCollisionDetectorImpl
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;

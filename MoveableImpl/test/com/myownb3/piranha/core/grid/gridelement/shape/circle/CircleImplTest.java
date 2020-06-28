@@ -19,7 +19,7 @@ import org.junit.jupiter.api.function.Executable;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;

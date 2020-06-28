@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.position.EndPosition;

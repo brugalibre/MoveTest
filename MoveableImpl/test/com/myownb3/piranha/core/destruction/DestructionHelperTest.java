@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.ObstacleImpl;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
