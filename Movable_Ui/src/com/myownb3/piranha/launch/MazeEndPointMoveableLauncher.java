@@ -147,7 +147,7 @@ public class MazeEndPointMoveableLauncher {
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .withDetector(DetectorConfigBuilder.builder()
-                        .withDetectorAngle(1)
+                        .withDetectorAngle(5)
                         .withDetectorReach(coridorWidth)
                         .withEvasionAngle(0)
                         .withEvasionDistance(0)
@@ -199,7 +199,7 @@ public class MazeEndPointMoveableLauncher {
                         .withEvasionAngleInc(1)
                         .build())
             .withStartPos(startPos)
-            .withMovingIncrement(2)
+            .withMovingIncrement(8)
             .withMoveableController(postMoveFowardHandler)
             .build();
 
@@ -242,7 +242,7 @@ public class MazeEndPointMoveableLauncher {
                         .withRoundsPerMinute(70)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
-                              .withVelocity(5)
+                              .withVelocity(7)
                               .build())
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
@@ -291,7 +291,7 @@ public class MazeEndPointMoveableLauncher {
          while (true) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             try {
-               Thread.sleep(15);
+               Thread.sleep(25);
             } catch (InterruptedException e) {
             }
          }

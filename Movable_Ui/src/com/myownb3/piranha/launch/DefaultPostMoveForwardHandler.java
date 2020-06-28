@@ -38,7 +38,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
    }
 
    private void callAutoDetect(List<GridElement> gridElements) {
-      gridElements.stream()
+      gridElements.parallelStream()
             .filter(AutoDetectable.class::isInstance)
             .map(AutoDetectable.class::cast)
             .forEach(AutoDetectable::autodetect);

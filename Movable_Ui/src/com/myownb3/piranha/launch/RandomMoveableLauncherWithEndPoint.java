@@ -135,7 +135,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       while (isRunning) {
          endPositionRunner.run();
          Toolkit.getDefaultToolkit().beep();
-         Thread.sleep(5);
+         Thread.sleep(50);
       }
    }
 
