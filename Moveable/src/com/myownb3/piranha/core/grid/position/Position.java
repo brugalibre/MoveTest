@@ -54,12 +54,6 @@ public interface Position {
    double calcDistanceTo(Position position);
 
    /**
-    * @return the angle of this Position (not its direction) relatively to the
-    *         given coordinate system or {@link Grid}
-    */
-   double calcAbsolutAngle();
-
-   /**
     * Calculates the angle between this point relatively to their coordinates on
     * the {@link Grid}
     * 

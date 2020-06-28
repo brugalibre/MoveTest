@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
@@ -300,17 +301,16 @@ public class Positions {
 
          double absDeltaX = position.getX() - x;
          double absDeltaY = position.getY() - y;
-         Position distanceVector = Positions.of(absDeltaX, absDeltaY);
+         PositionImpl distanceVector = (PositionImpl) Positions.of(absDeltaX, absDeltaY);
 
-         return distanceVector.calcAbsolutAngle() - direction.getAngle();
+         return distanceVector.calcAbsoluteAngle() - direction.getAngle();
       }
 
       /**
        * Returns the angle of the {@link GridElement}
        */
-      @Override
-      public double calcAbsolutAngle() {
-
+      @Visible4Testing
+      double calcAbsoluteAngle() {
          double angleAsRadiant = getAngleAsRadiant();
          double angleAsDegree = Math.toDegrees(angleAsRadiant);
 
@@ -326,7 +326,6 @@ public class Positions {
        * 
        */
       private double getAngleAsRadiant() {
-
          if (getY() == 0 && getX() == 0) {
             return Math.toRadians(direction.getAngle());
          }

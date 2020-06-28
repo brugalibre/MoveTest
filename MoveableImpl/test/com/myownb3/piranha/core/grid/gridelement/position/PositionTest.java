@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.core.grid;
+package com.myownb3.piranha.core.grid.gridelement.position;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,8 +15,10 @@ import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
+import com.myownb3.piranha.core.grid.DimensionImpl;
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
@@ -50,11 +52,11 @@ class PositionTest {
    public void testAngleCalculationFirstQuadrant() {
 
       // Given
-      Position pos = Positions.of(5, 5);
+      PositionImpl pos = (PositionImpl) Positions.of(5, 5);
       double expectedAngle = 45;
 
       // When
-      double effectAngle = pos.calcAbsolutAngle();
+      double effectAngle = pos.calcAbsoluteAngle();
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -64,11 +66,11 @@ class PositionTest {
    public void testNANAngleDirectionNorth() {
 
       // Given
-      Position pos = Positions.of(0, 0);
+      PositionImpl pos = (PositionImpl) Positions.of(0, 0);
       double actualAngle = 90;
 
       // When
-      double expectedAngle = pos.calcAbsolutAngle();
+      double expectedAngle = pos.calcAbsoluteAngle();
 
       // Then
       assertThat(actualAngle, is(expectedAngle));
@@ -78,11 +80,11 @@ class PositionTest {
    public void testNANAngleDirectionSouth() {
 
       // Given
-      Position pos = Positions.of(Directions.S, 0, 0, 0);
+      PositionImpl pos = (PositionImpl) Positions.of(Directions.S, 0, 0, 0);
       double actualAngle = 270;
 
       // When
-      double expectedAngle = pos.calcAbsolutAngle();
+      double expectedAngle = pos.calcAbsoluteAngle();
 
       // Then
       assertThat(actualAngle, is(expectedAngle));
@@ -92,11 +94,11 @@ class PositionTest {
    public void testAngleCalculationSecondQuadrant1() {
 
       // Given
-      Position pos = Positions.of(-5, 5);
+      PositionImpl pos = (PositionImpl) Positions.of(-5, 5);
       double expectedAngle = 135;
 
       // When
-      double effectAngle = pos.calcAbsolutAngle();
+      double effectAngle = pos.calcAbsoluteAngle();
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -106,11 +108,11 @@ class PositionTest {
    public void testAngleCalculationSecondQuadrant2() {
 
       // Given
-      Position pos = Positions.of(-1, 7);
+      PositionImpl pos = (PositionImpl) Positions.of(-1, 7);
       double expectedAngle = 98.13;
 
       // When
-      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsoluteAngle());
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -120,11 +122,11 @@ class PositionTest {
    public void testAngleCalculationSecondQuadrant3_YIsZero() {
 
       // Given
-      Position pos = Positions.of(-5, 0);
+      PositionImpl pos = (PositionImpl) Positions.of(-5, 0);
       double expectedAngle = 180;
 
       // When
-      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsoluteAngle());
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -134,11 +136,11 @@ class PositionTest {
    public void testAngleCalculationThirdQuadrant() {
 
       // Given
-      Position pos = Positions.of(-5, -5);
+      PositionImpl pos = (PositionImpl) Positions.of(-5, -5);
       double expectedAngle = 225;
 
       // When
-      double effectAngle = pos.calcAbsolutAngle();
+      double effectAngle = pos.calcAbsoluteAngle();
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -148,11 +150,11 @@ class PositionTest {
    public void testAngleCalculationForthQuadrant1() {
 
       // Given
-      Position pos = Positions.of(5, -5);
+      PositionImpl pos = (PositionImpl) Positions.of(5, -5);
       double expectedAngle = 315;
 
       // When
-      double effectAngle = pos.calcAbsolutAngle();
+      double effectAngle = pos.calcAbsoluteAngle();
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -162,11 +164,11 @@ class PositionTest {
    public void testAngleCalculationForthQuadrant2() {
 
       // Given
-      Position pos = Positions.of(1, -7);
+      PositionImpl pos = (PositionImpl) Positions.of(1, -7);
       double expectedAngle = 278.13;
 
       // When
-      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsolutAngle());
+      double effectAngle = MathUtil.roundThreePlaces(pos.calcAbsoluteAngle());
 
       // Then
       MatcherAssert.assertThat(effectAngle, is(expectedAngle));
@@ -252,8 +254,8 @@ class PositionTest {
       moveable.moveForward(100);
       moveable.turnRight();
       moveable.moveForward(50);
-      Position position = moveable.getPosition();
-      moveable.makeTurn(position.calcAbsolutAngle() - position.getDirection().getAngle());
+      PositionImpl position = (PositionImpl) moveable.getPosition();
+      moveable.makeTurn(position.calcAbsoluteAngle() - position.getDirection().getAngle());
       return moveable.getPosition();
    }
 
