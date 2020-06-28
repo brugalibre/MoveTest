@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.grid.gridelement;
+package com.myownb3.piranha.core.grid.gridelement.wall;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.gridelement.wall.DummyGridWall;
 
 class DummyGridWallTest {
 
