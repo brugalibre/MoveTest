@@ -25,10 +25,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 
@@ -140,19 +140,19 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return this;
       }
 
-      public RandomRunnerWithEndPositionsBuilder withMoveableController(PostMoveForwardHandler postMoveFowardHandler) {
+      public RandomRunnerWithEndPositionsBuilder withMoveableController(MoveablePostActionHandler moveablePostActionHandler) {
          requireNonNull(grid, "We neeeda Grid before we can build the MoveableController!");
          this.moveableController = MoveableControllerBuilder.builder()
                .withStrategie(MovingStrategy.FORWARD)
                .withEndPositions(endPositions)
-               .withPostMoveForwardHandler(postMoveFowardHandler)
                .withEndPointMoveable()
                .withGrid(grid)
-               .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+               .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                      .withDetector(detector)
                      .withGrid(grid)
                      .withEvasionStateMachineConfig(config)
                      .build())
+               .addMoveablePostActionHandler(moveablePostActionHandler)
                .withShape(buildCircle(4, startPosition))
                .withMovingIncrement(movingIncrement)
                .buildAndReturnParentBuilder()

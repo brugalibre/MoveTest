@@ -7,6 +7,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.Rebel;
@@ -23,11 +25,47 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigImpl;
 
 class EndPointMoveableImplTest {
+
+   @Test
+   void testCombineMoveablePostActionHandler() {
+      // Given
+
+      AtomicInteger firstCalled = new AtomicInteger(-10);
+      AtomicInteger secondCalled = new AtomicInteger(-10);
+      MoveablePostActionHandler firstHandler = moveable -> {
+         firstCalled.set(1);
+         return true;
+      };
+      MoveablePostActionHandler secondHandler = moveable -> {
+         secondCalled.set(1);
+         return true;
+      };
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0.9))
+                  .build())
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withMovingIncrement(1)
+            .addMoveablePostActionHandler(firstHandler)
+            .addMoveablePostActionHandler(secondHandler)
+            .build();
+      moveable.setEndPosition(EndPositions.of(5, 5));
+
+      // When
+      moveable.moveForward2EndPos();
+
+      // Then
+      assertThat(firstCalled.get(), is(1));
+      assertThat(secondCalled.get(), is(1));
+   }
 
    @Test
    void testIsEnemy() {
@@ -41,8 +79,6 @@ class EndPointMoveableImplTest {
                   .build())
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .withMovingIncrement(1)
-            .withMoveablePostActionHandler((a) -> {
-            })
             .build();
 
       // When
@@ -64,8 +100,6 @@ class EndPointMoveableImplTest {
                   .build())
             .withMovingIncrement(1)
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .withMoveablePostActionHandler((a) -> {
-            })
             .build();
 
       // When
@@ -88,8 +122,6 @@ class EndPointMoveableImplTest {
                   .withPosition(Positions.of(0, 0.9))
                   .build())
             .withMovingIncrement(movingIncrement)
-            .withMoveablePostActionHandler((a) -> {
-            })
             .build();
 
       // When
@@ -114,7 +146,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)
@@ -145,7 +177,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)
@@ -176,7 +208,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)
@@ -208,7 +240,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)
@@ -241,7 +273,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)
@@ -273,7 +305,7 @@ class EndPointMoveableImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(pos)
                   .build())
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(detector)
                   .withEndPosition(endPos)

@@ -6,6 +6,7 @@ package com.myownb3.piranha.launch;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getPositionListColor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -147,7 +148,7 @@ public class MazeEndPointMoveableLauncher {
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .withDetector(DetectorConfigBuilder.builder()
-                        .withDetectorAngle(5)
+                        .withDetectorAngle(1)
                         .withDetectorReach(coridorWidth)
                         .withEvasionAngle(0)
                         .withEvasionDistance(0)
@@ -199,7 +200,7 @@ public class MazeEndPointMoveableLauncher {
                         .withEvasionAngleInc(1)
                         .build())
             .withStartPos(startPos)
-            .withMovingIncrement(8)
+            .withMovingIncrement(600)
             .withMoveableController(postMoveFowardHandler)
             .build();
 
@@ -226,6 +227,7 @@ public class MazeEndPointMoveableLauncher {
             .collect(Collectors.toList());
       ctx.getRenderers().addAll(getRenderers(grid, 4, ctx.getGridElements(), moveableController.getMoveable(), mazeRunner.getDetectorCluster(),
             mazeRunner.getConfig(), detectors));
+      ctx.getEndPositionRenderers().add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), 4, 4));
 
       mainWindow.addSpielfeld(ctx.getRenderers(), ctx.getEndPositionRenderers(), grid);
       showGuiAndStartPainter(mainWindow);
@@ -242,7 +244,7 @@ public class MazeEndPointMoveableLauncher {
                         .withRoundsPerMinute(70)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
-                              .withVelocity(7)
+                              .withVelocity(3)
                               .build())
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
@@ -278,7 +280,7 @@ public class MazeEndPointMoveableLauncher {
             .get();
    }
 
-   private static void preparePositionListPainter(List<Renderer<PositionListPainter>> renderers, List<Position> positions) {
+   private static void preparePositionListPainter(List<PositionListPainter> renderers, List<Position> positions) {
       renderers.stream()
             .filter(PositionListPainter.class::isInstance)
             .map(PositionListPainter.class::cast)

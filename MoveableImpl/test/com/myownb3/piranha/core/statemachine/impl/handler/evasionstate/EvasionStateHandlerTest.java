@@ -63,8 +63,7 @@ class EvasionStateHandlerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
-            .withHandler((b) -> {
-            }).build();
+            .build();
 
       DetectableMoveableHelper helper = new DummyDetectableMoveableHelper(grid, detector);
 

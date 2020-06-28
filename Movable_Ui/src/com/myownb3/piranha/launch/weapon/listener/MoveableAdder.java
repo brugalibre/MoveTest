@@ -52,7 +52,7 @@ public class MoveableAdder {
       int gridElementRadius = 10;
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withHealth(480)
+            .withHealth(400)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)
                   .withAmountOfPoints(20)

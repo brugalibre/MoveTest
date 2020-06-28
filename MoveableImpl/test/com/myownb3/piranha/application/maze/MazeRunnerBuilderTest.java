@@ -72,8 +72,7 @@ class MazeRunnerBuilderTest {
                   .appendCorridorSegment()
                   .build()
                   .build())
-            .withMoveableController(res -> {
-            })
+            .withMoveableController(moveable -> true)
             .build();
 
       // Then
@@ -119,8 +118,6 @@ class MazeRunnerBuilderTest {
                   .appendCorridorSegment()
                   .build()
                   .build())
-            .withMoveableController(res -> {
-            })
             .build();
 
       // Then

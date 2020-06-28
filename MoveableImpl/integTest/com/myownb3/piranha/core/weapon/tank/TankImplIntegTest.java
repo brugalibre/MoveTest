@@ -1,6 +1,8 @@
 
 package com.myownb3.piranha.core.weapon.tank;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -17,6 +19,7 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterI
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
+import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
@@ -34,14 +37,61 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
+import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
+import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
+import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
 
 class TankImplIntegTest {
+
+   @Test
+
+   void testBuildAndMoveTank() {
+
+      // Given
+      Position tankStartPos = Positions.of(5, 5);
+      Position expectedTanEndPos = Positions.of(5, 5.5);
+      TankGridElement tankGridElement = TankGridElementBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(50)
+                  .withMinX(50)
+                  .withDefaultCollisionDetectionHandler()
+                  .build())
+            .withTank(mockTank(10.0, TankShapeBuilder.builder()
+                  .withHull(RectangleBuilder.builder()
+                        .withCenter(tankStartPos)
+                        .withHeight(5)
+                        .withWidth(5)
+                        .build())
+                  .withTurretShape(CircleBuilder.builder()
+                        .withCenter(tankStartPos)
+                        .withRadius(5)
+                        .withAmountOfPoints(5)
+                        .build())
+                  .build()))
+            .withEngineVelocity(5)
+            .build();
+
+      // When
+      tankGridElement.moveForward();
+
+      // Then
+      assertThat(tankGridElement.getPosition(), is(expectedTanEndPos));
+   }
+
+   private Tank mockTank(double dimensionRadius, TankShape shape) {
+      Tank tank = mock(Tank.class);
+      when(tank.getShape()).thenReturn(shape);
+      TankEngineImpl tankEngine = mock(TankEngineImpl.class);
+      when(tank.getTankEngine()).thenReturn(tankEngine);
+      return tank;
+   }
 
    @Test
    void testBuildDefaultTankEngine() {
@@ -100,8 +150,6 @@ class TankImplIntegTest {
                         .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                         .withEndPositions(Collections.singletonList(EndPositions.of(50, 50.1)))
                         .withLazyMoveable(() -> tankHolder.getTankGridElement())
-                        .withPostMoveForwardHandler(res -> {
-                        })
                         .build())
                   .build())
             .withTankDetector(tankDetector)

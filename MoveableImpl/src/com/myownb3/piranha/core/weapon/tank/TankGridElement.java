@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.weapon.tank;
 
+import static java.util.Objects.nonNull;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
@@ -22,11 +25,16 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
    private Tank tank;
    private DimensionInfo turretDimensionInfo;
 
-   protected TankGridElement(Tank tank, Grid grid, MoveablePostActionHandler handler, DimensionInfo tankDimensionInfo,
+   protected TankGridElement(Tank tank, Grid grid, EvasionStateMachine evasionStateMachine, DimensionInfo tankDimensionInfo,
          DimensionInfo turretDimensionInfo, int movingIncrement) {
-      super(grid, handler, movingIncrement, tank.getShape(), tankDimensionInfo, tank.getBelligerentParty());
+      super(grid, evasionStateMachine, getHandler(evasionStateMachine), movingIncrement, tank.getShape(), tankDimensionInfo,
+            tank.getBelligerentParty());
       this.tank = tank;
       this.turretDimensionInfo = turretDimensionInfo;
+   }
+
+   private static MoveablePostActionHandler getHandler(EvasionStateMachine evasionStateMachine) {
+      return nonNull(evasionStateMachine) ? evasionStateMachine : moveable -> true;
    }
 
    @Override
@@ -96,7 +104,7 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
 
       private Tank tank;
       private Grid grid;
-      private MoveablePostActionHandler moveablePostActionHandler;
+      private EvasionStateMachine evasionStateMachine;
       private int movingIncrement;
       private double tankheightFromBottom;
       private double turretHeightFromGround;
@@ -120,8 +128,8 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
          return this;
       }
 
-      public TankGridElementBuilder withMoveablePostActionHandler(MoveablePostActionHandler moveablePostActionHandler) {
-         this.moveablePostActionHandler = moveablePostActionHandler;
+      public TankGridElementBuilder withEvasionStateMachine(EvasionStateMachine evasionStateMachine) {
+         this.evasionStateMachine = evasionStateMachine;
          return this;
       }
 
@@ -145,7 +153,7 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
                .withDimensionRadius(tankShape.getDimensionRadius())
                .withHeightFromBottom(turretHeightFromGround)
                .build();
-         return new TankGridElement(tank, grid, moveablePostActionHandler, tankDimension, turretDimensionInfo, movingIncrement);
+         return new TankGridElement(tank, grid, evasionStateMachine, tankDimension, turretDimensionInfo, movingIncrement);
       }
 
       public static TankGridElementBuilder builder() {

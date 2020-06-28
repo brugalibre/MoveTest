@@ -31,10 +31,9 @@ import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
@@ -43,7 +42,6 @@ import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleG
 
 
 class MazeRunnerTest {
-
    @Test
    void testBuildMazeRunWithCustomMaze() {
 
@@ -107,8 +105,7 @@ class MazeRunnerTest {
                   .build()
                   .build())
             .withMovingIncrement(4)
-            .withMoveableController(res -> {
-            })
+            .withMoveableController(moveable -> true)
             .build();
 
       // When
@@ -219,7 +216,7 @@ class MazeRunnerTest {
       int wallThickness = 10;
       int coridorWidth = 80;
       int segmentLength = 80;
-      Position expectedMoveablePos = Positions.of(130, 330.2);
+      Position expectedMoveablePos = Positions.of(130, 330.1);
       List<Position> actualMoveablePos = new ArrayList<>();
 
       List<MoveableController> moveableControllers = new ArrayList<>();
@@ -296,9 +293,10 @@ class MazeRunnerTest {
                         CorridorSide.LEFT)
                   .build()
                   .build())
-            .withMoveableController(res -> {
+            .withMoveableController(moveable -> {
                moveableControllers.get(0).stop();
-               actualMoveablePos.add(res.getMoveablePosition());
+               actualMoveablePos.add(moveable.getPosition());
+               return false;
             })
             .build();
       moveableControllers.add(mazeRunner.getMoveableController());
@@ -313,19 +311,21 @@ class MazeRunnerTest {
       assertThat(actualMoveablePos.get(0), is(expectedMoveablePos));
    }
 
-   private static class MazeRunnerTestPostMoveActionHandler implements PostMoveForwardHandler, LightBarrierPassedCallbackHandler {
+   private static class MazeRunnerTestPostMoveActionHandler implements MoveablePostActionHandler, LightBarrierPassedCallbackHandler {
 
       private MoveableController moveableController;
       private LightBarrier lightBarrier;
+      private boolean isNotTriggered = true;
 
       @Override
-      public void handlePostMoveForward(MoveResult moveResult) {
-         Moveable moveable = moveableController.getMoveable();
+      public boolean handlePostConditions(Moveable moveable) {
          lightBarrier.checkGridElement(moveable);
+         return isNotTriggered;
       }
 
       @Override
       public void handleLightBarrierTriggered(GridElement gridElement) {
+         isNotTriggered = false;
          moveableController.stop();
       }
    }

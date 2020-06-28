@@ -16,10 +16,10 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.maze.Maze;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
@@ -124,22 +124,22 @@ public class MazeRunner implements MoveableApplication {
          return this;
       }
 
-      public MazeRunnerBuilder withMoveableController(PostMoveForwardHandler postMoveFowardHandler) {
+      public MazeRunnerBuilder withMoveableController(MoveablePostActionHandler moveablePostActionHandler) {
          requireNonNull(maze, "We neeeda Maze before we can build the MoveableController!");
          MovingStrategy strategy = maze.getEndPositions().isEmpty() ? MovingStrategy.FORWARD_WITHOUT_END_POS : MovingStrategy.FORWARD;
          this.moveableController = MoveableControllerBuilder.builder()
                .withStrategie(strategy)
                .withEndPositions(maze.getEndPositions())
-               .withPostMoveForwardHandler(postMoveFowardHandler)
                .withEndPointMoveable()
                .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                .withGrid(maze.getGrid())
-               .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+               .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                      .withDetector(detectorCluster)
                      .withGrid(maze.getGrid())
                      .withPostEvasionStateHandler(new PostEvasionStateHandler4Maze())
                      .withEvasionStateMachineConfig(config)
                      .build())
+               .addMoveablePostActionHandler(moveablePostActionHandler)
                .withShape(CircleBuilder.builder()
                      .withRadius(4)
                      .withAmountOfPoints(4)

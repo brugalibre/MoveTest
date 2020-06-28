@@ -26,8 +26,9 @@ public class DetectableMoveableHelper extends GridElementDetectorImpl implements
    }
 
    @Override
-   public void handlePostConditions(Moveable moveable) {
+   public boolean handlePostConditions(Moveable moveable) {
       checkSurrounding(moveable);
+      return true;
    }
 
    /**

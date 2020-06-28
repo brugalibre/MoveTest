@@ -5,15 +5,15 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.moveables.MoveResult;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
+import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
+import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.launch.weapon.ProjectilePaintUtil;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
 
-public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
+public class DefaultPostMoveForwardHandler implements MoveablePostActionHandler {
 
    private PostMoveForwardHandlerCtx ctx;
 
@@ -22,7 +22,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
    }
 
    @Override
-   public void handlePostMoveForward(MoveResult moveResult) {
+   public boolean handlePostConditions(Moveable moveable) {
       setCurrentTargetPosition(ctx.getMoveableController(), ctx.getRenderers());
       callAutoDetect(ctx.getGrid().getAllGridElements(null));
       //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
@@ -35,6 +35,7 @@ public class DefaultPostMoveForwardHandler implements PostMoveForwardHandler {
       } catch (InterruptedException e) {
          // ignore
       }
+      return true;
    }
 
    private void callAutoDetect(List<GridElement> gridElements) {

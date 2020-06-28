@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.forwardstrategy.ForwardStrategyHandler;
 import com.myownb3.piranha.core.moveables.controller.forwardstrategy.MoveForwardRequest;
 import com.myownb3.piranha.core.moveables.controller.forwardstrategy.impl.EndPositionForwardStrategyHandler;
@@ -30,7 +29,6 @@ public class MoveableController {
    private ForwardStrategyHandler forwardStrategyHandler;
    private Supplier<EndPointMoveable> endPointMoveableSupplier;
    private List<EndPosition> endPosList;
-   private PostMoveForwardHandler handler;
    private boolean isRunning;
 
    /**
@@ -47,8 +45,6 @@ public class MoveableController {
       this.isRunning = true;
       this.endPointMoveableSupplier = endPointMoveableSupplier;
       this.endPosList = endPosList;
-      this.handler = result -> {
-      };
       forwardStrategyHandler = buildForwardStrategyHandler4Strategy(strategie);
    }
 
@@ -66,7 +62,7 @@ public class MoveableController {
    }
 
    public void leadMoveable() {
-      forwardStrategyHandler.moveMoveableForward(MoveForwardRequest.of(endPointMoveableSupplier.get(), endPosList, handler));
+      forwardStrategyHandler.moveMoveableForward(MoveForwardRequest.of(endPointMoveableSupplier.get(), endPosList));
    }
 
    /**
@@ -80,7 +76,6 @@ public class MoveableController {
 
       private List<EndPosition> endPosList;
       private MovingStrategy movingStrategie;
-      private PostMoveForwardHandler postMoveForwardHandler;
       private EndPointMoveable endPointMoveable;
       private Supplier<EndPointMoveable> endPointMoveableSupplier;
 
@@ -116,18 +111,12 @@ public class MoveableController {
          return this;
       }
 
-      public MoveableControllerBuilder withPostMoveForwardHandler(PostMoveForwardHandler postMoveForwardHandler) {
-         this.postMoveForwardHandler = postMoveForwardHandler;
-         return this;
-      }
-
       public MoveableController build() {
          if (nonNull(endPointMoveable)) {
             endPointMoveableSupplier = () -> endPointMoveable;
          }
          MoveableController moveableController = new MoveableController(requireNonNull(endPointMoveableSupplier), movingStrategie, endPosList);
          moveableController.endPosList = endPosList;
-         moveableController.handler = postMoveForwardHandler;
          return moveableController;
       }
    }

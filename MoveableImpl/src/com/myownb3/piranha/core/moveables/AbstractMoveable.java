@@ -8,6 +8,7 @@ import static java.lang.Math.abs;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
@@ -46,13 +47,12 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    }
 
    protected AbstractMoveable(Grid grid, Shape shape, DimensionInfo dimensionInfo, int velocity) {
-      this(grid, (m) -> {/* This empty handler does nothing */
-      }, shape, dimensionInfo, velocity);
+      this(grid, m -> true, shape, dimensionInfo, velocity);
    }
 
    @Override
    public void moveForward() {
-      moveForwardInternal();
+      moveForward(1);
    }
 
    protected void moveForwardInternal() {
@@ -66,13 +66,13 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    public void moveForward(int amount) {
       moveForwardOrBackwardInternal(amount, () -> {
          moveForwardInternal();
-         handler.handlePostConditions(this);
+         return handler.handlePostConditions(this);
       });
    }
 
    @Override
    public void moveBackward() {
-      moveBackwardInternal();
+      moveBackward(1);
    }
 
    protected void moveBackwardInternal() {
@@ -86,18 +86,22 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
    public void moveBackward(int amount) {
       moveForwardOrBackwardInternal(amount, () -> {
          moveBackwardInternal();
-         handler.handlePostConditions(this);
+         return handler.handlePostConditions(this);
       });
    }
 
-   private void moveForwardOrBackwardInternal(int amount, Runnable runnable) {
+   private void moveForwardOrBackwardInternal(int amount, Supplier<Boolean> moveForwardAndGetResult) {
       verifyAmount(amount);
       for (int i = 0; i < amount; i++) {
-         runnable.run();
-         if (!DestructionHelper.isNotDestroyed(this)) {
+         if (has2Abort(!moveForwardAndGetResult.get())) {
             break;
          }
       }
+   }
+
+   private boolean has2Abort(boolean has2Abort) {
+      return DestructionHelper.isDestroyed(this)
+            || has2Abort;
    }
 
    @Override

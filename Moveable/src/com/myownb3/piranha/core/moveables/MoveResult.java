@@ -1,18 +1,11 @@
 package com.myownb3.piranha.core.moveables;
 
-import com.myownb3.piranha.core.grid.position.Position;
-
 public interface MoveResult {
 
    /**
     * @return the distance to the end-position
     */
    double getEndPosDistance();
-
-   /**
-    * @return the current {@link Position} of the {@link Moveable}
-    */
-   Position getMoveablePosition();
 
    /**
     * 

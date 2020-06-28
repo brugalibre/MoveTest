@@ -28,10 +28,10 @@ public class SpielFeld extends JComponent {
 
    private static final long serialVersionUID = 1L;
    private List<Renderer<? extends GridElement>> renderers;
-   private List<Renderer<PositionListPainter>> endPositionRenderers;
+   private List<PositionListPainter> endPositionRenderers;
    private GridPainter gridPainter;
 
-   public SpielFeld(Grid grid, List<Renderer<? extends GridElement>> renderers, List<Renderer<PositionListPainter>> endPositionRenderers, int padding,
+   public SpielFeld(Grid grid, List<Renderer<? extends GridElement>> renderers, List<PositionListPainter> endPositionRenderers, int padding,
          int pointWidth) {
       this.renderers = renderers;
       this.endPositionRenderers = endPositionRenderers;

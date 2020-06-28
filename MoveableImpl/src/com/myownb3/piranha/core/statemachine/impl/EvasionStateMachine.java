@@ -91,10 +91,11 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
    }
 
    @Override
-   public void handlePostConditions(Moveable moveable) {
+   public boolean handlePostConditions(Moveable moveable) {
       beforePostConditions(moveable);
       CommonEvasionStateResult eventStateResult = handlePostConditionsInternal(moveable);
       afterPostConditions(eventStateResult);
+      return true;
    }
 
    private void beforePostConditions(Moveable moveable) {

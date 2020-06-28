@@ -92,7 +92,7 @@ class TankGridElementTest {
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(turretHeightFromGround)
-            .withMoveablePostActionHandler(mock(EvasionStateMachine.class))
+            .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(TankBuilder.builder()
                   .withTankEngine(mock(TankEngine.class))
                   .withTankDetector(mock(TankDetector.class))
@@ -161,7 +161,7 @@ class TankGridElementTest {
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(turretHeightFromGround)
-            .withMoveablePostActionHandler(mock(EvasionStateMachine.class))
+            .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(TankBuilder.builder()
                   .withTankEngine(mock(TankEngine.class))
                   .withTankDetector(mock(TankDetector.class))
@@ -217,7 +217,7 @@ class TankGridElementTest {
             .withGrid(mock(Grid.class))
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
-            .withMoveablePostActionHandler(mock(EvasionStateMachine.class))
+            .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(mockTank(Positions.of(5, 5, 50), 5.0))
             .build();
 
@@ -254,7 +254,7 @@ class TankGridElementTest {
             .withGrid(mock(Grid.class))
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
-            .withMoveablePostActionHandler(mock(EvasionStateMachine.class))
+            .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(tank)
             .build();
 
@@ -288,7 +288,7 @@ class TankGridElementTest {
       TankGridElement tank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(10)
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .build())
@@ -411,8 +411,6 @@ class TankGridElementTest {
       // Given
       Tank tank = mockTank(Positions.of(5, 5), 5.0);
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
-            .withMoveablePostActionHandler(res -> {
-            })
             .withGrid(GridBuilder.builder()
                   .withMaxX(5)
                   .withMinX(5)

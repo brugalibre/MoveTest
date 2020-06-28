@@ -7,7 +7,6 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
-import com.myownb3.piranha.core.moveables.PostMoveForwardHandler;
 import com.myownb3.piranha.core.moveables.controller.forwardstrategy.ForwardStrategyHandler;
 import com.myownb3.piranha.core.moveables.controller.forwardstrategy.MoveForwardRequest;
 
@@ -29,16 +28,15 @@ public class IncrementalForwardStrategyHandler implements ForwardStrategyHandler
             state = IncrementalState.MOVING;
             // Fall through
          case MOVING:
-            moveForwardIncremental(endPointMoveable, endPositions, moveForwardRequest.getPostMoveForwardHandler());
+            moveForwardIncremental(endPointMoveable, endPositions);
             break;
          default:
             break;
       }
    }
 
-   private void moveForwardIncremental(EndPointMoveable moveable, List<EndPosition> endPositions, PostMoveForwardHandler postMoveForwardHandler) {
+   private void moveForwardIncremental(EndPointMoveable moveable, List<EndPosition> endPositions) {
       MoveResult moveResult = moveable.moveForward2EndPos();
-      postMoveForwardHandler.handlePostMoveForward(moveResult);
       if (moveResult.isDone()) {
          EndPosition nextEndPos = evalNextEndPos(endPositions, moveable.getCurrentEndPos());
          moveable.setEndPosition(nextEndPos);

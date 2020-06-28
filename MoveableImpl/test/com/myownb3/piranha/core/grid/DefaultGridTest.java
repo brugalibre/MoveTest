@@ -287,8 +287,6 @@ class DefaultGridTest {
                   .withPosition(Positions.of(0, 0))
                   .build())
             .withMovingIncrement(1)
-            .withMoveablePostActionHandler((b) -> {
-            })
             .build();
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
             .withGrid(grid)

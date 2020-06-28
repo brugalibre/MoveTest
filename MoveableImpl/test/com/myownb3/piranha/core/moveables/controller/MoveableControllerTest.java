@@ -14,7 +14,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +24,6 @@ import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.collision.CollisionDetectedException;
 import com.myownb3.piranha.core.detector.Detector;
@@ -75,13 +73,9 @@ class MoveableControllerTest {
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategy.FORWARD)
             .withEndPositions(Collections.singletonList(endPos))
-            .withPostMoveForwardHandler(res -> {
-            })
             .withEndPointMoveable()
             .withGrid(mock(DefaultGrid.class))
             .withShape(shape)
-            .withMoveablePostActionHandler((b) -> {
-            })
             .buildAndReturnParentBuilder()
             .build();//
 
@@ -107,16 +101,12 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(startPos)
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            })
             .build();
 
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
             .withEndPositions(endPosList)
             .withMoveable(movable)
-            .withPostMoveForwardHandler(res -> {
-            })
             .build();//
 
       // When
@@ -146,16 +136,12 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(startPos)
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            })
             .build());
 
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
             .withEndPositions(endPosList)
             .withMoveable(movable)
-            .withPostMoveForwardHandler(res -> {
-            })
             .build();//
 
       // When
@@ -175,9 +161,6 @@ class MoveableControllerTest {
 
       MoveableController moveableController = MoveableControllerBuilder.builder()
             .withStrategie(MovingStrategy.FORWARD_WITHOUT_END_POS)
-            .withPostMoveForwardHandler(res -> {
-               moveableControllers.get(0).stop();
-            })
             .withEndPointMoveable()
             .withGrid(GridBuilder.builder(30, 30)
                   .build())
@@ -186,7 +169,9 @@ class MoveableControllerTest {
                   .withAmountOfPoints(4)
                   .withCenter(startPos)
                   .build())
-            .withMoveablePostActionHandler((b) -> {
+            .addMoveablePostActionHandler(moveable -> {
+               moveableControllers.get(0).stop();
+               return false;
             })
             .buildAndReturnParentBuilder()
             .build();//
@@ -221,7 +206,7 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(endPos1)
                   .build())
-            .withMoveablePostActionHandler(handler)
+            .withEvasionStateMachine(handler)
             .withMovingIncrement(10)
             .build());
       doReturn(result).when(moveable).moveForward2EndPos();
@@ -230,8 +215,6 @@ class MoveableControllerTest {
             .withStrategie(MovingStrategy.FORWARD)
             .withEndPositions(Arrays.asList(endPos1, endPos2))
             .withMoveable(moveable)
-            .withPostMoveForwardHandler(res -> {
-            })
             .build();//
 
       // When
@@ -247,35 +230,6 @@ class MoveableControllerTest {
    }
 
    @Test
-   void test_leadForwardWith2PointsAbortAfterTheFirstOne() {
-
-      // given
-      EndPosition endPos1 = EndPositions.of(0, 12);
-      EndPosition endPos2 = EndPositions.of(12, 24);
-      EndPointMoveable moveable = Mockito.mock(EndPointMoveable.class);
-      MoveResult result = new MoveResultImpl(0, 0, true);
-      when(moveable.moveForward2EndPos()).thenReturn(result);
-
-      List<MoveableController> moveContrList = new ArrayList<>();
-      MoveableController controller = MoveableControllerBuilder.builder()
-            .withStrategie(MovingStrategy.FORWARD)
-            .withEndPositions(Arrays.asList(endPos1, endPos2))
-            .withMoveable(moveable)
-            .withPostMoveForwardHandler(res -> {
-               moveContrList.get(0).stop();
-            }).build();//
-      moveContrList.add(controller);
-
-      // When
-      controller.leadMoveable();
-
-      // Then
-      verify(moveable).setEndPosition(eq(endPos1));
-      verify(moveable).setEndPosition(eq(endPos2));
-      verify(moveable).moveForward2EndPos();
-   }
-
-   @Test
    void test_MoveForward_NorthUnknownStrategie() {
 
       // Given
@@ -287,8 +241,6 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            })
             .build();
 
 
@@ -312,8 +264,7 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            }).build();
+            .build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
 
@@ -346,8 +297,7 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            }).build();
+            .build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
 
@@ -373,8 +323,6 @@ class MoveableControllerTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(startPos)
                   .build())
-            .withMoveablePostActionHandler((m) -> {
-            })
             .build();
 
       MoveableController controller = new MoveableController(moveable, Collections.singletonList(expectedEndPos));
@@ -505,7 +453,7 @@ class MoveableControllerTest {
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(startPos)
                      .build())
-               .withMoveablePostActionHandler(stateMachine)
+               .withEvasionStateMachine(stateMachine)
                .withMovingIncrement(movingIncrement)
                .build();
          return this;

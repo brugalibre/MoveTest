@@ -78,6 +78,16 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
       return gridElement instanceof Destructible ? !((Destructible) gridElement).isDestroyed() : true;
    }
 
+   /**
+    * @param gridElement
+    *        the {@link GridElement} to test
+    * @return <code>true</code> if the given {@link GridElement} is destroyed or <code>false</code> if it's still a live
+    * 
+    */
+   public static boolean isDestroyed(GridElement gridElement) {
+      return !isNotDestroyed(gridElement);
+   }
+
    public static class DestructionHelperBuilder {
       private Health health;
       private Damage damage;

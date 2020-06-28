@@ -20,7 +20,7 @@ public class PostMoveForwardHandlerCtx {
    private List<Renderer<? extends GridElement>> renderers;
    private Set<String> existingProjectiles;
    private List<GridElement> gridElements;
-   private List<Renderer<PositionListPainter>> endPosRenderers;
+   private List<PositionListPainter> endPosRenderers;
 
    public PostMoveForwardHandlerCtx() {
       this.renderers = new ArrayList<>();
@@ -65,7 +65,7 @@ public class PostMoveForwardHandlerCtx {
       return gridElements;
    }
 
-   public List<Renderer<PositionListPainter>> getEndPositionRenderers() {
+   public List<PositionListPainter> getEndPositionRenderers() {
       return endPosRenderers;
    }
 }

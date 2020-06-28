@@ -412,8 +412,7 @@ class TestMove {
       int angle = 0;
       Position pos = spy(Positions.of(0, 0));
       Moveable moveable = new SimpleTestMoveable(GridBuilder.builder()
-            .build(), pos, res -> {
-            });
+            .build(), pos, move -> true);
 
       // When
       moveable.makeTurn(angle);
@@ -483,8 +482,9 @@ class TestMove {
    private static class MoveablePostActionHandlerTest implements MoveablePostActionHandler {
 
       @Override
-      public void handlePostConditions(Moveable moveable) {
+      public boolean handlePostConditions(Moveable moveable) {
          // Nothing to do
+         return true;
       }
    }
 

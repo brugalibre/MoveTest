@@ -4,6 +4,8 @@
 package com.myownb3.piranha.core.moveables.endposition;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
@@ -32,23 +34,25 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    private EndPosition endPos;
    private double prevDistance;
    private BelligerentParty belligerentParty;
+   private EvasionStateMachine evasionStateMachine;
 
-   protected EndPointMoveableImpl(Grid grid, MoveablePostActionHandler handler, int movingIncrement,
+   protected EndPointMoveableImpl(Grid grid, EvasionStateMachine evasionStateMachine, MoveablePostActionHandler handler, int movingIncrement,
          Shape shape, DimensionInfo dimensionInfo, BelligerentParty belligerentParty) {
       super(grid, handler, shape, dimensionInfo, movingIncrement);
-      init(belligerentParty);
+      init(belligerentParty, evasionStateMachine);
    }
 
-   private void init(BelligerentParty belligerentParty) {
+   private void init(BelligerentParty belligerentParty, EvasionStateMachine evasionStateMachine) {
       this.belligerentParty = belligerentParty;
+      this.evasionStateMachine = evasionStateMachine;
    }
 
    @Override
    public void setEndPosition(EndPosition endPos) {
       this.endPos = requireNonNull(endPos, "End-pos must not be null!");
       prevDistance = endPos.calcDistanceTo(position);
-      if (handler instanceof EvasionStateMachine) {
-         ((EvasionStateMachine) handler).setEndPosition(endPos);
+      if (nonNull(evasionStateMachine)) {
+         evasionStateMachine.setEndPosition(endPos);
       }
    }
 
@@ -97,6 +101,7 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       private int movingIncrement;
       private Shape shape;
       private MoveableControllerBuilder controllerBuilder;
+      private EvasionStateMachine evasionStateMachine;
       private BelligerentParty belligerentParty;
 
       private EndPointMoveableBuilder(MoveableControllerBuilder moveableControllerBuilder) {
@@ -105,8 +110,9 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       }
 
       private EndPointMoveableBuilder() {
-         movingIncrement = 1;
+         this.movingIncrement = 1;
          this.belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
+         this.handler = moveable -> hasEndPosNotReached((EndPointMoveable) moveable);
       }
 
       public EndPointMoveableBuilder withGrid(Grid grid) {
@@ -114,8 +120,15 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          return this;
       }
 
-      public EndPointMoveableBuilder withMoveablePostActionHandler(MoveablePostActionHandler handler) {
-         this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
+      public EndPointMoveableBuilder withEvasionStateMachine(EvasionStateMachine evasionStateMachine) {
+         requireNonNull(evasionStateMachine, "A Moveable always needs a EvasionStateMachine!");
+         this.evasionStateMachine = evasionStateMachine;
+         return this;
+      }
+
+      public EndPointMoveableBuilder addMoveablePostActionHandler(MoveablePostActionHandler handler) {
+         requireNonNull(handler, "A MoveablePostActionHandler must not be null!");
+         this.handler = this.handler.andThen(handler);
          return this;
       }
 
@@ -137,8 +150,12 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       public EndPointMoveable build() {
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(shape, "Attribute 'shape' must not be null!");
-         return new EndPointMoveableImpl(grid, handler, movingIncrement, shape, getDefaultDimensionInfo(shape.getDimensionRadius()),
-               belligerentParty);
+         Objects.requireNonNull(belligerentParty, "Attribute 'belligerentParty' must not be null!");
+         if (nonNull(evasionStateMachine)) {
+            this.handler = handler.andThen(evasionStateMachine);// Since the EvasionStateMachine is as well a MoveablePostActionHandler, add it as well
+         }
+         return new EndPointMoveableImpl(grid, evasionStateMachine, handler, movingIncrement, shape,
+               getDefaultDimensionInfo(shape.getDimensionRadius()), belligerentParty);
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {
@@ -152,6 +169,14 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
 
       public static EndPointMoveableBuilder builder(MoveableControllerBuilder moveableControllerBuilder) {
          return new EndPointMoveableBuilder(moveableControllerBuilder);
+      }
+
+      private static boolean hasEndPosNotReached(EndPointMoveable moveable) {
+         EndPosition currentEndPos = moveable.getCurrentEndPos();
+         if (isNull(currentEndPos)) {
+            return true;
+         }
+         return !currentEndPos.checkIfHasReached(moveable);
       }
    }
 }

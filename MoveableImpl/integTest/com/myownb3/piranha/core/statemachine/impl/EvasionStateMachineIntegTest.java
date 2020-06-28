@@ -298,7 +298,7 @@ public class EvasionStateMachineIntegTest {
       public TestCaseBuilder withMoveable(Position startPos) {
          moveable = EndPointMoveableBuilder.builder()
                .withGrid(grid)
-               .withMoveablePostActionHandler(stateMachine)
+               .withEvasionStateMachine(stateMachine)
                .withMovingIncrement(movingIncrement)
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(startPos)

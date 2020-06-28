@@ -76,7 +76,7 @@ public class TankTestLauncher {
       launcher.launch();
    }
 
-   private void launch() throws InterruptedException {
+   private void launch() {
 
       int width = 30;
       int height = 5;
@@ -126,7 +126,7 @@ public class TankTestLauncher {
             .withEngineVelocity(12)
             .withTankheightFromBottom(tankTurretHeight)
             .withTurretHeightFromBottom(tankTurretHeight)
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .build())
@@ -147,8 +147,6 @@ public class TankTestLauncher {
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(endPositions)
                               .withLazyMoveable(() -> tankHolder.getTankGridElement())
-                              .withPostMoveForwardHandler(res -> {
-                              })
                               .build())
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
@@ -257,7 +255,7 @@ public class TankTestLauncher {
             .withEngineVelocity(6)
             .withTankheightFromBottom(tankTurretHeight)
             .withTurretHeightFromBottom(tankTurretHeight)
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .build())
@@ -278,8 +276,6 @@ public class TankTestLauncher {
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(battleShipEndPositions)
                               .withLazyMoveable(() -> battleShipHolder.getTankGridElement())
-                              .withPostMoveForwardHandler(res -> {
-                              })
                               .build())
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
@@ -508,7 +504,7 @@ public class TankTestLauncher {
                                                 .withGridElementEvaluator(
                                                       (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                                                 .build())
-                                          .withProjectileDamage(200)
+                                          .withProjectileDamage(400)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()

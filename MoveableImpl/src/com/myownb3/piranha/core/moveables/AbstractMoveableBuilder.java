@@ -27,8 +27,7 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    protected AbstractMoveableBuilder() {
       velocity = 1;
-      handler = (b) -> {
-      };
+      handler = moveable -> true;
    }
 
    public AbstractMoveableBuilder<V, T> withShape(Shape shape) {

@@ -128,7 +128,7 @@ public class HumanTankTestLauncher {
             .withEngineVelocity(imperialTankVelocity)
             .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(tankTurretHeight)
-            .withMoveablePostActionHandler(EvasionStateMachineBuilder.builder()
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .build())
@@ -150,8 +150,6 @@ public class HumanTankTestLauncher {
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(imperialTankEndPositions)
                               .withLazyMoveable(() -> imperialTankHolder.getTankGridElement())
-                              .withPostMoveForwardHandler(res -> {
-                              })
                               .build())
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
@@ -302,8 +300,6 @@ public class HumanTankTestLauncher {
             .withEngineVelocity(5)
             .withTankheightFromBottom(tankHeightFromGround)
             .withTurretHeightFromBottom(tankTurretHeight)
-            .withMoveablePostActionHandler(res -> {
-            })
             .withTank(TankBuilder.builder()
                   .withHealth(rebelHealth)
                   .withTankEngine(humanTankEngine)
