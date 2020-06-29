@@ -2,6 +2,9 @@ package com.myownb3.piranha.core.weapon.target;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.turret.turretscanner.TurretScanner;
@@ -29,6 +32,18 @@ public class TargetGridElementImpl implements TargetGridElement {
       requireNonNull(prevAcquiredPos, "We need a previous acquired Position! This should actually never be null..");
       return currentAcquiredPos.getX() != prevAcquiredPos.getX()
             || currentAcquiredPos.getY() != prevAcquiredPos.getY();
+   }
+
+   @Override
+   public boolean isSameGridElementTarget(Optional<TargetGridElement> currentTargetGridElementAvailable) {
+      return currentTargetGridElementAvailable
+            .map(TargetGridElement::getGridElement)
+            .map(isStillSameGridElementDetected())
+            .orElse(false);
+   }
+
+   private Function<? super GridElement, Boolean> isStillSameGridElementDetected() {
+      return currentEvaluatedTargetGridElement -> currentEvaluatedTargetGridElement == gridElement;
    }
 
    @Override

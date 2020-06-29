@@ -1,12 +1,11 @@
 package com.myownb3.piranha.core.weapon.turret.turretscanner;
 
+import static com.myownb3.piranha.core.weapon.target.TargetGridElement.isSameGridElementTarget;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 import com.myownb3.piranha.core.detector.IDetector;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -63,29 +62,17 @@ public class TurretScanner {
    }
 
    private boolean evaluatePosition2Acquire4DetectedTargetGridElement() {
-      Optional<TargetGridElement> currentTargetGridElementAvailable = getNearestTargetGridElement();
-      if (isStillSameTargetDetected(currentTargetGridElementAvailable)) {
-         TargetGridElement currentDetectedTargetGridElement = currentTargetGridElementAvailable.get();
+      Optional<TargetGridElement> currentTargetGridElementAvailableOpt = getNearestTargetGridElement();
+      if (isSameGridElementTarget(nearestDetectedTargetGridElementOpt, currentTargetGridElementAvailableOpt)) {
+         TargetGridElement currentDetectedTargetGridElement = currentTargetGridElementAvailableOpt.get();
          TargetGridElement prevDetectedTargetGridElement = nearestDetectedTargetGridElementOpt.get();
          currentDetectedTargetGridElement.setPrevAcquiredPos(prevDetectedTargetGridElement.getCurrentGridElementPosition());
-         Position targetPos2Acquire = evaluateTargetPositionFromIdentifiedGridElement(currentTargetGridElementAvailable.get());
+         Position targetPos2Acquire = evaluateTargetPositionFromIdentifiedGridElement(currentTargetGridElementAvailableOpt.get());
          updateNearestDetectedTargetGridElement(currentDetectedTargetGridElement, targetPos2Acquire);
          return true;
       }
       resetNearestDetectedTargetGridElement();
       return false;
-   }
-
-   private boolean isStillSameTargetDetected(Optional<TargetGridElement> currentTargetGridElementAvailable) {
-      return currentTargetGridElementAvailable
-            .map(TargetGridElement::getGridElement)
-            .map(isStillSameGridElementDetected())
-            .orElse(false);
-   }
-
-   private Function<? super GridElement, Boolean> isStillSameGridElementDetected() {
-      return currentEvaluatedTargetGridElement -> currentEvaluatedTargetGridElement == nearestDetectedTargetGridElementOpt.get()
-            .getGridElement();
    }
 
    private Position evaluateTargetPositionFromIdentifiedGridElement(TargetGridElement nearestTargetGridElement) {
