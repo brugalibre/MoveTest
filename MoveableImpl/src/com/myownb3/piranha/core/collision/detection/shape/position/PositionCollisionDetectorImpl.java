@@ -3,7 +3,6 @@
  */
 package com.myownb3.piranha.core.collision.detection.shape.position;
 
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 
 import java.util.List;
@@ -82,8 +81,7 @@ public class PositionCollisionDetectorImpl extends AbstractCollisionDetector {
    }
 
    private static boolean isPositionOnLine(Position oldPosition, Float64Vector lineFromOldToNew, GridElement gridElement) {
-      double gridElementDistanceToLine = round(
-            calcDistanceFromPositionToLine(gridElement.getPosition(), oldPosition, lineFromOldToNew), 10);
+      double gridElementDistanceToLine = round(gridElement.getPosition().calcDistanceToLine(oldPosition, lineFromOldToNew), 10);
       return gridElementDistanceToLine == 0.0d;
    }
 

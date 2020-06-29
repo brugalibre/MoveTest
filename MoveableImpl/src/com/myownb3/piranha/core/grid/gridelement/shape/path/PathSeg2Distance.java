@@ -1,7 +1,5 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.path;
 
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
-
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -35,8 +33,7 @@ public class PathSeg2Distance {
    }
 
    private static Function<? super PathSegment, ? extends PathSeg2Distance> toPathSegment(Position newPosition) {
-      return pathSegment -> new PathSeg2Distance(pathSegment,
-            calcDistanceFromPositionToLine(newPosition, pathSegment.getBegin(), pathSegment.getVector()));
+      return pathSegment -> new PathSeg2Distance(pathSegment, newPosition.calcDistanceToLine(pathSegment.getBegin(), pathSegment.getVector()));
    }
 
    public PathSegment getPathSegment() {

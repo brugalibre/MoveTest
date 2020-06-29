@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.statemachine.impl.handler.returningstate;
 
 import static com.myownb3.piranha.core.statemachine.states.EvasionStates.RETURNING;
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -15,7 +14,6 @@ import com.myownb3.piranha.core.statemachine.impl.handler.common.CommonEvasionSt
 import com.myownb3.piranha.core.statemachine.impl.handler.common.output.CommonEvasionStateResult;
 import com.myownb3.piranha.core.statemachine.impl.handler.returningstate.input.ReturningEventStateInput;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
-import com.myownb3.piranha.util.MathUtil;
 
 public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<ReturningEventStateInput, CommonEvasionStateResult>
       implements ReturningStateHandler {
@@ -122,8 +120,7 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
    private EvasionStates evalNextState4StateUntilOrdonal(Position positionBeforeEvasion, Moveable moveable,
          Float64Vector endPosLine) {
       double currentAngle = calcAngle(moveable.getPosition(), endPosLine);
-      double currentDistance = MathUtil.calcDistanceFromPositionToLine(moveable.getPosition(), positionBeforeEvasion,
-            endPosLine);
+      double currentDistance = moveable.getPosition().calcDistanceToLine(positionBeforeEvasion, endPosLine);
       if (currentDistance <= (initialDistance / 2) || currentAngle >= 45.0d) {
          state = ReturnStates.ANGLE_CORRECTION_PHASE_FROM_ORDONAL;
          return RETURNING;
@@ -151,7 +148,7 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
       state = ReturnStates.ANGLE_CORRECTION_PHASE_UNTIL_ORDONAL;
 
       Position moveablePos = moveable.getPosition();
-      this.initialDistance = calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion, endPosLine);
+      this.initialDistance = moveablePos.calcDistanceToLine(positionBeforeEvasion, endPosLine);
       signum = calcSignumWithDistance(moveablePos, positionBeforeEvasion, endPosLine, initReturningAngle);
       if (facesSameDirection(moveable, endPosLine)) {
          return;
@@ -184,8 +181,7 @@ public class ReturningStateHandlerImpl extends CommonEvasionStateHandlerImpl<Ret
     */
    private boolean isMoveableOnEndPosDirection(Float64Vector endPosDirectionVector, Position positionBeforeEvasion,
          Position moveablePos) {
-      double distance = MathUtil.calcDistanceFromPositionToLine(moveablePos, positionBeforeEvasion,
-            endPosDirectionVector);
+      double distance = moveablePos.calcDistanceToLine(positionBeforeEvasion, endPosDirectionVector);
       return distance <= distanceMargin;
    }
 }

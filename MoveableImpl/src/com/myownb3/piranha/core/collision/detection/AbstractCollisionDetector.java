@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.collision.detection;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.path.PathSeg2Distance.fillupPathSegment2DistanceMap;
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 
 import java.util.Comparator;
 import java.util.List;
@@ -94,7 +93,7 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
 
    private boolean hasReachedPathSegment(PathSegment pathSegment2Check, Position movedPathPosition) {
       double distanceFromCenterToPathSegment =
-            calcDistanceFromPositionToLine(movedPathPosition, pathSegment2Check.getBegin(), pathSegment2Check.getVector());
+            movedPathPosition.calcDistanceToLine(pathSegment2Check.getBegin(), pathSegment2Check.getVector());
       return distanceFromCenterToPathSegment - margin < 0;
    }
 

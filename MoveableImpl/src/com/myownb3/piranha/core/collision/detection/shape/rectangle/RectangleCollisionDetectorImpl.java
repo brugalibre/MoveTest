@@ -4,7 +4,6 @@
 package com.myownb3.piranha.core.collision.detection.shape.rectangle;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.path.PathSeg2Distance.fillupPathSegment2DistanceMap;
-import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
 import static com.myownb3.piranha.util.MathUtil.round;
 
 import java.util.Comparator;
@@ -89,10 +88,10 @@ public class RectangleCollisionDetectorImpl extends AbstractCollisionDetector {
       Float64Vector rectangleEdge1Vector = firstPathSegment.getVector();
       Float64Vector rectangleEdge2Vector = thirdPathSegment.getVector();
 
-      double distanceFromShapePos2Edge1 = calcDistanceFromPositionToLine(posOnShapePath, firstPathSegment.getBegin(), rectangleEdge1Vector);
-      double distanceFromShapePos2Edge2 = calcDistanceFromPositionToLine(posOnShapePath, thirdPathSegment.getBegin(), rectangleEdge2Vector);
+      double distanceFromShapePos2Edge1 = posOnShapePath.calcDistanceToLine(firstPathSegment.getBegin(), rectangleEdge1Vector);
+      double distanceFromShapePos2Edge2 = posOnShapePath.calcDistanceToLine(thirdPathSegment.getBegin(), rectangleEdge2Vector);
       double distanceBetweenFirstAndThirdPathSegment =
-            calcDistanceFromPositionToLine(thirdPathSegment.getBegin(), firstPathSegment.getBegin(), rectangleEdge1Vector);
+            thirdPathSegment.getBegin().calcDistanceToLine(firstPathSegment.getBegin(), rectangleEdge1Vector);
       return distanceBetweenFirstAndThirdPathSegment == round(distanceFromShapePos2Edge1 + distanceFromShapePos2Edge2, ACCURACY);
    }
 

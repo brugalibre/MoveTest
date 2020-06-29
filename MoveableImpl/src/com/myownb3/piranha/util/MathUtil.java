@@ -3,10 +3,6 @@
  */
 package com.myownb3.piranha.util;
 
-import org.jscience.mathematics.vector.Float64Vector;
-
-import com.myownb3.piranha.core.grid.position.Position;
-
 /**
  * @author Dominic
  *
@@ -48,25 +44,6 @@ public class MathUtil {
     */
    public static double getRandom(int offset) {
       return Math.random() * offset;
-   }
-
-   /**
-    * Calculates the (ortogonal) distance from {@link Position} Q to the line which
-    * is created by the {@link Position} P and the vector a
-    * 
-    * @param posQ
-    *        the {@link Position} Q
-    * @param posPOnVector
-    *        the {@link Position} P placed on the vector
-    * @param a
-    *        the vector itself
-    * @return the distance between the point Q and the line 'PosQ' and vector
-    */
-   public static double calcDistanceFromPositionToLine(Position posQ, Position posPOnVector, Float64Vector a) {
-
-      Float64Vector posQVector = posQ.getVector();
-      Float64Vector posPVector = posPOnVector.getVector();
-      return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
    }
 
    /**

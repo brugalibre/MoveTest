@@ -206,6 +206,23 @@ public class Positions {
                distanceVector.getX() * distanceVector.getX() + distanceVector.getY() * distanceVector.getY());
       }
 
+      /**
+       * Calculates the (ortogonal) distance between this {@link Position} to the line which
+       * is created by the {@link Position} P and the vector a
+       * 
+       * @param posPOnVector
+       *        the {@link Position} P placed on the vector
+       * @param a
+       *        the vector itself
+       * @return the distance between the point Q and the line 'PosQ' and vector
+       */
+      @Override
+      public double calcDistanceToLine(Position posPOnVector, Float64Vector a) {
+         Float64Vector posQVector = this.getVector();
+         Float64Vector posPVector = posPOnVector.getVector();
+         return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
+      }
+
       @Override
       public double calcAngleRelativeTo(Position position) {
 

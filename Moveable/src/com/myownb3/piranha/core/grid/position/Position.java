@@ -27,17 +27,24 @@ public interface Position {
    Position rotate(double degree);
 
    /**
-    * @return the Direction in which this Positions shows
-    */
-   Direction getDirection();
-
-   /**
     * Calculates the distance between this and the given {@link Position}
     * 
     * @param position
     * @return the calculated distance
     */
    double calcDistanceTo(Position position);
+
+   /**
+    * Calculates the (ortogonal) distance between this {@link Position} to the line which
+    * is created by the {@link Position} P and the vector a
+    * 
+    * @param posPOnVector
+    *        the {@link Position} P placed on the vector
+    * @param a
+    *        the vector itself
+    * @return the distance between the point Q and the line 'PosQ' and vector
+    */
+   double calcDistanceToLine(Position posPOnVector, Float64Vector a);
 
    /**
     * Calculates the angle between this point relatively to their coordinates on
@@ -111,8 +118,12 @@ public interface Position {
    double getX();
 
    /**
+    * @return the Direction in which this Positions shows
+    */
+   Direction getDirection();
+
+   /**
     * @return a {@link Float64Vector} of the x- and y coordinates of this {@link Position}. The z-coordinate is always 0
     */
    Float64Vector getVector();
-
 }
