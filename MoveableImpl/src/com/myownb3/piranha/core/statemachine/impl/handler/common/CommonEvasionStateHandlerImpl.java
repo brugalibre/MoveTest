@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.statemachine.impl.handler.common;
 
 import static com.myownb3.piranha.util.MathUtil.calcDistanceFromPositionToLine;
+import static com.myownb3.piranha.util.vector.VectorUtil.calcAngleBetweenVectors;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
@@ -94,6 +95,6 @@ public abstract class CommonEvasionStateHandlerImpl<T extends CommonEvasionState
 
    protected double calcAngle(Position moveablePos, Float64Vector endPosLine) {
       Float64Vector moveableVector = moveablePos.getDirection().getVector();
-      return MathUtil.round(MathUtil.calcAngleBetweenVectors(endPosLine, moveableVector), ANGLE_PRECISION);
+      return MathUtil.round(calcAngleBetweenVectors(endPosLine, moveableVector), ANGLE_PRECISION);
    }
 }

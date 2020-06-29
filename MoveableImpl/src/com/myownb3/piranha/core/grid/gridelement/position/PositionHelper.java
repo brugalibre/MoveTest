@@ -1,6 +1,6 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
-import static com.myownb3.piranha.util.MathUtil.calcAngleBetweenVectors;
+import static com.myownb3.piranha.util.vector.VectorUtil.calcAngleBetweenVectors;
 
 import java.util.ArrayList;
 import java.util.List;

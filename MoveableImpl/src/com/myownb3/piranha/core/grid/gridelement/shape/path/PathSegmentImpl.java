@@ -1,6 +1,6 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.path;
 
-import static com.myownb3.piranha.util.MathUtil.calcAngleBetweenVectors;
+import static com.myownb3.piranha.util.vector.VectorUtil.calcAngleBetweenVectors;
 
 import org.jscience.mathematics.vector.Float64Vector;
 

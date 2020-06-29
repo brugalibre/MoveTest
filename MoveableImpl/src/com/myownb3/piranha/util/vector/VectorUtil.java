@@ -6,6 +6,7 @@ package com.myownb3.piranha.util.vector;
 import static com.myownb3.piranha.util.MathUtil.round;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
 import org.jscience.mathematics.vector.Float64Vector;
@@ -56,6 +57,27 @@ public class VectorUtil {
       double x2 = (cos(angle) * x1) - (sin(angle) * y1);
       double y2 = (sin(angle) * x1) + (cos(angle) * y1);
       return Float64Vector.valueOf(round(x2, 10), round(y2, 10), 0.0);
+   }
+
+   /**
+    * Calculates the angle between the two vectors
+    * 
+    * @param vector1
+    *        the first vector
+    * @param vector2
+    *        the second vector
+    * @return the angle in degree between thos two vectors
+    */
+   public static double calcAngleBetweenVectors(Float64Vector vector1, Float64Vector vector2) {
+      double v1TimesV2 = vector2.times(vector1).doubleValue();
+      return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(), vector2.normValue());
+   }
+
+   private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,
+         double moveable2GridElemVectorLenght, double moveableVectorLenght) {
+      double vectorAngle = moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght);
+      double radValue = Math.acos(Math.min(vectorAngle, 1));
+      return toDegrees(radValue);
    }
 
    /**

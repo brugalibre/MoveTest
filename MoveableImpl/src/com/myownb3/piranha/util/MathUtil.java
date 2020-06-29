@@ -3,8 +3,6 @@
  */
 package com.myownb3.piranha.util;
 
-import static java.lang.Math.toDegrees;
-
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.position.Position;
@@ -69,27 +67,6 @@ public class MathUtil {
       Float64Vector posQVector = posQ.getVector();
       Float64Vector posPVector = posPOnVector.getVector();
       return a.cross(posQVector.minus(posPVector)).normValue() / a.normValue();
-   }
-
-   /**
-    * Calculates the angle between the two vectors
-    * 
-    * @param vector1
-    *        the first vector
-    * @param vector2
-    *        the second vector
-    * @return the angle in degree between thos two vectors
-    */
-   public static double calcAngleBetweenVectors(Float64Vector vector1, Float64Vector vector2) {
-      double v1TimesV2 = vector2.times(vector1).doubleValue();
-      return calcAngleBetweenVectors(v1TimesV2, vector1.normValue(), vector2.normValue());
-   }
-
-   private static double calcAngleBetweenVectors(double moveableVectorTimesGridElemVector,
-         double moveable2GridElemVectorLenght, double moveableVectorLenght) {
-      double vectorAngle = moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght);
-      double radValue = Math.acos(Math.min(vectorAngle, 1));
-      return toDegrees(radValue);
    }
 
    /**
