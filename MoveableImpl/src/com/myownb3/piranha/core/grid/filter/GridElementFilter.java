@@ -6,7 +6,6 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.util.MathUtil;
 
 /**
  * The {@link GridElementFilter} is used by the {@link Grid} in order to filter relevant {@link GridElement}s for collision detecting
@@ -33,7 +32,7 @@ public class GridElementFilter {
     */
    public boolean isGridElementInfrontOf(GridElement gridElement2Check) {
       requireNonNull(movedGridElement, "For using this filter we need a GridElement to compare to!");
-      double angleBetweenPositions = MathUtil.calcAngleBetweenPositions(movedGridElement.getPosition(), gridElement2Check.getPosition());
+      double angleBetweenPositions = movedGridElement.getPosition().calcAngleBetweenPositions(gridElement2Check.getPosition());
       return angleBetweenPositions < 180.0;
    }
 

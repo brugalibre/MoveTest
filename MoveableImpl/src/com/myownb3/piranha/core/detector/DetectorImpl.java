@@ -15,7 +15,6 @@ import com.myownb3.piranha.core.detector.evasion.EvasionAngleEvaluator;
 import com.myownb3.piranha.core.detector.evasion.impl.DefaultEvasionAngleEvaluatorImpl.DefaultEvasionAngleEvaluatorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.util.MathUtil;
 
 /**
  * @author Dominic
@@ -68,7 +67,7 @@ public class DetectorImpl implements IDetector {
    private DetectionResult detectObjectInternal(GridElement gridElement, Position gridElementPos, Position detectorPosition) {
       double distance = gridElementPos.calcDistanceTo(detectorPosition);
       if (detectorReach >= distance) {
-         double degValue = MathUtil.calcAngleBetweenPositions(detectorPosition, gridElementPos);
+         double degValue = detectorPosition.calcAngleBetweenPositions(gridElementPos);
          boolean isDetected = degValue <= (detectorAngle / 2);
          boolean isEvasion = isEvasion(gridElement, distance, degValue, isDetected);
          return new DetectionResult(isEvasion, isDetected, gridElementPos);

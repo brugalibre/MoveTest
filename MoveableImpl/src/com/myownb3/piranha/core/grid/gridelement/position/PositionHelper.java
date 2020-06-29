@@ -1,10 +1,13 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
+import static com.myownb3.piranha.util.MathUtil.calcAngleBetweenVectors;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
+import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.vector.VectorUtil;
@@ -86,6 +89,30 @@ public class PositionHelper {
       return movePositionForward4Distance(pos.rotate(180), distance)
             .rotate(180);
    }
+
+   /**
+    * Calculates the angle between the two Vectors which can be created between the
+    * given {@link Position}s. The direction of the first position is considered.
+    * 
+    * @param pos
+    *        the position
+    * @param otherPosition
+    *        the other {@link Position}
+    *        {@link Grid}
+    * @return the calculated angle with a precision of three decimal places
+    */
+   public double calcAngleBetweenPositions(Position pos, Position otherPosition) {
+      Float64Vector moveable2GridElemVector = getVectorFromMoveable2GridElement(pos, otherPosition);
+      Float64Vector moveableDirectionVector = pos.getDirection().getVector();
+      return calcAngleBetweenVectors(moveable2GridElemVector, moveableDirectionVector);
+   }
+
+   private static Float64Vector getVectorFromMoveable2GridElement(Position pos, Position gridElemPos) {
+      Float64Vector moveableVector = pos.getVector();
+      Float64Vector gridElemVector = gridElemPos.getVector();
+      return gridElemVector.minus(moveableVector);
+   }
+
 
    /**
     * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s

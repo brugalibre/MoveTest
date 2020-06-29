@@ -7,6 +7,7 @@ import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
 /**
  * Defines a two dimensional point on a {@link Grid}. Although a {@link Position} defines a z-axis, this value is only used to determine
@@ -47,6 +48,16 @@ public interface Position {
     * @return the relatively angle between this and the other position
     */
    double calcAngleRelativeTo(Position position);
+
+   /**
+    * Calculates the angle between the two Vectors which can be created between this {@link Position} and the other given {@link Position}.
+    * <b>Note:</b> The direction of the this {@link Position}s is considered.
+    * 
+    * @param otherPosition
+    *        the position of a {@link GridElement} on a {@link Grid}
+    * @return the calculated angle with a precision of three decimal places
+    */
+   public double calcAngleBetweenPositions(Position otherPosition);
 
    /**
     * The this {@link Position} is moved forward one time

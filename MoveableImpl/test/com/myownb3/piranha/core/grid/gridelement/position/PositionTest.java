@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.grid.gridelement.position;
 
+import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
@@ -31,6 +32,57 @@ import com.myownb3.piranha.util.MathUtil;
  */
 @PrepareForTest(Positions.class)
 class PositionTest {
+
+
+   @Test
+   void testCalcAngle_SecondSector() {
+
+      // Given
+      double expectedCalcAngleBetweenVectors = 26.565;
+
+      Position gridElementPos = Positions.of(-2, 7);
+      Position moveablePosition = Positions.of(1, 1);
+
+      // When
+      double actualCalcAngleBetweenVectors = round(moveablePosition.calcAngleBetweenPositions(gridElementPos), 3);
+
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
+
+   @Test
+   void testCalcAngle_FirstAndForthSector() {
+
+      // Given
+      double expectedCalcAngleBetweenVectors = 54.462;
+
+      Position gridElementPos = Positions.of(8, -4);
+      Position moveablePosition = Positions.of(Directions.S, 1, 1, 0);
+
+      // When
+      double actualCalcAngleBetweenVectors = round(moveablePosition.calcAngleBetweenPositions(gridElementPos), 3);
+
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
+
+   @Test
+   void testCalcAngle_ThirdAndForthSector() {
+
+      // Given
+      double expectedCalcAngleBetweenVectors = 52.12;
+
+      Position gridElementPos = Positions.of(8, -4);
+      Position moveablePosition = Positions.of(Directions.S, -2, -2, 0);
+      moveablePosition = moveablePosition.rotate(26.57);// rotate to simulate the direction of a moveable which leads into the 4. sector
+
+      // When
+      double actualCalcAngleBetweenVectors = round(moveablePosition.calcAngleBetweenPositions(gridElementPos), 3);
+
+      // Then
+      assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
+   }
+
 
    @Test
    public void testRandomPosition() {

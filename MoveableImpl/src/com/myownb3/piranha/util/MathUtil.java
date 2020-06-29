@@ -7,10 +7,7 @@ import static java.lang.Math.toDegrees;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
  * @author Dominic
@@ -75,24 +72,6 @@ public class MathUtil {
    }
 
    /**
-    * Calculates the angle between the two Vectors which can be created between the
-    * given {@link Position}s. The direction of the {@link Moveable}s position is
-    * considered.
-    * 
-    * @param moveablePosition
-    *        the position from a {@link Moveable}
-    * @param gridElementPos
-    *        the position of a {@link GridElement} on a
-    *        {@link Grid}
-    * @return the calculated angle with a precision of three decimal places
-    */
-   public static double calcAngleBetweenPositions(Position moveablePosition, Position gridElementPos) {
-      Float64Vector moveable2GridElemVector = getVectorFromMoveable2GridElement(moveablePosition, gridElementPos);
-      Float64Vector moveableDirectionVector = moveablePosition.getDirection().getVector();
-      return calcAngleBetweenVectors(moveable2GridElemVector, moveableDirectionVector);
-   }
-
-   /**
     * Calculates the angle between the two vectors
     * 
     * @param vector1
@@ -111,12 +90,6 @@ public class MathUtil {
       double vectorAngle = moveableVectorTimesGridElemVector / (moveableVectorLenght * moveable2GridElemVectorLenght);
       double radValue = Math.acos(Math.min(vectorAngle, 1));
       return toDegrees(radValue);
-   }
-
-   private static Float64Vector getVectorFromMoveable2GridElement(Position moveablePosition, Position gridElemPos) {
-      Float64Vector moveableVector = moveablePosition.getVector();
-      Float64Vector gridElemVector = gridElemPos.getVector();
-      return gridElemVector.minus(moveableVector);
    }
 
    /**

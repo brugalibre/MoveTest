@@ -216,6 +216,11 @@ public class Positions {
          return distanceVector.calcAbsoluteAngle() - direction.getAngle();
       }
 
+      @Override
+      public double calcAngleBetweenPositions(Position otherPosition) {
+         return POSITION_HELPER.calcAngleBetweenPositions(this, otherPosition);
+      }
+
       /**
        * Returns the angle of the {@link GridElement}
        */
