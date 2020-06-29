@@ -19,17 +19,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 public interface Moveable extends GridElement {
 
    /**
-    * The stepwitdh is used by the {@link Direction} as a divisor for dividing the
-    * 'move-forward-unit' that any {@link Moveable} can move forward
-    * 
-    * @see Direction#getForwardX()
-    * @see Direction#getForwardY()
-    * @see Direction#getBackwardX()
-    * @see Direction#getBackwardY()
-    */
-   public static final int STEP_WITDH = 10;
-
-   /**
     * Return the {@link Position} which this {@link Moveable} had before it moved forward
     * 
     * @return the {@link Position} which this {@link Moveable} had before it moved forward
@@ -86,6 +75,6 @@ public interface Moveable extends GridElement {
     */
    @Override
    default double getSmallestStepWith() {
-      return 1d / STEP_WITDH;
+      return 1d / MoveableConst.STEP_WITDH;
    }
 }

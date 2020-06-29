@@ -23,7 +23,7 @@ import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilde
 class AbstractMoveableTest {
 
    @Test
-   void test_BuildWithShape() {
+   void testBuildWithShape() {
 
       // Given
       Position startPos = Positions.of(0, 0);

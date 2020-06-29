@@ -262,12 +262,12 @@ class CircleImplTest {
       // Given
       int amountOfPoints = 4;
       int expectedOfPoints = 4;
-      int radius = 5;
+      double radius = 5.0;
       Position center = Positions.of(0, 0);
 
       // When
       Circle circle = CircleBuilder.builder()
-            .withRadius(radius)
+            .withRadius((int) radius)
             .withAmountOfPoints(amountOfPoints)
             .withCenter(center)
             .build();
@@ -281,7 +281,7 @@ class CircleImplTest {
       Collections.shuffle(path);
       Collections.sort(path, new CircePathPositionComparator());
 
-      assertThat(circle.getRadius(), is(radius));
+      assertThat(circle.getDimensionRadius(), is(radius));
       assertThat(circle.getCenter(), is(center));
       assertThat(circle.getDimensionRadius(), is(5.0));
       assertAngle(amountOfPoints, path);

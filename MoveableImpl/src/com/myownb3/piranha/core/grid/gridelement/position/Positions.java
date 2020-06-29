@@ -143,8 +143,8 @@ public class Positions {
       int minY = dimension.getY();
       int maxY = minX + dimension.getHeight();
 
-      int x = (int) Math.min(MathUtil.getRandom(maxX) + minX, maxX - width / 2);
-      int y = (int) Math.min(MathUtil.getRandom(maxY) + minY, maxY - height / 2);
+      int x = (int) Math.min(MathUtil.getRandom(maxX) + minX, (double) maxX - ((double) width / 2));
+      int y = (int) Math.min(MathUtil.getRandom(maxY) + minY, (double) maxY - ((double) height / 2));
 
       return Positions.of(x, y);
    }
@@ -375,9 +375,7 @@ public class Positions {
             return false;
          if (this.y != other.y)
             return false;
-         if (this.z != other.z)
-            return false;
-         return true;
+         return (this.z == other.z);
       }
 
       @Override

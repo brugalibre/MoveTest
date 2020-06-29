@@ -45,17 +45,17 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
       Direction sourcePosDirection = Directions.of(sourcePos.getDirection(), projectileConfig.getVelocity());
 
       Float64Vector targetVMinusSourceV = targetPosition.getVector().minus(sourcePos.getVector());
-      double A = targetPosDirection.getVector().normValue() * targetPosDirection.getVector().normValue()
+      double a = targetPosDirection.getVector().normValue() * targetPosDirection.getVector().normValue()
             - (sourcePosDirection.getVector().normValue() * sourcePosDirection.getVector().normValue());
-      double B = 2 * targetVMinusSourceV.times(targetPosDirection.getVector()).doubleValue();
-      double C = targetVMinusSourceV.normValue() * targetVMinusSourceV.normValue();
+      double b = 2 * targetVMinusSourceV.times(targetPosDirection.getVector()).doubleValue();
+      double c = targetVMinusSourceV.normValue() * targetVMinusSourceV.normValue();
 
-      if (A >= 0) {
+      if (a >= 0) {
          return targetPosition;
       }
-      double sqrt = Math.sqrt(B * B - 4 * A * C);
-      double dt1 = solveQuadraticFormula(A, B, sqrt, -1);
-      double dt = computeDeltaT(A, B, sqrt, dt1);
+      double sqrt = Math.sqrt(b * b - 4 * a * c);
+      double dt1 = solveQuadraticFormula(a, b, sqrt, -1);
+      double dt = computeDeltaT(a, b, sqrt, dt1);
       Float64Vector targetDirVectorWithTime = targetPosDirection.getVector().times(dt);
       return Positions.of(targetPosition.getX() + targetDirVectorWithTime.getValue(0), targetPosition.getY() + targetDirVectorWithTime.getValue(1),
             sourcePos.getZ());
@@ -66,8 +66,8 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
       return dt1 < 0 ? solveQuadraticFormula(A, B, sqrt, 1) : dt1;
    }
 
-   private static double solveQuadraticFormula(double A, double B, double sqrt, int plusOrMinus) {
-      return (-B + plusOrMinus * sqrt) / (2 * A);
+   private static double solveQuadraticFormula(double a, double b, double sqrt, int plusOrMinus) {
+      return (-b + plusOrMinus * sqrt) / (2 * a);
    }
 
 }

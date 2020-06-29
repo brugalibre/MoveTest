@@ -49,9 +49,8 @@ class ObjectUtilsTest {
       Date date2 = null;
 
       // When
-      Executable ex = () -> {
-         ObjectUtils.firstNonNull(date1, date2);
-      };
+      Executable ex = () -> ObjectUtils.firstNonNull(date1, date2);
+
       // Then
       assertThrows(NullPointerException.class, ex);
    }

@@ -16,6 +16,10 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class Assert {
 
+   private Assert() {
+      // privatos
+   }
+
    /**
     * @param actualPos
     * @param matcher

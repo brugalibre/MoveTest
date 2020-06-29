@@ -97,7 +97,6 @@ public class TankImpl implements Tank {
       private TankEngine tankEngine;
       private BelligerentParty belligerentParty;
       private TankDetector tankDetector;
-      private DestructionHelper destructionHelper;
       private double health;
       private TankStrategy tankStrategy;
 
@@ -143,7 +142,7 @@ public class TankImpl implements Tank {
 
       public Tank build() {
          TankShape tankShape = buildTankShape();
-         this.destructionHelper = buildDestructionHelper(health);
+         DestructionHelper destructionHelper = buildDestructionHelper(health);
          requireNonNull(tankStrategy);
          return new TankImpl(turret, tankEngine, tankShape, belligerentParty, tankDetector, destructionHelper, tankStrategy);
       }

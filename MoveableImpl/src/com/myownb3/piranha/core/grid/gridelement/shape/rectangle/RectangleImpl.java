@@ -30,6 +30,7 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    private double width;
    private Orientation orientation;
    private double distanceBetweenPosOnColDetectionPath;
+   private List<Position> path4Detection;
 
    private RectangleImpl(Position center, double width, double height, double distanceBetweenPosOnColDetectionPath) {
       this(center, width, height, distanceBetweenPosOnColDetectionPath, Orientation.HORIZONTAL);
@@ -91,14 +92,14 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    }
 
    private List<Position> buildPath4DetectionPrivate() {
-      Set<Position> path4Detection = new LinkedHashSet<>();
+      Set<Position> path4DetectionSet = new LinkedHashSet<>();
       Position pathPos1 = path.get(0).getBegin();
       for (int i = 0; i < path.size(); i++) {
          Position pathPos2 = getNextPosition(path, i);
-         path4Detection.addAll(buildPositionsBetweenTwoPositions(pathPos1, pathPos2, distanceBetweenPosOnColDetectionPath));
+         path4DetectionSet.addAll(buildPositionsBetweenTwoPositions(pathPos1, pathPos2, distanceBetweenPosOnColDetectionPath));
          pathPos1 = pathPos2;
       }
-      return new ArrayList<Position>(path4Detection);
+      return new ArrayList<>(path4DetectionSet);
    }
 
    @Override

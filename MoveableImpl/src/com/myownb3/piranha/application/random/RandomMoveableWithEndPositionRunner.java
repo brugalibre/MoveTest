@@ -205,21 +205,20 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return new RandomRunnerWithEndPositionsBuilder();
       }
 
-   }
-
-   private static List<EndPosition> getEndPosList(int height, int width, Dimension dimension, int amountOfEndPos) {
-      List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
-      for (int i = 0; i < amountOfEndPos; i++) {
-         endPosList.add(EndPositions.of(Positions.getRandomPosition(dimension, height, width), 5));
+      private static List<EndPosition> getEndPosList(int height, int width, Dimension dimension, int amountOfEndPos) {
+         List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
+         for (int i = 0; i < amountOfEndPos; i++) {
+            endPosList.add(EndPositions.of(Positions.getRandomPosition(dimension, height, width), 5));
+         }
+         return endPosList;
       }
-      return endPosList;
-   }
 
-   private static Shape buildCircle(int width, Position pos) {
-      return CircleBuilder.builder()
-            .withRadius(width)
-            .withAmountOfPoints(30)
-            .withCenter(pos)
-            .build();//
+      private static Shape buildCircle(int width, Position pos) {
+         return CircleBuilder.builder()
+               .withRadius(width)
+               .withAmountOfPoints(30)
+               .withCenter(pos)
+               .build();//
+      }
    }
 }

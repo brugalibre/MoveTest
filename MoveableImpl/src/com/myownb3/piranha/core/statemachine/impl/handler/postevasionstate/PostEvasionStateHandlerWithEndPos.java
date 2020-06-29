@@ -10,7 +10,6 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.handler.postevasion.PostEvasionStateHandler;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.CommonEvasionStateHandlerImpl;
 import com.myownb3.piranha.core.statemachine.impl.handler.common.output.CommonEvasionStateResult;
@@ -68,7 +67,7 @@ public class PostEvasionStateHandlerWithEndPos extends
       Position endPosition = evenStateInput.getEndPosition();
       boolean isAngleCorrectionNecessary = isAngleCorrectionNecessary(positionBeforeEvasion, moveable, endPosition);
       if (isAngleCorrectionNecessary) {
-         adjustDirection(positionBeforeEvasion, moveable, evenStateInput.getHelper(), endPosition);
+         adjustDirection(positionBeforeEvasion, moveable, endPosition);
          return POST_EVASION;
       }
       return POST_EVASION.nextState();
@@ -80,8 +79,7 @@ public class PostEvasionStateHandlerWithEndPos extends
       return abs(angle) > 0.0d;
    }
 
-   private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, DetectableMoveableHelper helper,
-         Position endPos) {
+   private void adjustDirection(Position positionBeforeEvasion, Moveable moveable, Position endPos) {
       Float64Vector endPosLine = getEndPosLine(positionBeforeEvasion, endPos);
       double angle2Turn = getAngle2Turn(moveable.getPosition(), endPosLine);
       moveable.makeTurnWithoutPostConditions(signum * angle2Turn);

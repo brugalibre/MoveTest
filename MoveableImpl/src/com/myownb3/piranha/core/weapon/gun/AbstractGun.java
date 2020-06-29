@@ -108,7 +108,7 @@ public abstract class AbstractGun implements Gun {
       Thread.sleep(TIME_BETWEEN_SALVES);
    }
 
-   public static abstract class AbstractGunBuilder<T extends AbstractGun> {
+   public abstract static class AbstractGunBuilder<T extends AbstractGun> {
       protected GunShape gunShape;
       protected GunConfig gunConfig;
 

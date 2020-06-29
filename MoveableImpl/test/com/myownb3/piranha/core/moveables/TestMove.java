@@ -49,7 +49,7 @@ class TestMove {
 
       int maxMovements = 50;
       Position effectStartPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(0, -maxMovements / Moveable.STEP_WITDH);
+      Position expectedEndPosition = Positions.of(0, -maxMovements / (double) MoveableConst.STEP_WITDH);
 
       // When
       for (int i = 0; i < maxMovements; i++) {
@@ -98,7 +98,7 @@ class TestMove {
 
       int maxMovements = 50;
       Position effectStartPosition = moveable.getPosition();
-      Position expectedEndPosition = Positions.of(0, maxMovements / Moveable.STEP_WITDH);
+      Position expectedEndPosition = Positions.of(0, maxMovements / MoveableConst.STEP_WITDH);
 
       // When
       for (int i = 0; i < maxMovements; i++) {

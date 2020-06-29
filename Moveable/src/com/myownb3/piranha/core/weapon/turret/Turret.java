@@ -16,7 +16,7 @@ import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
  * @author Dominic
  *
  */
-public interface Turret extends AutoDetectable/*TODO die muss weg! RoboticTurret*/, Belligerent {
+public interface Turret extends AutoDetectable, Belligerent {
 
    /**
     * @return the {@link Shape} of this {@link Turret}

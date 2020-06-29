@@ -75,11 +75,6 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    @Override
-   public int getRadius() {
-      return radius;
-   }
-
-   @Override
    public double getDimensionRadius() {
       return radius;
    }
@@ -91,7 +86,7 @@ public class CircleImpl extends AbstractShape implements Circle {
 
    private static List<PathSegment> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
       List<PathSegment> path = new LinkedList<>();
-      double degInc = 360 / amountOfPoints;
+      double degInc = 360 / (double) amountOfPoints;
       double deg = 0;
       Position pos = getNextCirclePos(center, radius, deg);
       for (int i = 0; i < amountOfPoints; i++) {
@@ -145,7 +140,7 @@ public class CircleImpl extends AbstractShape implements Circle {
          List<PathSegment> path = buildCircleWithCenter(center, amountOfPoints, radius);
          CircleImpl circle = new CircleImpl(path, center, amountOfPoints, radius);
          if (nonNull(gridElement)) {
-            ((AbstractShape) circle).setGridElement(gridElement);
+            circle.setGridElement(gridElement);
          }
          return circle;
       }

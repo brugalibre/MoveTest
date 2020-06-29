@@ -45,7 +45,7 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
 
    @Visible4Testing
    static boolean isDestroyed(Projectile projectile) {
-      return projectile == null ? true : projectile.isDestroyed();
+      return projectile == null || projectile.isDestroyed();
    }
 
    @Override

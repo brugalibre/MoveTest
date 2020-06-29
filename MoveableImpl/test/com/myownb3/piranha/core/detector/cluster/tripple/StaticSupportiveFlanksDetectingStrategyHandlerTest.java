@@ -160,7 +160,7 @@ public class StaticSupportiveFlanksDetectingStrategyHandlerTest {
 
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withCenterDetector(0, false, false)
+            .withCenterDetector(0, false)
             .withLeftDetector(-70, true, false)
             .withRightDetector(-70, false, false)
             .build();
@@ -179,7 +179,7 @@ public class StaticSupportiveFlanksDetectingStrategyHandlerTest {
 
       // Given
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withCenterDetector(0, false, false)
+            .withCenterDetector(0, false)
             .withLeftDetector(-70, false, false)
             .withRightDetector(-70, true, false)
             .build();
@@ -199,7 +199,7 @@ public class StaticSupportiveFlanksDetectingStrategyHandlerTest {
       private IDetectorInfo rightDetectorInfo;
       private StaticSupportiveFlanksDetectingStrategyHandler handler;
 
-      private TestCaseBuilder withCenterDetector(double offsetValue, boolean hasEvasion, boolean hasDetection) {
+      private TestCaseBuilder withCenterDetector(double offsetValue, boolean hasEvasion) {
          centerDetectorInfo = mockIDetectorInfo(offsetValue, false, hasEvasion, 0);
          return this;
       }

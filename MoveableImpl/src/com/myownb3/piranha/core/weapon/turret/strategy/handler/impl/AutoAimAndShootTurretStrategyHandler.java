@@ -38,7 +38,7 @@ public class AutoAimAndShootTurretStrategyHandler implements TurretStrategyHandl
             break;
          case ACQUIRING:
             turretScanner.getNearestDetectedTargetPos()
-                  .ifPresent(acquiredTargetPos -> handleAcquiringState(acquiredTargetPos));
+                  .ifPresent(this::handleAcquiringState);
             break;
          case SHOOTING:
             handleShooting();

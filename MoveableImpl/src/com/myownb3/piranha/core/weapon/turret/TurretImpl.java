@@ -11,7 +11,6 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
@@ -33,10 +32,10 @@ public class TurretImpl implements Turret {
    private BelligerentParty belligerentParty;
 
    protected TurretImpl(TurretShape turretShape, BelligerentParty belligerentParty) {
-      init(turretShape.getCenter(), turretShape, belligerentParty);
+      init(turretShape, belligerentParty);
    }
 
-   private void init(Position position, TurretShape turretShape, BelligerentParty belligerentParty) {
+   private void init(TurretShape turretShape, BelligerentParty belligerentParty) {
       this.shape = turretShape;
       this.belligerentParty = belligerentParty;
    }
@@ -71,7 +70,7 @@ public class TurretImpl implements Turret {
       return shape;
    }
 
-   public static abstract class GenericTurretBuilder<T> {
+   public abstract static class GenericTurretBuilder<T> {
 
       protected BelligerentParty belligerentParty;
       protected GunCarriage gunCarriage;

@@ -55,11 +55,10 @@ public class ProjectileFactory {
          default:
             throw new IllegalArgumentException("Unsupported type of projectile '" + type + "'");
       }
-      return createNewProjectile(position, projectileShape, projectileConfig, type);
+      return createNewProjectile(projectileShape, projectileConfig, type);
    }
 
-   private ProjectileGridElement createNewProjectile(Position position, Shape projectileShape, ProjectileConfig projectileConfig,
-         ProjectileTypes type) {
+   private ProjectileGridElement createNewProjectile(Shape projectileShape, ProjectileConfig projectileConfig, ProjectileTypes type) {
       LazyGridElement lazyGridElement = new LazyGridElement();
       ProjectileGridElement projectileGridElement = ProjectileGridElementBuilder.builder()
             .withGrid(grid)
@@ -90,7 +89,7 @@ public class ProjectileFactory {
       return RectangleBuilder.builder()
             .withCenter(position)
             .withHeight(dimensionRadius)
-            .withWidth(3 * dimensionRadius)
+            .withWidth(3d * dimensionRadius)
             .withOrientation(Orientation.VERTICAL)
             .build();
    }

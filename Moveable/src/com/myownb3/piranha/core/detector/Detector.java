@@ -5,6 +5,7 @@ package com.myownb3.piranha.core.detector;
 
 import java.util.List;
 
+import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -78,14 +79,6 @@ public interface Detector {
    double getEvasionAngleRelative2(Position position);
 
    /**
-    * Returns the distance for which an occurred evasion should be delayed for this detector
-    * This value can be <code>null</code>
-    * 
-    * @return the range of this detector
-    */
-   Integer getEvasionDelayDistance();
-
-   /**
     * Returns the range of this detector
     * 
     * @return the range of this detector
@@ -96,4 +89,15 @@ public interface Detector {
     * @return the range within this detector avoid a {@link GridElement}
     */
    int getEvasionRange();
+
+   /**
+    * Returns the distance for which an occurred evasion should be delayed for this detector
+    * 
+    * For a {@link TrippleDetectorCluster} this value can be <code>null</code>
+    * 
+    * @see TrippleDetectorCluster#getEvasionDelayDistance()
+    * 
+    * @return the evasion delay of this detector
+    */
+   Integer getEvasionDelayDistance();
 }

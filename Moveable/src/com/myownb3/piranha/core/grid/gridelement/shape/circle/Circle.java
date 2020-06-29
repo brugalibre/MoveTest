@@ -23,11 +23,4 @@ public interface Circle extends Shape {
     * @return the center of this Circle
     */
    Position getCenter();
-
-   /**
-    * Returns the radius of this circle
-    * 
-    * @return the radius of this circle
-    */
-   int getRadius();
 }

@@ -116,7 +116,7 @@ public class DetectorImpl implements IDetector {
 
    @Override
    public Integer getEvasionDelayDistance() {
-      return evasionDistance;
+      return getEvasionRange();
    }
 
    @Override

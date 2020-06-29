@@ -129,13 +129,11 @@ public class MazeImpl implements Maze {
       }
 
       private Consumer<EndPosition> createAndAddEndPosGridElement() {
-         return endPos -> {
-            mazeGridElements.add(new EndPositionGridElement(grid, CircleBuilder.builder()
-                  .withRadius(4)
-                  .withAmountOfPoints(4)
-                  .withCenter(endPos)
-                  .build()));
-         };
+         return endPos -> mazeGridElements.add(new EndPositionGridElement(grid, CircleBuilder.builder()
+               .withRadius(4)
+               .withAmountOfPoints(4)
+               .withCenter(endPos)
+               .build()));
       }
 
       private Consumer<? super CorridorSegment> addCorridorSegmentRectangles() {
@@ -218,7 +216,7 @@ public class MazeImpl implements Maze {
             if (!isAngleBend) {
                return getPositionOnWall(corridorSide, 0);
             }
-            double offset2Corner = corridorWidth / 2 + gunCarriage.getShape().getDimensionRadius();
+            double offset2Corner = corridorWidth / 2d + gunCarriage.getShape().getDimensionRadius();
             return getPositionOnAngleBendWall(offset2Corner);
          }
 
@@ -282,7 +280,7 @@ public class MazeImpl implements Maze {
          }
 
          public CorridorBuilder withDetector(DetectorConfig detectorConfig, CorridorSide corridorSide) {
-            Position detectorCenter = getPositionOnWall(corridorSide, segmentLenth / 2);
+            Position detectorCenter = getPositionOnWall(corridorSide, (double) segmentLenth / 2);
 
             currentCorridorSegment.setDetector(PlacedDetectorBuilder.builder()
                   .withIDetector(DetectorBuilder.builder()
@@ -312,11 +310,11 @@ public class MazeImpl implements Maze {
             return currentCorridorSegment.getCorridorSegCenter()
                   .movePositionForward4Distance(offsetFromCenterAlongTheWall)
                   .rotate(rotationAngle)
-                  .movePositionForward4Distance(corridorWidth / 2)
-                  .rotate(2 * rotationAngle);
+                  .movePositionForward4Distance(corridorWidth / 2d)
+                  .rotate(2d * rotationAngle);
          }
 
-         public CorridorBuilder withEndPosition(Shape shape) {
+         public CorridorBuilder withEndPosition() {
             Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
             EndPosition endPosition = EndPositions.of(corridorSegmentCenter, endPositionPrecision);
             this.endPositions.add(endPosition);
@@ -327,18 +325,15 @@ public class MazeImpl implements Maze {
             Position corridorSegmentCenter = getNextSegmentCenter();
 
             // First build the angle (bendSegment) itself. It consist of two Corridor elements, like this: _| Note that the vertical element is slightly greater
-            Position rectangleCenter = getRectangleCenter(corridorSegmentCenter, signum * 90);
+            Position rectangleCenter = getRectangleCenter(corridorSegmentCenter, signum * 90d);
             Wall bendSegment1 = buildWallGridElemenet(grid, wallThickness, segmentLenth, rectangleCenter);
 
             // Move it at the end of the rectangle above
-            rectangleCenter = corridorSegmentCenter.movePositionForward4Distance(halfThickness() + segmentLenth / 2);
-            Wall bendSegment2 = buildWallGridElemenet(grid, wallThickness, corridorWidth + 2 * wallThickness, rectangleCenter);
-            corridorSegmentCenter = corridorSegmentCenter.rotate(signum * -90);
+            rectangleCenter = corridorSegmentCenter.movePositionForward4Distance(halfThickness() + segmentLenth / 2d);
+            Wall bendSegment2 = buildWallGridElemenet(grid, wallThickness, corridorWidth + 2d * wallThickness, rectangleCenter);
+            corridorSegmentCenter = corridorSegmentCenter.rotate(signum * -90d);
             currentCorridorSegment = new CorridorSegmentImpl(bendSegment1, bendSegment2, corridorSegmentCenter, true);
             corridorSegments.add(currentCorridorSegment);
-
-            // and now add another corridor segment to finish the angle-bend
-            corridorSegmentCenter = corridorSegmentCenter.movePositionForward4Distance((corridorWidth / 2) - 3.0 * wallThickness);
          }
 
          public MazeBuilder build() {
@@ -350,14 +345,14 @@ public class MazeImpl implements Maze {
 
          private Position getNextSegmentCenter() {
             if (isNull(currentCorridorSegment)) {
-               return mazeStartPos.movePositionForward4Distance(segmentLenth / 2);
+               return mazeStartPos.movePositionForward4Distance(segmentLenth / 2d);
             }
             return currentCorridorSegment.getCorridorSegCenter()
                   .movePositionForward4Distance(segmentLenth);
          }
 
          private Position getRectangleCenter(Position corridorSegCenter, double angle2Rotate) {
-            return getRectangleCenter(corridorSegCenter, (corridorWidth + wallThickness) / 2, angle2Rotate);
+            return getRectangleCenter(corridorSegCenter, (corridorWidth + wallThickness) / 2d, angle2Rotate);
          }
 
          private Position getRectangleCenter(Position corridorSegCenter, double distance2Move, double angle2Rotate) {
@@ -368,19 +363,19 @@ public class MazeImpl implements Maze {
          private int halfThickness() {
             return wallThickness / 2;
          }
-      }
-   }
 
-   private static Wall buildWallGridElemenet(Grid grid, double height, double width, Position center) {
-      return WallGridElementBuilder.builder()
-            .withGrid(grid)
-            .withShape(RectangleBuilder.builder()
-                  .withCenter(center)
-                  .withHeight(height)
-                  .withWidth(width)
-                  .withDistanceBetweenPosOnColDetectionPath(5)
-                  .withOrientation(Orientation.HORIZONTAL)
-                  .build())
-            .build();
+         private static Wall buildWallGridElemenet(Grid grid, double height, double width, Position center) {
+            return WallGridElementBuilder.builder()
+                  .withGrid(grid)
+                  .withShape(RectangleBuilder.builder()
+                        .withCenter(center)
+                        .withHeight(height)
+                        .withWidth(width)
+                        .withDistanceBetweenPosOnColDetectionPath(5)
+                        .withOrientation(Orientation.HORIZONTAL)
+                        .build())
+                  .build();
+         }
+      }
    }
 }

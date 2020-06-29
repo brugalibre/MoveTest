@@ -81,6 +81,7 @@ public class EvasionStateHandler extends CommonEvasionStateHandlerImpl<EvasionEv
 
    private boolean isNotInSaveDistance(Position moveablePos, Position posBeforeEvasion, Detector detector) {
       double distancePosBeforeEvasion2CurrentPos = posBeforeEvasion.calcDistanceTo(moveablePos);
+      // Depending on the implementation of the detector, the 'getEvasionDelayDistance' can be null if currently no GridElement is detected
       return distancePosBeforeEvasion2CurrentPos <= firstNonNull(postEvasionDelayDistance, detector.getEvasionDelayDistance());
    }
 }

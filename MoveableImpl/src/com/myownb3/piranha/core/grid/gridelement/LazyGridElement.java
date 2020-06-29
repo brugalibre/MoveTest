@@ -11,8 +11,6 @@ public class LazyGridElement {
 
    private GridElement gridElement;
 
-   public LazyGridElement() {}
-
    /**
     * @return the {@link GridElement} of this {@link LazyGridElement}
     */

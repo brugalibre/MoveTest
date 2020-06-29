@@ -126,7 +126,6 @@ public class PositionHelper {
     * @return
     */
    public List<Position> buildPositionsBetweenTwoPositions(Position pathPos1, Position pathPos2, double distanceBetweenPosOnColDetectionPath) {
-      Position nextPathElement = Positions.of(pathPos1);
       List<Position> pathBetweenTwoPositions = new ArrayList<>();
       pathBetweenTwoPositions.add(pathPos1);
       Float64Vector nexPathPosVector = pathPos1.getVector();
@@ -136,7 +135,7 @@ public class PositionHelper {
       double distancePos2ToPos1 = pathPos2.calcDistanceTo(pathPos1);
       while (distancePos2ToPos1 >= distanceBetweenPosOnColDetectionPath) {
          nexPathPosVector = nexPathPosVector.plus(vectorFromPos1ToPos2);
-         nextPathElement = Positions.of(nexPathPosVector, 9);
+         Position nextPathElement = Positions.of(nexPathPosVector, 9);
          distancePos2ToPos1 = pathPos2.calcDistanceTo(nextPathElement);
          pathBetweenTwoPositions.add(nextPathElement);
       }

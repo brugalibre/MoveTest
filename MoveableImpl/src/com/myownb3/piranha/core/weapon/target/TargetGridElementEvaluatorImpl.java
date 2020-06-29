@@ -32,7 +32,7 @@ public class TargetGridElementEvaluatorImpl implements TargetGridElementEvaluato
       Predicate<GridElement> isProjectile = Projectile.class::isInstance;
       return getAllPotentialTargetsWithinReach(detectorPos).stream()
             .filter(isProjectile.negate())
-            .filter(isEnemy())
+            .filter(this::isGridElementEnemy)
             .filter(isGridElementDetected(detectorPos))
             .sorted(new GridElement2DistanceComparator(detectorPos))
             .map(TargetGridElementImpl::of)
@@ -43,12 +43,8 @@ public class TargetGridElementEvaluatorImpl implements TargetGridElementEvaluato
       return gridElement -> gridElement.isDetectedBy(detectorPos, detector);
    }
 
-   private Predicate<? super GridElement> isEnemy() {
-      return gridElement -> isGridElementEnemy(gridElement);
-   }
-
    boolean isGridElementEnemy(GridElement gridElement) {
-      return (gridElement instanceof Belligerent) ? belligerentParty.isEnemyParty(((Belligerent) gridElement).getBelligerentParty()) : false;
+      return (gridElement instanceof Belligerent) && belligerentParty.isEnemyParty(((Belligerent) gridElement).getBelligerentParty());
    }
 
    private List<GridElement> getAllPotentialTargetsWithinReach(Position detectorPos) {

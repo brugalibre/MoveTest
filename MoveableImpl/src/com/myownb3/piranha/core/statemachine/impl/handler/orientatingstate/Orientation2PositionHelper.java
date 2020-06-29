@@ -72,7 +72,7 @@ public class Orientation2PositionHelper {
       int signum = MathUtil.getSignum(ajdustedAngleDiff);
       if (abs(ajdustedAngleDiff) > minimalTurnIncrement) {
          angle2Turn = signum * minimalTurnIncrement;
-      } else /*if (abs(angleDiff) > 0)*/ {
+      } else {
          angle2Turn = ajdustedAngleDiff;
       }
       return adjustAngleDiff4TurnWithin180(angle2Turn);

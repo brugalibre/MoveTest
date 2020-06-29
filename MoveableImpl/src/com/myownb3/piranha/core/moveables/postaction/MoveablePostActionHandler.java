@@ -36,8 +36,7 @@ public interface MoveablePostActionHandler {
     * @return a combination of this and the other {@link MoveablePostActionHandler}
     */
    default MoveablePostActionHandler andThen(MoveablePostActionHandler other) {
-      return moveable -> {
-         return this.handlePostConditions(moveable) && other.handlePostConditions(moveable);
-      };
+      return moveable -> this.handlePostConditions(moveable) && other.handlePostConditions(moveable);
+
    }
 }

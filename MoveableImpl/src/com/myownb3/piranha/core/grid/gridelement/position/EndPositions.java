@@ -142,5 +142,28 @@ public class EndPositions {
          double distanceCurrentPosEndPos = currentPos.calcDistanceTo(this);
          return round(distancePosBefore2CurrentPos, 10) <= round(distancePosBefore2EndPos + distanceCurrentPosEndPos, 10);
       }
+
+      @Override
+      public int hashCode() {
+         final int prime = 31;
+         int result = super.hashCode();
+         result = prime * result + (adHocVerification ? 1231 : 1237);
+         long temp;
+         temp = Double.doubleToLongBits(distancePrecision);
+         result = prime * result + (int) (temp ^ (temp >>> 32));
+         return result;
+      }
+
+      @Override
+      public boolean equals(Object obj) {
+         if (this == obj)
+            return true;
+         if (!super.equals(obj))
+            return false;
+         EndPositionImpl other = (EndPositionImpl) obj;
+         if (adHocVerification != other.adHocVerification)
+            return false;
+         return (Double.doubleToLongBits(distancePrecision) == Double.doubleToLongBits(other.distancePrecision));
+      }
    }
 }

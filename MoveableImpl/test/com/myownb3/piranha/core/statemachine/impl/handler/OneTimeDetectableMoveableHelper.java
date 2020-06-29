@@ -23,5 +23,7 @@ public class OneTimeDetectableMoveableHelper extends DetectableMoveableHelper {
    }
 
    @Override
-   public void checkSurrounding(GridElement gridElement) {}
+   public void checkSurrounding(GridElement gridElement) {
+      // not used here
+   }
 }

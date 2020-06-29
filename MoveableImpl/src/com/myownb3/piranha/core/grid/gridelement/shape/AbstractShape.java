@@ -25,7 +25,6 @@ public abstract class AbstractShape implements Shape {
    protected List<PathSegment> path;
    protected GridElement gridElement;
    protected CollisionDetector collisionDetector;
-   protected List<Position> path4Detection;
    protected Position center;
 
    /**
@@ -107,10 +106,7 @@ public abstract class AbstractShape implements Shape {
             break;
          }
       }
-      if (areMoreDetectedGridElementsLeft(detectionResult)) {
-         return true;
-      }
-      return false;
+      return areMoreDetectedGridElementsLeft(detectionResult);
    }
 
    private static boolean moreThanHalfeDone(List<Position> detectedPositions, DetectionResult detectionResult) {

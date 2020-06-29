@@ -9,6 +9,7 @@ import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.ShapeUtil;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
@@ -45,7 +46,7 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public Position getForemostPosition() {
-      return muzzleBreakShapeOpt.map(muzzleBreak -> muzzleBreak.getForemostPosition())
+      return muzzleBreakShapeOpt.map(Shape::getForemostPosition)
             .orElse(barrel.getForemostPosition());
    }
 
@@ -56,7 +57,7 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public double getDimensionRadius() {
-      return muzzleBreakShapeOpt.map(muzzleBreak -> muzzleBreak.getDimensionRadius())
+      return muzzleBreakShapeOpt.map(Shape::getDimensionRadius)
             .map(muzzleBreakDimension -> Math.max(muzzleBreakDimension, barrel.getDimensionRadius()))
             .orElse(barrel.getDimensionRadius());
    }
@@ -80,7 +81,7 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public double getLength() {
-      return muzzleBreakShapeOpt.map(muzzleBreak -> muzzleBreak.getDimensionRadius())
+      return muzzleBreakShapeOpt.map(Shape::getDimensionRadius)
             .map(muzzleBreakDimension -> muzzleBreakDimension + barrel.getDimensionRadius())
             .orElse(barrel.getDimensionRadius());
    }

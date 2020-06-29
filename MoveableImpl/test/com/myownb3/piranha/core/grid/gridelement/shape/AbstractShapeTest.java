@@ -162,9 +162,7 @@ class AbstractShapeTest {
       when(expectedSpy.cloneShape()).thenThrow(CloneNotSupportedException.class);
 
       // When
-      Executable ex = () -> {
-         expectedSpy.clone();
-      };
+      Executable ex = () -> expectedSpy.clone();
       // Then
       assertThrows(IllegalStateException.class, ex);
    }

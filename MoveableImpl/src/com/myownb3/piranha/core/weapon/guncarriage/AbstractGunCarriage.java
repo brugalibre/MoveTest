@@ -77,7 +77,7 @@ public class AbstractGunCarriage implements GunCarriage {
       return gun;
    }
 
-   public static abstract class AbstractGunCarriageBuilder<T extends AbstractGunCarriage> {
+   public abstract static class AbstractGunCarriageBuilder<T extends AbstractGunCarriage> {
 
       protected Shape shape;
       protected Gun gun;

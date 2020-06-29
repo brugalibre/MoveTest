@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.Matchers;
 
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.direction.Direction;
@@ -87,7 +87,7 @@ class MirrorGridTest {
       double expectedRotationDeg = 180;
 
       Position expectedPosition = Positions.of(9.5, 8.5).rotate(expectedRotationDeg);
-      GridElement gridElement = buildGridElement(grid, position, buildCircle(position, radius));
+      GridElement gridElement = buildGridElement(grid, buildCircle(position, radius));
 
       // When
       Position createdPosition = grid.moveForward(gridElement);
@@ -101,7 +101,7 @@ class MirrorGridTest {
       when(direction.getAngle()).thenReturn(90d);
       when(direction.getForwardX()).thenReturn(forwardX);
       when(direction.getForwardY()).thenReturn(forwardY);
-      doReturn(direction).when(direction).rotate(Mockito.anyDouble());
+      doReturn(direction).when(direction).rotate(Matchers.anyDouble());
       return direction;
    }
 
@@ -294,7 +294,7 @@ class MirrorGridTest {
             .build();
    }
 
-   private static GridElement buildGridElement(Grid grid, Position position, Shape shape) {
+   private static GridElement buildGridElement(Grid grid, Shape shape) {
       return SimpleGridElementBuilder.builder()
             .withGrid(grid)
             .withShape(shape)

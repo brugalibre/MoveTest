@@ -75,7 +75,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
     * 
     */
    public static boolean isNotDestroyed(GridElement gridElement) {
-      return gridElement instanceof Destructible ? !((Destructible) gridElement).isDestroyed() : true;
+      return !(gridElement instanceof Destructible) || !((Destructible) gridElement).isDestroyed() ;
    }
 
    /**

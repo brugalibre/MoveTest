@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.wall.DummyGridWall;
@@ -63,12 +62,12 @@ public class MirrorGrid extends DefaultGrid {
     */
    @Override
    public Position moveForward(GridElement gridElement) {
-      return moveForwardOrBackward(gridElement, gridElement.getForemostPosition(), gridElement1 -> super.moveForward(gridElement1));
+      return moveForwardOrBackward(gridElement, gridElement.getForemostPosition(), super::moveForward);
    }
 
    @Override
    public Position moveBackward(GridElement gridElement) {
-      return moveForwardOrBackward(gridElement, gridElement.getRearmostPosition(), gridElement1 -> super.moveBackward(gridElement1));
+      return moveForwardOrBackward(gridElement, gridElement.getRearmostPosition(), super::moveBackward);
    }
 
    private Position moveForwardOrBackward(GridElement gridElement, Position foremostOrRearmostPos,
@@ -96,9 +95,7 @@ public class MirrorGrid extends DefaultGrid {
    }
 
    private void handleAfterMirroring(GridElement gridElement) {
-      if (gridElement instanceof CollisionSensitive) {
-         ((CollisionSensitive) gridElement).onCollision(Collections.singletonList(mirrorGridWall));
-      }
+      gridElement.onCollision(Collections.singletonList(mirrorGridWall));
    }
 
    private static final class MirroringRes {

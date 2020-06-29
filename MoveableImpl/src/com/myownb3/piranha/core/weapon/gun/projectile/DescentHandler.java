@@ -22,10 +22,9 @@ public class DescentHandler {
    }
 
    public Position evlPositionForNewHeight(Position currentPosition) {
-      if (hasNotReachedTargetHeight(currentPosition)) {
-         if (isFarEnoughFromStartToSink(currentPosition, startPosition)) {
-            return Positions.of(currentPosition.getDirection(), currentPosition.getX(), currentPosition.getY(), 0);
-         }
+      if (hasNotReachedTargetHeight(currentPosition)
+            && isFarEnoughFromStartToSink(currentPosition, startPosition)) {
+         return Positions.of(currentPosition.getDirection(), currentPosition.getX(), currentPosition.getY(), 0);
       }
       return currentPosition;
    }

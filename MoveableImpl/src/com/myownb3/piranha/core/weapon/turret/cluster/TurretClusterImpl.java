@@ -68,7 +68,6 @@ public class TurretClusterImpl implements TurretCluster {
    public static class TurretClusterBuilder {
 
       private List<Turret> turrets;
-      private TurretClusterShape turretClusterShape;
       private Position position;
 
       private TurretClusterBuilder() {
@@ -86,7 +85,7 @@ public class TurretClusterImpl implements TurretCluster {
       }
 
       public TurretClusterImpl build() {
-         turretClusterShape = buildTurretClusterShape();
+         TurretClusterShape turretClusterShape = buildTurretClusterShape();
          return new TurretClusterImpl(turrets, turretClusterShape);
       }
 

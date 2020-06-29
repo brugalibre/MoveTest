@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,106 @@ import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilde
 import com.myownb3.piranha.core.moveables.Moveable;
 
 class EndPositionsTest {
+
+   @Test
+   void testHashCodeEquals() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5);
+      EndPosition endPos2 = EndPositions.of(5, 5);
+
+      // When
+      int hashCode1 = endPos1.hashCode();
+      int hashCode2 = endPos2.hashCode();
+
+      // Then
+      assertThat(hashCode1, is(hashCode2));
+   }
+
+   @Test
+   void testHashCodeNotEquals() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5, true);
+      EndPosition endPos2 = EndPositions.of(5, 5);
+
+      // When
+      int hashCode1 = endPos1.hashCode();
+      int hashCode2 = endPos2.hashCode();
+
+      // Then
+      assertThat(hashCode1, is(not(hashCode2)));
+   }
+
+   @Test
+   void testNotEqualsOtherObject() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5);
+      Position pos = Positions.of(5, 5);
+
+      // When
+      boolean isActualEquals = endPos1.equals(pos);
+
+      // Then
+      assertThat(isActualEquals, is(false));
+   }
+
+   @Test
+   void testNotEquals() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5);
+      EndPosition endPos2 = EndPositions.of(5, 5, true);
+
+      // When
+      boolean isActualEquals = endPos1.equals(endPos2);
+
+      // Then
+      assertThat(isActualEquals, is(false));
+   }
+
+   @Test
+   void testNotEqualsDifferentPrecision() {
+
+      // Given
+      Position pos = Positions.of(5, 5);
+      EndPosition endPos1 = EndPositions.of(pos, 6);
+      EndPosition endPos2 = EndPositions.of(pos, 1);
+
+      // When
+      boolean isActualEquals = endPos1.equals(endPos2);
+
+      // Then
+      assertThat(isActualEquals, is(false));
+   }
+
+   @Test
+   void testEqualsSameObject() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5);
+
+      // When
+      boolean isActualEquals = endPos1.equals(endPos1);
+
+      // Then
+      assertThat(isActualEquals, is(true));
+   }
+
+   @Test
+   void testEquals() {
+
+      // Given
+      EndPosition endPos1 = EndPositions.of(5, 5);
+      EndPosition endPos2 = EndPositions.of(5, 5);
+
+      // When
+      boolean isActualEquals = endPos1.equals(endPos2);
+
+      // Then
+      assertThat(isActualEquals, is(true));
+   }
 
    @Test
    void test_HasNotReached_NotInMap() {

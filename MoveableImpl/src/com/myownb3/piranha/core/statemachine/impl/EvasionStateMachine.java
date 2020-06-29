@@ -12,7 +12,7 @@ import static com.myownb3.piranha.core.statemachine.states.EvasionStates.RETURNI
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -79,7 +79,7 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
 
    private static Map<EvasionStates, EvasionStatesHandler<?, ?>> createAndInitHandlerMap(EvasionStateMachineConfig config, Detector detector,
          EndPosition endPosition) {
-      Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap = new HashMap<>();
+      Map<EvasionStates, EvasionStatesHandler<?, ?>> evasionStatesHandler2StateMap = new EnumMap<>(EvasionStates.class);
       evasionStatesHandler2StateMap.put(ORIENTING, new OrientatingStateHandler(config.getOrientationAngle()));
       evasionStatesHandler2StateMap.put(DEFAULT, new DefaultStateHandler());
       evasionStatesHandler2StateMap.put(EVASION, new EvasionStateHandler(detector.getEvasionDelayDistance()));
@@ -161,8 +161,8 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
             .forEach(EvasionStatesHandler::init);
    }
 
-   private Position setPositionBeforeEvasion(Optional<Position> optionalPos) {
-      return positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
+   private void setPositionBeforeEvasion(Optional<Position> optionalPos) {
+      positionBeforeEvasion = optionalPos.orElse(positionBeforeEvasion);
    }
 
    private static PostEvasionStateHandler getPostEvasionStateHandler(EvasionStateMachineConfig config, Position endPosition) {

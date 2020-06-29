@@ -78,6 +78,7 @@ public class CirclePainter extends Drawable<Circle> implements ActionListener {
             break;
          case SHAPE:
             drawCircle(graphics);
+            break;
          default:
             break;
       }
@@ -85,7 +86,7 @@ public class CirclePainter extends Drawable<Circle> implements ActionListener {
 
    private void drawCircle(Graphics graphics) {
       Position center = value.getCenter();
-      int radius = value.getRadius();
+      int radius = (int) value.getDimensionRadius();
       int yCoordinate = (int) (center.getY() - radius);
       int xCoordinate = (int) (center.getX() - radius);
 

@@ -8,7 +8,7 @@ import static java.lang.Math.abs;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.BooleanSupplier;
 
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
@@ -88,9 +88,9 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
       shape.transform(position);
    }
 
-   private void moveForwardOrBackwardInternal(int amount, Supplier<Boolean> moveForwardAndGetResult) {
+   private void moveForwardOrBackwardInternal(int amount, BooleanSupplier moveForwardAndGetResult) {
       for (int i = 0; i < amount; i++) {
-         if (has2Abort(!moveForwardAndGetResult.get())) {
+         if (has2Abort(!moveForwardAndGetResult.getAsBoolean())) {
             break;
          }
       }

@@ -21,7 +21,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSeg2Distance;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.MoveableConst;
 
 /**
  * The base implementation of a {@link CollisionDetector}
@@ -35,7 +35,7 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
    private double margin;
 
    protected AbstractCollisionDetector() {
-      margin = 1d / Moveable.STEP_WITDH;
+      margin = 1d / MoveableConst.STEP_WITDH;
    }
 
    protected Shape getOurShapeAtNewPos(Position newPosition, Shape shape) {
@@ -52,13 +52,11 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
 
    protected Function<GridElement, Optional<CollisionGridElement>> getNearestIntersectionWithGridElement(GridElement movedGridElement,
          Position newPosition, Shape movedShapeAtNewPos) {
-      return gridElement2Check -> {
-         return gridElement2Check.getPath(movedGridElement)
-               .parallelStream()
-               .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, movedShapeAtNewPos, gridElement2Check, newPosition))
-               .filter(Objects::nonNull)
-               .findAny();
-      };
+      return gridElement2Check -> gridElement2Check.getPath(movedGridElement)
+            .parallelStream()
+            .map(pathSeg2Check -> getNearestIntersectionWithPathSegment(pathSeg2Check, movedShapeAtNewPos, gridElement2Check, newPosition))
+            .filter(Objects::nonNull)
+            .findAny();
    }
 
    private Function<Position, CollisionGridElement> createCollisionGridElement(PathSegment pathSegment2Check,

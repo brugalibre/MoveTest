@@ -10,7 +10,7 @@ import java.util.Map;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
-import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.MoveableConst;
 import com.myownb3.piranha.util.attribute.LazyAttribute;
 
 /**
@@ -35,8 +35,8 @@ public class DirectionImpl implements Direction {
     */
    DirectionImpl(double rotation, String cardinalDirection) {
       this.rotation = rotation;
-      this.forwardX = Math.cos(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
-      this.forwardY = Math.sin(Math.toRadians(rotation)) / Moveable.STEP_WITDH;
+      this.forwardX = Math.cos(Math.toRadians(rotation)) / MoveableConst.STEP_WITDH;
+      this.forwardY = Math.sin(Math.toRadians(rotation)) / MoveableConst.STEP_WITDH;
       this.cardinalDirection = cardinalDirection;
       this.vector = new LazyAttribute<>(() -> Float64Vector.valueOf(this.getForwardX(), this.getForwardY(), 0));
    }
@@ -136,10 +136,7 @@ public class DirectionImpl implements Direction {
       if (this.cardinalDirection == null) {
          return other.cardinalDirection == null;
       }
-      if (!this.cardinalDirection.equals(other.cardinalDirection)) {
-         return false;
-      }
-      return true;
+      return this.cardinalDirection.equals(other.cardinalDirection);
    }
 
    @Override

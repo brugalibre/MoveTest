@@ -102,7 +102,6 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
 
    public static class TrippleDetectorClusterBuilder {
 
-      private TrippleDetectorClusterImpl detectorCluster;
       private IDetectorInfoImpl centerDetector;
       private IDetectorInfoImpl leftSideDetector;
       private IDetectorInfoImpl rightSideDetector;
@@ -148,7 +147,7 @@ public class TrippleDetectorClusterImpl implements TrippleDetectorCluster {
       }
 
       public TrippleDetectorCluster build() {
-         detectorCluster = new TrippleDetectorClusterImpl(detectingStrategyHandler);
+         TrippleDetectorClusterImpl  detectorCluster = new TrippleDetectorClusterImpl(detectingStrategyHandler);
          detectorCluster.centerDetector = centerDetector;
          detectorCluster.leftSideDetector = leftSideDetector;
          detectorCluster.rightSideDetector = rightSideDetector;

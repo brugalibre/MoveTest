@@ -26,8 +26,7 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
    @Override
    public boolean test(GridElement avoidableGridElement) {
       if (avoidableGridElement.getVelocity() > 0) {
-         return isMovingAway(avoidableGridElement, calcDistance2MovedGridElementAfter(avoidableGridElement),
-               calcDistance2MovedGridElementBefore(avoidableGridElement));
+         return isMovingAway(calcDistance2MovedGridElementAfter(avoidableGridElement), calcDistance2MovedGridElementBefore(avoidableGridElement));
       }
       return true;// not moving at all
    }
@@ -36,8 +35,7 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
     * The detected GridElement is moving away when
     *    - the distance between the detected gridelement and the moved GridElement is getting bigger
     */
-   private boolean isMovingAway(GridElement avoidableGridElement, double distanceBetweenTheGridElementsBeforeMovement,
-         double distanceBetweenTheGridElementsAfterMovement) {
+   private boolean isMovingAway(double distanceBetweenTheGridElementsBeforeMovement, double distanceBetweenTheGridElementsAfterMovement) {
       return distanceBetweenTheGridElementsAfterMovement >= distanceBetweenTheGridElementsBeforeMovement;
    }
 

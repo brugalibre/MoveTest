@@ -1,6 +1,5 @@
 package com.myownb3.piranha.core.weapon.tank.turret;
 
-import com.myownb3.piranha.core.weapon.turret.TurretImpl;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.weapon.turret.strategy.handler.TurretStrategyHandler;
@@ -26,11 +25,6 @@ public class TankTurretBuilder extends GenericTurretBuilder<TankTurretBuilder> {
 
    public static TankTurretBuilder builder() {
       return new TankTurretBuilder();
-   }
-
-   @Override
-   public TurretImpl build() {
-      return super.build();
    }
 
    @Override

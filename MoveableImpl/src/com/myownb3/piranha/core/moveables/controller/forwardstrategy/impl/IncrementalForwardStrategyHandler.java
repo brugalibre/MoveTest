@@ -58,7 +58,7 @@ public class IncrementalForwardStrategyHandler implements ForwardStrategyHandler
       throw new IllegalArgumentException("No next EndPosition found!");
    }
 
-   private static enum IncrementalState {
+   private enum IncrementalState {
       /** The {@link EndPointMoveable} has to be initialized first with the first {@link EndPosition} */
       INIT,
       /** The {@link EndPointMoveable} is ready to be moved forward */

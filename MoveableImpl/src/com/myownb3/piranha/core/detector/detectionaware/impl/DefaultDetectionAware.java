@@ -117,12 +117,12 @@ public class DefaultDetectionAware implements DetectionAware {
    @Override
    public final boolean isEvasion(GridElement gridElement) {
       Boolean isEvasion = transientIsEvasionMap.get(gridElement);
-      return isEvasion == null ? false : isEvasion;
+      return isEvasion != null && isEvasion.booleanValue();
    }
 
    @Override
    public boolean hasObjectDetected(GridElement gridElement) {
       Boolean hasObjectDetected = transientDetectionMap.get(gridElement);
-      return hasObjectDetected == null ? false : hasObjectDetected;
+      return hasObjectDetected != null && hasObjectDetected.booleanValue();
    }
 }
