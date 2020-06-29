@@ -1,7 +1,8 @@
-package com.myownb3.piranha.core.weapon.gun.projectile;
+package com.myownb3.piranha.core.weapon.gun.projectile.descent;
 
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 
 /**
  * The {@link DescentHandler} is responsible for handling a descent of a {@link Projectile}
@@ -15,7 +16,7 @@ public class DescentHandler {
    private double distanceBeforeDescent;
    private Position startPosition;
 
-   public DescentHandler(Position startPos, double distanceBeforeDescent, int targetHeight) {
+   public DescentHandler(Position startPos, double distanceBeforeDescent, double targetHeight) {
       this.distanceBeforeDescent = distanceBeforeDescent;
       this.targetHeight = targetHeight;
       this.startPosition = Positions.of(startPos);

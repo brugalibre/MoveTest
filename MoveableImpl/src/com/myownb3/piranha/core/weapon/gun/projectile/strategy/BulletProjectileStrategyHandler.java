@@ -2,8 +2,8 @@ package com.myownb3.piranha.core.weapon.gun.projectile.strategy;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.projectile.DescentHandler;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.gun.projectile.descent.DescentHandler;
 
 public class BulletProjectileStrategyHandler implements ProjectileStrategyHandler {
 
