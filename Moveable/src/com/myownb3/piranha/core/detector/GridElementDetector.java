@@ -55,5 +55,5 @@ public interface GridElementDetector {
     * 
     * @return all {@link GridElement} which are currently detected
     */
-   List<GridElement> getDetectedGridElement(GridElement detectableGridElement);
+   List<GridElement> getDetectedGridElements(GridElement detectableGridElement);
 }

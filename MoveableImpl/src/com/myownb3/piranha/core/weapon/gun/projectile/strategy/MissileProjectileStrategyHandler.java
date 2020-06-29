@@ -38,16 +38,20 @@ public class MissileProjectileStrategyHandler extends BulletProjectileStrategyHa
          nearestDetectedTargetGridElementOpt = Optional.ofNullable(currentNearestTargetGridElementOpt.get());
       } else if (isSameGridElementTarget(nearestDetectedTargetGridElementOpt, currentNearestTargetGridElementOpt)) {
          TargetGridElement currentTargetGridElement = currentNearestTargetGridElementOpt.get();
-         TargetGridElement prevTargetGridElement = nearestDetectedTargetGridElementOpt.get();
+         currentTargetGridElement.setPrevAcquiredPos(nearestDetectedTargetGridElementOpt.get().getCurrentGridElementPosition());
 
-         currentTargetGridElement.setPrevAcquiredPos(prevTargetGridElement.getCurrentGridElementPosition());
          Position newMissilePos = evalNewMissilePosition(currentTargetGridElement);
+
          shape.transform(newMissilePos);
-         currentTargetGridElement.setTargetPosWithLead2Acquire(newMissilePos);
-         nearestDetectedTargetGridElementOpt = Optional.of(currentTargetGridElement);
+         updateNearestDetectedTargetGridElem(currentTargetGridElement, newMissilePos);
       } else {
          nearestDetectedTargetGridElementOpt = Optional.empty();
       }
+   }
+
+   private void updateNearestDetectedTargetGridElem(TargetGridElement currentTargetGridElement, Position newMissilePos) {
+      currentTargetGridElement.setTargetPosWithLead2Acquire(newMissilePos);
+      nearestDetectedTargetGridElementOpt = Optional.of(currentTargetGridElement);
    }
 
    private boolean hasFirstTimeTargetEvaluated(Optional<TargetGridElement> currentNearestTargetGridElementOpt) {

@@ -23,7 +23,7 @@ public class TankDetectorImpl implements TankDetector {
 
    @Override
    public boolean isUnderFire() {
-      return gridElementDetector.getDetectedGridElement(tankGridElementSupplier.get())
+      return gridElementDetector.getDetectedGridElements(tankGridElementSupplier.get())
             .stream()
             .count() > 0;
    }

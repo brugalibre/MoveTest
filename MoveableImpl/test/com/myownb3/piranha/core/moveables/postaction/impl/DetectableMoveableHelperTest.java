@@ -41,7 +41,7 @@ class DetectableMoveableHelperTest {
             .build();
 
       // When
-      List<GridElement> actualDetectedGridElement = tcb.helper.getDetectedGridElement(tcb.moveable);
+      List<GridElement> actualDetectedGridElement = tcb.helper.getDetectedGridElements(tcb.moveable);
 
       // Then
       assertThat(actualDetectedGridElement.size(), is(1));

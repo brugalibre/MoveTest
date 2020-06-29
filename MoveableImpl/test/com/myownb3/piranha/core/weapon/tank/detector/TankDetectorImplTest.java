@@ -191,7 +191,7 @@ class TankDetectorImplTest {
 
       private TestCaseBuilder withGridElementDetector() {
          gridElementDetector = mock(GridElementDetector.class);
-         when(gridElementDetector.getDetectedGridElement(eq(tankGridElement))).thenReturn(detectedGridElements);
+         when(gridElementDetector.getDetectedGridElements(eq(tankGridElement))).thenReturn(detectedGridElements);
          return this;
       }
 
