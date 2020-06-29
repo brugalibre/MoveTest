@@ -29,10 +29,8 @@ import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.shape.TurretShapeImpl;
@@ -109,7 +107,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       Position expectedAcquiredTargetPos = gridElemPos;
@@ -142,7 +140,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(15)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(15))
             .build();
 
       Position expectedAcquiredTargetPos = Positions.of(0, 1.6071428571);
@@ -176,7 +174,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       Position expectedAcquiredTargetPos = gridElemPosAfterOneCycle;
@@ -209,7 +207,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       // When
@@ -241,7 +239,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       // When
@@ -278,7 +276,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Arrays.asList(firstTargetGridElement, secondTargetGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       // When
@@ -316,7 +314,7 @@ class TurretScannerTest {
             .withTurret(turret)
             .withGridElementEvaluator((p, d) -> Collections.singletonList(simpleGridElement))
             .withDetector(mockDetector())
-            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+            .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
             .build();
 
       // When
@@ -334,13 +332,6 @@ class TurretScannerTest {
       assertThat(positionTurretIsAimingBeforeFireing.get(), is(gridElemPosAfterTwoCycleWithLead));
       assertThat(positionTurretShotAt.isPresent(), is(true));
       assertThat(positionTurretShotAt.get(), is(gridElemPosAfterTwoCycle));
-   }
-
-   private static ProjectileConfig mockProjectileConfig(int velocity) {
-      ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
-      when(projectileConfig.getVelocity()).thenReturn(velocity);
-      when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
-      return projectileConfig;
    }
 
    private static class TestCaseBuilder {
@@ -380,7 +371,7 @@ class TurretScannerTest {
                .withTurret(turret)
                .withGridElementEvaluator(gridElementEvaluator)
                .withDetector(detector)
-               .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(mockProjectileConfig(1)))
+               .withTargetPositionLeadEvaluator(new TargetPositionLeadEvaluatorImpl(1))
                .build();
          return this;
       }

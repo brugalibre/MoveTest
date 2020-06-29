@@ -7,16 +7,15 @@ import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 
 public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvaluator {
 
-   private ProjectileConfig projectileConfig;
+   private int velocity;
 
-   public TargetPositionLeadEvaluatorImpl(ProjectileConfig projectileConfig) {
-      this.projectileConfig = projectileConfig;
+   public TargetPositionLeadEvaluatorImpl(int velocity) {
+      this.velocity = velocity;
    }
 
    @Override
@@ -42,7 +41,7 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
       // Source-Position & velocity-Vector
       double angleBetweenSourceAndTarget = sourcePos.calcAngleRelativeTo(targetPosition);
       sourcePos = sourcePos.rotate(angleBetweenSourceAndTarget);
-      Direction sourcePosDirection = Directions.of(sourcePos.getDirection(), projectileConfig.getVelocity());
+      Direction sourcePosDirection = Directions.of(sourcePos.getDirection(), velocity);
 
       Float64Vector targetVMinusSourceV = targetPosition.getVector().minus(sourcePos.getVector());
       double a = targetPosDirection.getVector().normValue() * targetPosDirection.getVector().normValue()

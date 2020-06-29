@@ -160,7 +160,7 @@ public class TurretImpl implements Turret {
 
       private TurretScanner buildTurretScanner(TurretImpl turretImpl, ProjectileConfig projectileConfig) {
          TargetPositionLeadEvaluator leadEvaluator =
-               firstNonNull(targetPositionLeadEvaluator, new TargetPositionLeadEvaluatorImpl(projectileConfig));
+               firstNonNull(targetPositionLeadEvaluator, new TargetPositionLeadEvaluatorImpl(projectileConfig.getVelocity()));
          return TurretScannerBuilder.builder()
                .withTurret(turretImpl)
                .withGridElementEvaluator(gridElementsEvaluator)
