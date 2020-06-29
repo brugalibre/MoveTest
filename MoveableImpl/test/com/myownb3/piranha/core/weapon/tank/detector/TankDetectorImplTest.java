@@ -3,17 +3,25 @@ package com.myownb3.piranha.core.weapon.tank.detector;
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetector;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
@@ -25,6 +33,7 @@ import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
@@ -32,6 +41,8 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.Proj
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
+import com.myownb3.piranha.core.weapon.tank.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
+import com.myownb3.piranha.core.weapon.tank.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 
 class TankDetectorImplTest {
@@ -162,6 +173,66 @@ class TankDetectorImplTest {
       assertThat(actualIsUnderFire, is(false));
    }
 
+   @Test
+   void testBuildWithDecoyFlareDispenser() {
+
+      // Given
+      Supplier<TankGridElement> tankGridElementSupplier = spy(new TestSupplier());
+      TankDetector tankDetector = TankDetectorBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(5)
+                  .withMinY(5)
+                  .build())
+            .withTankGridElement(tankGridElementSupplier)
+            .withDetector(mock(Detector.class))
+            .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
+                  .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
+                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+                        .withVelocity(5)
+                        .build())
+                  .withMinTimeBetweenDispensing(50)
+                  .build())
+            .build();
+      // When
+      tankDetector.autodetect();
+
+      // Then
+      verify(tankGridElementSupplier, times(4)).get();
+   }
+
+   @Test
+   void testAndScan() {
+
+      // Given
+      Supplier<TankGridElement> tankGridElementSupplier = spy(new TestSupplier());
+      List<GridElement> detectedGridElements = Collections.singletonList(mock(ProjectileGridElement.class));
+      Grid grid = mock(Grid.class);
+      when(grid.getAllAvoidableGridElementsWithinDistance(any(), anyInt())).thenReturn(detectedGridElements);
+      TankDetector tankDetector = TankDetectorBuilder.builder()
+            .withGrid(grid)
+            .withTankGridElement(tankGridElementSupplier)
+            .withDetector(mock(Detector.class))
+            .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
+                  .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
+                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+                        .withVelocity(5)
+                        .build())
+                  .withMinTimeBetweenDispensing(50)
+                  .build())
+            .build();
+      // When
+      tankDetector.autodetect();
+
+      // Then
+      verify(tankGridElementSupplier, times(4)).get();
+   }
+
+   private static class TestSupplier implements Supplier<TankGridElement> {
+      @Override
+      public TankGridElement get() {
+         return mock(TankGridElement.class);
+      }
+   }
    private static class TestCaseBuilder {
       private GridElementDetector gridElementDetector;
       private TankGridElement tankGridElement;
@@ -235,6 +306,7 @@ class TankDetectorImplTest {
 
       private TestCaseBuilder build() {
          tankDetector = TankDetectorBuilder.builder()
+               .withGrid(mock(Grid.class))
                .withTankGridElement(() -> tankGridElement)
                .withGridElementDetector(gridElementDetector)
                .build();
@@ -242,7 +314,7 @@ class TankDetectorImplTest {
       }
 
       private ProjectileGridElement mockProjectileGridElement(Position position) {
-         ProjectileGridElement projectileGridElement = ProjectileGridElementBuilder.builder()
+         return ProjectileGridElementBuilder.builder()
                .withGrid(grid)
                .withProjectile(ProjectileBuilder.builder()
                      .withHealth(10)
@@ -255,7 +327,6 @@ class TankDetectorImplTest {
                .withVelocity(5)
                .withDimensionInfo(getDefaultDimensionInfo(1))
                .build();
-         return projectileGridElement;
       }
    }
 }

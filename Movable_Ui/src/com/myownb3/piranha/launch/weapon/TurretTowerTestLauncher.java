@@ -1,6 +1,6 @@
 package com.myownb3.piranha.launch.weapon;
 
-import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewProjectilePainters;
+import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewAutoDetectablePainters;
 import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.removeDestroyedPainters;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
@@ -227,7 +227,7 @@ public class TurretTowerTestLauncher {
                   .filter(AutoDetectable.class::isInstance)
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
-            addNewProjectilePainters(grid, renderers, existingProjectiles);
+            addNewAutoDetectablePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
             try {

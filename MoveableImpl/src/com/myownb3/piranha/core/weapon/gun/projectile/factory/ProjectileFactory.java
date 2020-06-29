@@ -1,10 +1,7 @@
 package com.myownb3.piranha.core.weapon.gun.projectile.factory;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.requireNonNull;
-
-import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.factory.AbstractGridElementFactory;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -25,11 +22,10 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
  * @author Dominic
  *
  */
-public class ProjectileFactory {
+public class ProjectileFactory extends AbstractGridElementFactory {
 
    public static final ProjectileFactory INSTANCE = new ProjectileFactory();
    private static final int AMOINT_OF_CIRCLE_BULLET_POINTS = 20;
-   private Grid grid;
 
    /**
     * Creates a new {@link Projectile} for the given {@link ProjectileTypes} at the given {@link Position}
@@ -40,9 +36,9 @@ public class ProjectileFactory {
     *        the start {@link Position} of the {@link Projectile}
     * @param projectileConfig
     *        the {@link ProjectileConfig} which defines the configuration for the projectile
-    * @return
+    * @return a new {@link ProjectileGridElement}
     */
-   public Projectile createProjectile(ProjectileTypes type, Position position, ProjectileConfig projectileConfig) {
+   public ProjectileGridElement createProjectile(ProjectileTypes type, Position position, ProjectileConfig projectileConfig) {
       checkGrid();
       Shape projectileShape;
       switch (type) {
@@ -67,7 +63,7 @@ public class ProjectileFactory {
             .withProjectile(ProjectileBuilder.builder()
                   .withDamage(projectileConfig.getProjectileDamage())
                   .withProjectileTypes(type)
-                  .withOnDestroyedCallbackHandler(() -> grid.remove(lazyGridElement.getGridElement()))
+                  .withOnDestroyedCallbackHandler(getDefaultOnDestroyedCallbackHandler(lazyGridElement))
                   .withShape(projectileShape)
                   .withProjectileConfig(projectileConfig)
                   .build())
@@ -92,22 +88,5 @@ public class ProjectileFactory {
             .withWidth(3d * dimensionRadius)
             .withOrientation(Orientation.VERTICAL)
             .build();
-   }
-
-   public void registerGrid(Grid grid) {
-      this.grid = requireNonNull(grid);
-   }
-
-   private void checkGrid() {
-      if (isNull(grid)) {
-         throw new IllegalStateException("Use 'ProjectileFactory.INSTANCE.registerGrid(myGrid)' before creating any projectiles!");
-      }
-   }
-
-   /**
-    * removes a previously registered {@link Grid}
-    */
-   public void deregisterGrid() {
-      this.grid = null;
    }
 }

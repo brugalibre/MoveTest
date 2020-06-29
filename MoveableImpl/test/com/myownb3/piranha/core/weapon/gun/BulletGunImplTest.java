@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.weapon.gun;
 
+import static com.myownb3.piranha.core.weapon.gun.AbstractGun.PROJECTILE_START_POS_OFFSET;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -80,7 +81,7 @@ class BulletGunImplTest {
 
       Position foremostGunPosition = simpleBulletGun.getShape().getForemostPosition();
       foremostGunPosition = Positions.of(foremostGunPosition.getX(), foremostGunPosition.getY(), heightFromBottom + distanceToBottom);
-      Position expectedProjectilPosition = foremostGunPosition.movePositionForward4Distance(10 + projectileRadius);
+      Position expectedProjectilPosition = foremostGunPosition.movePositionForward4Distance(PROJECTILE_START_POS_OFFSET + projectileRadius);
 
       // When
       simpleBulletGun.fire();

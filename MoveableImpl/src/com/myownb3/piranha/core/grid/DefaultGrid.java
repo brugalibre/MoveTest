@@ -23,6 +23,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
+import com.myownb3.piranha.core.weapon.tank.countermeasure.DecoyFlareFactory;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -86,6 +87,7 @@ public class DefaultGrid implements Grid {
    @Override
    public void prepare() {
       ProjectileFactory.INSTANCE.registerGrid(this);
+      DecoyFlareFactory.INSTANCE.registerGrid(this);
    }
 
    @Override

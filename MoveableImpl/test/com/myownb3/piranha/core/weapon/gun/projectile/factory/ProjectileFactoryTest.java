@@ -53,8 +53,7 @@ class ProjectileFactoryTest {
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
             .withVelocity(5)
             .build();
-      ProjectileGridElement projectileGridElementent =
-            (ProjectileGridElement) ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
+      ProjectileGridElement projectileGridElementent = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
 
       // When
       projectileGridElementent.onCollision(Collections.singletonList(mock(Wall.class))); // first time

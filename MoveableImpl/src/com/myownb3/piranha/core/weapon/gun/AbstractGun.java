@@ -22,7 +22,7 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public abstract class AbstractGun implements Gun {
 
-   private static final int PROJECTILE_START_POS_OFFSET = 10;// an additionally offset, so the firing a salve the projectiles don't collide with each other
+   public static final int PROJECTILE_START_POS_OFFSET = 5;// an additionally offset, so the firing a salve the projectiles don't collide with the gun
    private static final int TIME_BETWEEN_SALVES = 150;
    private AtomicLong lastTimeStamp;
    private int minTimeBetweenShooting;

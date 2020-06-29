@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -27,7 +26,6 @@ import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
@@ -313,34 +311,31 @@ class TankGridElementTest {
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> tankHolder.getTankGridElement())
-                        .withGridElementDetector(GridElementDetectorBuilder.builder()
-                              .withGrid(grid)
-                              .withDetector(TrippleDetectorClusterBuilder.builder()
-                                    .withCenterDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build())
-                                    .withLeftSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withRightSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                                    .withAutoDetectionStrategyHandler()
+                        .withGrid(grid)
+                        .withDetector(TrippleDetectorClusterBuilder.builder()
+                              .withCenterDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
                                     .build())
-                              .withDetectingGridElementFilter(FilterGridElementsMovingAway.of(() -> tankHolder.getTankGridElement()))
+                              .withLeftSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withRightSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                              .withAutoDetectionStrategyHandler()
                               .build())
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)

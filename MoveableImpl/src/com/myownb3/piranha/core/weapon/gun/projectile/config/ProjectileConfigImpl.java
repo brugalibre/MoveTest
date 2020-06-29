@@ -13,7 +13,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    private int velocity;
    private double projectileDamage;
 
-   private ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, TargetGridElementEvaluator targetGridElementEvaluator,
+   protected ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, TargetGridElementEvaluator targetGridElementEvaluator,
          int velocity) {
       this.dimensionInfo = requireNonNull(dimensionInfo);
       this.velocity = verifVelocity(velocity);
@@ -48,35 +48,42 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       return velocity;
    }
 
-   public static class ProjectileConfigBuilder {
-      private int velocity;
-      private DimensionInfo dimensionInfo;
-      private double projectileDamage;
-      private TargetGridElementEvaluator targetGridElementEvaluator;
+   public abstract static class AbstractProjectileConfigBuilder<V extends ProjectileConfig, T extends AbstractProjectileConfigBuilder<V, T>> {
+      protected int velocity;
+      protected DimensionInfo dimensionInfo;
+      protected double projectileDamage;
+      protected TargetGridElementEvaluator targetGridElementEvaluator;
 
-      private ProjectileConfigBuilder() {
+      protected AbstractProjectileConfigBuilder() {
          this.projectileDamage = 10;
       }
 
-      public ProjectileConfigBuilder withDimensionInfo(DimensionInfo dimensionInfo) {
+      public AbstractProjectileConfigBuilder<V, T> withDimensionInfo(DimensionInfo dimensionInfo) {
          this.dimensionInfo = dimensionInfo;
-         return this;
+         return getThis();
       }
 
-      public ProjectileConfigBuilder withVelocity(int velocity) {
+      protected abstract AbstractProjectileConfigBuilder<V, T> getThis();
+
+      public AbstractProjectileConfigBuilder<V, T> withVelocity(int velocity) {
          this.velocity = velocity;
          return this;
       }
 
-      public ProjectileConfigBuilder withProjectileDamage(double projectileDamage) {
+      public AbstractProjectileConfigBuilder<V, T> withProjectileDamage(double projectileDamage) {
          this.projectileDamage = projectileDamage;
          return this;
       }
 
-      public ProjectileConfigBuilder withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
+      public AbstractProjectileConfigBuilder<V, T> withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
          this.targetGridElementEvaluator = targetGridElementEvaluator;
          return this;
       }
+
+      public abstract V build();
+   }
+
+   public static class ProjectileConfigBuilder extends AbstractProjectileConfigBuilder<ProjectileConfig, ProjectileConfigBuilder> {
 
       public ProjectileConfig build() {
          return new ProjectileConfigImpl(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity);
@@ -86,5 +93,9 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return new ProjectileConfigBuilder();
       }
 
+      @Override
+      protected ProjectileConfigBuilder getThis() {
+         return this;
+      }
    }
 }

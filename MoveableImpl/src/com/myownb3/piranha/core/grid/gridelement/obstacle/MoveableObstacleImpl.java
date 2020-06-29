@@ -4,10 +4,12 @@
 package com.myownb3.piranha.core.grid.gridelement.obstacle;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
@@ -20,6 +22,7 @@ import com.myownb3.piranha.core.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.moveables.AbstractMoveable;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 
@@ -30,10 +33,13 @@ import com.myownb3.piranha.core.weapon.AutoDetectable;
 public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, Belligerent, AutoDetectable {
 
    private DestructionHelper destructionHelper;
+   private BelligerentParty belligerentParty;
 
-   private MoveableObstacleImpl(Grid grid, Shape shape, double damage, double health, int velocity) {
-      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()), velocity);
+   private MoveableObstacleImpl(Grid grid, Shape shape, DimensionInfo dimensionInfo, BelligerentParty belligerentParty, double damage, double health,
+         int velocity) {
+      super(grid, shape, dimensionInfo, velocity);
       this.destructionHelper = getDestructionHelper(damage, health);
+      this.belligerentParty = belligerentParty;
    }
 
    @Override
@@ -57,7 +63,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    @Override
    public BelligerentParty getBelligerentParty() {
-      return BelligerentPartyConst.GALACTIC_EMPIRE;// So far, a MoveableObstacleImpl is a member of the galactic empire
+      return belligerentParty;
    }
 
    @Override
@@ -71,10 +77,12 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
       private double damage;
       private double health;
       private Integer velocity;
+      private BelligerentParty belligerentParty;
 
       private MoveableObstacleBuilder() {
          damage = 3;
          health = 500;
+         belligerentParty = BelligerentPartyConst.GALACTIC_EMPIRE;// By default, a MoveableObstacleImpl is a member of the galactic empire
       }
 
       public static MoveableObstacleBuilder builder() {
@@ -111,10 +119,15 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
          MoveableObstacleImpl moveableObstacleImpl;
          requireNonNull(shape, "A MoveableObstacle needs a shape!");
          requireNonNull(velocity, "A MoveableObstacle needs a velocity!");
-         moveableObstacleImpl = new MoveableObstacleImpl(grid, shape, damage, health, velocity);
+         if (isNull(dimensionInfo)) {
+            dimensionInfo = getDefaultDimensionInfo(shape.getDimensionRadius());
+         }
+         moveableObstacleImpl =
+               new MoveableObstacleImpl(grid, shape, dimensionInfo, belligerentParty, damage, health, velocity);
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }
+         moveableObstacleImpl.setName(UUID.randomUUID().toString());
          return moveableObstacleImpl;
       }
    }

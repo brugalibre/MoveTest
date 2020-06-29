@@ -76,6 +76,35 @@ class ProjectileGridElementTest {
    }
 
    @Test
+   void testGetProjectileType() {
+
+      // Given
+      ProjectileImpl projectileImpl = spy(ProjectileBuilder.builder()
+            .withDamage(10)
+            .withHealth(5)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(5, 5))
+                  .build())
+            .withProjectileTypes(ProjectileTypes.BULLET)
+            .build());
+      ProjectileGridElement projectileGridElement = spy(ProjectileGridElementBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(50)
+                  .withMaxY(50)
+                  .build())
+            .withProjectile(projectileImpl)
+            .withVelocity(10)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(10))
+            .build());
+
+      // When
+      projectileGridElement.getProjectileType();
+
+      // Then
+      verify(projectileImpl).getProjectileType();
+   }
+
+   @Test
    void testIsProjectileDestroyed() {
 
       // Given

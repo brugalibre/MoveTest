@@ -20,11 +20,13 @@ public class ProjectileImpl implements Projectile {
    private DestructionHelper destructionHelper;
    private Shape shape;
    private ProjectileStrategyHandler projectileStrategyHandler;
+   private ProjectileTypes projectileType;
 
    protected ProjectileImpl(Shape shape, ProjectileTypes projectileType, ProjectileConfig projectileConfig, double damage, double health,
          OnDestroyedCallbackHandler onDestroyCallbackHandler) {
       this.destructionHelper = getDestructionHelper(damage, health, onDestroyCallbackHandler);
       this.shape = shape;
+      this.projectileType = projectileType;
       this.projectileStrategyHandler =
             ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, projectileConfig, shape);
    }
@@ -36,6 +38,11 @@ public class ProjectileImpl implements Projectile {
             .withSelfDestructiveDamage(new ProjectileSelfDestructive(health))
             .withOnDestroyedCallbackHandler(onDestroyCallbackHandler)
             .build();
+   }
+
+   @Override
+   public ProjectileTypes getProjectileType() {
+      return projectileType;
    }
 
    @Override

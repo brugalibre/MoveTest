@@ -19,4 +19,9 @@ public interface Projectile extends Destructible, Destructive, CollisionSensitiv
     * @return the {@link Shape} of this {@link Projectile}
     */
    Shape getShape();
+
+   /**
+    * @return the type of this {@link Projectile} as a {@link ProjectileTypes}
+    */
+   ProjectileTypes getProjectileType();
 }

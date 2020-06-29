@@ -15,17 +15,19 @@ public class DescentAutoDetectable {
     * 
     * @param shape
     *        the {@link Shape} which is involved in the descent maneuver
-    * @param targetHeight
-    *        the target height
     * @param distanceBeforeDescent
     *        the distance before descent
+    * @param targetHeight
+    *        the target height
     * @return an {@link AutoDetectable}
     */
-   public static AutoDetectable getDescentAutoDetectable(Shape shape, double targetHeight, double distanceBeforeDescent) {
+   public static AutoDetectable getDescentAutoDetectable(Shape shape, double distanceBeforeDescent, double targetHeight) {
       DescentHandler descentHandler = new DescentHandler(shape.getCenter(), distanceBeforeDescent, targetHeight);
       return () -> {
          Position position = descentHandler.evlPositionForNewHeight(shape.getCenter());
-         shape.transform(position);
+         if (!position.equals(shape.getCenter())) {
+            shape.transform(position);
+         }
       };
    }
 }

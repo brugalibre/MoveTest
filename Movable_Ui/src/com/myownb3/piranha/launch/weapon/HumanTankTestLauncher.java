@@ -1,6 +1,6 @@
 package com.myownb3.piranha.launch.weapon;
 
-import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewProjectilePainters;
+import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewAutoDetectablePainters;
 import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.removeDestroyedPainters;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
@@ -17,7 +17,6 @@ import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorIm
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
@@ -52,6 +51,8 @@ import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.weapon.tank.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
+import com.myownb3.piranha.core.weapon.tank.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.weapon.tank.engine.human.HumanTankEngine;
@@ -94,7 +95,7 @@ public class HumanTankTestLauncher {
       // Rebel
       Position rebelTankPos = Positions.of(450, 600).rotate(80);
       int rebelTankVelocity = 25;
-      double rebelHealth = 250;
+      double rebelHealth = 25000;
 
       // imperial
       double imperialHealth = 200;
@@ -124,6 +125,7 @@ public class HumanTankTestLauncher {
             .build();
 
       TankHolder imperialTankHolder = new TankHolder();
+      int missileCounterMeasureDetectionDistance = 120;
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(imperialTankVelocity)
@@ -155,31 +157,32 @@ public class HumanTankTestLauncher {
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> imperialTankHolder.getTankGridElement())
-                        .withGridElementDetector(new GridElementDetectorImpl(grid, TrippleDetectorClusterBuilder.builder()
+                        .withGrid(grid)
+                        .withDetector(TrippleDetectorClusterBuilder.builder()
                               .withCenterDetector(DetectorBuilder.builder()
                                     .withAngleInc(1)
                                     .withDetectorAngle(90)
                                     .withDetectorReach(400)
                                     .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
+                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
                                     .build())
                               .withLeftSideDetector(DetectorBuilder.builder()
                                     .withAngleInc(1)
                                     .withDetectorAngle(90)
                                     .withDetectorReach(400)
                                     .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
+                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
                                     .build(), 90)
                               .withRightSideDetector(DetectorBuilder.builder()
                                     .withAngleInc(1)
                                     .withDetectorAngle(90)
                                     .withDetectorReach(400)
                                     .withEvasionAngle(90)
-                                    .withEvasionDistance(400)
+                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
                                     .build(), 90)
                               .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
                               .withAutoDetectionStrategyHandler()
-                              .build()))
+                              .build())
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                   .withTurret(TankTurretBuilder.builder()
@@ -253,16 +256,16 @@ public class HumanTankTestLauncher {
       imperialTankHolder.setAndReturnTank(imperialTank);
       imperialTankHolder.setTankGridElement(imperialTank);
 
-      TankHolder imperialTankTmpHolder = new TankHolder();
+      TankHolder rebelTankHolder = new TankHolder();
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withLazyMoveable(() -> imperialTankTmpHolder.getTankGridElement())
+            .withLazyMoveable(() -> rebelTankHolder.getTankGridElement())
             .build();
 
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
             .withRotationSpeed(5)
             .withGun(BulletGunBuilder.builder()
                   .withGunConfig(GunConfigBuilder.builder()
-                        .withSalveSize(1)
+                        .withSalveSize(3)
                         .withRoundsPerMinute(350)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
                               .withDimensionInfo(DimensionInfoBuilder.builder()
@@ -317,11 +320,38 @@ public class HumanTankTestLauncher {
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
+                  .withTankDetector(TankDetectorBuilder.builder()
+                        .withTankGridElement(() -> rebelTankHolder.getTankGridElement())
+                        .withGrid(grid)
+                        .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
+                              .withMinTimeBetweenDispensing(2000)
+                              .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
+                                    .withAmountDecoyFlares(15)
+                                    .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                                    .withDecoyFlareSpreadAngle(90)
+                                    .withDecoyFlareTimeToLife(30)
+                                    .withVelocity(8)
+                                    .withDimensionInfo(DimensionInfoBuilder.builder()
+                                          .withDimensionRadius(2)
+                                          .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                          .build())
+                                    .withProjectileDamage(0)
+                                    .build())
+                              .build())
+                        .withDetector(DetectorBuilder.builder()
+                              .withAngleInc(1)
+                              .withDetectorAngle(360)
+                              .withDetectorReach(400)
+                              .withEvasionAngle(360)
+                              .withEvasionDistance(missileCounterMeasureDetectionDistance)
+                              .build())
+                        .build())
                   .build())
+
             .build();
 
-      imperialTankTmpHolder.setAndReturnTank(humanRebelTank);
-      imperialTankTmpHolder.setTankGridElement(humanRebelTank);
+      rebelTankHolder.setAndReturnTank(humanRebelTank);
+      rebelTankHolder.setTankGridElement(humanRebelTank);
 
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
@@ -352,18 +382,18 @@ public class HumanTankTestLauncher {
          boolean isRunning = true;
          while (isRunning) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            addNewProjectilePainters(grid, renderers, existingProjectiles);
+            addNewAutoDetectablePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
-            new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
+            grid.getAllGridElements(null).stream()
                   .filter(isGridElementAlive())
                   .filter(AutoDetectable.class::isInstance)
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
 
             cycleCounter++;
-            if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
-               cycleCounter = 0;
-            }
+            //                        if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
+            //                           cycleCounter = 0;
+            //                        }
 
             if (checkGameDone(grid, mainWindow)) {
                isRunning = false;

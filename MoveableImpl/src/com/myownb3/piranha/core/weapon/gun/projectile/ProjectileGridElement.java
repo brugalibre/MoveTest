@@ -49,6 +49,11 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    }
 
    @Override
+   public ProjectileTypes getProjectileType() {
+      return projectile.getProjectileType();
+   }
+
+   @Override
    public Damage getDamage() {
       return projectile.getDamage();
    }

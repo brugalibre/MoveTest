@@ -18,6 +18,23 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 class GridElementDetectorImplTest {
 
    @Test
+   void testIsEvasion() {
+
+      // Given
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDetector()
+            .withDetectedGridElement()
+            .withGridElement()
+            .withGrid()
+            .build();
+
+      // When
+      tcb.gridElementDetector.isEvasion(tcb.gridElement);
+
+      // Then
+      verify(tcb.detector).isEvasion(eq(tcb.gridElement));
+   }
+
    void testCheckSurrounding_TestDefaultCheckSurroundingFilter() {
 
       // Given

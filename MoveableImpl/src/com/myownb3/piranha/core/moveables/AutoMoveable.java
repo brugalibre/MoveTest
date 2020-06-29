@@ -1,5 +1,10 @@
 package com.myownb3.piranha.core.moveables;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+import java.util.UUID;
+
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.destruction.Damage;
@@ -7,6 +12,7 @@ import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.destruction.Destructive;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
@@ -18,20 +24,20 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
    private DestructionHelper destructionHelper;
    private BelligerentParty belligerentParty;
 
-   public AutoMoveable(AutoDetectable autoDetectableDelegate, DestructionHelper destructionHelper, BelligerentParty belligerentParty,
-         DimensionInfo dimensionInfo, Grid grid,
-         MoveablePostActionHandler handler, Shape shape,
-         int velocity) {
+   public AutoMoveable(DimensionInfo dimensionInfo, Grid grid, MoveablePostActionHandler handler, Shape shape, int velocity) {
       super(grid, handler, shape, dimensionInfo, velocity);
-      this.autoDetectableDelegate = autoDetectableDelegate;
-      this.destructionHelper = destructionHelper;
-      this.belligerentParty = belligerentParty;
+      setName(UUID.randomUUID().toString());
    }
 
    @Override
    public void autodetect() {
       moveForward();
       autoDetectableDelegate.autodetect();
+   }
+
+   @Override
+   public void onCollision(List<GridElement> destructives) {
+      destructionHelper.onCollision(destructives);
    }
 
    @Override
@@ -64,8 +70,12 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
 
       @Override
       public AutoMoveable build() {
-         moveable = new AutoMoveable(autoDetectableDelegate, destructionHelper, belligerentParty, dimensionInfo, grid, handler, shape, velocity);
-         return (AutoMoveable) this.moveable;
+         requireNonNull(destructionHelper);
+         AutoMoveable autoMoveable = new AutoMoveable(dimensionInfo, grid, handler, shape, velocity);
+         autoMoveable.autoDetectableDelegate = autoDetectableDelegate;
+         autoMoveable.destructionHelper = destructionHelper;
+         autoMoveable.belligerentParty = belligerentParty;
+         return autoMoveable;
       }
 
       public AutoMoveableBuilder withAutoDetectable(AutoDetectable autoDetectableDelegate) {

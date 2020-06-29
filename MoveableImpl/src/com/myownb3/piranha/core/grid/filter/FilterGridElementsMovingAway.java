@@ -8,9 +8,9 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 
 public class FilterGridElementsMovingAway implements Predicate<GridElement> {
-   private Supplier<GridElement> movedGridElementSupplier;
+   private Supplier<? extends GridElement> movedGridElementSupplier;
 
-   private FilterGridElementsMovingAway(Supplier<GridElement> movedGridElementSupplier) {
+   private FilterGridElementsMovingAway(Supplier<? extends GridElement> movedGridElementSupplier) {
       this.movedGridElementSupplier = movedGridElementSupplier;
    }
 
@@ -62,7 +62,7 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
     *        {@link GridElement}s to filter
     * @return a new {@link GridElementFilter}
     */
-   public static FilterGridElementsMovingAway of(Supplier<GridElement> movedGridElementSupplier) {
+   public static FilterGridElementsMovingAway of(Supplier<? extends GridElement> movedGridElementSupplier) {
       return new FilterGridElementsMovingAway(movedGridElementSupplier);
    }
 }

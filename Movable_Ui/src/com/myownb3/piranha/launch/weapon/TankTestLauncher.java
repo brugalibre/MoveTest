@@ -1,6 +1,6 @@
 package com.myownb3.piranha.launch.weapon;
 
-import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewProjectilePainters;
+import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewAutoDetectablePainters;
 import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.removeDestroyedPainters;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
@@ -17,7 +17,6 @@ import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorIm
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
@@ -25,8 +24,6 @@ import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.filter.FilterGridElementsMovingAway;
-import com.myownb3.piranha.core.grid.filter.ProjectileGridElementsFilter;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
@@ -120,8 +117,6 @@ public class TankTestLauncher {
       Moveable simpleGridElement = buildNewMoveable(grid);
       TankHolder tankHolder = new TankHolder();
 
-      ProjectileGridElementsFilter projectileGridElementsFilter = new ProjectileGridElementsFilter();
-
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(12)
@@ -152,35 +147,31 @@ public class TankTestLauncher {
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> tankHolder.getTankGridElement())
-                        .withGridElementDetector(GridElementDetectorBuilder.builder()
-                              .withGrid(grid)
-                              .withDetector(TrippleDetectorClusterBuilder.builder()
-                                    .withCenterDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build())
-                                    .withLeftSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withRightSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                                    .withAutoDetectionStrategyHandler()
+                        .withGrid(grid)
+                        .withDetector(TrippleDetectorClusterBuilder.builder()
+                              .withCenterDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
                                     .build())
-                              .withDetectingGridElementFilter(
-                                    FilterGridElementsMovingAway.of(() -> tankHolder.getTankGridElement()).and(projectileGridElementsFilter::test))
+                              .withLeftSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withRightSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                              .withAutoDetectionStrategyHandler()
                               .build())
                         .build())
                   .withTurret(TankTurretBuilder.builder()
@@ -281,36 +272,31 @@ public class TankTestLauncher {
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> battleShipHolder.getTankGridElement())
-                        .withGridElementDetector(GridElementDetectorBuilder.builder()
-                              .withGrid(grid)
-                              .withDetector(TrippleDetectorClusterBuilder.builder()
-                                    .withCenterDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build())
-                                    .withLeftSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withRightSideDetector(DetectorBuilder.builder()
-                                          .withAngleInc(1)
-                                          .withDetectorAngle(90)
-                                          .withDetectorReach(400)
-                                          .withEvasionAngle(90)
-                                          .withEvasionDistance(400)
-                                          .build(), 90)
-                                    .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                                    .withAutoDetectionStrategyHandler()
+                        .withGrid(grid)
+                        .withDetector(TrippleDetectorClusterBuilder.builder()
+                              .withCenterDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
                                     .build())
-                              .withDetectingGridElementFilter(
-                                    FilterGridElementsMovingAway.of(() -> battleShipHolder.getTankGridElement())
-                                          .and(projectileGridElementsFilter::test))
+                              .withLeftSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withRightSideDetector(DetectorBuilder.builder()
+                                    .withAngleInc(1)
+                                    .withDetectorAngle(90)
+                                    .withDetectorReach(400)
+                                    .withEvasionAngle(90)
+                                    .withEvasionDistance(400)
+                                    .build(), 90)
+                              .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                              .withAutoDetectionStrategyHandler()
                               .build())
                         .build())
                   .withTurret(TurretClusterBuilder.builder()
@@ -505,7 +491,7 @@ public class TankTestLauncher {
                                                 .withGridElementEvaluator(
                                                       (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                                                 .build())
-                                          .withProjectileDamage(400)
+                                          .withProjectileDamage(300)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
@@ -576,7 +562,7 @@ public class TankTestLauncher {
          int cycleCounter = 0;
          while (true) {
             SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            addNewProjectilePainters(grid, renderers, existingProjectiles);
+            addNewAutoDetectablePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             grid.getAllGridElements(null).parallelStream()
                   .filter(isGridElementAlive())

@@ -31,5 +31,4 @@ public interface ProjectileConfig {
     * @return the {@link TargetGridElementEvaluator}
     */
    TargetGridElementEvaluator getTargetGridElementEvaluator();
-
 }

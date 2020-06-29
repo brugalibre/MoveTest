@@ -28,6 +28,15 @@ public interface GridElementDetector {
    boolean check4Evasion(GridElement gridElement);
 
    /**
+    * return <code>true</code> if the given {@link GridElement} is detected within the evasion distance and <code>false</code> if not
+    * 
+    * @param gridElement2Check
+    *        the {@link GridElement} to check
+    * @return <code>true</code> if the given {@link GridElement} is detected within the evasion distance and <code>false</code> if not
+    */
+   boolean isEvasion(GridElement gridElement2Check);
+
+   /**
     * Checks the surrounding of the given {@link Moveable} the {@link Grid}
     * The {@link Detector} uses the given {@link GridElement#getForemostPosition()} to detect other {@link GridElement}
     * 

@@ -30,7 +30,7 @@ public class GridElementDetectorImpl implements GridElementDetector {
    protected Detector detector;
 
    public GridElementDetectorImpl(Grid grid, Detector detector) {
-      this(grid, detector, gridElement -> true);
+      this(grid, detector, getDefaultFilter());
    }
 
    private GridElementDetectorImpl(Grid grid, Detector detector, Predicate<GridElement> checkSurroundingFilter) {
@@ -71,8 +71,17 @@ public class GridElementDetectorImpl implements GridElementDetector {
             .collect(Collectors.toList());
    }
 
+   @Override
+   public boolean isEvasion(GridElement gridElement2Check) {
+      return detector.isEvasion(gridElement2Check);
+   }
+
    private int getDetectableRange() {
       return detector.getDetectorRange() + DETECTABLE_RANGE_MARGIN;
+   }
+
+   private static Predicate<GridElement> getDefaultFilter() {
+      return gridElement -> true;
    }
 
    public static class GridElementDetectorBuilder {
@@ -81,7 +90,7 @@ public class GridElementDetectorImpl implements GridElementDetector {
       protected Detector detector;
 
       private GridElementDetectorBuilder() {
-         this.checkSurroundingFilter = gridElement -> true;
+         this.checkSurroundingFilter = getDefaultFilter();
       }
 
       public GridElementDetectorBuilder withGrid(Grid grid) {
