@@ -36,9 +36,4 @@ public interface EndPointMoveable extends Moveable, Belligerent {
     * @param position
     */
    void setEndPosition(EndPosition position);
-
-   @Override
-   default boolean isAvoidable() {
-      return true;
-   }
 }

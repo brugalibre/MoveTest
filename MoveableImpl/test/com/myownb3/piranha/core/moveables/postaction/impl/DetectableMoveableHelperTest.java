@@ -30,7 +30,7 @@ class DetectableMoveableHelperTest {
    void testGetDetectedGridElement() {
 
       // Given
-      Obstacle detectedGridElement = mock(Obstacle.class);
+      Obstacle detectedGridElement = mockObstacle();
       Detector detector = mockDetector(detectedGridElement);
 
       TestCaseBuilder tcb = new TestCaseBuilder()
@@ -81,28 +81,35 @@ class DetectableMoveableHelperTest {
       }
 
       public TestCaseBuilder withGrid() {
-         Grid grid = mockGrid(expectedGridElements, moveable);
-         this.grid = grid;
+         this.grid = mockGrid(expectedGridElements, moveable);
          return this;
+      }
+
+      private Grid mockGrid(List<GridElement> expectedObstacles, GridElement gridElement) {
+         this.grid = mock(Grid.class);
+         when(grid.getAllGridElements(eq(gridElement))).thenReturn(expectedObstacles);
+         return grid;
+      }
+
+      private Moveable mockMoveable() {
+         return mock(Moveable.class);
       }
    }
 
    private List<GridElement> mockExpectedGridElements(Obstacle detectedObstacle) {
       List<GridElement> expectedGridElements = new ArrayList<>();
-      Obstacle obstacle = mock(Obstacle.class);
+      Obstacle obstacle = mockObstacle();
       expectedGridElements.add(obstacle);
       expectedGridElements.add(detectedObstacle);
       return expectedGridElements;
    }
 
-   private Grid mockGrid(List<GridElement> expectedObstacles, GridElement gridElement) {
-      Grid grid = mock(Grid.class);
-      when(grid.getAllAvoidableGridElements(eq(gridElement))).thenReturn(expectedObstacles);
-      return grid;
+   private Obstacle mockObstacle() {
+      Obstacle obstacle = mock(Obstacle.class);
+      when(obstacle.isAvoidable()).thenReturn(true);
+      return obstacle;
    }
 
-   private Moveable mockMoveable() {
-      return mock(Moveable.class);
-   }
+
 
 }

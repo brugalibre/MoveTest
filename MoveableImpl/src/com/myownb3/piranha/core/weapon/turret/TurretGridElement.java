@@ -47,11 +47,6 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
       return turret.isShooting();
    }
 
-   @Override
-   public boolean isAvoidable() {
-      return true;
-   }
-
    public static class TurretGridElementBuilder {
 
       private Grid grid;

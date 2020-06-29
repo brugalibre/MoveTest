@@ -51,29 +51,11 @@ public interface Grid {
    Position moveForward(GridElement gridElement);
 
    /**
-    * @param gridElement
-    *        the element to verify
-    * @return <code>true</code> if this {@link Grid} contains the given
-    *         {@link GridElement} or <code>false</code> if not
-    */
-   boolean containsElement(GridElement gridElement);
-
-   /**
     * Adds the given {@link GridElement} to this {@link Grid}
     * 
     * @param abstractGridElement
     */
    void addElement(GridElement gridElement);
-
-   /**
-    * Returns all avoidable {@link GridElement}s except the given {@link GridElement} which are
-    * currently placed on this {@link Grid}
-    * 
-    * @param gridElement
-    * @return all avoidable {@link GridElement}s but the given {@link GridElement} which are
-    *         currently placed on this {@link Grid}
-    */
-   List<GridElement> getAllAvoidableGridElements(GridElement gridElement);
 
    /**
     * Returns all avoidable {@link GridElement}s except the given {@link GridElement} which are

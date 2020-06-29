@@ -15,8 +15,6 @@ import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Direction;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -69,44 +67,6 @@ class ScannerTest {
 
       // Then
       assertThat(isEffectivelyEvasion, is(isEvasion));
-   }
-
-   @Test
-   void testEvasion_DistanceCloseEnoughButNotEvasion() {
-
-      // Given
-      // We do not care about the detection handler, since this is not part of this
-      // test
-      Grid grid = GridBuilder.builder()
-            .withCollisionDetectionHandler((a, b, c) -> null)
-            .build();
-      GridElement gridElement = SimpleGridElementBuilder.builder()
-            .withGrid(grid)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 7))
-                  .build())
-            .build();
-      Detector detector = DetectorBuilder.builder()
-            .withDetectorReach(5)
-            .withDetectorAngle(45)
-            .withAngleInc(5.625)
-            .build();
-      Moveable moveable = MoveableBuilder.builder()
-            .withGrid(grid)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 1))
-                  .build())
-            .withVelocity(50)
-            .withHandler(new DetectableMoveableHelper(grid, detector))
-            .build();
-      boolean notEvasion = false;
-
-      // When
-      moveable.moveForward();
-      boolean isEffectivelyEvasion = detector.isEvasion(gridElement);
-
-      // Then
-      assertThat(isEffectivelyEvasion, is(notEvasion));
    }
 
    @Test

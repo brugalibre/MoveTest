@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
@@ -354,7 +355,7 @@ public class HumanTankTestLauncher {
             addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
-                  .filter(isGridElementAlive(grid))
+                  .filter(isGridElementAlive())
                   .filter(AutoDetectable.class::isInstance)
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
@@ -377,7 +378,7 @@ public class HumanTankTestLauncher {
 
    private static boolean checkGameDone(Grid grid, MainWindow mainWindow) {
       long amountOfTanks = new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
-            .filter(isGridElementAlive(grid))
+            .filter(isGridElementAlive())
             .filter(Tank.class::isInstance)
             .count();
 
@@ -388,7 +389,7 @@ public class HumanTankTestLauncher {
       return false;
    }
 
-   private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement);
+   private static Predicate<? super GridElement> isGridElementAlive() {
+      return DestructionHelper::isNotDestroyed;
    }
 }

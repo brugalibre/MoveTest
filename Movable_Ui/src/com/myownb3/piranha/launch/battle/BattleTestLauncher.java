@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
@@ -371,7 +372,7 @@ public class BattleTestLauncher {
             new ArrayList<>(grid.getAllGridElements(null)).parallelStream()
                   .filter(Moveable.class::isInstance)
                   .map(Moveable.class::cast)
-                  .filter(isGridElementAlive(grid))
+                  .filter(isGridElementAlive())
                   .forEach(moveable -> moveable.moveForward());
 
             try {
@@ -382,7 +383,7 @@ public class BattleTestLauncher {
       }, "LogicHandler").start();
    }
 
-   private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement);
+   private static Predicate<? super GridElement> isGridElementAlive() {
+      return DestructionHelper::isNotDestroyed;
    }
 }

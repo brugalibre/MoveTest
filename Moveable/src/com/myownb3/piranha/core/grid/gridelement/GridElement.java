@@ -15,7 +15,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
  * A {@link GridElement} is a most simple element which can be placed on a
@@ -105,13 +104,14 @@ public interface GridElement extends CollisionSensitive {
 
    /**
     * Returns <code>true</code> if this {@link GridElement} can be avoided or <code>false</code> if not.
-    * A {@link GridElement} which is avoidable can be avoided by a {@link Moveable} and can
+    * A {@link GridElement} which is avoidable can be detected by a {@link Detector} in order to avoid a collision. Which means:
+    * {@link GridElement} which are not avoidable are de-facto invisible to other {@link GridElement}s
     * 
     * @return <code>true</code> if this {@link GridElement} is gridElement or <code>false</code> if not
     * 
     */
    default boolean isAvoidable() {
-      return false;
+      return true;
    }
 
    /**

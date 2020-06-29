@@ -11,4 +11,9 @@ public class EndPositionGridElement extends AbstractGridElement {
    public EndPositionGridElement(Grid grid, Shape shape) {
       super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
    }
+
+   @Override
+   public boolean isAvoidable() {
+      return false;
+   }
 }

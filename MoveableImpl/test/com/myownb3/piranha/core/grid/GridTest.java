@@ -4,7 +4,6 @@
 package com.myownb3.piranha.core.grid;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Matchers.any;
@@ -24,7 +23,6 @@ import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionRe
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.exception.GridElementOutOfBoundsException;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -127,57 +125,6 @@ class GridTest {
       assertThat(dimension.getY(), is(expectedY));
       assertThat(dimension.getHeight(), is(expectedHeight));
       assertThat(dimension.getWidth(), is(expectedWidth));
-   }
-
-   @Test
-   public void testAddElementOnGrid() {
-
-      // Given
-      Grid grid = GridBuilder.builder()
-            .build();
-      boolean isElementOnGrid = true;
-
-      // When
-      Obstacle obstacle = ObstacleBuilder.builder()
-            .withGrid(grid)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 7.1))
-                  .build())
-            .build();
-
-      boolean isElementEffectivelyOnGrid = grid.containsElement(obstacle);
-
-      // Then
-      assertThat(isElementEffectivelyOnGrid, is(isElementOnGrid));
-   }
-
-   @Test
-   public void testAddElementOnGridAndMove() {
-
-      // Given
-      Grid grid = GridBuilder.builder()
-            .withMaxX(20)
-            .withMaxY(20)
-            .build();
-      boolean isElementOnGridBeforeMove = true;
-      boolean isElementOnGridAfterMove = true;
-
-      // When
-      Moveable moveable = MoveableBuilder.builder()
-            .withGrid(grid)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 7.1))
-                  .build())
-            .withVelocity(5)
-            .build();
-      boolean isElementEffectivelyOnGridAfterMove = grid.containsElement(moveable);
-
-      moveable.moveForward();
-      boolean isElementEffectivelyOnGridBeforeMove = grid.containsElement(moveable);
-
-      // Then
-      assertThat(isElementEffectivelyOnGridBeforeMove, is(isElementOnGridBeforeMove));
-      assertThat(isElementEffectivelyOnGridAfterMove, is(isElementOnGridAfterMove));
    }
 
    @Test
@@ -314,34 +261,6 @@ class GridTest {
       moveable.moveBackward();
       // Then
       Assert.assertThatPosition(moveable.getPosition(), is(expectedEndPosition), 3);
-   }
-
-   @Test
-   public void testAddElementNotOnGrid() {
-
-      // Given
-      Grid grid = GridBuilder.builder()
-            .build();
-      boolean isElementOnGrid = true;
-
-      // When
-      ObstacleBuilder.builder()
-            .withGrid(grid)
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 7.1))
-                  .build())
-            .build();
-      Obstacle antoherObstacle = ObstacleBuilder.builder()
-            .withGrid(new DefaultGrid())
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(1, 7.1))
-                  .build())
-            .build();
-
-      boolean isElementEffectivelyOnGrid = grid.containsElement(antoherObstacle);
-
-      // Then
-      assertThat(isElementEffectivelyOnGrid, is(not(isElementOnGrid)));
    }
 
    private static class CollisionTestCaseBuilder {

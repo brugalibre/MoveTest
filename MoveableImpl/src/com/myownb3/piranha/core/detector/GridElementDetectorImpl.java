@@ -65,8 +65,8 @@ public class GridElementDetectorImpl implements GridElementDetector {
 
    @Override
    public List<GridElement> getDetectedGridElement(GridElement detectableGridElement) {
-      return grid.getAllAvoidableGridElements(detectableGridElement)
-            .stream()
+      return grid.getAllGridElements(detectableGridElement).stream()
+            .filter(GridElement::isAvoidable)
             .filter(gridElement -> detector.hasObjectDetected(gridElement))
             .collect(Collectors.toList());
    }

@@ -3,6 +3,7 @@ package com.myownb3.piranha.launch.weapon.listener;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
@@ -34,7 +35,7 @@ public class MoveableAdder {
       if (cycleCounter >= counter) {
          double moveableCounter = grid.getAllGridElements(null).stream()
                .filter(isMoveable())
-               .filter(isGridElementAlive(grid))
+               .filter(isGridElementAlive())
                .count();
          if (moveableCounter <= amountOfMoveables) {
             buildAndAddMoveable(grid, renderers, padding);
@@ -89,7 +90,7 @@ public class MoveableAdder {
       return moveable -> moveable instanceof Moveable;
    }
 
-   private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement);
+   private static Predicate<? super GridElement> isGridElementAlive() {
+      return DestructionHelper::isNotDestroyed;
    }
 }

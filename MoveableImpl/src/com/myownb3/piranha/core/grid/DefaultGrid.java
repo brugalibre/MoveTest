@@ -43,13 +43,6 @@ public class DefaultGrid implements Grid {
    private Object lock = new Object();
 
    /**
-    * Creates a default Grid which has a size of 10 to 10
-    */
-   protected DefaultGrid() {
-      this(10, 10, new DefaultCollisionDetectionHandlerImpl());
-   }
-
-   /**
     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
     * minimal -y values
     * 
@@ -151,13 +144,6 @@ public class DefaultGrid implements Grid {
    }
 
    @Override
-   public boolean containsElement(GridElement gridElement) {
-      synchronized (lock) {
-         return gridElements.contains(gridElement);
-      }
-   }
-
-   @Override
    public void addElement(GridElement gridElement) {
       checkBounds(gridElement.getPosition());
       synchronized (lock) {
@@ -196,28 +182,6 @@ public class DefaultGrid implements Grid {
    }
 
    @Override
-   public List<GridElement> getAllAvoidableGridElements(GridElement gridElement) {
-      return getAllGridElements(gridElement).stream()
-            .filter(GridElement::isAvoidable)
-            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-   }
-
-   @Override
-   public List<GridElement> getAllAvoidableGridElementsWithinDistance(GridElement gridElement, int distance) {
-      return getGridElements4CollisionCheckWithinDistanceInternal(gridElement, distance);
-   }
-
-   private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, double distance) {
-      Position gridElemPos = gridElement.getForemostPosition();
-      GridElementFilter gridElementFilter = GridElementFilter.of(gridElement, gridElemPos, distance);
-      return getAllAvoidableGridElements(gridElement)
-            .stream()
-            .filter(gridElementFilter::isGridElementWithinDistance)
-            .filter(gridElementFilter::isGridElementInfrontOf)
-            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-   }
-
-   @Override
    public List<GridElement> getAllGridElements(GridElement gridElement) {
       synchronized (lock) {
          return gridElements.stream()
@@ -232,6 +196,21 @@ public class DefaultGrid implements Grid {
       GridElementFilter gridElementFilter = GridElementFilter.of(position, distance);
       return getAllGridElements(null).stream()
             .filter(gridElementFilter::isGridElementWithinDistance)
+            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+   }
+
+   @Override
+   public List<GridElement> getAllAvoidableGridElementsWithinDistance(GridElement gridElement, int distance) {
+      return getGridElements4CollisionCheckWithinDistanceInternal(gridElement, distance);
+   }
+
+   private List<GridElement> getGridElements4CollisionCheckWithinDistanceInternal(GridElement gridElement, double distance) {
+      Position gridElemPos = gridElement.getForemostPosition();
+      GridElementFilter gridElementFilter = GridElementFilter.of(gridElement, gridElemPos, distance);
+      return getAllGridElements(gridElement).stream()
+            .filter(GridElement::isAvoidable)
+            .filter(gridElementFilter::isGridElementWithinDistance)
+            .filter(gridElementFilter::isGridElementInfrontOf)
             .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 

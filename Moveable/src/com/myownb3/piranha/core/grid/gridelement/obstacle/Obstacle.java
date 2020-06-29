@@ -14,8 +14,5 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
  *
  */
 public interface Obstacle extends GridElement, CollisionSensitive, Destructible {
-   @Override
-   default boolean isAvoidable() {
-      return true;
-   }
+   // no - op
 }

@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
+import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
@@ -578,7 +579,7 @@ public class TankTestLauncher {
             addNewProjectilePainters(grid, renderers, existingProjectiles);
             removeDestroyedPainters(renderers);
             grid.getAllGridElements(null).parallelStream()
-                  .filter(isGridElementAlive(grid))
+                  .filter(isGridElementAlive())
                   .filter(AutoDetectable.class::isInstance)
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
@@ -594,7 +595,7 @@ public class TankTestLauncher {
       }, "LogicHandler").start();
    }
 
-   private static Predicate<? super GridElement> isGridElementAlive(Grid grid) {
-      return gridElement -> grid.containsElement(gridElement);
+   private static Predicate<? super GridElement> isGridElementAlive() {
+      return DestructionHelper::isNotDestroyed;
    }
 }

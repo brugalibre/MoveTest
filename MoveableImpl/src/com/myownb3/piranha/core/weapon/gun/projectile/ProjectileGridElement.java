@@ -53,11 +53,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
       return projectile.getDamage();
    }
 
-   @Override
-   public boolean isAvoidable() {
-      return true;
-   }
-
    public static class ProjectileGridElementBuilder {
       private Grid grid;
       private Integer velocity;

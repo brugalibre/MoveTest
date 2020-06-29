@@ -95,11 +95,6 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
       return tank.getTankEngine();
    }
 
-   @Override
-   public boolean isAvoidable() {
-      return true;
-   }
-
    public static class TankGridElementBuilder {
 
       private Tank tank;
