@@ -26,7 +26,9 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
    @Override
    public boolean test(GridElement avoidableGridElement) {
       if (avoidableGridElement.getVelocity() > 0) {
-         return isMovingAway(calcDistance2MovedGridElementAfter(avoidableGridElement), calcDistance2MovedGridElementBefore(avoidableGridElement));
+         Position movedGridElementPos = getMovedGridElement().getPosition();
+         return isNotMovingAway(calcDistance2MovedGridElementAfter(avoidableGridElement, movedGridElementPos),
+               calcDistance2MovedGridElementBefore(avoidableGridElement, movedGridElementPos));
       }
       return true;// not moving at all
    }
@@ -35,17 +37,17 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
     * The detected GridElement is moving away when
     *    - the distance between the detected gridelement and the moved GridElement is getting bigger
     */
-   private boolean isMovingAway(double distanceBetweenTheGridElementsBeforeMovement, double distanceBetweenTheGridElementsAfterMovement) {
-      return distanceBetweenTheGridElementsAfterMovement >= distanceBetweenTheGridElementsBeforeMovement;
+   private boolean isNotMovingAway(double distanceBetweenTheGridElementsAfterMovement, double distanceBetweenTheGridElementsBeforeMovement) {
+      return distanceBetweenTheGridElementsAfterMovement <= distanceBetweenTheGridElementsBeforeMovement;
    }
 
-   private double calcDistance2MovedGridElementAfter(GridElement avoidableGridElement) {
+   private double calcDistance2MovedGridElementAfter(GridElement avoidableGridElement, Position movedGridElementPos) {
       Position movedAvoidableGridElemPos = avoidableGridElement.getPosition().movePositionForward(avoidableGridElement.getVelocity());
-      return getMovedGridElement().getPosition().calcDistanceTo(movedAvoidableGridElemPos);
+      return movedGridElementPos.calcDistanceTo(movedAvoidableGridElemPos);
    }
 
-   private double calcDistance2MovedGridElementBefore(GridElement avoidableGridElement) {
-      return getMovedGridElement().getPosition().calcDistanceTo(avoidableGridElement.getPosition());
+   private double calcDistance2MovedGridElementBefore(GridElement avoidableGridElement, Position movedGridElementPos) {
+      return movedGridElementPos.calcDistanceTo(avoidableGridElement.getPosition());
    }
 
    private GridElement getMovedGridElement() {
