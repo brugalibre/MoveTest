@@ -113,73 +113,6 @@ public class Positions {
    }
 
    /**
-    * Creates a new {@link Position} with the new x-axis value =
-    * {@link Direction#getForwardX()} + {@link Position#getX()} and the new y-axis
-    * value = {@link Direction#getForwardY()} + {@link Position#getY()}
-    * 
-    * @param position
-    *        the position
-    * @return a new {@link Position}
-    */
-   public static Position movePositionForward(Position position) {
-      return POSITION_HELPER.movePositionForward(position);
-   }
-
-   /**
-    * The given {@link Position} is moved forward for the given amount
-    * 
-    * @param position
-    *        the {@link Position} to move forward
-    * @param amount
-    *        the amount of times it is moved forward
-    * @return a new {@link Position}
-    */
-   public static Position movePositionForward(Position position, int amount) {
-      return POSITION_HELPER.movePositionForward(position, amount);
-   }
-
-   /**
-    * Creates a new {@link Position} by moving the given position for the given distance
-    * 
-    * @param pos
-    *        the Position to move
-    * @param distance
-    *        the distance
-    * 
-    * @return a new {@link Position} by moving the given position for the given distance
-    */
-   public static Position movePositionForward4Distance(Position pos, double distance) {
-      return POSITION_HELPER.movePositionForward4Distance(pos, distance);
-   }
-
-   /**
-    * Creates a new {@link Position} by moving the given position backward for the given distance
-    * 
-    * @param pos
-    *        the Position to move
-    * @param distance
-    *        the distance
-    * 
-    * @return a new {@link Position} by moving the given position for the given distance
-    */
-   public static Position movePositionBackward4Distance(Position pos, double distance) {
-      return POSITION_HELPER.movePositionBackward4Distance(pos, distance);
-   }
-
-   /**
-    * Creates a new {@link Position} with the new x-axis value =
-    * {@link Direction#getBackwardX()} + {@link Position#getX()} and the new y-axis
-    * value = {@link Direction#getBackwardY()} + {@link Position#getY()}
-    * 
-    * @param position
-    *        the position
-    * @return a new {@link Position}
-    */
-   public static Position movePositionBackward(Position pos) {
-      return POSITION_HELPER.movePositionBackward(pos);
-   }
-
-   /**
     * Builds a {@link List} with {@link Position} which are placed between the two given {@link Position}s
     * 
     * @param pos1
@@ -266,29 +199,6 @@ public class Positions {
          return Positions.of(newDirection, x, y, z);
       }
 
-      /**
-       * @return the direction
-       */
-      @Override
-      public Direction getDirection() {
-         return this.direction;
-      }
-
-      @Override
-      public double getZ() {
-         return z;
-      }
-
-      @Override
-      public final double getY() {
-         return this.y;
-      }
-
-      @Override
-      public final double getX() {
-         return this.x;
-      }
-
       @Override
       public double calcDistanceTo(Position position) {
          Position distanceVector = Positions.of(position.getX() - x, position.getY() - y);
@@ -330,6 +240,49 @@ public class Positions {
             return Math.toRadians(direction.getAngle());
          }
          return Math.atan(getY() / getX());
+      }
+
+      @Override
+      public Position movePositionForward() {
+         return movePositionForward(1);
+      }
+
+      @Override
+      public Position movePositionForward(int amount) {
+         return POSITION_HELPER.movePositionForward(this, amount);
+      }
+
+      @Override
+      public Position movePositionForward4Distance(double distance) {
+         return POSITION_HELPER.movePositionForward4Distance(this, distance);
+      }
+
+      @Override
+      public Position movePositionBackward4Distance(double distance) {
+         return POSITION_HELPER.movePositionBackward4Distance(this, distance);
+      }
+
+      /**
+       * @return the direction
+       */
+      @Override
+      public Direction getDirection() {
+         return this.direction;
+      }
+
+      @Override
+      public double getZ() {
+         return z;
+      }
+
+      @Override
+      public final double getY() {
+         return this.y;
+      }
+
+      @Override
+      public final double getX() {
+         return this.x;
       }
 
       @Override

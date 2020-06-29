@@ -306,7 +306,7 @@ public class HumanTankTestLauncher {
                   .withTurret(TurretBuilder.builder()
                         .withGunCarriage(gunCarriage)
                         .withTurretStrategyHandler(turretStrategyHandler)
-                        .withPositionTransformator(pos -> Positions.movePositionForward(pos, 150))
+                        .withPositionTransformator(pos -> pos.movePositionForward(150))
                         .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                         .build())
                   .withHull(RectangleBuilder.builder()

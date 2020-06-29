@@ -76,8 +76,8 @@ public abstract class AbstractGun implements Gun {
 
    private static Position createProjectileStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
       DimensionInfo projctileDimensionInfo = projectileConfig.getDimensionInfo();
-      Position projectileStartWithinGun = Positions.movePositionForward4Distance(foremostPosition,
-            PROJECTILE_START_POS_OFFSET + projctileDimensionInfo.getDimensionRadius());
+      Position projectileStartWithinGun =
+            foremostPosition.movePositionForward4Distance(PROJECTILE_START_POS_OFFSET + projctileDimensionInfo.getDimensionRadius());
       Direction direction = foremostPosition.getDirection();
       double distance2Ground = projectileStartWithinGun.getZ() + projctileDimensionInfo.getHeightFromBottom();
       return Positions.of(direction, projectileStartWithinGun.getX(), projectileStartWithinGun.getY(), distance2Ground);
@@ -85,7 +85,7 @@ public abstract class AbstractGun implements Gun {
 
    @Override
    public void evalAndSetGunPosition(Position gunMountPosition) {
-      Position gunPos = Positions.movePositionForward4Distance(gunMountPosition, gunShape.getLength() / 2);
+      Position gunPos = gunMountPosition.movePositionForward4Distance(gunShape.getLength() / 2);
       this.gunShape.transform(gunPos);
    }
 

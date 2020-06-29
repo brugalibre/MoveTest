@@ -1,7 +1,5 @@
 package com.myownb3.piranha.core.grid.filter;
 
-import static com.myownb3.piranha.core.grid.gridelement.position.Positions.movePositionForward;
-
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -44,7 +42,7 @@ public class FilterGridElementsMovingAway implements Predicate<GridElement> {
    }
 
    private double calcDistance2MovedGridElementAfter(GridElement avoidableGridElement) {
-      Position movedAvoidableGridElemPos = movePositionForward(avoidableGridElement.getPosition(), avoidableGridElement.getVelocity());
+      Position movedAvoidableGridElemPos = avoidableGridElement.getPosition().movePositionForward(avoidableGridElement.getVelocity());
       return getMovedGridElement().getPosition().calcDistanceTo(movedAvoidableGridElemPos);
    }
 

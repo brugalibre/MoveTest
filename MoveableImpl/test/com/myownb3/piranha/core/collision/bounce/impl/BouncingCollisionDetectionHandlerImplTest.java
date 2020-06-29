@@ -39,7 +39,7 @@ class BouncingCollisionDetectionHandlerImplTest {
       Position moveablePos = Positions.of(0, 0);
       Position newPosition = Positions.of(0, 1);
       Position bouncedMoveablePos = Positions.of(15, 6);
-      Position expectedMoveablePos = Positions.movePositionForward(bouncedMoveablePos);
+      Position expectedMoveablePos = bouncedMoveablePos.movePositionForward();
       Grid grid = mock(Grid.class);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withNewPosition(newPosition)

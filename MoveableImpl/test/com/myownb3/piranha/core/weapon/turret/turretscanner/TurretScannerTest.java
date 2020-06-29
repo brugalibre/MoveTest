@@ -86,7 +86,7 @@ class TurretScannerTest {
 
       // When
       TurretState newState = tcb.turretScanner.scan(SCANNING); // 1.
-      when(tcb.detectedTarget.getPosition()).thenReturn(Positions.movePositionForward(gridElemPos));
+      when(tcb.detectedTarget.getPosition()).thenReturn(gridElemPos.movePositionForward());
       newState = tcb.turretScanner.scan(newState); // 2.
       newState = tcb.turretScanner.scan(newState); // 3. Still be acquiring, this must not change
 

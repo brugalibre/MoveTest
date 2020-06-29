@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
@@ -106,8 +105,8 @@ public class CircleImpl extends AbstractShape implements Circle {
    }
 
    private static Position getNextCirclePos(Position center, int radius, double deg) {
-      Position pos = center.rotate(deg);
-      return Positions.movePositionForward4Distance(pos, radius);
+      return center.rotate(deg)
+            .movePositionForward4Distance(radius);
    }
 
    public static class CircleBuilder {

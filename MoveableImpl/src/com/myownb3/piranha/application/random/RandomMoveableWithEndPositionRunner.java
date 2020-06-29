@@ -174,6 +174,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                         .withCenter(randomPosition)
                         .build())
                   .withVelocity(6)
+                  .withHealth(Integer.MAX_VALUE)
                   .build();
 
             gridElements.add(obstacle);

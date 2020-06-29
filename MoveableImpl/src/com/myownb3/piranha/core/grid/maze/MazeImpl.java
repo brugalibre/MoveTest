@@ -1,6 +1,5 @@
 package com.myownb3.piranha.core.grid.maze;
 
-import static com.myownb3.piranha.core.grid.gridelement.position.Positions.movePositionBackward4Distance;
 import static java.util.Objects.isNull;
 
 import java.util.ArrayList;
@@ -226,8 +225,9 @@ public class MazeImpl implements Maze {
          private Position getPositionOnAngleBendWall(double offset2Corner) {
             double angleBetweenLeftAndRightWall = calcAngleDiffBetweenWalls();
             double angleDiff = adjustAngleDiff4TurnWithin180(angleBetweenLeftAndRightWall / 2);
-            return movePositionBackward4Distance(currentCorridorSegment.getCorridorSegCenter()
-                  .rotate(angleDiff), offset2Corner);
+            return currentCorridorSegment.getCorridorSegCenter()
+                  .rotate(angleDiff)
+                  .movePositionBackward4Distance(offset2Corner);
          }
 
          private double calcAngleDiffBetweenWalls() {
@@ -298,23 +298,22 @@ public class MazeImpl implements Maze {
          }
 
          private Position getPositionOnWall(CorridorSide corridorSide, double offsetFromCenterAlongTheWall) {
-            Position corridorSegmentCenter = currentCorridorSegment.getCorridorSegCenter();
-            Position wallPosition = Positions.movePositionForward4Distance(corridorSegmentCenter, offsetFromCenterAlongTheWall);
+            int rotationAngle;
             switch (corridorSide) {
                case LEFT:
-                  wallPosition = wallPosition.rotate(-90);
-                  wallPosition = Positions.movePositionForward4Distance(wallPosition, corridorWidth / 2);
-                  wallPosition = wallPosition.rotate(-180);
+                  rotationAngle = -90;
                   break;
                case RIGHT:
-                  wallPosition = wallPosition.rotate(90);
-                  wallPosition = Positions.movePositionForward4Distance(wallPosition, corridorWidth / 2);
-                  wallPosition = wallPosition.rotate(180);
+                  rotationAngle = 90;
                   break;
                default:
-                  throw new IllegalStateException("Unknown corridor side'" + corridorSegmentCenter + "'");
+                  throw new IllegalStateException("Unknown corridor side'" + corridorSide + "'");
             }
-            return wallPosition;
+            return currentCorridorSegment.getCorridorSegCenter()
+                  .movePositionForward4Distance(offsetFromCenterAlongTheWall)
+                  .rotate(rotationAngle)
+                  .movePositionForward4Distance(corridorWidth / 2)
+                  .rotate(2 * rotationAngle);
          }
 
          public CorridorBuilder withEndPosition(Shape shape) {
@@ -332,15 +331,14 @@ public class MazeImpl implements Maze {
             Wall bendSegment1 = buildWallGridElemenet(grid, wallThickness, segmentLenth, rectangleCenter);
 
             // Move it at the end of the rectangle above
-            rectangleCenter = corridorSegmentCenter.rotate(signum * -90);
-            rectangleCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, halfThickness() + segmentLenth / 2);
+            rectangleCenter = corridorSegmentCenter.movePositionForward4Distance(halfThickness() + segmentLenth / 2);
             Wall bendSegment2 = buildWallGridElemenet(grid, wallThickness, corridorWidth + 2 * wallThickness, rectangleCenter);
             corridorSegmentCenter = corridorSegmentCenter.rotate(signum * -90);
             currentCorridorSegment = new CorridorSegmentImpl(bendSegment1, bendSegment2, corridorSegmentCenter, true);
             corridorSegments.add(currentCorridorSegment);
 
             // and now add another corridor segment to finish the angle-bend
-            corridorSegmentCenter = Positions.movePositionForward4Distance(corridorSegmentCenter, (corridorWidth / 2) - 3.0 * wallThickness);
+            corridorSegmentCenter = corridorSegmentCenter.movePositionForward4Distance((corridorWidth / 2) - 3.0 * wallThickness);
          }
 
          public MazeBuilder build() {
@@ -352,9 +350,10 @@ public class MazeImpl implements Maze {
 
          private Position getNextSegmentCenter() {
             if (isNull(currentCorridorSegment)) {
-               return Positions.movePositionForward4Distance(mazeStartPos, segmentLenth / 2);
+               return mazeStartPos.movePositionForward4Distance(segmentLenth / 2);
             }
-            return Positions.movePositionForward4Distance(currentCorridorSegment.getCorridorSegCenter(), segmentLenth);
+            return currentCorridorSegment.getCorridorSegCenter()
+                  .movePositionForward4Distance(segmentLenth);
          }
 
          private Position getRectangleCenter(Position corridorSegCenter, double angle2Rotate) {
@@ -363,7 +362,7 @@ public class MazeImpl implements Maze {
 
          private Position getRectangleCenter(Position corridorSegCenter, double distance2Move, double angle2Rotate) {
             Position rectangleCenter = corridorSegCenter.rotate(angle2Rotate);
-            return Positions.movePositionForward4Distance(rectangleCenter, distance2Move);
+            return rectangleCenter.movePositionForward4Distance(distance2Move);
          }
 
          private int halfThickness() {

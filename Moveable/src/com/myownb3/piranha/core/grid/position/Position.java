@@ -31,21 +31,6 @@ public interface Position {
    Direction getDirection();
 
    /**
-    * @return the z-axis value
-    */
-   double getZ();
-
-   /**
-    * @return the y-axis value
-    */
-   double getY();
-
-   /**
-    * @return the x-axis value
-    */
-   double getX();
-
-   /**
     * Calculates the distance between this and the given {@link Position}
     * 
     * @param position
@@ -62,6 +47,57 @@ public interface Position {
     * @return the relatively angle between this and the other position
     */
    double calcAngleRelativeTo(Position position);
+
+   /**
+    * The this {@link Position} is moved forward one time
+    * 
+    * @return a new {@link Position}
+    */
+   public Position movePositionForward();
+
+   /**
+    * This {@link Position} is moved forward for the given amount
+    * 
+    * @param amount
+    *        the amount of times it is moved forward
+    * @return a new {@link Position}
+    */
+   public Position movePositionForward(int amount);
+
+   /**
+    * Creates a new {@link Position} by moving this position for the given distance
+    * 
+    * @param distance
+    *        the distance
+    * 
+    * @return a new {@link Position} by moving the given position for the given distance
+    */
+   public Position movePositionForward4Distance(double distance);
+
+   /**
+    * Creates a new {@link Position} by moving this position backward for the given distance
+    * 
+    * @param distance
+    *        the distance
+    * 
+    * @return a new {@link Position} by moving the given position for the given distance
+    */
+   public Position movePositionBackward4Distance(double distance);
+
+   /**
+    * @return the z-axis value
+    */
+   double getZ();
+
+   /**
+    * @return the y-axis value
+    */
+   double getY();
+
+   /**
+    * @return the x-axis value
+    */
+   double getX();
 
    /**
     * @return a {@link Float64Vector} of the x- and y coordinates of this {@link Position}. The z-coordinate is always 0

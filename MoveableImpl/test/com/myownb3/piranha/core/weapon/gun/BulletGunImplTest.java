@@ -80,7 +80,7 @@ class BulletGunImplTest {
 
       Position foremostGunPosition = simpleBulletGun.getShape().getForemostPosition();
       foremostGunPosition = Positions.of(foremostGunPosition.getX(), foremostGunPosition.getY(), heightFromBottom + distanceToBottom);
-      Position expectedProjectilPosition = Positions.movePositionForward4Distance(foremostGunPosition, 10 + projectileRadius);
+      Position expectedProjectilPosition = foremostGunPosition.movePositionForward4Distance(10 + projectileRadius);
 
       // When
       simpleBulletGun.fire();

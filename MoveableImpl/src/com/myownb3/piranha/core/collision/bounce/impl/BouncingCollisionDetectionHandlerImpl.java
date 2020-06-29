@@ -11,7 +11,6 @@ import com.myownb3.piranha.core.collision.bounce.BouncedPositionEvaluator;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.collision.detection.handler.CommonCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -32,7 +31,7 @@ public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetect
             .findFirst()
             .map(CollisionGridElement::getIntersection)
             .map(calculateBouncedPosition(movedGridElement))
-            .map(Positions::movePositionForward)
+            .map(Position::movePositionForward)
             .map(CollisionDetectionResultImpl::new)
             .orElse(getDefault(collisionDetectionResult));
    }

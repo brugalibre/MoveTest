@@ -8,7 +8,6 @@ import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.ShapeUtil;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
@@ -67,10 +66,10 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
       super.transform(position);
       if (muzzleBreakShapeOpt.isPresent()) {
          Rectangle muzzleBreak = muzzleBreakShapeOpt.get();
-         Position barrelPos = Positions.movePositionBackward4Distance(position, muzzleBreak.getHeight() / 2);
+         Position barrelPos = position.movePositionBackward4Distance(muzzleBreak.getHeight() / 2);
          barrel.transform(barrelPos);
 
-         Position muzzleBreakPos = Positions.movePositionForward4Distance(position, (muzzleBreak.getHeight() / 2));
+         Position muzzleBreakPos = position.movePositionForward4Distance((muzzleBreak.getHeight() / 2));
          muzzleBreak.transform(muzzleBreakPos);
          this.path = ShapeUtil.combinePath(barrel, muzzleBreak);
       } else {

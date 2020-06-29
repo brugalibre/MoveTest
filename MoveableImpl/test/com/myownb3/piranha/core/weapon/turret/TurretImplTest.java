@@ -382,7 +382,7 @@ class TurretImplTest {
       double radius = 5.0;
       int height = 10;
       Position pos = Positions.of(radius, radius);
-      Position targetGridElemPos = Positions.movePositionForward4Distance(Positions.of(9, 10), height * 2);
+      Position targetGridElemPos = Positions.of(9, 10).movePositionForward4Distance(height * 2);
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorAngle(45)
@@ -454,7 +454,7 @@ class TurretImplTest {
       double radius = 5.0;
       int height = 10;
       Position pos = Positions.of(radius, radius);
-      Position targetGridElemPos = Positions.movePositionForward4Distance(Positions.of(9, 10), height * 2);
+      Position targetGridElemPos = Positions.of(9, 10).movePositionForward4Distance(height * 2);
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorAngle(45)

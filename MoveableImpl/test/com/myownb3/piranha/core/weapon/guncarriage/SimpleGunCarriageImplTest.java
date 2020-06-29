@@ -111,7 +111,7 @@ class SimpleGunCarriageImplTest {
       int height = 10;
       Position pos = Positions.of(radius, radius);
       Position expectedPos = Positions.of(radius, radius).rotate(degree);
-      Position expectedGunPos = Positions.movePositionForward4Distance(expectedPos, radius + height / 2);
+      Position expectedGunPos = expectedPos.movePositionForward4Distance(radius + height / 2);
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
             .withRotationSpeed(90)
             .withGun(BulletGunBuilder.builder()

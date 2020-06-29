@@ -24,8 +24,8 @@ public class DefaultPostMoveForwardHandler implements MoveablePostActionHandler 
    @Override
    public boolean handlePostConditions(Moveable moveable) {
       setCurrentTargetPosition(ctx.getMoveableController(), ctx.getRenderers());
-      callAutoDetect(ctx.getGrid().getAllGridElements(null));
-      //      WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
+      callAutoDetect(ctx.getGrid().getAllGridElements(moveable));
+      //            WorkerThreadFactory.INSTANCE.executeAsync(() -> moveGridElementsForward(moveables));
       ProjectilePaintUtil.addNewProjectilePainters(ctx.getGrid(), ctx.getRenderers(), ctx.getExistingProjectiles());
       ProjectilePaintUtil.removeDestroyedPainters(ctx.getRenderers());
 

@@ -84,7 +84,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .withStartPos(startPos)
             .withRandomEndPositions(amountOfEndPos)
             .withCircleRadius(width)
-            .withRandomMoveableObstacles(20)
+            .withRandomMoveableObstacles(30)
             .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                   .withReturningAngleIncMultiplier(1)
                   .withOrientationAngle(1)
@@ -108,7 +108,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
-            .withMovingIncrement(10)
+            .withMovingIncrement(30)
             .withMoveableController(new DefaultPostMoveForwardHandler(ctx))
             .build();
 
@@ -135,7 +135,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       while (isRunning) {
          endPositionRunner.run();
          Toolkit.getDefaultToolkit().beep();
-         Thread.sleep(50);
       }
    }
 

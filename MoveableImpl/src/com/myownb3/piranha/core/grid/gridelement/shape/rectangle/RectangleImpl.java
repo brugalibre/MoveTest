@@ -59,9 +59,9 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
    private Position shiftPositionForInternal(Position furthermostFrontPos) {
       switch (orientation) {
          case HORIZONTAL:
-            return Positions.movePositionForward4Distance(furthermostFrontPos, height / 2);
+            return furthermostFrontPos.movePositionForward4Distance(height / 2);
          case VERTICAL:
-            return Positions.movePositionForward4Distance(furthermostFrontPos, width / 2);
+            return furthermostFrontPos.movePositionForward4Distance(width / 2);
          default:
             throw new IllegalStateException("Unknown Orientation '" + orientation + "'!");
       }

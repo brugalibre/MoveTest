@@ -16,21 +16,7 @@ class PositionsTest {
       Position position2Move = Positions.of(5, 5);
       Position expectedPosition = Positions.of(5, 0);
       // When
-      Position actualPosition = Positions.movePositionBackward4Distance(position2Move, 5);
-
-      // Then
-      assertThat(actualPosition, is(expectedPosition));
-   }
-
-   @Test
-   void testMovePositionBackward() {
-
-      // Given
-      Position position2Move = Positions.of(5, 5);
-      Position expectedPosition = Positions.of(5, 4.9);
-
-      // When
-      Position actualPosition = Positions.movePositionBackward(position2Move);
+      Position actualPosition = position2Move.movePositionBackward4Distance(5);
 
       // Then
       assertThat(actualPosition, is(expectedPosition));
@@ -44,7 +30,7 @@ class PositionsTest {
       Position expectedPosition = Positions.of(5, 5.1);
 
       // When
-      Position actualPosition = Positions.movePositionForward(position2Move);
+      Position actualPosition = position2Move.movePositionForward();
 
       // Then
       assertThat(actualPosition, is(expectedPosition));
