@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.weapon.gun.projectile.strategy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.SimpleGridElement.SimpleGridElementBuilder;
@@ -22,6 +24,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
+import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementImpl;
@@ -50,7 +54,7 @@ class MissileProjectileStrategyHandlerTest {
    }
 
    @Test
-   void testHandleProjectileStrategy_WithDetectedGridElement() {
+   void testHandleProjectileStrategy_WithDetectedGridElement_FirstTime() {
 
       // Given
       Position detectedGridElemenPos = Positions.of(0, 0);
@@ -71,6 +75,43 @@ class MissileProjectileStrategyHandlerTest {
 
       // When
       tcb.missileProjectileStrategyHandler.handleProjectileStrategy();
+
+      // Then
+      assertThat(tcb.shape.getCenter(), is(expectedMissilePos));
+   }
+
+   @Test
+   void testHandleProjectileStrategy_WithDetectedGridElement_SecondTime() {
+
+      // Given
+      Position detectedGridElemenPos = Positions.of(0, 0);
+      Position movedDetectedGridElemenPos = Positions.of(4, 4);
+      Position missilePos = Positions.of(5, 5);
+      Position expectedMissilePos = Positions.of(5, 5).rotate(100);
+      Moveable detectedGridElem = spy(MoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(10)
+                  .withMaxY(10)
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(detectedGridElemenPos)
+                  .build())
+            .withVelocity(5)
+            .build());
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withDetectedGridElement(detectedGridElem)
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(missilePos)
+                  .build())
+            .build();
+
+      // When
+      tcb.missileProjectileStrategyHandler.handleProjectileStrategy();// First time
+
+      when(detectedGridElem.getPosition()).thenReturn(movedDetectedGridElemenPos);// The targed is moving. This has to be like this, because the GridEelemEvaluator is mocked..
+      doReturn(Optional.of(TargetGridElementImpl.of(detectedGridElem)))
+            .when(tcb.targetGridElementEvaluator).getNearestTargetGridElement(eq(tcb.shape.getForemostPosition()));
+      tcb.missileProjectileStrategyHandler.handleProjectileStrategy();// Second time
 
       // Then
       assertThat(tcb.shape.getCenter(), is(expectedMissilePos));
@@ -99,7 +140,7 @@ class MissileProjectileStrategyHandlerTest {
 
       private TestCaseBuilder build() {
          prepareTargetGridElementEvaluator();
-         this.missileProjectileStrategyHandler = MissileProjectileStrategyHandler.of(targetGridElementEvaluator, shape);
+         this.missileProjectileStrategyHandler = MissileProjectileStrategyHandler.of(targetGridElementEvaluator, shape, 10);
          return this;
       }
 
@@ -108,10 +149,12 @@ class MissileProjectileStrategyHandlerTest {
          if (detectedGridElement != null) {
             targetGridElement = TargetGridElementImpl.of(detectedGridElement);
          }
-         Optional<TargetGridElement> value = Optional.ofNullable(targetGridElement);
-         when(targetGridElementEvaluator.getNearestTargetGridElement(eq(shape.getForemostPosition()))).thenReturn(value);
+         mockTargetGridElementEvaluator(targetGridElement);
       }
 
+      private void mockTargetGridElementEvaluator(TargetGridElement targetGridElement) {
+         Optional<TargetGridElement> targetGridElementOpt = Optional.ofNullable(targetGridElement);
+         when(targetGridElementEvaluator.getNearestTargetGridElement(eq(shape.getForemostPosition()))).thenReturn(targetGridElementOpt);
+      }
    }
-
 }

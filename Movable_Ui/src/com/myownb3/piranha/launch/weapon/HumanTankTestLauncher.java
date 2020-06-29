@@ -89,7 +89,7 @@ public class HumanTankTestLauncher {
       double gunWidth = 7;
       int tankWidth = 40;
       int tankHeight = 90;
-      int projectileVelocity = 25;
+      int projectileVelocity = 30;
 
       // Rebel
       Position rebelTankPos = Positions.of(450, 600).rotate(80);
