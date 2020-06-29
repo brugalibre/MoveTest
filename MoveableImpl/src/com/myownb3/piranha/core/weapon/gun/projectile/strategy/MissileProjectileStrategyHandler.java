@@ -9,13 +9,13 @@ import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
 
-public class TorpedoProjectileStrategyHandler extends BulletProjectileStrategyHandler {
+public class MissileProjectileStrategyHandler extends BulletProjectileStrategyHandler {
 
    private TargetGridElementEvaluator targetGridElementEvaluator;
    private double rotationSpeed;
    private Orientation2PositionHelper helper;
 
-   private TorpedoProjectileStrategyHandler(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape) {
+   private MissileProjectileStrategyHandler(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape) {
       super(shape);
       this.targetGridElementEvaluator = targetGridElementEvaluator;
       this.helper = new Orientation2PositionHelper();
@@ -27,32 +27,32 @@ public class TorpedoProjectileStrategyHandler extends BulletProjectileStrategyHa
       super.handleProjectileStrategy();
       Optional<TargetGridElement> nearestTargetGridElementOpt = targetGridElementEvaluator.getNearestTargetGridElement(shape.getForemostPosition());
       nearestTargetGridElementOpt.ifPresent(nearestTargetGridElement -> {
-         Position newTorpedoPos = evalNewTorpedoPosition(nearestTargetGridElement);
-         shape.transform(newTorpedoPos);
+         Position newMissilePos = evalNewMissilePosition(nearestTargetGridElement);
+         shape.transform(newMissilePos);
       });
    }
 
-   private Position evalNewTorpedoPosition(TargetGridElement nearestTargetGridElement) {
-      Position torpedoPos = shape.getCenter();
-      double angle2Turn = evalAngle2Turn(nearestTargetGridElement, torpedoPos);
-      return torpedoPos.rotate(angle2Turn);
+   private Position evalNewMissilePosition(TargetGridElement nearestTargetGridElement) {
+      Position missilePos = shape.getCenter();
+      double angle2Turn = evalAngle2Turn(nearestTargetGridElement, missilePos);
+      return missilePos.rotate(angle2Turn);
    }
 
-   private double evalAngle2Turn(TargetGridElement nearestTargetGridElement, Position torpedoPos) {
-      double angleDiff = torpedoPos.calcAngleRelativeTo(nearestTargetGridElement.getCurrentGridElementPosition());
+   private double evalAngle2Turn(TargetGridElement nearestTargetGridElement, Position missilePos) {
+      double angleDiff = missilePos.calcAngleRelativeTo(nearestTargetGridElement.getCurrentGridElementPosition());
       return helper.getAngle2Turn(angleDiff, rotationSpeed);
    }
 
    /**
-    * Creates a new {@link TorpedoProjectileStrategyHandler}
+    * Creates a new {@link MissileProjectileStrategyHandler}
     * 
     * @param targetGridElementEvaluator
     *        the {@link TargetGridElementEvaluator}
     * @param shape
     *        the {@link Projectile} {@link Shape}
-    * @return a new {@link TorpedoProjectileStrategyHandler}
+    * @return a new {@link MissileProjectileStrategyHandler}
     */
-   public static TorpedoProjectileStrategyHandler of(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape) {
-      return new TorpedoProjectileStrategyHandler(targetGridElementEvaluator, shape);
+   public static MissileProjectileStrategyHandler of(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape) {
+      return new MissileProjectileStrategyHandler(targetGridElementEvaluator, shape);
    }
 }

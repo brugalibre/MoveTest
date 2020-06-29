@@ -49,8 +49,8 @@ public class ProjectileFactory {
          case BULLET:
             projectileShape = buildBulletShape(position, projectileConfig);
             break;
-         case TORPEDO:
-            projectileShape = buildTorpedoShape(position, projectileConfig);
+         case MISSILE:
+            projectileShape = buildMissileShape(position, projectileConfig);
             break;
          default:
             throw new IllegalArgumentException("Unsupported type of projectile '" + type + "'");
@@ -84,7 +84,7 @@ public class ProjectileFactory {
             .build();
    }
 
-   private Rectangle buildTorpedoShape(Position position, ProjectileConfig projectileConfig) {
+   private Rectangle buildMissileShape(Position position, ProjectileConfig projectileConfig) {
       int dimensionRadius = (int) projectileConfig.getDimensionInfo().getDimensionRadius();
       return RectangleBuilder.builder()
             .withCenter(position)

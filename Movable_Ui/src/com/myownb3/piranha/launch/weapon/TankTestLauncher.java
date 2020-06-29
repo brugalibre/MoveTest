@@ -45,7 +45,7 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionSta
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
-import com.myownb3.piranha.core.weapon.gun.TorpedoGunImpl.TropedoGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.MissileGunImpl.MissileGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -468,7 +468,7 @@ public class TankTestLauncher {
             .build();
 
 
-      DetectorConfig torpedoDetectorConfig = DetectorConfigBuilder.builder()
+      DetectorConfig missileDetectorConfig = DetectorConfigBuilder.builder()
             .withDetectorReach(250)
             .withDetectorAngle(180)
             .build();
@@ -486,7 +486,7 @@ public class TankTestLauncher {
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(2)
-                        .withGun(TropedoGunBuilder.builder()
+                        .withGun(MissileGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(70)
@@ -499,8 +499,8 @@ public class TankTestLauncher {
                                           .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
                                                 .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                                                 .withDetector(DetectorBuilder.builder()
-                                                      .withDetectorAngle(torpedoDetectorConfig.getDetectorAngle())
-                                                      .withDetectorReach(torpedoDetectorConfig.getDetectorReach())
+                                                      .withDetectorAngle(missileDetectorConfig.getDetectorAngle())
+                                                      .withDetectorReach(missileDetectorConfig.getDetectorReach())
                                                       .build())
                                                 .withGridElementEvaluator(
                                                       (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))

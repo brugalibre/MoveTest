@@ -6,7 +6,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.BulletProjectileStrategyHandler;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
-import com.myownb3.piranha.core.weapon.gun.projectile.strategy.TorpedoProjectileStrategyHandler;
+import com.myownb3.piranha.core.weapon.gun.projectile.strategy.MissileProjectileStrategyHandler;
 
 public class ProjectileStrategyHandlerFactory {
 
@@ -27,8 +27,8 @@ public class ProjectileStrategyHandlerFactory {
       switch (projectileType) {
          case BULLET:
             return BulletProjectileStrategyHandler.of(shape);
-         case TORPEDO:
-            return TorpedoProjectileStrategyHandler.of(projectileConfig.getTargetGridElementEvaluator(), shape);
+         case MISSILE:
+            return MissileProjectileStrategyHandler.of(projectileConfig.getTargetGridElementEvaluator(), shape);
          default:
             throw new IllegalArgumentException("Unknown ProjectileTypes '" + projectileType + "';");
       }

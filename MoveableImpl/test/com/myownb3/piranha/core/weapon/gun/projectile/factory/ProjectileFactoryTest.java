@@ -54,7 +54,7 @@ class ProjectileFactoryTest {
             .withVelocity(5)
             .build();
       ProjectileGridElement projectileGridElementent =
-            (ProjectileGridElement) ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.TORPEDO, pos, projectileConfig);
+            (ProjectileGridElement) ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
 
       // When
       projectileGridElementent.onCollision(Collections.singletonList(mock(Wall.class))); // first time
@@ -66,7 +66,7 @@ class ProjectileFactoryTest {
    }
 
    @Test
-   void testCreateFromTypeTorpedo() {
+   void testCreateFromTypeMissile() {
 
       // Given
       ProjectileFactory.INSTANCE.registerGrid(mock(Grid.class));
@@ -75,7 +75,7 @@ class ProjectileFactoryTest {
       // When
       ProjectileConfig projectileConfig = mockProjectileConfig();
       when(projectileConfig.getDimensionInfo()).thenReturn(DimensionInfoBuilder.getDefaultDimensionInfo(5));
-      Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.TORPEDO, pos, projectileConfig);
+      Projectile projectile = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
 
       // Then
       assertThat(((ProjectileGridElement) projectile).getPosition(), is(pos));

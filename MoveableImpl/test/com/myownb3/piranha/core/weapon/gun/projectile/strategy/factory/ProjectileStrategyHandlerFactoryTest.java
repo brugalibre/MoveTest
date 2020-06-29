@@ -15,7 +15,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.BulletProjectileStrategyHandler;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
-import com.myownb3.piranha.core.weapon.gun.projectile.strategy.TorpedoProjectileStrategyHandler;
+import com.myownb3.piranha.core.weapon.gun.projectile.strategy.MissileProjectileStrategyHandler;
 
 class ProjectileStrategyHandlerFactoryTest {
 
@@ -36,10 +36,10 @@ class ProjectileStrategyHandlerFactoryTest {
    }
 
    @Test
-   void testGetTorpedoProjectileStrategyHandler() {
+   void testGetMissileProjectileStrategyHandler() {
 
       // Given
-      ProjectileTypes projectileType = ProjectileTypes.TORPEDO;
+      ProjectileTypes projectileType = ProjectileTypes.MISSILE;
       Shape shape = PositionShapeBuilder.builder()
             .withPosition(Positions.of(5, 5)).build();
 
@@ -48,7 +48,7 @@ class ProjectileStrategyHandlerFactoryTest {
             ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, mock(ProjectileConfig.class), shape);
 
       // Then
-      assertThat(projectileStrategyHandler, instanceOf(TorpedoProjectileStrategyHandler.class));
+      assertThat(projectileStrategyHandler, instanceOf(MissileProjectileStrategyHandler.class));
    }
 
    @Test

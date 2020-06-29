@@ -26,26 +26,26 @@ import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementImpl;
 
-class TorpedoProjectileStrategyHandlerTest {
+class MissileProjectileStrategyHandlerTest {
 
    @Test
    void testHandleProjectileStrategy_WithoutDetectedGridElement() {
 
       // Given
-      Position torpedoPos = spy(Positions.of(5, 5));
-      Position expectedTorpedoPos = torpedoPos;
+      Position missilePos = spy(Positions.of(5, 5));
+      Position expectedMissilePos = missilePos;
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withDetectedGridElement(null)
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(torpedoPos)
+                  .withPosition(missilePos)
                   .build())
             .build();
 
       // When
-      tcb.torpedoProjectileStrategyHandler.handleProjectileStrategy();
+      tcb.missileProjectileStrategyHandler.handleProjectileStrategy();
 
       // Then
-      assertThat(tcb.shape.getCenter(), is(expectedTorpedoPos));
+      assertThat(tcb.shape.getCenter(), is(expectedMissilePos));
       verify(tcb.shape.getCenter(), never()).rotate(Mockito.anyDouble());
    }
 
@@ -54,8 +54,8 @@ class TorpedoProjectileStrategyHandlerTest {
 
       // Given
       Position detectedGridElemenPos = Positions.of(0, 0);
-      Position torpedoPos = Positions.of(5, 5);
-      Position expectedTorpedoPos = Positions.of(5, 5).rotate(100);
+      Position missilePos = Positions.of(5, 5);
+      Position expectedMissilePos = Positions.of(5, 5).rotate(100);
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withDetectedGridElement(SimpleGridElementBuilder.builder()
                   .withGrid(mock(Grid.class))
@@ -65,15 +65,15 @@ class TorpedoProjectileStrategyHandlerTest {
                   .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
                   .build())
             .withShape(PositionShapeBuilder.builder()
-                  .withPosition(torpedoPos)
+                  .withPosition(missilePos)
                   .build())
             .build();
 
       // When
-      tcb.torpedoProjectileStrategyHandler.handleProjectileStrategy();
+      tcb.missileProjectileStrategyHandler.handleProjectileStrategy();
 
       // Then
-      assertThat(tcb.shape.getCenter(), is(expectedTorpedoPos));
+      assertThat(tcb.shape.getCenter(), is(expectedMissilePos));
    }
 
    private class TestCaseBuilder {
@@ -81,7 +81,7 @@ class TorpedoProjectileStrategyHandlerTest {
       private GridElement detectedGridElement;
       private TargetGridElementEvaluator targetGridElementEvaluator;
       private Shape shape;
-      private TorpedoProjectileStrategyHandler torpedoProjectileStrategyHandler;
+      private MissileProjectileStrategyHandler missileProjectileStrategyHandler;
 
       private TestCaseBuilder() {
          targetGridElementEvaluator = mock(TargetGridElementEvaluator.class);
@@ -99,7 +99,7 @@ class TorpedoProjectileStrategyHandlerTest {
 
       private TestCaseBuilder build() {
          prepareTargetGridElementEvaluator();
-         this.torpedoProjectileStrategyHandler = TorpedoProjectileStrategyHandler.of(targetGridElementEvaluator, shape);
+         this.missileProjectileStrategyHandler = MissileProjectileStrategyHandler.of(targetGridElementEvaluator, shape);
          return this;
       }
 

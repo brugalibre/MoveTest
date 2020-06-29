@@ -15,14 +15,14 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
-import com.myownb3.piranha.core.weapon.gun.TorpedoGunImpl.TropedoGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.MissileGunImpl.MissileGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
-class TorpedoGunImplTest {
+class MissileGunImplTest {
    private TestGrid grid = new TestGrid(100, 100, -100, -100);
 
    @BeforeEach
@@ -41,7 +41,7 @@ class TorpedoGunImplTest {
    void testGetType() throws InterruptedException {
 
       // Given
-      TorpedoGunImpl torpedoGunImpl = TropedoGunBuilder.builder()
+      MissileGunImpl missileGunImpl = MissileGunBuilder.builder()
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(1)
                   .withRoundsPerMinute(1)
@@ -63,7 +63,7 @@ class TorpedoGunImplTest {
             .build();
 
       // When
-      torpedoGunImpl.fire();
+      missileGunImpl.fire();
       Thread.sleep(200);// wait until the WorkerThreadFactory has created the new GridElement
 
       // Then
