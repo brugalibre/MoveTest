@@ -75,7 +75,7 @@ public class Orientation2PositionHelper {
       } else {
          angle2Turn = ajdustedAngleDiff;
       }
-      return adjustAngleDiff4TurnWithin180(angle2Turn);
+      return angle2Turn;
    }
 
    private static double adjustAngleDiff4TurnWithin180(double angleDiff) {
