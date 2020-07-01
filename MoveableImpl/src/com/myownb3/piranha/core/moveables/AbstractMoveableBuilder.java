@@ -63,6 +63,7 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
 
    public static class MoveableBuilder extends AbstractMoveableBuilder<SimpleMoveable, MoveableBuilder> {
 
+      @Override
       public SimpleMoveable build() {
          moveable = new SimpleMoveable(grid, handler, shape, velocity);
          handler.handlePostConditions(moveable);
