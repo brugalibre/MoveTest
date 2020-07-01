@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -43,12 +42,6 @@ public class TurretClusterImpl implements TurretCluster {
    public void autodetect() {
       turrets.stream()
             .forEach(Turret::autodetect);
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return turrets.stream()
-            .anyMatch(turret -> turret.isEnemy(otherBelligerent));
    }
 
    @Override

@@ -5,7 +5,6 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.detector.IDetector;
@@ -58,11 +57,6 @@ public class TurretImpl implements Turret {
    @Override
    public BelligerentParty getBelligerentParty() {
       return belligerentParty;
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    @Override

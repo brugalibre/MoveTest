@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -72,14 +73,14 @@ class TurretGridElementTest {
       turretTower.isAcquiring();
       turretTower.getShape();
       Belligerent belligerent = mock(Belligerent.class);
+      when(belligerent.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       turretTower.isEnemy(belligerent);
       turretTower.getBelligerentParty();
       turretTower.isShooting();
 
       // Then
       verify(turret).isAcquiring();
-      verify(turret).isEnemy(belligerent);
-      verify(turret).getBelligerentParty();
+      verify(turret, times(2)).getBelligerentParty();
       verify(turret, times(4)).getShape();
       verify(turret).isShooting();
    }
@@ -107,6 +108,7 @@ class TurretGridElementTest {
       Turret turret = mock(Turret.class);
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(position);
+      when(turret.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       return turret;
    }
 

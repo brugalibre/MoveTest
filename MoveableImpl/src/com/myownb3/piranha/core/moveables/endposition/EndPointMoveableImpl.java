@@ -10,7 +10,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.Grid;
@@ -78,11 +77,6 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
    @Override
    public BelligerentParty getBelligerentParty() {
       return belligerentParty;
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    public static class EndPointMoveableBuilder {

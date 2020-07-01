@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;
@@ -58,11 +57,6 @@ public class TankImpl implements Tank {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       destructionHelper.onCollision(gridElements);
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return belligerentParty.isEnemyParty(otherBelligerent.getBelligerentParty());
    }
 
    @Override

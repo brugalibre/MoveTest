@@ -5,7 +5,6 @@ import static java.util.Objects.nonNull;
 import java.util.Collections;
 import java.util.List;
 
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -58,11 +57,6 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
    @Override
    public BelligerentParty getBelligerentParty() {
       return tank.getBelligerentParty();
-   }
-
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return tank.isEnemy(otherBelligerent);
    }
 
    @Override

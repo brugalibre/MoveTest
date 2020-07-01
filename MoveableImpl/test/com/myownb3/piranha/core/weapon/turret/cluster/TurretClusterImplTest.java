@@ -2,13 +2,14 @@ package com.myownb3.piranha.core.weapon.turret.cluster;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.weapon.turret.Turret;
@@ -64,6 +65,8 @@ class TurretClusterImplTest {
       // Given
       Turret turret = mock(Turret.class);
       Turret otherTurret = mock(Turret.class);
+      when(turret.getBelligerentParty()).thenReturn(BelligerentPartyConst.REBEL_ALLIANCE);
+      when(otherTurret.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       when(turret.getShape()).thenReturn(mock(Shape.class));
       TurretCluster turretCluster = TurretClusterBuilder.builder()
             .withPosition(Positions.of(5, 5))
@@ -75,7 +78,7 @@ class TurretClusterImplTest {
       turretCluster.isEnemy(otherTurret);
 
       // Then
-      verify(turret).isEnemy(eq(otherTurret));
+      verify(turret, times(2)).getBelligerentParty();
    }
 
 }

@@ -123,7 +123,7 @@ class TankGridElementTest {
       GridElement otherGridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
             .withShape(CircleBuilder.builder()
-                  .withRadius((int) 5)
+                  .withRadius(5)
                   .withAmountOfPoints(4)
                   .withCenter(Positions.of(4, 4, tankHeightFromGround + 5))
                   .build())
@@ -192,7 +192,7 @@ class TankGridElementTest {
       GridElement otherGridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
             .withShape(CircleBuilder.builder()
-                  .withRadius((int) 5)
+                  .withRadius(5)
                   .withAmountOfPoints(4)
                   .withCenter(Positions.of(4, 4, 0))
                   .build())
@@ -225,7 +225,7 @@ class TankGridElementTest {
       GridElement otherGridElement = SimpleGridElementBuilder.builder()
             .withGrid(mock(DefaultGrid.class))
             .withShape(CircleBuilder.builder()
-                  .withRadius((int) 5)
+                  .withRadius(5)
                   .withAmountOfPoints(4)
                   .withCenter(Positions.of(4, 4, 5000))
                   .build())
@@ -425,6 +425,7 @@ class TankGridElementTest {
       tankGridElement.getTankEngine();
       tankGridElement.getShape();
       Belligerent belligerent = mock(Belligerent.class);
+      when(belligerent.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       tankGridElement.isEnemy(belligerent);
       tankGridElement.onCollision(Collections.emptyList());
       tankGridElement.autodetect();
@@ -432,12 +433,11 @@ class TankGridElementTest {
       tankGridElement.getBelligerentParty();
 
       // Then
-      verify(tank, times(2)).getBelligerentParty();
+      verify(tank, times(3)).getBelligerentParty();
       verify(tank).isDestroyed();
       verify(tank).autodetect();
       verify(tank).getTankEngine();
       verify(tank).getTurret();
-      verify(tank).isEnemy(belligerent);
       verify(tank).onCollision(Collections.emptyList());
       assertThat(isTankAvoidable, is(true));
    }
@@ -450,6 +450,7 @@ class TankGridElementTest {
       when(shape.getDimensionRadius()).thenReturn(dimensionRadius);
       TankEngineImpl tankEngine = mock(TankEngineImpl.class);
       when(tank.getTankEngine()).thenReturn(tankEngine);
+      when(tank.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       return tank;
    }
 }

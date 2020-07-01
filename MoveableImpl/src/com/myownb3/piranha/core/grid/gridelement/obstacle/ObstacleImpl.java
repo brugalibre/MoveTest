@@ -62,11 +62,6 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
       return BelligerentPartyConst.GALACTIC_EMPIRE;// So far, a ObstacleImpl is a member of the galactic empire
    }
 
-   @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
-   }
-
    public static class ObstacleBuilder extends AbstractGridElementBuilder<ObstacleImpl, ObstacleBuilder> {
 
       private DestructionHelper destructionHelper;

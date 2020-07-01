@@ -61,11 +61,6 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
    }
 
    @Override
-   public boolean isEnemy(Belligerent otherBelligerent) {
-      return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
-   }
-
-   @Override
    public void autodetect() {
       moveForward();
    }

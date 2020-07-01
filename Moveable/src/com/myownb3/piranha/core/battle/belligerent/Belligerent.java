@@ -19,7 +19,9 @@ public interface Belligerent {
     * @return <code>true</code> if the other {@link Belligerent} is an enemy or <code>false</code> if it's an allied
     * 
     */
-   boolean isEnemy(Belligerent otherBelligerent);
+   default boolean isEnemy(Belligerent otherBelligerent) {
+      return getBelligerentParty().isEnemyParty(otherBelligerent.getBelligerentParty());
+   }
 
    /**
     * 
