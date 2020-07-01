@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.direction;
 
+import static java.lang.Double.isNaN;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +65,7 @@ public class DirectionImpl implements Direction {
 
    @Override
    public Direction rotate(double degree) {
+      verifyAngle(degree);
       double rotationTmp = (this.rotation + degree) % 360;
       if (rotationTmp < 0) {
          rotationTmp = 360 + rotationTmp;
@@ -142,6 +145,12 @@ public class DirectionImpl implements Direction {
    @Override
    public String toString() {
       return "Cardinal-Direction:" + cardinalDirection + ", Rotation: " + rotation;
+   }
+
+   private static void verifyAngle(double degree) {
+      if (isNaN(degree)) {
+         throw new IllegalArgumentException("Angle to turn is not a number!");
+      }
    }
 
    private static Map<Integer, String> getDegree2DirectionMap() {
