@@ -22,6 +22,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  */
 public class DetectorImpl implements IDetector {
 
+   private Object lock;
    private int detectorReach;
    private double detectorAngle;
    private int evasionDistance;
@@ -38,6 +39,7 @@ public class DetectorImpl implements IDetector {
       this.detectionAware = detectionAware;
       this.evasionAngleEvaluator = evasionAngleEvaluator;
       this.evasionAngleEvaluator.setDetectionAware(detectionAware);
+      this.lock = new Object();
    }
 
    @Override
@@ -57,11 +59,15 @@ public class DetectorImpl implements IDetector {
    }
 
    private void preDetecting(GridElement gridElement) {
-      detectionAware.clearGridElement(gridElement);
+      synchronized (lock) {
+         detectionAware.clearGridElement(gridElement);
+      }
    }
 
    private void postDetecting(GridElement gridElement, List<DetectionResult> detectionResults) {
-      detectionAware.checkGridElement4Detection(gridElement, detectionResults);
+      synchronized (lock) {
+         detectionAware.checkGridElement4Detection(gridElement, detectionResults);
+      }
    }
 
    private DetectionResult detectObjectInternal(GridElement gridElement, Position gridElementPos, Position detectorPosition) {

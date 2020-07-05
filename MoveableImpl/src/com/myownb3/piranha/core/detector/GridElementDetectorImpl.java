@@ -43,14 +43,14 @@ public class GridElementDetectorImpl implements GridElementDetector {
    @Override
    public boolean check4Evasion(GridElement gridElement) {
       return grid.getAllAvoidableGridElementsWithinDistance(gridElement, getDetectableRange())
-            .stream()
+            .parallelStream()
             .anyMatch(avoidableGridElement -> detector.isEvasion(avoidableGridElement));
    }
 
    @Override
    public void checkSurrounding(GridElement detectableGridElement) {
       grid.getAllAvoidableGridElementsWithinDistance(detectableGridElement, getDetectableRange())
-            .stream()
+            .parallelStream()
             .filter(checkSurroundingFilter::test)
             .forEach(gridElement -> gridElement.isDetectedBy(detectableGridElement.getForemostPosition(), detector));
    }
@@ -58,14 +58,14 @@ public class GridElementDetectorImpl implements GridElementDetector {
    @Override
    public void checkSurroundingFromPosition(GridElement detectableGridElement, Position detectorPos) {
       grid.getAllAvoidableGridElementsWithinDistance(detectableGridElement, getDetectableRange())
-            .stream()
+            .parallelStream()
             .filter(checkSurroundingFilter::test)
             .forEach(gridElement -> gridElement.isDetectedBy(detectorPos, detector));
    }
 
    @Override
    public List<GridElement> getDetectedGridElements(GridElement detectableGridElement) {
-      return grid.getAllGridElements(detectableGridElement).stream()
+      return grid.getAllGridElements(detectableGridElement).parallelStream()
             .filter(GridElement::isAvoidable)
             .filter(gridElement -> detector.hasObjectDetected(gridElement))
             .collect(Collectors.toList());
