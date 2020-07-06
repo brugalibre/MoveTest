@@ -5,15 +5,14 @@ package com.myownb3.piranha.core.grid;
 
 import static java.util.Objects.isNull;
 
-import java.util.Collections;
 import java.util.Objects;
-import java.util.function.Function;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
-import com.myownb3.piranha.core.grid.gridelement.wall.DummyGridWall;
-import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape.ImmutableLineShapeBuilder;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement.WallGridElementBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
@@ -26,8 +25,6 @@ import com.myownb3.piranha.core.moveables.Moveable;
  */
 public class MirrorGrid extends DefaultGrid {
 
-   private Wall mirrorGridWall;
-
    /**
     * 
     * @param maxX
@@ -36,7 +33,7 @@ public class MirrorGrid extends DefaultGrid {
     *        the {@link CollisionDetectionHandler} which handles a collision
     */
    private MirrorGrid(int maxX, int maxY, CollisionDetectionHandler collisionDetectionHandler) {
-      super(maxX, maxY, 0, 0, collisionDetectionHandler);
+      this(maxX, maxY, 0, 0, collisionDetectionHandler);
    }
 
    /**
@@ -50,62 +47,45 @@ public class MirrorGrid extends DefaultGrid {
     */
    private MirrorGrid(int maxX, int maxY, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
       super(maxX, maxY, minX, minY, collisionDetectionHandler);
-      this.mirrorGridWall = new DummyGridWall(this, Positions.of(minX, minY));
+      buildLowerWallGridElement();
+      buildUpperWallGridElement();
+      buildLeftWallGridElement();
+      buildRightWallGridElement();
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see
-    * com.myownb3.piranha.core.grid.DefaultGrid#moveForward(com.myownb3.piranha.core.grid.
-    * Position)
-    */
-   @Override
-   public Position moveForward(GridElement gridElement) {
-      return moveForwardOrBackward(gridElement, gridElement.getForemostPosition(), super::moveForward);
+   private void buildRightWallGridElement() {
+      Position beginPos = Positions.of(Directions.O, maxX, minY, 0);
+      Position endPos = Positions.of(Directions.O, maxX, maxY, 0);
+      buildWallGridElement(beginPos, endPos);
    }
 
-   @Override
-   public Position moveBackward(GridElement gridElement) {
-      return moveForwardOrBackward(gridElement, gridElement.getRearmostPosition(), super::moveBackward);
+   private void buildLeftWallGridElement() {
+      Position beginPos = Positions.of(Directions.O, minX, minY, 0);
+      Position endPos = Positions.of(Directions.O, minX, maxY, 0);
+      buildWallGridElement(beginPos, endPos);
    }
 
-   private Position moveForwardOrBackward(GridElement gridElement, Position foremostOrRearmostPos,
-         Function<GridElement, Position> moveForwardOrdBackward) {
-      MirroringRes mirroringRes = checkIfMirroring(gridElement, foremostOrRearmostPos);
-      if (mirroringRes.isMirroring) {
-         handleAfterMirroring(gridElement);
-         return mirroringRes.mirroredPosition;
-      }
-      return moveForwardOrdBackward.apply(gridElement);
+   private void buildUpperWallGridElement() {
+      Position beginPos = Positions.of(Directions.O, minX, maxY, 0);
+      Position endPos = Positions.of(Directions.O, maxX, maxY, 0);
+      buildWallGridElement(beginPos, endPos);
    }
 
-   private MirroringRes checkIfMirroring(GridElement gridElement, Position foremostOrRearmostPos) {
-      boolean isMirrored = false;
-      Position mirroredPos = gridElement.getPosition();
-      if (foremostOrRearmostPos.getX() <= minX || foremostOrRearmostPos.getX() >= maxX) {
-         mirroredPos = mirroredPos.rotate(180 - 2 * mirroredPos.getDirection().getAngle());
-         isMirrored = true;
-      }
-      if (foremostOrRearmostPos.getY() <= minY || foremostOrRearmostPos.getY() >= maxY) {
-         mirroredPos = mirroredPos.rotate(360 - 2 * mirroredPos.getDirection().getAngle());
-         isMirrored = true;
-      }
-      return new MirroringRes(mirroredPos, isMirrored);
+   private void buildLowerWallGridElement() {
+      Position beginPos = Positions.of(Directions.O, minX, minY, 0);
+      Position endPos = Positions.of(Directions.O, maxX, minY, 0);
+      buildWallGridElement(beginPos, endPos);
    }
 
-   private void handleAfterMirroring(GridElement gridElement) {
-      gridElement.onCollision(Collections.singletonList(mirrorGridWall));
-   }
-
-   private static final class MirroringRes {
-      private boolean isMirroring;
-      private Position mirroredPosition;
-
-      private MirroringRes(Position mirroredPosition, boolean isMirroring) {
-         this.isMirroring = isMirroring;
-         this.mirroredPosition = mirroredPosition;
-      }
+   private void buildWallGridElement(Position beginPos, Position endPos) {
+      WallGridElementBuilder.builder()
+            .withGrid(this)
+            .withShape(ImmutableLineShapeBuilder.builder()
+                  .withBeginPosition(beginPos)
+                  .withEndPosition(endPos)
+                  .build())
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(1))
+            .build();
    }
 
    /**
@@ -120,12 +100,6 @@ public class MirrorGrid extends DefaultGrid {
          return new MirrorGridBuilder()
                .withMaxX(10)
                .withMaxY(10);
-      }
-
-      public static MirrorGridBuilder builder(int maxX, int maxY) {
-         return new MirrorGridBuilder()
-               .withMaxX(maxX)
-               .withMaxY(maxY);
       }
 
       /**

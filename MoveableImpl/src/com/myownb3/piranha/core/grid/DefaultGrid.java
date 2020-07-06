@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.grid;
 
+import static java.lang.Math.max;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
@@ -24,6 +25,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.tank.countermeasure.DecoyFlareFactory;
+import com.myownb3.piranha.util.MathUtil;
 
 /**
  * The most simple implementation of a {@link Grid} which simply moves a
@@ -244,6 +246,21 @@ public class DefaultGrid implements Grid {
 
    private boolean outOfUpperBounds(double newY, double newX) {
       return newY > maxY || newX > maxX;
+   }
+
+   /**
+    * @return a new {@link Position} within the borders of this {@link Grid}
+    */
+   @Override
+   public Position getRandomPosition(double maxDimensionRadius) {
+      double offset = getOffsetFromMinOrMax(maxDimensionRadius);
+      double x = max(MathUtil.getRandom(maxX - offset), minX + offset);
+      double y = max(MathUtil.getRandom(maxY - offset), minY + offset);
+      return Positions.of(x, y);
+   }
+
+   private double getOffsetFromMinOrMax(double maxDimensionRadius) {
+      return maxDimensionRadius;
    }
 
    @Override

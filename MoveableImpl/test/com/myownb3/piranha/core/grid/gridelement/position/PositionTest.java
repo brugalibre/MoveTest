@@ -6,17 +6,13 @@ package com.myownb3.piranha.core.grid.gridelement.position;
 import static com.myownb3.piranha.util.MathUtil.round;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.easymock.PowerMock.mockStatic;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
@@ -81,23 +77,6 @@ class PositionTest {
 
       // Then
       assertThat(actualCalcAngleBetweenVectors, is(expectedCalcAngleBetweenVectors));
-   }
-
-
-   @Test
-   public void testRandomPosition() {
-
-      // Given
-
-      // When
-      Position pos = Positions.getRandomPosition(new DimensionImpl(0, 0, 5, 5), 5, 5);
-
-      boolean lowerXThanExpected = pos.getX() <= 5;
-      boolean lowerYThanExpected = pos.getY() <= 5;
-
-      // Then
-      Assert.assertTrue(lowerYThanExpected);
-      Assert.assertTrue(lowerXThanExpected);
    }
 
    @Test
@@ -403,28 +382,6 @@ class PositionTest {
 
       // Then
       Assert.assertFalse(pos.equals(anotherNotExactlySamePos));
-   }
-
-   // @Test
-   void testRandomPos() {
-
-      // Given
-      int maxWidth = 200;
-      int maxHeight = 200;
-      mockStatic(MathUtil.class);
-      Grid grid = GridBuilder.builder(maxWidth, maxHeight)
-            .build();
-      int height = 5;
-      int width = 5;
-
-      // When
-      when(MathUtil.getRandom(Mockito.anyInt())).thenReturn((double) maxWidth);
-      Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
-
-      double expectedXCoordinates = maxWidth;
-      double effectXCoordindates = randomPosition.getX();
-      // Then
-      assertThat(effectXCoordindates, is(expectedXCoordinates));
    }
 
    @Test

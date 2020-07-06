@@ -42,7 +42,7 @@ public class MathUtil {
     *        the offset
     * @return a random number
     */
-   public static double getRandom(int offset) {
+   public static double getRandom(double offset) {
       return Math.random() * offset;
    }
 

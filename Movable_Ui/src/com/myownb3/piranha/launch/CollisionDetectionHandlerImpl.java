@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorIm
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
@@ -48,11 +49,28 @@ class CollisionDetectionHandlerImpl extends BouncingCollisionDetectionHandlerImp
    }
 
 
-   private static boolean isCollisionWithMoveable(GridElement gridElement, List<CollisionGridElement> otherGridElements) {
-      return gridElement instanceof EndPointMoveable
-            || otherGridElements.stream()
+   private boolean isCollisionWithMoveable(GridElement gridElement, List<CollisionGridElement> otherGridElements) {
+      return isNotCollisionWithWall(otherGridElements, gridElement)
+            && (isEndPointMoveable(gridElement) || otherGridElements.stream()
                   .map(CollisionGridElement::getGridElement)
-                  .anyMatch(otherGridElement -> otherGridElement instanceof EndPointMoveable);
+                  .anyMatch(this::isEndPointMoveable));
+   }
+
+   private boolean isNotCollisionWithWall(List<CollisionGridElement> otherGridElements, GridElement gridElement) {
+      return isNotCollisionWithWall(otherGridElements) && isNotCollisionWithWall(gridElement);
+   }
+
+   private boolean isNotCollisionWithWall(List<CollisionGridElement> otherGridElements) {
+      CollisionGridElement collisionGridElement = otherGridElements.get(0);
+      return isNotCollisionWithWall(collisionGridElement.getGridElement());
+   }
+
+   private boolean isNotCollisionWithWall(GridElement gridElement) {
+      return !(gridElement instanceof WallGridElement);
+   }
+
+   private boolean isEndPointMoveable(GridElement gridElement) {
+      return gridElement instanceof EndPointMoveable;
    }
 
    public final void setMoveableController(MoveableController moveableController) {

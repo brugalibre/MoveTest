@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
@@ -38,6 +39,26 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileB
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 class DefaultGridTest {
+
+   @Test
+   public void testRandomPosition() {
+
+      // Given
+      Grid grid = GridBuilder.builder()
+            .withMaxX(4)
+            .withMaxY(4)
+            .build();
+
+      // When
+      Position pos = grid.getRandomPosition(2);
+
+      boolean lowerXThanExpected = pos.getX() <= 3;
+      boolean lowerYThanExpected = pos.getY() <= 3;
+
+      // Then
+      Assert.assertTrue(lowerYThanExpected);
+      Assert.assertTrue(lowerXThanExpected);
+   }
 
    @Test
    void testGetAllGridElements2CheckCollisionWithinDistance_ToFarAway() {

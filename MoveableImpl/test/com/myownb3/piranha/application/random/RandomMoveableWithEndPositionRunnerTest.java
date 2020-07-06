@@ -18,6 +18,7 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -37,17 +38,18 @@ class RandomMoveableWithEndPositionRunnerTest {
       int padding = 30;
       Dimension dimension = new DimensionImpl(padding, padding, mainWindowWidth - padding, mainWindowWidth - padding);
 
-      Position startPos = Positions.getRandomPosition(dimension, width, width);
       MoveableController moveableController = mockMoveableController();
 
+      MirrorGrid grid = MirrorGridBuilder.builder()
+            .withMaxX(dimension.getHeight())
+            .withMaxY(dimension.getWidth())
+            .withMinX(dimension.getX())
+            .withMinY(dimension.getY())
+            .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
+            .build();
+      Position startPos = grid.getRandomPosition(width);
       RandomMoveableWithEndPositionRunner endPositionRunner = RandomRunnerWithEndPositionsBuilder.builder()
-            .withGrid(MirrorGridBuilder.builder()
-                  .withMaxX(dimension.getHeight())
-                  .withMaxY(dimension.getWidth())
-                  .withMinX(dimension.getX())
-                  .withMinY(dimension.getY())
-                  .withCollisionDetectionHandler(new DefaultCollisionDetectionHandlerImpl())
-                  .build())
+            .withGrid(grid)
             .withStartPos(startPos)
             .withRandomEndPositions(0)
             .withCircleRadius(width)

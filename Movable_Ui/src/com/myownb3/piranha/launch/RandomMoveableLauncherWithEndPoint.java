@@ -18,11 +18,11 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.DimensionImpl;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
@@ -65,7 +65,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       int detectorReach = 90;
       int evasionDistance = 80;
-      Position startPos = Positions.getRandomPosition(dimension, height, width);
 
       // Helper variables for later access
       PostMoveForwardHandlerCtx ctx = new PostMoveForwardHandlerCtx();
@@ -73,14 +72,16 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
 
       DefaultPostMoveForwardHandler moveablePostActionHandler = new DefaultPostMoveForwardHandler(ctx);
+      MirrorGrid grid = MirrorGridBuilder.builder()
+            .withMaxX(dimension.getHeight())
+            .withMaxY(dimension.getWidth())
+            .withMinX(dimension.getX())
+            .withMinY(dimension.getY())
+            .withCollisionDetectionHandler(collisionDetectionHandler)
+            .build();
+      Position startPos = grid.getRandomPosition(width);
       RandomMoveableWithEndPositionRunner endPositionRunner = RandomRunnerWithEndPositionsBuilder.builder()
-            .withGrid(MirrorGridBuilder.builder()
-                  .withMaxX(dimension.getHeight())
-                  .withMaxY(dimension.getWidth())
-                  .withMinX(dimension.getX())
-                  .withMinY(dimension.getY())
-                  .withCollisionDetectionHandler(collisionDetectionHandler)
-                  .build())
+            .withGrid(grid)
             .withStartPos(startPos)
             .withRandomEndPositions(amountOfEndPos)
             .withCircleRadius(width)
@@ -112,7 +113,6 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .withMoveableController(move -> true)
             .build();
 
-      Grid grid = endPositionRunner.getGrid();
       grid.prepare();
       ctx.setGrid(grid);
       MoveableController moveableController = endPositionRunner.getMoveableController();

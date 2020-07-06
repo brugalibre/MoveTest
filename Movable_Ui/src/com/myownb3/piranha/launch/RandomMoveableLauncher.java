@@ -15,7 +15,6 @@ import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.DefaultGrid;
-import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
@@ -23,7 +22,6 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -87,7 +85,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
       int amount = 25;
       for (int i = 0; i < amount; i++) {
-         Position randomPosition = Positions.getRandomPosition(grid.getDimension(), height, width);
+         Position randomPosition = grid.getRandomPosition(width);
          Obstacle obstacle = MoveableObstacleBuilder.builder()
                .withGrid(grid)
                .withShape(CircleBuilder.builder()
@@ -144,10 +142,8 @@ public class RandomMoveableLauncher implements Stoppable {
 
    private static Moveable getMoveable(Grid grid, int height, int width) {
 
-      Dimension dimension = grid.getDimension();
-
       EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
-      Position pos = Positions.getRandomPosition(dimension, height, width);
+      Position pos = grid.getRandomPosition(width);
       Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder()
             .withGrid(grid)

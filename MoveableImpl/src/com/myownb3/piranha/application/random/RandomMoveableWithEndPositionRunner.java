@@ -13,14 +13,12 @@ import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorCluster;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl;
-import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -106,7 +104,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
 
       public RandomRunnerWithEndPositionsBuilder withRandomEndPositions(int amountOfEndPos) {
          requireNonNull(grid, "We neeeda Grid before we can add End-Positions!");
-         withEndPositions(getEndPosList(circleRadius, circleRadius, grid.getDimension(), amountOfEndPos));
+         withEndPositions(getEndPosList(grid, amountOfEndPos, circleRadius));
          return this;
       }
 
@@ -164,8 +162,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          requireNonNull(grid, "Build a Grid bevore adding Moveables!");
 
          for (int i = 0; i < amount; i++) {
-            Dimension dimension = grid.getDimension();
-            Position randomPosition = Positions.getRandomPosition(dimension, circleRadius, circleRadius);
+            Position randomPosition = grid.getRandomPosition(circleRadius);
             Obstacle obstacle = MoveableObstacleBuilder.builder()
                   .withGrid(grid)
                   .withShape(CircleBuilder.builder()
@@ -205,10 +202,10 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
          return new RandomRunnerWithEndPositionsBuilder();
       }
 
-      private static List<EndPosition> getEndPosList(int height, int width, Dimension dimension, int amountOfEndPos) {
+      private static List<EndPosition> getEndPosList(Grid grid, int amountOfEndPos, double width) {
          List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
          for (int i = 0; i < amountOfEndPos; i++) {
-            endPosList.add(EndPositions.of(Positions.getRandomPosition(dimension, height, width), 5));
+            endPosList.add(EndPositions.of(grid.getRandomPosition(width), 5));
          }
          return endPosList;
       }

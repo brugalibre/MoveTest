@@ -10,7 +10,6 @@ import java.util.List;
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -125,28 +124,6 @@ public class Positions {
     */
    public static List<Position> buildPositionsBetweenTwoPositions(Position pos1, Position pos2, double distanceBetweenPosOnColDetectionPath) {
       return POSITION_HELPER.buildPositionsBetweenTwoPositions(pos1, pos2, distanceBetweenPosOnColDetectionPath);
-   }
-
-   /**
-    * Returns a new {@link PositionImpl} within the borders of the given
-    * {@link Dimension} considering the given height and width of the Position
-    * 
-    * @param dimension
-    * @param height
-    * @param width
-    * @return a new created Position
-    */
-   public static Position getRandomPosition(Dimension dimension, int height, int width) {
-
-      int minX = dimension.getX();
-      int maxX = minX + dimension.getWidth();
-      int minY = dimension.getY();
-      int maxY = minX + dimension.getHeight();
-
-      int x = (int) Math.min(MathUtil.getRandom(maxX) + minX, (double) maxX - ((double) width / 2));
-      int y = (int) Math.min(MathUtil.getRandom(maxY) + minY, (double) maxY - ((double) height / 2));
-
-      return Positions.of(x, y);
    }
 
    public static class PositionImpl implements Position {

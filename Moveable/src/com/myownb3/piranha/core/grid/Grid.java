@@ -101,4 +101,11 @@ public interface Grid {
     * @returns a {@link Dimension} describing the dimension of this {@link Grid}
     */
    Dimension getDimension();
+
+   /**
+    * @return a new {@link Position} within the borders of this {@link Grid}
+    * @param offset
+    *        the offest which is substrcted from x- and y axis value
+    */
+   Position getRandomPosition(double offset);
 }
