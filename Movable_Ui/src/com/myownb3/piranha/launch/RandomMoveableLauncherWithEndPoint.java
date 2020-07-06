@@ -5,7 +5,6 @@ package com.myownb3.piranha.launch;
 
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
-import java.awt.Toolkit;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -73,6 +72,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       int amountOfEndPos = (int) MathUtil.getRandom(2) + (int) MathUtil.getRandom(20);
 
+      DefaultPostMoveForwardHandler moveablePostActionHandler = new DefaultPostMoveForwardHandler(ctx);
       RandomMoveableWithEndPositionRunner endPositionRunner = RandomRunnerWithEndPositionsBuilder.builder()
             .withGrid(MirrorGridBuilder.builder()
                   .withMaxX(dimension.getHeight())
@@ -108,8 +108,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
                   .withEvasionAngleInc(1)
                   .build())
             .withDefaultDetectorCluster()
-            .withMovingIncrement(30)
-            .withMoveableController(new DefaultPostMoveForwardHandler(ctx))
+            .withMovingIncrement(18)
+            .withMoveableController(move -> true)
             .build();
 
       Grid grid = endPositionRunner.getGrid();
@@ -125,17 +125,25 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       mainWindow.addSpielfeld(ctx.getRenderers(), grid);
       SwingUtilities.invokeLater(() -> mainWindow.show());
       ctx.setMainWindow(mainWindow);
-      prepareAndMoveMoveables(endPositionRunner, mainWindow, ctx.getGridElements(), grid);
+      prepareAndMoveMoveables(endPositionRunner, moveablePostActionHandler, ctx.getGridElements(), grid);
    }
 
-   private void prepareAndMoveMoveables(RandomMoveableWithEndPositionRunner endPositionRunner, MainWindow mainWindow,
-         List<GridElement> allGridElements, Grid grid) throws InterruptedException {
+   private void prepareAndMoveMoveables(RandomMoveableWithEndPositionRunner endPositionRunner,
+         DefaultPostMoveForwardHandler moveablePostActionHandler, List<GridElement> allGridElements, Grid grid) {
       grid.prepare();
       turnGridElements(allGridElements);
-      while (isRunning) {
-         endPositionRunner.run();
-         Toolkit.getDefaultToolkit().beep();
-      }
+      new Thread(() -> {
+         long cycleTime = 15;
+         while (isRunning) {
+            endPositionRunner.run();
+            moveablePostActionHandler.handlePostConditions(endPositionRunner.getMoveableController().getMoveable());
+
+            try {
+               Thread.sleep(cycleTime);
+            } catch (InterruptedException e) {
+            }
+         }
+      }, "LogicHandler").start();
    }
 
    private static void turnGridElements(List<GridElement> allGridElements) {

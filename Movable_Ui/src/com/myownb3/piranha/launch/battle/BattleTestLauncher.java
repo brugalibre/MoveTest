@@ -27,6 +27,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -61,7 +62,7 @@ import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class BattleTestLauncher {
-   private static final int padding = 30;
+   private static final int padding = 0;
 
    public static void main(String[] args) throws InterruptedException {
       BattleTestLauncher launcher = new BattleTestLauncher();
@@ -72,8 +73,10 @@ public class BattleTestLauncher {
 
       int width = 30;
       int height = 5;
-      Position imperialTankPos = Positions.of(450, 600).rotate(80);
-      Position rebelTankPos = Positions.of(200, 100);
+      double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
+      double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
+      Position imperialTankPos = Positions.of(450, 600, tankHeightFromGround).rotate(80);
+      Position rebelTankPos = Positions.of(200, 100, tankHeightFromGround);
 
       List<EndPosition> imperialTankEndPositions = new ArrayList<>();
       imperialTankEndPositions.add(EndPositions.of(Positions.of(450, 100), 10));
@@ -108,6 +111,8 @@ public class BattleTestLauncher {
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(5)
+            .withTankheightFromBottom(tankTurretHeight)
+            .withTurretHeightFromBottom(tankTurretHeight)
             .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -179,8 +184,11 @@ public class BattleTestLauncher {
                                           .withSalveSize(2)
                                           .withRoundsPerMinute(250)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
-                                                .withVelocity(7)
+                                                .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                      .withDimensionRadius(3)
+                                                      .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                                      .build())
+                                                .withVelocity(70)
                                                 .build())
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
@@ -220,6 +228,8 @@ public class BattleTestLauncher {
       TankGridElement rebellTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(5)
+            .withTankheightFromBottom(tankTurretHeight)
+            .withTurretHeightFromBottom(tankTurretHeight)
             .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -290,8 +300,11 @@ public class BattleTestLauncher {
                                           .withSalveSize(3)
                                           .withRoundsPerMinute(300)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(3))
-                                                .withVelocity(10)
+                                                .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                      .withDimensionRadius(3)
+                                                      .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                                      .build())
+                                                .withVelocity(70)
                                                 .build())
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()

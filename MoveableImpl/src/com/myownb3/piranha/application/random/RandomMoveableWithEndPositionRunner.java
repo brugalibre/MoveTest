@@ -143,7 +143,7 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
       public RandomRunnerWithEndPositionsBuilder withMoveableController(MoveablePostActionHandler moveablePostActionHandler) {
          requireNonNull(grid, "We neeeda Grid before we can build the MoveableController!");
          this.moveableController = MoveableControllerBuilder.builder()
-               .withStrategie(MovingStrategy.FORWARD)
+               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                .withEndPositions(endPositions)
                .withEndPointMoveable()
                .withGrid(grid)
@@ -170,10 +170,10 @@ public class RandomMoveableWithEndPositionRunner implements MoveableApplication 
                   .withGrid(grid)
                   .withShape(CircleBuilder.builder()
                         .withRadius(circleRadius)
-                        .withAmountOfPoints(20)
+                        .withAmountOfPoints(30)
                         .withCenter(randomPosition)
                         .build())
-                  .withVelocity(6)
+                  .withVelocity(13)
                   .withHealth(Integer.MAX_VALUE)
                   .build();
 

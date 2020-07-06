@@ -24,26 +24,42 @@ public class MoveableAdder {
    private int moveableVelocity = 2;
    private int counter = 30;
 
+   public MoveableAdder() {
+      // default constructor
+   }
+
    public MoveableAdder(int moveableVelocity, int counter) {
       this.moveableVelocity = moveableVelocity;
       this.counter = counter;
    }
 
-   public MoveableAdder() {}
-
    public boolean check4NewMoveables2Add(Grid grid, List<Renderer<? extends GridElement>> renderers, int cycleCounter, int padding) {
       if (cycleCounter >= counter) {
-         double moveableCounter = grid.getAllGridElements(null).stream()
-               .filter(isMoveable())
-               .filter(isGridElementAlive())
-               .count();
+         double moveableCounter = countMoveables(grid);
+         double simpleGridElementCounter = countNonMoveables(grid);
          if (moveableCounter <= amountOfMoveables) {
             buildAndAddMoveable(grid, renderers, padding);
+         }
+         if (simpleGridElementCounter <= amountOfMoveables) {
             buildAndAddSimpleGridElement(grid, renderers, padding);
          }
          return true;
       }
       return false;
+   }
+
+   private double countNonMoveables(Grid grid) {
+      return grid.getAllGridElements(null).stream()
+            .filter(isMoveable().negate())
+            .filter(isGridElementAlive())
+            .count();
+   }
+
+   private double countMoveables(Grid grid) {
+      return grid.getAllGridElements(null).stream()
+            .filter(isMoveable())
+            .filter(isGridElementAlive())
+            .count();
    }
 
    private Moveable buildNewMoveable(Grid grid, int padding) {
