@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.belligerent.Rebel;
+import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;

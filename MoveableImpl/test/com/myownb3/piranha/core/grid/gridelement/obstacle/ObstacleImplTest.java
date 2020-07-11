@@ -13,7 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.myownb3.piranha.core.battle.belligerent.Rebel;
+import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.destruction.DamageImpl;
 import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;

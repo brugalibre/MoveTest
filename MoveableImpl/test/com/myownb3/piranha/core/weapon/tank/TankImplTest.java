@@ -12,7 +12,7 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
+import com.myownb3.piranha.core.battle.belligerent.galacticempire.StroomTrooper;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.destruction.DamageImpl;

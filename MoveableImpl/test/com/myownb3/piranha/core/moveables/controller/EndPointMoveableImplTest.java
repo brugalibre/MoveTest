@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.belligerent.Rebel;
-import com.myownb3.piranha.core.battle.belligerent.StroomTrooper;
+import com.myownb3.piranha.core.battle.belligerent.galacticempire.StroomTrooper;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
