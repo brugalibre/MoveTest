@@ -5,6 +5,7 @@ package com.myownb3.piranha.ui.render.impl.shape;
 
 import java.awt.Color;
 
+import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFighterShape;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
@@ -44,6 +45,8 @@ public class ShapePainterFactory {
          return new TankPainter((Tank) gridElement, color, tankTurretColor);
       } else if (shape instanceof PositionShape) {
          return new PositionPainter((PositionShape) shape, color, 5, 5);
+      } else if (shape instanceof TIEFighterShape) {
+         return new TIEFighterShapePainter((TIEFighterShape) shape, color.darker());
       } else {
          throw new RuntimeException("Unknown Shape '" + shape + "'!");
       }

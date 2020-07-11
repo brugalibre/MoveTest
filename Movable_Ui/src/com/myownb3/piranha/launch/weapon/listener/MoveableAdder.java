@@ -3,6 +3,7 @@ package com.myownb3.piranha.launch.weapon.listener;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -69,14 +70,16 @@ public class MoveableAdder {
       double yCordinate = MathUtil.getRandom(450) + padding;
       double angle2Rotate = -MathUtil.getRandom(90) + 15;
       Position gridElementPos = Positions.of(200, yCordinate).rotate(angle2Rotate);
-      int gridElementRadius = 10;
+      int gridElementRadius = 9;
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
-            .withHealth(400)
-            .withShape(CircleBuilder.builder()
-                  .withRadius(gridElementRadius)
-                  .withAmountOfPoints(20)
-                  .withCenter(gridElementPos)
+            .withHealth(500)
+            .withShape(TIEFighterShapeBuilder.builder()
+                  .withBallCockpit(CircleBuilder.builder()
+                        .withRadius(gridElementRadius)
+                        .withAmountOfPoints(20)
+                        .withCenter(gridElementPos)
+                        .build())
                   .build())
             .withVelocity(moveableVelocity)
             .build();
@@ -86,7 +89,7 @@ public class MoveableAdder {
       double yCordinate = MathUtil.getRandom(450) + padding;
       double angle2Rotate = -MathUtil.getRandom(90) + 15;
       Position gridElementPos = Positions.of(300, yCordinate).rotate(angle2Rotate);
-      int gridElementRadius = 10;
+      int gridElementRadius = 8;
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(CircleBuilder.builder()

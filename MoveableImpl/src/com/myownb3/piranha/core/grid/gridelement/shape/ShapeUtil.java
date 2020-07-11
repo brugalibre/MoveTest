@@ -20,12 +20,12 @@ public class ShapeUtil {
    /**
     * Combines the Path of all given shapes
     * 
-    * @param gunShapes
+    * @param shapes
     *        all given {@link Shape}s
     * @return the combined path
     */
-   public static List<PathSegment> combinePath(Shape... gunShapes) {
-      return combinePath(Arrays.asList(gunShapes));
+   public static List<PathSegment> combinePath(Shape... shapes) {
+      return combinePath(Arrays.asList(shapes));
    }
 
    /**
@@ -41,6 +41,20 @@ public class ShapeUtil {
             .flatMap(List::stream)
             .distinct()
             .collect(Collectors.toList());
+   }
+
+   /**
+    * Sets the given {@link GridElement} on all given {@link Shape}
+    * 
+    * @param gridElement
+    *        the {@link GridElement}
+    * @param shapes
+    *        the {@link Shape}s
+    */
+   public static void setGridElement(GridElement gridElement, Shape... shapes) {
+      for (Shape shape : shapes) {
+         ((AbstractShape) shape).setGridElement(gridElement);
+      }
    }
 
    /**

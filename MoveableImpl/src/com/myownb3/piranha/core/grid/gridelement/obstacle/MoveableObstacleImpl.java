@@ -116,14 +116,12 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
       @Override
       public MoveableObstacleImpl build() {
-         MoveableObstacleImpl moveableObstacleImpl;
          requireNonNull(shape, "A MoveableObstacle needs a shape!");
          requireNonNull(velocity, "A MoveableObstacle needs a velocity!");
          if (isNull(dimensionInfo)) {
             dimensionInfo = getDefaultDimensionInfo(shape.getDimensionRadius());
          }
-         moveableObstacleImpl =
-               new MoveableObstacleImpl(grid, shape, dimensionInfo, belligerentParty, damage, health, velocity);
+         MoveableObstacleImpl moveableObstacleImpl = new MoveableObstacleImpl(grid, shape, dimensionInfo, belligerentParty, damage, health, velocity);
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }
