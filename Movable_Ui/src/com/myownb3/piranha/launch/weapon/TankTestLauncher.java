@@ -549,7 +549,7 @@ public class TankTestLauncher {
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
                   .build())
-            .withVelocity(5)
+            .withVelocity(20)
             .build();
    }
 

@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
@@ -21,8 +22,8 @@ import com.myownb3.piranha.util.MathUtil;
 public class MoveableAdder {
 
    private int amountOfMoveables = 5;
-   private int moveableVelocity = 2;
-   private int counter = 30;
+   private int moveableVelocity = 20;
+   private int counter = 50;
 
    public MoveableAdder() {
       // default constructor
@@ -51,6 +52,7 @@ public class MoveableAdder {
    private double countNonMoveables(Grid grid) {
       return grid.getAllGridElements(null).stream()
             .filter(isMoveable().negate())
+            .filter(isNotProjectile())
             .filter(isGridElementAlive())
             .count();
    }
@@ -58,6 +60,7 @@ public class MoveableAdder {
    private double countMoveables(Grid grid) {
       return grid.getAllGridElements(null).stream()
             .filter(isMoveable())
+            .filter(isNotProjectile())
             .filter(isGridElementAlive())
             .count();
    }
@@ -103,7 +106,12 @@ public class MoveableAdder {
    }
 
    private static Predicate<? super GridElement> isMoveable() {
-      return moveable -> moveable instanceof Moveable;
+      return moveable -> moveable instanceof Moveable
+            && !(moveable instanceof ProjectileGridElement);
+   }
+
+   private static Predicate<? super GridElement> isNotProjectile() {
+      return moveable -> !(moveable instanceof ProjectileGridElement);
    }
 
    private static Predicate<? super GridElement> isGridElementAlive() {

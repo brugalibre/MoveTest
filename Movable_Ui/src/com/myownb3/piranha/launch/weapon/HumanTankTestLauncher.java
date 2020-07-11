@@ -125,7 +125,7 @@ public class HumanTankTestLauncher {
             .build();
 
       TankHolder imperialTankHolder = new TankHolder();
-      int missileCounterMeasureDetectionDistance = 120;
+      int missileCounterMeasureDetectionDistance = 80;
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(imperialTankVelocity)
@@ -391,9 +391,9 @@ public class HumanTankTestLauncher {
                   .forEach(AutoDetectable::autodetect);
 
             cycleCounter++;
-            //                        if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
-            //                           cycleCounter = 0;
-            //                        }
+            if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
+               cycleCounter = 0;
+            }
 
             if (checkGameDone(grid, mainWindow)) {
                isRunning = false;
