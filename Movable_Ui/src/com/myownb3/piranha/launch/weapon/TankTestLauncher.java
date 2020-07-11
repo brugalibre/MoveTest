@@ -26,7 +26,6 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
-import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
@@ -35,7 +34,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
@@ -64,10 +62,9 @@ import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
-import com.myownb3.piranha.util.MathUtil;
 
 public class TankTestLauncher {
-   private static final int padding = 30;
+   private static final int padding = 0;
 
    public static void main(String[] args) throws InterruptedException {
       TankTestLauncher launcher = new TankTestLauncher();
@@ -114,7 +111,6 @@ public class TankTestLauncher {
             .withDetectorAngle(360)
             .build();
 
-      Moveable simpleGridElement = buildNewMoveable(grid);
       TankHolder tankHolder = new TankHolder();
 
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
@@ -525,32 +521,15 @@ public class TankTestLauncher {
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
+      mainWindow.withBackground("res/background_1.jpg");
 
       List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));
-      renderers.add(new GridElementPainter(simpleGridElement, getColor(simpleGridElement), height, width));
       renderers.add(new GridElementPainter(tankGridElement, getColor(tankGridElement), height, width));
       renderers.add(new GridElementPainter(battleShipGridElement, getColor(battleShipGridElement), height, width));
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, renderers);
-   }
-
-   private static Moveable buildNewMoveable(Grid grid) {
-      double yCordinate = MathUtil.getRandom(450) + padding;
-      double angle2Rotate = -MathUtil.getRandom(90) + 15;
-      Position gridElementPos = Positions.of(200, yCordinate).rotate(angle2Rotate);
-      int gridElementRadius = 10;
-      return MoveableObstacleBuilder.builder()
-            .withGrid(grid)
-            .withHealth(480)
-            .withShape(CircleBuilder.builder()
-                  .withRadius(gridElementRadius)
-                  .withAmountOfPoints(20)
-                  .withCenter(gridElementPos)
-                  .build())
-            .withVelocity(20)
-            .build();
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {

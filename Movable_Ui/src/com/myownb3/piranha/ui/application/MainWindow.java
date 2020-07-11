@@ -32,6 +32,7 @@ public class MainWindow {
    private Container content;
    private int padding;
    private int pointWidth;
+   private String backgroundImage;
 
    public MainWindow(int width, int height, int padding, int pointWidth) {
 
@@ -49,6 +50,10 @@ public class MainWindow {
       content = new JPanel(new BorderLayout());
       mainWindow.add(content);
       mainWindow.setBounds(x, y, width, height);
+   }
+
+   public void withBackground(String backgroundImage) {
+      this.backgroundImage = backgroundImage;
    }
 
    public void showCollisionInfo() {
@@ -70,10 +75,11 @@ public class MainWindow {
    private void addSpielfeldInternal(List<Renderer<? extends GridElement>> renderers, List<PositionListPainter> endPositionRenderers,
          Grid grid) {
       com.myownb3.piranha.core.grid.Dimension gridDimension = grid.getDimension();
-      Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 3 * padding,
-            gridDimension.getHeight() + 3 * padding);
-      SpielFeld spielFeld = new SpielFeld(grid, renderers, endPositionRenderers, padding, pointWidth);
+      Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 40 + padding,
+            gridDimension.getHeight() + 40 + padding);
+      SpielFeld spielFeld = new SpielFeld(backgroundImage, grid, renderers, endPositionRenderers, padding, pointWidth);
       spielFeld.setPreferredSize(spielfeldDimension);
+      spielFeld.setMinimumSize(spielfeldDimension);
       spielFeld.setSize(spielfeldDimension);
       content.add(spielFeld, BorderLayout.CENTER);
       mainWindow.setPreferredSize(spielfeldDimension);

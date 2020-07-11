@@ -71,7 +71,7 @@ import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class HumanTankTestLauncher {
-   private static final int padding = 30;
+   private static final int padding = 0;
 
    public static void main(String[] args) throws InterruptedException {
       HumanTankTestLauncher launcher = new HumanTankTestLauncher();
@@ -356,7 +356,7 @@ public class HumanTankTestLauncher {
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-
+      mainWindow.withBackground("res/background_1.jpg");
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 

@@ -185,7 +185,6 @@ public class TurretTowerTestLauncher {
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-
       List<Renderer<? extends GridElement>> renderers = new ArrayList<Renderer<? extends GridElement>>();
       List<TurretGridElement> turrets = Arrays.asList(turretGridElementSouth, turretGridElementNorth);
       List<Moveable> moveables = Arrays.asList(simpleGridElement/*, endPointMoveable*/);
