@@ -12,7 +12,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.turret.Turret;
@@ -33,27 +32,21 @@ import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
  */
 public class ShapePainterFactory {
 
-   public static Drawable<? extends Shape> getShapePainter(GridElement gridElement, Color color) {
+   private ShapePainterFactory() {
+      // private
+   }
 
+   public static Drawable<? extends Shape> getShapePainter(GridElement gridElement, Color color) {
       Shape shape = gridElement.getShape();
-      if (shape instanceof Circle) {
-         return new CirclePainter((Circle) shape, PaintMode.SHAPE, color, 0, 0);
-      } else if (gridElement instanceof WallGridElement) {
+      if (gridElement instanceof WallGridElement) {
          return new RectanglePainter((Rectangle) shape, color, true);
       } else if (gridElement instanceof Turret) {
          return new TurretPainter(gridElement.getShape(), color);
-      } else if (gridElement instanceof ProjectileGridElement) {
-         return new RectanglePainter((Rectangle) shape, color, false);
       } else if (gridElement instanceof Tank) {
          Color tankTurretColor = GridElementColorUtil.getTurretColor(((Tank) gridElement).getTurret().getBelligerentParty());
          return new TankPainter((Tank) gridElement, color, tankTurretColor);
-      } else if (shape instanceof PositionShape) {
-         return new PositionPainter((PositionShape) shape, color, 5, 5);
-      } else if (shape instanceof TIEFighterShape) {
-         return new TIEFighterShapePainter((TIEFighterShape) shape, color.darker());
-      } else {
-         throw new RuntimeException("Unknown Shape '" + shape + "'!");
       }
+      return getShapePainter(shape, color, false);
    }
 
    public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color, boolean drawBorder) {
@@ -67,8 +60,10 @@ public class ShapePainterFactory {
          return new TurretPainter(shape, color);
       } else if (shape instanceof GunShape) {
          return new GunPainter((GunShape) shape, color);
+      } else if (shape instanceof TIEFighterShape) {
+         return new TIEFighterShapePainter((TIEFighterShape) shape, color.darker());
       } else {
-         throw new RuntimeException("Unknown Shape '" + shape + "'!");
+         throw new IllegalStateException("Unknown Shape '" + shape + "'!");
       }
    }
 }
