@@ -77,7 +77,6 @@ public class TankTestLauncher {
       int height = 5;
       Position turretNorthPos = Positions.of(70, 70).rotate(-60);
 
-      double turretHeight = GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM;
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
       Position tankPos = Positions.of(550, 100).rotate(180);
@@ -456,7 +455,7 @@ public class TankTestLauncher {
             .build();
       TurretGridElement northTurretGridElement = TurretGridElementBuilder.builder()
             .withGrid(grid)
-            .withHeightFromBottom(turretHeight)
+            .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(detectorConfig.getEvasionAngleInc())
