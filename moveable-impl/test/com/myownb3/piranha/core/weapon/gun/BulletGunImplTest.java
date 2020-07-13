@@ -170,7 +170,7 @@ class BulletGunImplTest {
       private Position addedGridElemPos;
 
       public TestGrid(int maxY, int maxX, int minX, int minY) {
-         super(maxY, maxX, minX, minY, mock(DefaultCollisionDetectionHandlerImpl.class));
+         super(maxX, maxY, minX, minY, mock(DefaultCollisionDetectionHandlerImpl.class));
       }
 
       @Override

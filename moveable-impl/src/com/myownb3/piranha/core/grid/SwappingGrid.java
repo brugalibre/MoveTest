@@ -24,23 +24,23 @@ public class SwappingGrid extends DefaultGrid {
 
    /**
     * 
-    * @param maxY
     * @param maxX
+    * @param maxY
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private SwappingGrid(int maxY, int maxX, CollisionDetectionHandler collisionDetectionHandler) {
+   private SwappingGrid(int maxX, int maxY, CollisionDetectionHandler collisionDetectionHandler) {
       super(maxX, maxY, 0, 0, collisionDetectionHandler);
    }
 
    /**
     * 
-    * @param maxY
     * @param maxX
+    * @param maxY
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   private SwappingGrid(int maxY, int maxX, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
+   private SwappingGrid(int maxX, int maxY, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
       super(maxX, maxY, minX, minY, collisionDetectionHandler);
    }
 
@@ -129,9 +129,9 @@ public class SwappingGrid extends DefaultGrid {
          SwappingGrid swappingGrid;
          setDefaultCollisionDetectionHandlerIfNull();
          if (isNull(minX) || isNull(minY)) {
-            swappingGrid = new SwappingGrid(maxY, maxX, collisionDetectionHandler);
+            swappingGrid = new SwappingGrid(maxX, maxY, collisionDetectionHandler);
          } else {
-            swappingGrid = new SwappingGrid(maxY, maxX, minX, minY, collisionDetectionHandler);
+            swappingGrid = new SwappingGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
          return swappingGrid;
       }

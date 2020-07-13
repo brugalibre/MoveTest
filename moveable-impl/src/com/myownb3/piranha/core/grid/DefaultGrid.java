@@ -48,27 +48,25 @@ public class DefaultGrid implements Grid {
    /**
     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
     * minimal -y values
-    * 
-    * @param maxY
-    *        the maximal y-axis value
     * @param maxX
     *        the maximal x-axis value
+    * @param maxY
+    *        the maximal y-axis value
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   protected DefaultGrid(int maxY, int maxX, CollisionDetectionHandler collisionDetectionHandler) {
-      this(maxY, maxX, 0, 0, collisionDetectionHandler);
+   protected DefaultGrid(int maxX, int maxY, CollisionDetectionHandler collisionDetectionHandler) {
+      this(maxX, maxY, 0, 0, collisionDetectionHandler);
       this.checkLowerBoundarys = false;
    }
 
    /**
     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
     * minimal -y values
-    * 
-    * @param maxY
-    *        the maximal y-axis value
     * @param maxX
     *        the maximal x-axis value
+    * @param maxY
+    *        the maximal y-axis value
     * @param minX
     *        the minimal x-axis value
     * @param minY
@@ -76,7 +74,7 @@ public class DefaultGrid implements Grid {
     * @param collisionDetectionHandler
     *        the {@link CollisionDetectionHandler} which handles a collision
     */
-   protected DefaultGrid(int maxY, int maxX, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
+   protected DefaultGrid(int maxX, int maxY, int minX, int minY, CollisionDetectionHandler collisionDetectionHandler) {
       this.maxY = maxY;
       this.maxX = maxX;
       this.minY = minY;
@@ -350,9 +348,9 @@ public class DefaultGrid implements Grid {
          DefaultGrid defaultGrid;
          setDefaultCollisionDetectionHandlerIfNull();
          if (isNull(minX) || isNull(minY)) {
-            defaultGrid = new DefaultGrid(maxY, maxX, collisionDetectionHandler);
+            defaultGrid = new DefaultGrid(maxX, maxY, collisionDetectionHandler);
          } else {
-            defaultGrid = new DefaultGrid(maxY, maxX, minX, minY, collisionDetectionHandler);
+            defaultGrid = new DefaultGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
          return defaultGrid;
       }
