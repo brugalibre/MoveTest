@@ -1,5 +1,8 @@
 package com.myownb3.piranha.launch.weapon.listener;
 
+import static com.myownb3.piranha.util.MathUtil.getRandom;
+import static java.lang.Math.min;
+
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -8,6 +11,7 @@ import com.myownb3.piranha.core.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
@@ -18,19 +22,23 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
-import com.myownb3.piranha.util.MathUtil;
 
 public class MoveableAdder {
 
+   private int amountOfNonMoveables = 5;
    private int amountOfMoveables = 5;
    private int moveableVelocity = 20;
    private int counter = 50;
+   private double maxX;
+   private double maxY;
 
-   public MoveableAdder() {
-      // default constructor
+   public MoveableAdder(int maxX, int maxY) {
+      this.maxX = maxX;
+      this.maxY = maxY;
    }
 
-   public MoveableAdder(int moveableVelocity, int counter) {
+   public MoveableAdder(int maxX, int maxY, int moveableVelocity, int counter) {
+      this(maxX, maxY);
       this.moveableVelocity = moveableVelocity;
       this.counter = counter;
    }
@@ -42,7 +50,7 @@ public class MoveableAdder {
          if (moveableCounter <= amountOfMoveables) {
             buildAndAddMoveable(grid, renderers, padding);
          }
-         if (simpleGridElementCounter <= amountOfMoveables) {
+         if (simpleGridElementCounter <= amountOfNonMoveables) {
             buildAndAddSimpleGridElement(grid, renderers, padding);
          }
          return true;
@@ -54,6 +62,7 @@ public class MoveableAdder {
       return grid.getAllGridElements(null).stream()
             .filter(isMoveable().negate())
             .filter(isNotProjectile())
+            .filter(isObstacle())
             .filter(isGridElementAlive())
             .count();
    }
@@ -67,10 +76,12 @@ public class MoveableAdder {
    }
 
    private Moveable buildNewMoveable(Grid grid, int padding) {
-      double yCordinate = MathUtil.getRandom(450) + padding;
-      double angle2Rotate = -MathUtil.getRandom(90) + 15;
-      Position gridElementPos = Positions.of(200, yCordinate).rotate(angle2Rotate);
       int gridElementRadius = 9;
+      double yCordinate = min(getRandom(maxY) + padding, maxY - 3d * gridElementRadius);
+      double xCordinate = min(getRandom(maxX) + padding, maxX - 3d * gridElementRadius);
+      double angle2Rotate = -getRandom(90) + 15;
+      Position gridElementPos = Positions.of(xCordinate, yCordinate)
+            .rotate(angle2Rotate);
       return MoveableObstacleBuilder.builder()
             .withGrid(grid)
             .withHealth(500)
@@ -85,11 +96,12 @@ public class MoveableAdder {
             .build();
    }
 
-   private static void buildAndAddSimpleGridElement(Grid grid, List<Renderer<? extends GridElement>> renderers, double padding) {
-      double yCordinate = MathUtil.getRandom(450) + padding;
-      double angle2Rotate = -MathUtil.getRandom(90) + 15;
-      Position gridElementPos = Positions.of(300, yCordinate).rotate(angle2Rotate);
+   private void buildAndAddSimpleGridElement(Grid grid, List<Renderer<? extends GridElement>> renderers, double padding) {
       int gridElementRadius = 8;
+      double yCordinate = min(getRandom(maxY) + padding, maxY - 3d * gridElementRadius);
+      double xCordinate = min(getRandom(maxX) + padding, maxX - 3d * gridElementRadius);
+      double angle2Rotate = -getRandom(90) + 15;
+      Position gridElementPos = Positions.of(xCordinate, yCordinate).rotate(angle2Rotate);
       ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(CircleBuilder.builder()
@@ -111,6 +123,10 @@ public class MoveableAdder {
    private static Predicate<? super GridElement> isMoveable() {
       return moveable -> moveable instanceof Moveable
             && !(moveable instanceof ProjectileGridElement);
+   }
+
+   private Predicate<? super GridElement> isObstacle() {
+      return moveable -> (moveable instanceof Obstacle);
    }
 
    private static Predicate<? super GridElement> isNotProjectile() {

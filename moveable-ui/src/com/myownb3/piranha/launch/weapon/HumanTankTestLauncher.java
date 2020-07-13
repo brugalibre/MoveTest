@@ -44,8 +44,8 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
@@ -71,6 +71,8 @@ import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class HumanTankTestLauncher {
+   private static final int MAX_X = 600;
+   private static final int MAX_Y = 700;
    private static final int padding = 0;
 
    public static void main(String[] args) throws InterruptedException {
@@ -118,8 +120,8 @@ public class HumanTankTestLauncher {
             .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
                   .withBouncedPositionEvaluator(new BouncedPositionEvaluatorImpl())
                   .build())
-            .withMaxX(700)
-            .withMaxY(600)
+            .withMaxX(MAX_X)
+            .withMaxY(MAX_Y)
             .withMinX(padding)
             .withMinY(padding)
             .build();
@@ -377,7 +379,7 @@ public class HumanTankTestLauncher {
 
       int cycleTime = 20;
 
-      MoveableAdder moveableAdder = new MoveableAdder(8, 120);
+      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 8, 120);
 
       new Thread(() -> {
          int cycleCounter = 0;

@@ -64,6 +64,8 @@ import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class TankTestLauncher {
+   private static final int MAX_Y = 820;
+   private static final int MAX_X = 850;
    private static final int padding = 0;
 
    public static void main(String[] args) throws InterruptedException {
@@ -76,6 +78,7 @@ public class TankTestLauncher {
       int width = 30;
       int height = 5;
       Position turretNorthPos = Positions.of(70, 70).rotate(-60);
+      Position southNorthPos = Positions.of(700, 450).rotate(120);
 
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
@@ -92,18 +95,22 @@ public class TankTestLauncher {
             .withCollisionDetectionHandler(BouncingCollisionDetectionHandlerBuilder.builder()
                   .withBouncedPositionEvaluator(new BouncedPositionEvaluatorImpl())
                   .build())
-            .withMaxX(650)
-            .withMaxY(650)
+            .withMaxX(MAX_X)
+            .withMaxY(MAX_Y)
             .withMinX(padding)
             .withMinY(padding)
             .build();
 
+      double turretRotationSpeed = 6;
       int tankWidth = 40;
       int tankHeight = 90;
       int gunCarriageRadius = 10;
       double gunHeight = 25;
       double gunWidth = 7;
-      int projectileVelocity = 40;
+      int battleTankGunCarriageRadius = 8;
+      double battleTankGunHeight = 20;
+      double battleTankGunWidth = 5;
+      int projectileVelocity = 50;
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorReach(250)
@@ -111,8 +118,8 @@ public class TankTestLauncher {
             .build();
 
       DetectorConfig missileDetectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(250)
-            .withDetectorAngle(180)
+            .withDetectorReach(200)
+            .withDetectorAngle(120)
             .build();
 
       TankHolder tankHolder = new TankHolder();
@@ -185,7 +192,7 @@ public class TankTestLauncher {
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                              .withRotationSpeed(4)
+                              .withRotationSpeed(turretRotationSpeed)
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.MISSILE)
                                     .withGunConfig(GunConfigBuilder.builder()
@@ -250,12 +257,12 @@ public class TankTestLauncher {
       Position tankTurret3Pos = Positions.of(30, 100).rotate(180);
 
       List<EndPosition> battleShipEndPositions = new ArrayList<>();
-      battleShipEndPositions.add(EndPositions.of(Positions.of(550, 600), 10));
+      battleShipEndPositions.add(EndPositions.of(Positions.of(750, 600), 10));
       battleShipEndPositions.add(EndPositions.of(battleShipPos, 10));
 
       TankGridElement battleShipGridElement = TankGridElementBuilder.builder()
             .withGrid(grid)
-            .withEngineVelocity(6)
+            .withEngineVelocity(10)
             .withTankheightFromBottom(tankTurretHeight)
             .withTurretHeightFromBottom(tankTurretHeight)
             .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
@@ -324,7 +331,7 @@ public class TankTestLauncher {
                                     .build())
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                                    .withRotationSpeed(2)
+                                    .withRotationSpeed(turretRotationSpeed)
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
@@ -340,21 +347,21 @@ public class TankTestLauncher {
                                                 .build())
                                           .withGunShape(GunShapeBuilder.builder()
                                                 .withBarrel(RectangleBuilder.builder()
-                                                      .withHeight(gunHeight)
-                                                      .withWidth(gunWidth)
+                                                      .withHeight(battleTankGunHeight)
+                                                      .withWidth(battleTankGunWidth)
                                                       .withCenter(tankTurret1Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .withMuzzleBreak(RectangleBuilder.builder()
-                                                      .withHeight(gunWidth * 1.5)
-                                                      .withWidth(gunWidth * 1.5)
+                                                      .withHeight(battleTankGunWidth * 1.5)
+                                                      .withWidth(battleTankGunWidth * 1.5)
                                                       .withCenter(tankTurret1Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .build())
                                           .build())
                                     .withShape(CircleBuilder.builder()
-                                          .withRadius(gunCarriageRadius)
+                                          .withRadius(battleTankGunCarriageRadius)
                                           .withAmountOfPoints(gunCarriageRadius)
                                           .withCenter(tankTurret1Pos)
                                           .build())
@@ -372,7 +379,7 @@ public class TankTestLauncher {
                                     .build())
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                                    .withRotationSpeed(2)
+                                    .withRotationSpeed(turretRotationSpeed)
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
@@ -388,21 +395,21 @@ public class TankTestLauncher {
                                                 .build())
                                           .withGunShape(GunShapeBuilder.builder()
                                                 .withBarrel(RectangleBuilder.builder()
-                                                      .withHeight(gunHeight)
-                                                      .withWidth(gunWidth)
+                                                      .withHeight(battleTankGunHeight)
+                                                      .withWidth(battleTankGunWidth)
                                                       .withCenter(tankTurret3Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .withMuzzleBreak(RectangleBuilder.builder()
-                                                      .withHeight(gunWidth * 1.5)
-                                                      .withWidth(gunWidth * 1.5)
+                                                      .withHeight(battleTankGunWidth * 1.5)
+                                                      .withWidth(battleTankGunWidth * 1.5)
                                                       .withCenter(tankTurret3Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .build())
                                           .build())
                                     .withShape(CircleBuilder.builder()
-                                          .withRadius(gunCarriageRadius)
+                                          .withRadius(battleTankGunCarriageRadius)
                                           .withAmountOfPoints(gunCarriageRadius)
                                           .withCenter(tankTurret3Pos)
                                           .build())
@@ -420,7 +427,7 @@ public class TankTestLauncher {
                                     .build())
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                                    .withRotationSpeed(2)
+                                    .withRotationSpeed(turretRotationSpeed)
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
@@ -436,21 +443,21 @@ public class TankTestLauncher {
                                                 .build())
                                           .withGunShape(GunShapeBuilder.builder()
                                                 .withBarrel(RectangleBuilder.builder()
-                                                      .withHeight(gunHeight)
-                                                      .withWidth(gunWidth)
+                                                      .withHeight(battleTankGunHeight)
+                                                      .withWidth(battleTankGunWidth)
                                                       .withCenter(tankTurret2Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .withMuzzleBreak(RectangleBuilder.builder()
-                                                      .withHeight(gunWidth * 1.5)
-                                                      .withWidth(gunWidth * 1.5)
+                                                      .withHeight(battleTankGunWidth * 1.5)
+                                                      .withWidth(battleTankGunWidth * 1.5)
                                                       .withCenter(tankTurret2Pos)
                                                       .withOrientation(Orientation.HORIZONTAL)
                                                       .build())
                                                 .build())
                                           .build())
                                     .withShape(CircleBuilder.builder()
-                                          .withRadius(gunCarriageRadius)
+                                          .withRadius(battleTankGunCarriageRadius)
                                           .withAmountOfPoints(gunCarriageRadius)
                                           .withCenter(tankTurret2Pos)
                                           .build())
@@ -459,8 +466,8 @@ public class TankTestLauncher {
                         .build())
                   .withHull(RectangleBuilder.builder()
                         .withCenter(battleShipPos)
-                        .withHeight(tankHeight * 2)
-                        .withWidth(2 * tankWidth / 3)
+                        .withHeight(tankHeight * 2d)
+                        .withWidth(2 * tankWidth / 3d)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
                   .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
@@ -480,7 +487,7 @@ public class TankTestLauncher {
                         .build())
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                        .withRotationSpeed(2)
+                        .withRotationSpeed(turretRotationSpeed)
                         .withGun(DefaultGunBuilder.builder()
                               .withGunProjectileType(ProjectileTypes.BULLET)
                               .withGunConfig(GunConfigBuilder.builder()
@@ -517,6 +524,56 @@ public class TankTestLauncher {
                         .build())
                   .build())
             .build();
+      TurretGridElement southTurretGridElement = TurretGridElementBuilder.builder()
+            .withGrid(grid)
+            .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
+            .withTurret(TurretBuilder.builder()
+                  .withDetector(DetectorBuilder.builder()
+                        .withAngleInc(detectorConfig.getEvasionAngleInc())
+                        .withDetectorAngle(detectorConfig.getDetectorAngle())
+                        .withDetectorReach(detectorConfig.getDetectorReach())
+                        .withEvasionAngle(detectorConfig.getDetectorAngle())
+                        .withEvasionDistance(detectorConfig.getEvasionDistance())
+                        .build())
+                  .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                  .withGunCarriage(DefaultGunCarriageBuilder.builder()
+                        .withRotationSpeed(turretRotationSpeed)
+                        .withGun(DefaultGunBuilder.builder()
+                              .withGunProjectileType(ProjectileTypes.BULLET)
+                              .withGunConfig(GunConfigBuilder.builder()
+                                    .withSalveSize(3)
+                                    .withRoundsPerMinute(300)
+                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withDimensionInfo(DimensionInfoBuilder.builder()
+                                                .withDimensionRadius(3)
+                                                .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                                .build())
+                                          .withVelocity(projectileVelocity)
+                                          .build())
+                                    .build())
+                              .withGunShape(GunShapeBuilder.builder()
+                                    .withBarrel(RectangleBuilder.builder()
+                                          .withHeight(gunHeight)
+                                          .withWidth(gunWidth)
+                                          .withCenter(southNorthPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
+                                    .withMuzzleBreak(RectangleBuilder.builder()
+                                          .withHeight(gunWidth * 1.5)
+                                          .withWidth(gunWidth * 1.5)
+                                          .withCenter(southNorthPos)
+                                          .withOrientation(Orientation.HORIZONTAL)
+                                          .build())
+                                    .build())
+                              .build())
+                        .withShape(CircleBuilder.builder()
+                              .withRadius(gunCarriageRadius)
+                              .withAmountOfPoints(gunCarriageRadius)
+                              .withCenter(southNorthPos)
+                              .build())
+                        .build())
+                  .build())
+            .build();
 
       tankHolder.setAndReturnTank(tankGridElement);
       tankHolder.setTankGridElement(tankGridElement);
@@ -529,6 +586,7 @@ public class TankTestLauncher {
 
       List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));
+      renderers.add(new GridElementPainter(southTurretGridElement, getColor(southTurretGridElement), height, width));
       renderers.add(new GridElementPainter(tankGridElement, getColor(tankGridElement), height, width));
       renderers.add(new GridElementPainter(battleShipGridElement, getColor(battleShipGridElement), height, width));
 
@@ -539,7 +597,7 @@ public class TankTestLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = new MoveableAdder();
+      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y);
       int cycleTime = 15;
       new Thread(() -> {
          int cycleCounter = 0;
