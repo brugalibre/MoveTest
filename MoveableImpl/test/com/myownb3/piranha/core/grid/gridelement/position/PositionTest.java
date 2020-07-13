@@ -31,6 +31,21 @@ class PositionTest {
 
 
    @Test
+   void testRaise() {
+
+      // Given
+      Position gridElementPos = Positions.of(-2, 7, 5);
+      double newZ = 5;
+      double expectedZ = gridElementPos.getZ() + newZ;
+
+      // When
+      Position newPos = gridElementPos.raise(newZ);
+
+      // Then
+      assertThat(newPos.getZ(), is(expectedZ));
+   }
+
+   @Test
    void testCalcAngle_SecondSector() {
 
       // Given

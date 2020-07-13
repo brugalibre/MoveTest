@@ -103,6 +103,14 @@ public interface Position {
    public Position movePositionBackward4Distance(double distance);
 
    /**
+    * 
+    * @param amount
+    *        the amount about which this {@link Position} is raised into the z- axix direction
+    * @return a new {@link Position} which is raised for the given amount
+    */
+   Position raise(double amount);
+
+   /**
     * @return the z-axis value
     */
    double getZ();

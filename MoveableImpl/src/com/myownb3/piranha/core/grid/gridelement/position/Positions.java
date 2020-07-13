@@ -261,6 +261,11 @@ public class Positions {
          return POSITION_HELPER.movePositionBackward4Distance(this, distance);
       }
 
+      @Override
+      public Position raise(double amount) {
+         return Positions.of(x, y, z + amount);
+      }
+
       /**
        * @return the direction
        */
