@@ -53,7 +53,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.weapon.tank.detector.TankDetector;
@@ -101,7 +101,7 @@ class TankGridElementTest {
                         .withTurretScanner(mock(TurretScanner.class))
                         .withGridElementEvaluator(mock(GridElementEvaluator.class))
                         .withParkingAngleEvaluator(() -> 0)
-                        .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.BULLET)
                                     .withGunShape(mock(GunShapeImpl.class))
@@ -171,7 +171,7 @@ class TankGridElementTest {
                         .withDetector(mock(IDetector.class))
                         .withTurretScanner(mock(TurretScanner.class))
                         .withGridElementEvaluator(mock(GridElementEvaluator.class))
-                        .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.BULLET)
                                     .withGunShape(mock(GunShapeImpl.class))
@@ -352,7 +352,7 @@ class TankGridElementTest {
                               .withEvasionDistance(detectorConfig.getEvasionDistance())
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                        .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
                               .withRotationSpeed(4)
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.BULLET)

@@ -49,8 +49,8 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -236,8 +236,8 @@ public class MazeEndPointMoveableLauncher {
       preparePositionListPainter(ctx.getEndPositionRenderers(), positions);
    }
 
-   private SimpleGunCarriageImpl buildGunCarriage(double gunHeight, double gunWidth, int gunCarriageRadius) {
-      return SimpleGunCarriageBuilder.builder()
+   private DefaultGunCarriageImpl buildGunCarriage(double gunHeight, double gunWidth, int gunCarriageRadius) {
+      return DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(2)
             .withGun(DefaultGunBuilder.builder()
                   .withGunProjectileType(ProjectileTypes.BULLET)

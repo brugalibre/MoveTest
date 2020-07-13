@@ -47,7 +47,7 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.weapon.tank.TankHolder;
@@ -178,7 +178,7 @@ public class BattleTestLauncher {
                               .withEvasionDistance(detectorConfig.getEvasionDistance())
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                        .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
                               .withRotationSpeed(4)
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.BULLET)
@@ -295,7 +295,7 @@ public class BattleTestLauncher {
                               .withEvasionDistance(detectorConfig.getEvasionDistance())
                               .build())
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                        .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
                               .withRotationSpeed(4)
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.BULLET)

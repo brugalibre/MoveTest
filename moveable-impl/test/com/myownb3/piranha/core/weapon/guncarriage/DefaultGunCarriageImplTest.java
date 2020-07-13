@@ -21,9 +21,9 @@ import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 
-class SimpleGunCarriageImplTest {
+class DefaultGunCarriageImplTest {
 
    @Test
    void testGunCarriageRotateBackToParking_FromAngleGreaterThan180() {
@@ -33,7 +33,7 @@ class SimpleGunCarriageImplTest {
       double expectedDegree = -90.0;
 
       Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-60));
-      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+      GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(180)
             .withGun(mock(Gun.class))
             .withShape(CircleBuilder.builder()
@@ -59,7 +59,7 @@ class SimpleGunCarriageImplTest {
       double expectedDegree = 150.0;
 
       Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-60));
-      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+      GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(180)
             .withGun(mock(Gun.class))
             .withShape(CircleBuilder.builder()
@@ -85,7 +85,7 @@ class SimpleGunCarriageImplTest {
       double expectedDegree = 90.0;
 
       Position gunCarriagePos = spy(Positions.of(90, 410).rotate(-180));
-      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+      GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(180)
             .withGun(mock(Gun.class))
             .withShape(CircleBuilder.builder()
@@ -113,7 +113,7 @@ class SimpleGunCarriageImplTest {
       Position pos = Positions.of(radius, radius);
       Position expectedPos = Positions.of(radius, radius).rotate(degree);
       Position expectedGunPos = expectedPos.movePositionForward4Distance(radius + height / 2);
-      GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
+      GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(90)
             .withGun(DefaultGunBuilder.builder()
                   .withGunProjectileType(ProjectileTypes.BULLET)

@@ -42,8 +42,8 @@ import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImp
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.trajectory.TargetPositionLeadEvaluator;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
@@ -71,7 +71,7 @@ class TurretImplTest {
       double radius = 5.0;
       Position gunCarriagePos = Positions.of(radius, radius);
 
-      GunCarriage gunCarriage = spy(SimpleGunCarriageBuilder.builder()
+      GunCarriage gunCarriage = spy(DefaultGunCarriageBuilder.builder()
             .withGun(DefaultGunBuilder.builder()
                   .withGunProjectileType(ProjectileTypes.BULLET)
                   .withGunConfig(GunConfigBuilder.builder()
@@ -123,7 +123,7 @@ class TurretImplTest {
             .withDetector(mock(IDetector.class))
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withPositionTransformator(positionTransformator)
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -167,7 +167,7 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -209,7 +209,7 @@ class TurretImplTest {
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -251,7 +251,7 @@ class TurretImplTest {
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -297,7 +297,7 @@ class TurretImplTest {
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -347,7 +347,7 @@ class TurretImplTest {
       TurretImpl turretImpl = TurretBuilder.builder()
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
@@ -417,7 +417,7 @@ class TurretImplTest {
                   .withEvasionAngle(detectorConfig.getDetectorAngle())
                   .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withRotationSpeed(turnIncrement)
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
@@ -490,7 +490,7 @@ class TurretImplTest {
                   .withEvasionAngle(detectorConfig.getDetectorAngle())
                   .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
-            .withGunCarriage(SimpleGunCarriageBuilder.builder()
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withRotationSpeed(turnIncrement)
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(ProjectileTypes.BULLET)
@@ -570,7 +570,7 @@ class TurretImplTest {
             .withVelocity(500)
             .build();
 
-      SimpleGunCarriageImpl gunCarriage = SimpleGunCarriageBuilder.builder()
+      DefaultGunCarriageImpl gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(turnIncrement)
             .withGun(DefaultGunBuilder.builder()
                   .withGunProjectileType(ProjectileTypes.BULLET)

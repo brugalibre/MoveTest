@@ -37,7 +37,7 @@ import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
 import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
@@ -95,7 +95,7 @@ public class TurretTowerTestLauncher {
                         .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
                         .build())
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGunCarriage(DefaultGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
                         .withGun(DefaultGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
@@ -136,7 +136,7 @@ public class TurretTowerTestLauncher {
                         .withEvasionDistance(turretDetectorConfig.getEvasionDistance())
                         .build())
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                  .withGunCarriage(SimpleGunCarriageBuilder.builder()
+                  .withGunCarriage(DefaultGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
                         .withGun(DefaultGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()

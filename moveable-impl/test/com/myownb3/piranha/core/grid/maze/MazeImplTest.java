@@ -45,7 +45,7 @@ import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImp
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
+import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 
@@ -85,7 +85,7 @@ class MazeImplTest {
                   .withEvasionAngle(180)
                   .withEvasionDistance(22)
                   .build(),
-                  SimpleGunCarriageBuilder.builder()
+                  DefaultGunCarriageBuilder.builder()
                         .withRotationSpeed(2)
                         .withGun(DefaultGunBuilder.builder()
                               .withGunProjectileType(ProjectileTypes.BULLET)
@@ -163,7 +163,7 @@ class MazeImplTest {
             .withCorridorWidth(coridorWidth)
             .withSegmentLenth(segmentLength)
             .appendCorridorSegment()
-            .withTurret(mock(IDetector.class), SimpleGunCarriageBuilder.builder()
+            .withTurret(mock(IDetector.class), DefaultGunCarriageBuilder.builder()
                   .withGun(mockGun())
                   .withRotationSpeed(2)
                   .withShape(CircleBuilder.builder()
@@ -213,7 +213,7 @@ class MazeImplTest {
             .withCorridorWidth(coridorWidth)
             .withSegmentLenth(segmentLength)
             .appendCorridorLeftAngleBend()
-            .withTurret(mock(IDetector.class), SimpleGunCarriageBuilder.builder()
+            .withTurret(mock(IDetector.class), DefaultGunCarriageBuilder.builder()
                   .withGun(mockGun())
                   .withRotationSpeed(2)
                   .withShape(CircleBuilder.builder()
@@ -277,7 +277,7 @@ class MazeImplTest {
                   .appendCorridorSegment()
                   .appendCorridorSegment()
                   .appendCorridorRightAngleBend()
-                  .withTurret(mock(IDetector.class), SimpleGunCarriageBuilder.builder()
+                  .withTurret(mock(IDetector.class), DefaultGunCarriageBuilder.builder()
                         .withGun(mockGun())
                         .withRotationSpeed(2)
                         .withShape(CircleBuilder.builder()
