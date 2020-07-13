@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Moveable_Api"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/jcommon-1.0.18.jar"/>
 	<classpathentry kind="lib" path="D:/Dominic/Documents/Eigene Dateien/Programmierung/Java only/libs/jfreechart-1.0.15.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/moveable-impl"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/moveable"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/moveable-api"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
