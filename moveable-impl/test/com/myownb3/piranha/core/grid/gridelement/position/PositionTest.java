@@ -10,7 +10,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
@@ -26,7 +25,6 @@ import com.myownb3.piranha.util.MathUtil;
  * @author Dominic
  *
  */
-@PrepareForTest(Positions.class)
 class PositionTest {
 
 
