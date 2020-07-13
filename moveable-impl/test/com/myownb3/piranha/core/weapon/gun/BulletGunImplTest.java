@@ -23,9 +23,10 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -56,7 +57,8 @@ class BulletGunImplTest {
       int velocityMulti = 2;
       int salve = 1;
       Position position = Positions.of(5, 5, distanceToBottom);
-      BulletGunImpl simpleBulletGun = BulletGunBuilder.builder()
+      DefaultGunImpl simpleBulletGun = DefaultGunBuilder.builder()
+            .withGunProjectileType(ProjectileTypes.BULLET)
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(salve)
                   .withRoundsPerMinute(1)
@@ -97,7 +99,8 @@ class BulletGunImplTest {
       int radius = 5;
       int salve = 2;
       Position position = Positions.of(radius, radius);
-      BulletGunImpl simpleBulletGun = spy(BulletGunBuilder.builder()
+      DefaultGunImpl simpleBulletGun = spy(DefaultGunBuilder.builder()
+            .withGunProjectileType(ProjectileTypes.BULLET)
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(salve)
                   .withRoundsPerMinute(1)
@@ -128,7 +131,8 @@ class BulletGunImplTest {
    void testFireGun2TimesInARow() throws InterruptedException {
       // Given
       WorkerThreadFactory.INSTANCE.restart();
-      BulletGunImpl simpleBulletGun = spy(BulletGunBuilder.builder()
+      DefaultGunImpl simpleBulletGun = spy(DefaultGunBuilder.builder()
+            .withGunProjectileType(ProjectileTypes.BULLET)
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(1)
                   .withRoundsPerMinute(1)

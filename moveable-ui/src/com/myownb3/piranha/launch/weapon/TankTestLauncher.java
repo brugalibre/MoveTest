@@ -39,9 +39,9 @@ import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
-import com.myownb3.piranha.core.weapon.gun.MissileGunImpl.MissileGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
@@ -108,6 +108,11 @@ public class TankTestLauncher {
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorReach(250)
             .withDetectorAngle(360)
+            .build();
+
+      DetectorConfig missileDetectorConfig = DetectorConfigBuilder.builder()
+            .withDetectorReach(250)
+            .withDetectorAngle(180)
             .build();
 
       TankHolder tankHolder = new TankHolder();
@@ -181,16 +186,27 @@ public class TankTestLauncher {
                         .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                         .withGunCarriage(SimpleGunCarriageBuilder.builder()
                               .withRotationSpeed(4)
-                              .withGun(BulletGunBuilder.builder()
+                              .withGun(DefaultGunBuilder.builder()
+                                    .withGunProjectileType(ProjectileTypes.MISSILE)
                                     .withGunConfig(GunConfigBuilder.builder()
-                                          .withSalveSize(3)
-                                          .withRoundsPerMinute(300)
+                                          .withSalveSize(1)
+                                          .withRoundsPerMinute(100)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                 .withDimensionInfo(DimensionInfoBuilder.builder()
                                                       .withDimensionRadius(3)
                                                       .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                       .build())
                                                 .withVelocity(projectileVelocity)
+                                                .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
+                                                      .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                                                      .withDetector(DetectorBuilder.builder()
+                                                            .withDetectorAngle(missileDetectorConfig.getDetectorAngle())
+                                                            .withDetectorReach(missileDetectorConfig.getDetectorReach())
+                                                            .build())
+                                                      .withGridElementEvaluator(
+                                                            (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                                                      .build())
+                                                .withProjectileDamage(300)
                                                 .build())
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
@@ -309,13 +325,14 @@ public class TankTestLauncher {
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(SimpleGunCarriageBuilder.builder()
                                     .withRotationSpeed(2)
-                                    .withGun(BulletGunBuilder.builder()
+                                    .withGun(DefaultGunBuilder.builder()
+                                          .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(150)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
-                                                            .withDimensionRadius(3)
+                                                            .withDimensionRadius(2)
                                                             .withHeightFromBottom(3)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
@@ -356,13 +373,14 @@ public class TankTestLauncher {
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(SimpleGunCarriageBuilder.builder()
                                     .withRotationSpeed(2)
-                                    .withGun(BulletGunBuilder.builder()
+                                    .withGun(DefaultGunBuilder.builder()
+                                          .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(180)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
-                                                            .withDimensionRadius(3)
+                                                            .withDimensionRadius(2)
                                                             .withHeightFromBottom(3)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
@@ -403,13 +421,14 @@ public class TankTestLauncher {
                               .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                               .withGunCarriage(SimpleGunCarriageBuilder.builder()
                                     .withRotationSpeed(2)
-                                    .withGun(BulletGunBuilder.builder()
+                                    .withGun(DefaultGunBuilder.builder()
+                                          .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(180)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
-                                                            .withDimensionRadius(3)
+                                                            .withDimensionRadius(2)
                                                             .withHeightFromBottom(3)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
@@ -448,11 +467,6 @@ public class TankTestLauncher {
                   .build())
             .build();
 
-
-      DetectorConfig missileDetectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(250)
-            .withDetectorAngle(180)
-            .build();
       TurretGridElement northTurretGridElement = TurretGridElementBuilder.builder()
             .withGrid(grid)
             .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
@@ -467,26 +481,17 @@ public class TankTestLauncher {
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(2)
-                        .withGun(MissileGunBuilder.builder()
+                        .withGun(DefaultGunBuilder.builder()
+                              .withGunProjectileType(ProjectileTypes.BULLET)
                               .withGunConfig(GunConfigBuilder.builder()
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(70)
+                                    .withSalveSize(3)
+                                    .withRoundsPerMinute(300)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimensionInfo(DimensionInfoBuilder.builder()
                                                 .withDimensionRadius(3)
                                                 .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                 .build())
                                           .withVelocity(projectileVelocity)
-                                          .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
-                                                .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                                                .withDetector(DetectorBuilder.builder()
-                                                      .withDetectorAngle(missileDetectorConfig.getDetectorAngle())
-                                                      .withDetectorReach(missileDetectorConfig.getDetectorReach())
-                                                      .build())
-                                                .withGridElementEvaluator(
-                                                      (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                                                .build())
-                                          .withProjectileDamage(300)
                                           .build())
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()

@@ -15,8 +15,9 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
-import com.myownb3.piranha.core.weapon.gun.MissileGunImpl.MissileGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -41,7 +42,8 @@ class MissileGunImplTest {
    void testGetType() throws InterruptedException {
 
       // Given
-      MissileGunImpl missileGunImpl = MissileGunBuilder.builder()
+      DefaultGunImpl missileGunImpl = DefaultGunBuilder.builder()
+            .withGunProjectileType(ProjectileTypes.MISSILE)
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(1)
                   .withRoundsPerMinute(1)

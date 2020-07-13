@@ -11,6 +11,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.turret.Turret;
@@ -36,10 +38,12 @@ public class ShapePainterFactory {
       Shape shape = gridElement.getShape();
       if (shape instanceof Circle) {
          return new CirclePainter((Circle) shape, PaintMode.SHAPE, color, 0, 0);
-      } else if (shape instanceof Rectangle) {
-         return new RectanglePainter((Rectangle) shape, color);
+      } else if (gridElement instanceof WallGridElement) {
+         return new RectanglePainter((Rectangle) shape, color, true);
       } else if (gridElement instanceof Turret) {
          return new TurretPainter(gridElement.getShape(), color);
+      } else if (gridElement instanceof ProjectileGridElement) {
+         return new RectanglePainter((Rectangle) shape, color, false);
       } else if (gridElement instanceof Tank) {
          Color tankTurretColor = GridElementColorUtil.getTurretColor(((Tank) gridElement).getTurret().getBelligerentParty());
          return new TankPainter((Tank) gridElement, color, tankTurretColor);

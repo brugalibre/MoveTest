@@ -33,7 +33,7 @@ import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.weapon.AutoDetectable;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -97,7 +97,7 @@ public class TurretTowerTestLauncher {
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withGun(BulletGunBuilder.builder()
+                        .withGun(DefaultGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)
@@ -138,7 +138,7 @@ public class TurretTowerTestLauncher {
                   .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
                   .withGunCarriage(SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(3)
-                        .withGun(BulletGunBuilder.builder()
+                        .withGun(DefaultGunBuilder.builder()
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(350)

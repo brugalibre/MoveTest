@@ -1,7 +1,5 @@
 package com.myownb3.piranha.core.weapon.gun;
 
-import static java.util.Objects.requireNonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -29,10 +27,12 @@ public abstract class AbstractGun implements Gun {
    private GunShape gunShape;
 
    protected GunConfig gunConfig;
+   private ProjectileTypes projectileType;
 
-   protected AbstractGun(GunShape gunShape, GunConfig gunConfig) {
-      this.gunShape = requireNonNull(gunShape);
+   protected AbstractGun(GunShape gunShape, GunConfig gunConfig, ProjectileTypes projectileType) {
+      this.gunShape = gunShape;
       this.gunConfig = gunConfig;
+      this.projectileType = projectileType;
       this.minTimeBetweenShooting = 60 * 3600 / gunConfig.getRoundsPerMinute();
       lastTimeStamp = new AtomicLong(System.currentTimeMillis() - minTimeBetweenShooting);
    }
@@ -102,7 +102,9 @@ public abstract class AbstractGun implements Gun {
    /**
     * @return the type of the projectile
     */
-   protected abstract ProjectileTypes getType();
+   protected ProjectileTypes getType() {
+      return projectileType;
+   }
 
    private static void delayNextShot() throws InterruptedException {
       Thread.sleep(TIME_BETWEEN_SALVES);
@@ -111,6 +113,7 @@ public abstract class AbstractGun implements Gun {
    public abstract static class AbstractGunBuilder<T extends AbstractGun> {
       protected GunShape gunShape;
       protected GunConfig gunConfig;
+      protected ProjectileTypes projectileType;
 
       protected AbstractGunBuilder() {
          // private
@@ -118,6 +121,11 @@ public abstract class AbstractGun implements Gun {
 
       public AbstractGunBuilder<T> withGunConfig(GunConfig gunConfig) {
          this.gunConfig = gunConfig;
+         return this;
+      }
+
+      public AbstractGunBuilder<T> withGunProjectileType(ProjectileTypes projectileType) {
+         this.projectileType = projectileType;
          return this;
       }
 

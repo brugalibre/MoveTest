@@ -5,12 +5,12 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.weapon.gun.projectile.descent.DescentHandler;
 
-public class BulletProjectileStrategyHandler implements ProjectileStrategyHandler {
+public class DefaultProjectileStrategyHandler implements ProjectileStrategyHandler {
 
    protected Shape shape;
    private DescentHandler descentHandler;
 
-   protected BulletProjectileStrategyHandler(Shape shape) {
+   protected DefaultProjectileStrategyHandler(Shape shape) {
       this.shape = shape;
       this.descentHandler = buildDecentHandler(shape.getCenter(), shape.getDimensionRadius());
    }
@@ -26,13 +26,13 @@ public class BulletProjectileStrategyHandler implements ProjectileStrategyHandle
    }
 
    /**
-    * Creates a new {@link BulletProjectileStrategyHandler}
+    * Creates a new {@link DefaultProjectileStrategyHandler}
     * 
     * @param shape
     *        the {@link Shape} of the {@link Projectile}
-    * @return a new {@link BulletProjectileStrategyHandler}
+    * @return a new {@link DefaultProjectileStrategyHandler}
     */
-   public static BulletProjectileStrategyHandler of(Shape shape) {
-      return new BulletProjectileStrategyHandler(shape);
+   public static DefaultProjectileStrategyHandler of(Shape shape) {
+      return new DefaultProjectileStrategyHandler(shape);
    }
 }

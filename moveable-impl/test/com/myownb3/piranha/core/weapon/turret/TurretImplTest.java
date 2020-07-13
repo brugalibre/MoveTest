@@ -35,8 +35,9 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -71,7 +72,8 @@ class TurretImplTest {
       Position gunCarriagePos = Positions.of(radius, radius);
 
       GunCarriage gunCarriage = spy(SimpleGunCarriageBuilder.builder()
-            .withGun(BulletGunBuilder.builder()
+            .withGun(DefaultGunBuilder.builder()
+                  .withGunProjectileType(ProjectileTypes.BULLET)
                   .withGunConfig(GunConfigBuilder.builder()
                         .withRoundsPerMinute(1)
                         .withSalveSize(1)
@@ -122,7 +124,8 @@ class TurretImplTest {
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withPositionTransformator(positionTransformator)
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -165,7 +168,8 @@ class TurretImplTest {
             .withDetector(mock(IDetector.class))
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -206,7 +210,8 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -247,7 +252,8 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -292,7 +298,8 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -341,7 +348,8 @@ class TurretImplTest {
             .withGridElementEvaluator((position, distance) -> Collections.emptyList())
             .withDetector(mock(IDetector.class))
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -411,7 +419,8 @@ class TurretImplTest {
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withRotationSpeed(turnIncrement)
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -483,7 +492,8 @@ class TurretImplTest {
                   .build())
             .withGunCarriage(SimpleGunCarriageBuilder.builder()
                   .withRotationSpeed(turnIncrement)
-                  .withGun(BulletGunBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
                         .withGunConfig(GunConfigBuilder.builder()
                               .withRoundsPerMinute(1)
                               .withSalveSize(1)
@@ -562,7 +572,8 @@ class TurretImplTest {
 
       SimpleGunCarriageImpl gunCarriage = SimpleGunCarriageBuilder.builder()
             .withRotationSpeed(turnIncrement)
-            .withGun(BulletGunBuilder.builder()
+            .withGun(DefaultGunBuilder.builder()
+                  .withGunProjectileType(ProjectileTypes.BULLET)
                   .withGunConfig(GunConfigBuilder.builder()
                         .withRoundsPerMinute(1)
                         .withSalveSize(1)

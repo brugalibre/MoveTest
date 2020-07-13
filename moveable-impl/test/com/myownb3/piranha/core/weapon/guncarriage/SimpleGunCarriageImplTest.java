@@ -15,9 +15,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.weapon.guncarriage.SimpleGunCarriageImpl.SimpleGunCarriageBuilder;
@@ -114,7 +115,8 @@ class SimpleGunCarriageImplTest {
       Position expectedGunPos = expectedPos.movePositionForward4Distance(radius + height / 2);
       GunCarriage gunCarriage = SimpleGunCarriageBuilder.builder()
             .withRotationSpeed(90)
-            .withGun(BulletGunBuilder.builder()
+            .withGun(DefaultGunBuilder.builder()
+                  .withGunProjectileType(ProjectileTypes.BULLET)
                   .withGunShape(GunShapeBuilder.builder()
                         .withBarrel(RectangleBuilder.builder()
                               .withHeight(height)

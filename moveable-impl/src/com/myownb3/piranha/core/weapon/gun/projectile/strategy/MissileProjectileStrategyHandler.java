@@ -12,7 +12,7 @@ import com.myownb3.piranha.core.weapon.target.TargetGridElement;
 import com.myownb3.piranha.core.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.weapon.trajectory.impl.TargetPositionLeadEvaluatorImpl;
 
-public class MissileProjectileStrategyHandler extends BulletProjectileStrategyHandler {
+public class MissileProjectileStrategyHandler extends DefaultProjectileStrategyHandler {
 
    private TargetPositionLeadEvaluatorImpl targetPositionLeadEvaluator;
    private TargetGridElementEvaluator targetGridElementEvaluator;

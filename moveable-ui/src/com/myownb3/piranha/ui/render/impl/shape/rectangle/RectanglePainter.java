@@ -35,7 +35,7 @@ public class RectanglePainter extends Drawable<Rectangle> {
       this.color = color;
       setBounds(new java.awt.Rectangle((int) upperLeftPosition.getX(), (int) upperLeftPosition.getY(), (int) rectangle.getWidth(),
             (int) rectangle.getHeight()));
-      this.drawBorder = true;
+      this.drawBorder = false;
    }
 
    @Override

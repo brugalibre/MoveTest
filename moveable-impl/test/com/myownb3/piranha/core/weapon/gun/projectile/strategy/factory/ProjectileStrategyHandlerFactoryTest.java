@@ -13,7 +13,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.weapon.gun.projectile.strategy.BulletProjectileStrategyHandler;
+import com.myownb3.piranha.core.weapon.gun.projectile.strategy.DefaultProjectileStrategyHandler;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
 import com.myownb3.piranha.core.weapon.gun.projectile.strategy.MissileProjectileStrategyHandler;
 
@@ -32,7 +32,7 @@ class ProjectileStrategyHandlerFactoryTest {
             ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, mock(ProjectileConfig.class), shape);
 
       // Then
-      assertThat(projectileStrategyHandler, instanceOf(BulletProjectileStrategyHandler.class));
+      assertThat(projectileStrategyHandler, instanceOf(DefaultProjectileStrategyHandler.class));
    }
 
    @Test

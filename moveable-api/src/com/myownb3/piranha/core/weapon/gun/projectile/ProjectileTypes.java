@@ -14,6 +14,9 @@ public enum ProjectileTypes {
    /** A missile can detect and follow an enemy target */
    MISSILE,
 
+   /** A laser beam is like a bullet but it's shape is different */
+   LASER_BEAM,
+
    /** Only for testing purpose */
    NONE,
 }

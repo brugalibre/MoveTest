@@ -35,11 +35,12 @@ import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.BulletGunImpl.BulletGunBuilder;
+import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.weapon.gun.Gun;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
@@ -86,7 +87,8 @@ class MazeImplTest {
                   .build(),
                   SimpleGunCarriageBuilder.builder()
                         .withRotationSpeed(2)
-                        .withGun(BulletGunBuilder.builder()
+                        .withGun(DefaultGunBuilder.builder()
+                              .withGunProjectileType(ProjectileTypes.BULLET)
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(20)

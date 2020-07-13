@@ -11,6 +11,7 @@ import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.weapon.tank.Tank;
 import com.myownb3.piranha.core.weapon.turret.Turret;
 
@@ -41,6 +42,9 @@ public class GridElementColorUtil {
       } else if (gridElement instanceof Turret) {
          return getTurretColor(((Belligerent) gridElement).getBelligerentParty());
       } else if (gridElement instanceof Projectile) {
+         if (((Projectile) gridElement).getProjectileType() == ProjectileTypes.LASER_BEAM) {
+            return Color.GREEN.darker();
+         }
          return Color.BLACK;
       } else if (gridElement instanceof Moveable) {
          return new Color(0, 206, 209).darker();

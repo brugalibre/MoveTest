@@ -45,6 +45,9 @@ public class ProjectileFactory extends AbstractGridElementFactory {
          case BULLET:
             projectileShape = buildBulletShape(position, projectileConfig);
             break;
+         case LASER_BEAM:
+            projectileShape = buildLaserBeamShape(position, projectileConfig);
+            break;
          case MISSILE:
             projectileShape = buildMissileShape(position, projectileConfig);
             break;
@@ -82,10 +85,19 @@ public class ProjectileFactory extends AbstractGridElementFactory {
 
    private Rectangle buildMissileShape(Position position, ProjectileConfig projectileConfig) {
       int dimensionRadius = (int) projectileConfig.getDimensionInfo().getDimensionRadius();
+      return buildRectangleShape(position, dimensionRadius, 3d * dimensionRadius);
+   }
+
+   private Rectangle buildLaserBeamShape(Position position, ProjectileConfig projectileConfig) {
+      int dimensionRadius = (int) projectileConfig.getDimensionInfo().getDimensionRadius();
+      return buildRectangleShape(position, dimensionRadius, 5d * dimensionRadius);
+   }
+
+   private Rectangle buildRectangleShape(Position position, int dimensionRadius, double width) {
       return RectangleBuilder.builder()
             .withCenter(position)
             .withHeight(dimensionRadius)
-            .withWidth(3d * dimensionRadius)
+            .withWidth(width)
             .withOrientation(Orientation.VERTICAL)
             .build();
    }
