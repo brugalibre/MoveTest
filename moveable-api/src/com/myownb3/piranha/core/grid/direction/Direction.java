@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.direction;
 
+import java.io.Serializable;
+
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
@@ -14,7 +16,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface Direction {
+public interface Direction extends Serializable {
 
    /**
     * @return value on the y-axis by which {@link Position} can be moved backward

@@ -128,11 +128,12 @@ public class Positions {
 
    public static class PositionImpl implements Position {
 
+      private static final long serialVersionUID = 2132098374191867276L;
       private double y;
       private double x;
       private double z;
       private Direction direction;
-      private LazyAttribute<Float64Vector> vector;
+      private transient LazyAttribute<Float64Vector> vector;
 
       /**
        * Creates a new {@link PositionImpl} with the given coordinates The

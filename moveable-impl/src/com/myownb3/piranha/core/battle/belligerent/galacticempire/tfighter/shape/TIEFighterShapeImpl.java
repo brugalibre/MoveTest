@@ -19,6 +19,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class TIEFighterShapeImpl extends AbstractShape implements TIEFighterShape {
 
+   private static final long serialVersionUID = 1L;
    private Circle ballCockpit;
    private Rectangle rightWing;
    private Rectangle leftWing;

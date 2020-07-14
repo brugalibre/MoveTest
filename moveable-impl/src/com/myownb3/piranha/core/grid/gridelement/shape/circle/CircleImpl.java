@@ -24,6 +24,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  */
 public class CircleImpl extends AbstractShape implements Circle {
 
+   private static final long serialVersionUID = -2559315841397177005L;
    private static final int AMOUNT_OF_PATH_POINTS_4_DETECTION = 150;
    private int amountOfPoints;
    private int radius;

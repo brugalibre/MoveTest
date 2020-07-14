@@ -3,6 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.position;
 
+import java.io.Serializable;
+
 import org.jscience.mathematics.vector.Float64Vector;
 
 import com.myownb3.piranha.core.grid.Grid;
@@ -16,7 +18,7 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
  * @author Dominic
  *
  */
-public interface Position {
+public interface Position extends Serializable {
 
    /**
     * Rotate this {@link Position} for the given amount of degrees

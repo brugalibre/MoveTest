@@ -8,6 +8,8 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 
 public class DefaultGunImpl extends AbstractGun {
 
+   private static final long serialVersionUID = 4747279825575737624L;
+
    private DefaultGunImpl(GunShape gunShape, GunConfig gunConfig, ProjectileTypes projectileType) {
       super(gunShape, gunConfig, projectileType);
    }

@@ -22,9 +22,10 @@ import com.myownb3.piranha.core.grid.position.Position;
  */
 public abstract class AbstractShape implements Shape {
 
-   protected List<PathSegment> path;
-   protected GridElement gridElement;
-   protected CollisionDetector collisionDetector;
+   private static final long serialVersionUID = 7117577277575209230L;
+   protected transient List<PathSegment> path;
+   protected transient GridElement gridElement;
+   protected transient CollisionDetector collisionDetector;
    protected Position center;
 
    /**
@@ -77,19 +78,6 @@ public abstract class AbstractShape implements Shape {
    @Override
    public Position getCenter() {
       return center;
-   }
-
-   @Override
-   public Shape clone() {
-      try {
-         return cloneShape();
-      } catch (CloneNotSupportedException e) {
-         throw new IllegalStateException(e);
-      }
-   }
-
-   protected Shape cloneShape() throws CloneNotSupportedException {
-      return (Shape) super.clone();
    }
 
    @Override

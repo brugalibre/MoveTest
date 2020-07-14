@@ -9,11 +9,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,21 +30,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 public class RectangleImplTest {
 
    @Test
-   void testCheck4Collision() {
-
-      // Given
-      Position newPosition = Positions.of(2, 2);
-      Rectangle rectangle = spy(buildRectangle(Positions.of(2, 2), 10, 20, Orientation.VERTICAL));
-      when(rectangle.clone()).thenReturn(rectangle);
-
-      // When
-      rectangle.check4Collision((a, g, p) -> null, newPosition, Collections.emptyList());
-
-      // Then 
-      verify(rectangle).clone();
-   }
-
-   @Test
    void testDimension() {
 
       // Given
@@ -63,7 +46,7 @@ public class RectangleImplTest {
    }
 
    @Test
-   void testGetPath4Detection() throws CloneNotSupportedException {
+   void testGetPath4Detection() {
 
       // Given
       GridElement gridElement = mock(GridElement.class);

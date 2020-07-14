@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.position;
 
+import java.io.Serializable;
+
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -13,7 +15,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface PositionTransformator {
+public interface PositionTransformator extends Serializable {
 
    /**
     * Transforms the given Position according the rules of this {@link PositionTransformator}

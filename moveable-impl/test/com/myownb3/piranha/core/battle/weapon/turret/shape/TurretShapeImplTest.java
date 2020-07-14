@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.turret.shape;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
@@ -12,22 +13,84 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.Gun;
+import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl;
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.battle.weapon.tank.turret.TankTurretBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretImpl;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShapeImpl.TurretShapeBuilder;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
 class TurretShapeImplTest {
+
+   @Test
+   void testCloneTest() {
+      // Given
+      Position newPosition = Positions.of(53, 45);
+      Position tankTurretPos = Positions.of(1, 1);
+      TurretImpl turretImpl = TankTurretBuilder.builder()
+            .withDetector(DetectorBuilder.builder()
+                  .build())
+            .withParkingAngleEvaluator(() -> 5)
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
+                  .withRotationSpeed(1)
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.MISSILE)
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(1))
+                                    .withVelocity(1)
+                                    .build())
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(10)
+                                    .withCenter(tankTurretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius(1)
+                        .withAmountOfPoints(4)
+                        .withCenter(tankTurretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      TurretShape turretShapeClone = SerializationUtils.clone(turretImpl.getShape());
+      turretShapeClone.transform(newPosition);
+
+      // Then
+      assertThat(turretShapeClone, is(not(turretImpl.getShape())));
+      assertThat(turretShapeClone.getCenter(), is(newPosition));
+   }
 
    @Test
    void testDetectObject_DetectTurret() {
@@ -244,6 +307,7 @@ class TurretShapeImplTest {
       private TestCaseBuilder build() {
          turretTowerShape = TurretShapeBuilder.builder()
                .wighGunCarriage(gunCarriage)
+               .wighPositionTransformator(pos -> pos)
                .build();
          if (gridElement != null) {
             turretTowerShape.setGridElement(gridElement);

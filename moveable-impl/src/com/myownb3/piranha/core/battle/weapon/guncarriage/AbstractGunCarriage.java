@@ -10,10 +10,11 @@ import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orien
 
 public class AbstractGunCarriage implements GunCarriage {
 
+   private static final long serialVersionUID = -1724494190061272992L;
    private Shape shape;
    private Gun gun;
    private double rotationSpeed;
-   private Orientation2PositionHelper helper;
+   private transient Orientation2PositionHelper helper;
 
    protected AbstractGunCarriage(Shape shape, Gun gun, double rotationSpeed) {
       this.shape = requireNonNull(shape);

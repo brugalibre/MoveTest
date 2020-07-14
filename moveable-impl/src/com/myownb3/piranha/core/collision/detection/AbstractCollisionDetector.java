@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.CollisionDetector;
@@ -39,7 +41,7 @@ public abstract class AbstractCollisionDetector implements CollisionDetector {
    }
 
    protected Shape getOurShapeAtNewPos(Position newPosition, Shape shape) {
-      Shape transformedShape = shape.clone();
+      Shape transformedShape = SerializationUtils.clone(shape);
       transformedShape.transform(newPosition);
       return transformedShape;
    }

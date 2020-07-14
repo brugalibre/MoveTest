@@ -26,6 +26,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class RectangleImpl extends AbstractShape implements Rectangle {
 
+   private static final long serialVersionUID = 7252451429027726834L;
    private double height;
    private double width;
    private Orientation orientation;

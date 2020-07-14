@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.guncarriage;
 
+import java.io.Serializable;
+
 import com.myownb3.piranha.core.battle.weapon.gun.Gun;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
@@ -11,7 +13,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface GunCarriage {
+public interface GunCarriage extends Serializable {
 
    /**
     * Fires one salve of the {@link Gun} of this {@link GunCarriage}- depending on the actual {@link Gun}-implementation

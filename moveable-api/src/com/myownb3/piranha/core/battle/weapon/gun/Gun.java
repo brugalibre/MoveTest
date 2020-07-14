@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.gun;
 
+import java.io.Serializable;
+
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -11,7 +13,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface Gun {
+public interface Gun extends Serializable {
 
    /**
     * @return the {@link GunShape} of this {@link Gun}

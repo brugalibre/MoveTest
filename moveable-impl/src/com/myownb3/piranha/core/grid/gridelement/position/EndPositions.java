@@ -87,8 +87,9 @@ public class EndPositions {
 
    private static class EndPositionImpl extends PositionImpl implements EndPosition {
 
+      private static final long serialVersionUID = 1L;
       private double distancePrecision = 0.001;
-      private Map<Moveable, Boolean> moveable2HasReachedMap;
+      private transient Map<Moveable, Boolean> moveable2HasReachedMap;
       private boolean adHocVerification;// Defines if the 'hasReached' method does a fresh calculation or just return a previously calculated value
 
       private EndPositionImpl(double x, double y) {

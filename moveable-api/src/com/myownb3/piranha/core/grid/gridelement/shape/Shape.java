@@ -3,6 +3,7 @@
  */
 package com.myownb3.piranha.core.grid.gridelement.shape;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.myownb3.piranha.core.collision.CollisionDetectedException;
@@ -20,7 +21,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public interface Shape extends Cloneable {
+public interface Shape extends Serializable {
 
    /**
     * Returns the path of this shape described by a line a pen would follow to draw
@@ -107,13 +108,4 @@ public interface Shape extends Cloneable {
     * @param position
     */
    void transform(Position position);
-
-
-   /**
-    * Provides one by one copy of this {@link Shape} instance
-    * 
-    * @return one by one copy of this {@link Shape} instance
-    */
-   Shape clone();
-
 }

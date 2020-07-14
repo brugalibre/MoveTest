@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class TurretClusterShapeImpl extends AbstractShape implements TurretClusterShape {
 
+   private static final long serialVersionUID = 6921906560487280495L;
    private List<Shape> turretShapes;
 
    private TurretClusterShapeImpl(List<Shape> turretShapes, List<PathSegment> path, Position tankPosition) {

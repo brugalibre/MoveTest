@@ -14,6 +14,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class TankShapeImpl extends AbstractShape implements TankShape {
 
+   private static final long serialVersionUID = 1L;
    private Shape turretShape;
    private Shape hull;
 

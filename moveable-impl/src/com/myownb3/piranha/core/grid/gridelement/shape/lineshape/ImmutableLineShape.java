@@ -25,7 +25,8 @@ import com.myownb3.piranha.core.grid.position.Position;
  */
 public class ImmutableLineShape extends AbstractShape {
 
-   private PathSegment pathSegment;
+   private static final long serialVersionUID = 1L;
+   private transient PathSegment pathSegment;
 
    /**
     * Creates a new {@link ImmutableLineShape}

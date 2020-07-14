@@ -29,6 +29,8 @@ import com.myownb3.piranha.core.grid.position.Position;
  */
 public class PositionShape extends AbstractShape {
 
+   private static final long serialVersionUID = 1342484487855859835L;
+
    /**
     * Creates a new {@link PositionShape}
     * 

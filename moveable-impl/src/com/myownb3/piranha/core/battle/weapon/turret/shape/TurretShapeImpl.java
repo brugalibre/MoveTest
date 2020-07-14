@@ -20,6 +20,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class TurretShapeImpl extends AbstractShape implements TurretShape {
 
+   private static final long serialVersionUID = -6749452421715017570L;
    private GunCarriage gunCarriage;
    private PositionTransformator positionTransformator;
 

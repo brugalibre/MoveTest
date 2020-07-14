@@ -19,7 +19,7 @@ import com.myownb3.piranha.util.attribute.LazyAttribute;
  * @author Dominic
  */
 public class DirectionImpl implements Direction {
-
+   private static final long serialVersionUID = -1856882848547130720L;
    private static final Map<Integer, String> degree2DirectionMap;
    static {
       degree2DirectionMap = getDegree2DirectionMap();
@@ -29,7 +29,7 @@ public class DirectionImpl implements Direction {
    private double forwardX;
    private double forwardY;
    private String cardinalDirection;
-   private LazyAttribute<Float64Vector> vector;
+   private transient LazyAttribute<Float64Vector> vector;
 
    /**
     * @param rotation
