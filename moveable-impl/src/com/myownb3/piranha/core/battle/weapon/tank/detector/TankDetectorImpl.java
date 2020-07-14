@@ -8,10 +8,10 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystem;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
-import com.myownb3.piranha.core.battle.weapon.tank.countermeasure.DecoyFlareDispenser;
-import com.myownb3.piranha.core.battle.weapon.tank.countermeasure.MissileCounterMeasureSystem;
-import com.myownb3.piranha.core.battle.weapon.tank.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.GridElementDetector;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;

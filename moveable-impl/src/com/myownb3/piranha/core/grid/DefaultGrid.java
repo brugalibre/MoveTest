@@ -14,8 +14,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareFactory;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.factory.ProjectileFactory;
-import com.myownb3.piranha.core.battle.weapon.tank.countermeasure.DecoyFlareFactory;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;

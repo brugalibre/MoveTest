@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.battle.weapon.tank.countermeasure;
+package com.myownb3.piranha.core.battle.weapon.countermeasure;
 
 import static com.myownb3.piranha.core.battle.weapon.gun.projectile.descent.DescentAutoDetectable.getDescentAutoDetectable;
 import static com.myownb3.piranha.core.battle.weapon.gun.projectile.timetolife.TimeToLifeAutoDetectable.getTimeToLifeAutoDetectable;

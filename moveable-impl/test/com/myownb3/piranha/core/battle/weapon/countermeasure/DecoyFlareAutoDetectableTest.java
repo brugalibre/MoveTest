@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.battle.weapon.tank.countermeasure;
+package com.myownb3.piranha.core.battle.weapon.countermeasure;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

@@ -1,6 +1,6 @@
-package com.myownb3.piranha.core.battle.weapon.tank.countermeasure;
+package com.myownb3.piranha.core.battle.weapon.countermeasure;
 
-import static com.myownb3.piranha.core.battle.weapon.tank.countermeasure.DecoyFlareAutoDetectable.getDecoyFlareAutoDetectable;
+import static com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareAutoDetectable.getDecoyFlareAutoDetectable;
 
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;

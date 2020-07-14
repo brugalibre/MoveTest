@@ -1,8 +1,8 @@
-package com.myownb3.piranha.core.battle.weapon.tank.countermeasure.config;
+package com.myownb3.piranha.core.battle.weapon.countermeasure.config;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl;
-import com.myownb3.piranha.core.battle.weapon.tank.countermeasure.DecoyFlareConfig;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.util.MathUtil;
