@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.statemachine.handler;
 
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.handler.input.EventStateInput;
 import com.myownb3.piranha.core.statemachine.handler.output.EventStateResult;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
 
 /**
  * An {@link EvasionStatesHandler} handles a specific state of the

@@ -5,7 +5,7 @@ package com.myownb3.piranha.core.statemachine.states;
 
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 
 /**
  * Describes the different states when a {@link Moveable} is envasion any

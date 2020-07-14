@@ -5,7 +5,7 @@ package com.myownb3.piranha.core.statemachine.impl.handler.returningstate;
 
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 
 enum ReturnStates {

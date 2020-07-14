@@ -27,8 +27,8 @@ import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigImpl;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 
 class EndPointMoveableImplTest {
 

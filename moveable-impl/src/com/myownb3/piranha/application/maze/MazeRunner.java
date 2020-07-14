@@ -21,8 +21,8 @@ import com.myownb3.piranha.core.moveables.controller.MoveableController.Moveable
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.handler.postevasionstate.PostEvasionStateHandler4Maze;
 
 public class MazeRunner implements MoveableApplication {

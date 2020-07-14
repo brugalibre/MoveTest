@@ -45,10 +45,10 @@ import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.exception.NotImplementedException;
 
 /**

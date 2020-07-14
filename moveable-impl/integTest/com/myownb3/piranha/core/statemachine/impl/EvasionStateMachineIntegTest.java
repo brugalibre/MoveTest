@@ -29,7 +29,7 @@ import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 
 public class EvasionStateMachineIntegTest {
@@ -199,7 +199,7 @@ public class EvasionStateMachineIntegTest {
       private List<Obstacle> obstacles;
       private Detector detector;
       private EndPointMoveable moveable;
-      private EvasionStateMachine stateMachine;
+      private EvasionStateMachineImpl stateMachine;
       private MoveableController controller;
       private EvasionStateMachineConfig config;
       private int movingIncrement;

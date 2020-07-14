@@ -14,7 +14,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.weapon.turret.Turret;

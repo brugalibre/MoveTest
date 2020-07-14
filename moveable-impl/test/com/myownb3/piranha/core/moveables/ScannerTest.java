@@ -22,8 +22,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.Po
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine.EvasionStateMachineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigImpl;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 
 /**
  * @author Dominic

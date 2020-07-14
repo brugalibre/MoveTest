@@ -7,7 +7,6 @@ import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.statemachine.handler.EvasionStatesHandler;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 
 /**

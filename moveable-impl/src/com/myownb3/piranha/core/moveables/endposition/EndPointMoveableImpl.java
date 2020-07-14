@@ -22,7 +22,7 @@ import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveResultImpl;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachine;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 
 /**
  * @author Dominic

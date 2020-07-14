@@ -25,6 +25,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.handler.EvasionStatesHandler;
 import com.myownb3.piranha.core.statemachine.handler.postevasion.PostEvasionStateHandler;
@@ -53,7 +54,7 @@ import com.myownb3.piranha.core.statemachine.states.EvasionStates;
  * @author Dominic
  *
  */
-public class EvasionStateMachine implements MoveablePostActionHandler {
+public class EvasionStateMachineImpl implements EvasionStateMachine, MoveablePostActionHandler {
 
    @Visible4Testing
    EvasionStates evasionState;
@@ -63,11 +64,11 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
    private Position positionBeforeEvasion;
    private EndPosition endPosition;
 
-   private EvasionStateMachine(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPos, EvasionStateMachineConfig config) {
+   private EvasionStateMachineImpl(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPos, EvasionStateMachineConfig config) {
       this(detectableMoveableHelper, endPos, config, createAndInitHandlerMap(config, detectableMoveableHelper.getDetector(), endPos));
    }
 
-   private EvasionStateMachine(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPosition, EvasionStateMachineConfig config,
+   private EvasionStateMachineImpl(DetectableMoveableHelper detectableMoveableHelper, EndPosition endPosition, EvasionStateMachineConfig config,
          Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap) {
       this.config = config;
       this.endPosition = endPosition;
@@ -204,6 +205,7 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
       return ReturningEventStateInput.of(detectableMoveableHelper, moveable, positionBeforeEvasion, endPosition);
    }
 
+   @Override
    public void setEndPosition(EndPosition endPos) {
       this.endPosition = requireNonNull(endPos);
       evasionStatesHandler2StateMap.put(POST_EVASION, getPostEvasionStateHandler(config, endPosition));
@@ -246,13 +248,13 @@ public class EvasionStateMachine implements MoveablePostActionHandler {
          return this;
       }
 
-      public EvasionStateMachine build() {
+      public EvasionStateMachineImpl build() {
          if (nonNull(postEvasionStateHandler)) {
             Map<EvasionStates, EvasionStatesHandler<?, ?>> handlerMap = createAndInitHandlerMap(config, detector, endPosition);
             handlerMap.put(EvasionStates.POST_EVASION, postEvasionStateHandler);
-            return new EvasionStateMachine(new DetectableMoveableHelper(grid, detector), endPosition, config, handlerMap);
+            return new EvasionStateMachineImpl(new DetectableMoveableHelper(grid, detector), endPosition, config, handlerMap);
          }
-         return new EvasionStateMachine(new DetectableMoveableHelper(grid, detector), endPosition, config);
+         return new EvasionStateMachineImpl(new DetectableMoveableHelper(grid, detector), endPosition, config);
       }
 
       public static EvasionStateMachineBuilder builder() {
