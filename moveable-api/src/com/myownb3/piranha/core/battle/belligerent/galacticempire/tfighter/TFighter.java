@@ -1,9 +1,9 @@
 package com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
-import com.myownb3.piranha.core.destruction.Destructible;
-import com.myownb3.piranha.core.destruction.Destructive;
-import com.myownb3.piranha.core.weapon.AutoDetectable;
+import com.myownb3.piranha.core.battle.destruction.Destructible;
+import com.myownb3.piranha.core.battle.destruction.Destructive;
+import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 
 /**
  * Represents a T-Fighter of the Galactic empire

@@ -16,8 +16,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
-import com.myownb3.piranha.core.destruction.DamageImpl;
-import com.myownb3.piranha.core.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.DamageImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
@@ -25,7 +26,6 @@ import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class MoveableObstacleImplTest {
 

@@ -7,11 +7,11 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.myownb3.piranha.core.destruction.Destructible;
+import com.myownb3.piranha.core.battle.destruction.Destructible;
+import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 

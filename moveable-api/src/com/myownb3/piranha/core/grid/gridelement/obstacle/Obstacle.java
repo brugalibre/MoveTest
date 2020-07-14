@@ -3,8 +3,8 @@
  */
 package com.myownb3.piranha.core.grid.gridelement.obstacle;
 
+import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
-import com.myownb3.piranha.core.destruction.Destructible;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
 /**

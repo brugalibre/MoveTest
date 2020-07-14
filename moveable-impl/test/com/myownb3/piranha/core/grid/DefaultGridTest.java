@@ -16,6 +16,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.direction.Directions;
@@ -33,10 +37,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
 
 class DefaultGridTest {
 

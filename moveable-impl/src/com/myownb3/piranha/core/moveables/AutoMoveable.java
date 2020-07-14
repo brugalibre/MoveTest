@@ -7,16 +7,16 @@ import java.util.UUID;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.destruction.Damage;
-import com.myownb3.piranha.core.destruction.Destructible;
-import com.myownb3.piranha.core.destruction.DestructionHelper;
-import com.myownb3.piranha.core.destruction.Destructive;
+import com.myownb3.piranha.core.battle.destruction.Damage;
+import com.myownb3.piranha.core.battle.destruction.Destructible;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.Destructive;
+import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
-import com.myownb3.piranha.core.weapon.AutoDetectable;
 
 public class AutoMoveable extends AbstractMoveable implements AutoDetectable, Destructible, Destructive, Belligerent {
 

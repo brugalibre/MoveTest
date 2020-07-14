@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.grid.gridelement.constants;
 
+import com.myownb3.piranha.core.battle.weapon.tank.Tank;
+import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.weapon.tank.Tank;
-import com.myownb3.piranha.core.weapon.turret.Turret;
 
 /**
  * Defines some constants for a {@link GridElement}

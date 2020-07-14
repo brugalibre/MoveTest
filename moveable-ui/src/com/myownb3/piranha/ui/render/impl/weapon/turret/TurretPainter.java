@@ -5,9 +5,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.weapon.turret.cluster.shape.TurretClusterShape;
+import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.weapon.turret.cluster.shape.TurretClusterShape;
-import com.myownb3.piranha.core.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;

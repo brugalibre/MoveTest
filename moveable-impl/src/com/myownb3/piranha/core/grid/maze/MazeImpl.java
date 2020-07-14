@@ -10,6 +10,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement.TurretGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.detector.PlacedDetectorImpl.PlacedDetectorBuilder;
@@ -33,9 +36,6 @@ import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegmentImpl;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.weapon.guncarriage.GunCarriage;
-import com.myownb3.piranha.core.weapon.turret.TurretGridElement.TurretGridElementBuilder;
-import com.myownb3.piranha.core.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 
 public class MazeImpl implements Maze {
 

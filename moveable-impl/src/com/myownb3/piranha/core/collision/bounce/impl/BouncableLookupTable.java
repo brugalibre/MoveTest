@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.collision.bounce.impl;
 
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
-import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
 
 /**
  * The {@link BouncableLookupTable} defines which {@link GridElement}s can bounced. If a {@link GridElement} can be bounced

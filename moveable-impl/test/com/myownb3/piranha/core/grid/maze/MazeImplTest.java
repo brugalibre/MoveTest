@@ -14,6 +14,19 @@ import org.junit.jupiter.api.function.Executable;
 
 import com.myownb3.piranha.application.maze.MazeRunner;
 import com.myownb3.piranha.application.maze.MazeRunner.MazeRunnerBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.Gun;
+import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfig;
+import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl;
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.Turret;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
@@ -35,19 +48,6 @@ import com.myownb3.piranha.core.grid.maze.corridor.CorridorSegment;
 import com.myownb3.piranha.core.grid.maze.corridor.CorridorSide;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
-import com.myownb3.piranha.core.weapon.gun.Gun;
-import com.myownb3.piranha.core.weapon.gun.config.GunConfig;
-import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileConfig;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
-import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
-import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl;
-import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.turret.Turret;
-import com.myownb3.piranha.core.weapon.turret.TurretGridElement;
 
 class MazeImplTest {
 

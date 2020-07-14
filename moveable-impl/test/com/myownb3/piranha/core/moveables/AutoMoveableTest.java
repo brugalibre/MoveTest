@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.destruction.DamageImpl;
-import com.myownb3.piranha.core.destruction.DestructionHelper;
-import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.destruction.HealthImpl;
+import com.myownb3.piranha.core.battle.destruction.DamageImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
+import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;

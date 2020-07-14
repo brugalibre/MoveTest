@@ -13,6 +13,25 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.Tank;
+import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
+import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
+import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl;
+import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl;
+import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
+import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
+import com.myownb3.piranha.core.battle.weapon.tank.turret.TankTurretBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
@@ -30,22 +49,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
-import com.myownb3.piranha.core.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
-import com.myownb3.piranha.core.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
-import com.myownb3.piranha.core.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
-import com.myownb3.piranha.core.weapon.tank.TankGridElement.TankGridElementBuilder;
-import com.myownb3.piranha.core.weapon.tank.TankImpl.TankBuilder;
-import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl;
-import com.myownb3.piranha.core.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl;
-import com.myownb3.piranha.core.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
-import com.myownb3.piranha.core.weapon.tank.shape.TankShape;
-import com.myownb3.piranha.core.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
-import com.myownb3.piranha.core.weapon.tank.strategy.TankStrategy;
-import com.myownb3.piranha.core.weapon.tank.turret.TankTurretBuilder;
 
 class TankImplIntegTest {
 

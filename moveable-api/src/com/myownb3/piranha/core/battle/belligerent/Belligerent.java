@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.battle.belligerent;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.weapon.tank.Tank;
-import com.myownb3.piranha.core.weapon.turret.Turret;
+import com.myownb3.piranha.core.battle.weapon.tank.Tank;
+import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 
 /**
  * The {@link Belligerent} has an active part in a combat. It defines a person, a state or even a {@link Turret} or {@link Tank} which

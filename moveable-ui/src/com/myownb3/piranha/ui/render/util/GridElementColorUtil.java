@@ -5,15 +5,15 @@ import java.awt.Color;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyTypes;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
+import com.myownb3.piranha.core.battle.weapon.tank.Tank;
+import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 import com.myownb3.piranha.core.moveables.Moveable;
-import com.myownb3.piranha.core.weapon.gun.projectile.Projectile;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.weapon.tank.Tank;
-import com.myownb3.piranha.core.weapon.turret.Turret;
 
 public class GridElementColorUtil {
 

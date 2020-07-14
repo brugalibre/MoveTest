@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.grid.gridelement.factory;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
-import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.LazyGridElement;

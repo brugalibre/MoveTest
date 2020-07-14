@@ -2,8 +2,8 @@ package com.myownb3.piranha.core.grid.filter;
 
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 public class ProjectileGridElementsFilter implements Predicate<GridElement> {
 

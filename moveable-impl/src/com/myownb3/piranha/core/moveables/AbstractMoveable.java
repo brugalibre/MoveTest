@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
-import com.myownb3.piranha.core.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;

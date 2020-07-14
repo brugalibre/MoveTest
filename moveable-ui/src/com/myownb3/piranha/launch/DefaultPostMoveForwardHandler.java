@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
-import com.myownb3.piranha.core.weapon.AutoDetectable;
 import com.myownb3.piranha.launch.weapon.ProjectilePaintUtil;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;

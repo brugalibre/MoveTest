@@ -6,8 +6,8 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class ProjectileGridElementsFilterTest {
 

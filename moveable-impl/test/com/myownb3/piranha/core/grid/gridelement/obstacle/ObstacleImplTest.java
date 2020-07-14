@@ -14,16 +14,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
-import com.myownb3.piranha.core.destruction.DamageImpl;
-import com.myownb3.piranha.core.destruction.DefaultSelfDestructiveImpl;
-import com.myownb3.piranha.core.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.destruction.HealthImpl;
-import com.myownb3.piranha.core.destruction.OnDestroyedCallbackHandler;
+import com.myownb3.piranha.core.battle.destruction.DamageImpl;
+import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
+import com.myownb3.piranha.core.battle.destruction.HealthImpl;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
-import com.myownb3.piranha.core.weapon.gun.projectile.ProjectileGridElement;
 
 class ObstacleImplTest {
 

@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Optional;
 
+import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
-import com.myownb3.piranha.core.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
