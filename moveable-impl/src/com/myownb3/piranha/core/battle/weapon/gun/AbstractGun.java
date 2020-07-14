@@ -70,7 +70,6 @@ public abstract class AbstractGun implements Gun {
    }
 
    private Projectile fireShot(Position projectileStartPos) {
-      ProjectileTypes projectileType = getType();
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
    }
 
@@ -97,13 +96,6 @@ public abstract class AbstractGun implements Gun {
    @Override
    public GunConfig getGunConfig() {
       return gunConfig;
-   }
-
-   /**
-    * @return the type of the projectile
-    */
-   protected ProjectileTypes getType() {
-      return projectileType;
    }
 
    private static void delayNextShot() throws InterruptedException {

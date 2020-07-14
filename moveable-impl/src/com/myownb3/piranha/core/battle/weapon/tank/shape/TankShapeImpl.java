@@ -52,14 +52,11 @@ public class TankShapeImpl extends AbstractShape implements TankShape {
 
    @Override
    public Position getForemostPosition() {
-      // TODO this depends on the current position of the turret of this tank
       return hull.getForemostPosition();
    }
 
    @Override
    public Position getRearmostPosition() {
-
-      // TODO this depends on the current position of the turret of this tank
       return hull.getRearmostPosition();
    }
 

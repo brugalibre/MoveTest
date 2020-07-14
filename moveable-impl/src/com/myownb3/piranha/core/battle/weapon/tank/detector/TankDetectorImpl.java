@@ -86,11 +86,11 @@ public class TankDetectorImpl implements TankDetector {
       public TankDetectorImpl build() {
          requireAllNotNull(gridElementDetector);
          GridElementDetector tankDetectorGridElementDetector = getGridElementDetector();
-         Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = getMissileCounterMeasureSystemOpt(tankDetectorGridElementDetector);
+         Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = getMissileCounterMeasureSystemOpt();
          return new TankDetectorImpl(tankDetectorGridElementDetector, missileCounterMeasureSystemOpt, tankGridElementSupplier);
       }
 
-      private Optional<MissileCounterMeasureSystem> getMissileCounterMeasureSystemOpt(GridElementDetector gridElementDetector) {
+      private Optional<MissileCounterMeasureSystem> getMissileCounterMeasureSystemOpt() {
          Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = Optional.empty();
          if (nonNull(decoyFlareDispenser)) {
             missileCounterMeasureSystemOpt = Optional.of(MissileCounterMeasureSystemBuilder.builder()

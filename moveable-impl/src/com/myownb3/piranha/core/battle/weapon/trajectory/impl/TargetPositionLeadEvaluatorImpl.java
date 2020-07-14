@@ -61,8 +61,8 @@ public class TargetPositionLeadEvaluatorImpl implements TargetPositionLeadEvalua
    }
 
    @Visible4Testing
-   double computeDeltaT(double A, double B, double sqrt, double dt1) {
-      return dt1 < 0 ? solveQuadraticFormula(A, B, sqrt, 1) : dt1;
+   double computeDeltaT(double a, double b, double sqrt, double dt1) {
+      return dt1 < 0 ? solveQuadraticFormula(a, b, sqrt, 1) : dt1;
    }
 
    private static double solveQuadraticFormula(double a, double b, double sqrt, int plusOrMinus) {

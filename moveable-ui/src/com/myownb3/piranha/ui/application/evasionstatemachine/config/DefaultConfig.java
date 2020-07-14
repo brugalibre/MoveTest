@@ -10,7 +10,7 @@ public class DefaultConfig {
       // private
    }
 
-   public static DefaultConfig INSTANCE = new DefaultConfig();
+   public static final DefaultConfig INSTANCE = new DefaultConfig();
    private static final EvasionStateMachineConfig defaultConfig;
 
    static {
