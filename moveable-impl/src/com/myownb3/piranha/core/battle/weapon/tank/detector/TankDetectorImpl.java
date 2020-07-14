@@ -97,7 +97,7 @@ public class TankDetectorImpl implements TankDetector {
                   .withDecoyFlareDispenser(decoyFlareDispenser)
                   .withGrid(grid)
                   .withDetector(detector)
-                  .withTankGridElementSupplier(tankGridElementSupplier)
+                  .withGridElementSupplier(tankGridElementSupplier)
                   .build());
          }
          return missileCounterMeasureSystemOpt;

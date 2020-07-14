@@ -33,22 +33,22 @@ public class DecoyFlareDeployPosEvaluator {
     *        the {@link Position} of the detected {@link Projectile}
     * @param detectorPos
     *        the {@link Position} of the {@link TankDetector}
-    * @param tankHull
-    *        the hull of the {@link Tank}
+    * @param shape2Protect
+    *        the shape which is to protect from a missile
     * 
     * @return the {@link Position} from which the decoy flares are going to be deployed
     */
-   public Position getDeployFromPosition(Position detectedProjectilePosition, Position detectorPos, Shape tankHull) {
-      PathSegment nearestPathSegment = getNearestPathSegment2DetectedProjectile(detectedProjectilePosition, tankHull);
+   public Position getDeployFromPosition(Position detectedProjectilePosition, Position detectorPos, Shape shape2Protect) {
+      PathSegment nearestPathSegment = getNearestPathSegment2DetectedProjectile(detectedProjectilePosition, shape2Protect);
       return getPathSegmentMiddleToProjectileDirection(detectedProjectilePosition, nearestPathSegment, detectorPos.getZ());
    }
 
-   private static PathSegment getNearestPathSegment2DetectedProjectile(Position detectedProjectilePosition, Shape tankHull) {
-      return tankHull.getPath()
+   private static PathSegment getNearestPathSegment2DetectedProjectile(Position detectedProjectilePosition, Shape shape2Protect) {
+      return shape2Protect.getPath()
             .stream()
             .sorted(new PathSegmentEndComparator(detectedProjectilePosition))
             .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No nearest Tank PathSegment evaluated!?"));
+            .orElseThrow(() -> new IllegalStateException("No nearest PathSegment evaluated!?"));
    }
 
    private Position getPathSegmentMiddleToProjectileDirection(Position detectedProjectilePosition, PathSegment nearestPathSegment,

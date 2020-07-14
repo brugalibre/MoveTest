@@ -28,6 +28,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape.ImmutableLineShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -49,7 +50,6 @@ class MissileCounterMeasureSystemImplTest {
       tcb.missileCounterMeasureSystem.autodetect();
 
       // Then
-      //      verify(tcb.detector).checkSurroundingFromPosition(eq(tankGridElement), eq(pos));
       verify(decoyFlareDispenser, never()).dispenseDecoyFlares(any());
    }
 
@@ -57,10 +57,13 @@ class MissileCounterMeasureSystemImplTest {
       TankGridElement tankGridElement = mock(TankGridElement.class);
       when(tankGridElement.getPosition()).thenReturn(pos);
       TankShape shape = mock(TankShapeImpl.class);
-      when(shape.getHull()).thenReturn(ImmutableLineShapeBuilder.builder()
+      ImmutableLineShape immutableLineShape = ImmutableLineShapeBuilder.builder()
             .withBeginPosition(pos.movePositionForward())
             .withEndPosition(pos)
-            .build());
+            .build();
+      when(shape.getHull()).thenReturn(immutableLineShape);
+      when(shape.getPath()).thenReturn(immutableLineShape.getPath());
+      when(tankGridElement.getShape()).thenReturn(shape);
       when(tankGridElement.getShape()).thenReturn(shape);
       return tankGridElement;
    }
@@ -201,7 +204,7 @@ class MissileCounterMeasureSystemImplTest {
                .withDecoyFlareDispenser(decoyFlareDispenser)
                .withGrid(grid)
                .withDetector(detector)
-               .withTankGridElementSupplier(() -> tankGridElement)
+               .withGridElementSupplier(() -> tankGridElement)
                .build();
          return this;
       }

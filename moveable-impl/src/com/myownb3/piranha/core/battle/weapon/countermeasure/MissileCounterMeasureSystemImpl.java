@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.turretscanner.GridElement2DistanceComparator;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.GridElementDetector;
@@ -24,13 +23,13 @@ import com.myownb3.piranha.core.grid.position.Position;
 
 public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSystem {
    private GridElementDetector gridElementDetector;
-   private Supplier<TankGridElement> tankGridElementSupplier;
+   private Supplier<? extends GridElement> gridElementSupplier;
    private DecoyFlareDispenser decoyFlareDispenser;
    private DecoyFlareDeployPosEvaluator decoyFlareDeployPosEvaluator;
 
-   private MissileCounterMeasureSystemImpl(GridElementDetector gridElementDetector, Supplier<TankGridElement> tankGridElementSupplier,
+   private MissileCounterMeasureSystemImpl(GridElementDetector gridElementDetector, Supplier<? extends GridElement> gridElementSupplier,
          DecoyFlareDispenser decoyFlareDispenser) {
-      this.tankGridElementSupplier = tankGridElementSupplier;
+      this.gridElementSupplier = gridElementSupplier;
       this.gridElementDetector = gridElementDetector;
       this.decoyFlareDispenser = decoyFlareDispenser;
       this.decoyFlareDeployPosEvaluator =
@@ -49,41 +48,41 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
    }
 
    private void dispenseDecoyFlares(Position detectedProjectilePosition) {
-      Position deployFromPosition = decoyFlareDeployPosEvaluator.getDeployFromPosition(detectedProjectilePosition, getDetectorPos(), getTankHull());
+      Position deployFromPosition = decoyFlareDeployPosEvaluator.getDeployFromPosition(detectedProjectilePosition, getDetectorPos(), getShape());
       decoyFlareDispenser.dispenseDecoyFlares(deployFromPosition);
    }
 
    private List<GridElement> getDetectedMissiles() {
-      return gridElementDetector.getDetectedGridElements(getTankGridElement()).stream()
+      return gridElementDetector.getDetectedGridElements(getGridElement())
+            .stream()
             .map(ProjectileGridElement.class::cast)
             .collect(Collectors.toList());
    }
 
    private void checkSurrounding() {
-      TankGridElement tankGridElement = getTankGridElement();
-      gridElementDetector.checkSurroundingFromPosition(tankGridElement, tankGridElement.getPosition());
+      GridElement gridElement = getGridElement();
+      gridElementDetector.checkSurroundingFromPosition(gridElement, gridElement.getPosition());
    }
 
    private Predicate<? super GridElement> hasEvasion() {
       return gridElement -> gridElementDetector.isEvasion(gridElement);
    }
 
-   private TankGridElement getTankGridElement() {
-      return tankGridElementSupplier.get();
+   private GridElement getGridElement() {
+      return gridElementSupplier.get();
    }
 
-   private Shape getTankHull() {
-      return getTankGridElement().getShape()
-            .getHull();
+   private Shape getShape() {
+      return getGridElement().getShape();
    }
 
    private Position getDetectorPos() {
-      return getTankGridElement()
+      return getGridElement()
             .getPosition();
    }
 
    public static class MissileCounterMeasureSystemBuilder {
-      private Supplier<TankGridElement> tankGridElementSupplier;
+      private Supplier<? extends GridElement> gridElementSupplier;
       private DecoyFlareDispenser decoyFlareDispenser;
       private Grid grid;
       private Detector detector;
@@ -107,8 +106,8 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
          return this;
       }
 
-      public MissileCounterMeasureSystemBuilder withTankGridElementSupplier(Supplier<TankGridElement> tankGridElementSupplier) {
-         this.tankGridElementSupplier = tankGridElementSupplier;
+      public MissileCounterMeasureSystemBuilder withGridElementSupplier(Supplier<? extends GridElement> gridElementSupplier) {
+         this.gridElementSupplier = gridElementSupplier;
          return this;
       }
 
@@ -118,7 +117,7 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
 
       public MissileCounterMeasureSystem build() {
          requireAllNotNull();
-         return new MissileCounterMeasureSystemImpl(buildGridElementDetector(), tankGridElementSupplier, decoyFlareDispenser);
+         return new MissileCounterMeasureSystemImpl(buildGridElementDetector(), gridElementSupplier, decoyFlareDispenser);
       }
 
       private GridElementDetectorImpl buildGridElementDetector() {
@@ -131,7 +130,7 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
 
       private Predicate<GridElement> getCheckSurroundingFilter() {
          Predicate<GridElement> isProjectile = new ProjectileGridElementsFilter()::test;
-         return isProjectile.and(isMissile()).and(FilterGridElementsMovingAway.of(tankGridElementSupplier));
+         return isProjectile.and(isMissile()).and(FilterGridElementsMovingAway.of(gridElementSupplier));
       }
 
       private Predicate<GridElement> isMissile() {
@@ -139,7 +138,7 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
       }
 
       private void requireAllNotNull() {
-         requireNonNull(tankGridElementSupplier);
+         requireNonNull(gridElementSupplier);
          requireNonNull(decoyFlareDispenser);
          requireNonNull(detector);
          requireNonNull(grid);
