@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.gun.config;
 
+
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.weapon.gun.Gun;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 
@@ -25,4 +27,9 @@ public interface GunConfig {
     * @return {@link ProjectileConfig}
     */
    ProjectileConfig getProjectileConfig();
+
+   /**
+    * @return the sound of this {@link Gun} as an {@link AudioClip}
+    */
+   AudioClip getAudioClip();
 }

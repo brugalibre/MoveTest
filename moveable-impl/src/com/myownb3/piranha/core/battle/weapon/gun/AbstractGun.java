@@ -2,10 +2,12 @@ package com.myownb3.piranha.core.battle.weapon.gun;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
@@ -71,6 +73,7 @@ public abstract class AbstractGun implements Gun {
    }
 
    private Projectile fireShot(Position projectileStartPos) {
+      getAudioClipOpt().ifPresent(AudioClip::play);
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
    }
 
@@ -101,6 +104,10 @@ public abstract class AbstractGun implements Gun {
 
    private static void delayNextShot() throws InterruptedException {
       Thread.sleep(TIME_BETWEEN_SALVES);
+   }
+
+   private Optional<AudioClip> getAudioClipOpt() {
+      return Optional.ofNullable(gunConfig.getAudioClip());
    }
 
    public abstract static class AbstractGunBuilder<T extends AbstractGun> {

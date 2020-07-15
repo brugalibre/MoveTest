@@ -12,6 +12,8 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
@@ -21,8 +23,8 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBui
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
-import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
@@ -145,6 +147,9 @@ class TankImplIntegTest {
             .build());
       Tank tank = TankBuilder.builder()
             .withTankEngine(TankEngineBuilder.builder()
+                  .withAudioClip(AudioClipBuilder.builder()
+                        .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                        .build())
                   .withMoveableController(MoveableControllerBuilder.builder()
                         .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                         .withEndPositions(Collections.singletonList(EndPositions.of(50, 50.1)))

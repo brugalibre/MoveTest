@@ -3,7 +3,11 @@ package com.myownb3.piranha.core.battle.weapon.guncarriage;
 import static java.lang.Math.abs;
 import static java.util.Objects.requireNonNull;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.battle.weapon.gun.Gun;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.sound.GunCarriageAudio;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.sound.GunCarriageAudio.GunCarriageAudioBuilder;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.state.GunCarriageStates;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orientation2PositionHelper;
@@ -11,10 +15,12 @@ import com.myownb3.piranha.core.statemachine.impl.handler.orientatingstate.Orien
 public class AbstractGunCarriage implements GunCarriage {
 
    private static final long serialVersionUID = -1724494190061272992L;
+   private GunCarriageStates gunCarriageState;
    private Shape shape;
    private Gun gun;
    private double rotationSpeed;
    private transient Orientation2PositionHelper helper;
+   private transient GunCarriageAudio gunCarriageAudio;
 
    protected AbstractGunCarriage(Shape shape, Gun gun, double rotationSpeed) {
       this.shape = requireNonNull(shape);
@@ -22,6 +28,10 @@ public class AbstractGunCarriage implements GunCarriage {
       this.rotationSpeed = abs(rotationSpeed);
       this.gun.evalAndSetGunPosition(shape.getForemostPosition());
       this.helper = new Orientation2PositionHelper();
+      this.gunCarriageAudio = GunCarriageAudioBuilder.builder()
+            .withAudio()
+            .build();
+      this.gunCarriageState = GunCarriageStates.IDLE;
    }
 
    @Override
@@ -33,6 +43,8 @@ public class AbstractGunCarriage implements GunCarriage {
    public void aimTargetPos(Position targetPos) {
       double angleDiff = getPosition().calcAngleRelativeTo(targetPos);
       double angle2Turn = helper.getAngle2Turn(angleDiff, rotationSpeed);
+      evalAndSetCurrentGunCarriageState(angle2Turn);
+      gunCarriageAudio.playGunCarriageAudio(gunCarriageState);
       rotate(angle2Turn);
    }
 
@@ -40,6 +52,8 @@ public class AbstractGunCarriage implements GunCarriage {
    public void turn2ParkPosition(double parkingAngle) {
       double angleDiff = parkingAngle - getPosition().getDirection().getAngle();
       double angle2Turn = helper.getAngle2Turn(angleDiff, rotationSpeed);
+      evalAndSetCurrentGunCarriageState(angle2Turn);
+      gunCarriageAudio.playGunCarriageAudio(gunCarriageState);
       rotate(angle2Turn);
    }
 
@@ -62,6 +76,31 @@ public class AbstractGunCarriage implements GunCarriage {
    public void evalAndSetPosition(Position position) {
       shape.transform(position);
       gun.evalAndSetGunPosition(shape.getForemostPosition());
+   }
+
+   private void evalAndSetCurrentGunCarriageState(double angle2Turn) {
+      this.gunCarriageState = evaluateCurrentGunCarriageState(angle2Turn, gunCarriageState);
+   }
+
+   @Visible4Testing
+   static GunCarriageStates evaluateCurrentGunCarriageState(double angle2Turn, GunCarriageStates gunCarriageState) {
+      boolean has2Turn = has2Turn(angle2Turn);
+      switch (gunCarriageState) {
+         case IDLE:
+            return has2Turn ? GunCarriageStates.START_TURNING : GunCarriageStates.IDLE;
+         case START_TURNING:
+            return has2Turn ? GunCarriageStates.TURNING : GunCarriageStates.IDLE;
+         case TURNING:
+            return !has2Turn ? GunCarriageStates.END_TURNING : GunCarriageStates.TURNING;
+         case END_TURNING:
+            return !has2Turn ? GunCarriageStates.IDLE : GunCarriageStates.START_TURNING;
+         default:
+            throw new IllegalStateException("Unknown State '" + gunCarriageState + "'");
+      }
+   }
+
+   private static boolean has2Turn(double angle2Turn) {
+      return angle2Turn != 0.0;
    }
 
    private Position getPosition() {

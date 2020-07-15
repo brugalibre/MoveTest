@@ -12,6 +12,8 @@ import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
@@ -22,8 +24,8 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileCo
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
-import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
@@ -146,6 +148,10 @@ public class TankTestLauncher {
                   .build())
             .withTank(TankBuilder.builder()
                   .withTankEngine(TankEngineBuilder.builder()
+                        .withAudioClip(AudioClipBuilder.builder()
+                              .withRestartRunningAudio(false)
+                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                              .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(endPositions)
@@ -196,6 +202,9 @@ public class TankTestLauncher {
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.MISSILE)
                                     .withGunConfig(GunConfigBuilder.builder()
+                                          .withAudioClip(AudioClipBuilder.builder()
+                                                .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
+                                                .build())
                                           .withSalveSize(1)
                                           .withRoundsPerMinute(100)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -282,6 +291,10 @@ public class TankTestLauncher {
                   .build())
             .withTank(TankBuilder.builder()
                   .withTankEngine(TankEngineBuilder.builder()
+                        .withAudioClip(AudioClipBuilder.builder()
+                              .withRestartRunningAudio(false)
+                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                              .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(battleShipEndPositions)
@@ -335,6 +348,9 @@ public class TankTestLauncher {
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
+                                                .withAudioClip(AudioClipBuilder.builder()
+                                                      .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                                      .build())
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(150)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -383,6 +399,9 @@ public class TankTestLauncher {
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
+                                                .withAudioClip(AudioClipBuilder.builder()
+                                                      .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                                      .build())
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(180)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -431,6 +450,9 @@ public class TankTestLauncher {
                                     .withGun(DefaultGunBuilder.builder()
                                           .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                                           .withGunConfig(GunConfigBuilder.builder()
+                                                .withAudioClip(AudioClipBuilder.builder()
+                                                      .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                                      .build())
                                                 .withSalveSize(2)
                                                 .withRoundsPerMinute(180)
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -491,6 +513,9 @@ public class TankTestLauncher {
                         .withGun(DefaultGunBuilder.builder()
                               .withGunProjectileType(ProjectileTypes.BULLET)
                               .withGunConfig(GunConfigBuilder.builder()
+                                    .withAudioClip(AudioClipBuilder.builder()
+                                          .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                                          .build())
                                     .withSalveSize(3)
                                     .withRoundsPerMinute(300)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -541,6 +566,9 @@ public class TankTestLauncher {
                         .withGun(DefaultGunBuilder.builder()
                               .withGunProjectileType(ProjectileTypes.BULLET)
                               .withGunConfig(GunConfigBuilder.builder()
+                                    .withAudioClip(AudioClipBuilder.builder()
+                                          .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                                          .build())
                                     .withSalveSize(3)
                                     .withRoundsPerMinute(300)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -582,7 +610,7 @@ public class TankTestLauncher {
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground("res/background_1.jpg");
+      mainWindow.withBackground("res/image/background_1.jpg");
 
       List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));

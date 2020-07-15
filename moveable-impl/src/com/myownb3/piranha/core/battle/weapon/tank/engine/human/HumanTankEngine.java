@@ -1,8 +1,10 @@
 package com.myownb3.piranha.core.battle.weapon.tank.engine.human;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 
@@ -13,11 +15,13 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
    private boolean moveBackward;
    private boolean turnLeft;
    private boolean turnRight;
+   private Optional<AudioClip> audioClipOpt;
    @Visible4Testing
    double turnAngle = 5.0;
 
-   private HumanTankEngine(Supplier<EndPointMoveable> endPointMoveableSupplier) {
+   private HumanTankEngine(Supplier<EndPointMoveable> endPointMoveableSupplier, AudioClip audioClip) {
       this.endPointMoveableSupplier = endPointMoveableSupplier;
+      this.audioClipOpt = Optional.ofNullable(audioClip);
    }
 
    @Override
@@ -33,6 +37,7 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
       } else if (turnRight) {
          getMoveable().makeTurn(turnAngle);
       }
+      audioClipOpt.ifPresent(AudioClip::play);
    }
 
    @Override
@@ -66,6 +71,7 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
 
    public static class HumanTankEngineBuilder {
       private Supplier<EndPointMoveable> endPointMoveableSupplier;
+      private AudioClip audioClip;
 
       private HumanTankEngineBuilder() {
          // private 
@@ -80,9 +86,13 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
          return this;
       }
 
-      public HumanTankEngine build() {
-         return new HumanTankEngine(endPointMoveableSupplier);
+      public HumanTankEngineBuilder withAudioClip(AudioClip audioClip) {
+         this.audioClip = audioClip;
+         return this;
       }
 
+      public HumanTankEngine build() {
+         return new HumanTankEngine(endPointMoveableSupplier, audioClip);
+      }
    }
 }

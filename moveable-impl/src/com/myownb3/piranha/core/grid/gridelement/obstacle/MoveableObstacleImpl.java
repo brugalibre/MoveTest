@@ -16,6 +16,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.HealthImpl;
@@ -57,7 +58,10 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
             .withDamage(DamageImpl.of(damage))
             .withHealth(HealthImpl.of(health))
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(getVelocity()))
-            .withOnDestroyedCallbackHandler(() -> grid.remove(this))
+            .withOnDestroyedCallbackHandler(() -> {
+               grid.remove(this);
+               new DestructionAudio().playDefaultExplosion();
+            })
             .build();
    }
 

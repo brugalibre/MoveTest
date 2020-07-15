@@ -37,7 +37,7 @@ class ProjectileFactoryTest {
    }
 
    @Test
-   void testOnCollision_Twice_RemoveDestroyedProjectile() {
+   void testOnCollision_Twice_RemoveDestroyedMissile() {
 
       // Given
       MirrorGrid grid = spy(MirrorGridBuilder.builder()
@@ -55,6 +55,35 @@ class ProjectileFactoryTest {
             .withVelocity(5)
             .build();
       ProjectileGridElement projectileGridElementent = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
+
+      // When
+      projectileGridElementent.onCollision(Collections.singletonList(mock(Wall.class))); // first time
+      projectileGridElementent.onCollision(Collections.singletonList(mock(Wall.class)));// second time
+
+      // Then
+      assertThat(projectileGridElementent.isDestroyed(), is(true));
+      verify(grid).remove(eq(projectileGridElementent));
+   }
+
+   @Test
+   void testOnCollision_Twice_RemoveDestroyedBullet() {
+
+      // Given
+      MirrorGrid grid = spy(MirrorGridBuilder.builder()
+            .withMaxX(10)
+            .withMaxY(10)
+            .withMinX(0)
+            .withMinY(0)
+            .build());
+
+      ProjectileFactory.INSTANCE.registerGrid(grid);
+
+      Position pos = Positions.of(9.5, 8.5);
+      ProjectileConfig projectileConfig = ProjectileConfigBuilder.builder()
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+            .withVelocity(5)
+            .build();
+      ProjectileGridElement projectileGridElementent = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.BULLET, pos, projectileConfig);
 
       // When
       projectileGridElementent.onCollision(Collections.singletonList(mock(Wall.class))); // first time

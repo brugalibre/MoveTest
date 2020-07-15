@@ -9,6 +9,7 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper.Destruction
 import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.destruction.SelfDestructive;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.ProjectileAudioHelper;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.factory.ProjectileStrategyHandlerFactory;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -21,6 +22,7 @@ public class ProjectileImpl implements Projectile {
    private Shape shape;
    private ProjectileStrategyHandler projectileStrategyHandler;
    private ProjectileTypes projectileType;
+   private ProjectileAudioHelper projectileAudioHelper;
 
    protected ProjectileImpl(Shape shape, ProjectileTypes projectileType, ProjectileConfig projectileConfig, double damage, double health,
          OnDestroyedCallbackHandler onDestroyCallbackHandler) {
@@ -29,6 +31,7 @@ public class ProjectileImpl implements Projectile {
       this.projectileType = projectileType;
       this.projectileStrategyHandler =
             ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, projectileConfig, shape);
+      this.projectileAudioHelper = new ProjectileAudioHelper();
    }
 
    private DestructionHelper getDestructionHelper(double damage, double health, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
@@ -58,6 +61,7 @@ public class ProjectileImpl implements Projectile {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       destructionHelper.onCollision(gridElements);
+      projectileAudioHelper.playOnCollisionAudio(this, gridElements);
    }
 
    @Override

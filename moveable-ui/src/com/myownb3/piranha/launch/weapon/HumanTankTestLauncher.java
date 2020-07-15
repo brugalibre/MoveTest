@@ -12,6 +12,8 @@ import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
@@ -22,12 +24,12 @@ import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfig
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
-import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
+import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
-import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
@@ -151,6 +153,10 @@ public class HumanTankTestLauncher {
             .withTank(TankBuilder.builder()
                   .withHealth(imperialHealth)
                   .withTankEngine(TankEngineBuilder.builder()
+                        .withAudioClip(AudioClipBuilder.builder()
+                              .withRestartRunningAudio(false)
+                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                              .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(imperialTankEndPositions)
@@ -203,6 +209,9 @@ public class HumanTankTestLauncher {
                               .withGun(DefaultGunBuilder.builder()
                                     .withGunProjectileType(ProjectileTypes.MISSILE)
                                     .withGunConfig(GunConfigBuilder.builder()
+                                          .withAudioClip(AudioClipBuilder.builder()
+                                                .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
+                                                .build())
                                           .withSalveSize(1)
                                           .withRoundsPerMinute(70)
                                           .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -261,6 +270,10 @@ public class HumanTankTestLauncher {
 
       TankHolder rebelTankHolder = new TankHolder();
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+            .withAudioClip(AudioClipBuilder.builder()
+                  .withRestartRunningAudio(false)
+                  .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .build())
             .withLazyMoveable(() -> rebelTankHolder.getTankGridElement())
             .build();
 
@@ -269,6 +282,9 @@ public class HumanTankTestLauncher {
             .withGun(DefaultGunBuilder.builder()
                   .withGunProjectileType(ProjectileTypes.BULLET)
                   .withGunConfig(GunConfigBuilder.builder()
+                        .withAudioClip(AudioClipBuilder.builder()
+                              .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                              .build())
                         .withSalveSize(3)
                         .withRoundsPerMinute(350)
                         .withProjectileConfig(ProjectileConfigBuilder.builder()
@@ -360,7 +376,7 @@ public class HumanTankTestLauncher {
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground("res/background_1.jpg");
+      mainWindow.withBackground("res/image/background_1.jpg");
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 

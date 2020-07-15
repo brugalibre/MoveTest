@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 
@@ -76,8 +77,10 @@ class HumanTankEngineTest {
    @Test
    void testOnBackward_ButDontMove_StopedPressingForward() {
       // Given
+      AudioClip audioClip = mock(AudioClip.class);
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
+            .withAudioClip(audioClip)
             .build();
 
       // When
@@ -86,6 +89,7 @@ class HumanTankEngineTest {
 
       // Then
       verify(humanTankEngine.getMoveable(), never()).moveBackward();
+      verify(audioClip).play();
    }
 
    @Test

@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.gun.projectile.factory;
 
+import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
@@ -66,13 +68,21 @@ public class ProjectileFactory extends AbstractGridElementFactory {
             .withProjectile(ProjectileBuilder.builder()
                   .withDamage(projectileConfig.getProjectileDamage())
                   .withProjectileTypes(type)
-                  .withOnDestroyedCallbackHandler(getDefaultOnDestroyedCallbackHandler(lazyGridElement))
+                  .withOnDestroyedCallbackHandler(getOnDestroyedCallbackHandler(lazyGridElement, type))
                   .withShape(projectileShape)
                   .withProjectileConfig(projectileConfig)
                   .build())
             .build();
       lazyGridElement.setGridElement(projectileGridElement);
       return projectileGridElement;
+   }
+
+   private OnDestroyedCallbackHandler getOnDestroyedCallbackHandler(LazyGridElement lazyGridElement, ProjectileTypes type) {
+      return getDefaultOnDestroyedCallbackHandler(lazyGridElement).andThen(() -> {
+         if (type == ProjectileTypes.MISSILE) {
+            new DestructionAudio().playDefaultExplosion();
+         }
+      });
    }
 
    private static CircleImpl buildBulletShape(Position position, ProjectileConfig projectileConfig) {

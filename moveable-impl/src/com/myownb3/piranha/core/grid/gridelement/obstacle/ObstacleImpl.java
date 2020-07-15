@@ -14,6 +14,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.HealthImpl;
@@ -53,8 +54,10 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
             .withDamage(DamageImpl.of(OBSTACLE_DAMAGE))
             .withHealth(HealthImpl.of(OBSTACLE_HEALTH))
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
-            .withOnDestroyedCallbackHandler(() -> grid.remove(this))
-            .build();
+            .withOnDestroyedCallbackHandler(() -> {
+               grid.remove(this);
+               new DestructionAudio().playDefaultExplosion();
+            }).build();
    }
 
    @Override

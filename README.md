@@ -48,6 +48,6 @@ One of this strategy is a 'human' strategy which allows the user to control the 
 <h1> Whats missing</h1>
 
 - The collision detection system is going to be improve, especially when a Tank moves forward
-- And also in the near futur I'll add some sound and visual effects for explosions and stuff.
+- And also in the near futur I'll add some visual effects for explosions and stuff.
 
 

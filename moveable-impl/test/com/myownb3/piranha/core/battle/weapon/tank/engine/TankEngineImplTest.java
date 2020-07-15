@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
@@ -21,8 +22,10 @@ class TankEngineImplTest {
       MoveableController moveableController = mock(MoveableController.class);
 
       // Given
+      AudioClip audioClip = mock(AudioClip.class);
       TankEngineImpl tankEngineImpl = TankEngineBuilder.builder()
             .withMoveableController(moveableController)
+            .withAudioClip(audioClip)
             .build();
 
       // When
@@ -30,6 +33,7 @@ class TankEngineImplTest {
 
       // Then
       verify(moveableController).leadMoveable();
+      verify(audioClip).play();
    }
 
    @Test
