@@ -63,21 +63,21 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return getThis();
       }
 
-      protected abstract AbstractProjectileConfigBuilder<V, T> getThis();
+      protected abstract T getThis();
 
-      public AbstractProjectileConfigBuilder<V, T> withVelocity(int velocity) {
+      public T withVelocity(int velocity) {
          this.velocity = velocity;
-         return this;
+         return getThis();
       }
 
-      public AbstractProjectileConfigBuilder<V, T> withProjectileDamage(double projectileDamage) {
+      public T withProjectileDamage(double projectileDamage) {
          this.projectileDamage = projectileDamage;
-         return this;
+         return getThis();
       }
 
-      public AbstractProjectileConfigBuilder<V, T> withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
+      public T withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
          this.targetGridElementEvaluator = targetGridElementEvaluator;
-         return this;
+         return getThis();
       }
 
       public abstract V build();

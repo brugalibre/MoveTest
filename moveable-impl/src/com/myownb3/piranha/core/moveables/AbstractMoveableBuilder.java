@@ -30,29 +30,29 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
       handler = moveableIn -> true;
    }
 
-   public AbstractMoveableBuilder<V, T> withShape(Shape shape) {
+   public T withShape(Shape shape) {
       this.shape = shape;
-      return this;
+      return getThis();
    }
 
-   public AbstractMoveableBuilder<V, T> withGrid(Grid grid) {
+   public T withGrid(Grid grid) {
       this.grid = grid;
       return getThis();
    }
 
-   public AbstractMoveableBuilder<V, T> withVelocity(int velocity) {
+   public T withVelocity(int velocity) {
       this.velocity = velocity;
       return getThis();
    }
 
-   public AbstractMoveableBuilder<V, T> withHandler(MoveablePostActionHandler handler) {
+   public T withHandler(MoveablePostActionHandler handler) {
       this.handler = Objects.requireNonNull(handler, "A Moveable always needs a MoveablePostActionHandler!");
-      return this;
+      return getThis();
    }
 
    public abstract V build();
 
-   protected abstract AbstractMoveableBuilder<V, T> getThis();
+   protected abstract T getThis();
 
    public static class SimpleMoveable extends AbstractMoveable {
 

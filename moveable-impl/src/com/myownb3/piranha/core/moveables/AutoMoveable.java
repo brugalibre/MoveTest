@@ -55,18 +55,40 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
       return belligerentParty;
    }
 
-   public static class AutoMoveableBuilder extends AbstractMoveableBuilder<AutoMoveable, AutoMoveableBuilder> {
+   public abstract static class AbstractAutoMoveableBuilder<V extends AbstractMoveable, T extends AbstractAutoMoveableBuilder<V, T>>
+         extends AbstractMoveableBuilder<V, T> {
+      protected AutoDetectable autoDetectableDelegate;
+      protected DimensionInfo dimensionInfo;
+      protected DestructionHelper destructionHelper;
+      protected BelligerentParty belligerentParty;
 
-      private AutoDetectable autoDetectableDelegate;
-      private DimensionInfo dimensionInfo;
-      private DestructionHelper destructionHelper;
-      private BelligerentParty belligerentParty;
-
-      public AutoMoveableBuilder() {
+      protected AbstractAutoMoveableBuilder() {
          super();
          autoDetectableDelegate = () -> {
          };
       }
+
+      public T withAutoDetectable(AutoDetectable autoDetectableDelegate) {
+         this.autoDetectableDelegate = autoDetectableDelegate;
+         return getThis();
+      }
+
+      public T withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return getThis();
+      }
+
+      public T withDestructionHelper(DestructionHelper destructionHelper) {
+         this.destructionHelper = destructionHelper;
+         return getThis();
+      }
+
+      public T withDimensionInfo(DimensionInfo dimensionInfo) {
+         this.dimensionInfo = dimensionInfo;
+         return getThis();
+      }
+   }
+   public static class AutoMoveableBuilder extends AbstractAutoMoveableBuilder<AutoMoveable, AutoMoveableBuilder> {
 
       @Override
       public AutoMoveable build() {
@@ -76,26 +98,6 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
          autoMoveable.destructionHelper = destructionHelper;
          autoMoveable.belligerentParty = belligerentParty;
          return autoMoveable;
-      }
-
-      public AutoMoveableBuilder withAutoDetectable(AutoDetectable autoDetectableDelegate) {
-         this.autoDetectableDelegate = autoDetectableDelegate;
-         return this;
-      }
-
-      public AutoMoveableBuilder withBelligerentParty(BelligerentParty belligerentParty) {
-         this.belligerentParty = belligerentParty;
-         return this;
-      }
-
-      public AutoMoveableBuilder withDestructionHelper(DestructionHelper destructionHelper) {
-         this.destructionHelper = destructionHelper;
-         return this;
-      }
-
-      public AutoMoveableBuilder withDimensionInfo(DimensionInfo dimensionInfo) {
-         this.dimensionInfo = dimensionInfo;
-         return this;
       }
 
       public static AutoMoveableBuilder builder() {
