@@ -48,7 +48,7 @@ import com.myownb3.piranha.core.statemachine.impl.handler.returningstate.input.R
 import com.myownb3.piranha.core.statemachine.states.EvasionStates;
 
 /**
- * An {@link EvasionStateMachine} implements the {@link MoveablePostActionHandler} whereas it not only can detect toher
+ * An {@link EvasionStateMachine} implements the {@link MoveablePostActionHandler} whereas it not only can detect other
  * {@link GridElement} it also can handle the complete evasion maneuvres in order to avoid an evasion
  * 
  * @author Dominic
@@ -104,48 +104,48 @@ public class EvasionStateMachineImpl implements EvasionStateMachine, MoveablePos
    }
 
    private CommonEvasionStateResult handlePostConditionsInternal(Moveable moveable) {
-      CommonEvasionStateResult eventStateResult = null;
+      CommonEvasionStateResult commonEvasionStateResult = null;
       switch (evasionState) {
          case DEFAULT:
             DefaultStateHandler defaultStateHandler = getHandler4State(evasionState);
             DefaultStateInput defaultStateInput = DefaultStateInput.of(moveable, detectableMoveableHelper, endPosition);
-            eventStateResult = defaultStateHandler.handle(defaultStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = defaultStateHandler.handle(defaultStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          case ORIENTING:
             OrientatingStateHandler orientatingStateHandler = getHandler4State(evasionState);
             OrientatingStateInput orientatingStateInput = OrientatingStateInput.of(moveable, detectableMoveableHelper, endPosition);
-            eventStateResult = orientatingStateHandler.handle(orientatingStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = orientatingStateHandler.handle(orientatingStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          case EVASION:
             EvasionStateHandler evasionStateHandler = getHandler4State(evasionState);
             EvasionEventStateInput evasionEventStateInput = buildEvasionEventStateInput(moveable);
-            eventStateResult = evasionStateHandler.handle(evasionEventStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = evasionStateHandler.handle(evasionEventStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          case POST_EVASION:
             PostEvasionStateHandler postEvastionStateHandler = getHandler4State(evasionState);
             PostEvasionEventStateInput postEvasionStateInput = buildPostEvasionEventStateInput(moveable);
-            eventStateResult = postEvastionStateHandler.handle(postEvasionStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = postEvastionStateHandler.handle(postEvasionStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          case PASSING:
             PassingStateHandler passingStateHandler = getHandler4State(evasionState);
             PassingEventStateInput passingEventStateInput = buildPassingEventStateInput(moveable);
-            eventStateResult = passingStateHandler.handle(passingEventStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = passingStateHandler.handle(passingEventStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          case RETURNING:
             ReturningStateHandler returningStateHandler = getHandler4State(evasionState);
             ReturningEventStateInput returingStateInput = buildReturningEventStateInput(moveable);
-            eventStateResult = returningStateHandler.handle(returingStateInput);
-            evasionState = eventStateResult.getNextState();
+            commonEvasionStateResult = returningStateHandler.handle(returingStateInput);
+            evasionState = commonEvasionStateResult.getNextState();
             break;
          default:
             throw new IllegalStateException("Unknown state'" + evasionState + "'");
       }
-      return eventStateResult;
+      return commonEvasionStateResult;
    }
 
    private void afterPostConditions(CommonEvasionStateResult eventStateResult) {
