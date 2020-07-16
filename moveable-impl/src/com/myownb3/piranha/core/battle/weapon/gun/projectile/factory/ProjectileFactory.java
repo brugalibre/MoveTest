@@ -8,8 +8,8 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridEleme
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
-import com.myownb3.piranha.core.grid.gridelement.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.factory.AbstractGridElementFactory;
+import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;

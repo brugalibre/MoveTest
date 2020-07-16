@@ -6,7 +6,7 @@ import static java.util.Objects.requireNonNull;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 
 /**
  * Base class for all factory's for {@link GridElement}s

@@ -1,4 +1,6 @@
-package com.myownb3.piranha.core.grid.gridelement;
+package com.myownb3.piranha.core.grid.gridelement.lazy;
+
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
 /**
  * 
@@ -7,14 +9,14 @@ package com.myownb3.piranha.core.grid.gridelement;
  * @author Dominic
  *
  */
-public class LazyGridElement {
+public class AbstractLazyGridElement<T extends GridElement> {
 
-   private GridElement gridElement;
+   private T gridElement;
 
    /**
     * @return the {@link GridElement} of this {@link LazyGridElement}
     */
-   public GridElement getGridElement() {
+   public T getGridElement() {
       return this.gridElement;
    }
 
@@ -22,7 +24,7 @@ public class LazyGridElement {
     * @param gridElement
     *        the {@link GridElement} of this {@link LazyGridElement}
     */
-   public void setGridElement(GridElement gridElement) {
+   public void setGridElement(T gridElement) {
       this.gridElement = gridElement;
    }
 }

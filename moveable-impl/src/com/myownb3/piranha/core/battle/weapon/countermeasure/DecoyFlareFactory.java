@@ -5,8 +5,8 @@ import static com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareAu
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.HealthImpl;
-import com.myownb3.piranha.core.grid.gridelement.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.factory.AbstractGridElementFactory;
+import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
