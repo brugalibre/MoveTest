@@ -3,6 +3,7 @@ package com.myownb3.piranha.ui.render.util;
 import java.awt.Color;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFighterShape;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
@@ -47,13 +48,14 @@ public class GridElementColorUtil {
          }
          return Color.BLACK;
       } else if (gridElement instanceof Moveable) {
+         if (gridElement.getShape() instanceof TIEFighterShape) {
+            return DARKER_DARKER_GRAY;
+         }
          return new Color(0, 206, 209).darker();
       } else if (gridElement instanceof EndPositionGridElement) {
          return new Color(34, 139, 34);
-      } else if (gridElement instanceof GridElement) {
-         return Color.BLACK;
       }
-      throw new IllegalStateException("Unknown GridElement '" + gridElement + "'!");
+      return Color.BLACK;
    }
 
    public static Color getObstacleColor(BelligerentParty belligerentParty) {

@@ -3,25 +3,42 @@ package com.myownb3.piranha.launch.weapon.listener;
 import static com.myownb3.piranha.util.MathUtil.getRandom;
 import static java.lang.Math.min;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
+import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
+import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.lazy.LazyEndPoinMoveable;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
+import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
+import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
+import com.myownb3.piranha.core.moveables.controller.AutoMoveableController.AutoMoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
+import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
+import com.myownb3.piranha.util.MathUtil;
 
 public class MoveableAdder {
 
@@ -71,6 +88,7 @@ public class MoveableAdder {
       return grid.getAllGridElements(null).stream()
             .filter(isMoveable())
             .filter(isNotProjectile())
+            .filter(isNotTank())
             .filter(isGridElementAlive())
             .count();
    }
@@ -82,9 +100,33 @@ public class MoveableAdder {
       double angle2Rotate = -getRandom(90) + 15;
       Position gridElementPos = Positions.of(xCordinate, yCordinate)
             .rotate(angle2Rotate);
-      return MoveableObstacleBuilder.builder()
+
+      LazyEndPoinMoveable lazyEndPoinMoveable = new LazyEndPoinMoveable();
+      List<EndPosition> endPosList = getEndPosList(grid, 15, gridElementPos, gridElementRadius);
+      AutoMoveableController autoMoveableController = AutoMoveableControllerBuilder.builder()
+            .withDestructionHelper(DestructionHelperBuilder.builder()
+                  .withDamage(3)
+                  .withHealth(500)
+                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(moveableVelocity))
+                  .withOnDestroyedCallbackHandler(() -> {
+                     grid.remove(lazyEndPoinMoveable.getGridElement());
+                     new DestructionAudio().playDefaultExplosion();
+                  })
+                  .build())
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(gridElementRadius))
+            .withMoveableController(MoveableControllerBuilder.builder()
+                  .withEndPositions(endPosList)
+                  .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                  .withLazyMoveable(() -> lazyEndPoinMoveable.getGridElement())
+                  .build())
             .withGrid(grid)
-            .withHealth(500)
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(DetectorBuilder.builder()
+                        .build())
+                  .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
+                  .build())
             .withShape(TIEFighterShapeBuilder.builder()
                   .withBallCockpit(CircleBuilder.builder()
                         .withRadius(gridElementRadius)
@@ -94,6 +136,8 @@ public class MoveableAdder {
                   .build())
             .withVelocity(moveableVelocity)
             .build();
+      lazyEndPoinMoveable.setGridElement(autoMoveableController);
+      return autoMoveableController;
    }
 
    private void buildAndAddSimpleGridElement(Grid grid, List<Renderer<? extends GridElement>> renderers, double padding) {
@@ -115,6 +159,20 @@ public class MoveableAdder {
       }
    }
 
+   private static List<EndPosition> getEndPosList(Grid grid, int amountOfEndPos, Position gridElementPos, double gridElementRadius) {
+      double distance = gridElementRadius * (MathUtil.getRandom(8) + 4);
+      Position position = gridElementPos.movePositionForward4Distance(distance);
+      List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);
+      endPosList.add(EndPositions.of(position, 5));
+      for (int i = 0; i < amountOfEndPos; i++) {
+         double degree = MathUtil.getRandom(360);
+         position = position.rotate(degree)
+               .movePositionForward4Distance(distance);
+         endPosList.add(EndPositions.of(position, 10));
+      }
+      return endPosList;
+   }
+
    private void buildAndAddMoveable(Grid grid, List<Renderer<? extends GridElement>> renderers, int padding) {
       Moveable moveable = buildNewMoveable(grid, padding);
       renderers.add(new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), 0, 0));
@@ -131,6 +189,10 @@ public class MoveableAdder {
 
    private static Predicate<? super GridElement> isNotProjectile() {
       return moveable -> !(moveable instanceof ProjectileGridElement);
+   }
+
+   private Predicate<? super GridElement> isNotTank() {
+      return moveable -> !(moveable instanceof TankGridElement);
    }
 
    private static Predicate<? super GridElement> isGridElementAlive() {
