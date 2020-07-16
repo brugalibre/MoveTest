@@ -102,7 +102,7 @@ public class MoveableAdder {
             .rotate(angle2Rotate);
 
       LazyEndPoinMoveable lazyEndPoinMoveable = new LazyEndPoinMoveable();
-      List<EndPosition> endPosList = getEndPosList(grid, 15, gridElementPos, gridElementRadius);
+      List<EndPosition> endPosList = getEndPosList(15, gridElementPos, gridElementRadius);
       AutoMoveableController autoMoveableController = AutoMoveableControllerBuilder.builder()
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
@@ -159,7 +159,7 @@ public class MoveableAdder {
       }
    }
 
-   private static List<EndPosition> getEndPosList(Grid grid, int amountOfEndPos, Position gridElementPos, double gridElementRadius) {
+   private static List<EndPosition> getEndPosList(int amountOfEndPos, Position gridElementPos, double gridElementRadius) {
       double distance = gridElementRadius * (MathUtil.getRandom(8) + 4);
       Position position = gridElementPos.movePositionForward4Distance(distance);
       List<EndPosition> endPosList = new ArrayList<>(amountOfEndPos);

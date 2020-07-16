@@ -1,22 +1,15 @@
 package com.myownb3.piranha.launch.weapon;
 
-import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.addNewAutoDetectablePainters;
-import static com.myownb3.piranha.launch.weapon.ProjectilePaintUtil.removeDestroyedPainters;
 import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
-import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
@@ -61,7 +54,9 @@ import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
+import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.UIRefresher;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
@@ -356,7 +351,7 @@ public class TankTestLauncher {
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
                                                             .withDimensionRadius(2)
-                                                            .withHeightFromBottom(3)
+                                                            .withHeightFromBottom(tankTurretHeight)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
                                                       .build())
@@ -407,7 +402,7 @@ public class TankTestLauncher {
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
                                                             .withDimensionRadius(2)
-                                                            .withHeightFromBottom(3)
+                                                            .withHeightFromBottom(tankTurretHeight)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
                                                       .build())
@@ -458,7 +453,7 @@ public class TankTestLauncher {
                                                 .withProjectileConfig(ProjectileConfigBuilder.builder()
                                                       .withDimensionInfo(DimensionInfoBuilder.builder()
                                                             .withDimensionRadius(2)
-                                                            .withHeightFromBottom(3)
+                                                            .withHeightFromBottom(tankTurretHeight)
                                                             .build())
                                                       .withVelocity(projectileVelocity)
                                                       .build())
@@ -517,7 +512,7 @@ public class TankTestLauncher {
                                           .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
                                           .build())
                                     .withSalveSize(3)
-                                    .withRoundsPerMinute(300)
+                                    .withRoundsPerMinute(250)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
                                           .withDimensionInfo(DimensionInfoBuilder.builder()
                                                 .withDimensionRadius(3)
@@ -569,9 +564,10 @@ public class TankTestLauncher {
                                     .withAudioClip(AudioClipBuilder.builder()
                                           .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
                                           .build())
-                                    .withSalveSize(3)
-                                    .withRoundsPerMinute(300)
+                                    .withSalveSize(1)
+                                    .withRoundsPerMinute(250)
                                     .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                          .withProjectileDamage(30)
                                           .withDimensionInfo(DimensionInfoBuilder.builder()
                                                 .withDimensionRadius(3)
                                                 .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
@@ -623,34 +619,10 @@ public class TankTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
-      Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
       MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 20, 80);
       int cycleTime = 15;
-      new Thread(() -> {
-         int cycleCounter = 0;
-         while (true) {
-            SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            addNewAutoDetectablePainters(grid, renderers, existingProjectiles);
-            removeDestroyedPainters(renderers);
-            grid.getAllGridElements(null).parallelStream()
-                  .filter(isGridElementAlive())
-                  .filter(AutoDetectable.class::isInstance)
-                  .map(AutoDetectable.class::cast)
-                  .forEach(AutoDetectable::autodetect);
-            cycleCounter++;
-            if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
-               cycleCounter = 0;
-            }
-            try {
-               Thread.sleep(cycleTime);
-            } catch (InterruptedException e) {
-            }
-         }
-      }, "LogicHandler").start();
-   }
-
-   private static Predicate<? super GridElement> isGridElementAlive() {
-      return DestructionHelper::isNotDestroyed;
+      new UIRefresher(mainWindow, cycleTime).start();
+      new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();
    }
 }

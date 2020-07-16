@@ -28,7 +28,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
    }
 
    private void onTurretTurn(MouseEvent mouseEvent) {
-      Position turretPos = Positions.of(offset + mouseEvent.getX(), offset + mouseEvent.getY());
+      Position turretPos = Positions.of(mouseEvent.getX() - offset, mouseEvent.getY() - offset);
       callbackHandler.onTurretTurned(turretPos);
    }
 
