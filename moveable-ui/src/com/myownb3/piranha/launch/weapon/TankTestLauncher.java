@@ -625,7 +625,7 @@ public class TankTestLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       Set<String> existingProjectiles = new HashSet<>();
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y);
+      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 20, 80);
       int cycleTime = 15;
       new Thread(() -> {
          int cycleCounter = 0;

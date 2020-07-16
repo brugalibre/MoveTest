@@ -75,7 +75,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
     * 
     */
    public static boolean isNotDestroyed(GridElement gridElement) {
-      return !(gridElement instanceof Destructible) || !((Destructible) gridElement).isDestroyed() ;
+      return !(gridElement instanceof Destructible) || !((Destructible) gridElement).isDestroyed();
    }
 
    /**
@@ -98,6 +98,11 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
          // private
       }
 
+      public DestructionHelperBuilder withHealth(double healthValue) {
+         this.health = HealthImpl.of(healthValue);
+         return this;
+      }
+
       public DestructionHelperBuilder withHealth(Health health) {
          this.health = health;
          return this;
@@ -108,8 +113,8 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
          return this;
       }
 
-      public DestructionHelperBuilder withDamage(Damage damage) {
-         this.damage = damage;
+      public DestructionHelperBuilder withDamage(double damageValue) {
+         this.damage = DamageImpl.of(damageValue);
          return this;
       }
 

@@ -6,7 +6,6 @@ import com.myownb3.piranha.core.battle.destruction.Damage;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.destruction.SelfDestructive;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.ProjectileAudioHelper;
@@ -36,8 +35,8 @@ public class ProjectileImpl implements Projectile {
 
    private DestructionHelper getDestructionHelper(double damage, double health, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
       return DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(damage))
-            .withHealth(HealthImpl.of(health))
+            .withDamage(damage)
+            .withHealth(health)
             .withSelfDestructiveDamage(new ProjectileSelfDestructive(health))
             .withOnDestroyedCallbackHandler(onDestroyCallbackHandler)
             .build();

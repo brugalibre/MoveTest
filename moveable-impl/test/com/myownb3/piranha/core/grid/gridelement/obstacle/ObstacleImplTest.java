@@ -17,7 +17,6 @@ import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.Grid;
@@ -33,8 +32,8 @@ class ObstacleImplTest {
       ObstacleImpl obstacle = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withDamage(DamageImpl.of(1))
-                  .withHealth(HealthImpl.of(3))
+                  .withDamage(1)
+                  .withHealth(3)
                   .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
                   .build())
             .withShape(mock(CircleImpl.class))
@@ -56,8 +55,8 @@ class ObstacleImplTest {
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(mock(Grid.class))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withDamage(DamageImpl.of(1))
-                  .withHealth(HealthImpl.of(3))
+                  .withDamage(1)
+                  .withHealth(3)
                   .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
                   .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
                   .build())

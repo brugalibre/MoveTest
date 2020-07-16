@@ -2,7 +2,6 @@ package com.myownb3.piranha.core.battle.weapon.countermeasure;
 
 import static com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareAutoDetectable.getDecoyFlareAutoDetectable;
 
-import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.HealthImpl;
@@ -54,7 +53,7 @@ public class DecoyFlareFactory extends AbstractGridElementFactory {
             .withBelligerentParty(decoyFlareConfig.getBelligerentParty())
             .withAutoDetectable(getDecoyFlareAutoDetectable(decoyShape, health, dimensionInfo.getHeightFromBottom(), ttl))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withDamage(DamageImpl.of(decoyFlareConfig.getProjectileDamage()))
+                  .withDamage(decoyFlareConfig.getProjectileDamage())
                   .withHealth(health)
                   .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
                   .withOnDestroyedCallbackHandler(getDefaultOnDestroyedCallbackHandler(lazyGridElement))

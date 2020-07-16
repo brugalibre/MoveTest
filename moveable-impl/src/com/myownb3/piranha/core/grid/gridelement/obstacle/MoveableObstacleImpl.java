@@ -14,12 +14,10 @@ import java.util.UUID;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -55,8 +53,8 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
 
    private DestructionHelper getDestructionHelper(double damage, double health) {
       return DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(damage))
-            .withHealth(HealthImpl.of(health))
+            .withDamage(damage)
+            .withHealth(health)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(getVelocity()))
             .withOnDestroyedCallbackHandler(() -> {
                grid.remove(this);

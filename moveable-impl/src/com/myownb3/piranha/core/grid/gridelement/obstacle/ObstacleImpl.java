@@ -12,12 +12,10 @@ import java.util.List;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -51,8 +49,8 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
 
    private DestructionHelper getDestructionHelper() {
       return DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(OBSTACLE_DAMAGE))
-            .withHealth(HealthImpl.of(OBSTACLE_HEALTH))
+            .withDamage(OBSTACLE_DAMAGE)
+            .withHealth(OBSTACLE_HEALTH)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
             .withOnDestroyedCallbackHandler(() -> {
                grid.remove(this);

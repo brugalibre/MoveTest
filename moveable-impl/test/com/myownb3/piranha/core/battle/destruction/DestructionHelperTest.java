@@ -61,8 +61,8 @@ class DestructionHelperTest {
 
       // When
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(damage))
-            .withHealth(HealthImpl.of(3))
+            .withDamage(damage)
+            .withHealth(3)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
@@ -76,8 +76,8 @@ class DestructionHelperTest {
 
       // Given
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(1))
-            .withHealth(HealthImpl.of(3))
+            .withDamage(1)
+            .withHealth(3)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
@@ -95,8 +95,8 @@ class DestructionHelperTest {
 
       // Given
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(1))
-            .withHealth(HealthImpl.of(3))
+            .withDamage(1)
+            .withHealth(3)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
@@ -114,8 +114,8 @@ class DestructionHelperTest {
 
       // Given
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(3))
-            .withHealth(HealthImpl.of(10))
+            .withDamage(3)
+            .withHealth(10)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
@@ -133,8 +133,8 @@ class DestructionHelperTest {
 
       // Given
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(1))
-            .withHealth(HealthImpl.of(10))
+            .withDamage(1)
+            .withHealth(10)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();

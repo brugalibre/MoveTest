@@ -13,10 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -36,8 +34,8 @@ class AutoMoveableTest {
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withDimensionInfo(getDefaultDimensionInfo(3))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withHealth(HealthImpl.of(1))
-                  .withDamage(DamageImpl.of(damage))
+                  .withHealth(1)
+                  .withDamage(damage)
                   .build())
             .withGrid(GridBuilder.builder()
                   .withMaxX(10)
@@ -63,8 +61,8 @@ class AutoMoveableTest {
             .withBelligerentParty(expectedBelligerentParty)
             .withDimensionInfo(getDefaultDimensionInfo(3))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withHealth(HealthImpl.of(1))
-                  .withDamage(DamageImpl.of(1))
+                  .withHealth(1)
+                  .withDamage(1)
                   .build())
             .withGrid(GridBuilder.builder()
                   .withMaxX(10)
@@ -84,8 +82,8 @@ class AutoMoveableTest {
 
       // Given
       DestructionHelper expectedBelligerentParty = spy(DestructionHelperBuilder.builder()
-            .withHealth(HealthImpl.of(1))
-            .withDamage(DamageImpl.of(1))
+            .withHealth(1)
+            .withDamage(1)
             .build());
       AutoMoveable autoMoveable = AutoMoveableBuilder.builder()
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
@@ -114,8 +112,8 @@ class AutoMoveableTest {
       AutoMoveable autoMoveable = AutoMoveableBuilder.builder()
             .withDimensionInfo(getDefaultDimensionInfo(3))
             .withDestructionHelper(DestructionHelperBuilder.builder()
-                  .withHealth(HealthImpl.of(1))
-                  .withDamage(DamageImpl.of(1))
+                  .withHealth(1)
+                  .withDamage(1)
                   .build())
             .withGrid(GridBuilder.builder()
                   .withMaxX(10)

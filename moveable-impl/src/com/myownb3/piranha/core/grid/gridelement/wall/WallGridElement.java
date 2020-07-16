@@ -4,11 +4,9 @@ import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.Dimensio
 
 import java.util.List;
 
-import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
-import com.myownb3.piranha.core.battle.destruction.HealthImpl;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -30,8 +28,8 @@ public class WallGridElement extends AbstractGridElement implements Wall {
 
    private DestructionHelper getDestructionHelper(double damage, double health) {
       return DestructionHelperBuilder.builder()
-            .withDamage(DamageImpl.of(damage))
-            .withHealth(HealthImpl.of(health))
+            .withDamage(damage)
+            .withHealth(health)
             .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
             .build();
    }
