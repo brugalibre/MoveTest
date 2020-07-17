@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
@@ -185,12 +186,17 @@ class TankDetectorImplTest {
                   .build())
             .withTankGridElement(tankGridElementSupplier)
             .withDetector(mock(Detector.class))
-            .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
-                  .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
-                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
-                        .withVelocity(5)
+            .withMissileCounterMeasureSystem(MissileCounterMeasureSystemBuilder.builder()
+                  .withDetector(mock(Detector.class))
+                  .withGrid(mock(Grid.class))
+                  .withGridElementSupplier(tankGridElementSupplier)
+                  .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
+                        .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
+                              .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+                              .withVelocity(5)
+                              .build())
+                        .withMinTimeBetweenDispensing(50)
                         .build())
-                  .withMinTimeBetweenDispensing(50)
                   .build())
             .build();
       // When
@@ -212,12 +218,17 @@ class TankDetectorImplTest {
             .withGrid(grid)
             .withTankGridElement(tankGridElementSupplier)
             .withDetector(mock(Detector.class))
-            .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
-                  .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
-                        .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
-                        .withVelocity(5)
+            .withMissileCounterMeasureSystem(MissileCounterMeasureSystemBuilder.builder()
+                  .withDetector(mock(Detector.class))
+                  .withGrid(grid)
+                  .withGridElementSupplier(tankGridElementSupplier)
+                  .withDecoyFlareDispenser(DecoyFlareDispenserBuilder.builder()
+                        .withDecoyFlareConfig(DecoyFlareConfigBuilder.builder()
+                              .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+                              .withVelocity(5)
+                              .build())
+                        .withMinTimeBetweenDispensing(50)
                         .build())
-                  .withMinTimeBetweenDispensing(50)
                   .build())
             .build();
       // When

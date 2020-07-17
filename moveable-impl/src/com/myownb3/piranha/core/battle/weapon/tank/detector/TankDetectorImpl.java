@@ -8,9 +8,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystem;
-import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.GridElementDetector;
@@ -49,10 +47,10 @@ public class TankDetectorImpl implements TankDetector {
 
    public static class TankDetectorBuilder {
       private Supplier<TankGridElement> tankGridElementSupplier;
-      private DecoyFlareDispenser decoyFlareDispenser;
       private Grid grid;
       private Detector detector;
       private GridElementDetector gridElementDetector;
+      private MissileCounterMeasureSystem missileCounterMeasureSystem;
 
       private TankDetectorBuilder() {
          // private
@@ -78,29 +76,16 @@ public class TankDetectorImpl implements TankDetector {
          return this;
       }
 
-      public TankDetectorBuilder withDecoyFlareDispenser(DecoyFlareDispenser decoyFlareDispenser) {
-         this.decoyFlareDispenser = decoyFlareDispenser;
+      public TankDetectorBuilder withMissileCounterMeasureSystem(MissileCounterMeasureSystem missileCounterMeasureSystem) {
+         this.missileCounterMeasureSystem = missileCounterMeasureSystem;
          return this;
       }
 
       public TankDetectorImpl build() {
          requireAllNotNull(gridElementDetector);
          GridElementDetector tankDetectorGridElementDetector = getGridElementDetector();
-         Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = getMissileCounterMeasureSystemOpt();
+         Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = Optional.ofNullable(missileCounterMeasureSystem);
          return new TankDetectorImpl(tankDetectorGridElementDetector, missileCounterMeasureSystemOpt, tankGridElementSupplier);
-      }
-
-      private Optional<MissileCounterMeasureSystem> getMissileCounterMeasureSystemOpt() {
-         Optional<MissileCounterMeasureSystem> missileCounterMeasureSystemOpt = Optional.empty();
-         if (nonNull(decoyFlareDispenser)) {
-            missileCounterMeasureSystemOpt = Optional.of(MissileCounterMeasureSystemBuilder.builder()
-                  .withDecoyFlareDispenser(decoyFlareDispenser)
-                  .withGrid(grid)
-                  .withDetector(detector)
-                  .withGridElementSupplier(tankGridElementSupplier)
-                  .build());
-         }
-         return missileCounterMeasureSystemOpt;
       }
 
       private GridElementDetector getGridElementDetector() {

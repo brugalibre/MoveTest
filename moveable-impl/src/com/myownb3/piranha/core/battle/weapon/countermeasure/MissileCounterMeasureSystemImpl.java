@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
@@ -40,8 +39,8 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
    public void autodetect() {
       checkSurrounding();
       getDetectedMissiles().stream()
-            .sorted(new GridElement2DistanceComparator(getDetectorPos()))
             .filter(hasEvasion())
+            .sorted(new GridElement2DistanceComparator(getDetectorPos()))
             .map(GridElement::getPosition)
             .findFirst()
             .ifPresent(this::dispenseDecoyFlares);
@@ -53,10 +52,7 @@ public class MissileCounterMeasureSystemImpl implements MissileCounterMeasureSys
    }
 
    private List<GridElement> getDetectedMissiles() {
-      return gridElementDetector.getDetectedGridElements(getGridElement())
-            .stream()
-            .map(ProjectileGridElement.class::cast)
-            .collect(Collectors.toList());
+      return gridElementDetector.getDetectedGridElements(getGridElement());
    }
 
    private void checkSurrounding() {
