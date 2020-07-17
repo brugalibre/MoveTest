@@ -16,6 +16,7 @@ import com.myownb3.piranha.core.battle.belligerent.galacticempire.StroomTrooper;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
@@ -48,9 +49,11 @@ class TankImplTest {
 
       // Given
       double health = 4;
+      OnDestroyedCallbackHandler onDestroyedCallbackHandler = mock(OnDestroyedCallbackHandler.class);
       Tank tank = TankBuilder.builder()
             .withTankEngine(mock(TankEngine.class))
             .withTankDetector(mock(TankDetector.class))
+            .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)
@@ -106,8 +109,8 @@ class TankImplTest {
 
       // Then
       assertThat(actualIsDestroyed, is(true));
+      verify(onDestroyedCallbackHandler).onDestroy();
    }
-
 
    @Test
    void testThatTurretHasSamePartyThanTank() {

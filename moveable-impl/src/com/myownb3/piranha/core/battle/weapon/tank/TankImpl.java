@@ -9,6 +9,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
@@ -91,6 +92,7 @@ public class TankImpl implements Tank {
       private TankDetector tankDetector;
       private double health;
       private TankStrategy tankStrategy;
+      private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
 
       private TankBuilder() {
          belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
@@ -104,6 +106,11 @@ public class TankImpl implements Tank {
 
       public TankBuilder withTurret(Turret turret) {
          this.turret = turret;
+         return this;
+      }
+
+      public TankBuilder withOnDestroyedCallbackHandler(OnDestroyedCallbackHandler onDestroyedCallbackHandler) {
+         this.onDestroyedCallbackHandler = onDestroyedCallbackHandler;
          return this;
       }
 
@@ -144,8 +151,7 @@ public class TankImpl implements Tank {
                .withDamage(0)
                .withHealth(health)
                .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
-               .withOnDestroyedCallbackHandler(() -> {
-               })
+               .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
                .build();
       }
 

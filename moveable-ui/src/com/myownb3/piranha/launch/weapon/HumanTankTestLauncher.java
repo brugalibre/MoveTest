@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
@@ -77,7 +78,7 @@ public class HumanTankTestLauncher {
       launcher.launch();
    }
 
-   private void launch() throws InterruptedException {
+   private void launch() {
 
       // Common
       int width = 30;
@@ -89,12 +90,13 @@ public class HumanTankTestLauncher {
       double gunWidth = 7;
       int tankWidth = 40;
       int tankHeight = 90;
-      int projectileVelocity = 30;
+      int projectileVelocity = 50;
+      int missileVelocity = 30;
 
       // Rebel
       Position rebelTankPos = Positions.of(450, 600).rotate(80);
       int rebelTankVelocity = 25;
-      double rebelHealth = 25000;
+      double rebelHealth = 350;
 
       // imperial
       double imperialHealth = 200;
@@ -125,6 +127,7 @@ public class HumanTankTestLauncher {
 
       TankHolder imperialTankHolder = new TankHolder();
       int missileCounterMeasureDetectionDistance = 80;
+
       TankGridElement imperialTank = TankGridElementBuilder.builder()
             .withGrid(grid)
             .withEngineVelocity(imperialTankVelocity)
@@ -188,6 +191,10 @@ public class HumanTankTestLauncher {
                               .build())
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .withOnDestroyedCallbackHandler(() -> {
+                     grid.remove(imperialTankHolder.getTankGridElement());
+                     new DestructionAudio().playDefaultExplosion();
+                  })
                   .withTurret(TankTurretBuilder.builder()
                         .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                         .withParkingAngleEvaluator(() -> imperialTankHolder.getPosition().getDirection().getAngle())
@@ -214,7 +221,7 @@ public class HumanTankTestLauncher {
                                                       .withDimensionRadius(3)
                                                       .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                                       .build())
-                                                .withVelocity(projectileVelocity)
+                                                .withVelocity(missileVelocity)
                                                 .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
                                                       .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                                                       .withDetector(DetectorBuilder.builder()
@@ -321,6 +328,10 @@ public class HumanTankTestLauncher {
             .withTank(TankBuilder.builder()
                   .withHealth(rebelHealth)
                   .withTankEngine(humanTankEngine)
+                  .withOnDestroyedCallbackHandler(() -> {
+                     grid.remove(rebelTankHolder.getTankGridElement());
+                     new DestructionAudio().playDefaultExplosion();
+                  })
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTurret(TurretBuilder.builder()
                         .withGunCarriage(gunCarriage)
