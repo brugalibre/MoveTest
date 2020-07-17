@@ -67,6 +67,7 @@ public abstract class AbstractMoveableBuilder<V extends AbstractMoveable, T exte
       public SimpleMoveable build() {
          moveable = new SimpleMoveable(grid, handler, shape, velocity);
          handler.handlePostConditions(moveable);
+         grid.addElement(moveable);
          return (SimpleMoveable) this.moveable;
       }
 

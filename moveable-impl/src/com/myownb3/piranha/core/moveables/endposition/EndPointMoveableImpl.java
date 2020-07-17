@@ -142,8 +142,10 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
          Objects.requireNonNull(grid, "Attribute 'grid' must not be null!");
          Objects.requireNonNull(shape, "Attribute 'shape' must not be null!");
          Objects.requireNonNull(belligerentParty, "Attribute 'belligerentParty' must not be null!");
-         return new EndPointMoveableImpl(grid, evasionStateMachine, handler, movingIncrement, shape,
+         EndPointMoveableImpl endPointMoveableImpl = new EndPointMoveableImpl(grid, evasionStateMachine, handler, movingIncrement, shape,
                getDefaultDimensionInfo(shape.getDimensionRadius()), belligerentParty);
+         grid.addElement(endPointMoveableImpl);
+         return endPointMoveableImpl;
       }
 
       public MoveableControllerBuilder buildAndReturnParentBuilder() {

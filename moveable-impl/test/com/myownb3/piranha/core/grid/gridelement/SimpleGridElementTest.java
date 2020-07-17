@@ -229,7 +229,7 @@ class SimpleGridElementTest {
                   .build())
             .build();
       String expectedToString =
-            "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0', Z-Axis: '0.0'\nMax x:'5, Min x:'0; Max y:'5, Min y:'0";
+            "Position: Direction: 'Cardinal-Direction:N, Rotation: 90.0', X-Axis: '1.0', Y-Axis: '1.0', Z-Axis: '0.0'";
 
       // When
       String toString = element.toString();

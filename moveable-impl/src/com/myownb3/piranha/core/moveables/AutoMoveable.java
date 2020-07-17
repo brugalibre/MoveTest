@@ -97,6 +97,7 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
          autoMoveable.autoDetectableDelegate = autoDetectableDelegate;
          autoMoveable.destructionHelper = destructionHelper;
          autoMoveable.belligerentParty = belligerentParty;
+         grid.addElement(autoMoveable);
          return autoMoveable;
       }
 

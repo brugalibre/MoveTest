@@ -28,6 +28,7 @@ import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
  */
 public abstract class AbstractMoveable extends AbstractGridElement implements Moveable {
 
+   protected Grid grid;
    protected MoveablePostActionHandler handler;
    protected Position posBefore;
    protected int velocity;
@@ -35,14 +36,15 @@ public abstract class AbstractMoveable extends AbstractGridElement implements Mo
 
    protected AbstractMoveable(Grid grid, MoveablePostActionHandler handler, Shape shape, DimensionInfo dimensionInfo,
          int velocity) {
-      super(grid, shape, dimensionInfo);
-      init(handler, velocity);
+      super(shape, dimensionInfo);
+      init(handler, velocity, grid);
    }
 
-   private void init(MoveablePostActionHandler handler, int velocity) {
+   private void init(MoveablePostActionHandler handler, int velocity, Grid grid) {
       posBefore = Positions.of(position);
       positionHistory = new LinkedList<>();
       this.handler = handler;
+      this.grid = grid;
       this.velocity = verifyAmount(velocity);
    }
 

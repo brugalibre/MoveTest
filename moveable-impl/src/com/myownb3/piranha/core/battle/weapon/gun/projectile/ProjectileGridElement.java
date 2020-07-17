@@ -96,7 +96,9 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
          requireNonNull(velocity, "A Projectile needs a velocity!");
          requireNonNull(dimensionInfo, "A Projectile needs a dimensionInfo!");
          requireNonNull(projectile, "A Projectile needs a projectile!");
-         return new ProjectileGridElement(projectile, grid, dimensionInfo, velocity);
+         ProjectileGridElement projectileGridElement = new ProjectileGridElement(projectile, grid, dimensionInfo, velocity);
+         grid.addElement(projectileGridElement);
+         return projectileGridElement;
       }
    }
 }

@@ -142,7 +142,9 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
                .withDimensionRadius(tankShape.getDimensionRadius())
                .withHeightFromBottom(turretHeightFromGround)
                .build();
-         return new TankGridElement(tank, grid, evasionStateMachine, tankDimension, turretDimensionInfo, movingIncrement);
+         TankGridElement tankGridElement = new TankGridElement(tank, grid, evasionStateMachine, tankDimension, turretDimensionInfo, movingIncrement);
+         grid.addElement(tankGridElement);
+         return tankGridElement;
       }
 
       public static TankGridElementBuilder builder() {

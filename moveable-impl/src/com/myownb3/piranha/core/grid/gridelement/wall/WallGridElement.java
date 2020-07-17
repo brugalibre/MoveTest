@@ -17,7 +17,7 @@ public class WallGridElement extends AbstractGridElement implements Wall {
    private DestructionHelper destructionHelper;
 
    protected WallGridElement(Grid grid, Shape shape) {
-      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
+      super(shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
       this.destructionHelper = getDestructionHelper(0, Integer.MAX_VALUE);
    }
 
@@ -51,7 +51,9 @@ public class WallGridElement extends AbstractGridElement implements Wall {
 
       @Override
       public WallGridElement build() {
-         return new WallGridElement(grid, shape);
+         WallGridElement wallGridElement = new WallGridElement(grid, shape);
+         grid.addElement(wallGridElement);
+         return wallGridElement;
       }
    }
 }

@@ -128,6 +128,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }
          moveableObstacleImpl.setName(UUID.randomUUID().toString());
+         grid.addElement(moveableObstacleImpl);
          return moveableObstacleImpl;
       }
    }

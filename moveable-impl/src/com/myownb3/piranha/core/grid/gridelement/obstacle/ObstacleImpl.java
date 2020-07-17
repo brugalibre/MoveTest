@@ -33,8 +33,8 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
    private DestructionHelper destructionHelper;
 
    private ObstacleImpl(Grid grid, Shape shape) {
-      super(grid, shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
-      destructionHelper = getDestructionHelper();
+      super(shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
+      destructionHelper = getDestructionHelper(grid);
    }
 
    @Override
@@ -47,7 +47,7 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
       destructionHelper.onCollision(gridElements);
    }
 
-   private DestructionHelper getDestructionHelper() {
+   private DestructionHelper getDestructionHelper(Grid grid) {
       return DestructionHelperBuilder.builder()
             .withDamage(OBSTACLE_DAMAGE)
             .withHealth(OBSTACLE_HEALTH)
@@ -92,6 +92,7 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
          if (nonNull(destructionHelper)) {
             obstacleImpl.destructionHelper = destructionHelper;
          }
+         grid.addElement(obstacleImpl);
          return obstacleImpl;
       }
    }

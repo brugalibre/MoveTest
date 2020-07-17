@@ -83,6 +83,7 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
          autoMoveable.autoDetectableDelegate = autoDetectableDelegate;
          autoMoveable.destructionHelper = destructionHelper;
          autoMoveable.moveableController = moveableController;
+         grid.addElement(autoMoveable);
          return autoMoveable;
       }
 

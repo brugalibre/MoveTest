@@ -14,10 +14,11 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
  * @author Dominic
  *
  */
-public class SimpleGridElement extends AbstractGridElement {
+public final class SimpleGridElement extends AbstractGridElement {
 
    private SimpleGridElement(Grid grid, Shape shape, DimensionInfo dimensionInfo) {
-      super(grid, shape, dimensionInfo);
+      super(shape, dimensionInfo);
+      grid.addElement(this);
    }
 
    public static class SimpleGridElementBuilder extends AbstractGridElementBuilder<SimpleGridElement, SimpleGridElementBuilder> {

@@ -26,7 +26,6 @@ import com.myownb3.piranha.core.grid.position.Position;
 public abstract class AbstractGridElement implements GridElement {
 
    protected Position position;
-   protected Grid grid;
    protected Shape shape;
    protected DimensionInfo dimensionInfo;
    private String name;
@@ -35,21 +34,17 @@ public abstract class AbstractGridElement implements GridElement {
     * Creates a new {@link AbstractGridElement} with the given {@link Grid}, start
     * {@link Position} and {@link Shape}
     * 
-    * @param grid
-    *        the Grid on which this {@link AbstractGridElement} is placed
-    * @param position
-    *        the start {@link Position}
     * @param shape
     *        the {@link Shape}
+    * @param position
+    *        the start {@link Position}
     */
-   protected AbstractGridElement(Grid grid, Shape shape, DimensionInfo dimensionInfo) {
+   protected AbstractGridElement(Shape shape, DimensionInfo dimensionInfo) {
       super();
       this.position = shape.getCenter();
-      this.grid = grid;
       this.shape = shape;
       this.dimensionInfo = Objects.requireNonNull(dimensionInfo);
       ((AbstractShape) shape).setGridElement(this);
-      grid.addElement(this);
    }
 
    @Override
@@ -108,7 +103,7 @@ public abstract class AbstractGridElement implements GridElement {
 
    @Override
    public String toString() {
-      return "Position: " + position + "\n" + grid;
+      return "Position: " + position;
    }
 
    public void setName(String name) {
