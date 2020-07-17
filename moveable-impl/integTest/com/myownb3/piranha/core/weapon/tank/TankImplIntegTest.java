@@ -41,13 +41,13 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;

@@ -34,13 +34,13 @@ import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionRe
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class TurretShapeImplTest {
 

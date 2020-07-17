@@ -18,10 +18,10 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class ProjectileGridElemTest {
 

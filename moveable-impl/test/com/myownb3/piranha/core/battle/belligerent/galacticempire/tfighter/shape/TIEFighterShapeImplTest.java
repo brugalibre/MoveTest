@@ -18,11 +18,11 @@ import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFi
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class TIEFighterShapeImplTest {
 

@@ -21,11 +21,11 @@ import org.junit.jupiter.api.function.Executable;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 public class RectangleImplTest {
 

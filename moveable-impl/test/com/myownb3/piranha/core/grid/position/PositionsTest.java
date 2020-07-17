@@ -1,11 +1,9 @@
-package com.myownb3.piranha.core.grid.gridelement.position;
+package com.myownb3.piranha.core.grid.position;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
-
-import com.myownb3.piranha.core.grid.position.Position;
 
 class PositionsTest {
 

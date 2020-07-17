@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class AbstractShapeTest {
 

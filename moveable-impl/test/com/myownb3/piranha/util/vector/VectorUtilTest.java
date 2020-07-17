@@ -7,7 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.jscience.mathematics.vector.Float64Vector;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.util.MathUtil;
 
 class VectorUtilTest {

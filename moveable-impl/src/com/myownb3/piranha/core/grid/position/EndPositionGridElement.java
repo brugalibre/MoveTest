@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.grid.gridelement.position;
+package com.myownb3.piranha.core.grid.position;
 
 import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder.getDefaultDimensionInfo;
 

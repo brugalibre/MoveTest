@@ -11,8 +11,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.EndPositions;
 
 class IncrementalForwardStrategyHandlerTest {
 

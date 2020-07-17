@@ -26,11 +26,11 @@ import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape.ImmutableLineShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class MissileCounterMeasureSystemImplTest {
 

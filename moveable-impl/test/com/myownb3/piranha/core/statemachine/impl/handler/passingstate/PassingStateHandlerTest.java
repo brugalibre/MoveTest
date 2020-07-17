@@ -9,8 +9,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.postaction.impl.DetectableMoveableHelper;
 import com.myownb3.piranha.core.statemachine.impl.handler.OneTimeDetectableMoveableHelper;

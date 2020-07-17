@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.myownb3.piranha.core.grid.gridelement.position;
+package com.myownb3.piranha.core.grid.position;
 
 import static com.myownb3.piranha.util.MathUtil.round;
 
@@ -13,7 +13,6 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.util.MathUtil;
 import com.myownb3.piranha.util.attribute.LazyAttribute;
 

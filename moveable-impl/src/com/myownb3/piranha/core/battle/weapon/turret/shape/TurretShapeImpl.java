@@ -12,11 +12,11 @@ import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 public class TurretShapeImpl extends AbstractShape implements TurretShape {
 

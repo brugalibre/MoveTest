@@ -9,7 +9,7 @@ import java.util.Objects;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
+import com.myownb3.piranha.core.grid.position.Positions.PositionImpl;
 
 /**
  * 

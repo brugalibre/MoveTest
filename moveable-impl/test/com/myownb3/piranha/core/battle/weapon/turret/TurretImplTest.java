@@ -43,13 +43,13 @@ import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.M
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 class TurretImplTest {

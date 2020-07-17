@@ -7,9 +7,9 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.collision.bounce.BouncedPositionEvaluator;
 import com.myownb3.piranha.core.grid.direction.Direction;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 /**
  * The {@link BouncedPositionEvaluatorImpl} evaluate a bounced {@link Position} after a collision

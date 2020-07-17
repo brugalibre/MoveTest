@@ -15,9 +15,9 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.grid.direction.Direction;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public abstract class AbstractGun implements Gun {

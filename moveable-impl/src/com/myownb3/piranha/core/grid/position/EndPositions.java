@@ -1,13 +1,11 @@
-package com.myownb3.piranha.core.grid.gridelement.position;
+package com.myownb3.piranha.core.grid.position;
 
 import static com.myownb3.piranha.util.MathUtil.round;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
-import com.myownb3.piranha.core.grid.position.EndPosition;
-import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions.PositionImpl;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 public class EndPositions {

@@ -14,11 +14,11 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBui
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.collision.detection.handler.CollisionDetectionResultImpl;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class GunShapeImplTest {
 

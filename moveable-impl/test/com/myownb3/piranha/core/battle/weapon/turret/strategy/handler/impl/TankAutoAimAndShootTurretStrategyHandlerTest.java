@@ -17,8 +17,8 @@ import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.battle.weapon.turret.states.TurretState;
 import com.myownb3.piranha.core.battle.weapon.turret.turretscanner.TurretScanner;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class TankAutoAimAndShootTurretStrategyHandlerTest {
 

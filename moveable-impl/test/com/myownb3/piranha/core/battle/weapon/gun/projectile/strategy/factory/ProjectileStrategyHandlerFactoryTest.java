@@ -13,9 +13,9 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.DefaultProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.MissileProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class ProjectileStrategyHandlerFactoryTest {
 

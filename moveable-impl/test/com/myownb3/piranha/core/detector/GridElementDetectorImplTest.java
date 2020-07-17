@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import com.myownb3.piranha.core.detector.GridElementDetectorImpl.GridElementDetectorBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class GridElementDetectorImplTest {
 

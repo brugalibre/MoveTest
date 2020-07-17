@@ -14,8 +14,8 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement.TurretGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class TurretGridElementTest {
    @Test

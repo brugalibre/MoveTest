@@ -17,11 +17,11 @@ import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDete
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPositions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.maze.MazeImpl.MazeBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
+import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 

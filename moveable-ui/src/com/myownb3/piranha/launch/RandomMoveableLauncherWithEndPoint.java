@@ -22,7 +22,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
-import com.myownb3.piranha.core.grid.gridelement.position.EndPositionGridElement;
+import com.myownb3.piranha.core.grid.position.EndPositionGridElement;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;

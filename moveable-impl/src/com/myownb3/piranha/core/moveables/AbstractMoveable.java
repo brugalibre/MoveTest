@@ -13,10 +13,10 @@ import java.util.function.BooleanSupplier;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
 
 /**

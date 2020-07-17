@@ -1,8 +1,8 @@
 package com.myownb3.piranha.core.battle.weapon.gun.projectile.descent;
 
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 /**
  * The {@link DescentHandler} is responsible for handling a descent of a {@link Projectile}

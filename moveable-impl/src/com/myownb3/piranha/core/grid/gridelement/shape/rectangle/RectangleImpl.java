@@ -1,7 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.rectangle;
 
-import static com.myownb3.piranha.core.grid.gridelement.position.Positions.buildPositionsBetweenTwoPositions;
 import static com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleUtil.getNextPosition;
+import static com.myownb3.piranha.core.grid.position.Positions.buildPositionsBetweenTwoPositions;
 import static com.myownb3.piranha.util.vector.VectorUtil.rotateVector;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toDegrees;
@@ -18,11 +18,11 @@ import org.jscience.mathematics.vector.Float64Vector;
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegmentImpl;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 public class RectangleImpl extends AbstractShape implements Rectangle {
 

@@ -4,8 +4,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import com.myownb3.piranha.core.battle.weapon.turret.human.HumanToTurretInteractionCallbackHandler;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 public class MouseListener implements MouseMotionListener, java.awt.event.MouseListener {
 

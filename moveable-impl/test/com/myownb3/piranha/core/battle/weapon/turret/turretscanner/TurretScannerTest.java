@@ -33,8 +33,8 @@ import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 class TurretScannerTest {

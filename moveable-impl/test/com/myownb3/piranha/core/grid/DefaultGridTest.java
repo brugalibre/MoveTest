@@ -29,11 +29,11 @@ import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.M
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;

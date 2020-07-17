@@ -9,8 +9,8 @@ import static org.mockito.Mockito.verify;
 import org.jscience.mathematics.vector.Float64Vector;
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class PathSegmentImplTest {
 

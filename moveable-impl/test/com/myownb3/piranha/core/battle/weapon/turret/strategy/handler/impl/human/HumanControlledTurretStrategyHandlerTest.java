@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.turret.states.TurretState;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class HumanControlledTurretStrategyHandlerTest {
 

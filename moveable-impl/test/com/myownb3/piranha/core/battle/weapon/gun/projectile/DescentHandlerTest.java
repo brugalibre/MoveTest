@@ -6,8 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.descent.DescentHandler;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class DescentHandlerTest {
 

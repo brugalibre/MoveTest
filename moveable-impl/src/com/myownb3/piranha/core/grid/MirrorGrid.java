@@ -9,11 +9,11 @@ import java.util.Objects;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.grid.direction.Directions;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape.ImmutableLineShapeBuilder;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement.WallGridElementBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**

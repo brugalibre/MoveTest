@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.AutoMoveable;
 
 class DecoyFlareFactoryTest {

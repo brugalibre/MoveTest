@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.battle.weapon.turret.cluster.TurretClusterImpl.TurretClusterBuilder;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class TurretClusterImplTest {
 

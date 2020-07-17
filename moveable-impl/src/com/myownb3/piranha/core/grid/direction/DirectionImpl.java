@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.jscience.mathematics.vector.Float64Vector;
 
-import com.myownb3.piranha.core.grid.gridelement.position.Positions.PositionImpl;
+import com.myownb3.piranha.core.grid.position.Positions.PositionImpl;
 import com.myownb3.piranha.core.moveables.MoveableConst;
 import com.myownb3.piranha.util.attribute.LazyAttribute;
 

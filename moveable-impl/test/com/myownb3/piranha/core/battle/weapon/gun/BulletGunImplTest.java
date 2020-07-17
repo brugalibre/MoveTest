@@ -26,10 +26,10 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBui
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 class BulletGunImplTest {

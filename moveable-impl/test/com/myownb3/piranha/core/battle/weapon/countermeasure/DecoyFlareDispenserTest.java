@@ -15,9 +15,9 @@ import com.myownb3.piranha.core.battle.weapon.countermeasure.config.DecoyFlareCo
 import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.position.Positions;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.grid.position.Positions;
 
 class DecoyFlareDispenserTest {
 
