@@ -23,6 +23,18 @@ public class AudioConstants {
    /** Path to the sound file for a the rattle of a {@link Turret} when it's end rotating */
    public static final String TURRET_END_ROTATE = "audio/turret/turret_rotate_stop.wav";
 
+   /** Path to the sound file for an engine which is idle */
+   public static final String ENGINE_IDLE = "audio/engine/engine_idle.wav";
+
+   /** Path to the sound file for an engine which is accelerating */
+   public static final String ENGINE_ACCELERATING = "audio/engine/engine_accelerating.wav";
+
+   /** Path to the sound file for an engine which is idle */
+   public static final String ENGINE_SLOWING_DOWN = "audio/engine/engine_slowingdown.wav";
+
+   /** Path to the sound file for an engine which is moving */
+   public static final String ENGINE_MOVING = "audio/engine/engine_moving.wav";
+
    /** Path to the sound file for a the rattle of a {@link Tank}s track */
    public static final String TANK_TRACK_RATTLE = "audio/tank/tank_track_rattle.wav";
 

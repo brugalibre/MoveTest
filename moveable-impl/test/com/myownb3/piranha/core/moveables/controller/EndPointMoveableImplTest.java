@@ -33,6 +33,31 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.Evasio
 class EndPointMoveableImplTest {
 
    @Test
+   void testSetVelocity() {
+
+      // Given
+      int initVelocity = 1;
+      int newVelocity = 10;
+      EndPointMoveable moveable = EndPointMoveableBuilder.builder()
+            .withGrid(GridBuilder.builder()
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0.9))
+                  .build())
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withMovingIncrement(initVelocity)
+            .addMoveablePostActionHandler(res -> true)
+            .build();
+
+      // When
+      moveable.setVelocity(newVelocity);
+
+      // Then
+      int actualVelocity = moveable.getVelocity();
+      assertThat(actualVelocity, is(newVelocity));
+   }
+
+   @Test
    void testCombineMoveablePostActionHandler() {
       // Given
 

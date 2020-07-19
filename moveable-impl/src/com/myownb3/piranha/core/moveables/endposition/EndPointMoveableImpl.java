@@ -79,6 +79,11 @@ public class EndPointMoveableImpl extends AbstractMoveable implements EndPointMo
       return belligerentParty;
    }
 
+   @Override
+   public void setVelocity(int velocity) {
+      this.velocity = velocity;
+   }
+
    private static MoveablePostActionHandler getHandler(EvasionStateMachine evasionStateMachine, MoveablePostActionHandler handler) {
       if (nonNull(evasionStateMachine)) {
          return handler.andThen(evasionStateMachine);// Since the EvasionStateMachine is as well a MoveablePostActionHandler, add it as well

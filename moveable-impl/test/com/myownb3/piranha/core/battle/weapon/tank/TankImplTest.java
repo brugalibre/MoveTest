@@ -363,6 +363,7 @@ class TankImplTest {
 
       // Then
       verify(tank.getTankEngine(), never()).moveForward();
+      verify(tank.getTankEngine()).stopMoveForward();
    }
 
    @Test

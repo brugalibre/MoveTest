@@ -28,15 +28,15 @@ public class KeyListener implements java.awt.event.KeyListener {
 
    private void handleKeyInput(KeyEvent keyEvent, boolean isPressed) {
       if (keyEvent.getKeyCode() == KeyEvent.VK_UP || keyEvent.getKeyCode() == KeyEvent.VK_W) {
-         callbackHandler.onForward(isPressed);
+         callbackHandler.onForwardPressed(isPressed);
       } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN || keyEvent.getKeyCode() == KeyEvent.VK_S) {
-         callbackHandler.onBackward(isPressed);
+         callbackHandler.onBackwardPressed(isPressed);
       }
 
       if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT || keyEvent.getKeyCode() == KeyEvent.VK_A) {
-         callbackHandler.onTurnLeft(isPressed);
+         callbackHandler.onTurnLeftPressed(isPressed);
       } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT || keyEvent.getKeyCode() == KeyEvent.VK_D) {
-         callbackHandler.onTurnRight(isPressed);
+         callbackHandler.onTurnRightPressed(isPressed);
       }
    }
 }

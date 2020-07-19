@@ -56,6 +56,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
@@ -90,7 +91,7 @@ public class HumanTankTestLauncher {
       double gunWidth = 7;
       int tankWidth = 40;
       int tankHeight = 90;
-      int projectileVelocity = 50;
+      int projectileVelocity = 80;
       int missileVelocity = 30;
 
       // Rebel
@@ -151,9 +152,10 @@ public class HumanTankTestLauncher {
             .withTank(TankBuilder.builder()
                   .withHealth(imperialHealth)
                   .withTankEngine(TankEngineBuilder.builder()
-                        .withAudioClip(AudioClipBuilder.builder()
-                              .withRestartRunningAudio(false)
-                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                        .withVelocity(imperialTankVelocity)
+                        .withDefaultEngineStateHandler()
+                        .withEngineAudio(EngineAudioBuilder.builder()
+                              .withDefaultAudio()
                               .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
@@ -272,11 +274,12 @@ public class HumanTankTestLauncher {
 
       TankHolder rebelTankHolder = new TankHolder();
       HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withAudioClip(AudioClipBuilder.builder()
-                  .withRestartRunningAudio(false)
-                  .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+            .withEngineAudio(EngineAudioBuilder.builder()
+                  .withDefaultAudio()
                   .build())
             .withLazyMoveable(() -> rebelTankHolder.getTankGridElement())
+            .withVelocity(rebelTankVelocity)
+            .withDefaultEngineStateHandler()
             .build();
 
       GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
@@ -411,6 +414,6 @@ public class HumanTankTestLauncher {
       SwingUtilities.invokeLater(() -> mainWindow.show());
       MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 8, 120);
       new UIRefresher(mainWindow, cycleTime).start();
-      new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, true).start();
+      new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();
    }
 }

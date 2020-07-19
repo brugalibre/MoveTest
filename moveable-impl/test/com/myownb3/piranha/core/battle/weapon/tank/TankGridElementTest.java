@@ -311,6 +311,7 @@ class TankGridElementTest {
                               .withEndPositions(rebelTankEndPositions)
                               .withLazyMoveable(() -> tankHolder.getTankGridElement())
                               .build())
+                        .withDefaultEngineStateHandler()
                         .build())
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> tankHolder.getTankGridElement())

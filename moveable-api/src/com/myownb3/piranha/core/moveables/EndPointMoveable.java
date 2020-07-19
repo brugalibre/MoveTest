@@ -36,4 +36,12 @@ public interface EndPointMoveable extends Moveable, Belligerent {
     * @param position
     */
    void setEndPosition(EndPosition position);
+
+   /**
+    * Sets the new velocity of this {@link EndPointMoveable}
+    * 
+    * @param velocity
+    *        the new velocity
+    */
+   void setVelocity(int velocity);
 }

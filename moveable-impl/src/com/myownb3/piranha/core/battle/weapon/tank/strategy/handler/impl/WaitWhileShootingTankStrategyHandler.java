@@ -23,6 +23,8 @@ public class WaitWhileShootingTankStrategyHandler implements TankStrategyHandler
       tankDetector.autodetect();
       if (has2MoveForward()) {
          tankEngine.moveForward();
+      } else {
+         tankEngine.stopMoveForward();
       }
    }
 

@@ -20,6 +20,12 @@ public interface TankEngine {
 
    /**
     * 
+    * Will move this {@link TankEngine} to stop moving forward
+    */
+   void stopMoveForward();
+
+   /**
+    * 
     * @return get the {@link Moveable} of this {@link TankEngine}
     */
    EndPointMoveable getMoveable();

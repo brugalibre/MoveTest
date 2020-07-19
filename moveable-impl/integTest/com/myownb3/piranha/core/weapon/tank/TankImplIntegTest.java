@@ -12,8 +12,6 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.audio.constants.AudioConstants;
-import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
@@ -51,6 +49,7 @@ import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 
 class TankImplIntegTest {
 
@@ -147,8 +146,10 @@ class TankImplIntegTest {
             .build());
       Tank tank = TankBuilder.builder()
             .withTankEngine(TankEngineBuilder.builder()
-                  .withAudioClip(AudioClipBuilder.builder()
-                        .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withVelocity(10)
+                  .withDefaultEngineStateHandler()
+                  .withEngineAudio(EngineAudioBuilder.builder()
+                        .withDefaultAudio()
                         .build())
                   .withMoveableController(MoveableControllerBuilder.builder()
                         .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)

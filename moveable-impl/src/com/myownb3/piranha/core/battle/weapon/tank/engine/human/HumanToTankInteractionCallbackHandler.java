@@ -19,7 +19,7 @@ public interface HumanToTankInteractionCallbackHandler {
     *        <code>true</code> when the {@link HumanTankEngine} has to start <code>false</code> if it has to stop
     * 
     */
-   void onForward(boolean isPressed);
+   void onForwardPressed(boolean isPressed);
 
    /**
     * Is triggered when ever the humand indicated the {@link Tank} to move backward
@@ -27,7 +27,7 @@ public interface HumanToTankInteractionCallbackHandler {
     * @param isPressed
     *        <code>true</code> when the {@link HumanTankEngine} has to start <code>false</code> if it has to stop
     */
-   void onBackward(boolean isPressed);
+   void onBackwardPressed(boolean isPressed);
 
    /**
     * Is triggered when ever the humand indicated the {@link Tank} to turn right
@@ -35,7 +35,7 @@ public interface HumanToTankInteractionCallbackHandler {
     * @param isPressed
     *        <code>true</code> when the {@link HumanTankEngine} has to start <code>false</code> if it has to stop
     */
-   void onTurnRight(boolean isPressed);
+   void onTurnRightPressed(boolean isPressed);
 
    /**
     * Is triggered when ever the humand indicated the {@link Tank} to turn left
@@ -43,5 +43,5 @@ public interface HumanToTankInteractionCallbackHandler {
     * @param isPressed
     *        <code>true</code> when the {@link HumanTankEngine} has to start <code>false</code> if it has to stop
     */
-   void onTurnLeft(boolean isPressed);
+   void onTurnLeftPressed(boolean isPressed);
 }

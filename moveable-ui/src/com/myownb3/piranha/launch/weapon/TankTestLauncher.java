@@ -51,6 +51,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
@@ -143,9 +144,14 @@ public class TankTestLauncher {
                   .build())
             .withTank(TankBuilder.builder()
                   .withTankEngine(TankEngineBuilder.builder()
-                        .withAudioClip(AudioClipBuilder.builder()
-                              .withRestartRunningAudio(false)
-                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                        .withVelocity(12)
+                        .withDefaultEngineStateHandler()
+                        .withEngineAudio(EngineAudioBuilder.builder()
+                              .withDefaultAudio()
+                              .withEngineMoveAudio(AudioClipBuilder.builder()
+                                    .withRestartRunningAudio(false)
+                                    .withAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                                    .build())
                               .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
@@ -286,9 +292,14 @@ public class TankTestLauncher {
                   .build())
             .withTank(TankBuilder.builder()
                   .withTankEngine(TankEngineBuilder.builder()
-                        .withAudioClip(AudioClipBuilder.builder()
-                              .withRestartRunningAudio(false)
-                              .withAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                        .withVelocity(10)
+                        .withDefaultEngineStateHandler()
+                        .withEngineAudio(EngineAudioBuilder.builder()
+                              .withDefaultAudio()
+                              .withEngineMoveAudio(AudioClipBuilder.builder()
+                                    .withRestartRunningAudio(false)
+                                    .withAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                                    .build())
                               .build())
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
