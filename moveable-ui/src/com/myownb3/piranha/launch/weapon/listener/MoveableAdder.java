@@ -9,7 +9,6 @@ import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
@@ -109,7 +108,7 @@ public class MoveableAdder {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
                   .withHealth(500)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(moveableVelocity))
+                  .withSelfDestructiveDamage(moveableVelocity)
                   .withOnDestroyedCallbackHandler(() -> {
                      grid.remove(lazyEndPoinMoveable.getGridElement());
                      new DestructionAudio().playDefaultExplosion();

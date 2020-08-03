@@ -152,7 +152,7 @@ public class HumanTankTestLauncher {
                   .withDestructionHelper(DestructionHelperBuilder.builder()
                         .withDamage(0)
                         .withHealth(imperialTurretHealth)
-                        .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
+                        .withSelfDestructiveDamage(0)
                         .withOnDestroyedCallbackHandler(() -> {
                            grid.remove(lazyTurretGridElement.getGridElement());
                            new DestructionAudio().playDefaultExplosion();

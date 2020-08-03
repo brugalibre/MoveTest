@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
@@ -150,7 +149,7 @@ public class TankImpl implements Tank {
          return DestructionHelperBuilder.builder()
                .withDamage(0)
                .withHealth(health)
-               .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
+               .withSelfDestructiveDamage(0)
                .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
                .build();
       }

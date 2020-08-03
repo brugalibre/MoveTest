@@ -4,7 +4,6 @@ import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.Dimensio
 
 import java.util.List;
 
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
@@ -60,7 +59,7 @@ public class WallGridElement extends AbstractGridElement implements Wall {
          DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
                .withDamage(0)
                .withHealth(health)
-               .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0))
+               .withSelfDestructiveDamage(0)
                .withOnDestroyedCallbackHandler(() -> {
                   grid.remove(lazyWallGridElement.getGridElement());
                   new DestructionAudio().playDefaultExplosion();

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
@@ -50,7 +49,7 @@ class AutoMoveableControllerTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
                   .withHealth(500)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .withSelfDestructiveDamage(1)
                   .withOnDestroyedCallbackHandler(() -> {
                   })
                   .build())
@@ -97,7 +96,7 @@ class AutoMoveableControllerTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
                   .withHealth(500)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .withSelfDestructiveDamage(1)
                   .withOnDestroyedCallbackHandler(() -> {
                   })
                   .build())
@@ -148,7 +147,7 @@ class AutoMoveableControllerTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
                   .withHealth(500)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .withSelfDestructiveDamage(1)
                   .withOnDestroyedCallbackHandler(() -> {
                   })
                   .build())
@@ -201,7 +200,7 @@ class AutoMoveableControllerTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(3)
                   .withHealth(500)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(moveableVelocity))
+                  .withSelfDestructiveDamage(moveableVelocity)
                   .withOnDestroyedCallbackHandler(() -> {
                      grid.remove(lazyEndPoinMoveable.getGridElement());
                      new DestructionAudio().playDefaultExplosion();

@@ -63,7 +63,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(damage)
             .withHealth(3)
-            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
+            .withSelfDestructiveDamage(3)
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
 
@@ -78,7 +78,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(1)
             .withHealth(3)
-            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(3))
+            .withSelfDestructiveDamage(3)
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mock(Obstacle.class));
@@ -97,7 +97,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(1)
             .withHealth(3)
-            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
+            .withSelfDestructiveDamage(0.2)
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mock(TurretGridElement.class));// Turret is none destructive AND non destructible!
@@ -116,7 +116,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(3)
             .withHealth(10)
-            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(0.2))
+            .withSelfDestructiveDamage(0.2)
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mock(Wall.class));
@@ -135,7 +135,7 @@ class DestructionHelperTest {
       DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
             .withDamage(1)
             .withHealth(10)
-            .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+            .withSelfDestructiveDamage(1)
             .withOnDestroyedCallbackHandler(mock(OnDestroyedCallbackHandler.class))
             .build();
       List<GridElement> gridElements = Collections.singletonList(mockProjectileGridElementent(11));

@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
@@ -34,7 +33,7 @@ class ObstacleImplTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(1)
                   .withHealth(3)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .withSelfDestructiveDamage(1)
                   .build())
             .withShape(mock(CircleImpl.class))
             .build();
@@ -57,7 +56,7 @@ class ObstacleImplTest {
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(1)
                   .withHealth(3)
-                  .withSelfDestructiveDamage(DefaultSelfDestructiveImpl.of(1))
+                  .withSelfDestructiveDamage(1)
                   .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
                   .build())
             .withShape(mock(CircleImpl.class))

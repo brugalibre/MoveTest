@@ -108,8 +108,13 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
          return this;
       }
 
-      public DestructionHelperBuilder withSelfDestructiveDamage(SelfDestructive selfDestructiveDamage) {
-         this.selfDestructiveDamage = selfDestructiveDamage;
+      public DestructionHelperBuilder withSelfDestructiveDamage(SelfDestructive selfDestructive) {
+         this.selfDestructiveDamage = selfDestructive;
+         return this;
+      }
+
+      public DestructionHelperBuilder withSelfDestructiveDamage(double velocity) {
+         this.selfDestructiveDamage = DefaultSelfDestructiveImpl.of(velocity);
          return this;
       }
 
