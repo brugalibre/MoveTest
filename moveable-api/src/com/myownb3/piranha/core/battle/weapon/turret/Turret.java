@@ -1,9 +1,11 @@
 package com.myownb3.piranha.core.battle.weapon.turret;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
+import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.battle.weapon.gun.Gun;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
+import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 
 /**
@@ -16,7 +18,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
  * @author Dominic
  *
  */
-public interface Turret extends AutoDetectable, Belligerent {
+public interface Turret extends AutoDetectable, Belligerent, Destructible, CollisionSensitive {
 
    /**
     * @return the {@link Shape} of this {@link Turret}

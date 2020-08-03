@@ -4,9 +4,13 @@ import static com.myownb3.piranha.util.ObjectUtils.firstNonNull;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
+import java.util.List;
+import java.util.Optional;
+
 import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.trajectory.TargetPositionLeadEvaluator;
@@ -20,6 +24,7 @@ import com.myownb3.piranha.core.battle.weapon.turret.strategy.handler.impl.Turre
 import com.myownb3.piranha.core.battle.weapon.turret.turretscanner.TurretScanner;
 import com.myownb3.piranha.core.battle.weapon.turret.turretscanner.TurretScanner.TurretScannerBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 
@@ -28,15 +33,17 @@ public class TurretImpl implements Turret {
    @Visible4Testing
    TurretStrategyHandler turretStrategyHandler;
    private TurretShape shape;
+   private Optional<DestructionHelper> destructionHelperOpt;
    private BelligerentParty belligerentParty;
 
-   protected TurretImpl(TurretShape turretShape, BelligerentParty belligerentParty) {
-      init(turretShape, belligerentParty);
+   protected TurretImpl(TurretShape turretShape, BelligerentParty belligerentParty, DestructionHelper destructionHelper) {
+      init(turretShape, belligerentParty, destructionHelper);
    }
 
-   private void init(TurretShape turretShape, BelligerentParty belligerentParty) {
+   private void init(TurretShape turretShape, BelligerentParty belligerentParty, DestructionHelper destructionHelper) {
       this.shape = turretShape;
       this.belligerentParty = belligerentParty;
+      this.destructionHelperOpt = Optional.ofNullable(destructionHelper);
    }
 
    @Override
@@ -64,6 +71,17 @@ public class TurretImpl implements Turret {
       return shape;
    }
 
+   @Override
+   public void onCollision(List<GridElement> gridElements) {
+      destructionHelperOpt.ifPresent(destructionHelper -> destructionHelper.onCollision(gridElements));
+   }
+
+   @Override
+   public boolean isDestroyed() {
+      return destructionHelperOpt.map(DestructionHelper::isDestroyed)
+            .orElse(false);
+   }
+
    public abstract static class GenericTurretBuilder<T> {
 
       protected BelligerentParty belligerentParty;
@@ -74,6 +92,7 @@ public class TurretImpl implements Turret {
       private GridElementEvaluator gridElementsEvaluator;
       private PositionTransformator positionTransformator;
       private TurretStrategyHandler turretStrategyHandler;
+      private DestructionHelper destructionHelper;
 
       protected GenericTurretBuilder() {
          belligerentParty = BelligerentPartyConst.REBEL_ALLIANCE;
@@ -110,6 +129,11 @@ public class TurretImpl implements Turret {
          return getThis();
       }
 
+      public T withDestructionHelper(DestructionHelper destructionHelper) {
+         this.destructionHelper = destructionHelper;
+         return getThis();
+      }
+
       public T withTargetPositionLeadEvaluator(TargetPositionLeadEvaluator targetPositionLeadEvaluator) {
          this.targetPositionLeadEvaluator = targetPositionLeadEvaluator;
          return getThis();
@@ -124,7 +148,7 @@ public class TurretImpl implements Turret {
 
       public TurretImpl build() {
          TurretShape turretShape = buildTurretShape();
-         TurretImpl turretImpl = new TurretImpl(turretShape, belligerentParty);
+         TurretImpl turretImpl = new TurretImpl(turretShape, belligerentParty, destructionHelper);
          if (isNull(turretStrategyHandler)) {
             this.turretScanner = getTurretScanner(turretImpl);
             this.turretStrategyHandler = buildTurretStrategyHandlerHandler(turretShape);

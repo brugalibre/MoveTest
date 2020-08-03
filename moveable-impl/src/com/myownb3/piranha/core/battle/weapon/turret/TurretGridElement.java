@@ -1,8 +1,11 @@
 package com.myownb3.piranha.core.battle.weapon.turret;
 
+import java.util.List;
+
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
+import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
@@ -39,6 +42,16 @@ public class TurretGridElement extends AbstractGridElement implements Turret {
    @Override
    public boolean isShooting() {
       return turret.isShooting();
+   }
+
+   @Override
+   public boolean isDestroyed() {
+      return turret.isDestroyed();
+   }
+
+   @Override
+   public void onCollision(List<GridElement> destructives) {
+      turret.onCollision(destructives);
    }
 
    public static class TurretGridElementBuilder {

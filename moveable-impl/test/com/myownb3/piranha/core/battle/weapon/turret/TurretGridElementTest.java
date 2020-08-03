@@ -2,10 +2,13 @@ package com.myownb3.piranha.core.battle.weapon.turret;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -77,9 +80,13 @@ class TurretGridElementTest {
       turretTower.isEnemy(belligerent);
       turretTower.getBelligerentParty();
       turretTower.isShooting();
+      turretTower.isDestroyed();
+      turretTower.onCollision(Collections.emptyList());
 
       // Then
       verify(turret).isAcquiring();
+      verify(turret).isDestroyed();
+      verify(turret).onCollision(eq(Collections.emptyList()));
       verify(turret, times(2)).getBelligerentParty();
       verify(turret, times(4)).getShape();
       verify(turret).isShooting();

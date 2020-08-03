@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.StroomTrooper;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
@@ -200,6 +201,54 @@ class TurretImplTest {
 
       // Then
       assertThat(actualBelligerentParty, is(BelligerentPartyConst.GALACTIC_EMPIRE));
+   }
+
+   @Test
+   void testDestructiveHelper() {
+
+      // Given
+      Position turretPos = Positions.of(5, 5);
+      DestructionHelper destructionHelperMock = mock(DestructionHelper.class);
+      TurretImpl turretImpl = TurretBuilder.builder()
+            .withGridElementEvaluator((position, distance) -> Collections.emptyList())
+            .withDetector(mock(IDetector.class))
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withDestructionHelper(destructionHelperMock)
+            .withGunCarriage(DefaultGunCarriageBuilder.builder()
+                  .withGun(DefaultGunBuilder.builder()
+                        .withGunProjectileType(ProjectileTypes.BULLET)
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withRoundsPerMinute(1)
+                              .withSalveSize(1)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(0))
+                                    .withVelocity(1)
+                                    .build())
+                              .build())
+                        .withGunShape(GunShapeBuilder.builder()
+                              .withBarrel(RectangleBuilder.builder()
+                                    .withHeight(5)
+                                    .withWidth(2)
+                                    .withCenter(turretPos)
+                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .build())
+                              .build())
+                        .build())
+                  .withShape(CircleBuilder.builder()
+                        .withRadius(5)
+                        .withAmountOfPoints(5)
+                        .withCenter(turretPos)
+                        .build())
+                  .build())
+            .build();
+
+      // When
+      turretImpl.isDestroyed();
+      turretImpl.onCollision(Collections.emptyList());
+
+      // Then
+      verify(destructionHelperMock).isDestroyed();
+      verify(destructionHelperMock).onCollision(eq(Collections.emptyList()));
    }
 
    @Test
