@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
@@ -55,6 +54,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleB
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallBuilder;
+import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -170,10 +171,10 @@ public class HumanTankTestLauncher {
                   .withGunCarriage(DefaultGunCarriageBuilder.builder()
                         .withRotationSpeed(turretRotationSpeed)
                         .withGun(DefaultGunBuilder.builder()
-                              .withGunProjectileType(ProjectileTypes.BULLET)
+                              .withGunProjectileType(ProjectileTypes.LASER_BEAM)
                               .withGunConfig(GunConfigBuilder.builder()
                                     .withAudioClip(AudioClipBuilder.builder()
-                                          .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                                          .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
                                           .build())
                                     .withSalveSize(1)
                                     .withRoundsPerMinute(200)
@@ -495,6 +496,7 @@ public class HumanTankTestLauncher {
       rebelTankHolder.setAndReturnTank(humanRebelTank);
       rebelTankHolder.setTankGridElement(humanRebelTank);
 
+      List<WallGridElement> wallSemgments = addProtectiveWall(grid);
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
@@ -507,9 +509,41 @@ public class HumanTankTestLauncher {
       renderers.add(new GridElementPainter(imperialTank, getColor(imperialTank), height, width));
       renderers.add(new GridElementPainter(northImperialTurretGridElement, getColor(northImperialTurretGridElement), height, width));
 
+      for (WallGridElement wallSegment : wallSemgments) {
+         renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment), height, width));
+      }
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, renderers);
+   }
+
+   private List<WallGridElement> addProtectiveWall(MirrorGrid grid) {
+      Position wallSegmentPos = Positions.of(390, 700);
+      int wallSegmentLength = 40;
+      int wallSegmentWidth = 10;
+      double wallHealth = 800.0;
+      return WallBuilder.builder()
+            .withGrid(grid)
+            .withWallHealth(wallHealth)
+            .withWallStartPos(wallSegmentPos)
+            .withWallSegmentWidth(wallSegmentWidth)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .rotate(80.0)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addGap(2 * wallSegmentLength / 3d)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .addWallSegment(wallSegmentLength)
+            .build();
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
