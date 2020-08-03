@@ -39,7 +39,7 @@ A Tank comes with a 'TankEngine', a 'TankDetector' and a 'TankTurret'. The tank 
 In order to fight a missile, the tank-detector comes now with a 'MissileCounterMeasureSystem' which automatically detects missiles within a certain distance and automatically deploys a set of decoy flares. Those will lead the missile to change it's direction towards those decoy flares.
 
 Tank/turret example:
-![tankturretexample](https://user-images.githubusercontent.com/29772244/87281725-ccc85700-c4f3-11ea-9ba1-73b665b63802.png)
+![tankturretexample](https://user-images.githubusercontent.com/29772244/89691586-8eaf2f00-d909-11ea-91ed-852df821bcfd.png)
 
 One of this strategy is a 'human' strategy which allows the user to control the turret by himself (the bunch of blue circles are deployed decoy flares):
 

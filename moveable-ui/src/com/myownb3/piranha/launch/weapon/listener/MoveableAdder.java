@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
-import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.destruction.DefaultSelfDestructiveImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
@@ -48,16 +48,18 @@ public class MoveableAdder {
    private int counter = 50;
    private double maxX;
    private double maxY;
+   private BelligerentParty belligerent;
 
    public MoveableAdder(int maxX, int maxY) {
       this.maxX = maxX;
       this.maxY = maxY;
    }
 
-   public MoveableAdder(int maxX, int maxY, int moveableVelocity, int counter) {
+   public MoveableAdder(int maxX, int maxY, int moveableVelocity, int counter, BelligerentParty belligerentParty) {
       this(maxX, maxY);
       this.moveableVelocity = moveableVelocity;
       this.counter = counter;
+      this.belligerent = belligerentParty;
    }
 
    public boolean check4NewMoveables2Add(Grid grid, List<Renderer<? extends GridElement>> renderers, int cycleCounter, int padding) {
@@ -113,7 +115,7 @@ public class MoveableAdder {
                      new DestructionAudio().playDefaultExplosion();
                   })
                   .build())
-            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withBelligerentParty(belligerent)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(gridElementRadius))
             .withMoveableController(MoveableControllerBuilder.builder()
                   .withEndPositions(endPosList)

@@ -631,7 +631,7 @@ public class TankTestLauncher {
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 20, 80);
+      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 20, 80, BelligerentPartyConst.GALACTIC_EMPIRE);
       int cycleTime = 15;
       new UIRefresher(mainWindow, cycleTime).start();
       new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();
