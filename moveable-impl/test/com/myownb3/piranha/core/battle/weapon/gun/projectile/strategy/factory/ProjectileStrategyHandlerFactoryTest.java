@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -13,6 +14,7 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.DefaultProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.MissileProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
+import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Positions;
@@ -44,8 +46,9 @@ class ProjectileStrategyHandlerFactoryTest {
             .withPosition(Positions.of(5, 5)).build();
 
       // When
+      ProjectileConfig projectileConfig = mockProjectileConfig();
       ProjectileStrategyHandler projectileStrategyHandler =
-            ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, mock(ProjectileConfig.class), shape);
+            ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, projectileConfig, shape);
 
       // Then
       assertThat(projectileStrategyHandler, instanceOf(MissileProjectileStrategyHandler.class));
@@ -66,4 +69,9 @@ class ProjectileStrategyHandlerFactoryTest {
       assertThrows(IllegalArgumentException.class, exe);
    }
 
+   private static ProjectileConfig mockProjectileConfig() {
+      ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
+      when(projectileConfig.getTargetGridElementEvaluator()).thenReturn(mock(TargetGridElementEvaluator.class));
+      return projectileConfig;
+   }
 }

@@ -20,6 +20,7 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
@@ -52,6 +53,7 @@ class ProjectileFactoryTest {
       Position pos = Positions.of(9.5, 8.5);
       ProjectileConfig projectileConfig = ProjectileConfigBuilder.builder()
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+            .withTargetGridElementEvaluator(mock(TargetGridElementEvaluator.class))
             .withVelocity(5)
             .build();
       ProjectileGridElement projectileGridElementent = ProjectileFactory.INSTANCE.createProjectile(ProjectileTypes.MISSILE, pos, projectileConfig);
@@ -175,6 +177,7 @@ class ProjectileFactoryTest {
 
    private ProjectileConfig mockProjectileConfig() {
       ProjectileConfig projectileConfig = mock(ProjectileConfig.class);
+      when(projectileConfig.getTargetGridElementEvaluator()).thenReturn(mock(TargetGridElementEvaluator.class));
       when(projectileConfig.getVelocity()).thenReturn(1);
       return projectileConfig;
    }

@@ -14,6 +14,7 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.factory.ProjectileFactory;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
+import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluator;
 import com.myownb3.piranha.core.collision.detection.handler.DefaultCollisionDetectionHandlerImpl;
 import com.myownb3.piranha.core.grid.DefaultGrid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -53,6 +54,7 @@ class MissileGunImplTest {
                               .withHeightFromBottom(1)
                               .build())
                         .withVelocity(1)
+                        .withTargetGridElementEvaluator(mock(TargetGridElementEvaluator.class))
                         .build())
                   .build())
             .withGunShape(GunShapeBuilder.builder()
@@ -66,7 +68,7 @@ class MissileGunImplTest {
 
       // When
       missileGunImpl.fire();
-      Thread.sleep(200);// wait until the WorkerThreadFactory has created the new GridElement
+      Thread.sleep(300);// wait until the WorkerThreadFactory has created the new GridElement
 
       // Then
       assertThat(grid.actualGridElement.getShape(), instanceOf(Rectangle.class));

@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy;
 
 import static com.myownb3.piranha.core.battle.weapon.target.TargetGridElement.isSameGridElementTarget;
+import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
@@ -82,6 +83,8 @@ public class MissileProjectileStrategyHandler extends DefaultProjectileStrategyH
     * @return a new {@link MissileProjectileStrategyHandler}
     */
    public static MissileProjectileStrategyHandler of(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape, int missileVelocity) {
+      requireNonNull(targetGridElementEvaluator);
+      requireNonNull(shape);
       return new MissileProjectileStrategyHandler(targetGridElementEvaluator, shape, missileVelocity);
    }
 }
