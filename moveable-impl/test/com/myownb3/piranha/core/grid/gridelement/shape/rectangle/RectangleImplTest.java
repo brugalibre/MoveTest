@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mockito;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
@@ -24,10 +25,38 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.RectanglePathBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.DefaultRectanglePathBuilderImpl;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 
 public class RectangleImplTest {
+
+   @Test
+   void testWithCustomPathBuilder() {
+
+      // Given
+      Position center = Positions.of(2, 2);
+      Position newPos = Positions.of(4, 4);
+      double height = 10;
+      double width = 20;
+      RectanglePathBuilder rectanglePathBuilder = Mockito.spy(new DefaultRectanglePathBuilderImpl());
+
+      // When
+      Rectangle rectangle = RectangleBuilder.builder()
+            .withCenter(center)
+            .withWidth(width)
+            .withRectanglePathBuilder(rectanglePathBuilder)
+            .withHeight(height)
+            .withOrientation(Orientation.VERTICAL)
+            .withDistanceBetweenPosOnColDetectionPath(1)
+            .build();
+      rectangle.transform(newPos);
+
+      // Then
+      verify(rectanglePathBuilder).buildRectanglePath(eq(center), eq(Orientation.VERTICAL), eq(width), eq(height));
+      verify(rectanglePathBuilder).buildRectanglePath(eq(newPos), eq(Orientation.VERTICAL), eq(width), eq(height));
+   }
 
    @Test
    void testDimension() {
