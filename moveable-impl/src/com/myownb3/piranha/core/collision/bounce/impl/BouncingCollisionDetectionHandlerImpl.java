@@ -39,7 +39,6 @@ public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetect
 
    private Predicate<? super CollisionGridElement> isBouncable(GridElement movedGridElement) {
       return colGridElem -> BouncableLookupTable.isBouncable(movedGridElement, colGridElem.getGridElement());
-
    }
 
    private Function<Intersection, ? extends Position> calculateBouncedPosition(GridElement movedGridElement) {

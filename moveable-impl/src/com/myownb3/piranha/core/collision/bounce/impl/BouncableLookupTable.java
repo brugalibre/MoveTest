@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.collision.bounce.impl;
 
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
+import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 
@@ -30,6 +31,8 @@ public class BouncableLookupTable {
    public static boolean isBouncable(GridElement movedGridElement, GridElement gridElement) {
       if (isProjectile(movedGridElement)) {
          return isProjectileBouncableForCollisionWith(gridElement);
+      } else if (isTank(movedGridElement)) {
+         return false;
       } else {
          return !isProjectile(gridElement);
       }
@@ -44,5 +47,9 @@ public class BouncableLookupTable {
 
    private static boolean isProjectile(GridElement movedGridElement) {
       return movedGridElement instanceof Projectile;
+   }
+
+   private static boolean isTank(GridElement movedGridElement) {
+      return movedGridElement instanceof Tank;
    }
 }
