@@ -54,6 +54,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleB
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl.RectangleSides;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallBuilder;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -342,6 +344,7 @@ public class HumanTankTestLauncher {
                               .build())
                         .build())
                   .withHull(RectangleBuilder.builder()
+                        .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
                         .withCenter(imperialTankPos)
                         .withHeight(tankHeight)
                         .withWidth(tankWidth)
@@ -449,6 +452,7 @@ public class HumanTankTestLauncher {
                         .withCenter(rebelTankPos)
                         .withHeight(tankHeight)
                         .withWidth(tankWidth)
+                        .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)

@@ -80,7 +80,7 @@ public class RectangleImplTest {
       // Given
       GridElement gridElement = mock(GridElement.class);
       Rectangle rectangle = buildRectangleWithGridElement(Positions.of(0, 0), 10, 20, Orientation.HORIZONTAL, gridElement);
-      List<Position> expectedPath = getExpectedPath(rectangle);
+      List<Position> expectedPath = getExpectedPath();
       Detector detector = spy(DetectorBuilder.builder()
             .withDetectorReach(8)
             .withDetectorAngle(45)
@@ -104,7 +104,7 @@ public class RectangleImplTest {
       return rectangle;
    }
 
-   private static List<Position> getExpectedPath(Rectangle rectangle) {
+   private static List<Position> getExpectedPath() {
       return Arrays.asList(
             Positions.of(10, 5),
             Positions.of(9, 5),

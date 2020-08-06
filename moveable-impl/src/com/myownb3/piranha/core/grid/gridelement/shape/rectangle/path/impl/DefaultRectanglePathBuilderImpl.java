@@ -25,7 +25,7 @@ public class DefaultRectanglePathBuilderImpl implements RectanglePathBuilder {
       return buildRectangleShape(center, width, height, orientation);
    }
 
-   private static List<PathSegment> buildRectangleShape(Position center, double width, double height, Orientation orientation) {
+   private List<PathSegment> buildRectangleShape(Position center, double width, double height, Orientation orientation) {
       double angle;
       switch (orientation) {
          case HORIZONTAL:
@@ -39,7 +39,7 @@ public class DefaultRectanglePathBuilderImpl implements RectanglePathBuilder {
       }
    }
 
-   private static List<PathSegment> buildPath(Position center, double width, double height, double angle) {
+   protected List<PathSegment> buildPath(Position center, double width, double height, double angle) {
       List<PathSegment> path = new LinkedList<>();
 
       Position nextRectanglePos1 = getNextRectanglePos(center, width, height, -angle);
@@ -55,7 +55,7 @@ public class DefaultRectanglePathBuilderImpl implements RectanglePathBuilder {
       return path;
    }
 
-   private static Position getNextRectanglePos(Position center, double width, double height, double angle) {
+   protected Position getNextRectanglePos(Position center, double width, double height, double angle) {
       Float64Vector centerVector = center.getVector();
       Float64Vector rectanglePosVector = center.getDirection().getVector();
       rectanglePosVector = rotateVector(rectanglePosVector, angle);
@@ -63,7 +63,7 @@ public class DefaultRectanglePathBuilderImpl implements RectanglePathBuilder {
       return Positions.of(centerVector.plus(rectanglePosVector), 7);
    }
 
-   private static double getHypotenuse(double width, double height) {
+   protected double getHypotenuse(double width, double height) {
       double halfWidth = width / 2;
       double halfHeight = height / 2;
       return sqrt((halfWidth * halfWidth) + (halfHeight * halfHeight));
