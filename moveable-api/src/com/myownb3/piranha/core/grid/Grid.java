@@ -51,6 +51,19 @@ public interface Grid {
    Position moveForward(GridElement gridElement);
 
    /**
+    * Rotates the given {@link GridElement} for the given degree.
+    * Additionally the {@link Grid} checks if there is any collision while rotating.
+    * If so, the {@link GridElement}is <b>not</b> rotated!
+    * 
+    * @param gridElement
+    *        the {@link GridElement}
+    * @param degree
+    *        the degree to rotate
+    * @return the new, rotated {@link Position}
+    */
+   Position rotate(GridElement gridElement, double degree);
+
+   /**
     * Adds the given {@link GridElement} to this {@link Grid}
     * 
     * @param abstractGridElement

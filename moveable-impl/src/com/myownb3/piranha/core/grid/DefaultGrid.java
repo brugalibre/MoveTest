@@ -48,6 +48,7 @@ public class DefaultGrid implements Grid {
    /**
     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
     * minimal -y values
+    * 
     * @param maxX
     *        the maximal x-axis value
     * @param maxY
@@ -63,6 +64,7 @@ public class DefaultGrid implements Grid {
    /**
     * Creates a new {@link Grid} with the given maximal, minimal-x and maximal,
     * minimal -y values
+    * 
     * @param maxX
     *        the maximal x-axis value
     * @param maxY
@@ -142,6 +144,14 @@ public class DefaultGrid implements Grid {
       double newY = getNewYValue(gridElement, direction.getForwardY());
       checkBounds(newX, newY);
       CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, Positions.of(direction, newX, newY, position.getZ()));
+      return collisionDetectionResult.getMovedPosition();
+   }
+
+   @Override
+   public Position rotate(GridElement gridElement, double degree) {
+      Position rotatedPosition = gridElement.getPosition()
+            .rotate(degree);
+      CollisionDetectionResult collisionDetectionResult = checkCollision(gridElement, rotatedPosition);
       return collisionDetectionResult.getMovedPosition();
    }
 

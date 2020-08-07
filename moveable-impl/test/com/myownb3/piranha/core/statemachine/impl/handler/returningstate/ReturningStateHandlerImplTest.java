@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.core.detector.Detector;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
+import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -34,7 +35,10 @@ class ReturningStateHandlerImplTest {
       double evasionAngleInc = 2;
       double returningAngleIncMultiplier = -3;
       TestCaseBuilder tcb = new TestCaseBuilder()
-            .withGrid(mock(Grid.class))
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(50)
+                  .withMaxY(50)
+                  .build())
             .withMoveable(position)
             .withEndPosition(endPosition)
             .withPositionBeforeEvasion(positionBeforeEvasion)

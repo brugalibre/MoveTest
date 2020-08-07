@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.grid.DefaultGrid.GridBuilder;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.direction.Directions;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
@@ -57,7 +58,10 @@ class OrientatingStateHandlerTest {
    @Test
    void testHandle_CorrectionWithOneTry() {
       // Given
-      Grid grid = mock(Grid.class);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(50)
+            .withMaxY(50)
+            .build();
       OrientatingStateHandler handler = new OrientatingStateHandler(90);
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0, 0));
@@ -82,7 +86,10 @@ class OrientatingStateHandlerTest {
    @Test
    void testHandle_CorrectionWithTwoTry() {
       // Given
-      Grid grid = mock(Grid.class);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(50)
+            .withMaxY(50)
+            .build();
       OrientatingStateHandler handler = new OrientatingStateHandler(45);
       EndPosition endPos = EndPositions.of(0, 0);
       Position moveablePos = spy(Positions.of(Directions.O, 0, 0, 0));
