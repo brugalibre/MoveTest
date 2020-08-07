@@ -32,10 +32,9 @@ public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetect
             .map(CollisionGridElement::getIntersection)
             .map(calculateBouncedPosition(movedGridElement))
             .map(Position::movePositionForward)
-            .map(CollisionDetectionResultImpl::new)
-            .orElse(getDefault(collisionDetectionResult));
+            .map(buildCollisionDetectionResult())
+            .orElse(collisionDetectionResult);
    }
-
 
    private Predicate<? super CollisionGridElement> isBouncable(GridElement movedGridElement) {
       return colGridElem -> BouncableLookupTable.isBouncable(movedGridElement, colGridElem.getGridElement());
@@ -48,8 +47,8 @@ public class BouncingCollisionDetectionHandlerImpl extends CommonCollisionDetect
       };
    }
 
-   private static CollisionDetectionResultImpl getDefault(CollisionDetectionResult collisionDetectionResult) {
-      return (CollisionDetectionResultImpl) collisionDetectionResult;// ugly cast. I'm not sure, is this because 'CollisionDetectionResultImpl::new' implies there must be a 'CollisionDetectionResultImpl' ? 
+   private Function<? super Position, CollisionDetectionResult> buildCollisionDetectionResult() {
+      return movedPosition -> new CollisionDetectionResultImpl(true, movedPosition);
    }
 
    public static class BouncingCollisionDetectionHandlerBuilder {

@@ -17,7 +17,7 @@ public class CommonCollisionDetectionHandlerImpl implements CollisionDetectionHa
    public CollisionDetectionResult handleCollision(List<CollisionGridElement> otherCollisionGridElements, GridElement movedGridElement,
          Position newPosition) {
       handleCollisionOnMovedGridElement(otherCollisionGridElements, movedGridElement);
-      return new CollisionDetectionResultImpl(newPosition);
+      return new CollisionDetectionResultImpl(true, movedGridElement.getPosition());
    }
 
    private void handleCollisionOnMovedGridElement(List<CollisionGridElement> otherCollisionGridElements, GridElement movedGridElement) {
