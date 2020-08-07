@@ -38,5 +38,4 @@ public class TankPainter extends Drawable<TankShape> {
    public void setColorSetMode(ColorSetMode drawMode) {
       throw new IllegalStateException("Not allowed here!");
    }
-
 }

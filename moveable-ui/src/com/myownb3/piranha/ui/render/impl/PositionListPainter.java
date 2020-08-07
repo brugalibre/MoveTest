@@ -33,8 +33,8 @@ public class PositionListPainter implements Renderer<List<Position>> {
 
    @Override
    public void render(RenderContext graphicsCtx) {
-      GraphicsContext context = (GraphicsContext) graphicsCtx;
-      Graphics graphics = context.getGraphics();
+      Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+      Graphics graphics = context.getGraphics2d();
       graphics.setColor(color);
 
       int i = 0;

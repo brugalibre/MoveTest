@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
@@ -16,6 +15,10 @@ import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class ProjectilePaintUtil {
+
+   private ProjectilePaintUtil() {
+      // privatos!
+   }
 
    public static void addNewAutoDetectablePainters(Grid grid, List<Renderer<? extends GridElement>> renderers, Set<String> existingProjectiles) {
       List<AbstractGridElement> newProjectiles = getNewProjectiles(grid, existingProjectiles);
@@ -35,10 +38,7 @@ public class ProjectilePaintUtil {
 
    public static List<Renderer<? extends GridElement>> getRenderer4DestroyedProjectiles(List<Renderer<? extends GridElement>> renderers) {
       return renderers.stream()
-            .filter(GridElementPainter.class::isInstance)
-            .map(GridElementPainter.class::cast)
-            .filter(gridElementPainter -> gridElementPainter.getValue() instanceof Destructible)
-            .filter(destructible -> ((Destructible) destructible.getValue()).isDestroyed())
+            .filter(Renderer::canBeRemoved)
             .collect(Collectors.toList());
    }
 

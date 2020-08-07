@@ -49,4 +49,11 @@ public interface Renderer<T> {
     *        the new {@link ColorSetMode}
     */
    public void setColorSetMode(ColorSetMode drawMode);
+
+   /***
+    * @return <code>true</code> if this {@link Renderer} can be removed or <code>false</code> if not
+    */
+   public default boolean canBeRemoved() {
+      return false;
+   }
 }

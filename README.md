@@ -47,6 +47,6 @@ One of this strategy is a 'human' strategy which allows the user to control the 
 
 <h1> Whats missing</h1>
 
-- In the near futur I might add some visual effects for explosions and stuff.
+- Continuous improvement of the collision detection system
 
 

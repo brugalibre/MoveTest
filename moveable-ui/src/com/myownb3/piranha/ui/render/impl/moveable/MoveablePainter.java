@@ -13,7 +13,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
-import com.myownb3.piranha.ui.render.impl.GraphicsContext;
+import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 import com.myownb3.piranha.ui.render.impl.detector.DetectorPainter;
 import com.myownb3.piranha.ui.render.impl.detector.DetectorPainterConfig;
 import com.myownb3.piranha.util.MathUtil;
@@ -46,8 +46,8 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
    @Override
    public void render(RenderContext graphicsCtx) {
       super.render(graphicsCtx);
-      GraphicsContext context = (GraphicsContext) graphicsCtx;
-      Graphics graphics = context.getGraphics();
+      Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+      Graphics graphics = context.getGraphics2d();
 
       drawMoveableDirection(graphics, getValue().getPosition());
       if (detectorPainter != null) {

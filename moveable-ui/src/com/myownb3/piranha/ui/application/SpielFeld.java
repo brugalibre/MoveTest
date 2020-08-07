@@ -6,10 +6,7 @@ package com.myownb3.piranha.ui.application;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.io.File;
 import java.util.Comparator;
 import java.util.List;
@@ -22,8 +19,9 @@ import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.render.Renderer;
-import com.myownb3.piranha.ui.render.impl.GraphicsContext;
+import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 
@@ -49,35 +47,17 @@ public class SpielFeld extends JComponent {
       Dimension gridDimension = grid.getDimension();
       this.gridPainter = new GridPainter(grid, padding, pointWidth, gridDimension.getHeight() + 2 * padding,
             gridDimension.getWidth() + 2 * padding);
-      loadImageOpt(backgroundImage, padding, gridDimension);
+      loadImageOpt(backgroundImage, gridDimension);
    }
 
-   private void loadImageOpt(String backgroundImage, int padding, Dimension gridDimension) {
+   private void loadImageOpt(String backgroundImage, Dimension gridDimension) {
       BufferedImage dimg = null;
       try {
-         dimg = scaleBicubic(ImageIO.read(new File(backgroundImage)), 2, 2);
+         dimg = ImageReader.scaleBicubic(ImageIO.read(new File(backgroundImage)), 2, 2);
       } catch (Exception e) {
          // Ignore
       }
       this.imageOpt = Optional.ofNullable(dimg);
-   }
-
-   public static BufferedImage scaleBicubic(BufferedImage before, double scaleWidth, double scaleHeight) {
-      return scale(before, scaleWidth, scaleHeight, AffineTransformOp.TYPE_BICUBIC);
-   }
-
-   private static BufferedImage scale(BufferedImage before, double scaleWidth, double scaleHeight, int type) {
-      int w = before.getWidth();
-      int h = before.getHeight();
-      int w2 = (int) (w * scaleWidth);
-      int h2 = (int) (h * scaleHeight);
-      BufferedImage after = new BufferedImage(w2, h2, before.getType());
-      AffineTransform scaleInstance = AffineTransform.getScaleInstance(scaleWidth, scaleWidth);
-      AffineTransformOp scaleOp = new AffineTransformOp(scaleInstance, type);
-      scaleOp.filter(before, after);
-      RescaleOp rescaleOp = new RescaleOp(1.5f, 15, null);
-      rescaleOp.filter(after, after); // Source and destination are the same.
-      return after;
    }
 
    @Override
@@ -94,12 +74,12 @@ public class SpielFeld extends JComponent {
          g2.drawImage(imageOpt.get(), padding, padding, null);
       } else {
          paintSpielfeld(g2);
-         gridPainter.render(new GraphicsContext(g2));
+         gridPainter.render(new Graphics2DContext(g2));
       }
    }
 
    private void paintMoveableContent(Graphics2D g2) {
-      GraphicsContext graphicsContext = new GraphicsContext(g2);
+      Graphics2DContext graphicsContext = new Graphics2DContext(g2);
       synchronized (renderers) {
          renderers.stream()
                .sorted(new RendererComparator())

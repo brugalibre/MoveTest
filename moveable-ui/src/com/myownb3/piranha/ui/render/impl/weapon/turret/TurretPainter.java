@@ -52,5 +52,4 @@ public class TurretPainter extends Drawable<Shape> {
    public void setColorSetMode(ColorSetMode drawMode) {
       throw new IllegalStateException("Not allowed here!");
    }
-
 }

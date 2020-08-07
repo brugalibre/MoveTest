@@ -13,7 +13,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
-import com.myownb3.piranha.ui.render.impl.GraphicsContext;
+import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 
 /**
  * @author Dominic
@@ -41,38 +41,30 @@ public class RectanglePainter extends Drawable<Rectangle> {
    @Override
    public void render(RenderContext graphicsCtx) {
 
-      GraphicsContext context = (GraphicsContext) graphicsCtx;
-      Graphics graphics = context.getGraphics();
+      Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+      Graphics graphics = context.getGraphics2d();
       graphics.setColor(color);
 
       renderRectangle(graphics);
-      //      drawMoveableDirection(graphics, value.getForemostPosition());
    }
 
-   //   private void drawMoveableDirection(Graphics graphics, Position gridElemPos) {
-   //      graphics.setColor(Color.BLACK);
-   //      drawDirectionFromPosition(graphics, gridElemPos, gridElemPos.getDirection().getVector(), 30);
-   //   }
-   //
-   //   private static void drawDirectionFromPosition(Graphics graphics, Position position, Float64Vector directionVectorIn, int length) {
-   //      Float64Vector directionVector = directionVectorIn.times(length * 10);
-   //      int gridElemX1 = round(position.getX());
-   //      int gridElemY1 = round(position.getY());
-   //      int gridElemX2 = gridElemX1 + round(directionVector.getValue(0));
-   //      int gridElemY2 = gridElemY1 + round(directionVector.getValue(1));
-   //      graphics.drawLine(gridElemX1, gridElemY1, gridElemX2, gridElemY2);
-   //   }
-
-   //   private static int round(double x) {
-   //      return (int) MathUtil.round(x, 0);
-   //   }
-
+   @Override
    private void renderRectangle(Graphics graphics) {
       Polygon polygon = getPoligon4Path(value);
       graphics.fillPolygon(polygon);
       if (drawBorder) {
          drawBorder(graphics, polygon);
       }
+   }
+
+   @Override
+   public void setBounds(int x, int y, int height, int width) {
+      Position center = value.getCenter();
+      int newX = (int) Math.floor(center.getX() - value.getHeight() / 2);
+      int newY = (int) Math.floor(center.getY() - value.getWidth() / 2);
+      int newWidth = (int) value.getWidth();
+      int newHeight = (int) value.getHeight();
+      super.setBounds(newX, newY, newWidth, newHeight);
    }
 
    private void drawBorder(Graphics graphics, Polygon polygon) {

@@ -38,8 +38,8 @@ public class GridPainter extends Drawable<Grid> {
 
    @Override
    public void render(RenderContext graphicsCtx) {
-      GraphicsContext context = (GraphicsContext) graphicsCtx;
-      Graphics2D g2 = (Graphics2D) context.getGraphics();
+      Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+      Graphics2D g2 = context.getGraphics2d();
 
       // create hatch marks and grid lines for x & y axis.
       drawXAxis(g2);

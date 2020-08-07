@@ -40,5 +40,4 @@ public class GunPainter extends Drawable<GunShape> {
    public void setColorSetMode(ColorSetMode drawMode) {
       throw new IllegalStateException("Not allowed here!");
    }
-
 }

@@ -10,7 +10,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineSh
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
-import com.myownb3.piranha.ui.render.impl.GraphicsContext;
+import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 
 /**
  * @author Dominic
@@ -28,8 +28,8 @@ public class LineShapePainter extends Drawable<ImmutableLineShape> {
    @Override
    public void render(RenderContext graphicsCtx) {
 
-      GraphicsContext context = (GraphicsContext) graphicsCtx;
-      Graphics graphics = context.getGraphics();
+      Graphics2DContext context = (Graphics2DContext) graphicsCtx;
+      Graphics graphics = context.getGraphics2d();
       graphics.setColor(color);
 
       renderPosition(graphics, value.getRearmostPosition(), value.getForemostPosition());
