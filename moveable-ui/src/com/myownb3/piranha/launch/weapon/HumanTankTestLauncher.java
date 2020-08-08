@@ -77,6 +77,7 @@ import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
 import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.UIRefresher;
+import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
@@ -99,6 +100,7 @@ public class HumanTankTestLauncher {
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
       int gunCarriageRadius = 10;
+      int tankGunCarriageRadius = 13;
       double gunHeight = 25;
       double gunWidth = 7;
       int tankWidth = 40;
@@ -337,8 +339,8 @@ public class HumanTankTestLauncher {
                                           .build())
                                     .build())
                               .withShape(CircleBuilder.builder()
-                                    .withRadius(gunCarriageRadius)
-                                    .withAmountOfPoints(gunCarriageRadius)
+                                    .withRadius(tankGunCarriageRadius)
+                                    .withAmountOfPoints(tankGunCarriageRadius)
                                     .withCenter(imperialTankPos)
                                     .build())
                               .build())
@@ -422,8 +424,8 @@ public class HumanTankTestLauncher {
                         .build())
                   .build())
             .withShape(CircleBuilder.builder()
-                  .withRadius(gunCarriageRadius)
-                  .withAmountOfPoints(gunCarriageRadius)
+                  .withRadius(tankGunCarriageRadius)
+                  .withAmountOfPoints(tankGunCarriageRadius)
                   .withCenter(rebelTankPos)
                   .build())
             .build();
@@ -504,7 +506,7 @@ public class HumanTankTestLauncher {
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground("res/image/background_1.jpg");
+      mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 

@@ -1,5 +1,8 @@
 package com.myownb3.piranha.ui.render.impl.explosion;
 
+import static com.myownb3.piranha.ui.constants.ImageConstants.EXPLOSION_FRAME_PATH;
+import static com.myownb3.piranha.ui.constants.ImageConstants.EXPLOSION_IMAGE_SUFFIX;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +63,8 @@ public class Explosion {
       List<BufferedImage> explosionImages = new ArrayList<>();
       for (int i = 1; i < 18; i++) {
          try {
-            BufferedImage bufferedImage = ImageIO.read(new File("res/image/explosion/frame" + i + ".png"));
+            String path = EXPLOSION_FRAME_PATH + i + EXPLOSION_IMAGE_SUFFIX;
+            BufferedImage bufferedImage = ImageIO.read(new File(path));
             bufferedImage = resizeImageIfNecessary(bufferedImage, gridElement.getDimensionInfo().getDimensionRadius());
             explosionImages.add(bufferedImage);
          } catch (IOException e) {

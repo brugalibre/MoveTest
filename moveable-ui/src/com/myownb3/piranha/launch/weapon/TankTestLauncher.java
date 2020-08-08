@@ -58,6 +58,7 @@ import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
 import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.UIRefresher;
+import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
@@ -617,7 +618,7 @@ public class TankTestLauncher {
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground("res/image/background_1.jpg");
+      mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
 
       List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
       renderers.add(new GridElementPainter(northTurretGridElement, getColor(northTurretGridElement), height, width));

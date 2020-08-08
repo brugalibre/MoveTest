@@ -14,18 +14,18 @@ import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 public class TankPainter extends Drawable<TankShape> {
 
    private Drawable<? extends Shape> turretPainter;
-   private Drawable<? extends Shape> tankPainter;
+   private Drawable<? extends Shape> tankHullPainter;
 
    public TankPainter(Tank tank, Color tankColor, Color turretColor) {
       super(tank.getShape());
       TankShape tankShape = tank.getShape();
       this.turretPainter = ShapePainterFactory.getShapePainter(tankShape.getTurretShape(), turretColor, false);
-      this.tankPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor, false);
+      this.tankHullPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor, false);
    }
 
    @Override
    public void render(RenderContext graphicsCtx) {
-      tankPainter.render(graphicsCtx);
+      tankHullPainter.render(graphicsCtx);
       turretPainter.render(graphicsCtx);
    }
 
