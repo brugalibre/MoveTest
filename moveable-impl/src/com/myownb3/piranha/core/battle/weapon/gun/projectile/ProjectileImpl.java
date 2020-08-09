@@ -1,5 +1,7 @@
 package com.myownb3.piranha.core.battle.weapon.gun.projectile;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 
 import com.myownb3.piranha.core.battle.destruction.Damage;
@@ -138,6 +140,8 @@ public class ProjectileImpl implements Projectile {
       }
 
       public ProjectileImpl build() {
+         requireNonNull(projectileType);
+         requireNonNull(projectileConfig);
          return new ProjectileImpl(shape, projectileType, projectileConfig, damage, health, onDestroyedCallbackHandler);
       }
 
