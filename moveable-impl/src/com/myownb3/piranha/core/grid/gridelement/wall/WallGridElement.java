@@ -4,7 +4,8 @@ import static com.myownb3.piranha.core.grid.gridelement.shape.dimension.Dimensio
 
 import java.util.List;
 
-import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
@@ -60,9 +61,11 @@ public class WallGridElement extends AbstractGridElement implements Wall {
                .withDamage(0)
                .withHealth(health)
                .withSelfDestructiveDamage(0)
+               .withDestroyedAudioClip(AudioClipBuilder.builder()
+                     .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                     .build())
                .withOnDestroyedCallbackHandler(() -> {
                   grid.remove(lazyWallGridElement.getGridElement());
-                  new DestructionAudio().playDefaultExplosion();
                })
                .build();
 

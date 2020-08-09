@@ -23,6 +23,7 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.config.DecoyFlareConfigImpl.DecoyFlareConfigBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
@@ -334,6 +335,7 @@ class TankDetectorImplTest {
                            .withPosition(position)
                            .build())
                      .withProjectileTypes(ProjectileTypes.BULLET)
+                     .withProjectileConfig(mock(ProjectileConfig.class))
                      .build())
                .withVelocity(5)
                .withDimensionInfo(getDefaultDimensionInfo(1))

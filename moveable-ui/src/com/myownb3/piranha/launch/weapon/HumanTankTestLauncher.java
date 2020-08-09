@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareDispenser.DecoyFlareDispenserBuilder;
 import com.myownb3.piranha.core.battle.weapon.countermeasure.MissileCounterMeasureSystemImpl.MissileCounterMeasureSystemBuilder;
@@ -158,9 +157,11 @@ public class HumanTankTestLauncher {
                         .withDamage(0)
                         .withHealth(imperialTurretHealth)
                         .withSelfDestructiveDamage(0)
+                        .withDestroyedAudioClip(AudioClipBuilder.builder()
+                              .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                              .build())
                         .withOnDestroyedCallbackHandler(() -> {
                            grid.remove(lazyTurretGridElement.getGridElement());
-                           new DestructionAudio().playDefaultExplosion();
                         })
                         .build())
                   .withDetector(DetectorBuilder.builder()
@@ -282,7 +283,6 @@ public class HumanTankTestLauncher {
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                   .withOnDestroyedCallbackHandler(() -> {
                      grid.remove(imperialTankHolder.getTankGridElement());
-                     new DestructionAudio().playDefaultExplosion();
                   })
                   .withTurret(TankTurretBuilder.builder()
                         .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
@@ -441,7 +441,6 @@ public class HumanTankTestLauncher {
                   .withTankEngine(humanTankEngine)
                   .withOnDestroyedCallbackHandler(() -> {
                      grid.remove(rebelTankHolder.getTankGridElement());
-                     new DestructionAudio().playDefaultExplosion();
                   })
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTurret(TurretBuilder.builder()

@@ -33,6 +33,7 @@ class ProjectileGridElementTest {
                         .build())
                   .withHealth(-2)
                   .withProjectileTypes(ProjectileTypes.BULLET)
+                  .withProjectileConfig(mock(ProjectileConfig.class))
                   .build())
             .withVelocity(10)
             .withGrid(GridBuilder.builder()
@@ -62,6 +63,7 @@ class ProjectileGridElementTest {
                   .withShape(PositionShapeBuilder.builder()
                         .withPosition(Positions.of(5, 5))
                         .build())
+                  .withProjectileConfig(mock(ProjectileConfig.class))
                   .withProjectileTypes(ProjectileTypes.BULLET)
                   .build())
             .withVelocity(10)
@@ -86,6 +88,7 @@ class ProjectileGridElementTest {
                   .withPosition(Positions.of(5, 5))
                   .build())
             .withProjectileTypes(ProjectileTypes.BULLET)
+            .withProjectileConfig(mock(ProjectileConfig.class))
             .build());
       ProjectileGridElement projectileGridElement = spy(ProjectileGridElementBuilder.builder()
             .withGrid(GridBuilder.builder()

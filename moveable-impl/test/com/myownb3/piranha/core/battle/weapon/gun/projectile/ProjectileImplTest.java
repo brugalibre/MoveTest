@@ -2,6 +2,7 @@ package com.myownb3.piranha.core.battle.weapon.gun.projectile;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,7 @@ class ProjectileImplTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(5, 5))
                   .build())
+            .withProjectileConfig(mock(ProjectileConfig.class))
             .withProjectileTypes(ProjectileTypes.BULLET)
             .build();
 

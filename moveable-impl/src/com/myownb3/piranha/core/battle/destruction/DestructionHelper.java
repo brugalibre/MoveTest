@@ -1,8 +1,10 @@
 package com.myownb3.piranha.core.battle.destruction;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
@@ -21,11 +23,14 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
    private Damage damage;
    private SelfDestructive selfDestructive;
    private OnDestroyedCallbackHandler callbackHandler;
+   private Optional<AudioClip> destroyedAudioClipOpt;
 
-   private DestructionHelper(Health health, Damage damage, SelfDestructive selfDestructive, OnDestroyedCallbackHandler callbackHandler) {
+   private DestructionHelper(Health health, Damage damage, SelfDestructive selfDestructive, OnDestroyedCallbackHandler callbackHandler,
+         AudioClip destroyedAudioClip) {
       this.health = health;
       this.damage = damage;
       this.selfDestructive = selfDestructive;
+      this.destroyedAudioClipOpt = Optional.ofNullable(destroyedAudioClip);
       this.callbackHandler = callbackHandler;// can be null for objects which are not destroyable
    }
 
@@ -37,6 +42,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
 
       if (isDestroyed()) {
          callbackHandler.onDestroy();
+         playDestroyedAudioClip();
       }
    }
 
@@ -52,6 +58,10 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
             .map(Destructive.class::cast)
             .map(Destructive::getDamage)
             .forEach(health::causeDamage);
+   }
+
+   private void playDestroyedAudioClip() {
+      destroyedAudioClipOpt.ifPresent(AudioClip::play);
    }
 
    @Override
@@ -92,6 +102,7 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
       private Health health;
       private Damage damage;
       private SelfDestructive selfDestructiveDamage;
+      private AudioClip destroyedAudioClip;
       private OnDestroyedCallbackHandler callbackHandler;
 
       private DestructionHelperBuilder() {
@@ -128,8 +139,13 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
          return this;
       }
 
+      public DestructionHelperBuilder withDestroyedAudioClip(AudioClip destroyedAudioClip) {
+         this.destroyedAudioClip = destroyedAudioClip;
+         return this;
+      }
+
       public DestructionHelper build() {
-         return new DestructionHelper(health, damage, selfDestructiveDamage, callbackHandler);
+         return new DestructionHelper(health, damage, selfDestructiveDamage, callbackHandler, destroyedAudioClip);
       }
 
       public static DestructionHelperBuilder builder() {

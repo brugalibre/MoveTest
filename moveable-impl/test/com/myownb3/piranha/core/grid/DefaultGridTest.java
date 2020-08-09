@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,6 +17,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement.ProjectileGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileImpl.ProjectileBuilder;
@@ -341,6 +343,7 @@ class DefaultGridTest {
             .withGrid(grid)
             .withProjectile(ProjectileBuilder.builder()
                   .withHealth(2)
+                  .withProjectileConfig(mock(ProjectileConfig.class))
                   .withShape(PositionShapeBuilder.builder()
                         .withPosition(Positions.of(0, 0))
                         .build())

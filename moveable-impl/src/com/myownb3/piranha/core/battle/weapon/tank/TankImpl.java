@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
@@ -151,6 +153,9 @@ public class TankImpl implements Tank {
                .withHealth(health)
                .withSelfDestructiveDamage(0)
                .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
+               .withDestroyedAudioClip(AudioClipBuilder.builder()
+                     .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                     .build())
                .build();
       }
 

@@ -11,10 +11,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 import java.util.UUID;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
@@ -55,9 +56,11 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
             .withDamage(damage)
             .withHealth(health)
             .withSelfDestructiveDamage(getVelocity())
+            .withDestroyedAudioClip(AudioClipBuilder.builder()
+                  .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                  .build())
             .withOnDestroyedCallbackHandler(() -> {
                grid.remove(this);
-               new DestructionAudio().playDefaultExplosion();
             })
             .build();
    }

@@ -3,6 +3,7 @@ package com.myownb3.piranha.core.battle.destruction;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
@@ -19,6 +21,28 @@ import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 
 class DestructionHelperTest {
+
+   @Test
+   void testWithDestroyedAudioClip() {
+
+      // Given
+      AudioClip destroyedAudioClip = mock(AudioClip.class);
+      DestructionHelper destructionHelper = DestructionHelperBuilder.builder()
+            .withDamage(1)
+            .withHealth(0)
+            .withSelfDestructiveDamage(100)
+            .withDestroyedAudioClip(destroyedAudioClip)
+            .withOnDestroyedCallbackHandler(() -> {
+            })
+            .build();
+
+      // When
+      List<GridElement> gridElements = Collections.singletonList(mockProjectileGridElementent(11));
+      destructionHelper.onCollision(gridElements);
+
+      // Then
+      verify(destroyedAudioClip).play();
+   }
 
    @Test
    void testIsNotDestroyedGridElement() {

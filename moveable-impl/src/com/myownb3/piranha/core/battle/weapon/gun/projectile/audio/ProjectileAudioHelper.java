@@ -6,7 +6,6 @@ import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.audio.AudioClip;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
-import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
@@ -58,7 +57,10 @@ public class ProjectileAudioHelper {
 
    @Visible4Testing
    void playDefaultExplosion() {
-      new DestructionAudio().playDefaultExplosion();
+      AudioClipBuilder.builder()
+            .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+            .build()
+            .play();
    }
 
    @Visible4Testing

@@ -11,9 +11,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.audio.constants.AudioConstants;
+import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
-import com.myownb3.piranha.core.battle.destruction.DestructionAudio;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
@@ -201,9 +202,11 @@ class AutoMoveableControllerTest {
                   .withDamage(3)
                   .withHealth(500)
                   .withSelfDestructiveDamage(moveableVelocity)
+                  .withDestroyedAudioClip(AudioClipBuilder.builder()
+                        .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                        .build())
                   .withOnDestroyedCallbackHandler(() -> {
                      grid.remove(lazyEndPoinMoveable.getGridElement());
-                     new DestructionAudio().playDefaultExplosion();
                   })
                   .build())
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
