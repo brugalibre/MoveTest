@@ -50,8 +50,12 @@ public class GridElementPainter extends AbstractGridElementPainter<GridElement> 
       if (DestructionHelper.isDestroyed(value)) {
          explosionPainterOpt.ifPresent(explosionPainter -> explosionPainter.render(graphicsCtx));
       } else {
-         super.render(graphicsCtx);
+         renderGridElement(graphicsCtx);
       }
+   }
+
+   protected void renderGridElement(RenderContext graphicsCtx) {
+      super.render(graphicsCtx);
    }
 
    @Override

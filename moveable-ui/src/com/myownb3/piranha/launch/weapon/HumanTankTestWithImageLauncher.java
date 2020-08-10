@@ -49,7 +49,6 @@ import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
-import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
@@ -79,15 +78,17 @@ import com.myownb3.piranha.ui.application.UIRefresher;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
+import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
+import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementImagePainter;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
-public class HumanTankTestLauncher {
+public class HumanTankTestWithImageLauncher {
    private static final int MAX_X = 800;
    private static final int MAX_Y = 900;
    private static final int padding = 0;
 
    public static void main(String[] args) {
-      HumanTankTestLauncher launcher = new HumanTankTestLauncher();
+      HumanTankTestWithImageLauncher launcher = new HumanTankTestWithImageLauncher();
       launcher.launch();
    }
 
@@ -98,11 +99,10 @@ public class HumanTankTestLauncher {
       int height = 5;
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
-      int gunCarriageRadius = 10;
-      int tankGunCarriageRadius = 13;
-      double gunHeight = 25;
-      double gunWidth = 7;
-      int tankWidth = 40;
+      int tankGunCarriageWithImageRadius = 26;
+      double gunWithImageHeight = 50;
+      double gunWithImageWidth = 14;
+      int tankWithImageWidth = 70;
       int tankHeight = 90;
       int projectileVelocity = 80;
       int missileVelocity = 30;
@@ -194,23 +194,19 @@ public class HumanTankTestLauncher {
                                     .build())
                               .withGunShape(GunShapeBuilder.builder()
                                     .withBarrel(RectangleBuilder.builder()
-                                          .withHeight(gunHeight)
-                                          .withWidth(gunWidth)
+                                          .withHeight(gunWithImageHeight)
+                                          .withWidth(gunWithImageWidth)
                                           .withCenter(turretNorthPos)
-                                          .withOrientation(Orientation.HORIZONTAL)
-                                          .build())
-                                    .withMuzzleBreak(RectangleBuilder.builder()
-                                          .withHeight(gunWidth * 2)
-                                          .withWidth(gunWidth * 1.5)
-                                          .withCenter(turretNorthPos)
+                                          .withRectanglePathBuilder(new RectanglePathBuilderImpl(10, RectangleSides.FRONT_AND_BACK))
                                           .withOrientation(Orientation.HORIZONTAL)
                                           .build())
                                     .build())
                               .build())
-                        .withShape(CircleBuilder.builder()
-                              .withRadius(gunCarriageRadius)
-                              .withAmountOfPoints(gunCarriageRadius)
+                        .withShape(RectangleBuilder.builder()
                               .withCenter(turretNorthPos)
+                              .withHeight(tankGunCarriageWithImageRadius)
+                              .withWidth(tankGunCarriageWithImageRadius)
+                              .withOrientation(Orientation.HORIZONTAL)
                               .build())
                         .build())
                   .build())
@@ -325,22 +321,16 @@ public class HumanTankTestLauncher {
                                           .build())
                                     .withGunShape(GunShapeBuilder.builder()
                                           .withBarrel(RectangleBuilder.builder()
-                                                .withHeight(gunHeight)
-                                                .withWidth(gunWidth)
-                                                .withCenter(imperialTankPos)
-                                                .withOrientation(Orientation.HORIZONTAL)
-                                                .build())
-                                          .withMuzzleBreak(RectangleBuilder.builder()
-                                                .withHeight(gunWidth * 1.5)
-                                                .withWidth(gunWidth * 1.5)
+                                                .withHeight(gunWithImageHeight)
+                                                .withWidth(gunWithImageWidth)
                                                 .withCenter(imperialTankPos)
                                                 .withOrientation(Orientation.HORIZONTAL)
                                                 .build())
                                           .build())
                                     .build())
-                              .withShape(CircleBuilder.builder()
-                                    .withRadius(tankGunCarriageRadius)
-                                    .withAmountOfPoints(tankGunCarriageRadius)
+                              .withShape(RectangleBuilder.builder()
+                                    .withWidth(tankGunCarriageWithImageRadius)
+                                    .withHeight(tankGunCarriageWithImageRadius)
                                     .withCenter(imperialTankPos)
                                     .build())
                               .build())
@@ -349,7 +339,7 @@ public class HumanTankTestLauncher {
                         .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
                         .withCenter(imperialTankPos)
                         .withHeight(tankHeight)
-                        .withWidth(tankWidth)
+                        .withWidth(tankWithImageWidth)
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
@@ -410,23 +400,19 @@ public class HumanTankTestLauncher {
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
                         .withBarrel(RectangleBuilder.builder()
-                              .withHeight(gunHeight)
-                              .withWidth(gunWidth)
+                              .withHeight(gunWithImageHeight)
+                              .withWidth(gunWithImageWidth)
                               .withCenter(rebelTankPos)
-                              .withOrientation(Orientation.HORIZONTAL)
-                              .build())
-                        .withMuzzleBreak(RectangleBuilder.builder()
-                              .withHeight(gunWidth * 1.5)
-                              .withWidth(gunWidth * 1.5)
-                              .withCenter(rebelTankPos)
+                              .withRectanglePathBuilder(new RectanglePathBuilderImpl(10, RectangleSides.FRONT_AND_BACK))
                               .withOrientation(Orientation.HORIZONTAL)
                               .build())
                         .build())
                   .build())
-            .withShape(CircleBuilder.builder()
-                  .withRadius(tankGunCarriageRadius)
-                  .withAmountOfPoints(tankGunCarriageRadius)
+            .withShape(RectangleBuilder.builder()
                   .withCenter(rebelTankPos)
+                  .withHeight(tankGunCarriageWithImageRadius)
+                  .withWidth(tankGunCarriageWithImageRadius)
+                  .withOrientation(Orientation.HORIZONTAL)
                   .build())
             .build();
       HumanControlledTurretStrategyHandler turretStrategyHandler = new HumanControlledTurretStrategyHandler(gunCarriage);
@@ -452,7 +438,7 @@ public class HumanTankTestLauncher {
                   .withHull(RectangleBuilder.builder()
                         .withCenter(rebelTankPos)
                         .withHeight(tankHeight)
-                        .withWidth(tankWidth)
+                        .withWidth(tankWithImageWidth)
                         .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
                         .withOrientation(Orientation.HORIZONTAL)
                         .build())
@@ -510,9 +496,11 @@ public class HumanTankTestLauncher {
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 
       List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
-      renderers.add(new GridElementPainter(humanRebelTank, getColor(humanRebelTank), height, width));
-      renderers.add(new GridElementPainter(imperialTank, getColor(imperialTank), height, width));
-      renderers.add(new GridElementPainter(northImperialTurretGridElement, getColor(northImperialTurretGridElement), height, width));
+      renderers.add(new TankGridElementImagePainter(humanRebelTank, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
+            ImageConstants.GUN_IMAGE));
+      renderers.add(new TankGridElementImagePainter(imperialTank, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
+            ImageConstants.GUN_IMAGE));
+      renderers.add(new TurretGridElementImagePainter(northImperialTurretGridElement, ImageConstants.GUN_CARRIAGE_IMAGE, ImageConstants.GUN_IMAGE));
 
       for (WallGridElement wallSegment : wallSemgments) {
          renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment), height, width));

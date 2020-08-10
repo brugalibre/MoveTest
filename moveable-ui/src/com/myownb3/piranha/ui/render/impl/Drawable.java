@@ -1,10 +1,16 @@
 package com.myownb3.piranha.ui.render.impl;
 
-import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import javax.imageio.ImageIO;
+
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
+import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 
@@ -71,11 +77,24 @@ public abstract class Drawable<E> implements Renderer<E> {
       setBounds(rec);
    }
 
-   /*
-    * Returns true if the given point is within the area of this Drawable-object
-    */
-   protected boolean hasIntersect(Point e) {
-      return (e.getX() >= x && e.getX() <= x + width && e.getY() >= y && e.getY() <= y + height);
+   protected BufferedImage readAndScaleImage4RectangleShape(com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle shape,
+         String imageLocation) {
+      try {
+         BufferedImage bufferedImage = ImageIO.read(new File(imageLocation));
+         double scaleHeight = shape.getHeight();
+         double scaleWidth = shape.getWidth();
+         return ImageReader.resizeImg(bufferedImage, scaleHeight, scaleWidth);
+      } catch (IOException e) {
+         throw new IllegalStateException("Image '" + imageLocation + "' not loadable");
+      }
+   }
+
+   @SuppressWarnings("unchecked")
+   protected <T extends Shape> T requireAs(Shape shape, Class<T> shapeClass) {
+      if (shapeClass.isAssignableFrom(shape.getClass())) {
+         return (T) shape;
+      }
+      throw new IllegalStateException("Shape '" + shape + "' must be a '" + shapeClass + "'!");
    }
 
    @Override
@@ -88,7 +107,7 @@ public abstract class Drawable<E> implements Renderer<E> {
             try {
                builder.append("\n" + field.getName() + ": " + field.get(this));
             } catch (IllegalArgumentException | IllegalAccessException e) {
-               throw new RuntimeException(e);
+               throw new IllegalStateException(e);
             }
          }
       }
