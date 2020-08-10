@@ -75,6 +75,19 @@ public class RectangleImplTest {
    }
 
    @Test
+   void testGetOrientation() {
+
+      // Given
+      Orientation vertical = Orientation.VERTICAL;
+
+      // When
+      Rectangle rectangle = buildRectangle(Positions.of(2, 2), 20, 20, vertical);
+
+      // Then
+      assertThat(rectangle.getOrientation(), is(vertical));
+   }
+
+   @Test
    void testGetPath4Detection() {
 
       // Given

@@ -25,4 +25,9 @@ public interface Rectangle extends Shape {
     * @return the height of this {@link Rectangle}
     */
    double getHeight();
+
+   /**
+    * @return the Orientation of this {@link Rectangle}
+    */
+   Orientation getOrientation();
 }

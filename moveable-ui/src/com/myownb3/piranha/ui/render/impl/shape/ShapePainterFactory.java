@@ -6,6 +6,8 @@ package com.myownb3.piranha.ui.render.impl.shape;
 import java.awt.Color;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFighterShape;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -39,12 +41,16 @@ public class ShapePainterFactory {
    public static Drawable<? extends Shape> getShapePainter(GridElement gridElement, Color color) {
       Shape shape = gridElement.getShape();
       if (gridElement instanceof WallGridElement) {
-         return new RectanglePainter((Rectangle) shape, color, true);
+         return new PolygonPainter(shape, color, true);
       } else if (gridElement instanceof Turret) {
          return new TurretPainter(gridElement.getShape(), color);
       } else if (gridElement instanceof Tank) {
          Color tankTurretColor = GridElementColorUtil.getTurretColor(((Tank) gridElement).getTurret().getBelligerentParty());
          return new TankPainter((Tank) gridElement, color, tankTurretColor);
+      } else if (gridElement instanceof ProjectileGridElement) {
+         if (((ProjectileGridElement) gridElement).getProjectileType() != ProjectileTypes.BULLET) {
+            return new PolygonPainter(shape, color);
+         }
       }
       return getShapePainter(shape, color, false);
    }
@@ -55,7 +61,7 @@ public class ShapePainterFactory {
       } else if (shape instanceof PositionShape) {
          return new PositionPainter((PositionShape) shape, color, 1, 1);
       } else if (shape instanceof Rectangle) {
-         return new RectanglePainter((Rectangle) shape, color, drawBorder);
+         return new RectanglePainter((Rectangle) shape, color);
       } else if (shape instanceof TurretShape || shape instanceof TurretClusterShape) {
          return new TurretPainter(shape, color);
       } else if (shape instanceof GunShape) {

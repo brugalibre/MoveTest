@@ -6,19 +6,18 @@ import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFi
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
-import com.myownb3.piranha.ui.render.impl.shape.rectangle.RectanglePainter;
 
 public class TIEFighterShapePainter extends Drawable<TIEFighterShape> {
 
    private CirclePainter ballCockpitPainter;
-   private RectanglePainter rightWingPainter;
-   private RectanglePainter leftWingPainter;
+   private PolygonPainter rightWingPainter;
+   private PolygonPainter leftWingPainter;
 
    public TIEFighterShapePainter(TIEFighterShape value, Color color) {
       super(value);
       ballCockpitPainter = new CirclePainter(value.getBallCockpit(), PaintMode.SHAPE, color, 5, 5);
-      rightWingPainter = new RectanglePainter(value.getRightWing(), color);
-      leftWingPainter = new RectanglePainter(value.getLeftWing(), color);
+      rightWingPainter = new PolygonPainter(value.getRightWing(), color);
+      leftWingPainter = new PolygonPainter(value.getLeftWing(), color);
    }
 
    @Override

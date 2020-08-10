@@ -6,6 +6,7 @@ package com.myownb3.piranha.ui.application;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Comparator;
@@ -64,9 +65,15 @@ public class SpielFeld extends JComponent {
    protected void paintComponent(Graphics graphics) {
       super.paintComponent(graphics);
       Graphics2D g2 = (Graphics2D) graphics;
-
+      setRenderingHints(g2);
       paintSpielfeldAndGrid(g2);
       paintMoveableContent(g2);
+   }
+
+   private static void setRenderingHints(Graphics2D g2) {
+      g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+      g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
    }
 
    private void paintSpielfeldAndGrid(Graphics2D g2) {

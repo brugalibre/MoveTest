@@ -115,6 +115,11 @@ public class RectangleImpl extends AbstractShape implements Rectangle {
       return path.get(1).getBegin();
    }
 
+   @Override
+   public Orientation getOrientation() {
+      return orientation;
+   }
+
    public static class RectangleBuilder {
       private Position center;
       private double height;

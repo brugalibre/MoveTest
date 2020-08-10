@@ -3,11 +3,8 @@
  */
 package com.myownb3.piranha.ui.render.impl.shape.rectangle;
 
-import static com.myownb3.piranha.ui.render.impl.shape.ShapePaintUtil.getPoligon4Path;
-
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.Graphics2D;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
@@ -21,12 +18,6 @@ import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
  */
 public class RectanglePainter extends Drawable<Rectangle> {
    private Color color;
-   private boolean drawBorder;
-
-   public RectanglePainter(Rectangle rectangle, Color color, boolean drawBorder) {
-      this(rectangle, color);
-      this.drawBorder = drawBorder;
-   }
 
    public RectanglePainter(Rectangle rectangle, Color color) {
       super(rectangle);
@@ -35,26 +26,16 @@ public class RectanglePainter extends Drawable<Rectangle> {
       this.color = color;
       setBounds(new java.awt.Rectangle((int) upperLeftPosition.getX(), (int) upperLeftPosition.getY(), (int) rectangle.getWidth(),
             (int) rectangle.getHeight()));
-      this.drawBorder = false;
    }
 
    @Override
    public void render(RenderContext graphicsCtx) {
 
       Graphics2DContext context = (Graphics2DContext) graphicsCtx;
-      Graphics graphics = context.getGraphics2d();
+      Graphics2D graphics = context.getGraphics2d();
       graphics.setColor(color);
 
       renderRectangle(graphics);
-   }
-
-   @Override
-   private void renderRectangle(Graphics graphics) {
-      Polygon polygon = getPoligon4Path(value);
-      graphics.fillPolygon(polygon);
-      if (drawBorder) {
-         drawBorder(graphics, polygon);
-      }
    }
 
    @Override
@@ -67,8 +48,11 @@ public class RectanglePainter extends Drawable<Rectangle> {
       super.setBounds(newX, newY, newWidth, newHeight);
    }
 
-   private void drawBorder(Graphics graphics, Polygon polygon) {
-      graphics.setColor(Color.BLACK);
-      graphics.drawPolygon(polygon);
+   private void renderRectangle(Graphics2D graphics) {
+      setBounds(0, 0, 0, 0);
+      double angle2Rotate = RectanglePaintUtil.getRectangleRotationAngle(value);
+      graphics.rotate(angle2Rotate, (int) value.getCenter().getX(), (int) value.getCenter().getY());
+      graphics.fill3DRect(x, y, width, height, true);
+      graphics.rotate(-angle2Rotate, (int) value.getCenter().getX(), (int) value.getCenter().getY());
    }
 }
