@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
+import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -47,9 +49,13 @@ public class ProjectilePaintUtil {
    }
 
    public static List<AbstractGridElement> getNewAutoDetectables(Grid grid, Predicate<? super AbstractGridElement> isNewAutoDetectable) {
+      Predicate<GridElement> isTank = TankGridElement.class::isInstance;
+      Predicate<GridElement> isTurret = TurretGridElement.class::isInstance;
       return grid.getAllGridElements(null)
             .stream()
             .filter(AutoDetectable.class::isInstance)
+            .filter(isTank.negate())
+            .filter(isTurret.negate())
             .map(AbstractGridElement.class::cast)
             .filter(isNewAutoDetectable)
             .collect(Collectors.toList());
