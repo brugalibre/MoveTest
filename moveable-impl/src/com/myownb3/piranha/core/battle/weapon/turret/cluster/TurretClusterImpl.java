@@ -84,7 +84,7 @@ public class TurretClusterImpl implements TurretCluster {
          this.turrets = new ArrayList<>();
       }
 
-      public TurretClusterBuilder withTurret(Turret turret) {
+      public TurretClusterBuilder addTurret(Turret turret) {
          this.turrets.add(turret);
          return this;
       }

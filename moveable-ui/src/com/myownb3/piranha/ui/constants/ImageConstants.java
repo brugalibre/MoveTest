@@ -15,6 +15,8 @@ public class ImageConstants {
 
    public static final String TANK_HULL_IMAGE = "res/image/tank/tank_hull.png";
 
+   public static final String TANK_HULL_SYMECTRIC_IMAGE = "res/image/tank/tank_hull_sym.png";
+
    public static final String TURRET_IMAGE = "res/image/turret/turret.png";
 
    public static final String GUN_CARRIAGE_IMAGE = "res/image/gun/guncarriage.png";

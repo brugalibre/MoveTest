@@ -29,7 +29,7 @@ class TurretClusterImplTest {
       when(turret.getShape()).thenReturn(mock(Shape.class));
       TurretCluster turretCluster = TurretClusterBuilder.builder()
             .withPosition(Positions.of(5, 5))
-            .withTurret(turret)
+            .addTurret(turret)
             .build();
 
       // When
@@ -49,7 +49,7 @@ class TurretClusterImplTest {
       when(turret.getShape()).thenReturn(mock(Shape.class));
       TurretCluster turretCluster = TurretClusterBuilder.builder()
             .withPosition(Positions.of(5, 5))
-            .withTurret(turret)
+            .addTurret(turret)
             .build();
 
       // When
@@ -77,7 +77,7 @@ class TurretClusterImplTest {
       DestructionHelper destructionHelper = mock(DestructionHelper.class);
       TurretCluster turretCluster = TurretClusterBuilder.builder()
             .withPosition(Positions.of(5, 5))
-            .withTurret(turret)
+            .addTurret(turret)
             .withDestructionHelper(destructionHelper)
             .build();
 

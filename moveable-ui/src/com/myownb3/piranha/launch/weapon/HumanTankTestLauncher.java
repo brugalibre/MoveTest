@@ -126,6 +126,9 @@ public class HumanTankTestLauncher {
       List<EndPosition> imperialTankEndPositions = new ArrayList<>();
       imperialTankEndPositions.add(EndPositions.of(Positions.of(200, 600), 10));
       imperialTankEndPositions.add(EndPositions.of(Positions.of(imperialTankPos), 10));
+
+      int missileCounterMeasureDetectionDistance = 80;
+
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorReach(450)
             .withDetectorAngle(180)
@@ -147,7 +150,6 @@ public class HumanTankTestLauncher {
             .build();
 
       TankHolder imperialTankHolder = new TankHolder();
-      int missileCounterMeasureDetectionDistance = 80;
 
       LazyGridElement lazyTurretGridElement = new LazyGridElement();
       TurretGridElement northImperialTurretGridElement = TurretGridElementBuilder.builder()
