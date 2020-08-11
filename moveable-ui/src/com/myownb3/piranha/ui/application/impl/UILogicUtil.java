@@ -2,7 +2,7 @@ package com.myownb3.piranha.ui.application.impl;
 
 import java.util.List;
 
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
+import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.ui.application.LogicHandler;
@@ -24,9 +24,9 @@ public class UILogicUtil {
    }
 
    public static void startLogicHandler(Grid grid, MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers,
-         MoveableAdder moveableAdder, int cycleTime) {
+         TankBattleApplication tankBattleApplication, int cycleTime) {
       new Thread(() -> {
-         LogicHandler logicHandler = new LogicHandlerImpl(grid, mainWindow, renderers, moveableAdder);
+         LogicHandler logicHandler = new LogicHandlerImpl(grid, mainWindow, renderers, tankBattleApplication);
          while (true) {
             logicHandler.onCylce();
             sleep(cycleTime);

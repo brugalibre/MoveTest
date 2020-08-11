@@ -4,10 +4,14 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
+import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
@@ -38,21 +42,47 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.Evasio
 
 public class TankBattleApplicationImpl implements TankBattleApplication {
 
+   private MoveableAdder moveableAdder;
+   private Grid grid;
    private List<TankGridElement> tankGridElements;
    private List<TurretGridElement> turretGridElements;
-   private List<GridElement> allGridElements;
+   private EvasionStateMachineConfig evasionStateMachineConfig;
+   private int cycleCounter;
 
-   public TankBattleApplicationImpl(List<TankGridElement> tankGridElements, List<TurretGridElement> turretGridElements) {
+   public TankBattleApplicationImpl(Grid grid, MoveableAdder moveableAdder, List<TankGridElement> tankGridElements,
+         List<TurretGridElement> turretGridElements, EvasionStateMachineConfig evasionStateMachineConfig) {
+      this.grid = grid;
+      this.evasionStateMachineConfig = evasionStateMachineConfig;
+      this.moveableAdder = moveableAdder;
       this.tankGridElements = tankGridElements;
       this.turretGridElements = turretGridElements;
+      this.cycleCounter = 0;
    }
 
    @Override
-   public void run() {}
+   public void run() {
+      cycleCounter++;
+      callAutodetect();
+      if (moveableAdder.isCycleOver(cycleCounter)) {
+         checkAndAddNewMoveables();
+         cycleCounter = 0;
+      }
+   }
 
-   @Override
-   public List<GridElement> getAllGridElements() {
-      return allGridElements;
+   private void callAutodetect() {
+      grid.getAllGridElements(null).parallelStream()
+            .filter(isGridElementAlive())
+            .filter(AutoDetectable.class::isInstance)
+            .map(AutoDetectable.class::cast)
+            .forEach(AutoDetectable::autodetect);
+   }
+
+   private void checkAndAddNewMoveables() {
+      moveableAdder.check4NewMoveables2Add(grid, evasionStateMachineConfig);
+   }
+
+   private static Predicate<? super GridElement> isGridElementAlive() {
+      return DestructionHelper::isNotDestroyed;
    }
 
    @Override
@@ -150,7 +180,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          this.tank = TankBuilder.builder()
                .withBelligerentParty(belligerentParty)
                .withTankEngine(TankEngineBuilder.builder()
-                     .withVelocity(12)
+                     .withVelocity(engineVelocity)
                      .withDefaultEngineStateHandler()
                      .withEngineAudio(EngineAudioBuilder.builder()
                            .withDefaultAudio()
@@ -228,25 +258,29 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    }
 
    public static class TankBattleApplicationBuilder {
+      private MoveableAdder moveableAdder;
+      private Grid grid;
       private List<TankGridElement> tankGridElements;
       private List<TurretGridElement> turretGridElements;
-      private Grid grid;
+      private EvasionStateMachineConfig evasionStateMachineConfig;
 
       private TankBattleApplicationBuilder() {
          this.tankGridElements = new ArrayList<>();
          this.turretGridElements = new ArrayList<>();
       }
 
-      public TankBattleApplicationImpl build() {
-         return new TankBattleApplicationImpl(tankGridElements, turretGridElements);
-      }
-
-      public static TankBattleApplicationBuilder builder() {
-         return new TankBattleApplicationBuilder();
-      }
-
       public TankBattleApplicationBuilder withGrid(Grid grid) {
          this.grid = grid;
+         return this;
+      }
+
+      public TankBattleApplicationBuilder withMoveableAdder(MoveableAdder moveableAdder) {
+         this.moveableAdder = moveableAdder;
+         return this;
+      }
+
+      public TankBattleApplicationBuilder withEvasionStateMachineConfig(EvasionStateMachineConfig evasionStateMachineConfig) {
+         this.evasionStateMachineConfig = evasionStateMachineConfig;
          return this;
       }
 
@@ -262,6 +296,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
       public TankBattleApplicationBuilder addTankGridElement(TankHolder tankHolder,
             TankBattleApplicationTankBuilder tankBattleApplicationTankBuilder) {
          requireNonNull(grid);
+         requireNonNull(tankBattleApplicationTankBuilder.tank);
          TankGridElement tankGridElement = TankGridElementBuilder.builder()
                .withGrid(grid)
                .withEngineVelocity(12)
@@ -279,6 +314,14 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          tankHolder.setAndReturnTank(tankGridElement);
          tankHolder.setTankGridElement(tankGridElement);
          return this;
+      }
+
+      public TankBattleApplicationImpl build() {
+         return new TankBattleApplicationImpl(grid, moveableAdder, tankGridElements, turretGridElements, evasionStateMachineConfig);
+      }
+
+      public static TankBattleApplicationBuilder builder() {
+         return new TankBattleApplicationBuilder();
       }
    }
 }

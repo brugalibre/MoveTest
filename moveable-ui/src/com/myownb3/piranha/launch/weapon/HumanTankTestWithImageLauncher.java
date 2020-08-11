@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
@@ -505,9 +506,15 @@ public class HumanTankTestWithImageLauncher {
       for (WallGridElement wallSegment : wallSemgments) {
          renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment), height, width));
       }
+      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+            .withMoveableVelocity(8)
+            .withCounter(200)
+            .withPadding(padding)
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .build();
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, renderers);
+      showGuiAndStartPainter(mainWindow, grid, renderers, null);
    }
 
    private List<WallGridElement> addProtectiveWall(MirrorGrid grid) {
@@ -539,17 +546,12 @@ public class HumanTankTestWithImageLauncher {
             .build();
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers,
+         TankBattleApplication tankBattleApplication) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(8)
-            .withCounter(200)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .build();
       int logicCycleTime = 15;
       int uiRefreshCycleTime = 5;
       UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
-      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, moveableAdder, logicCycleTime);
+      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, tankBattleApplication, logicCycleTime);
    }
 }

@@ -44,6 +44,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -122,8 +123,17 @@ public class TankTestWithImageLauncher {
 
       TankHolder tankHolder = new TankHolder();
 
+      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+            .withMoveableVelocity(20)
+            .withCounter(80)
+            .withPadding(padding)
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .build();
+
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
+            .withMoveableAdder(moveableAdder)
+            .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(tankHolder, TankBattleApplicationTankBuilder.builder()
                   .withEndPositions(endPositions)
                   .withGrid(grid)
@@ -334,7 +344,7 @@ public class TankTestWithImageLauncher {
       List<Renderer<? extends GridElement>> renderers = createRenderer4GridElements(tankBattleApplication);;
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, renderers);
+      showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication);
    }
 
    private List<Renderer<? extends GridElement>> createRenderer4GridElements(TankBattleApplication tankBattleApplication) {
@@ -367,17 +377,12 @@ public class TankTestWithImageLauncher {
       };
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers,
+         TankBattleApplication tankBattleApplication) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(20)
-            .withCounter(80)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-            .build();
       int logicCycleTime = 15;
       int uiRefreshCycleTime = 5;
       UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
-      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, moveableAdder, logicCycleTime);
+      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, tankBattleApplication, logicCycleTime);
    }
 }
