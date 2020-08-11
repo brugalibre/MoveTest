@@ -72,7 +72,7 @@ public class DecoyFlareFactory extends AbstractGridElementFactory {
    private static CircleImpl buildDecoyFlareShape(Position decoyFlarePos, DecoyFlareConfig decoyFlareConfig) {
       return CircleBuilder.builder()
             .withAmountOfPoints(AMOINT_OF_DECOY_FLARE_POINTS)
-            .withRadius((int) decoyFlareConfig.getDimensionInfo().getDimensionRadius())
+            .withRadius(decoyFlareConfig.getDimensionInfo().getDimensionRadius())
             .withCenter(decoyFlarePos)
             .build();
    }

@@ -27,9 +27,9 @@ public class CircleImpl extends AbstractShape implements Circle {
    private static final long serialVersionUID = -2559315841397177005L;
    private static final int AMOUNT_OF_PATH_POINTS_4_DETECTION = 150;
    private int amountOfPoints;
-   private int radius;
+   private double radius;
 
-   private CircleImpl(List<PathSegment> path, Position center, int amountOfPoints, int radius) {
+   private CircleImpl(List<PathSegment> path, Position center, int amountOfPoints, double radius) {
       super(path, center);
       this.radius = Math.abs(radius);
       this.amountOfPoints = verifyAmountOfPoints(amountOfPoints);
@@ -85,7 +85,7 @@ public class CircleImpl extends AbstractShape implements Circle {
       return center;
    }
 
-   private static List<PathSegment> buildCircleWithCenter(Position center, int amountOfPoints, int radius) {
+   private static List<PathSegment> buildCircleWithCenter(Position center, int amountOfPoints, double radius) {
       List<PathSegment> path = new LinkedList<>();
       double degInc = 360 / (double) amountOfPoints;
       double deg = 0;
@@ -100,14 +100,14 @@ public class CircleImpl extends AbstractShape implements Circle {
       return path;
    }
 
-   private static Position getNextCirclePos(Position center, int radius, double deg) {
+   private static Position getNextCirclePos(Position center, double radius, double deg) {
       return center.rotate(deg)
             .movePositionForward4Distance(radius);
    }
 
    public static class CircleBuilder {
 
-      private int radius;
+      private double radius;
       private int amountOfPoints;
       private Position center;
       private GridElement gridElement;
@@ -116,7 +116,7 @@ public class CircleImpl extends AbstractShape implements Circle {
          // private
       }
 
-      public CircleBuilder withRadius(int radius) {
+      public CircleBuilder withRadius(double radius) {
          this.radius = radius;
          return this;
       }

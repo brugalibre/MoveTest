@@ -78,7 +78,7 @@ public class ProjectileFactory extends AbstractGridElementFactory {
    private static CircleImpl buildBulletShape(Position position, ProjectileConfig projectileConfig) {
       return CircleBuilder.builder()
             .withAmountOfPoints(AMOINT_OF_CIRCLE_BULLET_POINTS)
-            .withRadius((int) projectileConfig.getDimensionInfo().getDimensionRadius())
+            .withRadius(projectileConfig.getDimensionInfo().getDimensionRadius())
             .withCenter(position)
             .build();
    }
