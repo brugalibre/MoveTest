@@ -52,6 +52,7 @@ import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
@@ -291,15 +292,7 @@ public class MazeEndPointMoveableLauncher {
 
    private static void showGuiAndStartPainter(MainWindow mainWindow) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      new Thread(() -> {
-         while (true) {
-            SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            try {
-               Thread.sleep(25);
-            } catch (InterruptedException e) {
-            }
-         }
-      }).start();
+      UILogicUtil.startUIRefresher(mainWindow, 25);
    }
 
    private static List<Renderer<? extends GridElement>> getRenderers(Grid grid, int height, List<GridElement> gridElements, Moveable moveable,

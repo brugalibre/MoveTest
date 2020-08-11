@@ -29,6 +29,7 @@ import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.AbstractGridElementPainter;
 import com.myownb3.piranha.ui.render.impl.EndPositionGridElementPainter;
@@ -123,9 +124,14 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       ctx.getRenderers().addAll(getRenderers(height, width, grid, ctx.getGridElements(), moveableController.getMoveable(),
             endPositionRunner.getConfig(), endPositionRunner.getDetectorCluster()));
       mainWindow.addSpielfeld(ctx.getRenderers(), grid);
-      SwingUtilities.invokeLater(() -> mainWindow.show());
       ctx.setMainWindow(mainWindow);
+      showGuiAndStartPainter(mainWindow);
       prepareAndMoveMoveables(endPositionRunner, moveablePostActionHandler, ctx.getGridElements(), grid);
+   }
+
+   private static void showGuiAndStartPainter(MainWindow mainWindow) {
+      SwingUtilities.invokeLater(() -> mainWindow.show());
+      UILogicUtil.startUIRefresher(mainWindow, 25);
    }
 
    private void prepareAndMoveMoveables(RandomMoveableWithEndPositionRunner endPositionRunner,

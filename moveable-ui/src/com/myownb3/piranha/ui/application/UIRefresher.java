@@ -2,26 +2,16 @@ package com.myownb3.piranha.ui.application;
 
 import javax.swing.SwingUtilities;
 
-public class UIRefresher {
+public class UIRefresher implements Runnable {
 
    private MainWindow mainWindow;
-   private int cycleTime;
 
-   public UIRefresher(MainWindow mainWindow, int cycleTime) {
+   public UIRefresher(MainWindow mainWindow) {
       this.mainWindow = mainWindow;
-      this.cycleTime = cycleTime;
    }
 
-   public void start() {
-      new Thread(() -> {
-         while (true) {
-            SwingUtilities.invokeLater(() -> mainWindow.refresh());
-            try {
-               Thread.sleep(cycleTime);
-            } catch (InterruptedException e) {
-               throw new IllegalStateException(e);
-            }
-         }
-      }, "UI-Refresher").start();
+   @Override
+   public void run() {
+      SwingUtilities.invokeLater(() -> mainWindow.refresh());
    }
 }

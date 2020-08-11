@@ -234,7 +234,7 @@ public class TurretTowerTestLauncher {
             } catch (InterruptedException e) {
             }
          }
-      }, "LogicHandler").start();
+      }, "LogicHandlerImpl").start();
    }
 
 }

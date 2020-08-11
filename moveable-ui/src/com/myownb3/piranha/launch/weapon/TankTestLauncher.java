@@ -41,9 +41,8 @@ import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
-import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
-import com.myownb3.piranha.ui.application.UIRefresher;
+import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -385,8 +384,9 @@ public class TankTestLauncher {
             .withPadding(padding)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .build();
-      int cycleTime = 15;
-      new UIRefresher(mainWindow, cycleTime).start();
-      new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();
+      int logicCycleTime = 15;
+      int uiRefreshCycleTime = 5;
+      UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
+      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, moveableAdder, logicCycleTime);
    }
 }

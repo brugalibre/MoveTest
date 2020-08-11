@@ -36,7 +36,7 @@ public class ProjectilePaintUtil {
             });
    }
 
-   public static List<Renderer<? extends GridElement>> getRenderer4DestroyedProjectiles(List<Renderer<? extends GridElement>> renderers) {
+   private static List<Renderer<? extends GridElement>> getRenderer4DestroyedProjectiles(List<Renderer<? extends GridElement>> renderers) {
       return renderers.stream()
             .filter(Renderer::canBeRemoved)
             .collect(Collectors.toList());
@@ -46,7 +46,7 @@ public class ProjectilePaintUtil {
       return getNewAutoDetectables(grid, gridElement -> !existingAutoDetectables.contains(gridElement.getName()));
    }
 
-   public static List<AbstractGridElement> getNewAutoDetectables(Grid grid, Predicate<? super AbstractGridElement> isNewAutoDetectable) {
+   private static List<AbstractGridElement> getNewAutoDetectables(Grid grid, Predicate<? super AbstractGridElement> isNewAutoDetectable) {
       Predicate<GridElement> isTank = TankGridElement.class::isInstance;
       Predicate<GridElement> isTurret = TurretGridElement.class::isInstance;
       return grid.getAllGridElements(null)

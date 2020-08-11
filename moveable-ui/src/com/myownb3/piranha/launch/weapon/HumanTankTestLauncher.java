@@ -74,9 +74,8 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuild
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
-import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
-import com.myownb3.piranha.ui.application.UIRefresher;
+import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
@@ -555,7 +554,6 @@ public class HumanTankTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
-      int cycleTime = 20;
       SwingUtilities.invokeLater(() -> mainWindow.show());
       MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
             .withMoveableVelocity(8)
@@ -563,7 +561,9 @@ public class HumanTankTestLauncher {
             .withPadding(padding)
             .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .build();
-      new UIRefresher(mainWindow, cycleTime).start();
-      new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();
+      int logicCycleTime = 15;
+      int uiRefreshCycleTime = 5;
+      UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
+      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, moveableAdder, logicCycleTime);
    }
 }
