@@ -1,7 +1,8 @@
-package com.myownb3.piranha.launch.weapon.listener;
+package com.myownb3.piranha.application.battle.util;
 
 import static com.myownb3.piranha.util.MathUtil.getRandom;
 import static java.lang.Math.min;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,6 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.lazy.LazyEndPoinMoveable;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.ObstacleImpl.ObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
@@ -33,48 +33,65 @@ import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
 import com.myownb3.piranha.core.moveables.controller.AutoMoveableController.AutoMoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
-import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
-import com.myownb3.piranha.ui.render.Renderer;
-import com.myownb3.piranha.ui.render.impl.GridElementPainter;
-import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
 import com.myownb3.piranha.util.MathUtil;
 
 public class MoveableAdder {
 
-   private int amountOfNonMoveables = 5;
-   private int amountOfMoveables = 5;
-   private int moveableVelocity = 20;
-   private int counter = 50;
-   private double maxX;
-   private double maxY;
+   private int amountOfNonMoveables;
+   private int amountOfMoveables;
+   private int moveableVelocity;
+   private double gridElementRadius;
+   private int counter;
+   private int padding;
    private BelligerentParty belligerent;
 
-   public MoveableAdder(int maxX, int maxY) {
-      this.maxX = maxX;
-      this.maxY = maxY;
-   }
-
-   public MoveableAdder(int maxX, int maxY, int moveableVelocity, int counter, BelligerentParty belligerentParty) {
-      this(maxX, maxY);
+   private MoveableAdder(int amountOfNonMoveables, int amountOfMoveables, int moveableVelocity, int counter, int padding, double gridElementRadius,
+         BelligerentParty belligerentParty) {
+      this.amountOfNonMoveables = amountOfNonMoveables;
+      this.amountOfMoveables = amountOfMoveables;
       this.moveableVelocity = moveableVelocity;
+      this.gridElementRadius = gridElementRadius;
       this.counter = counter;
+      this.padding = padding;
       this.belligerent = belligerentParty;
    }
 
-   public boolean check4NewMoveables2Add(Grid grid, List<Renderer<? extends GridElement>> renderers, int cycleCounter, int padding) {
-      if (cycleCounter >= counter) {
-         double moveableCounter = countMoveables(grid);
-         double simpleGridElementCounter = countNonMoveables(grid);
-         if (moveableCounter <= amountOfMoveables) {
-            buildAndAddMoveable(grid, renderers, padding);
-         }
-         if (simpleGridElementCounter <= amountOfNonMoveables) {
-            buildAndAddSimpleGridElement(grid, renderers, padding);
-         }
-         return true;
+   /**
+    * Adds new {@link GridElement} if necessary
+    * 
+    * @param grid
+    *        the {@link Grid}
+    * @param evasionStateMachineConfig
+    *        the {@link EvasionStateMachineConfig} for added {@link Moveable}s
+    * @param padding
+    *        the padding
+    * @return all new created {@link GridElement}
+    */
+   public List<GridElement> check4NewMoveables2Add(Grid grid, EvasionStateMachineConfig evasionStateMachineConfig) {
+      List<GridElement> addedGridElements = new ArrayList<>();
+      double moveableCounter = countMoveables(grid);
+      double simpleGridElementCounter = countNonMoveables(grid);
+      if (moveableCounter < amountOfMoveables) {
+         addedGridElements.add(buildNewMoveable(grid, evasionStateMachineConfig, padding));
       }
-      return false;
+      if (simpleGridElementCounter < amountOfNonMoveables) {
+         addedGridElements.add(buildObstacle(grid, padding));
+      }
+      return addedGridElements;
+   }
+
+   /**
+    * Return <code>true</code> if the current cycle is over, which means that the <code>cycleCounter</code> is greater or equal
+    * then the counter size defined by this {@link MoveableAdder} or <code>false</code> if not
+    * 
+    * @param cycleCounter
+    *        the counter of the current cycle
+    * @return <code>true</code> if the current cycle is over and <code>false</code> if not
+    */
+   public boolean isCycleOver(int cycleCounter) {
+      return cycleCounter >= counter;
    }
 
    private double countNonMoveables(Grid grid) {
@@ -95,10 +112,11 @@ public class MoveableAdder {
             .count();
    }
 
-   private Moveable buildNewMoveable(Grid grid, int padding) {
-      int gridElementRadius = 9;
-      double yCordinate = min(getRandom(maxY) + padding, maxY - 3d * gridElementRadius);
-      double xCordinate = min(getRandom(maxX) + padding, maxX - 3d * gridElementRadius);
+   private Moveable buildNewMoveable(Grid grid, EvasionStateMachineConfig evasionStateMachineConfig, int padding) {
+      int maxY = grid.getDimension().getHeight();
+      int maxX = grid.getDimension().getWidth();
+      double yCordinate = getRandomYCoordinate(padding, gridElementRadius, maxY);
+      double xCordinate = getRandomXCoordinate(padding, gridElementRadius, maxX);
       double angle2Rotate = -getRandom(90) + 15;
       Position gridElementPos = Positions.of(xCordinate, yCordinate)
             .rotate(angle2Rotate);
@@ -129,7 +147,7 @@ public class MoveableAdder {
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
                         .build())
-                  .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
+                  .withEvasionStateMachineConfig(evasionStateMachineConfig)
                   .build())
             .withShape(TIEFighterShapeBuilder.builder()
                   .withBallCockpit(CircleBuilder.builder()
@@ -144,13 +162,14 @@ public class MoveableAdder {
       return autoMoveableController;
    }
 
-   private void buildAndAddSimpleGridElement(Grid grid, List<Renderer<? extends GridElement>> renderers, double padding) {
-      int gridElementRadius = 8;
-      double yCordinate = min(getRandom(maxY) + padding, maxY - 3d * gridElementRadius);
-      double xCordinate = min(getRandom(maxX) + padding, maxX - 3d * gridElementRadius);
+   private Obstacle buildObstacle(Grid grid, int padding) {
+      int maxY = grid.getDimension().getHeight() + grid.getDimension().getY();
+      int maxX = grid.getDimension().getWidth() + grid.getDimension().getX();
+      double yCordinate = getRandomYCoordinate(padding, gridElementRadius, maxY);
+      double xCordinate = getRandomXCoordinate(padding, gridElementRadius, maxX);
       double angle2Rotate = -getRandom(90) + 15;
       Position gridElementPos = Positions.of(xCordinate, yCordinate).rotate(angle2Rotate);
-      ObstacleImpl obstacleImpl = ObstacleBuilder.builder()
+      return ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(CircleBuilder.builder()
                   .withRadius(gridElementRadius)
@@ -158,9 +177,16 @@ public class MoveableAdder {
                   .withCenter(gridElementPos)
                   .build())
             .build();
-      synchronized (renderers) {
-         renderers.add(new GridElementPainter(obstacleImpl, GridElementColorUtil.getColor(obstacleImpl), 0, 0));
-      }
+   }
+
+   private double getRandomYCoordinate(double padding, double gridElementRadius, int maxY) {
+      double betweenMinAndMaxY = getRandom(maxY) + padding;
+      return min(betweenMinAndMaxY, maxY - 3d * gridElementRadius);
+   }
+
+   private double getRandomXCoordinate(int padding, double gridElementRadius, int maxX) {
+      double betweenMinAndMaxX = getRandom(maxX) + padding;
+      return min(betweenMinAndMaxX, maxX - 3d * gridElementRadius);
    }
 
    private static List<EndPosition> getEndPosList(int amountOfEndPos, Position gridElementPos, double gridElementRadius) {
@@ -175,11 +201,6 @@ public class MoveableAdder {
          endPosList.add(EndPositions.of(position, 10));
       }
       return endPosList;
-   }
-
-   private void buildAndAddMoveable(Grid grid, List<Renderer<? extends GridElement>> renderers, int padding) {
-      Moveable moveable = buildNewMoveable(grid, padding);
-      renderers.add(new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), 0, 0));
    }
 
    private static Predicate<? super GridElement> isMoveable() {
@@ -201,5 +222,67 @@ public class MoveableAdder {
 
    private static Predicate<? super GridElement> isGridElementAlive() {
       return DestructionHelper::isNotDestroyed;
+   }
+
+   public static class MoveableAdderBuilder {
+      private int amountOfNonMoveables;
+      private int amountOfMoveables;
+      private int moveableVelocity;
+      private double gridElementRadius;
+      private int counter;
+      private int padding;
+      private BelligerentParty belligerentParty;
+
+      private MoveableAdderBuilder() {
+         this.amountOfNonMoveables = 5;
+         this.gridElementRadius = 9;
+         this.amountOfMoveables = 5;
+         this.moveableVelocity = 20;
+         this.counter = 50;
+      }
+
+      public MoveableAdderBuilder withAmountOfNonMoveables(int amountOfNonMoveables) {
+         this.amountOfNonMoveables = amountOfNonMoveables;
+         return this;
+      }
+
+      public MoveableAdderBuilder withAmountOfMoveables(int amountOfMoveables) {
+         this.amountOfMoveables = amountOfMoveables;
+         return this;
+      }
+
+      public MoveableAdderBuilder withMoveableVelocity(int moveableVelocity) {
+         this.moveableVelocity = moveableVelocity;
+         return this;
+      }
+
+      public MoveableAdderBuilder withGridElementRadius(int gridElementRadius) {
+         this.gridElementRadius = gridElementRadius;
+         return this;
+      }
+
+      public MoveableAdderBuilder withCounter(int counter) {
+         this.counter = counter;
+         return this;
+      }
+
+      public MoveableAdderBuilder withPadding(int padding) {
+         this.padding = padding;
+         return this;
+      }
+
+      public MoveableAdderBuilder withBelligerentParty(BelligerentParty belligerent) {
+         this.belligerentParty = belligerent;
+         return this;
+      }
+
+      public MoveableAdder build() {
+         requireNonNull(belligerentParty);
+         return new MoveableAdder(amountOfNonMoveables, amountOfMoveables, moveableVelocity, counter, padding, gridElementRadius, belligerentParty);
+      }
+
+      public static MoveableAdderBuilder builder() {
+         return new MoveableAdderBuilder();
+      }
    }
 }

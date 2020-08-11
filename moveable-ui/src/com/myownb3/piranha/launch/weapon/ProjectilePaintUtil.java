@@ -32,9 +32,7 @@ public class ProjectilePaintUtil {
       newAutoDetectables.stream()
             .forEach(gridElement -> {
                existingAutoDetectables.add(gridElement.getName());
-               synchronized (renderers) {
-                  renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
-               }
+               renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
             });
    }
 
@@ -63,8 +61,6 @@ public class ProjectilePaintUtil {
 
    public static void removeDestroyedPainters(List<Renderer<? extends GridElement>> renderers) {
       List<Renderer<? extends GridElement>> destroyedProjectiles = getRenderer4DestroyedProjectiles(renderers);
-      synchronized (renderers) {
-         renderers.removeAll(destroyedProjectiles);
-      }
+      renderers.removeAll(destroyedProjectiles);
    }
 }

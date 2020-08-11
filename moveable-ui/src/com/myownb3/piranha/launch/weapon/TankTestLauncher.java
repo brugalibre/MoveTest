@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.application.battle.util.MoveableAdder;
+import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
@@ -54,7 +56,6 @@ import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
-import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
 import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.UIRefresher;
@@ -632,7 +633,12 @@ public class TankTestLauncher {
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      MoveableAdder moveableAdder = new MoveableAdder(MAX_X, MAX_Y, 20, 80, BelligerentPartyConst.GALACTIC_EMPIRE);
+      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+            .withMoveableVelocity(20)
+            .withCounter(80)
+            .withPadding(padding)
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .build();
       int cycleTime = 15;
       new UIRefresher(mainWindow, cycleTime).start();
       new LogicHandler(mainWindow, grid, renderers, moveableAdder, cycleTime, padding, false).start();

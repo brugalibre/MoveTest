@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import javax.swing.SwingUtilities;
 
+import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
@@ -18,8 +19,10 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.launch.weapon.listener.MoveableAdder;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.render.Renderer;
+import com.myownb3.piranha.ui.render.impl.GridElementPainter;
+import com.myownb3.piranha.ui.render.util.GridElementColorUtil;
 
 public class LogicHandler {
 
@@ -58,7 +61,8 @@ public class LogicHandler {
                   .map(AutoDetectable.class::cast)
                   .forEach(AutoDetectable::autodetect);
             cycleCounter++;
-            if (moveableAdder.check4NewMoveables2Add(grid, renderers, cycleCounter, padding)) {
+            if (moveableAdder.isCycleOver(cycleCounter)) {
+               checkAndAddNewMoveables(padding);
                cycleCounter = 0;
             }
             if (withAbbort && checkGameDone(grid, mainWindow)) {
@@ -70,6 +74,14 @@ public class LogicHandler {
             }
          }
       }, "LogicHandler").start();
+   }
+
+   private void checkAndAddNewMoveables(int padding) {
+      List<GridElement> newMoveables =
+            moveableAdder.check4NewMoveables2Add(grid, DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig(), padding);
+      for (GridElement gridElement : newMoveables) {
+         renderers.add(new GridElementPainter(gridElement, GridElementColorUtil.getColor(gridElement), 0, 0));
+      }
    }
 
    private static boolean checkGameDone(Grid grid, MainWindow mainWindow) {
