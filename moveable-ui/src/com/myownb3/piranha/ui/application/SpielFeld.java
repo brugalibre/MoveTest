@@ -48,10 +48,10 @@ public class SpielFeld extends JComponent {
       Dimension gridDimension = grid.getDimension();
       this.gridPainter = new GridPainter(grid, padding, pointWidth, gridDimension.getHeight() + 2 * padding,
             gridDimension.getWidth() + 2 * padding);
-      loadImageOpt(backgroundImage, gridDimension);
+      loadImageOpt(backgroundImage);
    }
 
-   private void loadImageOpt(String backgroundImage, Dimension gridDimension) {
+   private void loadImageOpt(String backgroundImage) {
       BufferedImage dimg = null;
       try {
          dimg = ImageReader.scaleBicubic(ImageIO.read(new File(backgroundImage)), 2, 2);

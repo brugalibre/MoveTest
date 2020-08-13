@@ -380,6 +380,7 @@ public class HumanTankTestLauncher {
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
+      mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 

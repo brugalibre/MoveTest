@@ -340,7 +340,7 @@ public class TankTestWithImageLauncher {
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
-
+      mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
       List<Renderer<? extends GridElement>> renderers = createRenderer4GridElements(tankBattleApplication);;
 
       mainWindow.addSpielfeld(renderers, grid);
