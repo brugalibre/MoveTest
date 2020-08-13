@@ -19,6 +19,14 @@ import com.myownb3.piranha.core.moveables.Moveable;
 public interface Grid {
 
    /**
+    * Adds the given {@link OnGridElementAddListener}
+    * 
+    * @param onGridElementAddListener
+    *        the {@link OnGridElementAddListener} to add
+    */
+   void addOnGridElementAddListener(OnGridElementAddListener onGridElementAddListener);
+
+   /**
     * This method should be called as soon as all {@link GridElement}
     * are placed on this {@link Grid} so that this Grid can prepare itself
     */

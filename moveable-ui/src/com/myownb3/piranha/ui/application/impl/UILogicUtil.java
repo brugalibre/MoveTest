@@ -26,7 +26,8 @@ public class UILogicUtil {
    public static void startLogicHandler(Grid grid, MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers,
          TankBattleApplication tankBattleApplication, int cycleTime) {
       new Thread(() -> {
-         LogicHandler logicHandler = new LogicHandlerImpl(grid, mainWindow, renderers, tankBattleApplication);
+         LogicHandler logicHandler = new LogicHandlerImpl(mainWindow, renderers, tankBattleApplication);
+         grid.addOnGridElementAddListener(logicHandler);
          while (true) {
             logicHandler.onCylce();
             sleep(cycleTime);

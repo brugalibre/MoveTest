@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,6 +42,27 @@ import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl.EndPointMoveableBuilder;
 
 class DefaultGridTest {
+
+   @Test
+   public void testAddOnGridElementAddListener() {
+
+      // Given
+      OnGridElementAddListener listener = mock(OnGridElementAddListener.class);
+      Grid grid = GridBuilder.builder()
+            .withMaxX(4)
+            .withMaxY(4)
+            .build();
+      grid.addOnGridElementAddListener(listener);
+
+      GridElement gridElement = mock(GridElement.class);
+      when(gridElement.getPosition()).thenReturn(Positions.of(1, 1));
+
+      // When
+      grid.addElement(gridElement);
+
+      // Then
+      verify(listener).onGridElementAdd(eq(gridElement));
+   }
 
    @Test
    public void testRandomPosition() {

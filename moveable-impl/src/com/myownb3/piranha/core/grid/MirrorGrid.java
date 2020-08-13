@@ -94,7 +94,7 @@ public class MirrorGrid extends DefaultGrid {
     * @author Dominic
     *
     */
-   public static class MirrorGridBuilder extends AbstractGridBuilder<MirrorGrid> {
+   public static class MirrorGridBuilder extends AbstractGridBuilder<MirrorGrid, MirrorGridBuilder> {
 
       public static MirrorGridBuilder builder() {
          return new MirrorGridBuilder()
@@ -119,6 +119,11 @@ public class MirrorGrid extends DefaultGrid {
             mirrorGrid = new MirrorGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
          return mirrorGrid;
+      }
+
+      @Override
+      protected MirrorGridBuilder getThis() {
+         return this;
       }
    }
 }

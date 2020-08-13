@@ -43,6 +43,7 @@ public class DefaultGrid implements Grid {
    protected int minX;
    protected int minY;
    private CollisionDetectionHandler collisionDetectionHandler;
+   private List<OnGridElementAddListener> onGridElementAddListeners;
    private Object lock = new Object();
 
    /**
@@ -82,8 +83,14 @@ public class DefaultGrid implements Grid {
       this.minY = minY;
       this.minX = minX;
       this.checkLowerBoundarys = true;
-      gridElements = new ArrayList<>();
+      this.gridElements = new ArrayList<>();
+      this.onGridElementAddListeners = new ArrayList<>();
       this.collisionDetectionHandler = requireNonNull(collisionDetectionHandler);
+   }
+
+   @Override
+   public void addOnGridElementAddListener(OnGridElementAddListener onGridElementAddListener) {
+      this.onGridElementAddListeners.add(onGridElementAddListener);
    }
 
    @Override
@@ -161,6 +168,8 @@ public class DefaultGrid implements Grid {
       synchronized (lock) {
          gridElements.add(gridElement);
       }
+      onGridElementAddListeners.stream()
+            .forEach(onGridElementAddListener -> onGridElementAddListener.onGridElementAdd(gridElement));
    }
 
    /**
@@ -276,7 +285,7 @@ public class DefaultGrid implements Grid {
       return "Max x:'" + maxX + ", Min x:'" + minX + "; Max y:'" + maxY + ", Min y:'" + minY;
    }
 
-   public abstract static class AbstractGridBuilder<T> {
+   public abstract static class AbstractGridBuilder<T, V extends AbstractGridBuilder<T, V>> {
 
       protected Integer maxX;
       protected Integer maxY;
@@ -284,45 +293,43 @@ public class DefaultGrid implements Grid {
       protected Integer minY;
       protected CollisionDetectionHandler collisionDetectionHandler;
 
-      protected AbstractGridBuilder() {}
+      protected AbstractGridBuilder() {
+         // protected
+      }
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withMaxX(int maxX) {
+      public V withMaxX(int maxX) {
          this.maxX = maxX;
-         return (B) this;
+         return getThis();
       }
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withMinX(int minX) {
+      public V withMinX(int minX) {
          this.minX = minX;
-         return (B) this;
+         return getThis();
       }
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withMaxY(int maxY) {
+      public V withMaxY(int maxY) {
          this.maxY = maxY;
-         return (B) this;
+         return getThis();
       }
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withMinY(int minY) {
+      public V withMinY(int minY) {
          this.minY = minY;
-         return (B) this;
+         return getThis();
       }
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withDefaultCollisionDetectionHandler() {
+      public V withDefaultCollisionDetectionHandler() {
          this.collisionDetectionHandler = new DefaultCollisionDetectionHandlerImpl();
-         return (B) this;
+         return getThis();
       }
 
       public abstract T build();
 
-      @SuppressWarnings("unchecked")
-      public <B extends AbstractGridBuilder<T>> B withCollisionDetectionHandler(
+      protected abstract V getThis();
+
+      public V withCollisionDetectionHandler(
             CollisionDetectionHandler collisionDetectionHandler) {
          this.collisionDetectionHandler = collisionDetectionHandler;
-         return (B) this;
+         return getThis();
       }
 
       protected void setDefaultCollisionDetectionHandlerIfNull() {
@@ -333,7 +340,7 @@ public class DefaultGrid implements Grid {
       }
    }
 
-   public static class GridBuilder extends AbstractGridBuilder<DefaultGrid> {
+   public static class GridBuilder extends AbstractGridBuilder<DefaultGrid, GridBuilder> {
 
       protected GridBuilder() {
          super();
@@ -363,6 +370,11 @@ public class DefaultGrid implements Grid {
             defaultGrid = new DefaultGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
          return defaultGrid;
+      }
+
+      @Override
+      protected GridBuilder getThis() {
+         return this;
       }
    }
 }

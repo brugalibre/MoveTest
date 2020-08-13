@@ -103,7 +103,7 @@ public class SwappingGrid extends DefaultGrid {
     * @author Dominic
     *
     */
-   public static class SwappingGridBuilder extends AbstractGridBuilder<SwappingGrid> {
+   public static class SwappingGridBuilder extends AbstractGridBuilder<SwappingGrid, SwappingGridBuilder> {
 
       public static SwappingGridBuilder builder() {
          return new SwappingGridBuilder()
@@ -134,6 +134,11 @@ public class SwappingGrid extends DefaultGrid {
             swappingGrid = new SwappingGrid(maxX, maxY, minX, minY, collisionDetectionHandler);
          }
          return swappingGrid;
+      }
+
+      @Override
+      protected SwappingGridBuilder getThis() {
+         return this;
       }
    }
 }
