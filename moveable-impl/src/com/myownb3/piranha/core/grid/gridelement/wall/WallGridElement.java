@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.grid.gridelement.AbstractGridElement;
@@ -30,6 +32,11 @@ public class WallGridElement extends AbstractGridElement implements Wall {
    @Override
    public boolean isDestroyed() {
       return destructionHelper.isDestroyed();
+   }
+
+   @Override
+   public BelligerentParty getBelligerentParty() {
+      return BelligerentPartyConst.NEUTRAL;
    }
 
    public static class WallGridElementBuilder extends AbstractGridElementBuilder<WallGridElement, WallGridElementBuilder> {

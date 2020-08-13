@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.grid.Grid;
@@ -83,5 +85,23 @@ class WallGridElementTest {
 
       // Then
       assertThat(actualIsDestroyed, is(expectedIsDestroyed));
+   }
+
+   @Test
+   void testIsNeutralParty() {
+      // Given
+      Position position = Positions.of(5, 5);
+      WallGridElement wallGridElement = WallGridElementBuilder.builder()
+            .withGrid(mock(Grid.class))
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(position)
+                  .build())
+            .build();
+
+      // When
+      BelligerentParty actualBelligerentParty = wallGridElement.getBelligerentParty();
+
+      // Then
+      assertThat(actualBelligerentParty, is(BelligerentPartyConst.NEUTRAL));
    }
 }

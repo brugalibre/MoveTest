@@ -11,7 +11,6 @@ import java.util.List;
 
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
-import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
@@ -25,15 +24,17 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
  * @author Dominic
  *
  */
-public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belligerent {
+public class ObstacleImpl extends AbstractGridElement implements Obstacle {
 
    private static final int OBSTACLE_DAMAGE = 3;
    private static final int OBSTACLE_HEALTH = 5;
 
    private DestructionHelper destructionHelper;
+   private BelligerentParty belligerentParty;
 
-   private ObstacleImpl(Grid grid, Shape shape) {
+   private ObstacleImpl(Grid grid, Shape shape, BelligerentParty belligerentParty) {
       super(shape, getDefaultDimensionInfo(shape.getDimensionRadius()));
+      this.belligerentParty = belligerentParty;
       destructionHelper = getDestructionHelper(grid);
    }
 
@@ -62,19 +63,25 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
 
    @Override
    public BelligerentParty getBelligerentParty() {
-      return BelligerentPartyConst.GALACTIC_EMPIRE;// So far, a ObstacleImpl is a member of the galactic empire
+      return belligerentParty;
    }
 
    public static class ObstacleBuilder extends AbstractGridElementBuilder<ObstacleImpl, ObstacleBuilder> {
 
       private DestructionHelper destructionHelper;
+      private BelligerentParty belligerentParty;
 
       private ObstacleBuilder() {
-         // private
+         this.belligerentParty = BelligerentPartyConst.GALACTIC_EMPIRE;// By default a ObstacleImpl is a member of the galactic empire;
       }
 
       public static ObstacleBuilder builder() {
          return new ObstacleBuilder();
+      }
+
+      public ObstacleBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
       }
 
       public ObstacleBuilder withDestructionHelper(DestructionHelper destructionHelper) {
@@ -90,7 +97,7 @@ public class ObstacleImpl extends AbstractGridElement implements Obstacle, Belli
       @Override
       public ObstacleImpl build() {
          requireNonNull(shape, "A Obstacle always needs a shape!");
-         ObstacleImpl obstacleImpl = new ObstacleImpl(grid, shape);
+         ObstacleImpl obstacleImpl = new ObstacleImpl(grid, shape, belligerentParty);
          if (nonNull(destructionHelper)) {
             obstacleImpl.destructionHelper = destructionHelper;
          }

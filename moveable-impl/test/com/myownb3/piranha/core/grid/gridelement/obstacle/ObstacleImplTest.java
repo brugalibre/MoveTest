@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.belligerent.rebelalliance.Rebel;
 import com.myownb3.piranha.core.battle.destruction.DamageImpl;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
@@ -98,10 +99,12 @@ class ObstacleImplTest {
       Obstacle obstacle = ObstacleBuilder.builder()
             .withGrid(grid)
             .withShape(shape)
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .build();
 
       // Then
       assertThat(obstacle.getShape(), is(shape));
+      assertThat(obstacle.getBelligerentParty(), is(BelligerentPartyConst.REBEL_ALLIANCE));
    }
 
    private ProjectileGridElement mockProjectileGridElementent(double damage) {

@@ -18,4 +18,9 @@ public class BelligerentPartyConst {
     */
    public static final BelligerentParty REBEL_ALLIANCE =
          BelligerentPartyImpl.of(Collections.singletonList(BelligerentPartyTypes.GALACTIC_EMPIRE), BelligerentPartyTypes.REBEL_ALLIANCE);
+
+   /**
+    * Defines a neutral party in the galactical battle
+    */
+   public static final BelligerentParty NEUTRAL = BelligerentPartyImpl.of(Collections.emptyList(), BelligerentPartyTypes.NEUTRAL);
 }

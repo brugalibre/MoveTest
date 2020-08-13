@@ -45,7 +45,7 @@ public class MoveableAdder {
    private double gridElementRadius;
    private int counter;
    private int padding;
-   private BelligerentParty belligerent;
+   private BelligerentParty belligerentParty;
 
    private MoveableAdder(int amountOfNonMoveables, int amountOfMoveables, int moveableVelocity, int counter, int padding, double gridElementRadius,
          BelligerentParty belligerentParty) {
@@ -55,7 +55,7 @@ public class MoveableAdder {
       this.gridElementRadius = gridElementRadius;
       this.counter = counter;
       this.padding = padding;
-      this.belligerent = belligerentParty;
+      this.belligerentParty = belligerentParty;
    }
 
    /**
@@ -135,7 +135,7 @@ public class MoveableAdder {
                      grid.remove(lazyEndPoinMoveable.getGridElement());
                   })
                   .build())
-            .withBelligerentParty(belligerent)
+            .withBelligerentParty(belligerentParty)
             .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(gridElementRadius))
             .withMoveableController(MoveableControllerBuilder.builder()
                   .withEndPositions(endPosList)
@@ -176,6 +176,7 @@ public class MoveableAdder {
                   .withAmountOfPoints(20)
                   .withCenter(gridElementPos)
                   .build())
+            .withBelligerentParty(belligerentParty)
             .build();
    }
 

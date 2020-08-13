@@ -7,4 +7,7 @@ public enum BelligerentPartyTypes {
 
    /** The {@link RebelAlliance} fights for the freedom of the galaxy and is the direct counter part to the {@link RebelAlliance} */
    REBEL_ALLIANCE,
+
+   /*Defines a neutral party in the galactical battle*/
+   NEUTRAL,
 }
