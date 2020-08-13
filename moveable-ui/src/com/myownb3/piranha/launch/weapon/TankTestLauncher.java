@@ -1,10 +1,9 @@
 package com.myownb3.piranha.launch.weapon;
 
-import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
+import static com.myownb3.piranha.launch.weapon.BattleRendererBuilder.createRenderer4TankBattleApplication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
@@ -46,7 +45,6 @@ import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConf
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
-import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 
 public class TankTestLauncher {
    private static final int MAX_Y = 820;
@@ -140,7 +138,7 @@ public class TankTestLauncher {
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
-                  .withEvasionStateMachine(EvasionStateMachineConfigBuilder.builder()
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(1)
                         .withReturningMinDistance(1)
@@ -202,7 +200,7 @@ public class TankTestLauncher {
                   .withTankWidth(2 * tankWidth / 3d)
                   .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
                   .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
-                  .withEvasionStateMachine(EvasionStateMachineConfigBuilder.builder()
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(180)
                         .withReturningMinDistance(1)
@@ -375,17 +373,9 @@ public class TankTestLauncher {
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
 
-      List<Renderer<? extends GridElement>> renderers = createRenderer4GridElements(tankBattleApplication);
+      List<Renderer<? extends GridElement>> renderers = createRenderer4TankBattleApplication(tankBattleApplication);
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication);
-   }
-
-   private List<Renderer<? extends GridElement>> createRenderer4GridElements(TankBattleApplication tankBattleApplication) {
-      List<GridElement> gridElements = new ArrayList<>(tankBattleApplication.getTurretGridElements());
-      gridElements.addAll(tankBattleApplication.getTankGridElements());
-      return gridElements.stream()
-            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))
-            .collect(Collectors.toList());
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers,

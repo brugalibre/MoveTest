@@ -1,5 +1,6 @@
 package com.myownb3.piranha.application.battle.impl;
 
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -11,13 +12,16 @@ import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
+import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -30,8 +34,11 @@ import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
+import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl;
+import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl.RectangleSides;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
@@ -111,9 +118,14 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
       private Tank tank;
       private int engineVelocity;
       private BelligerentParty belligerentParty;
+      private double tankHealth;
+      private TankDetector tankDetector;
+      private TankEngine tankEngine;
+      private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
 
       private TankBattleApplicationTankBuilder() {
          this.turrets = new ArrayList<>();
+         this.tankHealth = Integer.MAX_VALUE;
       }
 
       public TankBattleApplicationTankBuilder withGrid(Grid grid) {
@@ -156,7 +168,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationTankBuilder withEvasionStateMachine(EvasionStateMachineConfig evasionStateMachineConfig) {
+      public TankBattleApplicationTankBuilder withEvasionStateMachineConfig(EvasionStateMachineConfig evasionStateMachineConfig) {
          this.evasionStateMachineConfig = evasionStateMachineConfig;
          return this;
       }
@@ -171,61 +183,41 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
+      public TankBattleApplicationTankBuilder withHealth(double tankHealth) {
+         this.tankHealth = tankHealth;
+         return this;
+      }
+
       public TankBattleApplicationTankBuilder withBelligerentParty(BelligerentParty belligerentParty) {
          this.belligerentParty = belligerentParty;
+         return this;
+      }
+
+      public TankBattleApplicationTankBuilder withTankEngine(TankEngine tankEngine) {
+         this.tankEngine = tankEngine;
+         return this;
+      }
+
+      public TankBattleApplicationTankBuilder withTankDetector(TankDetector tankDetector) {
+         this.tankDetector = tankDetector;
+         return this;
+      }
+
+      public TankBattleApplicationTankBuilder withDefaultOnDestructionHandler(OnDestroyedCallbackHandler onDestroyedCallbackHandler) {
+         this.onDestroyedCallbackHandler = onDestroyedCallbackHandler;
          return this;
       }
 
       public TankBattleApplicationTankBuilder build(TankHolder tankHolder) {
          this.tank = TankBuilder.builder()
                .withBelligerentParty(belligerentParty)
-               .withTankEngine(TankEngineBuilder.builder()
-                     .withVelocity(engineVelocity)
-                     .withDefaultEngineStateHandler()
-                     .withEngineAudio(EngineAudioBuilder.builder()
-                           .withDefaultAudio()
-                           .withEngineMoveAudio(AudioClipBuilder.builder()
-                                 .withRestartRunningAudio(false)
-                                 .withAudioResource(tankEngineAudioResource)
-                                 .build())
-                           .build())
-                     .withMoveableController(MoveableControllerBuilder.builder()
-                           .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
-                           .withEndPositions(endPositions)
-                           .withLazyMoveable(() -> tankHolder.getTankGridElement())
-                           .build())
-                     .build())
-               .withTankDetector(TankDetectorBuilder.builder()
-                     .withTankGridElement(() -> tankHolder.getTankGridElement())
-                     .withGrid(grid)
-                     .withDetector(TrippleDetectorClusterBuilder.builder()
-                           .withCenterDetector(DetectorBuilder.builder()
-                                 .withAngleInc(1)
-                                 .withDetectorAngle(90)
-                                 .withDetectorReach(400)
-                                 .withEvasionAngle(90)
-                                 .withEvasionDistance(400)
-                                 .build())
-                           .withLeftSideDetector(DetectorBuilder.builder()
-                                 .withAngleInc(1)
-                                 .withDetectorAngle(90)
-                                 .withDetectorReach(400)
-                                 .withEvasionAngle(90)
-                                 .withEvasionDistance(400)
-                                 .build(), 90)
-                           .withRightSideDetector(DetectorBuilder.builder()
-                                 .withAngleInc(1)
-                                 .withDetectorAngle(90)
-                                 .withDetectorReach(400)
-                                 .withEvasionAngle(90)
-                                 .withEvasionDistance(400)
-                                 .build(), 90)
-                           .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                           .withAutoDetectionStrategyHandler()
-                           .build())
-                     .build())
+               .withHealth(tankHealth)
+               .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
+               .withTankEngine(getTankEngine(tankHolder))
+               .withTankDetector(getTankDetector(tankHolder))
                .withTurret(getTankTurret())
                .withHull(RectangleBuilder.builder()
+                     .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
                      .withCenter(tankPos)
                      .withHeight(tankHeight)
                      .withWidth(tankWidth)
@@ -234,6 +226,63 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
                .withTankStrategy(tankStrategy)
                .build();
          return this;
+      }
+
+      private TankEngine getTankEngine(TankHolder tankHolder) {
+         if (nonNull(tankEngine)) {
+            return tankEngine;
+         }
+         return TankEngineBuilder.builder()
+               .withVelocity(engineVelocity)
+               .withDefaultEngineStateHandler()
+               .withEngineAudio(EngineAudioBuilder.builder()
+                     .withDefaultAudio()
+                     .withEngineMoveAudio(AudioClipBuilder.builder()
+                           .withRestartRunningAudio(false)
+                           .withAudioResource(tankEngineAudioResource)
+                           .build())
+                     .build())
+               .withMoveableController(MoveableControllerBuilder.builder()
+                     .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
+                     .withEndPositions(endPositions)
+                     .withLazyMoveable(() -> tankHolder.getTankGridElement())
+                     .build())
+               .build();
+      }
+
+      private TankDetector getTankDetector(TankHolder tankHolder) {
+         if (nonNull(tankDetector)) {
+            return tankDetector;
+         }
+         return TankDetectorBuilder.builder()
+               .withTankGridElement(() -> tankHolder.getTankGridElement())
+               .withGrid(grid)
+               .withDetector(TrippleDetectorClusterBuilder.builder()
+                     .withCenterDetector(DetectorBuilder.builder()
+                           .withAngleInc(1)
+                           .withDetectorAngle(90)
+                           .withDetectorReach(400)
+                           .withEvasionAngle(90)
+                           .withEvasionDistance(400)
+                           .build())
+                     .withLeftSideDetector(DetectorBuilder.builder()
+                           .withAngleInc(1)
+                           .withDetectorAngle(90)
+                           .withDetectorReach(400)
+                           .withEvasionAngle(90)
+                           .withEvasionDistance(400)
+                           .build(), 90)
+                     .withRightSideDetector(DetectorBuilder.builder()
+                           .withAngleInc(1)
+                           .withDetectorAngle(90)
+                           .withDetectorReach(400)
+                           .withEvasionAngle(90)
+                           .withEvasionDistance(400)
+                           .build(), 90)
+                     .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
+                     .withAutoDetectionStrategyHandler()
+                     .build())
+               .build();
       }
 
       private Turret getTankTurret() {
@@ -290,6 +339,17 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
                .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
                .withTurret(turret)
                .build());
+         return this;
+      }
+
+      public TankBattleApplicationBuilder addTurretGridElement(Turret turret, LazyGridElement lazyGridElement) {
+         TurretGridElement turretGridElement = TurretGridElementBuilder.builder()
+               .withGrid(grid)
+               .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
+               .withTurret(turret)
+               .build();
+         turretGridElements.add(turretGridElement);
+         lazyGridElement.setGridElement(turretGridElement);
          return this;
       }
 

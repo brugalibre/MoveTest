@@ -3,6 +3,7 @@ package com.myownb3.piranha.application.battle.impl.turret;
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
@@ -10,9 +11,11 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBui
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretImpl.GenericTurretBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.strategy.handler.TurretStrategyHandler;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.core.grid.gridelement.evaluator.GridElementEvaluator;
 import com.myownb3.piranha.core.grid.gridelement.position.PositionTransformator;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -23,6 +26,10 @@ import com.myownb3.piranha.core.grid.position.Position;
 public abstract class GenericTankBattleApplicationTurretBuilder<V extends GenericTurretBuilder<V>, T extends GenericTankBattleApplicationTurretBuilder<V, T>> {
 
    private static final double MUZZLE_BRAKE_FACTOR = 1.5;
+   protected PositionTransformator positionTransformator;
+   protected BelligerentParty belligerentParty;
+   protected DestructionHelper destructionHelper;
+   protected TurretStrategyHandler turretStrategyHandler;
    private Grid grid;
    private DetectorConfig detectorConfig;
    private Position tankTurretPos;
@@ -31,14 +38,14 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
    private double gunHeight;
    private double gunWidth;
    private ProjectileTypes projectileType;
-   private PositionTransformator positionTransformator;
    private Shape gunCarriageShape;
    private boolean withMuzzleBrake;
-   private BelligerentParty belligerentParty;
+   private Orientation gunOrientation;
 
    protected GenericTankBattleApplicationTurretBuilder() {
       this.positionTransformator = pos -> pos;
       this.withMuzzleBrake = false;
+      this.gunOrientation = Orientation.HORIZONTAL;
    }
 
    public T withGrid(Grid grid) {
@@ -101,6 +108,21 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
       return getThis();
    }
 
+   public T withTurretStrategyHandler(TurretStrategyHandler turretStrategyHandler) {
+      this.turretStrategyHandler = turretStrategyHandler;
+      return getThis();
+   }
+
+   public T withDestructionHelper(DestructionHelper destructionHelper) {
+      this.destructionHelper = destructionHelper;
+      return getThis();
+   }
+
+   public T withGunOrientation(Orientation orientation) {
+      this.gunOrientation = orientation;
+      return getThis();
+   }
+
    protected abstract V getTurretBuilder();
 
    protected abstract T getThis();
@@ -118,7 +140,9 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
                   .withEvasionDistance(detectorConfig.getEvasionDistance())
                   .build())
             .withPositionTransformator(positionTransformator)
-            .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+            .withDestructionHelper(destructionHelper)
+            .withTurretStrategyHandler(turretStrategyHandler)
+            .withGridElementEvaluator(getGridElementEvaluator())
             .withGunCarriage(DefaultGunCarriageBuilder.builder()
                   .withRotationSpeed(turretRotationSpeed)
                   .withGun(DefaultGunBuilder.builder()
@@ -129,7 +153,7 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
                                     .withHeight(gunHeight)
                                     .withWidth(gunWidth)
                                     .withCenter(tankTurretPos)
-                                    .withOrientation(Orientation.HORIZONTAL)
+                                    .withOrientation(gunOrientation)
                                     .build())
                               .withMuzzleBreak(muzzleBrake)
                               .build())
@@ -139,13 +163,17 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
             .build();
    }
 
+   protected GridElementEvaluator getGridElementEvaluator() {
+      return (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance);
+   }
+
    private Rectangle buildMuzzleBrake() {
       if (withMuzzleBrake) {
          return RectangleBuilder.builder()
                .withHeight(gunWidth * MUZZLE_BRAKE_FACTOR)
                .withWidth(gunWidth * MUZZLE_BRAKE_FACTOR)
                .withCenter(tankTurretPos)
-               .withOrientation(Orientation.HORIZONTAL)
+               .withOrientation(gunOrientation)
                .build();
       }
       return null;

@@ -8,6 +8,11 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
+import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationBuilder;
+import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationTankBuilder;
+import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationHumanTurretBuilder;
+import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
+import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
@@ -25,27 +30,19 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBui
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
-import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridElementBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
-import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
-import com.myownb3.piranha.core.battle.weapon.tank.turret.TankTurretBuilder;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
-import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement.TurretGridElementBuilder;
-import com.myownb3.piranha.core.battle.weapon.turret.TurretImpl.GenericTurretBuilder.TurretBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.strategy.handler.impl.human.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
-import com.myownb3.piranha.core.detector.cluster.tripple.TrippleDetectorClusterImpl.TrippleDetectorClusterBuilder;
 import com.myownb3.piranha.core.detector.config.DetectorConfig;
 import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.DetectorConfigBuilder;
-import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
@@ -55,26 +52,22 @@ import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl;
-import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl.RectangleSides;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallBuilder;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
 import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
-import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
-import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.EngineAcceleratorImpl.EngineAcceleratorBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.EngineTransmissionConfigImpl.EngineTransmissionConfigBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.GearImpl.GearBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
-import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.application.MainWindow;
+import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
@@ -97,20 +90,19 @@ public class HumanTankTestWithImageLauncher {
 
       // Common
       int width = 30;
-      int height = 5;
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
-      int tankGunCarriageWithImageRadius = 26;
-      double gunWithImageHeight = 50;
-      double gunWithImageWidth = 14;
-      int tankWithImageWidth = 70;
+      int tankGunCarriageRadius = 26;
+      double gunHeight = 50;
+      double gunWidth = 14;
+      int tankWidth = 70;
       int tankHeight = 90;
       int projectileVelocity = 80;
       int missileVelocity = 30;
       double turretRotationSpeed = 3;
 
       // Rebel
-      Position rebelTankPos = Positions.of(450, 600).rotate(80);
+      Position rebelTankPos = Positions.of(500, 600).rotate(80);
       int rebelTankEngineAccelerationSpeed = 1300;
       double rebelTankEngineManuallySlowDownSpeed = 200;
       double rebelTankEngineNaturallySlowDownSpeed = 900;
@@ -147,240 +139,19 @@ public class HumanTankTestWithImageLauncher {
             .build();
 
       TankHolder imperialTankHolder = new TankHolder();
-      int missileCounterMeasureDetectionDistance = 80;
-
-      LazyGridElement lazyTurretGridElement = new LazyGridElement();
-      TurretGridElement northImperialTurretGridElement = TurretGridElementBuilder.builder()
-            .withGrid(grid)
-            .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
-            .withTurret(TurretBuilder.builder()
-                  .withDestructionHelper(DestructionHelperBuilder.builder()
-                        .withDamage(0)
-                        .withHealth(imperialTurretHealth)
-                        .withSelfDestructiveDamage(0)
-                        .withDestroyedAudioClip(AudioClipBuilder.builder()
-                              .withAudioResource(AudioConstants.EXPLOSION_SOUND)
-                              .build())
-                        .withOnDestroyedCallbackHandler(() -> {
-                           grid.remove(lazyTurretGridElement.getGridElement());
-                        })
-                        .build())
-                  .withDetector(DetectorBuilder.builder()
-                        .withAngleInc(detectorConfig.getEvasionAngleInc())
-                        .withDetectorAngle(detectorConfig.getDetectorAngle())
-                        .withDetectorReach(detectorConfig.getDetectorReach())
-                        .withEvasionAngle(detectorConfig.getDetectorAngle())
-                        .withEvasionDistance(detectorConfig.getEvasionDistance())
-                        .build())
-                  .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                  .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                        .withRotationSpeed(turretRotationSpeed)
-                        .withGun(DefaultGunBuilder.builder()
-                              .withGunProjectileType(ProjectileTypes.LASER_BEAM)
-                              .withGunConfig(GunConfigBuilder.builder()
-                                    .withAudioClip(AudioClipBuilder.builder()
-                                          .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
-                                          .build())
-                                    .withSalveSize(1)
-                                    .withRoundsPerMinute(200)
-                                    .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                          .withProjectileDamage(30)
-                                          .withDimensionInfo(DimensionInfoBuilder.builder()
-                                                .withDimensionRadius(3)
-                                                .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
-                                                .build())
-                                          .withVelocity(projectileVelocity)
-                                          .build())
-                                    .build())
-                              .withGunShape(GunShapeBuilder.builder()
-                                    .withBarrel(RectangleBuilder.builder()
-                                          .withHeight(gunWithImageHeight)
-                                          .withWidth(gunWithImageWidth)
-                                          .withCenter(turretNorthPos)
-                                          .withRectanglePathBuilder(new RectanglePathBuilderImpl(10, RectangleSides.FRONT_AND_BACK))
-                                          .withOrientation(Orientation.HORIZONTAL)
-                                          .build())
-                                    .build())
-                              .build())
-                        .withShape(RectangleBuilder.builder()
-                              .withCenter(turretNorthPos)
-                              .withHeight(tankGunCarriageWithImageRadius)
-                              .withWidth(tankGunCarriageWithImageRadius)
-                              .withOrientation(Orientation.HORIZONTAL)
-                              .build())
-                        .build())
-                  .build())
-            .build();
-      lazyTurretGridElement.setGridElement(northImperialTurretGridElement);
-
-      TankGridElement imperialTank = TankGridElementBuilder.builder()
-            .withGrid(grid)
-            .withEngineVelocity(imperialTankVelocity)
-            .withTankheightFromBottom(tankHeightFromGround)
-            .withTurretHeightFromBottom(tankTurretHeight)
-            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
-                  .withGrid(grid)
-                  .withDetector(DetectorBuilder.builder()
-                        .build())
-                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
-                        .withReturningAngleIncMultiplier(1)
-                        .withOrientationAngle(1)
-                        .withReturningMinDistance(1)
-                        .withReturningAngleMargin(1)
-                        .withPassingDistance(25)
-                        .withPostEvasionReturnAngle(4)
-                        .withDetectorConfig(DetectorConfigBuilder.builder()
-                              .build())
-                        .build())
-                  .build())
-            .withTank(TankBuilder.builder()
-                  .withHealth(imperialHealth)
-                  .withTankEngine(TankEngineBuilder.builder()
-                        .withVelocity(imperialTankVelocity)
-                        .withDefaultEngineStateHandler()
-                        .withEngineAudio(EngineAudioBuilder.builder()
-                              .withDefaultAudio()
-                              .build())
-                        .withMoveableController(MoveableControllerBuilder.builder()
-                              .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
-                              .withEndPositions(imperialTankEndPositions)
-                              .withLazyMoveable(() -> imperialTankHolder.getTankGridElement())
-                              .build())
-                        .build())
-                  .withTankDetector(TankDetectorBuilder.builder()
-                        .withTankGridElement(() -> imperialTankHolder.getTankGridElement())
-                        .withGrid(grid)
-                        .withDetector(TrippleDetectorClusterBuilder.builder()
-                              .withCenterDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
-                                    .build())
-                              .withLeftSideDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
-                                    .build(), 90)
-                              .withRightSideDetector(DetectorBuilder.builder()
-                                    .withAngleInc(1)
-                                    .withDetectorAngle(90)
-                                    .withDetectorReach(400)
-                                    .withEvasionAngle(90)
-                                    .withEvasionDistance(missileCounterMeasureDetectionDistance)
-                                    .build(), 90)
-                              .withStrategy(DetectingStrategy.SUPPORTIVE_FLANKS_WITH_DETECTION)
-                              .withAutoDetectionStrategyHandler()
-                              .build())
-                        .build())
-                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                  .withOnDestroyedCallbackHandler(() -> {
-                     grid.remove(imperialTankHolder.getTankGridElement());
-                  })
-                  .withTurret(TankTurretBuilder.builder()
-                        .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                        .withParkingAngleEvaluator(() -> imperialTankHolder.getPosition().getDirection().getAngle())
-                        .withDetector(DetectorBuilder.builder()
-                              .withAngleInc(detectorConfig.getEvasionAngleInc())
-                              .withDetectorAngle(detectorConfig.getDetectorAngle())
-                              .withDetectorReach(detectorConfig.getDetectorReach())
-                              .withEvasionAngle(detectorConfig.getDetectorAngle())
-                              .withEvasionDistance(detectorConfig.getEvasionDistance())
-                              .build())
-                        .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                        .withGunCarriage(DefaultGunCarriageBuilder.builder()
-                              .withRotationSpeed(4)
-                              .withGun(DefaultGunBuilder.builder()
-                                    .withGunProjectileType(ProjectileTypes.MISSILE)
-                                    .withGunConfig(GunConfigBuilder.builder()
-                                          .withAudioClip(AudioClipBuilder.builder()
-                                                .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
-                                                .build())
-                                          .withSalveSize(1)
-                                          .withRoundsPerMinute(70)
-                                          .withProjectileConfig(ProjectileConfigBuilder.builder()
-                                                .withDimensionInfo(DimensionInfoBuilder.builder()
-                                                      .withDimensionRadius(3)
-                                                      .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
-                                                      .build())
-                                                .withVelocity(missileVelocity)
-                                                .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
-                                                      .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                                                      .withDetector(DetectorBuilder.builder()
-                                                            .withDetectorAngle(missileDetectorConfig.getDetectorAngle())
-                                                            .withDetectorReach(missileDetectorConfig.getDetectorReach())
-                                                            .build())
-                                                      .withGridElementEvaluator(
-                                                            (position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
-                                                      .build())
-                                                .withProjectileDamage(100)
-                                                .build())
-                                          .build())
-                                    .withGunShape(GunShapeBuilder.builder()
-                                          .withBarrel(RectangleBuilder.builder()
-                                                .withHeight(gunWithImageHeight)
-                                                .withWidth(gunWithImageWidth)
-                                                .withCenter(imperialTankPos)
-                                                .withOrientation(Orientation.HORIZONTAL)
-                                                .build())
-                                          .build())
-                                    .build())
-                              .withShape(RectangleBuilder.builder()
-                                    .withWidth(tankGunCarriageWithImageRadius)
-                                    .withHeight(tankGunCarriageWithImageRadius)
-                                    .withCenter(imperialTankPos)
-                                    .build())
-                              .build())
-                        .build())
-                  .withHull(RectangleBuilder.builder()
-                        .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
-                        .withCenter(imperialTankPos)
-                        .withHeight(tankHeight)
-                        .withWidth(tankWithImageWidth)
-                        .withOrientation(Orientation.HORIZONTAL)
-                        .build())
-                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
-                  .build())
-            .build();
-
-      imperialTankHolder.setAndReturnTank(imperialTank);
-      imperialTankHolder.setTankGridElement(imperialTank);
-
+      int missileCounterMeasureDetectionDistance = 100;
       TankHolder rebelTankHolder = new TankHolder();
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
-            .withEngineAudio(EngineAudioBuilder.builder()
-                  .withDefaultAudio()
-                  .build())
-            .withLazyMoveable(() -> rebelTankHolder.getTankGridElement())
-            .withVelocity(rebelTankVelocity)
-            .withEngineStateHandler(new EngineStateHandler(EngineAcceleratorBuilder.builder()
-                  .withEngineTransmissionConfig(EngineTransmissionConfigBuilder.builder()
-                        .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed / 3)
-                              .withMaxVelocity(rebelTankVelocity / 3)
-                              .withNumber(1)
-                              .buil())
-                        .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(2 * rebelTankEngineAccelerationSpeed / 3)
-                              .withMaxVelocity(2 * rebelTankVelocity / 3)
-                              .withNumber(1)
-                              .buil())
-                        .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed)
-                              .withMaxVelocity(rebelTankVelocity)
-                              .withNumber(3)
-                              .buil())
-                        .build())
-                  .withManuallySlowDownSpeed(rebelTankEngineManuallySlowDownSpeed)
-                  .withNaturallySlowDownSpeed(rebelTankEngineNaturallySlowDownSpeed)
-                  .build()))
+
+      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+            .withMoveableVelocity(8)
+            .withCounter(200)
+            .withPadding(padding)
+            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
             .build();
 
+      HumanTankEngine humanTankEngine =
+            buildHumanTankEngine(rebelTankEngineAccelerationSpeed, rebelTankEngineManuallySlowDownSpeed, rebelTankEngineNaturallySlowDownSpeed,
+                  rebelTankVelocity, rebelTankHolder);
       GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(5)
             .withGun(DefaultGunBuilder.builder()
@@ -401,49 +172,100 @@ public class HumanTankTestWithImageLauncher {
                         .build())
                   .withGunShape(GunShapeBuilder.builder()
                         .withBarrel(RectangleBuilder.builder()
-                              .withHeight(gunWithImageHeight)
-                              .withWidth(gunWithImageWidth)
+                              .withHeight(gunHeight)
+                              .withWidth(gunWidth)
                               .withCenter(rebelTankPos)
-                              .withRectanglePathBuilder(new RectanglePathBuilderImpl(10, RectangleSides.FRONT_AND_BACK))
                               .withOrientation(Orientation.HORIZONTAL)
                               .build())
                         .build())
                   .build())
             .withShape(RectangleBuilder.builder()
+                  .withWidth(tankGunCarriageRadius)
+                  .withHeight(tankGunCarriageRadius)
                   .withCenter(rebelTankPos)
-                  .withHeight(tankGunCarriageWithImageRadius)
-                  .withWidth(tankGunCarriageWithImageRadius)
-                  .withOrientation(Orientation.HORIZONTAL)
                   .build())
             .build();
       HumanControlledTurretStrategyHandler turretStrategyHandler = new HumanControlledTurretStrategyHandler(gunCarriage);
 
-      TankGridElement humanRebelTank = TankGridElementBuilder.builder()
+      LazyGridElement lazyTurretGridElement = new LazyGridElement();
+      TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withEngineVelocity(rebelTankVelocity)
-            .withTankheightFromBottom(tankHeightFromGround)
-            .withTurretHeightFromBottom(tankTurretHeight)
-            .withTank(TankBuilder.builder()
+            .withMoveableAdder(moveableAdder)
+            .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
+            .addTankGridElement(imperialTankHolder, TankBattleApplicationTankBuilder.builder()
+                  .withEndPositions(imperialTankEndPositions)
+                  .withGrid(grid)
+                  .withHealth(imperialHealth)
+                  .withTankHeight(tankHeight)
+                  .withEngineVelocity(imperialTankVelocity)
+                  .withTankTurretHeight(tankTurretHeight)
+                  .withTankPos(imperialTankPos)
+                  .withDefaultOnDestructionHandler(() -> grid.remove(imperialTankHolder.getTankGridElement()))
+                  .withTankWidth(tankWidth)
+                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
+                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .withReturningAngleIncMultiplier(1)
+                        .withOrientationAngle(1)
+                        .withReturningMinDistance(1)
+                        .withReturningAngleMargin(1)
+                        .withPassingDistance(25)
+                        .withPostEvasionReturnAngle(4)
+                        .withDetectorConfig(DetectorConfigBuilder.builder()
+                              .build())
+                        .build())
+                  .addTurret(TankBattleApplicationTankTurretBuilder.builder()
+                        .withGrid(grid)
+                        .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                        .withParkingAngleEvaluator(() -> imperialTankHolder.getPosition().getDirection().getAngle())
+                        .withDetectorConfig(detectorConfig)
+                        .withProjectileType(ProjectileTypes.MISSILE)
+                        .withGunConfig(GunConfigBuilder.builder()
+                              .withAudioClip(AudioClipBuilder.builder()
+                                    .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
+                                    .build())
+                              .withSalveSize(1)
+                              .withRoundsPerMinute(70)
+                              .withProjectileConfig(ProjectileConfigBuilder.builder()
+                                    .withDimensionInfo(DimensionInfoBuilder.builder()
+                                          .withDimensionRadius(3)
+                                          .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                          .build())
+                                    .withVelocity(missileVelocity)
+                                    .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
+                                          .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                                          .withDetector(DetectorBuilder.builder()
+                                                .withDetectorAngle(missileDetectorConfig.getDetectorAngle())
+                                                .withDetectorReach(missileDetectorConfig.getDetectorReach())
+                                                .build())
+                                          .withGridElementEvaluator((position, distance) -> grid.getAllGridElementsWithinDistance(position, distance))
+                                          .build())
+                                    .withProjectileDamage(100)
+                                    .build())
+                              .build())
+                        .withGunCarriageShape(RectangleBuilder.builder()
+                              .withWidth(tankGunCarriageRadius)
+                              .withHeight(tankGunCarriageRadius)
+                              .withCenter(imperialTankPos)
+                              .build())
+                        .withGunHeight(gunHeight)
+                        .withGunWidth(gunWidth)
+                        .withTurretPosition(imperialTankPos)
+                        .withTurretRotationSpeed(turretRotationSpeed)
+                        .build())
+                  .build(imperialTankHolder))
+            .addTankGridElement(rebelTankHolder, TankBattleApplicationTankBuilder.builder()
+                  .withGrid(grid)
                   .withHealth(rebelHealth)
-                  .withTankEngine(humanTankEngine)
-                  .withOnDestroyedCallbackHandler(() -> {
-                     grid.remove(rebelTankHolder.getTankGridElement());
-                  })
+                  .withTankHeight(tankHeight)
+                  .withEngineVelocity(rebelTankVelocity)
+                  .withTankTurretHeight(tankTurretHeight)
+                  .withTankPos(rebelTankPos)
+                  .withTankWidth(tankWidth)
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                  .withTurret(TurretBuilder.builder()
-                        .withGunCarriage(gunCarriage)
-                        .withTurretStrategyHandler(turretStrategyHandler)
-                        .withPositionTransformator(pos -> pos.movePositionForward(150))
-                        .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                        .build())
-                  .withHull(RectangleBuilder.builder()
-                        .withCenter(rebelTankPos)
-                        .withHeight(tankHeight)
-                        .withWidth(tankWithImageWidth)
-                        .withRectanglePathBuilder(new RectanglePathBuilderImpl(20, RectangleSides.FRONT_AND_BACK))
-                        .withOrientation(Orientation.HORIZONTAL)
-                        .build())
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
+                  .withTankEngine(humanTankEngine)
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> rebelTankHolder.getTankGridElement())
                         .withGrid(grid)
@@ -481,12 +303,69 @@ public class HumanTankTestWithImageLauncher {
                               .withEvasionDistance(missileCounterMeasureDetectionDistance)
                               .build())
                         .build())
-                  .build())
-
+                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .withReturningAngleIncMultiplier(1)
+                        .withOrientationAngle(1)
+                        .withReturningMinDistance(1)
+                        .withReturningAngleMargin(1)
+                        .withPassingDistance(25)
+                        .withPostEvasionReturnAngle(4)
+                        .withDetectorConfig(DetectorConfigBuilder.builder()
+                              .build())
+                        .build())
+                  .addTurret(TankBattleApplicationHumanTurretBuilder.builder()
+                        .withGrid(grid)
+                        .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                        .withProjectileType(ProjectileTypes.BULLET)
+                        .withTurretStrategyHandler(turretStrategyHandler)
+                        .withPositionTransformator(pos -> pos.movePositionForward(150))
+                        .withGunCarriage(gunCarriage)
+                        .build())
+                  .build(imperialTankHolder))
+            .addTurretGridElement(TankBattleApplicationTurretBuilder.builder()
+                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .withGrid(grid)
+                  .withDetectorConfig(detectorConfig)
+                  .withProjectileType(ProjectileTypes.LASER_BEAM)
+                  .withDestructionHelper(DestructionHelperBuilder.builder()
+                        .withDamage(0)
+                        .withHealth(imperialTurretHealth)
+                        .withSelfDestructiveDamage(0)
+                        .withDestroyedAudioClip(AudioClipBuilder.builder()
+                              .withAudioResource(AudioConstants.EXPLOSION_SOUND)
+                              .build())
+                        .withOnDestroyedCallbackHandler(() -> {
+                           grid.remove(lazyTurretGridElement.getGridElement());
+                        })
+                        .build())
+                  .withGunConfig(GunConfigBuilder.builder()
+                        .withAudioClip(AudioClipBuilder.builder()
+                              .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                              .build())
+                        .withSalveSize(1)
+                        .withRoundsPerMinute(200)
+                        .withProjectileConfig(ProjectileConfigBuilder.builder()
+                              .withProjectileDamage(30)
+                              .withDimensionInfo(DimensionInfoBuilder.builder()
+                                    .withDimensionRadius(3)
+                                    .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
+                                    .build())
+                              .withVelocity(projectileVelocity)
+                              .build())
+                        .build())
+                  .withGunCarriageShape(RectangleBuilder.builder()
+                        .withWidth(tankGunCarriageRadius)
+                        .withHeight(tankGunCarriageRadius)
+                        .withCenter(turretNorthPos)
+                        .build())
+                  .withGunHeight(gunHeight)
+                  .withGunWidth(gunWidth)
+                  .withTurretPosition(turretNorthPos)
+                  .withTurretRotationSpeed(turretRotationSpeed)
+                  .build(), lazyTurretGridElement)
             .build();
 
-      rebelTankHolder.setAndReturnTank(humanRebelTank);
-      rebelTankHolder.setTankGridElement(humanRebelTank);
 
       List<WallGridElement> wallSemgments = addProtectiveWall(grid);
       grid.prepare();
@@ -496,25 +375,25 @@ public class HumanTankTestWithImageLauncher {
       mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 
-      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
-      renderers.add(new TankGridElementImagePainter(humanRebelTank, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
-            ImageConstants.GUN_IMAGE));
-      renderers.add(new TankGridElementImagePainter(imperialTank, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
-            ImageConstants.GUN_IMAGE));
-      renderers.add(new TurretGridElementImagePainter(northImperialTurretGridElement, ImageConstants.GUN_CARRIAGE_IMAGE, ImageConstants.GUN_IMAGE));
-
+      List<Renderer<? extends GridElement>> renderers = addRenderersWithImage(tankBattleApplication);
       for (WallGridElement wallSegment : wallSemgments) {
          renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment), height, width));
       }
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(8)
-            .withCounter(200)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .build();
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, renderers, null);
+      showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication);
+   }
+
+   private List<Renderer<? extends GridElement>> addRenderersWithImage(TankBattleApplication tankBattleApplication) {
+      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
+      for (TankGridElement tankGridElement : tankBattleApplication.getTankGridElements()) {
+         renderers.add(new TankGridElementImagePainter(tankGridElement, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
+               ImageConstants.GUN_IMAGE));
+      }
+      for (TurretGridElement turretGridElement : tankBattleApplication.getTurretGridElements()) {
+         renderers.add(new TurretGridElementImagePainter(turretGridElement, ImageConstants.GUN_CARRIAGE_IMAGE, ImageConstants.GUN_IMAGE));
+      }
+      return renderers;
    }
 
    private List<WallGridElement> addProtectiveWall(MirrorGrid grid) {
@@ -543,6 +422,38 @@ public class HumanTankTestWithImageLauncher {
             .addWallSegment(wallSegmentLength)
             .addWallSegment(wallSegmentLength)
             .addWallSegment(wallSegmentLength)
+            .build();
+   }
+
+   private HumanTankEngine buildHumanTankEngine(int rebelTankEngineAccelerationSpeed, double rebelTankEngineManuallySlowDownSpeed,
+         double rebelTankEngineNaturallySlowDownSpeed, int rebelTankVelocity, TankHolder rebelTankHolder) {
+      return HumanTankEngineBuilder.builder()
+            .withEngineAudio(EngineAudioBuilder.builder()
+                  .withDefaultAudio()
+                  .build())
+            .withLazyMoveable(() -> rebelTankHolder.getTankGridElement())
+            .withVelocity(rebelTankVelocity)
+            .withEngineStateHandler(new EngineStateHandler(EngineAcceleratorBuilder.builder()
+                  .withEngineTransmissionConfig(EngineTransmissionConfigBuilder.builder()
+                        .addGear(GearBuilder.builder()
+                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed / 3)
+                              .withMaxVelocity(rebelTankVelocity / 3)
+                              .withNumber(1)
+                              .buil())
+                        .addGear(GearBuilder.builder()
+                              .withAccelerationSpeed(2 * rebelTankEngineAccelerationSpeed / 3)
+                              .withMaxVelocity(2 * rebelTankVelocity / 3)
+                              .withNumber(1)
+                              .buil())
+                        .addGear(GearBuilder.builder()
+                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed)
+                              .withMaxVelocity(rebelTankVelocity)
+                              .withNumber(3)
+                              .buil())
+                        .build())
+                  .withManuallySlowDownSpeed(rebelTankEngineManuallySlowDownSpeed)
+                  .withNaturallySlowDownSpeed(rebelTankEngineNaturallySlowDownSpeed)
+                  .build()))
             .build();
    }
 
