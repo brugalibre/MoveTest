@@ -30,21 +30,6 @@ class BouncableLookupTableTest {
    }
 
    @Test
-   void testIsBouncable_ProjectileWithSimpleGridElement() {
-      // Given
-
-      Obstacle obstacle = mock(Obstacle.class);
-      ProjectileGridElement movedGridElement = mock(ProjectileGridElement.class);
-      boolean expectedIsBouncable = false;
-
-      // When
-      boolean actualIsBouncable = BouncableLookupTable.isBouncable(movedGridElement, obstacle);
-
-      // Then
-      assertThat(actualIsBouncable, is(expectedIsBouncable));
-   }
-
-   @Test
    void testIsBouncable_GridElementWithObstacle() {
       // Given
 

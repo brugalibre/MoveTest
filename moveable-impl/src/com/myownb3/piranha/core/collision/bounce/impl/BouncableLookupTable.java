@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.collision.bounce.impl;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.wall.Wall;
 
 /**
  * The {@link BouncableLookupTable} defines which {@link GridElement}s can bounced. If a {@link GridElement} can be bounced
@@ -29,24 +28,18 @@ public class BouncableLookupTable {
     * 
     */
    public static boolean isBouncable(GridElement movedGridElement, GridElement gridElement) {
-      if (isProjectile(movedGridElement)) {
-         return isProjectileBouncableForCollisionWith(gridElement);
-      } else if (isTank(movedGridElement)) {
+      if (isTank(movedGridElement)) {
          return false;
       } else {
-         return !isProjectile(gridElement);
+         return !isOtherGridElementProjectile(gridElement);
       }
    }
 
    /*
-    * A Projectile can only bounce from Walls so far
+    * the moved GridElement which was hit by a projectile must not bounce (since it was hit!)
     */
-   private static boolean isProjectileBouncableForCollisionWith(GridElement gridElement) {
-      return gridElement instanceof Wall;
-   }
-
-   private static boolean isProjectile(GridElement movedGridElement) {
-      return movedGridElement instanceof Projectile;
+   private static boolean isOtherGridElementProjectile(GridElement gridElement) {
+      return gridElement instanceof Projectile;
    }
 
    private static boolean isTank(GridElement movedGridElement) {
