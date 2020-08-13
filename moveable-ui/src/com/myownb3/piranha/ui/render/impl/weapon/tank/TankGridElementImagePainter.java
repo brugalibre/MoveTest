@@ -30,7 +30,7 @@ public class TankGridElementImagePainter extends GridElementPainter {
 
    public TankGridElementImagePainter(TankGridElement tank, String tankHullImageLocation, String gunCarriageImageLocation,
          String gunImageLocation) {
-      super(tank, BLACK, 0, 0);
+      super(tank, BLACK);
       this.tankHullImagePainter = buildTankHullImagePainter(tank.getShape(), tankHullImageLocation);
       this.tankHullPainter = new PolygonPainter(tank.getShape().getHull(), Color.BLACK);
       this.turretImagePainters = new ArrayList<>();

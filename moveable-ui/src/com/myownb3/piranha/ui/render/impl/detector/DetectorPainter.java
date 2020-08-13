@@ -36,8 +36,8 @@ public class DetectorPainter extends AbstractGridElementPainter<GridElement> {
    private Color detectorColor;
    private Optional<TrippleDetectorCluster> detectorClusterOpt;
 
-   public DetectorPainter(GridElement detectorGridElem, Color color, int height, int width, DetectorPainterConfig painterConfig) {
-      super(detectorGridElem, color, height, width);
+   public DetectorPainter(GridElement detectorGridElem, Color color, DetectorPainterConfig painterConfig) {
+      super(detectorGridElem, color);
       detectorColor = Color.MAGENTA.brighter();
 
       DetectorConfig config = painterConfig.getDetectorConfig();

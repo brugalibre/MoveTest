@@ -22,8 +22,8 @@ import com.myownb3.piranha.ui.render.impl.explosion.ExplosionPainter;
 public class GridElementPainter extends AbstractGridElementPainter<GridElement> {
    private Optional<ExplosionPainter> explosionPainterOpt;
 
-   public GridElementPainter(GridElement gridElement, Color color, int height, int width) {
-      super(gridElement, color, height, width);
+   public GridElementPainter(GridElement gridElement, Color color) {
+      super(gridElement, color);
       ExplosionPainter explosionPainter = null;
       if (canShowExplosion(gridElement)) {
          explosionPainter = new ExplosionPainter(Explosion.buildDefaultExplosion(gridElement), gridElement);

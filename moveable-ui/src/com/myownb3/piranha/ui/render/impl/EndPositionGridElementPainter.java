@@ -18,8 +18,8 @@ public class EndPositionGridElementPainter extends AbstractGridElementPainter<Gr
 
    private boolean isCurrentTargetPos;
 
-   public EndPositionGridElementPainter(GridElement gridElement, Color color, int height, int width) {
-      super(gridElement, color, height, width);
+   public EndPositionGridElementPainter(GridElement gridElement, Color color) {
+      super(gridElement, color);
    }
 
    @Override

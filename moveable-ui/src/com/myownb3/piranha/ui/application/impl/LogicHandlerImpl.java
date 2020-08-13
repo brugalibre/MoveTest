@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
-import com.myownb3.piranha.application.battle.TankBattleApplication;
+import com.myownb3.piranha.application.Application;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -22,14 +22,14 @@ public class LogicHandlerImpl implements LogicHandler {
 
    private List<Renderer<? extends GridElement>> renderers;
    private MainWindow mainWindow;
-   private TankBattleApplication tankBattleApplication;
+   private Application application;
    private Predicate<GridElement> gridElementAddFilter;
    private Object lock;
 
-   public LogicHandlerImpl(MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers, TankBattleApplication tankBattleApplication) {
+   public LogicHandlerImpl(MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers, Application application) {
       this.renderers = renderers;
       this.mainWindow = mainWindow;
-      this.tankBattleApplication = tankBattleApplication;
+      this.application = application;
       this.gridElementAddFilter = getDefaultGridElementFilter();
       this.lock = new Object();
    }
@@ -38,7 +38,7 @@ public class LogicHandlerImpl implements LogicHandler {
    public void onCylce() {
       SwingUtilities.invokeLater(() -> mainWindow.refresh());
       removeDestroyedPainters(renderers);
-      tankBattleApplication.run();
+      application.run();
    }
 
    public void removeDestroyedPainters(List<Renderer<? extends GridElement>> renderers) {
@@ -65,7 +65,7 @@ public class LogicHandlerImpl implements LogicHandler {
    private void onGridElementAddInternal(GridElement gridElement) {
       if (gridElementAddFilter.test(gridElement)) {
          synchronized (lock) {
-            renderers.add(new GridElementPainter(gridElement, getColor(gridElement), 1, 1));
+            renderers.add(new GridElementPainter(gridElement, getColor(gridElement)));
          }
       }
    }

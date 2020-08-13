@@ -58,7 +58,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
       MirrorGrid grid = buildGrid(collisionDetector);
       Moveable moveable = getMoveable(grid, height, width);
-      GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable), 1, 1);
+      GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable));
       List<GridElement> gridElements = getAllGridElements(grid, height, width);
       List<Renderer<? extends GridElement>> renderers = getRenderers(gridElements);
       renderers.add(moveablePainter);
@@ -136,7 +136,7 @@ public class RandomMoveableLauncher implements Stoppable {
 
    private static <T extends GridElement> List<Renderer<? extends GridElement>> getRenderers(List<GridElement> gridElements) {
       return gridElements.stream()
-            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))
+            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement)))
             .collect(Collectors.toList());
    }
 

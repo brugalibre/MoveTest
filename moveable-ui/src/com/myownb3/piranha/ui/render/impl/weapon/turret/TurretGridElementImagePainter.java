@@ -16,7 +16,7 @@ public class TurretGridElementImagePainter extends GridElementPainter {
    private PolygonPainter gunPainter;
 
    public TurretGridElementImagePainter(TurretGridElement turretGridElement, String gunCarriageImageLocation, String gunImageLocation) {
-      super(turretGridElement, Color.BLACK, 0, 0);
+      super(turretGridElement, Color.BLACK);
       TurretShape turretShape = (TurretShape) turretGridElement.getShape();
       turretShapeImagePainter = new TurretShapeImagePainter(turretShape, gunCarriageImageLocation, gunImageLocation);
       this.gunCarriagePainter = new PolygonPainter(turretShape.getGunCarriageShape(), java.awt.Color.RED);

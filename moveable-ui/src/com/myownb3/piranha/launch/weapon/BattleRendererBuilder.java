@@ -21,7 +21,7 @@ public class BattleRendererBuilder {
       List<GridElement> gridElements = new ArrayList<>(tankBattleApplication.getTurretGridElements());
       gridElements.addAll(tankBattleApplication.getTankGridElements());
       return gridElements.stream()
-            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), 1, 1))
+            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement)))
             .collect(Collectors.toList());
    }
 }

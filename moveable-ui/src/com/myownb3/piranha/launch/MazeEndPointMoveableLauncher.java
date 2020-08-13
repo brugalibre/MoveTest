@@ -75,7 +75,7 @@ public class MazeEndPointMoveableLauncher {
       launcher.launch();
    }
 
-   private void launch() throws InterruptedException {
+   private void launch() {
 
       int wallThickness = 10;
       int coridorWidth = 80;
@@ -227,15 +227,17 @@ public class MazeEndPointMoveableLauncher {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.toList());
-      ctx.getRenderers().addAll(getRenderers(grid, 4, ctx.getGridElements(), moveableController.getMoveable(), mazeRunner.getDetectorCluster(),
+      ctx.getRenderers().addAll(getRenderers(grid, ctx.getGridElements(), moveableController.getMoveable(), mazeRunner.getDetectorCluster(),
             mazeRunner.getConfig(), detectors));
       ctx.getEndPositionRenderers().add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), 4, 4));
+      ctx.addPostMoveForwardLogicHandler();
 
       mainWindow.addSpielfeld(ctx.getRenderers(), ctx.getEndPositionRenderers(), grid);
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = mazeRunner.run();
       preparePositionListPainter(ctx.getEndPositionRenderers(), positions);
    }
+
 
    private DefaultGunCarriageImpl buildGunCarriage(double gunHeight, double gunWidth, int gunCarriageRadius) {
       return DefaultGunCarriageBuilder.builder()
@@ -295,20 +297,21 @@ public class MazeEndPointMoveableLauncher {
       UILogicUtil.startUIRefresher(mainWindow, 25);
    }
 
-   private static List<Renderer<? extends GridElement>> getRenderers(Grid grid, int height, List<GridElement> gridElements, Moveable moveable,
-         TrippleDetectorCluster detectorCluster, EvasionStateMachineConfig config, List<PlacedDetector> corridorDetectors) {
+   private static List<Renderer<? extends GridElement>> getRenderers(Grid grid, List<GridElement> gridElements, Moveable moveable,
+         TrippleDetectorCluster detectorCluster,
+         EvasionStateMachineConfig config, List<PlacedDetector> corridorDetectors) {
       List<Renderer<? extends GridElement>> renderers = gridElements.stream()
-            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement), height, height))
+            .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement)))
             .collect(Collectors.toList());
       MoveablePainterConfig moveablePainterConfig = MoveablePainterConfig.of(detectorCluster, config, false, false);
-      renderers.add(new MoveablePainter(moveable, getColor(moveable), height, height, moveablePainterConfig));
+      renderers.add(new MoveablePainter(moveable, getColor(moveable), moveablePainterConfig));
       renderers.addAll(corridorDetectors.stream()
-            .map(buildDetectorPainter(grid, height))
+            .map(buildDetectorPainter(grid))
             .collect(Collectors.toList()));
       return renderers;
    }
 
-   private static Function<? super PlacedDetector, ? extends DetectorPainter> buildDetectorPainter(Grid grid, int height) {
+   private static Function<? super PlacedDetector, ? extends DetectorPainter> buildDetectorPainter(Grid grid) {
       return corridorDetector -> {
          IDetector detector = corridorDetector.getDetector();
          return new DetectorPainter(SimpleGridElementBuilder.builder()
@@ -316,7 +319,7 @@ public class MazeEndPointMoveableLauncher {
                .withShape(PositionShapeBuilder.builder()
                      .withPosition(corridorDetector.getPosition())
                      .build())
-               .build(), getPositionListColor(), height, height,
+               .build(), getPositionListColor(),
                DetectorPainterConfig.of(Optional.empty(), DetectorConfigBuilder.builder()
                      .withDetectorAngle(detector.getDetectorAngle())
                      .withDetectorReach(detector.getDetectorRange())

@@ -377,7 +377,7 @@ public class HumanTankTestWithImageLauncher {
 
       List<Renderer<? extends GridElement>> renderers = addRenderersWithImage(tankBattleApplication);
       for (WallGridElement wallSegment : wallSemgments) {
-         renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment), height, width));
+         renderers.add(new GridElementPainter(wallSegment, getColor(wallSegment)));
       }
 
       mainWindow.addSpielfeld(renderers, grid);

@@ -2,6 +2,7 @@ package com.myownb3.piranha.application.battle;
 
 import java.util.List;
 
+import com.myownb3.piranha.application.Application;
 import com.myownb3.piranha.core.battle.weapon.tank.Tank;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -13,12 +14,7 @@ import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
  * @author DStalder
  *
  */
-public interface TankBattleApplication {
-
-   /**
-    * Starts this {@link TankBattleApplication} Application
-    */
-   public void run();
+public interface TankBattleApplication extends Application {
 
    /**
     * @return all {@link TankGridElement} of this {@link TankBattleApplication}

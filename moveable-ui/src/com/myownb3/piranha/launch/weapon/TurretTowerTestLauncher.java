@@ -174,29 +174,28 @@ public class TurretTowerTestLauncher {
       List<Moveable> moveables = Arrays.asList(simpleGridElement/*, endPointMoveable*/);
 
       renderers.addAll(
-            turrets.stream().map(turret -> new GridElementPainter(turret, getColor(turret), height, width)).collect(Collectors.toList()));
+            turrets.stream().map(turret -> new GridElementPainter(turret, getColor(turret))).collect(Collectors.toList()));
       renderers.addAll(moveables.stream()
             .map(moveable -> moveable instanceof EndPointMoveable
-                  ? buildMoveablePainter(width, height, moveable, mainDetectorConfig)
-                  : new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable), height, width))
+                  ? buildMoveablePainter(moveable, mainDetectorConfig)
+                  : new GridElementPainter(moveable, GridElementColorUtil.getColor(moveable)))
             .collect(Collectors.toList()));
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication);
    }
 
-   private MoveablePainter buildMoveablePainter(int width, int height, Moveable moveable, DetectorConfig mainDetectorConfig) {
-      return new MoveablePainter(moveable, getColor(moveable), height, width,
-            MoveablePainterConfig.of(EvasionStateMachineConfigBuilder.builder()
-                  .withReturningAngleIncMultiplier(1)
-                  .withOrientationAngle(1)
-                  .withReturningMinDistance(0.06)
-                  .withReturningAngleMargin(0.7d)
-                  .withPassingDistance(25)
-                  .withPostEvasionReturnAngle(4)
-                  .withDetectorConfig(mainDetectorConfig)
-                  .build(),
-                  true, false));
+   private MoveablePainter buildMoveablePainter(Moveable moveable, DetectorConfig mainDetectorConfig) {
+      return new MoveablePainter(moveable, getColor(moveable), MoveablePainterConfig.of(EvasionStateMachineConfigBuilder.builder()
+            .withReturningAngleIncMultiplier(1)
+            .withOrientationAngle(1)
+            .withReturningMinDistance(0.06)
+            .withReturningAngleMargin(0.7d)
+            .withPassingDistance(25)
+            .withPostEvasionReturnAngle(4)
+            .withDetectorConfig(mainDetectorConfig)
+            .build(),
+            true, false));
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid,

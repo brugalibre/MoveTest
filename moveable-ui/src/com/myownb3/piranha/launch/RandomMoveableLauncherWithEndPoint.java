@@ -47,7 +47,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
    private static int padding = 30;
 
-   public static void main(String[] args) throws InterruptedException {
+   public static void main(String[] args) {
 
       int height = 4;
       int width = 4;
@@ -58,7 +58,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       randomMoveableLauncherWithEndPoint.launch(height, width, mainWindowWidth, mainWindowHeight);
    }
 
-   private void launch(int height, int width, int mainWindowWidth, int mainWindowHeight) throws InterruptedException {
+   private void launch(int height, int width, int mainWindowWidth, int mainWindowHeight) {
       MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
 
       CollisionDetectionHandlerImpl collisionDetectionHandler = new CollisionDetectionHandlerImpl(this, mainWindow);
@@ -121,9 +121,10 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       ctx.setMoveableController(moveableController);
       collisionDetectionHandler.setMoveableController(moveableController);
 
-      ctx.getRenderers().addAll(getRenderers(height, width, grid, ctx.getGridElements(), moveableController.getMoveable(),
+      ctx.getRenderers().addAll(getRenderers(ctx.getGridElements(), moveableController.getMoveable(),
             endPositionRunner.getConfig(), endPositionRunner.getDetectorCluster()));
       mainWindow.addSpielfeld(ctx.getRenderers(), grid);
+      ctx.addPostMoveForwardLogicHandler();
       ctx.setMainWindow(mainWindow);
       showGuiAndStartPainter(mainWindow);
       prepareAndMoveMoveables(endPositionRunner, moveablePostActionHandler, ctx.getGridElements(), grid);
@@ -147,6 +148,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             try {
                Thread.sleep(cycleTime);
             } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
             }
          }
       }, "LogicHandler").start();
@@ -159,11 +161,11 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
             .forEach(obstacle -> obstacle.makeTurn(MathUtil.getRandom(360)));
    }
 
-   private static List<Renderer<? extends GridElement>> getRenderers(int height, int width, Grid grid, List<GridElement> gridElements,
+   private static List<Renderer<? extends GridElement>> getRenderers(List<GridElement> gridElements,
          Moveable moveable, EvasionStateMachineConfig config, TrippleDetectorCluster detectorCluster) {
       List<Renderer<? extends GridElement>> renderers = getRenderers(gridElements);
       MoveablePainterConfig painterConfig = MoveablePainterConfig.of(detectorCluster, config, true, false);
-      renderers.add(new MoveablePainter(moveable, getColor(moveable), 1, 1, painterConfig));
+      renderers.add(new MoveablePainter(moveable, getColor(moveable), painterConfig));
       return renderers;
    }
 
@@ -176,9 +178,9 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
    private static Function<? super GridElement, ? extends AbstractGridElementPainter<?>> toGridElementPainter() {
       return gridElement -> {
          if (gridElement instanceof EndPositionGridElement) {
-            return new EndPositionGridElementPainter(gridElement, getColor(gridElement), 1, 1);
+            return new EndPositionGridElementPainter(gridElement, getColor(gridElement));
          }
-         return new GridElementPainter(gridElement, getColor(gridElement), 1, 1);
+         return new GridElementPainter(gridElement, getColor(gridElement));
       };
    }
 

@@ -28,18 +28,17 @@ public class MoveablePainter extends AbstractGridElementPainter<Moveable> {
    private boolean drawMoveableDirection;
    private DetectorPainter detectorPainter;
 
-   public MoveablePainter(Moveable moveable, Color color, int height, int width, MoveablePainterConfig config) {
-      super(moveable, color, height, width);
+   public MoveablePainter(Moveable moveable, Color color, MoveablePainterConfig config) {
+      super(moveable, color);
       this.detectorColor = Color.MAGENTA.brighter();
       this.drawMoveableDirection = config.isDrawMoveableDirection();
       if (config.isDrawDetector()) {
-         detectorPainter = new DetectorPainter(moveable, detectorColor, height, width,
-               DetectorPainterConfig.of(config.getDetectorCluster(), DetectorConfigBuilder.builder()
-                     .withDetectorAngle(config.getDetectorAngle())
-                     .withDetectorReach(config.getDetectorReach())
-                     .withEvasionAngle(config.getEvasionAngle())
-                     .withEvasionDistance(config.getEvasionReach())
-                     .build()));
+         detectorPainter = new DetectorPainter(moveable, detectorColor, DetectorPainterConfig.of(config.getDetectorCluster(), DetectorConfigBuilder.builder()
+               .withDetectorAngle(config.getDetectorAngle())
+               .withDetectorReach(config.getDetectorReach())
+               .withEvasionAngle(config.getEvasionAngle())
+               .withEvasionDistance(config.getEvasionReach())
+               .build()));
       }
    }
 

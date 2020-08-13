@@ -18,7 +18,7 @@ public abstract class AbstractGridElementPainter<T extends GridElement> extends 
 
    protected Drawable<? extends Shape> shapePainter;
 
-   public AbstractGridElementPainter(T gridElement, Color color, int height, int width) {
+   public AbstractGridElementPainter(T gridElement, Color color) {
       super(gridElement);
       this.shapePainter = ShapePainterFactory.getShapePainter(gridElement, color);
 
