@@ -20,8 +20,8 @@ public class GunPainter extends Drawable<GunShape> {
       super(gunShape);
       barrelPainter = ShapePainterFactory.getShapePainter(gunShape.getBarrel(), color, false);
       muzzlePainterOpt = Optional.empty();
-      if (gunShape.getMuzzleBreak().isPresent()) {
-         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(gunShape.getMuzzleBreak().get(), color, false));
+      if (gunShape.getMuzzleBrake().isPresent()) {
+         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(gunShape.getMuzzleBrake().get(), color, false));
       }
    }
 

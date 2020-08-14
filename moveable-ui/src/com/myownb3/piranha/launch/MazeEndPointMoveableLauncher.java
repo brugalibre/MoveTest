@@ -259,7 +259,7 @@ public class MazeEndPointMoveableLauncher {
                               .withCenter(Positions.of(5, 5))
                               .withOrientation(Orientation.VERTICAL)
                               .build())
-                        .withMuzzleBreak(RectangleBuilder.builder()
+                        .withMuzzleBrake(RectangleBuilder.builder()
                               .withHeight(gunHeight * 1.5)
                               .withWidth(gunHeight * 1.5)
                               .withCenter(Positions.of(5, 5))

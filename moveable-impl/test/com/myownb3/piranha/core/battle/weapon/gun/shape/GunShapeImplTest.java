@@ -48,7 +48,7 @@ class GunShapeImplTest {
       // Given
       Position newPosition = Positions.of(10, 10);
       Position newBarrelPosition = Positions.of(10, 7.5);
-      Position newMuzzleBreakPosition = Positions.of(10, 12.5);
+      Position newMuzzleBrakePosition = Positions.of(10, 12.5);
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
@@ -56,7 +56,7 @@ class GunShapeImplTest {
                   .withWidth(10)
                   .withOrientation(Orientation.VERTICAL)
                   .build())
-            .withMuzzleBreak(RectangleBuilder.builder()
+            .withMuzzleBrake(RectangleBuilder.builder()
                   .withCenter(Positions.of(10, 15))
                   .withHeight(5)
                   .withWidth(5)
@@ -68,7 +68,7 @@ class GunShapeImplTest {
 
       // Then
       assertThat(gunShapeImpl.getBarrel().getCenter(), is(newBarrelPosition));
-      assertThat(gunShapeImpl.getMuzzleBreak().get().getCenter(), is(newMuzzleBreakPosition));
+      assertThat(gunShapeImpl.getMuzzleBrake().get().getCenter(), is(newMuzzleBrakePosition));
    }
 
    @Test
@@ -76,8 +76,8 @@ class GunShapeImplTest {
 
       // Given
       int barrelHeight = 10;
-      int muzzleBreakHeight = 5;
-      double expectedLenght = barrelHeight + muzzleBreakHeight;
+      int muzzleBrakeHeight = 5;
+      double expectedLenght = barrelHeight + muzzleBrakeHeight;
       Position newPosition = Positions.of(barrelHeight, barrelHeight);
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(RectangleBuilder.builder()
@@ -86,10 +86,10 @@ class GunShapeImplTest {
                   .withWidth(barrelHeight)
                   .withOrientation(Orientation.VERTICAL)
                   .build())
-            .withMuzzleBreak(RectangleBuilder.builder()
+            .withMuzzleBrake(RectangleBuilder.builder()
                   .withCenter(Positions.of(barrelHeight, 15))
-                  .withHeight(muzzleBreakHeight)
-                  .withWidth(muzzleBreakHeight)
+                  .withHeight(muzzleBrakeHeight)
+                  .withWidth(muzzleBrakeHeight)
                   .build())
             .build();
 
@@ -127,7 +127,7 @@ class GunShapeImplTest {
 
       // Given
       int barrelHeight = 10;
-      double muzzleBreakHeight = 5;
+      double muzzleBrakeHeight = 5;
       double expectedDimensionRadius = barrelHeight;
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(RectangleBuilder.builder()
@@ -136,10 +136,10 @@ class GunShapeImplTest {
                   .withWidth(barrelHeight)
                   .withOrientation(Orientation.VERTICAL)
                   .build())
-            .withMuzzleBreak(RectangleBuilder.builder()
+            .withMuzzleBrake(RectangleBuilder.builder()
                   .withCenter(Positions.of(barrelHeight, 15))
-                  .withHeight(muzzleBreakHeight)
-                  .withWidth(muzzleBreakHeight)
+                  .withHeight(muzzleBrakeHeight)
+                  .withWidth(muzzleBrakeHeight)
                   .build())
             .build();
 
@@ -175,15 +175,15 @@ class GunShapeImplTest {
    @Test
    void testCheck4Collision_WithBarrelCollision() {
       // Given
-      Rectangle muzzleBreak = mock(Rectangle.class);
+      Rectangle muzzleBrake = mock(Rectangle.class);
       Rectangle barrel = mock(Rectangle.class);
       when(barrel.getCenter()).thenReturn(Positions.of(5, 5));
 
       when(barrel.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(true, Positions.of(5, 5)));
-      when(muzzleBreak.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(true, Positions.of(15, 15)));
+      when(muzzleBrake.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(true, Positions.of(15, 15)));
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(barrel)
-            .withMuzzleBreak(muzzleBreak)
+            .withMuzzleBrake(muzzleBrake)
             .build();
 
       // When
@@ -197,15 +197,15 @@ class GunShapeImplTest {
    @Test
    void testCheck4Collision_WithMazzleBreakCollision() {
       // Given
-      Rectangle muzzleBreak = mock(Rectangle.class);
+      Rectangle muzzleBrake = mock(Rectangle.class);
       Rectangle barrel = mock(Rectangle.class);
       when(barrel.getCenter()).thenReturn(Positions.of(5, 5));
 
       when(barrel.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(false, Positions.of(5, 5)));
-      when(muzzleBreak.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(true, Positions.of(15, 15)));
+      when(muzzleBrake.check4Collision(any(), any(), any())).thenReturn(new CollisionDetectionResultImpl(true, Positions.of(15, 15)));
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(barrel)
-            .withMuzzleBreak(muzzleBreak)
+            .withMuzzleBrake(muzzleBrake)
             .build();
 
       // When
@@ -236,10 +236,10 @@ class GunShapeImplTest {
    }
 
    @Test
-   void testGetForemostPosition_WithMuzzleBreak() {
+   void testGetForemostPosition_WithMuzzleBrake() {
       // Given
       int barrelHeight = 10;
-      double muzzleBreakHeight = 5;
+      double muzzleBrakeHeight = 5;
       Position expectedForemostPosition = Positions.of(10, 17.5);
       GunShapeImpl gunShapeImpl = GunShapeBuilder.builder()
             .withBarrel(RectangleBuilder.builder()
@@ -248,10 +248,10 @@ class GunShapeImplTest {
                   .withWidth(barrelHeight)
                   .withOrientation(Orientation.VERTICAL)
                   .build())
-            .withMuzzleBreak(RectangleBuilder.builder()
+            .withMuzzleBrake(RectangleBuilder.builder()
                   .withCenter(Positions.of(barrelHeight, 15))
-                  .withHeight(muzzleBreakHeight)
-                  .withWidth(muzzleBreakHeight)
+                  .withHeight(muzzleBrakeHeight)
+                  .withWidth(muzzleBrakeHeight)
                   .build())
             .build();
 
@@ -263,7 +263,7 @@ class GunShapeImplTest {
    }
 
    @Test
-   void testGetForemostPosition_WithoutMuzzleBreak() {
+   void testGetForemostPosition_WithoutMuzzleBrake() {
       // Given
       int barrelHeight = 10;
       Position expectedForemostPosition = Positions.of(10, 15);

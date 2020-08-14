@@ -188,7 +188,7 @@ class TankImplIntegTest {
                                           .withCenter(tankPos)
                                           .withOrientation(Orientation.HORIZONTAL)
                                           .build())
-                                    .withMuzzleBreak(RectangleBuilder.builder()
+                                    .withMuzzleBrake(RectangleBuilder.builder()
                                           .withHeight(gunWidth * 1.5)
                                           .withWidth(gunWidth * 1.5)
                                           .withCenter(tankPos)

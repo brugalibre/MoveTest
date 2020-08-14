@@ -274,7 +274,7 @@ class MazeRunnerTest {
                                                 .withCenter(Positions.of(5, 5))
                                                 .withOrientation(Orientation.VERTICAL)
                                                 .build())
-                                          .withMuzzleBreak(RectangleBuilder.builder()
+                                          .withMuzzleBrake(RectangleBuilder.builder()
                                                 .withHeight(5 * 1.5)
                                                 .withWidth(5 * 1.5)
                                                 .withCenter(Positions.of(5, 5))

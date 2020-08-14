@@ -19,19 +19,19 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    private static final long serialVersionUID = -5552409576828255258L;
    private Rectangle barrel;
-   private Rectangle muzzleBreakShape;
+   private Rectangle muzzleBrakeShape;
 
-   protected GunShapeImpl(Rectangle barrel, Rectangle muzzleBreakShape, List<PathSegment> path, Position center) {
+   protected GunShapeImpl(Rectangle barrel, Rectangle muzzleBrakeShape, List<PathSegment> path, Position center) {
       super(path, center);
       this.barrel = barrel;
-      this.muzzleBreakShape = muzzleBreakShape;
+      this.muzzleBrakeShape = muzzleBrakeShape;
    }
 
    @Override
    public void setGridElement(GridElement gridElement) {
       super.setGridElement(gridElement);
       ((AbstractShape) barrel).setGridElement(gridElement);
-      getMuzzleBreak().ifPresent(muzzleBreak -> ((AbstractShape) muzzleBreak).setGridElement(gridElement));
+      getMuzzleBrake().ifPresent(muzzleBrake -> ((AbstractShape) muzzleBrake).setGridElement(gridElement));
    }
 
    @Override
@@ -39,7 +39,7 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
          List<GridElement> gridElements2Check) {
       CollisionDetectionResult hasCollisionWithBarrel = barrel.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check);
       if (!hasCollisionWithBarrel.isCollision()) {
-         return getMuzzleBreak().map(muzzleBreak -> muzzleBreak.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check))
+         return getMuzzleBrake().map(muzzleBrake -> muzzleBrake.check4Collision(collisionDetectionHandler, newPosition, gridElements2Check))
                .orElse(new CollisionDetectionResultImpl(newPosition));
       }
       return hasCollisionWithBarrel;
@@ -47,7 +47,7 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public Position getForemostPosition() {
-      return getMuzzleBreak().map(Shape::getForemostPosition)
+      return getMuzzleBrake().map(Shape::getForemostPosition)
             .orElse(barrel.getForemostPosition());
    }
 
@@ -58,22 +58,22 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public double getDimensionRadius() {
-      return getMuzzleBreak().map(Shape::getDimensionRadius)
-            .map(muzzleBreakDimension -> Math.max(muzzleBreakDimension, barrel.getDimensionRadius()))
+      return getMuzzleBrake().map(Shape::getDimensionRadius)
+            .map(muzzleBrakeDimension -> Math.max(muzzleBrakeDimension, barrel.getDimensionRadius()))
             .orElse(barrel.getDimensionRadius());
    }
 
    @Override
    public void transform(Position position) {
       super.transform(position);
-      if (getMuzzleBreak().isPresent()) {
-         Rectangle muzzleBreak = getMuzzleBreak().get();
-         Position barrelPos = position.movePositionBackward4Distance(muzzleBreak.getHeight() / 2);
+      if (getMuzzleBrake().isPresent()) {
+         Rectangle muzzleBrake = getMuzzleBrake().get();
+         Position barrelPos = position.movePositionBackward4Distance(muzzleBrake.getHeight() / 2);
          barrel.transform(barrelPos);
 
-         Position muzzleBreakPos = position.movePositionForward4Distance((muzzleBreak.getHeight() / 2));
-         muzzleBreak.transform(muzzleBreakPos);
-         this.path = ShapeUtil.combinePath(barrel, muzzleBreak);
+         Position muzzleBrakePos = position.movePositionForward4Distance((muzzleBrake.getHeight() / 2));
+         muzzleBrake.transform(muzzleBrakePos);
+         this.path = ShapeUtil.combinePath(barrel, muzzleBrake);
       } else {
          barrel.transform(position);
          this.path = barrel.getPath();
@@ -82,8 +82,8 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
 
    @Override
    public double getLength() {
-      return getMuzzleBreak().map(Shape::getDimensionRadius)
-            .map(muzzleBreakDimension -> muzzleBreakDimension + barrel.getDimensionRadius())
+      return getMuzzleBrake().map(Shape::getDimensionRadius)
+            .map(muzzleBrakeDimension -> muzzleBrakeDimension + barrel.getDimensionRadius())
             .orElse(barrel.getDimensionRadius());
    }
 
@@ -93,14 +93,14 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
    }
 
    @Override
-   public Optional<Rectangle> getMuzzleBreak() {
-      return Optional.ofNullable(muzzleBreakShape);
+   public Optional<Rectangle> getMuzzleBrake() {
+      return Optional.ofNullable(muzzleBrakeShape);
    }
 
    public static final class GunShapeBuilder {
 
       private Rectangle barrel;
-      private Rectangle muzzleBreakShape;
+      private Rectangle muzzleBrakeShape;
 
       private GunShapeBuilder() {
          // private
@@ -111,13 +111,13 @@ public class GunShapeImpl extends AbstractShape implements GunShape {
          return this;
       }
 
-      public GunShapeBuilder withMuzzleBreak(Rectangle muzzleBreakShape) {
-         this.muzzleBreakShape = muzzleBreakShape;
+      public GunShapeBuilder withMuzzleBrake(Rectangle muzzleBrakeShape) {
+         this.muzzleBrakeShape = muzzleBrakeShape;
          return this;
       }
 
       public GunShapeImpl build() {
-         return new GunShapeImpl(barrel, muzzleBreakShape, Collections.emptyList(), barrel.getCenter());
+         return new GunShapeImpl(barrel, muzzleBrakeShape, Collections.emptyList(), barrel.getCenter());
       }
 
       public static GunShapeBuilder builder() {

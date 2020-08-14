@@ -15,7 +15,7 @@ public interface GunShape extends Shape {
    /**
     * @return the optional muzzle break of this {@link GunShape}
     */
-   Optional<Rectangle> getMuzzleBreak();
+   Optional<Rectangle> getMuzzleBrake();
 
    /**
     * @return the barrel of this {@link GunShape}

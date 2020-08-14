@@ -752,7 +752,7 @@ class TankBattleApplicationImplTest {
    private void assertMuzzleBrake(Turret turret, boolean isMuzzleBrakePresent) {
       assertThat(TurretShape.class.isAssignableFrom(turret.getShape().getClass()), is(true));
       GunShape gunShape = ((TurretShape) turret.getShape()).getGunShape();
-      assertThat(gunShape.getMuzzleBreak().isPresent(), is(isMuzzleBrakePresent));
+      assertThat(gunShape.getMuzzleBrake().isPresent(), is(isMuzzleBrakePresent));
    }
 
    private List<GridElement> mockCollisionProjectiles() {

@@ -155,7 +155,7 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
                                     .withCenter(tankTurretPos)
                                     .withOrientation(gunOrientation)
                                     .build())
-                              .withMuzzleBreak(muzzleBrake)
+                              .withMuzzleBrake(muzzleBrake)
                               .build())
                         .build())
                   .withShape(gunCarriageShape)
