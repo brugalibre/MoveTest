@@ -10,7 +10,8 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.destruction.SelfDestructive;
-import com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.ProjectileAudioHelper;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.ProjectileAudio;
+import com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.impl.ProjectileAudioImpl.ProjectileAudioBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.ProjectileStrategyHandler;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.strategy.factory.ProjectileStrategyHandlerFactory;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -23,7 +24,7 @@ public class ProjectileImpl implements Projectile {
    private Shape shape;
    private ProjectileStrategyHandler projectileStrategyHandler;
    private ProjectileTypes projectileType;
-   private ProjectileAudioHelper projectileAudioHelper;
+   private ProjectileAudio projectileAudio;
 
    protected ProjectileImpl(Shape shape, ProjectileTypes projectileType, ProjectileConfig projectileConfig, double damage, double health,
          OnDestroyedCallbackHandler onDestroyCallbackHandler) {
@@ -32,7 +33,11 @@ public class ProjectileImpl implements Projectile {
       this.projectileType = projectileType;
       this.projectileStrategyHandler =
             ProjectileStrategyHandlerFactory.INSTANCE.getProjectileStrategyHandler(projectileType, projectileConfig, shape);
-      this.projectileAudioHelper = new ProjectileAudioHelper();
+      this.projectileAudio = ProjectileAudioBuilder.builder()
+            .withProjectile(this)
+            .withProjectileDestructionAudioClip()
+            .withProjectileImpactAudioClip()
+            .build();
    }
 
    private DestructionHelper getDestructionHelper(double damage, double health, OnDestroyedCallbackHandler onDestroyCallbackHandler) {
@@ -62,7 +67,7 @@ public class ProjectileImpl implements Projectile {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       destructionHelper.onCollision(gridElements);
-      projectileAudioHelper.playOnCollisionAudio(this, gridElements);
+      projectileAudio.playOnCollisionAudio();
    }
 
    @Override
@@ -84,7 +89,7 @@ public class ProjectileImpl implements Projectile {
 
       @Override
       public Damage getDamage(GridElement gridElement) {
-         double damageValue = Integer.MAX_VALUE; // A Projectile never survives a collision
+         double damageValue = Double.MAX_VALUE; // A Projectile never survives a collision
          if (isWall(gridElement)) {
             damageValue = initialHealth / 2;// except we collided with a wall
          }
