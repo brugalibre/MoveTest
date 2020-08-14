@@ -231,7 +231,7 @@ public class DefaultGrid implements Grid {
       return getAllGridElements(gridElement).stream()
             .filter(GridElement::isAvoidable)
             .filter(gridElementFilter::isGridElementWithinDistance)
-            .filter(gridElementFilter::isGridElementInfrontOf)
+            .filter(gridElementFilter::isGridElementInFrontOf)
             .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
    }
 

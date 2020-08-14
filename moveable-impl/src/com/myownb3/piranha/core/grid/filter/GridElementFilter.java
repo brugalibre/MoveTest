@@ -30,7 +30,7 @@ public class GridElementFilter {
     * 
     * @return <code>true</code> if the {@link GridElement} to check if in front of the given one or <code>false</code> if not
     */
-   public boolean isGridElementInfrontOf(GridElement gridElement2Check) {
+   public boolean isGridElementInFrontOf(GridElement gridElement2Check) {
       requireNonNull(movedGridElement, "For using this filter we need a GridElement to compare to!");
       double angleBetweenPositions = movedGridElement.getPosition().calcAngleBetweenPositions(gridElement2Check.getPosition());
       return angleBetweenPositions < 180.0;
@@ -74,7 +74,7 @@ public class GridElementFilter {
    /**
     * Creates a new {@link GridElementFilter} with the given {@link Position} of a {@link GridElement} and filter distance
     * 
-    * <b> Note </b> That with this constructor calling the methods {@link GridElementFilter#isGridElementInfrontOf(GridElement)}
+    * <b> Note </b> That with this constructor calling the methods {@link GridElementFilter#isGridElementInFrontOf(GridElement)}
     * or {@link GridElementFilter#isGridElementNotMovingFurtherAway(GridElement)} will cause an {@link NullPointerException} to be thrown
     * 
     * @param gridElemPos
