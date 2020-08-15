@@ -1,6 +1,7 @@
 package com.myownb3.piranha.launch.weapon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -33,7 +34,6 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
@@ -42,6 +42,7 @@ import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
+import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
@@ -124,6 +125,7 @@ public class TankTestWithImageLauncher {
 
       TankHolder tankHolder = new TankHolder();
 
+      DelegateOnGunFireListener delegateOnGunFireListener = new DelegateOnGunFireListener();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()
@@ -159,6 +161,7 @@ public class TankTestWithImageLauncher {
                         .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
                         .withDetectorConfig(detectorConfig)
                         .withProjectileType(ProjectileTypes.MISSILE)
+                        .withOnGunFireListeners(Collections.singletonList(delegateOnGunFireListener))
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
@@ -340,14 +343,14 @@ public class TankTestWithImageLauncher {
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
       mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
-      List<Renderer<? extends GridElement>> renderers = createRenderer4GridElements(tankBattleApplication);;
+      List<Renderer<?>> renderers = createRenderer4GridElements(tankBattleApplication);
 
       mainWindow.addSpielfeld(renderers, grid);
-      showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication);
+      showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication, delegateOnGunFireListener);
    }
 
-   private List<Renderer<? extends GridElement>> createRenderer4GridElements(TankBattleApplication tankBattleApplication) {
-      List<Renderer<? extends GridElement>> renderers = new ArrayList<>();
+   private List<Renderer<?>> createRenderer4GridElements(TankBattleApplication tankBattleApplication) {
+      List<Renderer<?>> renderers = new ArrayList<>();
       renderers.addAll(tankBattleApplication.getTurretGridElements()
             .stream()
             .map(buildTurretGridElementImagePainter())
@@ -376,12 +379,12 @@ public class TankTestWithImageLauncher {
       };
    }
 
-   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<? extends GridElement>> renderers,
-         TankBattleApplication tankBattleApplication) {
+   private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<?>> renderers,
+         TankBattleApplication tankBattleApplication, DelegateOnGunFireListener delegateOnGunFireListener) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int logicCycleTime = 15;
       int uiRefreshCycleTime = 5;
       UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
-      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, tankBattleApplication, logicCycleTime);
+      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, tankBattleApplication, delegateOnGunFireListener, logicCycleTime);
    }
 }

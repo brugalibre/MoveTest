@@ -29,14 +29,16 @@ public abstract class AbstractGun implements Gun {
    private int minTimeBetweenShooting;
    private GunShape gunShape;
 
+   protected transient List<OnGunFireListener> onGunFireListeners;
    protected transient GunConfig gunConfig;
    private ProjectileTypes projectileType;
 
-   protected AbstractGun(GunShape gunShape, GunConfig gunConfig, ProjectileTypes projectileType) {
+   protected AbstractGun(GunShape gunShape, GunConfig gunConfig, ProjectileTypes projectileType, List<OnGunFireListener> onGunFireListeners) {
       this.gunShape = gunShape;
       this.gunConfig = gunConfig;
       this.projectileType = projectileType;
       this.minTimeBetweenShooting = 60 * 3600 / gunConfig.getRoundsPerMinute();
+      this.onGunFireListeners = onGunFireListeners;
       lastTimeStamp = new AtomicLong(System.currentTimeMillis() - minTimeBetweenShooting);
    }
 
@@ -74,7 +76,13 @@ public abstract class AbstractGun implements Gun {
 
    private Projectile fireShot(Position projectileStartPos) {
       getAudioClipOpt().ifPresent(AudioClip::play);
+      callOnGunFireListeners();
       return ProjectileFactory.INSTANCE.createProjectile(projectileType, projectileStartPos, gunConfig.getProjectileConfig());
+   }
+
+   private void callOnGunFireListeners() {
+      onGunFireListeners.stream()
+            .forEach(onGunFireListener -> onGunFireListener.onFire(gunShape.getForemostPosition()));
    }
 
    private static Position createProjectileStartPos(Position foremostPosition, ProjectileConfig projectileConfig) {
@@ -114,13 +122,19 @@ public abstract class AbstractGun implements Gun {
       protected GunShape gunShape;
       protected GunConfig gunConfig;
       protected ProjectileTypes projectileType;
+      protected List<OnGunFireListener> onGunFireListeners;
 
       protected AbstractGunBuilder() {
-         // private
+         this.onGunFireListeners = new ArrayList<>();
       }
 
       public AbstractGunBuilder<T> withGunConfig(GunConfig gunConfig) {
          this.gunConfig = gunConfig;
+         return this;
+      }
+
+      public AbstractGunBuilder<T> withOnGunFireListeners(List<OnGunFireListener> onGunFireListeners) {
+         this.onGunFireListeners.addAll(onGunFireListeners);
          return this;
       }
 

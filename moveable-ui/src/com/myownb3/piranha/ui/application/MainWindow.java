@@ -86,11 +86,11 @@ public class MainWindow {
       mainWindow.pack();
    }
 
-   public void addSpielfeld(List<Renderer<? extends GridElement>> renderers, Grid grid) {
+   public void addSpielfeld(List<Renderer<?>> renderers, Grid grid) {
       addSpielfeldInternal(renderers, Collections.emptyList(), grid);
    }
 
-   private void addSpielfeldInternal(List<Renderer<? extends GridElement>> renderers, List<PositionListPainter> endPositionRenderers,
+   private void addSpielfeldInternal(List<Renderer<?>> renderers, List<PositionListPainter> endPositionRenderers,
          Grid grid) {
       com.myownb3.piranha.core.grid.Dimension gridDimension = grid.getDimension();
       Dimension spielfeldDimension = new Dimension(gridDimension.getWidth() + 40 + padding,
@@ -105,7 +105,7 @@ public class MainWindow {
       mainWindow.pack();
    }
 
-   public void addSpielfeld(List<Renderer<? extends GridElement>> renderers, List<PositionListPainter> endPositionRenderers, Grid grid) {
+   public void addSpielfeld(List<Renderer<?>> renderers, List<PositionListPainter> endPositionRenderers, Grid grid) {
       addSpielfeldInternal(renderers, endPositionRenderers, grid);
    }
 

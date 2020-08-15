@@ -79,12 +79,13 @@ public class PostMoveForwardHandlerCtx {
       return logicHandler;
    }
 
+   @SuppressWarnings({"unchecked", "rawtypes"})
    public void addPostMoveForwardLogicHandler() {
       requireNonNull(mainWindow, "call first setMainWindow() before adding a default LogicHandler!");
       requireNonNull(grid, "call first setGridWindow() before adding a default LogicHandler!");
       requireNonNull(moveableController, "call first setMoveableController() before adding a default LogicHandler!");
       LogicHandler newLogicHandler =
-            new LogicHandlerImpl(mainWindow, renderers, new DefaultMoveApplication(grid, this, moveableController));
+            new LogicHandlerImpl(mainWindow, ((List) renderers), new DefaultMoveApplication(grid, this, moveableController));
       grid.addOnGridElementAddListener(newLogicHandler);
       this.logicHandler = newLogicHandler;
    }

@@ -1,5 +1,6 @@
 package com.myownb3.piranha.ui.application;
 
+import com.myownb3.piranha.core.battle.weapon.gun.OnGunFireListener;
 import com.myownb3.piranha.core.grid.OnGridElementAddListener;
 
 /**
@@ -8,7 +9,7 @@ import com.myownb3.piranha.core.grid.OnGridElementAddListener;
  * @author Dominic
  *
  */
-public interface LogicHandler extends OnGridElementAddListener {
+public interface LogicHandler extends OnGridElementAddListener, OnGunFireListener {
 
    /**
     * executes the game logic for the current cycle

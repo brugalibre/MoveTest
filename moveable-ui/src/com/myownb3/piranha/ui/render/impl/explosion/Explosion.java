@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.ui.image.ImageScaler;
 
 /**
@@ -59,13 +58,21 @@ public class Explosion {
       }
    }
 
-   public static Explosion buildDefaultExplosion(GridElement gridElement) {
+   public static Explosion buildDefaultExplosionWitzResizeSmaller(double dimensionRadius) {
+      return buildDefaultExplosion(dimensionRadius, true);
+   }
+
+   public static Explosion buildDefaultExplosion(double dimensionRadius) {
+      return buildDefaultExplosion(dimensionRadius, false);
+   }
+
+   private static Explosion buildDefaultExplosion(double dimensionRadius, boolean resizeSmaller) {
       List<BufferedImage> explosionImages = new ArrayList<>();
       for (int i = 1; i < 18; i++) {
          try {
             String path = EXPLOSION_FRAME_PATH + i + EXPLOSION_IMAGE_SUFFIX;
             BufferedImage bufferedImage = ImageIO.read(new File(path));
-            bufferedImage = resizeImageIfNecessary(bufferedImage, gridElement.getDimensionInfo().getDimensionRadius());
+            bufferedImage = resizeImageIfNecessary(bufferedImage, dimensionRadius, resizeSmaller);
             explosionImages.add(bufferedImage);
          } catch (IOException e) {
             throw new IllegalStateException(e);
@@ -74,10 +81,10 @@ public class Explosion {
       return new Explosion(explosionImages, 50l);
    }
 
-   private static BufferedImage resizeImageIfNecessary(BufferedImage bufferedImage, double dimensionRadius) {
+   private static BufferedImage resizeImageIfNecessary(BufferedImage bufferedImage, double dimensionRadius, boolean resizeSmaller) {
       double max = Math.max(bufferedImage.getWidth(), bufferedImage.getHeight());
       double ratio = (dimensionRadius / max) * 1.5; // a little bit bigger, because the dimension of GridElements are not quite measured in pixels..
-      if (ratio > 1.0) {
+      if (ratio > 1.0 || resizeSmaller) {
          return ImageScaler.scaleImage(bufferedImage, ratio * bufferedImage.getWidth(), ratio * bufferedImage.getHeight());
       }
       return bufferedImage;

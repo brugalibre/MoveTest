@@ -9,9 +9,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
+import com.myownb3.piranha.ui.render.impl.shape.AbstractShapePainter;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class TankPainter extends Drawable<TankShape> {
+public class TankPainter extends AbstractShapePainter<TankShape> {
 
    private Drawable<? extends Shape> turretPainter;
    private Drawable<? extends Shape> tankHullPainter;

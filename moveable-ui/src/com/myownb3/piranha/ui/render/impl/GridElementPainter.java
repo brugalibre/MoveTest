@@ -26,7 +26,8 @@ public class GridElementPainter extends AbstractGridElementPainter<GridElement> 
       super(gridElement, color);
       ExplosionPainter explosionPainter = null;
       if (canShowExplosion(gridElement)) {
-         explosionPainter = new ExplosionPainter(Explosion.buildDefaultExplosion(gridElement), gridElement);
+         double dimensionRadius = gridElement.getDimensionInfo().getDimensionRadius();
+         explosionPainter = new ExplosionPainter(Explosion.buildDefaultExplosion(dimensionRadius), () -> gridElement.getPosition());
       }
       explosionPainterOpt = Optional.ofNullable(explosionPainter);
    }

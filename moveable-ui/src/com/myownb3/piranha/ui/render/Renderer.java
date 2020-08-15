@@ -50,6 +50,11 @@ public interface Renderer<T> {
     */
    public void setColorSetMode(ColorSetMode drawMode);
 
+   /**
+    * @return the distance from this {@link Renderer} to the ground
+    */
+   public double getHightFromGround();
+
    /***
     * @return <code>true</code> if this {@link Renderer} can be removed or <code>false</code> if not
     */

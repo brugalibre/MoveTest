@@ -39,4 +39,9 @@ public class ImagePainter extends Drawable<BufferedImage> {
          graphics.rotate(angle2Rotate, (int) imagePos.getX(), (int) imagePos.getY());
       }
    }
+
+   @Override
+   public double getHightFromGround() {
+      return imagePositionSupplier.get().getZ();
+   }
 }

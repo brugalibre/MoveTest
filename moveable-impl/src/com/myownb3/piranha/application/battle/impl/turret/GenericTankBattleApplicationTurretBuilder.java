@@ -2,9 +2,13 @@ package com.myownb3.piranha.application.battle.impl.turret;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.OnGunFireListener;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
@@ -41,15 +45,22 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
    private Shape gunCarriageShape;
    private boolean withMuzzleBrake;
    private Orientation gunOrientation;
+   private List<OnGunFireListener> onGunFireListeners;
 
    protected GenericTankBattleApplicationTurretBuilder() {
       this.positionTransformator = pos -> pos;
       this.withMuzzleBrake = false;
       this.gunOrientation = Orientation.HORIZONTAL;
+      this.onGunFireListeners = new ArrayList<>();
    }
 
    public T withGrid(Grid grid) {
       this.grid = grid;
+      return getThis();
+   }
+
+   public T withOnGunFireListeners(List<OnGunFireListener> onGunFireListeners) {
+      this.onGunFireListeners.addAll(onGunFireListeners);
       return getThis();
    }
 
@@ -147,6 +158,7 @@ public abstract class GenericTankBattleApplicationTurretBuilder<V extends Generi
                   .withRotationSpeed(turretRotationSpeed)
                   .withGun(DefaultGunBuilder.builder()
                         .withGunProjectileType(projectileType)
+                        .withOnGunFireListeners(onGunFireListeners)
                         .withGunConfig(gunConfig)
                         .withGunShape(GunShapeBuilder.builder()
                               .withBarrel(RectangleBuilder.builder()

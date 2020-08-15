@@ -17,7 +17,7 @@ public class BattleRendererBuilder {
       // private
    }
 
-   public static List<Renderer<? extends GridElement>> createRenderer4TankBattleApplication(TankBattleApplication tankBattleApplication) {
+   public static List<Renderer<?>> createRenderer4TankBattleApplication(TankBattleApplication tankBattleApplication) {
       List<GridElement> gridElements = new ArrayList<>(tankBattleApplication.getTurretGridElements());
       gridElements.addAll(tankBattleApplication.getTankGridElements());
       return gridElements.stream()

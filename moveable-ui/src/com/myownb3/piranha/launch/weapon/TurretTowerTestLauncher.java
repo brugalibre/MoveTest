@@ -27,7 +27,6 @@ import com.myownb3.piranha.core.detector.config.impl.DetectorConfigImpl.Detector
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
@@ -169,7 +168,7 @@ public class TurretTowerTestLauncher {
 
       grid.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      List<Renderer<? extends GridElement>> renderers = new ArrayList<Renderer<? extends GridElement>>();
+      List<Renderer<?>> renderers = new ArrayList<>();
       List<TurretGridElement> turrets = tankBattleApplication.getTurretGridElements();
       List<Moveable> moveables = Arrays.asList(simpleGridElement/*, endPointMoveable*/);
 
@@ -199,7 +198,7 @@ public class TurretTowerTestLauncher {
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid,
-         List<Renderer<? extends GridElement>> renderers, TankBattleApplication tankBattleApplication) {
+         List<Renderer<?>> renderers, TankBattleApplication tankBattleApplication) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;
       LogicHandler logicHandler = new LogicHandlerImpl(mainWindow, renderers, tankBattleApplication);

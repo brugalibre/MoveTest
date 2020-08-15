@@ -18,8 +18,6 @@ import javax.swing.JComponent;
 
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
@@ -33,13 +31,13 @@ import com.myownb3.piranha.ui.render.impl.PositionListPainter;
 public class SpielFeld extends JComponent {
 
    private static final long serialVersionUID = 1L;
-   private transient List<Renderer<? extends GridElement>> renderers;
+   private transient List<Renderer<?>> renderers;
    private transient List<PositionListPainter> endPositionRenderers;
    private transient GridPainter gridPainter;
    private transient Optional<BufferedImage> imageOpt;
    private int padding;
 
-   public SpielFeld(String backgroundImage, Grid grid, List<Renderer<? extends GridElement>> renderers,
+   public SpielFeld(String backgroundImage, Grid grid, List<Renderer<?>> renderers,
          List<PositionListPainter> endPositionRenderers, int padding, int pointWidth) {
       this.renderers = renderers;
       this.padding = padding;
@@ -96,17 +94,12 @@ public class SpielFeld extends JComponent {
             .forEach(renderer -> renderer.render(graphicsContext));
    }
 
-   private static class RendererComparator implements Comparator<Renderer<? extends GridElement>> {
-
+   private static class RendererComparator implements Comparator<Renderer<?>> {
       @Override
-      public int compare(Renderer<? extends GridElement> o1, Renderer<? extends GridElement> o2) {
-         return compareGridElements(o1.getValue(), o2.getValue());
-      }
-
-      private int compareGridElements(GridElement value1, GridElement value2) {
-         Position gridElem1Pos = value1.getPosition();
-         Position gridElem2Pos = value2.getPosition();
-         return Double.valueOf(gridElem1Pos.getZ()).compareTo(Double.valueOf(gridElem2Pos.getZ()));
+      public int compare(Renderer<?> o1, Renderer<?> o2) {
+         Double heightFromGround1 = o1.getHightFromGround();
+         Double heightFromGround2 = o1.getHightFromGround();
+         return heightFromGround1.compareTo(heightFromGround2);
       }
    }
 

@@ -4,10 +4,9 @@ import java.awt.Color;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFighterShape;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
 
-public class TIEFighterShapePainter extends Drawable<TIEFighterShape> {
+public class TIEFighterShapePainter extends AbstractShapePainter<TIEFighterShape> {
 
    private CirclePainter ballCockpitPainter;
    private PolygonPainter rightWingPainter;

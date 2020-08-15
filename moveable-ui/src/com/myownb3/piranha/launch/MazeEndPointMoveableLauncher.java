@@ -75,6 +75,7 @@ public class MazeEndPointMoveableLauncher {
       launcher.launch();
    }
 
+   @SuppressWarnings({"unchecked", "rawtypes"})
    private void launch() {
 
       int wallThickness = 10;
@@ -232,7 +233,7 @@ public class MazeEndPointMoveableLauncher {
       ctx.getEndPositionRenderers().add(new PositionListPainter(Collections.emptyList(), getPositionListColor(), 4, 4));
       ctx.addPostMoveForwardLogicHandler();
 
-      mainWindow.addSpielfeld(ctx.getRenderers(), ctx.getEndPositionRenderers(), grid);
+      mainWindow.addSpielfeld((List) ctx.getRenderers(), ctx.getEndPositionRenderers(), grid);
       showGuiAndStartPainter(mainWindow);
       List<Position> positions = mazeRunner.run();
       preparePositionListPainter(ctx.getEndPositionRenderers(), positions);

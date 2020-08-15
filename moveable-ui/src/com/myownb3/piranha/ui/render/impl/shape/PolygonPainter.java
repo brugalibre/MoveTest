@@ -11,14 +11,13 @@ import java.awt.Polygon;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 
 /**
  * @author Dominic
  *
  */
-public class PolygonPainter extends Drawable<Shape> {
+public class PolygonPainter extends AbstractShapePainter<Shape> {
    private Color color;
    private boolean drawBorder;
 

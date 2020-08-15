@@ -87,4 +87,9 @@ public class GridPainter extends Drawable<Grid> {
          g2.drawLine(x1, y0, greyMarkerLength, y1);
       }
    }
+
+   @Override
+   public double getHightFromGround() {
+      return 0;
+   }
 }

@@ -12,21 +12,23 @@ import com.myownb3.piranha.application.Application;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
+import com.myownb3.piranha.ui.render.impl.explosion.MuzzleFlashPainter;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class LogicHandlerImpl implements LogicHandler {
 
-   private List<Renderer<? extends GridElement>> renderers;
+   private List<Renderer<?>> renderers;
    private MainWindow mainWindow;
    private Application application;
    private Predicate<GridElement> gridElementAddFilter;
    private Object lock;
 
-   public LogicHandlerImpl(MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers, Application application) {
+   public LogicHandlerImpl(MainWindow mainWindow, List<Renderer<?>> renderers, Application application) {
       this.renderers = renderers;
       this.mainWindow = mainWindow;
       this.application = application;
@@ -41,17 +43,31 @@ public class LogicHandlerImpl implements LogicHandler {
       application.run();
    }
 
-   public void removeDestroyedPainters(List<Renderer<? extends GridElement>> renderers) {
+   public void removeDestroyedPainters(List<Renderer<?>> renderers) {
       synchronized (lock) {
-         List<Renderer<? extends GridElement>> renderer2Remove = getRenderers2Remove(renderers);
+         List<Renderer<?>> renderer2Remove = getRenderers2Remove(renderers);
          renderers.removeAll(renderer2Remove);
       }
    }
 
-   private static List<Renderer<? extends GridElement>> getRenderers2Remove(List<Renderer<? extends GridElement>> renderers) {
+   private static List<Renderer<?>> getRenderers2Remove(List<Renderer<?>> renderers) {
       return renderers.stream()
             .filter(Renderer::canBeRemoved)
             .collect(Collectors.toList());
+   }
+
+   @Override
+   public void onFire(Position furthermostGunPos) {
+      WorkerThreadFactory.INSTANCE.executeAsync(() -> {
+         onFireInternal(furthermostGunPos);
+         return null;
+      });
+   }
+
+   private void onFireInternal(Position furthermostGunPos) {
+      synchronized (lock) {
+         renderers.add(new MuzzleFlashPainter(() -> furthermostGunPos));
+      }
    }
 
    @Override

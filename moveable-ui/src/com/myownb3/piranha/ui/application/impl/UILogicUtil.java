@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
+import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.ui.application.LogicHandler;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.UIRefresher;
@@ -23,16 +23,21 @@ public class UILogicUtil {
       // private 
    }
 
-   public static void startLogicHandler(Grid grid, MainWindow mainWindow, List<Renderer<? extends GridElement>> renderers,
-         TankBattleApplication tankBattleApplication, int cycleTime) {
+   public static void startLogicHandler(Grid grid, MainWindow mainWindow, List<Renderer<?>> renderers,
+         TankBattleApplication tankBattleApplication, DelegateOnGunFireListener delegateOnGunFireListener, int cycleTime) {
       new Thread(() -> {
          LogicHandler logicHandler = new LogicHandlerImpl(mainWindow, renderers, tankBattleApplication);
-         grid.addOnGridElementAddListener(logicHandler);
+         addHandlers(grid, delegateOnGunFireListener, logicHandler);
          while (true) {
             logicHandler.onCylce();
             sleep(cycleTime);
          }
       }, "LogicHandlerImpl").start();
+   }
+
+   private static void addHandlers(Grid grid, DelegateOnGunFireListener delegateOnGunFireListener, LogicHandler logicHandler) {
+      grid.addOnGridElementAddListener(logicHandler);
+      delegateOnGunFireListener.setOnGunFireListener(logicHandler);
    }
 
    public static void startUIRefresher(MainWindow mainWindow, int cycleTime) {

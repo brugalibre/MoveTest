@@ -9,9 +9,10 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
+import com.myownb3.piranha.ui.render.impl.shape.AbstractShapePainter;
 import com.myownb3.piranha.ui.render.impl.shape.ShapePainterFactory;
 
-public class GunPainter extends Drawable<GunShape> {
+public class GunPainter extends AbstractShapePainter<GunShape> {
 
    private Drawable<? extends Shape> barrelPainter;
    private Optional<Drawable<? extends Shape>> muzzlePainterOpt;

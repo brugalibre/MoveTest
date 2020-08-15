@@ -33,6 +33,7 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper.Destruction
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
 import com.myownb3.piranha.core.battle.weapon.gun.DefaultGunImpl.DefaultGunBuilder;
+import com.myownb3.piranha.core.battle.weapon.gun.OnGunFireListener;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
@@ -234,6 +235,7 @@ class TankBattleApplicationImplTest {
 
       // When
       TankHolder tankHolder = new TankHolder();
+      OnGunFireListener onGunFireListener = mock(OnGunFireListener.class);
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()
@@ -271,6 +273,7 @@ class TankBattleApplicationImplTest {
                         .withParkingAngleEvaluator(() -> tankHolder.getPosition().getDirection().getAngle())
                         .withDetectorConfig(mock(DetectorConfig.class))
                         .withProjectileType(ProjectileTypes.MISSILE)
+                        .withOnGunFireListeners(Collections.singletonList(onGunFireListener))
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)

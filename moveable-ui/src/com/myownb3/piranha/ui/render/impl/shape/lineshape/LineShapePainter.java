@@ -9,14 +9,14 @@ import java.awt.Graphics;
 import com.myownb3.piranha.core.grid.gridelement.shape.lineshape.ImmutableLineShape;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
+import com.myownb3.piranha.ui.render.impl.shape.AbstractShapePainter;
 
 /**
  * @author Dominic
  *
  */
-public class LineShapePainter extends Drawable<ImmutableLineShape> {
+public class LineShapePainter extends AbstractShapePainter<ImmutableLineShape> {
 
    private Color color;
 

@@ -75,4 +75,9 @@ public class PositionListPainter implements Renderer<List<Position>> {
    public List<Position> getValue() {
       return posList;
    }
+
+   @Override
+   public double getHightFromGround() {
+      return 0;
+   }
 }

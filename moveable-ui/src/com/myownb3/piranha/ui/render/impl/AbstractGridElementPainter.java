@@ -28,4 +28,9 @@ public abstract class AbstractGridElementPainter<T extends GridElement> extends 
    public void render(RenderContext graphicsCtx) {
       shapePainter.render(graphicsCtx);
    }
+
+   @Override
+   public double getHightFromGround() {
+      return value.getPosition().getZ();
+   }
 }

@@ -3,8 +3,10 @@ package com.myownb3.piranha.core.battle.weapon.gun;
 import static com.myownb3.piranha.core.battle.weapon.gun.AbstractGun.PROJECTILE_START_POS_OFFSET;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,9 +58,11 @@ class BulletGunImplTest {
       double projectileRadius = 5.0;
       int velocityMulti = 2;
       int salve = 1;
+      OnGunFireListener listener = mock(OnGunFireListener.class);
       Position position = Positions.of(5, 5, distanceToBottom);
       DefaultGunImpl simpleBulletGun = DefaultGunBuilder.builder()
             .withGunProjectileType(ProjectileTypes.BULLET)
+            .withOnGunFireListeners(Collections.singletonList(listener))
             .withGunConfig(GunConfigBuilder.builder()
                   .withSalveSize(salve)
                   .withRoundsPerMinute(1)
@@ -87,10 +91,11 @@ class BulletGunImplTest {
 
       // When
       simpleBulletGun.fire();
-      Thread.sleep(200);// wait until the WorkerThreadFactory has created the new GridElement
+      Thread.sleep(500);// wait until the WorkerThreadFactory has created the new GridElement
 
       // Then
       assertThat(grid.addedGridElemPos, is(expectedProjectilPosition));
+      verify(listener, times(salve)).onFire(eq(simpleBulletGun.getShape().getForemostPosition()));
    }
 
    @Test

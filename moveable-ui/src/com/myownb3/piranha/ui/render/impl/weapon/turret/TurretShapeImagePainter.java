@@ -6,12 +6,12 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.image.ImagePainter;
+import com.myownb3.piranha.ui.render.impl.shape.AbstractShapePainter;
 import com.myownb3.piranha.ui.render.impl.shape.rectangle.RectanglePaintUtil;
 
-public class TurretShapeImagePainter extends Drawable<TurretShape> {
+public class TurretShapeImagePainter extends AbstractShapePainter<TurretShape> {
 
    private ImagePainter gunCarriageImagePainter;
    private ImagePainter gunPainter;

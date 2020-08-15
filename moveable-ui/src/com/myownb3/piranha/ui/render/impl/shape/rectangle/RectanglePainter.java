@@ -9,14 +9,14 @@ import java.awt.Graphics2D;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
+import com.myownb3.piranha.ui.render.impl.shape.AbstractShapePainter;
 
 /**
  * @author Dominic
  *
  */
-public class RectanglePainter extends Drawable<Rectangle> {
+public class RectanglePainter extends AbstractShapePainter<Rectangle> {
    private Color color;
 
    public RectanglePainter(Rectangle rectangle, Color color) {

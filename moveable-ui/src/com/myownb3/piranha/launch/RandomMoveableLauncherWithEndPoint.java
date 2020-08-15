@@ -58,6 +58,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       randomMoveableLauncherWithEndPoint.launch(height, width, mainWindowWidth, mainWindowHeight);
    }
 
+   @SuppressWarnings({"unchecked", "rawtypes"})
    private void launch(int height, int width, int mainWindowWidth, int mainWindowHeight) {
       MainWindow mainWindow = new MainWindow(mainWindowWidth, mainWindowHeight, padding, height);
 
@@ -123,7 +124,7 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
 
       ctx.getRenderers().addAll(getRenderers(ctx.getGridElements(), moveableController.getMoveable(),
             endPositionRunner.getConfig(), endPositionRunner.getDetectorCluster()));
-      mainWindow.addSpielfeld(ctx.getRenderers(), grid);
+      mainWindow.addSpielfeld(((List) ctx.getRenderers()), grid);
       ctx.addPostMoveForwardLogicHandler();
       ctx.setMainWindow(mainWindow);
       showGuiAndStartPainter(mainWindow);
