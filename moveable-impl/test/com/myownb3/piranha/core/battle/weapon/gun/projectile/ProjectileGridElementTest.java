@@ -108,18 +108,6 @@ class ProjectileGridElementTest {
    }
 
    @Test
-   void testIsProjectileDestroyed() {
-
-      // Given
-
-      // When
-      boolean actualIsDestroyed = ProjectileGridElement.isDestroyed(null);
-
-      // Then
-      assertThat(actualIsDestroyed, is(true));
-   }
-
-   @Test
    void testGetDamage() {
 
       // Given
