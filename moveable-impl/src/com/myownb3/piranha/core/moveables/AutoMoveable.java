@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.moveables;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
@@ -26,7 +25,6 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
 
    public AutoMoveable(DimensionInfo dimensionInfo, Grid grid, MoveablePostActionHandler handler, Shape shape, int velocity) {
       super(grid, handler, shape, dimensionInfo, velocity);
-      setName(UUID.randomUUID().toString());
    }
 
    @Override

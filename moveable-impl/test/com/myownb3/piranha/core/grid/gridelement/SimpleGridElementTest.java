@@ -194,25 +194,6 @@ class SimpleGridElementTest {
       assertThat(positionOnPathFor, is(gridElemPos));
    }
 
-   @Test
-   void testName() {
-      // Given
-      AbstractGridElement gridElement = SimpleGridElementBuilder.builder()
-            .withGrid(mock(DefaultGrid.class))
-            .withShape(PositionShapeBuilder.builder()
-                  .withPosition(Positions.of(4, 4))
-                  .build())
-            .build();
-      String expectedName = "name";
-      gridElement.setName(expectedName);
-
-      // When
-      String actualName = gridElement.getName();
-
-      // Then
-      assertThat(actualName, is(expectedName));
-   }
-
    /**
     * Test method for
     * {@link com.myownb3.piranha.core.grid.gridelement.AbstractGridElement#toString()}.

@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.moveables.controller;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
@@ -30,7 +29,6 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
    public AutoMoveableController(EvasionStateMachine evasionStateMachine, MoveablePostActionHandler handler, DimensionInfo dimensionInfo, Grid grid,
          Shape shape, int velocity, BelligerentParty belligerentParty) {
       super(grid, evasionStateMachine, handler, velocity, shape, dimensionInfo, belligerentParty);
-      setName(UUID.randomUUID().toString());
    }
 
    @Override

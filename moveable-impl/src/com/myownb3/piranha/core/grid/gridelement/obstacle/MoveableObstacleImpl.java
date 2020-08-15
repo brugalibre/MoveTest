@@ -9,7 +9,6 @@ import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
@@ -129,7 +128,6 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
          if (nonNull(destructionHelper)) {
             moveableObstacleImpl.destructionHelper = destructionHelper;
          }
-         moveableObstacleImpl.setName(UUID.randomUUID().toString());
          grid.addElement(moveableObstacleImpl);
          return moveableObstacleImpl;
       }

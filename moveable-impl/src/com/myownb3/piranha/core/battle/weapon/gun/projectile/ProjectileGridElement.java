@@ -3,7 +3,6 @@ package com.myownb3.piranha.core.battle.weapon.gun.projectile;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.myownb3.piranha.core.battle.destruction.Damage;
 import com.myownb3.piranha.core.grid.Grid;
@@ -18,7 +17,6 @@ public class ProjectileGridElement extends AbstractMoveable implements Projectil
    private ProjectileGridElement(Projectile projectile, Grid grid, DimensionInfo dimensionInfo, int velocity) {
       super(grid, projectile.getShape(), dimensionInfo, velocity);
       this.projectile = projectile;
-      setName(UUID.randomUUID().toString());
    }
 
    @Override
