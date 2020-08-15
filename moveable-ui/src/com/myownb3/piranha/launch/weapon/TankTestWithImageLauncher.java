@@ -12,7 +12,6 @@ import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.Tan
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationTankBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
@@ -97,7 +96,9 @@ public class TankTestWithImageLauncher {
       int battleTankGunCarriageRadius = 25;
       int battleTankGunHeight = 35;
       int battleTankGunWidth = 14;
-      int projectileVelocity = 50;
+      int projectileVelocity = 150;
+      int missileVelocity = 80;
+      int moveableVelocity = 35;
 
       int battleShipParkingAngle = -90;
       double battleTankHeight = tankHeight * 2d;
@@ -123,16 +124,14 @@ public class TankTestWithImageLauncher {
 
       TankHolder tankHolder = new TankHolder();
 
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(20)
-            .withCounter(80)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
-            .build();
-
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withMoveableAdder(moveableAdder)
+            .withMoveableAdder(MoveableAdderBuilder.builder()
+                  .withMoveableVelocity(moveableVelocity)
+                  .withCounter(80)
+                  .withPadding(padding)
+                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .build())
             .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(tankHolder, TankBattleApplicationTankBuilder.builder()
                   .withEndPositions(endPositions)
@@ -171,7 +170,7 @@ public class TankTestWithImageLauncher {
                                           .withDimensionRadius(3)
                                           .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                           .build())
-                                    .withVelocity(projectileVelocity)
+                                    .withVelocity(missileVelocity)
                                     .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
                                           .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                                           .withDetector(DetectorBuilder.builder()

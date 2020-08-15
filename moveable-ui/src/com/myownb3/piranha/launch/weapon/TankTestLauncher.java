@@ -92,7 +92,9 @@ public class TankTestLauncher {
       int battleTankGunCarriageRadius = 8;
       double battleTankGunHeight = 20;
       double battleTankGunWidth = 5;
-      int projectileVelocity = 50;
+      int projectileVelocity = 150;
+      int missileVelocity = 80;
+      int moveableVelocity = 35;
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
             .withDetectorReach(250)
@@ -117,8 +119,8 @@ public class TankTestLauncher {
       battleShipEndPositions.add(EndPositions.of(battleShipPos, 10));
 
       MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(8)
-            .withCounter(200)
+            .withMoveableVelocity(moveableVelocity)
+            .withCounter(100)
             .withPadding(padding)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .build();
@@ -165,7 +167,7 @@ public class TankTestLauncher {
                                           .withDimensionRadius(3)
                                           .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                           .build())
-                                    .withVelocity(projectileVelocity)
+                                    .withVelocity(missileVelocity)
                                     .withTargetGridElementEvaluator(TargetGridElementEvaluatorBuilder.builder()
                                           .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                                           .withDetector(DetectorBuilder.builder()

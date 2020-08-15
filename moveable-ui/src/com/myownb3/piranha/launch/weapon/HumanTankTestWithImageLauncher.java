@@ -13,7 +13,6 @@ import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.Tan
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationHumanTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
@@ -79,7 +78,7 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 public class HumanTankTestWithImageLauncher {
    private static final int MAX_X = 800;
    private static final int MAX_Y = 900;
-   private static final int padding = 0;
+   private static final int PADDING = 0;
 
    public static void main(String[] args) {
       HumanTankTestWithImageLauncher launcher = new HumanTankTestWithImageLauncher();
@@ -97,9 +96,10 @@ public class HumanTankTestWithImageLauncher {
       double gunWidth = 14;
       int tankWidth = 70;
       int tankHeight = 90;
-      int projectileVelocity = 80;
-      int missileVelocity = 30;
-      double turretRotationSpeed = 3;
+      int projectileVelocity = 150;
+      int missileVelocity = 60;
+      double turretRotationSpeed = 5;
+      int moveableVelocity = 35;
 
       // Rebel
       Position rebelTankPos = Positions.of(500, 600).rotate(80);
@@ -134,20 +134,13 @@ public class HumanTankTestWithImageLauncher {
                   .build())
             .withMaxX(MAX_X)
             .withMaxY(MAX_Y)
-            .withMinX(padding)
-            .withMinY(padding)
+            .withMinX(PADDING)
+            .withMinY(PADDING)
             .build();
 
       TankHolder imperialTankHolder = new TankHolder();
       int missileCounterMeasureDetectionDistance = 100;
       TankHolder rebelTankHolder = new TankHolder();
-
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(8)
-            .withCounter(200)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .build();
 
       HumanTankEngine humanTankEngine =
             buildHumanTankEngine(rebelTankEngineAccelerationSpeed, rebelTankEngineManuallySlowDownSpeed, rebelTankEngineNaturallySlowDownSpeed,
@@ -190,7 +183,12 @@ public class HumanTankTestWithImageLauncher {
       LazyGridElement lazyTurretGridElement = new LazyGridElement();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withMoveableAdder(moveableAdder)
+            .withMoveableAdder(MoveableAdderBuilder.builder()
+                  .withMoveableVelocity(moveableVelocity)
+                  .withCounter(200)
+                  .withPadding(PADDING)
+                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                  .build())
             .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(imperialTankHolder, TankBattleApplicationTankBuilder.builder()
                   .withEndPositions(imperialTankEndPositions)
@@ -370,10 +368,10 @@ public class HumanTankTestWithImageLauncher {
       List<WallGridElement> wallSemgments = addProtectiveWall(grid);
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
-      MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
+      MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), PADDING, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
       mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
-      mainWindow.addMouseListener(new MouseListener(padding, turretStrategyHandler));
+      mainWindow.addMouseListener(new MouseListener(PADDING, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 
       List<Renderer<? extends GridElement>> renderers = addRenderersWithImage(tankBattleApplication);

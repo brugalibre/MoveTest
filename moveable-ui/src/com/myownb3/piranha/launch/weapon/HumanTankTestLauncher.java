@@ -14,7 +14,6 @@ import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.Tan
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationHumanTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
@@ -96,8 +95,8 @@ public class HumanTankTestLauncher {
       double gunWidth = 7;
       int tankWidth = 40;
       int tankHeight = 90;
-      int projectileVelocity = 80;
-      int missileVelocity = 30;
+      int projectileVelocity = 150;
+      int missileVelocity = 60;
       double turretRotationSpeed = 3;
 
       // Rebel
@@ -142,13 +141,6 @@ public class HumanTankTestLauncher {
 
       TankHolder imperialTankHolder = new TankHolder();
       TankHolder rebelTankHolder = new TankHolder();
-
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
-            .withMoveableVelocity(8)
-            .withCounter(200)
-            .withPadding(padding)
-            .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-            .build();
 
       HumanTankEngine humanTankEngine =
             buildHumanTankEngine(rebelTankEngineAccelerationSpeed, rebelTankEngineManuallySlowDownSpeed, rebelTankEngineNaturallySlowDownSpeed,
@@ -197,7 +189,12 @@ public class HumanTankTestLauncher {
       LazyGridElement lazyTurretGridElement = new LazyGridElement();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withMoveableAdder(moveableAdder)
+            .withMoveableAdder(MoveableAdderBuilder.builder()
+                  .withMoveableVelocity(8)
+                  .withCounter(200)
+                  .withPadding(padding)
+                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                  .build())
             .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(imperialTankHolder, TankBattleApplicationTankBuilder.builder()
                   .withEndPositions(imperialTankEndPositions)
