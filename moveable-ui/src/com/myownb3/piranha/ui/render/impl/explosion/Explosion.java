@@ -17,7 +17,7 @@ public class Explosion extends ImageSeries {
     * Default constructor for default explosion
     */
    private Explosion(double dimensionRadius, boolean resizeSmaller) {
-      super(50l);
+      super(50l, false);
       this.images = loadImageSerie(dimensionRadius, resizeSmaller);
    }
 

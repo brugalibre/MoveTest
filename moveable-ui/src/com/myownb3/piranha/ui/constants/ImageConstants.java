@@ -1,13 +1,11 @@
 package com.myownb3.piranha.ui.constants;
 
 public class ImageConstants {
-   private ImageConstants() {
-      // private
-   }
+   private static final String IMAGE_SUFFIX = ".png";
 
    public static final String EXPLOSION_FRAME_PATH = "res/image/explosion/frame";
 
-   public static final String EXPLOSION_IMAGE_SUFFIX = ".png";
+   public static final String EXPLOSION_IMAGE_SUFFIX = IMAGE_SUFFIX;
 
    public static final String DEFAULT_BACKGROUND = "res/image/background_1.jpg";
 
@@ -22,4 +20,12 @@ public class ImageConstants {
    public static final String GUN_CARRIAGE_IMAGE = "res/image/gun/guncarriage.png";
 
    public static final String GUN_IMAGE = "res/image/gun/gun.png";
+
+   public static final String MISSILE_TAIL_FRAME_PATH = "res/image/missile/missile_tail";
+
+   public static final String MISSILE_IMAGE_SUFFIX = IMAGE_SUFFIX;
+
+   private ImageConstants() {
+      // private
+   }
 }

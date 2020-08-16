@@ -13,14 +13,23 @@ import com.myownb3.piranha.util.MathUtil;
 public class ImageSeriesPainter extends Drawable<ImageSeries> {
 
    private ImageSeries imageSeries;
-   private Supplier<Position> imagePositionSupplier;
-   private double rotationAngle;
+   private Supplier<Double> imageRotateDegreeSupplier;
+   protected Supplier<Position> imagePositionSupplier;
 
    public ImageSeriesPainter(ImageSeries imageSeries, Supplier<Position> imagePositionSupplier) {
+      this(imageSeries, imagePositionSupplier, getRandomRotationDegree());
+   }
+
+   private static Supplier<Double> getRandomRotationDegree() {
+      double randomRotationDegree = MathUtil.getRandom(360) + 20;
+      return () -> randomRotationDegree;
+   }
+
+   public ImageSeriesPainter(ImageSeries imageSeries, Supplier<Position> imagePositionSupplier, Supplier<Double> imageRotateDegreeSupplier) {
       super(imageSeries);
       this.imageSeries = imageSeries;
       this.imagePositionSupplier = imagePositionSupplier;
-      this.rotationAngle = MathUtil.getRandom(360) + 20;
+      this.imageRotateDegreeSupplier = imageRotateDegreeSupplier;
    }
 
    @Override
@@ -37,6 +46,7 @@ public class ImageSeriesPainter extends Drawable<ImageSeries> {
    }
 
    private void drawImage(Graphics2D graphics, BufferedImage nextImage, Position imagePos, int imageX, int imageY) {
+      double rotationAngle = imageRotateDegreeSupplier.get();
       rotate(graphics, imagePos, rotationAngle);
       graphics.drawImage(nextImage, imageX, imageY, null);
       rotate(graphics, imagePos, -rotationAngle);

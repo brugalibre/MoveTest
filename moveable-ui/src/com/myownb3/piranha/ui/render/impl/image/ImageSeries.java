@@ -22,19 +22,21 @@ public abstract class ImageSeries {
    private Object lock;
    private long timePerFrame;
    private long lastTimeStamp;
+   private boolean isLoop;
 
-   protected ImageSeries(long timePerFrame) {
+   protected ImageSeries(long timePerFrame, boolean isLoop) {
       this.counter = 0;
       this.lock = new Object();
       this.timePerFrame = timePerFrame;
       this.lastTimeStamp = 0l;
+      this.isLoop = isLoop;
    }
 
    public BufferedImage getNextImage() {
       synchronized (lock) {
          if (isTimeUp()) {
             setTimeStamp();
-            counter++;
+            counter = (counter + 1) % images.size();
          }
          return images.get(counter);
       }
@@ -50,7 +52,7 @@ public abstract class ImageSeries {
 
    public boolean hasNextImage() {
       synchronized (lock) {
-         return counter < images.size() - 1;
+         return isLoop || counter < images.size() - 1;
       }
    }
 
@@ -95,7 +97,7 @@ public abstract class ImageSeries {
     */
    public boolean isPlayback() {
       synchronized (lock) {
-         return counter > 0 && counter < images.size();
+         return isLoop || counter > 0 && counter < images.size();
       }
    }
 }

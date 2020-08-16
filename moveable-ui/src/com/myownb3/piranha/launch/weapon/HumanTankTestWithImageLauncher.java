@@ -230,7 +230,7 @@ public class HumanTankTestWithImageLauncher {
                               .withRoundsPerMinute(70)
                               .withProjectileConfig(ProjectileConfigBuilder.builder()
                                     .withDimensionInfo(DimensionInfoBuilder.builder()
-                                          .withDimensionRadius(3)
+                                          .withDimensionRadius(3.5)
                                           .withHeightFromBottom(tankHeightFromGround + tankTurretHeight)
                                           .build())
                                     .withVelocity(missileVelocity)
