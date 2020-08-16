@@ -1,7 +1,5 @@
 package com.myownb3.piranha.ui.application.impl;
 
-import static com.myownb3.piranha.ui.render.util.GridElementColorUtil.getColor;
-
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,6 +16,7 @@ import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.explosion.MuzzleFlashPainter;
+import com.myownb3.piranha.ui.render.impl.factory.GridElementPainterFactory;
 import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class LogicHandlerImpl implements LogicHandler {
@@ -80,8 +79,9 @@ public class LogicHandlerImpl implements LogicHandler {
 
    private void onGridElementAddInternal(GridElement gridElement) {
       if (gridElementAddFilter.test(gridElement)) {
+         GridElementPainter newGridElementPainter = GridElementPainterFactory.createGridElementPainter(gridElement);
          synchronized (lock) {
-            renderers.add(new GridElementPainter(gridElement, getColor(gridElement)));
+            renderers.add(newGridElementPainter);
          }
       }
    }

@@ -8,42 +8,30 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
-import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
-import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.explosion.Explosion;
-import com.myownb3.piranha.ui.render.impl.explosion.ExplosionPainter;
+import com.myownb3.piranha.ui.render.impl.image.ImageSeriesPainter;
 
 /**
  * @author Dominic
  *
  */
 public class GridElementPainter extends AbstractGridElementPainter<GridElement> {
-   private Optional<ExplosionPainter> explosionPainterOpt;
+   private Optional<ImageSeriesPainter> explosionPainterOpt;
 
    public GridElementPainter(GridElement gridElement, Color color) {
       super(gridElement, color);
-      ExplosionPainter explosionPainter = null;
+      ImageSeriesPainter explosionPainter = null;
       if (canShowExplosion(gridElement)) {
          double dimensionRadius = gridElement.getDimensionInfo().getDimensionRadius();
-         explosionPainter = new ExplosionPainter(Explosion.buildDefaultExplosion(dimensionRadius), () -> gridElement.getPosition());
+         explosionPainter = new ImageSeriesPainter(Explosion.buildDefaultExplosion(dimensionRadius), () -> gridElement.getPosition());
       }
       explosionPainterOpt = Optional.ofNullable(explosionPainter);
    }
 
-   private boolean canShowExplosion(GridElement gridElement) {
-      return gridElement instanceof Destructible
-            && (isNotProjectile(gridElement)
-                  || isMissile(gridElement));
-   }
-
-   private static boolean isMissile(GridElement gridElement) {
-      return ((ProjectileGridElement) gridElement).getProjectileType() == ProjectileTypes.MISSILE;
-   }
-
-   private static boolean isNotProjectile(GridElement gridElement) {
-      return !(gridElement instanceof ProjectileGridElement);
+   protected boolean canShowExplosion(GridElement gridElement) {
+      return gridElement instanceof Destructible;
    }
 
    @Override
@@ -62,7 +50,7 @@ public class GridElementPainter extends AbstractGridElementPainter<GridElement> 
    @Override
    public boolean canBeRemoved() {
       return DestructionHelper.isDestroyed(value)
-            && explosionPainterOpt.map(ExplosionPainter::canBeRemoved)
+            && explosionPainterOpt.map(ImageSeriesPainter::canBeRemoved)
                   .orElse(true);
    }
 }

@@ -3,6 +3,7 @@ package com.myownb3.piranha.ui.render.impl.explosion;
 import java.util.function.Supplier;
 
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.ui.render.impl.image.ImageSeriesPainter;
 
 /**
  * The {@link MuzzleFlashPainter} paints the musszle flash
@@ -10,7 +11,7 @@ import com.myownb3.piranha.core.grid.position.Position;
  * @author Dominic
  *
  */
-public class MuzzleFlashPainter extends ExplosionPainter {
+public class MuzzleFlashPainter extends ImageSeriesPainter {
 
    private static final double MUZZLE_FLASH_EXPLOSION_RADIUS = 20d;
 
