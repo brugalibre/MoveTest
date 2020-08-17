@@ -62,7 +62,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
-import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
@@ -629,7 +629,7 @@ class TankBattleApplicationImplTest {
       // Given
       Grid grid = mock(Grid.class);
       int healthValue = 0;
-      LazyGridElement lazyGridElement = new LazyGridElement();
+      GenericLazyGridElement<TurretGridElement> lazyGridElement = new GenericLazyGridElement<>();
       TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()

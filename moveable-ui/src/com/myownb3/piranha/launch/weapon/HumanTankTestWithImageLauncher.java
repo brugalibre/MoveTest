@@ -47,7 +47,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
-import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
@@ -182,7 +182,7 @@ public class HumanTankTestWithImageLauncher {
       HumanControlledTurretStrategyHandler turretStrategyHandler = new HumanControlledTurretStrategyHandler(gunCarriage);
 
       DelegateOnGunFireListener delegateOnGunFireListener = new DelegateOnGunFireListener();
-      LazyGridElement lazyTurretGridElement = new LazyGridElement();
+      GenericLazyGridElement<TurretGridElement> lazyTurretGridElement = new GenericLazyGridElement<>();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()

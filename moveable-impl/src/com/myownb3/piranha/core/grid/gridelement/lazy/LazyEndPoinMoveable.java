@@ -9,6 +9,6 @@ import com.myownb3.piranha.core.moveables.EndPointMoveable;
  * @author Dominic
  *
  */
-public class LazyEndPoinMoveable extends AbstractLazyGridElement<EndPointMoveable> {
+public class LazyEndPoinMoveable extends GenericLazyGridElement<EndPointMoveable> {
    // no-op
 }

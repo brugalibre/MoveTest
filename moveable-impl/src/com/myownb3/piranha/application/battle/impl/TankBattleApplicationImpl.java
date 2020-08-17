@@ -34,7 +34,7 @@ import com.myownb3.piranha.core.detector.strategy.DetectingStrategy;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
-import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.path.impl.RectanglePathBuilderImpl;
@@ -349,7 +349,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationBuilder addTurretGridElement(Turret turret, LazyGridElement lazyGridElement) {
+      public TankBattleApplicationBuilder addTurretGridElement(Turret turret, GenericLazyGridElement<TurretGridElement> lazyGridElement) {
          TurretGridElement turretGridElement = TurretGridElementBuilder.builder()
                .withGrid(grid)
                .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)

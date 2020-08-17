@@ -9,6 +9,6 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
  * @author Dominic
  *
  */
-public class LazyGridElement extends AbstractLazyGridElement<GridElement> {
+public class LazyGridElement extends GenericLazyGridElement<GridElement> {
    // no-op
 }
