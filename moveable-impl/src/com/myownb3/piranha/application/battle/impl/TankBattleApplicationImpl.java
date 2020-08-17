@@ -46,6 +46,7 @@ import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
+import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class TankBattleApplicationImpl implements TankBattleApplication {
 
@@ -100,6 +101,12 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    @Override
    public List<TurretGridElement> getTurretGridElements() {
       return turretGridElements;
+   }
+
+   @Override
+   public void prepare() {
+      grid.prepare();
+      WorkerThreadFactory.INSTANCE.restart();
    }
 
    public static class TankBattleApplicationTankBuilder {

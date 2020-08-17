@@ -50,7 +50,6 @@ import com.myownb3.piranha.ui.constants.ImageConstants;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
 import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementImagePainter;
-import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class TankTestWithImageLauncher {
    private static final int MAX_Y = 820;
@@ -340,8 +339,7 @@ public class TankTestWithImageLauncher {
                   .build())
             .build();
 
-      grid.prepare();
-      WorkerThreadFactory.INSTANCE.restart();
+      tankBattleApplication.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
       mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);

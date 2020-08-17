@@ -374,7 +374,7 @@ public class TankTestLauncher {
                   .build())
             .build();
 
-      grid.prepare();
+      tankBattleApplication.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
       mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);

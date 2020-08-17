@@ -78,6 +78,22 @@ import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuild
 class TankBattleApplicationImplTest {
 
    @Test
+   void testBuildAndPrepareTankBattleApplication() {
+
+      // Given
+      TankBattleApplicationRunnerTestCaseBuilder tcb = new TankBattleApplicationRunnerTestCaseBuilder()
+            .withGrid(mock(Grid.class))
+            .withMoveableAdder(false)
+            .build();
+
+      // When
+      tcb.tankBattleApplication.prepare();
+
+      // Then
+      verify(tcb.grid).prepare();
+   }
+
+   @Test
    void testRunTankBattleApplication_CycleNotOver_GridElementIsAlive() {
 
       // Given

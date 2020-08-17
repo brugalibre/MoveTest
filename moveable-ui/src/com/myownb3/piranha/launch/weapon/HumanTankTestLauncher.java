@@ -376,7 +376,7 @@ public class HumanTankTestLauncher {
             .build();
 
       List<WallGridElement> wallSemgments = addProtectiveWall(grid);
-      grid.prepare();
+      tankBattleApplication.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);

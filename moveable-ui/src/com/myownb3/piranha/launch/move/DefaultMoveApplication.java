@@ -31,4 +31,9 @@ public class DefaultMoveApplication implements Application {
             .forEach(painter -> painter.setIsCurrentTargetPosition(moveableController.getCurrentEndPos()));
 
    }
+
+   @Override
+   public void prepare() {
+      // We do nothing here
+   }
 }
