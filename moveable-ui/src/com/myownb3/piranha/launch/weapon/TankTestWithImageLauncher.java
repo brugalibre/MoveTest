@@ -76,8 +76,8 @@ public class TankTestWithImageLauncher {
       Position tankTurretPos = Positions.of(410, 100).rotate(180);
 
       List<EndPosition> endPositions = new ArrayList<>();
-      endPositions.add(EndPositions.of(Positions.of(440, 100), 10));
-      endPositions.add(EndPositions.of(Positions.of(440, 300), 10));
+      endPositions.add(EndPositions.of(Positions.of(350, 100), 10));
+      endPositions.add(EndPositions.of(Positions.of(350, 300), 10));
       endPositions.add(EndPositions.of(Positions.of(550, 300), 10));
       endPositions.add(EndPositions.of(tankPos, 10));
 
@@ -94,6 +94,7 @@ public class TankTestWithImageLauncher {
       double turretRotationSpeed = 6;
       int tankWidth = 70;
       int tankHeight = 90;
+      int tankVelocity = 25;
       int gunCarriageRadius = 30;
       double gunHeight = 50;
       double gunWidth = 14;
@@ -131,6 +132,7 @@ public class TankTestWithImageLauncher {
       GenericLazyGridElement<TurretGridElement> northTurretLazy = new GenericLazyGridElement<>();
 
       DelegateOnGunFireListener delegateOnGunFireListener = new DelegateOnGunFireListener();
+
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()
@@ -147,6 +149,7 @@ public class TankTestWithImageLauncher {
                   .withTankHeight(tankHeight)
                   .withTankTurretHeight(tankTurretHeight)
                   .withTankPos(tankPos)
+                  .withEngineVelocity(tankVelocity)
                   .withTankWidth(tankWidth)
                   .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
                   .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
