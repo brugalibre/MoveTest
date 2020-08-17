@@ -1,5 +1,6 @@
 package com.myownb3.piranha.core.battle.weapon.gun.projectile.audio.impl;
 
+import static com.myownb3.piranha.core.battle.destruction.DestructionHelper.getIsDestroyedBooleanSupplier;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
@@ -61,6 +62,7 @@ public class ProjectileAudioImpl implements ProjectileAudio {
          this.projectileImpactAudioClip = AudioClipBuilder.builder()
                .withAudioResource(audioResource)
                .withRestartRunningAudio(false)
+               .withIsCloseableSupplier(getIsDestroyedBooleanSupplier(projectile))
                .build();
          return this;
       }
@@ -70,6 +72,7 @@ public class ProjectileAudioImpl implements ProjectileAudio {
          this.projectileDestructionAudioClip = AudioClipBuilder.builder()
                .withAudioResource(audioResource)
                .withRestartRunningAudio(false)
+               .withIsCloseableSupplier(getIsDestroyedBooleanSupplier(projectile))
                .build();
          return this;
       }

@@ -2,6 +2,7 @@ package com.myownb3.piranha.core.battle.destruction;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 
 import com.myownb3.piranha.audio.AudioClip;
@@ -96,6 +97,16 @@ public class DestructionHelper implements Destructible, Destructive, CollisionSe
     */
    public static boolean isDestroyed(GridElement gridElement) {
       return !isNotDestroyed(gridElement);
+   }
+
+   /**
+    * @param destructible
+    *        the {@link Destructible}
+    * @return a {@link BooleanSupplier} which returns <code>true</code> if the given {@link Destructible} is destroyed or <code>false</code>
+    *         if not
+    */
+   public static BooleanSupplier getIsDestroyedBooleanSupplier(Destructible destructible) {
+      return () -> destructible == null || destructible.isDestroyed();
    }
 
    public static class DestructionHelperBuilder {

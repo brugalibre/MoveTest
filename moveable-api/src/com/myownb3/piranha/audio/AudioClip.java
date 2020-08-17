@@ -21,4 +21,15 @@ public interface AudioClip {
     */
    void stop();
 
+   /**
+    * @return <code>true</code> if this {@link AudioClip} can be closed or <code>false</code> if not
+    */
+   boolean isCloseable();
+
+   /**
+    * Closes this {@link AudioClip}
+    * <b>Note:</b> A closed {@link AudioClip} can not be reused
+    */
+   void close();
+
 }

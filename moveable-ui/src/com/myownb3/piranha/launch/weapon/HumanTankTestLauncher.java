@@ -36,6 +36,7 @@ import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.strategy.handler.impl.human.HumanControlledTurretStrategyHandler;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
@@ -46,7 +47,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
-import com.myownb3.piranha.core.grid.gridelement.lazy.LazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
@@ -153,6 +154,7 @@ public class HumanTankTestLauncher {
                   .withGunConfig(GunConfigBuilder.builder()
                         .withAudioClip(AudioClipBuilder.builder()
                               .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                              .withIsCloseableSupplier(() -> rebelTankHolder.getTankGridElement().isDestroyed())
                               .build())
                         .withSalveSize(1)
                         .withRoundsPerMinute(900)
@@ -187,7 +189,7 @@ public class HumanTankTestLauncher {
             .build();
       HumanControlledTurretStrategyHandler turretStrategyHandler = new HumanControlledTurretStrategyHandler(gunCarriage);
 
-      LazyGridElement lazyTurretGridElement = new LazyGridElement();
+      GenericLazyGridElement<TurretGridElement> lazyTurretGridElement = new GenericLazyGridElement<>();
       DelegateOnGunFireListener delegateOnGunFireListener = new DelegateOnGunFireListener();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
@@ -230,6 +232,7 @@ public class HumanTankTestLauncher {
                         .withOnGunFireListeners(Collections.singletonList(delegateOnGunFireListener))
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
+                                    .withIsCloseableSupplier(() -> imperialTankHolder.getTankGridElement().isDestroyed())
                                     .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
                                     .build())
                               .withSalveSize(1)
@@ -349,6 +352,7 @@ public class HumanTankTestLauncher {
                         .build())
                   .withGunConfig(GunConfigBuilder.builder()
                         .withAudioClip(AudioClipBuilder.builder()
+                              .withIsCloseableSupplier(() -> lazyTurretGridElement.getGridElement().isDestroyed())
                               .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
                               .build())
                         .withSalveSize(1)

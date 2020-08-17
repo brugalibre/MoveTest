@@ -1,5 +1,6 @@
 package com.myownb3.piranha.launch.weapon;
 
+import static com.myownb3.piranha.core.battle.destruction.DestructionHelper.getIsDestroyedBooleanSupplier;
 import static com.myownb3.piranha.launch.weapon.BattleRendererBuilder.createRenderer4TankBattleApplication;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileCo
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
@@ -33,6 +35,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
+import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.position.EndPosition;
@@ -110,6 +113,8 @@ public class TankTestLauncher {
       int battleShipParkingAngle = -90;
       TankHolder tankHolder = new TankHolder();
       TankHolder battleShipHolder = new TankHolder();
+      GenericLazyGridElement<TurretGridElement> southTurretLazy = new GenericLazyGridElement<>();
+      GenericLazyGridElement<TurretGridElement> northTurretLazy = new GenericLazyGridElement<>();
       Position battleShipPos = Positions.of(150, 600, tankHeightFromGround).rotate(90);
       Position tankTurret1Pos = Positions.of(140, 100).rotate(180);
       Position tankTurret2Pos = Positions.of(30, 100).rotate(180);
@@ -162,6 +167,7 @@ public class TankTestLauncher {
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.MISSILE_SHOT_SOUND)
+                                    .withIsCloseableSupplier(getIsDestroyedBooleanSupplier(tankHolder.getTankGridElement()))
                                     .build())
                               .withSalveSize(1)
                               .withRoundsPerMinute(100)
@@ -225,6 +231,7 @@ public class TankTestLauncher {
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                    .withIsCloseableSupplier(() -> battleShipHolder.getTankGridElement().isDestroyed())
                                     .build())
                               .withSalveSize(2)
                               .withRoundsPerMinute(150)
@@ -257,6 +264,7 @@ public class TankTestLauncher {
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                    .withIsCloseableSupplier(() -> battleShipHolder.getTankGridElement().isDestroyed())
                                     .build())
                               .withSalveSize(2)
                               .withRoundsPerMinute(150)
@@ -289,6 +297,7 @@ public class TankTestLauncher {
                         .withGunConfig(GunConfigBuilder.builder()
                               .withAudioClip(AudioClipBuilder.builder()
                                     .withAudioResource(AudioConstants.LASER_BEAM_BLAST_SOUND)
+                                    .withIsCloseableSupplier(() -> battleShipHolder.getTankGridElement().isDestroyed())
                                     .build())
                               .withSalveSize(2)
                               .withRoundsPerMinute(150)
@@ -320,6 +329,7 @@ public class TankTestLauncher {
                   .withGunConfig(GunConfigBuilder.builder()
                         .withAudioClip(AudioClipBuilder.builder()
                               .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                              .withIsCloseableSupplier(getIsDestroyedBooleanSupplier(northTurretLazy.getGridElement()))
                               .build())
                         .withSalveSize(3)
                         .withRoundsPerMinute(200)
@@ -350,6 +360,7 @@ public class TankTestLauncher {
                   .withGunConfig(GunConfigBuilder.builder()
                         .withAudioClip(AudioClipBuilder.builder()
                               .withAudioResource(AudioConstants.BULLET_SHOT_SOUND)
+                              .withIsCloseableSupplier(getIsDestroyedBooleanSupplier(southTurretLazy.getGridElement()))
                               .build())
                         .withSalveSize(1)
                         .withRoundsPerMinute(250)

@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.application.battle.util.MoveableAdder;
+import com.myownb3.piranha.audio.impl.AudioClipCloser;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
@@ -107,6 +108,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    public void prepare() {
       grid.prepare();
       WorkerThreadFactory.INSTANCE.restart();
+      AudioClipCloser.INSTANCE.start();
    }
 
    public static class TankBattleApplicationTankBuilder {

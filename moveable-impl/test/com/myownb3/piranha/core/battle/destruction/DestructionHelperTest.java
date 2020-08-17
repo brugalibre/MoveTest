@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,6 +43,32 @@ class DestructionHelperTest {
 
       // Then
       verify(destroyedAudioClip).play();
+   }
+
+   @Test
+   void testGetDestroyedBooleanSupplier() {
+
+      // Given
+      Destructible destructible = mock(Destructible.class);
+
+      // When
+      BooleanSupplier isDestroyedBooleanSupplier = DestructionHelper.getIsDestroyedBooleanSupplier(destructible);
+
+      // Then
+      assertThat(isDestroyedBooleanSupplier.getAsBoolean(), is(false));
+   }
+
+   @Test
+   void testGetDestroyedBooleanSupplier_Null() {
+
+      // Given
+      Destructible destructible = null;
+
+      // When
+      BooleanSupplier isDestroyedBooleanSupplier = DestructionHelper.getIsDestroyedBooleanSupplier(destructible);
+
+      // Then
+      assertThat(isDestroyedBooleanSupplier.getAsBoolean(), is(true));
    }
 
    @Test
