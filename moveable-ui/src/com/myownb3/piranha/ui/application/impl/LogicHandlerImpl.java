@@ -64,8 +64,9 @@ public class LogicHandlerImpl implements LogicHandler {
    }
 
    private void onFireInternal(Position furthermostGunPos) {
+      MuzzleFlashPainter muzzleFlashPainter = new MuzzleFlashPainter(() -> furthermostGunPos);
       synchronized (lock) {
-         renderers.add(new MuzzleFlashPainter(() -> furthermostGunPos));
+         renderers.add(muzzleFlashPainter);
       }
    }
 
