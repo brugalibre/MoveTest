@@ -58,9 +58,7 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
             .withDestroyedAudioClip(AudioClipBuilder.builder()
                   .withAudioResource(AudioConstants.EXPLOSION_SOUND)
                   .build())
-            .withOnDestroyedCallbackHandler(() -> {
-               grid.remove(this);
-            })
+            .withOnDestroyedCallbackHandler(() -> grid.remove(this))
             .build();
    }
 

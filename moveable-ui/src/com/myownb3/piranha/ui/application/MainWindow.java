@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
@@ -34,7 +35,7 @@ import com.myownb3.piranha.ui.render.impl.PositionListPainter;
  * 
  */
 public class MainWindow {
-   private JFrame mainWindow;
+   private JFrame contentWindow;
    private Container content;
    private int padding;
    private int pointWidth;
@@ -42,20 +43,21 @@ public class MainWindow {
 
    public MainWindow(int width, int height, int padding, int pointWidth) {
 
-      mainWindow = new JFrame();
+      contentWindow = new JFrame();
       this.padding = padding;
       this.pointWidth = pointWidth;
       setLocation();
-      mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      mainWindow.setPreferredSize(new Dimension(width, height));
-      mainWindow.setAlwaysOnTop(true);
+      contentWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+      contentWindow.setPreferredSize(new Dimension(width, height));
+      contentWindow.setAlwaysOnTop(true);
+      contentWindow.setResizable(false);
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       int y = (screenSize.height / 2) - height / 2;
       int x = (screenSize.width / 2) - width / 2;
 
       content = new JPanel(new BorderLayout());
-      mainWindow.add(content);
-      mainWindow.setBounds(x, y, width, height);
+      contentWindow.add(content);
+      contentWindow.setBounds(x, y, width, height);
    }
 
    public void withBackground(String backgroundImage) {
@@ -67,7 +69,7 @@ public class MainWindow {
       try {
          BufferedImage bufferedImage = ImageIO.read(new File(tankImage));
          bufferedImage = ImageScaler.scaleImage(bufferedImage, bufferedImage.getWidth() * 2d, bufferedImage.getHeight() * 2d);
-         mainWindow.setIconImage(new ImageIcon(bufferedImage).getImage());
+         contentWindow.setIconImage(new ImageIcon(bufferedImage).getImage());
       } catch (IOException e) {
          e.printStackTrace();
          // ignore and use default
@@ -77,13 +79,7 @@ public class MainWindow {
    public void showCollisionInfo() {
       JLabel label = new JLabel("Kollision!");
       content.add(label, BorderLayout.PAGE_END);
-      mainWindow.pack();
-   }
-
-   public void showDoneInfo() {
-      JLabel label = new JLabel("Fertig!");
-      content.add(label, BorderLayout.PAGE_END);
-      mainWindow.pack();
+      contentWindow.pack();
    }
 
    public void addSpielfeld(List<Renderer<?>> renderers, Grid grid) {
@@ -100,9 +96,9 @@ public class MainWindow {
       spielFeld.setMinimumSize(spielfeldDimension);
       spielFeld.setSize(spielfeldDimension);
       content.add(spielFeld, BorderLayout.CENTER);
-      mainWindow.setPreferredSize(spielfeldDimension);
-      mainWindow.setMinimumSize(spielfeldDimension);
-      mainWindow.pack();
+      contentWindow.setPreferredSize(spielfeldDimension);
+      contentWindow.setMinimumSize(spielfeldDimension);
+      contentWindow.pack();
    }
 
    public void addSpielfeld(List<Renderer<?>> renderers, List<PositionListPainter> endPositionRenderers, Grid grid) {
@@ -122,31 +118,31 @@ public class MainWindow {
    }
 
    private void setLocation() {
-      int top = (Toolkit.getDefaultToolkit().getScreenSize().height - mainWindow.getSize().height) / 2;
-      int left = (Toolkit.getDefaultToolkit().getScreenSize().width - mainWindow.getSize().width) / 2;
-      mainWindow.setLocation(left, top);
+      int top = (Toolkit.getDefaultToolkit().getScreenSize().height - contentWindow.getSize().height) / 2;
+      int left = (Toolkit.getDefaultToolkit().getScreenSize().width - contentWindow.getSize().width) / 2;
+      contentWindow.setLocation(left, top);
    }
 
    public void dispose() {
-      mainWindow.dispose();
+      contentWindow.dispose();
    }
 
    public void show() {
       SwingUtilities.invokeLater(() -> {
-         mainWindow.setVisible(true);
+         contentWindow.setVisible(true);
       });
    }
 
    public void refresh() {
-      mainWindow.repaint();
+      contentWindow.repaint();
    }
 
    public void addMouseListener(MouseListener mouseListener) {
-      mainWindow.addMouseMotionListener(mouseListener);
-      mainWindow.addMouseListener(mouseListener);
+      contentWindow.addMouseMotionListener(mouseListener);
+      contentWindow.addMouseListener(mouseListener);
    }
 
    public void addKeyListener(KeyListener keyListener) {
-      mainWindow.addKeyListener(keyListener);
+      contentWindow.addKeyListener(keyListener);
    }
 }

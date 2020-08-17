@@ -71,9 +71,7 @@ public class WallGridElement extends AbstractGridElement implements Wall {
                .withDestroyedAudioClip(AudioClipBuilder.builder()
                      .withAudioResource(AudioConstants.EXPLOSION_SOUND)
                      .build())
-               .withOnDestroyedCallbackHandler(() -> {
-                  grid.remove(lazyWallGridElement.getGridElement());
-               })
+               .withOnDestroyedCallbackHandler(() -> grid.remove(lazyWallGridElement.getGridElement()))
                .build();
 
          WallGridElement wallGridElement = new WallGridElement(shape, destructionHelper);

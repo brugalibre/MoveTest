@@ -21,7 +21,7 @@ public class TankEngineImpl implements TankEngine {
    private EngineStateHandler engineStateHandler;
    private EngineStates engineState;
 
-   private TankEngineImpl(MoveableController moveableController, EngineStateHandler engineStateHandler, EngineAudio engineAudio, int velocity) {
+   private TankEngineImpl(MoveableController moveableController, EngineStateHandler engineStateHandler, EngineAudio engineAudio) {
       this.moveableController = requireNonNull(moveableController);
       this.engineAudioOpt = Optional.ofNullable(engineAudio);
       this.engineStateHandler = engineStateHandler;
@@ -104,7 +104,7 @@ public class TankEngineImpl implements TankEngine {
       public TankEngineImpl build() {
          requireNonNull(moveableController);
          requireNonNull(engineStateHandler);
-         return new TankEngineImpl(moveableController, engineStateHandler, engineAudio, velocity);
+         return new TankEngineImpl(moveableController, engineStateHandler, engineAudio);
       }
 
       public static TankEngineBuilder builder() {
