@@ -10,7 +10,8 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.Moveable;
 
 /**
- * Defines an interface fore instance which are aware of detected {@link GridElement}
+ * The {@link DetectionAware} defines an interface for objects, which contains detected {@link GridElement}s.
+ * It's like a knowledge base for detected {@link GridElement} - often used by a {@link Detector}
  * 
  * @author Dominic
  *

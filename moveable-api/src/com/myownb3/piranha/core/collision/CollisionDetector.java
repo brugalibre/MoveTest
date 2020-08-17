@@ -15,7 +15,7 @@ import com.myownb3.piranha.core.grid.position.Position;
 public interface CollisionDetector {
 
    /**
-    * Checks for every given {@link GridElement} if there is a collision when moving
+    * Checks for the given surrounding {@link GridElement}s if there is a collision for the given moved {@link GridElement} when moving
     * from the old to the new Position
     * 
     * @param collisionDetectionHandler

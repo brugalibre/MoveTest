@@ -5,7 +5,7 @@ import java.util.List;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 
 /**
- * A {@link CollisionSensitive} defines a object which can react as soon as it collides
+ * A {@link CollisionSensitive} defines a object which can act on collision with other {@link GridElement}ss
  * 
  * @author Dominic
  *

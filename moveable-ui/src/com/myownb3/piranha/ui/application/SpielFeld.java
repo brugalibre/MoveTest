@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -86,11 +87,10 @@ public class SpielFeld extends JComponent {
 
    private void paintMoveableContent(Graphics2D g2) {
       Graphics2DContext graphicsContext = new Graphics2DContext(g2);
-      synchronized (renderers) {
-         renderers.stream()
-               .sorted(new RendererComparator())
-               .forEach(renderer -> renderer.render(graphicsContext));
-      }
+      List<Renderer<?>> renderersCopy = new ArrayList<Renderer<?>>(renderers);
+      renderersCopy.stream()
+            .sorted(new RendererComparator())
+            .forEach(renderer -> renderer.render(graphicsContext));
       endPositionRenderers.stream()
             .forEach(renderer -> renderer.render(graphicsContext));
    }
