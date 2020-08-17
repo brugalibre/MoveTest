@@ -28,12 +28,8 @@ public class Explosion extends ImageSeries {
       return isPlayback();
    }
 
-   public static Explosion buildDefaultExplosionWitzResizeSmaller(double dimensionRadius) {
-      return new Explosion(dimensionRadius, true);
-   }
-
-   public static Explosion buildDefaultExplosion(double dimensionRadius) {
-      return new Explosion(dimensionRadius, false);
+   public static Explosion buildDefaultExplosion(double dimensionRadius, boolean withResizeSmaller) {
+      return new Explosion(dimensionRadius, withResizeSmaller);
    }
 
    @Override

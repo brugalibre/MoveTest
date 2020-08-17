@@ -1,5 +1,7 @@
 package com.myownb3.piranha.ui.render.impl.image;
 
+import static java.lang.Math.max;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import com.myownb3.piranha.ui.image.ImageScaler;
  *
  */
 public abstract class ImageSeries {
+   private static final double MIN_HEIGHT = 8.0d;
    protected List<BufferedImage> images;
    private int counter;
    private Object lock;
@@ -87,7 +90,9 @@ public abstract class ImageSeries {
       double max = Math.max(bufferedImage.getWidth(), bufferedImage.getHeight());
       double ratio = (dimensionRadius / max) * 1.5; // a little bit bigger, because the dimension of GridElements are not quite measured in pixels..
       if (ratio > 1.0 || resizeSmaller) {
-         return ImageScaler.scaleImage(bufferedImage, ratio * bufferedImage.getWidth(), ratio * bufferedImage.getHeight());
+         double scaledWidth = max(MIN_HEIGHT, ratio * bufferedImage.getWidth());
+         double scaledHeight = max(MIN_HEIGHT, ratio * bufferedImage.getHeight());
+         return ImageScaler.scaleImage(bufferedImage, scaledWidth, scaledHeight);
       }
       return bufferedImage;
    }

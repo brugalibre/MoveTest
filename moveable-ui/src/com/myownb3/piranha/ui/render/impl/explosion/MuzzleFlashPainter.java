@@ -16,7 +16,7 @@ public class MuzzleFlashPainter extends ImageSeriesPainter {
    private static final double MUZZLE_FLASH_EXPLOSION_RADIUS = 20d;
 
    public MuzzleFlashPainter(Supplier<Position> furthermostGunPosSupplier) {
-      super(Explosion.buildDefaultExplosionWitzResizeSmaller(MUZZLE_FLASH_EXPLOSION_RADIUS), moveFurthermostGunPosForward(furthermostGunPosSupplier));
+      super(Explosion.buildDefaultExplosion(MUZZLE_FLASH_EXPLOSION_RADIUS, true), moveFurthermostGunPosForward(furthermostGunPosSupplier));
    }
 
    private static Supplier<Position> moveFurthermostGunPosForward(Supplier<Position> furthermostGunPosSupplier) {

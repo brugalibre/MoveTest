@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
+import com.myownb3.piranha.core.battle.weapon.countermeasure.DecoyFlareUtil;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.explosion.Explosion;
@@ -24,10 +25,18 @@ public class GridElementPainter extends AbstractGridElementPainter<GridElement> 
       super(gridElement, color);
       ImageSeriesPainter explosionPainter = null;
       if (canShowExplosion(gridElement)) {
-         double dimensionRadius = gridElement.getDimensionInfo().getDimensionRadius();
-         explosionPainter = new ImageSeriesPainter(Explosion.buildDefaultExplosion(dimensionRadius), () -> gridElement.getPosition());
+         explosionPainter = new ImageSeriesPainter(buildDefaultExplosion(gridElement), () -> gridElement.getPosition());
       }
       explosionPainterOpt = Optional.ofNullable(explosionPainter);
+   }
+
+   private Explosion buildDefaultExplosion(GridElement gridElement) {
+      double dimensionRadius = gridElement.getDimensionInfo().getDimensionRadius();
+      return Explosion.buildDefaultExplosion(dimensionRadius, resizeExplosionSmaller(gridElement));
+   }
+
+   protected boolean resizeExplosionSmaller(GridElement gridElement) {
+      return DecoyFlareUtil.isDecoyFlareGridElement(gridElement);
    }
 
    protected boolean canShowExplosion(GridElement gridElement) {
