@@ -21,11 +21,12 @@ public class MissileProjectileStrategyHandler extends DefaultProjectileStrategyH
    private double rotationSpeed;
    private Orientation2PositionHelper helper;
 
-   private MissileProjectileStrategyHandler(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape, int missileVelocity) {
+   private MissileProjectileStrategyHandler(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape, int missileVelocity,
+         double rotationSpeed) {
       super(shape);
       this.targetGridElementEvaluator = targetGridElementEvaluator;
       this.helper = new Orientation2PositionHelper();
-      this.rotationSpeed = 10;
+      this.rotationSpeed = rotationSpeed;
       this.targetPositionLeadEvaluator = new TargetPositionLeadEvaluatorImpl(missileVelocity);
       this.nearestDetectedTargetGridElementOpt = Optional.empty();
    }
@@ -80,11 +81,14 @@ public class MissileProjectileStrategyHandler extends DefaultProjectileStrategyH
     *        the {@link Projectile} {@link Shape}
     * @param missileVelocity
     *        the velocity of the missile
+    * @param rotationSpeed
+    *        the rotation speed of the missile
     * @return a new {@link MissileProjectileStrategyHandler}
     */
-   public static MissileProjectileStrategyHandler of(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape, int missileVelocity) {
+   public static MissileProjectileStrategyHandler of(TargetGridElementEvaluator targetGridElementEvaluator, Shape shape, int missileVelocity,
+         double rotationSpeed) {
       requireNonNull(targetGridElementEvaluator);
       requireNonNull(shape);
-      return new MissileProjectileStrategyHandler(targetGridElementEvaluator, shape, missileVelocity);
+      return new MissileProjectileStrategyHandler(targetGridElementEvaluator, shape, missileVelocity, rotationSpeed);
    }
 }

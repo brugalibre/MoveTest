@@ -140,7 +140,7 @@ class MissileProjectileStrategyHandlerTest {
 
       private TestCaseBuilder build() {
          prepareTargetGridElementEvaluator();
-         this.missileProjectileStrategyHandler = MissileProjectileStrategyHandler.of(targetGridElementEvaluator, shape, 10);
+         this.missileProjectileStrategyHandler = MissileProjectileStrategyHandler.of(targetGridElementEvaluator, shape, 10, 7);
          return this;
       }
 

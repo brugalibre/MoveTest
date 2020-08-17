@@ -27,6 +27,11 @@ public interface ProjectileConfig {
    double getProjectileDamage();
 
    /**
+    * @return the speed with which a missile can turn it'self
+    */
+   double getMissileRotationSpeed();
+
+   /**
     * 
     * @return the {@link TargetGridElementEvaluator}
     */

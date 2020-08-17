@@ -15,8 +15,8 @@ public class DecoyFlareConfigImpl extends ProjectileConfigImpl implements DecoyF
    private int decoyFlareTimeToLife;
 
    public DecoyFlareConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, TargetGridElementEvaluator targetGridElementEvaluator,
-         int velocity) {
-      super(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity);
+         int velocity, double missileRotationSpeed) {
+      super(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity, missileRotationSpeed);
    }
 
    @Override
@@ -77,7 +77,7 @@ public class DecoyFlareConfigImpl extends ProjectileConfigImpl implements DecoyF
 
       public DecoyFlareConfigImpl build() {
          DecoyFlareConfigImpl decoyFlareConfigImpl = new DecoyFlareConfigImpl(dimensionInfo, projectileDamage,
-               targetGridElementEvaluator, velocity);
+               targetGridElementEvaluator, velocity, missileRotationSpeed);
          decoyFlareConfigImpl.decoyFlareSpreadAngle = decoyFlareSpreadAngle;
          decoyFlareConfigImpl.amountDecoyFlares = amountDecoyFlares;
          decoyFlareConfigImpl.belligerentParty = belligerentParty;

@@ -30,7 +30,8 @@ public class ProjectileStrategyHandlerFactory {
          case BULLET:
             return DefaultProjectileStrategyHandler.of(shape);
          case MISSILE:
-            return MissileProjectileStrategyHandler.of(projectileConfig.getTargetGridElementEvaluator(), shape, projectileConfig.getVelocity());
+            return MissileProjectileStrategyHandler.of(projectileConfig.getTargetGridElementEvaluator(), shape, projectileConfig.getVelocity(),
+                  projectileConfig.getMissileRotationSpeed());
          default:
             throw new IllegalArgumentException("Unknown ProjectileTypes '" + projectileType + "';");
       }

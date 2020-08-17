@@ -14,6 +14,24 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoIm
 class ProjectileConfigImplTest {
 
    @Test
+   void testGetProjectileRotationSpeed() {
+
+      // Given
+      double missileRotationSpeed = 45.0;
+
+      // When
+      ProjectileConfig projectileConfig = ProjectileConfigBuilder.builder()
+            .withDimensionInfo(DimensionInfoBuilder.getDefaultDimensionInfo(5))
+            .withVelocity(5)
+            .withProjectileDamage(5)
+            .withMissileRotationSpeed(missileRotationSpeed)
+            .build();
+
+      // Then
+      assertThat(projectileConfig.getMissileRotationSpeed(), is(missileRotationSpeed));
+   }
+
+   @Test
    void testGetProjectileDamage() {
 
       // Given

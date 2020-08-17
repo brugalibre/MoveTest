@@ -12,12 +12,14 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    private DimensionInfo dimensionInfo;
    private int velocity;
    private double projectileDamage;
+   private double missileRotationSpeed;
 
    protected ProjectileConfigImpl(DimensionInfo dimensionInfo, double projectileDamage, TargetGridElementEvaluator targetGridElementEvaluator,
-         int velocity) {
+         int velocity, double missileRotationSpeed) {
       this.dimensionInfo = requireNonNull(dimensionInfo);
       this.velocity = verifVelocity(velocity);
       this.projectileDamage = projectileDamage;
+      this.missileRotationSpeed = missileRotationSpeed;
       this.targetGridElementEvaluator = targetGridElementEvaluator;
    }
 
@@ -41,6 +43,10 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       return velocity;
    }
 
+   public double getMissileRotationSpeed() {
+      return missileRotationSpeed;
+   }
+
    private static int verifVelocity(int velocity) {
       if (velocity < 1) {
          throw new IllegalArgumentException("The velocity must be greater or equal than one!");
@@ -53,9 +59,11 @@ public class ProjectileConfigImpl implements ProjectileConfig {
       protected DimensionInfo dimensionInfo;
       protected double projectileDamage;
       protected TargetGridElementEvaluator targetGridElementEvaluator;
+      protected double missileRotationSpeed;
 
       protected AbstractProjectileConfigBuilder() {
          this.projectileDamage = 10;
+         this.missileRotationSpeed = 7;
       }
 
       public AbstractProjectileConfigBuilder<V, T> withDimensionInfo(DimensionInfo dimensionInfo) {
@@ -75,6 +83,11 @@ public class ProjectileConfigImpl implements ProjectileConfig {
          return getThis();
       }
 
+      public T withMissileRotationSpeed(double missileRotationSpeed) {
+         this.missileRotationSpeed = missileRotationSpeed;
+         return getThis();
+      }
+
       public T withTargetGridElementEvaluator(TargetGridElementEvaluator targetGridElementEvaluator) {
          this.targetGridElementEvaluator = targetGridElementEvaluator;
          return getThis();
@@ -86,7 +99,7 @@ public class ProjectileConfigImpl implements ProjectileConfig {
    public static class ProjectileConfigBuilder extends AbstractProjectileConfigBuilder<ProjectileConfig, ProjectileConfigBuilder> {
 
       public ProjectileConfig build() {
-         return new ProjectileConfigImpl(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity);
+         return new ProjectileConfigImpl(dimensionInfo, projectileDamage, targetGridElementEvaluator, velocity, missileRotationSpeed);
       }
 
       public static ProjectileConfigBuilder builder() {
