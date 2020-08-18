@@ -15,6 +15,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/moveable"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/moveable_ui"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

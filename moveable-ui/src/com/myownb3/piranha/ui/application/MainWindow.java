@@ -22,8 +22,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.core.grid.gridelement.GridElement;
-import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.image.ImageScaler;
@@ -103,18 +101,6 @@ public class MainWindow {
 
    public void addSpielfeld(List<Renderer<?>> renderers, List<PositionListPainter> endPositionRenderers, Grid grid) {
       addSpielfeldInternal(renderers, endPositionRenderers, grid);
-   }
-
-   public MainWindow(List<Obstacle> obstacles, List<GridElement> gridElements, int width, int height) {
-
-      ChartSpielFeld spielFeld = new ChartSpielFeld(gridElements, obstacles);
-
-      mainWindow = new JFrame();
-      setLocation();
-      mainWindow.add(spielFeld.getContent());
-      mainWindow.setPreferredSize(new Dimension(width, height));
-      mainWindow.pack();
-      mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
    }
 
    private void setLocation() {
