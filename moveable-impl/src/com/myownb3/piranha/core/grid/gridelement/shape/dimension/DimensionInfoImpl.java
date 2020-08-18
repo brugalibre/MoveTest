@@ -1,6 +1,7 @@
 package com.myownb3.piranha.core.grid.gridelement.shape.dimension;
 
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
+import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 
 public class DimensionInfoImpl implements DimensionInfo {
 
@@ -54,10 +55,34 @@ public class DimensionInfoImpl implements DimensionInfo {
          return new DimensionInfoBuilder();
       }
 
+      /**
+       * Builds a default {@link DimensionInfo} with a default height from bottom
+       * 
+       * @see {@link GridElementConst#DEFAULT_HEIGHT_FROM_BOTTOM}
+       * @param dimensionRadius
+       *        the given radius
+       * @return a default {@link DimensionInfo}
+       */
       public static DimensionInfo getDefaultDimensionInfo(double dimensionRadius) {
          return DimensionInfoBuilder.builder()
                .withDimensionRadius(dimensionRadius)
                .withHeightFromBottom(GridElementConst.DEFAULT_HEIGHT_FROM_BOTTOM)
+               .build();
+      }
+
+      /**
+       * Creates a new {@link DimensionInfo} build from the given one. Only the dimension radius is overwritten
+       * 
+       * @param dimensionInfo
+       *        the {@link DimensionInfo} as template
+       * @param dimensionRadius
+       *        the new dimension radius (e.g. from a {@link Shape})
+       * @return a new {@link DimensionInfo}
+       */
+      public static DimensionInfo buildFromExisting(DimensionInfo dimensionInfo, double dimensionRadius) {
+         return DimensionInfoBuilder.builder()
+               .withDimensionRadius(dimensionRadius)
+               .withHeightFromBottom(dimensionInfo.getHeightFromBottom())
                .build();
       }
    }

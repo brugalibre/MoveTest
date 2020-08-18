@@ -107,7 +107,6 @@ class AutoMoveableControllerTest {
                   .withDimensionRadius(1)
                   .build())
             .withDestructionHelper(destructionHelper)
-
             .withGrid(grid)
             .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
@@ -238,7 +237,7 @@ class AutoMoveableControllerTest {
       // Given
       int moveableVelocity = 10;
       int gridElementRadius = 10;
-      double expectedGridElementRadius = 10.0;
+      double expectedGridElementRadius = 16.666666666666668;
       Grid grid = mock(Grid.class);
       List<EndPosition> endPosList = Collections.singletonList(EndPositions.of(5, 5));
       Position gridElementPos = Positions.of(5, 5);

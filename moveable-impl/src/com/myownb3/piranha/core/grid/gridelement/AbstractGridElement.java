@@ -5,7 +5,6 @@ package com.myownb3.piranha.core.grid.gridelement;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import com.myownb3.piranha.core.collision.CollisionDetectionHandler;
 import com.myownb3.piranha.core.collision.CollisionDetectionResult;
@@ -14,6 +13,7 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.shape.AbstractShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.path.PathSegment;
 import com.myownb3.piranha.core.grid.position.Position;
 
@@ -42,7 +42,7 @@ public abstract class AbstractGridElement implements GridElement {
       super();
       this.position = shape.getCenter();
       this.shape = shape;
-      this.dimensionInfo = Objects.requireNonNull(dimensionInfo);
+      this.dimensionInfo = DimensionInfoBuilder.buildFromExisting(dimensionInfo, shape.getDimensionRadius());
       ((AbstractShape) shape).setGridElement(this);
    }
 

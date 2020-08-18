@@ -78,13 +78,7 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
 
       @Override
       public AutoMoveableController build() {
-         requireNonNull(destructionHelper);
-         requireNonNull(moveableController);
-         requireNonNull(autoDetectableDelegate);
-         requireNonNull(dimensionInfo);
-         requireNonNull(belligerentParty);
-         requireNonNull(evasionStateMachine);
-
+         requireAllNonNull();
          // The handler must be a EvasionStateMachine
          AutoMoveableController autoMoveable =
                new AutoMoveableController(evasionStateMachine, handler, dimensionInfo, grid, shape, velocity, belligerentParty);
@@ -94,6 +88,16 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
          autoMoveable.autoMoveableType = autoMoveableType;
          grid.addElement(autoMoveable);
          return autoMoveable;
+      }
+
+      private void requireAllNonNull() {
+         requireNonNull(destructionHelper);
+         requireNonNull(moveableController);
+         requireNonNull(autoDetectableDelegate);
+         requireNonNull(dimensionInfo);
+         requireNonNull(belligerentParty);
+         requireNonNull(evasionStateMachine);
+         requireNonNull(shape);
       }
 
       public AutoMoveableControllerBuilder withMoveableController(MoveableController moveableController) {

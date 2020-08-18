@@ -33,6 +33,7 @@ import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEng
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.tank.turret.TankTurretBuilder;
+import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShapeImpl;
 import com.myownb3.piranha.core.battle.weapon.turret.turretscanner.TurretScanner;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
 import com.myownb3.piranha.core.detector.IDetector;
@@ -219,7 +220,7 @@ class TankGridElementTest {
             .withEngineVelocity(10)
             .withTankheightFromBottom(tankHeightFromGround)
             .withEvasionStateMachine(mock(EvasionStateMachine.class))
-            .withTank(mockTank(Positions.of(5, 5, 50), 5.0))
+            .withTank(mockTank(Positions.of(5, 5, 50), 5.0, 1))
             .build();
 
 
@@ -247,8 +248,9 @@ class TankGridElementTest {
 
       //  Given
       double tankHeightFromGround = 10.0;
+      double turretShapeDimensionRadius = 10.0;
       double dimensionRadius = 5.0;
-      Tank tank = mockTank(Positions.of(5, 5, 50), dimensionRadius);
+      Tank tank = mockTank(Positions.of(5, 5, 50), dimensionRadius, turretShapeDimensionRadius);
 
       // When
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
@@ -262,6 +264,7 @@ class TankGridElementTest {
       // Then
       assertThat(tankGridElement.getDimensionInfo().getDimensionRadius(), is(dimensionRadius));
       assertThat(tankGridElement.getDimensionInfo().getHeightFromBottom(), is(tankHeightFromGround));
+      assertThat(tankGridElement.getShape().getTurretShape().getDimensionRadius(), is(turretShapeDimensionRadius));
    }
 
    @Test
@@ -409,7 +412,7 @@ class TankGridElementTest {
    @Test
    void testOtherDelegateMethods() {
       // Given
-      Tank tank = mockTank(Positions.of(5, 5), 5.0);
+      Tank tank = mockTank(Positions.of(5, 5), 5.0, 1);
       TankGridElement tankGridElement = TankGridElementBuilder.builder()
             .withGrid(GridBuilder.builder()
                   .withMaxX(5)
@@ -442,10 +445,13 @@ class TankGridElementTest {
       assertThat(isTankAvoidable, is(true));
    }
 
-   private Tank mockTank(Position shapeCenter, double dimensionRadius) {
+   private Tank mockTank(Position shapeCenter, double dimensionRadius, double turretShapeDimensionRadius) {
       Tank tank = mock(Tank.class);
       TankShapeImpl shape = mock(TankShapeImpl.class);
       when(tank.getShape()).thenReturn(shape);
+      TurretShapeImpl turretShapeImpl = mock(TurretShapeImpl.class);
+      when(turretShapeImpl.getDimensionRadius()).thenReturn(turretShapeDimensionRadius);
+      when(shape.getTurretShape()).thenReturn(turretShapeImpl);
       when(shape.getCenter()).thenReturn(shapeCenter);
       when(shape.getDimensionRadius()).thenReturn(dimensionRadius);
       TankEngineImpl tankEngine = mock(TankEngineImpl.class);

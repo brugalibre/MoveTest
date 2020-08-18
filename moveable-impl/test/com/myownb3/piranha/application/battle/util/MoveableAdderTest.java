@@ -230,6 +230,7 @@ class MoveableAdderTest {
       int amountOfMoveables = 1;
       int moveableVelocity = 5;
       int gridElementRadius = 8;
+      double expectedDimensionRadius = 13.333333333333332;
 
       TestCaseBuilder tcb = new TestCaseBuilder()
             .withMoveableAdder(spy(MoveableAdderBuilder.builder()
@@ -256,7 +257,7 @@ class MoveableAdderTest {
       GridElement gridElement = actualNewAddeMoveables.get(0);
       assertThat(AutoMoveableController.class.isAssignableFrom(gridElement.getClass()), is(true));
       assertThat(gridElement.getVelocity(), is(moveableVelocity));
-      assertThat(gridElement.getDimensionInfo().getDimensionRadius(), is((double) gridElementRadius));
+      assertThat(gridElement.getDimensionInfo().getDimensionRadius(), is(expectedDimensionRadius));
    }
 
    @Test

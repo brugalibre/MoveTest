@@ -88,7 +88,7 @@ public abstract class ImageSeries {
 
    private static BufferedImage resizeImageIfNecessary(BufferedImage bufferedImage, double dimensionRadius, boolean resizeSmaller) {
       double max = Math.max(bufferedImage.getWidth(), bufferedImage.getHeight());
-      double ratio = (dimensionRadius / max) * 1.5; // a little bit bigger, because the dimension of GridElements are not quite measured in pixels..
+      double ratio = (dimensionRadius / max) * 1.5d; // a little bit bigger, because the dimension of GridElements are not quite measured in pixels..
       if (ratio > 1.0 || resizeSmaller) {
          double scaledWidth = max(MIN_HEIGHT, ratio * bufferedImage.getWidth());
          double scaledHeight = max(MIN_HEIGHT, ratio * bufferedImage.getHeight());
