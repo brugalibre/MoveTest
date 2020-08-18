@@ -201,7 +201,7 @@ public class TurretTowerTestLauncher {
          List<Renderer<?>> renderers, TankBattleApplication tankBattleApplication) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
       int cycleTime = 15;
-      LogicHandler logicHandler = new LogicHandlerImpl(mainWindow, renderers, tankBattleApplication);
+      LogicHandler logicHandler = new LogicHandlerImpl(renderers, tankBattleApplication);
       grid.addOnGridElementAddListener(logicHandler);
       new Thread(() -> {
          while (true) {
@@ -214,6 +214,16 @@ public class TurretTowerTestLauncher {
             }
          }
       }, "LogicHandlerImpl").start();
+      new Thread(() -> {
+         while (true) {
+            SwingUtilities.invokeLater(() -> mainWindow.refresh());
+            try {
+               Thread.sleep(cycleTime);
+            } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
+            }
+         }
+      }, "UIRefresher").start();
    }
 
 }

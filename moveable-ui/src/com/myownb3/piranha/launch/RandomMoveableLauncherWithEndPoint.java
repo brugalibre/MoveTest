@@ -125,8 +125,8 @@ public class RandomMoveableLauncherWithEndPoint implements Stoppable {
       ctx.getRenderers().addAll(getRenderers(ctx.getGridElements(), moveableController.getMoveable(),
             endPositionRunner.getConfig(), endPositionRunner.getDetectorCluster()));
       mainWindow.addSpielfeld(((List) ctx.getRenderers()), grid);
-      ctx.addPostMoveForwardLogicHandler();
       ctx.setMainWindow(mainWindow);
+      ctx.addPostMoveForwardLogicHandler();
       showGuiAndStartPainter(mainWindow);
       prepareAndMoveMoveables(endPositionRunner, moveablePostActionHandler, ctx.getGridElements(), grid);
    }

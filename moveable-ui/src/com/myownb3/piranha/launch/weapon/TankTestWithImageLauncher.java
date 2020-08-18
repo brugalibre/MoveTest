@@ -398,6 +398,6 @@ public class TankTestWithImageLauncher {
       int logicCycleTime = 15;
       int uiRefreshCycleTime = 5;
       UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
-      UILogicUtil.startLogicHandler(grid, mainWindow, renderers, tankBattleApplication, delegateOnGunFireListener, logicCycleTime);
+      UILogicUtil.startLogicHandler(grid, renderers, tankBattleApplication, delegateOnGunFireListener, logicCycleTime);
    }
 }

@@ -22,7 +22,6 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.MoveableObstacleImpl.MoveableObstacleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.obstacle.Obstacle;
-import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
@@ -57,7 +56,7 @@ public class RandomMoveableLauncher implements Stoppable {
       CollisionDetectionHandler collisionDetector = new CollisionDetectionHandlerImpl(this, mainWindow);
 
       MirrorGrid grid = buildGrid(collisionDetector);
-      Moveable moveable = getMoveable(grid, height, width);
+      Moveable moveable = getMoveable(grid, height, width, 30);
       GridElementPainter moveablePainter = new GridElementPainter(moveable, getColor(moveable));
       List<GridElement> gridElements = getAllGridElements(grid, height, width);
       List<Renderer<?>> renderers = getRenderers(gridElements);
@@ -88,12 +87,13 @@ public class RandomMoveableLauncher implements Stoppable {
          Position randomPosition = grid.getRandomPosition(width);
          Obstacle obstacle = MoveableObstacleBuilder.builder()
                .withGrid(grid)
+               .withHealth(Double.MAX_VALUE)
                .withShape(CircleBuilder.builder()
                      .withRadius(width)
                      .withAmountOfPoints(20)
                      .withCenter(randomPosition)
                      .build())
-               .withVelocity(8)
+               .withVelocity(80)
                .build();
 
          gridelements.add(obstacle);
@@ -103,7 +103,6 @@ public class RandomMoveableLauncher implements Stoppable {
    }
 
    private void prepareAndMoveMoveables(Moveable moveable, List<GridElement> gridelements, MainWindow mainWindow) throws InterruptedException {
-
       moveable.makeTurn(MathUtil.getRandom(360));
       turnGridElements(gridelements);
 
@@ -140,13 +139,12 @@ public class RandomMoveableLauncher implements Stoppable {
             .collect(Collectors.toList());
    }
 
-   private static Moveable getMoveable(Grid grid, int height, int width) {
-
+   private static Moveable getMoveable(Grid grid, int height, int width, int velocity) {
       EvasionStateMachineConfig config = buildEvasionStateMachineConfig();
       Position pos = grid.getRandomPosition(width);
-      Shape circleShape = buildCircle(width, pos);
       return MoveableBuilder.builder()
             .withGrid(grid)
+            .withVelocity(velocity)
             .withHandler(EvasionStateMachineBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -158,7 +156,11 @@ public class RandomMoveableLauncher implements Stoppable {
                         .build())
                   .withEvasionStateMachineConfig(config)
                   .build())
-            .withShape(circleShape)
+            .withShape(CircleBuilder.builder()
+                  .withRadius(width)
+                  .withAmountOfPoints(15)
+                  .withCenter(pos)
+                  .build())
             .build();
    }
 
@@ -180,14 +182,6 @@ public class RandomMoveableLauncher implements Stoppable {
                   .withEvasionAngleInc(5)
                   .build())
             .build();
-   }
-
-   private static Shape buildCircle(int width, Position pos) {
-      return CircleBuilder.builder()
-            .withRadius(width)
-            .withAmountOfPoints(15)
-            .withCenter(pos)
-            .build();//
    }
 
    @Override

@@ -2,7 +2,7 @@ package com.myownb3.piranha.ui.application.impl;
 
 import java.util.List;
 
-import com.myownb3.piranha.application.battle.TankBattleApplication;
+import com.myownb3.piranha.application.Application;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.ui.application.LogicHandler;
@@ -23,10 +23,10 @@ public class UILogicUtil {
       // private 
    }
 
-   public static void startLogicHandler(Grid grid, MainWindow mainWindow, List<Renderer<?>> renderers,
-         TankBattleApplication tankBattleApplication, DelegateOnGunFireListener delegateOnGunFireListener, int cycleTime) {
+   public static void startLogicHandler(Grid grid, List<Renderer<?>> renderers, Application application,
+         DelegateOnGunFireListener delegateOnGunFireListener, int cycleTime) {
       new Thread(() -> {
-         LogicHandler logicHandler = new LogicHandlerImpl(mainWindow, renderers, tankBattleApplication);
+         LogicHandler logicHandler = new LogicHandlerImpl(renderers, application);
          addHandlers(grid, delegateOnGunFireListener, logicHandler);
          while (true) {
             logicHandler.onCylce();
