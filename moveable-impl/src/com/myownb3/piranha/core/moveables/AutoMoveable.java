@@ -16,10 +16,12 @@ import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
+import com.myownb3.piranha.core.moveables.types.AutoMoveableTypes;
 
 public class AutoMoveable extends AbstractMoveable implements AutoDetectable, Destructible, Destructive, Belligerent {
 
    private AutoDetectable autoDetectableDelegate;
+   private AutoMoveableTypes autoMoveableType;
    private DestructionHelper destructionHelper;
    private BelligerentParty belligerentParty;
 
@@ -53,15 +55,24 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
       return belligerentParty;
    }
 
+   /**
+    * @return the {@link AutoMoveableTypes} of this {@link AbstractMoveable}
+    */
+   public AutoMoveableTypes getAutoMoveableTypes() {
+      return autoMoveableType;
+   }
+
    public abstract static class AbstractAutoMoveableBuilder<V extends AbstractMoveable, T extends AbstractAutoMoveableBuilder<V, T>>
          extends AbstractMoveableBuilder<V, T> {
       protected AutoDetectable autoDetectableDelegate;
       protected DimensionInfo dimensionInfo;
       protected DestructionHelper destructionHelper;
       protected BelligerentParty belligerentParty;
+      protected AutoMoveableTypes autoMoveableType;
 
       protected AbstractAutoMoveableBuilder() {
          super();
+         this.autoMoveableType = AutoMoveableTypes.OBSTACLE;
          autoDetectableDelegate = () -> {
          };
       }
@@ -81,6 +92,11 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
          return getThis();
       }
 
+      public T withAutoMoveableTypes(AutoMoveableTypes autoMoveableType) {
+         this.autoMoveableType = autoMoveableType;
+         return getThis();
+      }
+
       public T withDimensionInfo(DimensionInfo dimensionInfo) {
          this.dimensionInfo = dimensionInfo;
          return getThis();
@@ -95,6 +111,7 @@ public class AutoMoveable extends AbstractMoveable implements AutoDetectable, De
          autoMoveable.autoDetectableDelegate = autoDetectableDelegate;
          autoMoveable.destructionHelper = destructionHelper;
          autoMoveable.belligerentParty = belligerentParty;
+         autoMoveable.autoMoveableType = autoMoveableType;
          grid.addElement(autoMoveable);
          return autoMoveable;
       }

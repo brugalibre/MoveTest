@@ -13,6 +13,7 @@ import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.AutoMoveable;
 import com.myownb3.piranha.core.moveables.AutoMoveable.AutoMoveableBuilder;
+import com.myownb3.piranha.core.moveables.types.AutoMoveableTypes;
 
 /**
  * Creates new decoy flares
@@ -50,6 +51,7 @@ public class DecoyFlareFactory extends AbstractGridElementFactory {
       AutoMoveable autoMoveable = AutoMoveableBuilder.builder()
             .withDimensionInfo(dimensionInfo)
             .withBelligerentParty(decoyFlareConfig.getBelligerentParty())
+            .withAutoMoveableTypes(AutoMoveableTypes.DECOY_FLARE)
             .withAutoDetectable(getDecoyFlareAutoDetectable(decoyShape, health, dimensionInfo.getHeightFromBottom(), ttl))
             .withDestructionHelper(DestructionHelperBuilder.builder()
                   .withDamage(decoyFlareConfig.getProjectileDamage())

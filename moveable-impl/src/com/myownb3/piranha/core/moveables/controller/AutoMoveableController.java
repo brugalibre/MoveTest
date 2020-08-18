@@ -15,9 +15,11 @@ import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfo;
+import com.myownb3.piranha.core.moveables.AbstractMoveable;
 import com.myownb3.piranha.core.moveables.AutoMoveable.AbstractAutoMoveableBuilder;
 import com.myownb3.piranha.core.moveables.endposition.EndPointMoveableImpl;
 import com.myownb3.piranha.core.moveables.postaction.MoveablePostActionHandler;
+import com.myownb3.piranha.core.moveables.types.AutoMoveableTypes;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 
 public class AutoMoveableController extends EndPointMoveableImpl implements AutoDetectable, Destructible, Destructive, Belligerent {
@@ -25,6 +27,7 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
    private AutoDetectable autoDetectableDelegate;
    private DestructionHelper destructionHelper;
    private MoveableController moveableController;
+   private AutoMoveableTypes autoMoveableType;
 
    public AutoMoveableController(EvasionStateMachine evasionStateMachine, MoveablePostActionHandler handler, DimensionInfo dimensionInfo, Grid grid,
          Shape shape, int velocity, BelligerentParty belligerentParty) {
@@ -50,6 +53,13 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
    @Override
    public boolean isDestroyed() {
       return destructionHelper.isDestroyed();
+   }
+
+   /**
+    * @return the {@link AutoMoveableTypes} of this {@link AbstractMoveable}
+    */
+   public AutoMoveableTypes getAutoMoveableTypes() {
+      return autoMoveableType;
    }
 
    public static class AutoMoveableControllerBuilder extends AbstractAutoMoveableBuilder<AutoMoveableController, AutoMoveableControllerBuilder> {
@@ -81,6 +91,7 @@ public class AutoMoveableController extends EndPointMoveableImpl implements Auto
          autoMoveable.autoDetectableDelegate = autoDetectableDelegate;
          autoMoveable.destructionHelper = destructionHelper;
          autoMoveable.moveableController = moveableController;
+         autoMoveable.autoMoveableType = autoMoveableType;
          grid.addElement(autoMoveable);
          return autoMoveable;
       }

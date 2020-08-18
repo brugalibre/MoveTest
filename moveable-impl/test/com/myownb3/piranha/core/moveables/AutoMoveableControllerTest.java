@@ -32,10 +32,58 @@ import com.myownb3.piranha.core.moveables.controller.AutoMoveableController.Auto
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.types.AutoMoveableTypes;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 
 class AutoMoveableControllerTest {
+   @Test
+   void testGetAutoMoveableTypes() {
+
+      // Given
+      AutoMoveableTypes autoMoveableTypes = AutoMoveableTypes.DECOY_FLARE;
+      Grid grid = mock(Grid.class);
+      Position gridElementPos = Positions.of(5, 5);
+      MoveableController moveableController = mock(MoveableController.class);
+      DestructionHelper destructionHelper = mock(DestructionHelper.class);
+
+      // When
+      AutoMoveableController autoMoveableController = AutoMoveableControllerBuilder.builder()
+            .withMoveableController(moveableController)
+            .withDestructionHelper(DestructionHelperBuilder.builder()
+                  .withDamage(3)
+                  .withHealth(500)
+                  .withSelfDestructiveDamage(1)
+                  .withOnDestroyedCallbackHandler(() -> {
+                  })
+                  .build())
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withDimensionInfo(DimensionInfoBuilder.builder()
+                  .withDimensionRadius(1)
+                  .build())
+            .withDestructionHelper(destructionHelper)
+            .withGrid(grid)
+            .withAutoMoveableTypes(autoMoveableTypes)
+            .withEvasionStateMachine(EvasionStateMachineBuilder.builder()
+                  .withGrid(grid)
+                  .withDetector(DetectorBuilder.builder()
+                        .build())
+                  .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
+                        .build())
+                  .build())
+            .withShape(TIEFighterShapeBuilder.builder()
+                  .withBallCockpit(CircleBuilder.builder()
+                        .withRadius(1)
+                        .withAmountOfPoints(20)
+                        .withCenter(gridElementPos)
+                        .build())
+                  .build())
+            .withVelocity(1)
+            .build();
+
+      // Then
+      assertThat(autoMoveableController.getAutoMoveableTypes(), is(autoMoveableTypes));
+   }
 
    @Test
    void testDefaultAutoDetectable() {

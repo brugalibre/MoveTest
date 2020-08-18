@@ -20,8 +20,37 @@ import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.Po
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.AutoMoveable.AutoMoveableBuilder;
+import com.myownb3.piranha.core.moveables.types.AutoMoveableTypes;
 
 class AutoMoveableTest {
+
+   @Test
+   void testGetAutoMoveableTypes() {
+
+      // Given
+      AutoMoveableTypes autoMoveableTypes = AutoMoveableTypes.DECOY_FLARE;
+
+      // When
+      AutoMoveable autoMoveable = AutoMoveableBuilder.builder()
+            .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+            .withDimensionInfo(getDefaultDimensionInfo(3))
+            .withDestructionHelper(DestructionHelperBuilder.builder()
+                  .withHealth(1)
+                  .withDamage(9.5)
+                  .build())
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(10)
+                  .withMaxY(10)
+                  .build())
+            .withShape(PositionShapeBuilder.builder()
+                  .withPosition(Positions.of(0, 0))
+                  .build())
+            .withAutoMoveableTypes(autoMoveableTypes)
+            .build();
+
+      // Then
+      assertThat(autoMoveable.getAutoMoveableTypes(), is(autoMoveableTypes));
+   }
 
    @Test
    void testGetDamage() {
@@ -44,6 +73,7 @@ class AutoMoveableTest {
             .withShape(PositionShapeBuilder.builder()
                   .withPosition(Positions.of(0, 0))
                   .build())
+            .withAutoMoveableTypes(AutoMoveableTypes.DECOY_FLARE)
             .build();
 
       // Then
