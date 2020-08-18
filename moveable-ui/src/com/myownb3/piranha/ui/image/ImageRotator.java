@@ -16,8 +16,8 @@ public class ImageRotator {
       // private
    }
 
-   public static BufferedImage rotateImage(BufferedImage bufferedImage, double randomAngle) {
-      double rads = Math.toRadians(randomAngle);
+   public static BufferedImage rotateImage(BufferedImage bufferedImage, double rotationAngle) {
+      double rads = Math.toRadians(rotationAngle);
       double sin = Math.abs(Math.sin(rads));
       double cos = Math.abs(Math.cos(rads));
       int w = bufferedImage.getWidth();

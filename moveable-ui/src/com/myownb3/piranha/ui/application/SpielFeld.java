@@ -19,7 +19,8 @@ import javax.swing.JComponent;
 
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.ui.image.ImageReader;
+import com.myownb3.piranha.ui.image.ImageRotator;
+import com.myownb3.piranha.ui.image.ImageScaler;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
 import com.myownb3.piranha.ui.render.impl.GridPainter;
@@ -47,17 +48,21 @@ public class SpielFeld extends JComponent {
       Dimension gridDimension = grid.getDimension();
       this.gridPainter = new GridPainter(grid, padding, pointWidth, gridDimension.getHeight() + 2 * padding,
             gridDimension.getWidth() + 2 * padding);
-      loadImageOpt(backgroundImage);
+      loadImageOpt(backgroundImage, gridDimension);
    }
 
-   private void loadImageOpt(String backgroundImage) {
-      BufferedImage dimg = null;
+   private void loadImageOpt(String backgroundImage, Dimension gridDimension) {
+      BufferedImage bufferedImage = null;
       try {
-         dimg = ImageReader.scaleBicubic(ImageIO.read(new File(backgroundImage)), 2, 2);
+         bufferedImage = ImageIO.read(new File(backgroundImage));
+         bufferedImage = ImageRotator.rotateImage(bufferedImage, -90);
+         double scaledWidth = ((double) gridDimension.getWidth() / bufferedImage.getWidth()) * bufferedImage.getWidth();
+         double scaledHeight = ((double) gridDimension.getHeight() / bufferedImage.getHeight()) * bufferedImage.getHeight();
+         bufferedImage = ImageScaler.scaleImage(bufferedImage, scaledWidth + 30, scaledHeight);
       } catch (Exception e) {
          // Ignore
       }
-      this.imageOpt = Optional.ofNullable(dimg);
+      this.imageOpt = Optional.ofNullable(bufferedImage);
    }
 
    @Override
@@ -87,7 +92,7 @@ public class SpielFeld extends JComponent {
 
    private void paintMoveableContent(Graphics2D g2) {
       Graphics2DContext graphicsContext = new Graphics2DContext(g2);
-      List<Renderer<?>> renderersCopy = new ArrayList<Renderer<?>>(renderers);
+      List<Renderer<?>> renderersCopy = new ArrayList<>(renderers);
       renderersCopy.stream()
             .sorted(new RendererComparator())
             .forEach(renderer -> renderer.render(graphicsContext));
