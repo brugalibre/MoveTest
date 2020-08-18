@@ -125,6 +125,8 @@ public class TurretShapeImpl extends AbstractShape implements TurretShape {
       }
 
       public TurretShapeImpl build() {
+         Position newGunCarriageCenter = positionTransformator.transform(gunCarriage.getShape().getCenter());
+         gunCarriage.getShape().transform(newGunCarriageCenter);
          GunShape gunShape = gunCarriage.getGun().getShape();
          List<PathSegment> combinedPath = combinePath(gunShape, gunCarriage.getShape());
          return new TurretShapeImpl(combinedPath, gunCarriage, positionTransformator);
