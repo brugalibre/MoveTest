@@ -147,14 +147,4 @@ public abstract class Drawable<E> implements Renderer<E> {
    public void setValue(E value) {
       this.value = value;
    }
-
-   /**
-    * Returns the {@link #value} field
-    * 
-    * @return the {@link #value} field
-    */
-   @Override
-   public E getValue() {
-      return value;
-   }
 }

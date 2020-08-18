@@ -14,11 +14,6 @@ import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 public interface Renderer<T> {
 
    /**
-    * @return the value of this Renderer
-    */
-   T getValue();
-
-   /**
     * Render on the given {@link RenderContext}
     * 
     * @param graphicsCtx

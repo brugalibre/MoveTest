@@ -57,7 +57,7 @@ public class DetectorPainter extends AbstractGridElementPainter<GridElement> {
    }
 
    private void drawDetectorOrDetectorCluster(Graphics graphics) {
-      Position furthermostFrontPosition = getValue().getForemostPosition();
+      Position furthermostFrontPosition = value.getForemostPosition();
       if (detectorClusterOpt.isPresent()) {
          drawDetectorCluster(graphics, detectorClusterOpt.get(), furthermostFrontPosition, detectorColor);
       } else {
