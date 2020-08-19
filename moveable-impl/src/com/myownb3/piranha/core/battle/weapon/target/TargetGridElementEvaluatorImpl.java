@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.Projectile;
@@ -43,6 +44,7 @@ public class TargetGridElementEvaluatorImpl implements TargetGridElementEvaluato
       return gridElement -> gridElement.isDetectedBy(detectorPos, detector);
    }
 
+   @Visible4Testing
    boolean isGridElementEnemy(GridElement gridElement) {
       return (gridElement instanceof Belligerent) && belligerentParty.isEnemyParty(((Belligerent) gridElement).getBelligerentParty());
    }
