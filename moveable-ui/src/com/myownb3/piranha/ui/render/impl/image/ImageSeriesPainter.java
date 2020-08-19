@@ -1,5 +1,7 @@
 package com.myownb3.piranha.ui.render.impl.image;
 
+import static com.myownb3.piranha.ui.render.impl.image.ImagePainter.rotateAndPaintImage;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.function.Supplier;
@@ -39,32 +41,14 @@ public class ImageSeriesPainter extends Drawable<ImageSeries> {
       if (imageSeries.hasNextImage()) {
          BufferedImage nextImage = imageSeries.getNextImage();
          Position imagePos = imagePositionSupplier.get();
-         int imageX = (int) imagePos.getX() - nextImage.getWidth() / 2;
-         int imageY = (int) imagePos.getY() - nextImage.getHeight() / 2;
-         drawImage(graphics, nextImage, imagePos, imageX, imageY);
+         Double degree = imageRotateDegreeSupplier.get();
+         rotateAndPaintImage(graphics, nextImage, imagePos, degree);
       }
-   }
-
-   private void drawImage(Graphics2D graphics, BufferedImage nextImage, Position imagePos, int imageX, int imageY) {
-      double rotationAngle = imageRotateDegreeSupplier.get();
-      rotate(graphics, imagePos, rotationAngle);
-      graphics.drawImage(nextImage, imageX, imageY, null);
-      rotate(graphics, imagePos, -rotationAngle);
-   }
-
-   private void rotate(Graphics2D graphics, Position imagePos, double angle2Rotate) {
-      if (angle2Rotate != 0.0) {
-         graphics.rotate(angle2Rotate, (int) imagePos.getX(), (int) imagePos.getY());
-      }
-   }
-
-   public boolean isPlayback() {
-      return imageSeries.isPlayback();
    }
 
    @Override
    public boolean canBeRemoved() {
-      return !isPlayback();
+      return !imageSeries.isPlayback();
    }
 
    @Override

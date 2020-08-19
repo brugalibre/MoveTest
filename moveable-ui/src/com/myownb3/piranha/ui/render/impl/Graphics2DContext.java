@@ -20,6 +20,6 @@ public class Graphics2DContext implements RenderContext {
    }
 
    public final Graphics2D getGraphics2d() {
-      return this.graphics2d;
+      return (Graphics2D) this.graphics2d.create();
    }
 }

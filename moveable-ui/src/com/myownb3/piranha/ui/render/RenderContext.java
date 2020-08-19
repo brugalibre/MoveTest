@@ -10,5 +10,5 @@ package com.myownb3.piranha.ui.render;
  *
  */
 public interface RenderContext {
-
+   // no-op
 }

@@ -19,7 +19,6 @@ import javax.swing.JComponent;
 
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
-import com.myownb3.piranha.ui.image.ImageRotator;
 import com.myownb3.piranha.ui.image.ImageScaler;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
@@ -55,7 +54,6 @@ public class SpielFeld extends JComponent {
       BufferedImage bufferedImage = null;
       try {
          bufferedImage = ImageIO.read(new File(backgroundImage));
-         bufferedImage = ImageRotator.rotateImage(bufferedImage, -90);
          double scaledWidth = ((double) gridDimension.getWidth() / bufferedImage.getWidth()) * bufferedImage.getWidth();
          double scaledHeight = ((double) gridDimension.getHeight() / bufferedImage.getHeight()) * bufferedImage.getHeight();
          bufferedImage = ImageScaler.scaleImage(bufferedImage, scaledWidth + 30, scaledHeight);
@@ -67,23 +65,29 @@ public class SpielFeld extends JComponent {
 
    @Override
    protected void paintComponent(Graphics graphics) {
+      Graphics2D graphics2d = (Graphics2D) graphics.create();
       super.paintComponent(graphics);
-      Graphics2D g2 = (Graphics2D) graphics;
-      setRenderingHints(g2);
-      paintSpielfeldAndGrid(g2);
-      paintMoveableContent(g2);
+      setRenderingHints((Graphics2D) graphics);
+      Graphics2D spielFeldGraphics = (Graphics2D) graphics.create();
+      paintSpielfeldAndGrid(spielFeldGraphics);
+      paintMoveableContent(graphics2d);
    }
 
    private static void setRenderingHints(Graphics2D g2) {
       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+      g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+      g2.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+      g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+      g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
       g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-      g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-      g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+      g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
    }
 
    private void paintSpielfeldAndGrid(Graphics2D g2) {
       if (imageOpt.isPresent()) {
          g2.drawImage(imageOpt.get(), padding, padding, null);
+         g2.dispose();
       } else {
          paintSpielfeld(g2);
          gridPainter.render(new Graphics2DContext(g2));
@@ -95,7 +99,9 @@ public class SpielFeld extends JComponent {
       List<Renderer<?>> renderersCopy = new ArrayList<>(renderers);
       renderersCopy.stream()
             .sorted(new RendererComparator())
-            .forEach(renderer -> renderer.render(graphicsContext));
+            .forEach(renderer -> {
+               renderer.render(new Graphics2DContext((Graphics2D) g2.create()));
+            });
       endPositionRenderers.stream()
             .forEach(renderer -> renderer.render(graphicsContext));
    }
@@ -108,6 +114,8 @@ public class SpielFeld extends JComponent {
          return heightFromGround1.compareTo(heightFromGround2);
       }
    }
+
+
 
    private void paintSpielfeld(Graphics2D g2) {
       g2.setColor(Color.WHITE);

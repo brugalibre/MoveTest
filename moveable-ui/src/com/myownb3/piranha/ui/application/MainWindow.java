@@ -56,6 +56,7 @@ public class MainWindow {
       content = new JPanel(new BorderLayout());
       contentWindow.add(content);
       contentWindow.setBounds(x, y, width, height);
+      contentWindow.setIgnoreRepaint(true);
    }
 
    public void withBackground(String backgroundImage) {

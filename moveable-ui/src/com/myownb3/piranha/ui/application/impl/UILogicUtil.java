@@ -1,5 +1,7 @@
 package com.myownb3.piranha.ui.application.impl;
 
+import static java.lang.Math.max;
+
 import java.util.List;
 
 import com.myownb3.piranha.application.Application;
@@ -28,11 +30,20 @@ public class UILogicUtil {
       new Thread(() -> {
          LogicHandler logicHandler = new LogicHandlerImpl(renderers, application);
          addHandlers(grid, delegateOnGunFireListener, logicHandler);
+         long beforeTime = System.currentTimeMillis();
+         long diff = 0l;
          while (true) {
             logicHandler.onCylce();
-            sleep(cycleTime);
+            diff = System.currentTimeMillis() - beforeTime;
+            int time2Sleep = computeTime2Sleep(cycleTime, diff);
+            sleep(time2Sleep);
+            beforeTime = System.currentTimeMillis();
          }
       }, "LogicHandlerImpl").start();
+   }
+
+   private static int computeTime2Sleep(int cycleTime, long diff) {
+      return (int) max(2, cycleTime - diff);
    }
 
    private static void addHandlers(Grid grid, DelegateOnGunFireListener delegateOnGunFireListener, LogicHandler logicHandler) {

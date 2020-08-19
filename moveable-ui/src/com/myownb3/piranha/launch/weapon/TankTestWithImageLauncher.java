@@ -395,8 +395,8 @@ public class TankTestWithImageLauncher {
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<?>> renderers,
          TankBattleApplication tankBattleApplication, DelegateOnGunFireListener delegateOnGunFireListener) {
       SwingUtilities.invokeLater(() -> mainWindow.show());
-      int logicCycleTime = 15;
-      int uiRefreshCycleTime = 5;
+      int logicCycleTime = 45;
+      int uiRefreshCycleTime = 15;
       UILogicUtil.startUIRefresher(mainWindow, uiRefreshCycleTime);
       UILogicUtil.startLogicHandler(grid, renderers, tankBattleApplication, delegateOnGunFireListener, logicCycleTime);
    }
