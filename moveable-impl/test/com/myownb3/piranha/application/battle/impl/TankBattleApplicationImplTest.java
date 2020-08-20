@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.application.battle.MoveableAdder;
 import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationBuilder;
@@ -183,7 +184,7 @@ class TankBattleApplicationImplTest {
 
    private static class TankBattleApplicationRunnerTestCaseBuilder {
 
-      private MoveableAdderImpl moveableAdder;
+      private MoveableAdder moveableAdder;
       private Grid grid;
       private TankBattleApplication tankBattleApplication;
       private List<GridElement> autodetectables;
@@ -203,8 +204,8 @@ class TankBattleApplicationImplTest {
       }
 
       private TankBattleApplicationRunnerTestCaseBuilder withMoveableAdder(boolean isCycleDone) {
-         this.moveableAdder = mock(MoveableAdderImpl.class);
-         when(moveableAdder.handleCycle()).thenReturn(isCycleDone);
+         this.moveableAdder = mock(MoveableAdder.class);
+         when(moveableAdder.isCycleDone()).thenReturn(isCycleDone);
          return this;
       }
 

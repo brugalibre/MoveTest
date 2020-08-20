@@ -44,7 +44,7 @@ class MoveableAdderImplTest {
 
       // When
       incrementCounter(counter - 1, moveableAdder);
-      boolean isActualCycleOver = moveableAdder.handleCycle();
+      boolean isActualCycleOver = moveableAdder.isCycleDone();
 
       // Then
       assertThat(isActualCycleOver, is(false));
@@ -63,7 +63,7 @@ class MoveableAdderImplTest {
 
       // When
       incrementCounter(counter, moveableAdder);
-      boolean isActualCycleOver = moveableAdder.handleCycle();
+      boolean isActualCycleOver = moveableAdder.isCycleDone();
 
       // Then
       assertThat(isActualCycleOver, is(true));

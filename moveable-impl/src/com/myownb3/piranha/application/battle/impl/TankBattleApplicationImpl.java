@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.application.battle.MoveableAdder;
 import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.audio.impl.AudioClipCloser;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
@@ -50,13 +51,13 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class TankBattleApplicationImpl implements TankBattleApplication {
 
-   private MoveableAdderImpl moveableAdder;
+   private MoveableAdder moveableAdder;
    private Grid grid;
    private List<TankGridElement> tankGridElements;
    private List<TurretGridElement> turretGridElements;
    private EvasionStateMachineConfig evasionStateMachineConfig;
 
-   public TankBattleApplicationImpl(Grid grid, MoveableAdderImpl moveableAdder, List<TankGridElement> tankGridElements,
+   public TankBattleApplicationImpl(Grid grid, MoveableAdder moveableAdder, List<TankGridElement> tankGridElements,
          List<TurretGridElement> turretGridElements, EvasionStateMachineConfig evasionStateMachineConfig) {
       this.grid = grid;
       this.evasionStateMachineConfig = evasionStateMachineConfig;
@@ -69,7 +70,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    public void run() {
       callAutodetect();
       moveableAdder.incrementCounter();
-      if (moveableAdder.handleCycle()) {
+      if (moveableAdder.isCycleDone()) {
          checkAndAddNewMoveables();
       }
    }
@@ -312,7 +313,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    }
 
    public static class TankBattleApplicationBuilder {
-      private MoveableAdderImpl moveableAdder;
+      private MoveableAdder moveableAdder;
       private Grid grid;
       private List<TankGridElement> tankGridElements;
       private List<TurretGridElement> turretGridElements;
@@ -328,7 +329,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationBuilder withMoveableAdder(MoveableAdderImpl moveableAdder) {
+      public TankBattleApplicationBuilder withMoveableAdder(MoveableAdder moveableAdder) {
          this.moveableAdder = moveableAdder;
          return this;
       }
