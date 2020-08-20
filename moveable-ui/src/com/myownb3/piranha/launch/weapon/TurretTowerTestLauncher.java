@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;

@@ -1,4 +1,4 @@
-package com.myownb3.piranha.application.battle.util;
+package com.myownb3.piranha.application.battle.impl;
 
 import static com.myownb3.piranha.util.MathUtil.getRandom;
 import static java.lang.Math.min;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.myownb3.piranha.application.Application;
+import com.myownb3.piranha.application.battle.MoveableAdder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
@@ -37,7 +39,7 @@ import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
 import com.myownb3.piranha.util.MathUtil;
 
-public class MoveableAdder {
+public class MoveableAdderImpl implements MoveableAdder {
 
    private int amountOfNonMoveables;
    private int amountOfMoveables;
@@ -46,8 +48,10 @@ public class MoveableAdder {
    private int counter;
    private int padding;
    private BelligerentParty belligerentParty;
+   private int cycleCounter;
 
-   private MoveableAdder(int amountOfNonMoveables, int amountOfMoveables, int moveableVelocity, int counter, int padding, double gridElementRadius,
+   private MoveableAdderImpl(int amountOfNonMoveables, int amountOfMoveables, int moveableVelocity, int counter, int padding,
+         double gridElementRadius,
          BelligerentParty belligerentParty) {
       this.amountOfNonMoveables = amountOfNonMoveables;
       this.amountOfMoveables = amountOfMoveables;
@@ -55,6 +59,7 @@ public class MoveableAdder {
       this.gridElementRadius = gridElementRadius;
       this.counter = counter;
       this.padding = padding;
+      this.cycleCounter = 0;
       this.belligerentParty = belligerentParty;
    }
 
@@ -69,6 +74,7 @@ public class MoveableAdder {
     *        the padding
     * @return all new created {@link GridElement}
     */
+   @Override
    public List<GridElement> check4NewMoveables2Add(Grid grid, EvasionStateMachineConfig evasionStateMachineConfig) {
       List<GridElement> addedGridElements = new ArrayList<>();
       double moveableCounter = countMoveables(grid);
@@ -79,19 +85,34 @@ public class MoveableAdder {
       if (simpleGridElementCounter < amountOfNonMoveables) {
          addedGridElements.add(buildObstacle(grid, padding));
       }
+      resetCycleCounter();
       return addedGridElements;
    }
 
+   private void resetCycleCounter() {
+      cycleCounter = 0;
+   }
+
    /**
-    * Return <code>true</code> if the current cycle is over, which means that the <code>cycleCounter</code> is greater or equal
-    * then the counter size defined by this {@link MoveableAdder} or <code>false</code> if not
+    * Handles a new cycle on a {@link Application}
+    * Return <code>true</code> if the current cycle is over, which means that the internal <code>cycleCounter</code> is greater or equal
+    * then the counter size defined by this {@link MoveableAdderImpl} or <code>false</code> if not
+    * This internal <code>cycleCounter</code> is resetet to <code>0</code> if this method returns <code>true</code>
     * 
-    * @param cycleCounter
-    *        the counter of the current cycle
+    * 
     * @return <code>true</code> if the current cycle is over and <code>false</code> if not
     */
-   public boolean isCycleOver(int cycleCounter) {
+   @Override
+   public boolean isCycleDone() {
       return cycleCounter >= counter;
+   }
+
+   /**
+    * Increments the cycle counter of this {@link MoveableAdder}
+    */
+   @Override
+   public void incrementCounter() {
+      cycleCounter++;
    }
 
    private double countNonMoveables(Grid grid) {
@@ -277,9 +298,10 @@ public class MoveableAdder {
          return this;
       }
 
-      public MoveableAdder build() {
+      public MoveableAdderImpl build() {
          requireNonNull(belligerentParty);
-         return new MoveableAdder(amountOfNonMoveables, amountOfMoveables, moveableVelocity, counter, padding, gridElementRadius, belligerentParty);
+         return new MoveableAdderImpl(amountOfNonMoveables, amountOfMoveables, moveableVelocity, counter, padding, gridElementRadius,
+               belligerentParty);
       }
 
       public static MoveableAdderBuilder builder() {

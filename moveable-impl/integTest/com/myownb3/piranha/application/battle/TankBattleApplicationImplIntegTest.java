@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationBuilder;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationTankBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
@@ -73,7 +73,7 @@ class TankBattleApplicationImplIntegTest {
       TankHolder tankHolder = new TankHolder();
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withMoveableAdder(mock(MoveableAdder.class))
+            .withMoveableAdder(mock(MoveableAdderImpl.class))
             .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                   .build())
             .addTankGridElement(tankHolder, TankBattleApplicationTankBuilder.builder()

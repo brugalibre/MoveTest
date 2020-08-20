@@ -1,4 +1,4 @@
-package com.myownb3.piranha.application.battle.util;
+package com.myownb3.piranha.application.battle.impl;
 
 import static java.util.Objects.requireNonNull;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
@@ -29,7 +29,7 @@ import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 
-class MoveableAdderIntegTest {
+class MoveableAdderImplIntegTest {
 
    @Test
    void testCheck4NewMoveables2Add_AddAndMoveOneMoveable() {
@@ -117,7 +117,7 @@ class MoveableAdderIntegTest {
    private static class TestCaseBuilder {
       public ProjectileGridElement projectile;
       public EvasionStateMachineConfig evasionStateMachineConfig;
-      private MoveableAdder moveableAdder;
+      private MoveableAdderImpl moveableAdder;
       private Grid grid;
 
       private TestCaseBuilder() {
@@ -147,7 +147,7 @@ class MoveableAdderIntegTest {
          return this;
       }
 
-      private TestCaseBuilder withMoveableAdder(MoveableAdder moveableAdder) {
+      private TestCaseBuilder withMoveableAdder(MoveableAdderImpl moveableAdder) {
          this.moveableAdder = moveableAdder;
          return this;
       }

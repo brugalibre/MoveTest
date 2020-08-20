@@ -14,8 +14,8 @@ import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.Tan
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationTankBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
-import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
@@ -124,7 +124,7 @@ public class TankTestLauncher {
       battleShipEndPositions.add(EndPositions.of(Positions.of(750, 600), 10));
       battleShipEndPositions.add(EndPositions.of(battleShipPos, 10));
 
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+      MoveableAdderImpl moveableAdder = MoveableAdderBuilder.builder()
             .withMoveableVelocity(moveableVelocity)
             .withCounter(100)
             .withPadding(padding)

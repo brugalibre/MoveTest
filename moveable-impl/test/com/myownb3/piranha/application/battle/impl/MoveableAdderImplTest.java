@@ -1,4 +1,4 @@
-package com.myownb3.piranha.application.battle.util;
+package com.myownb3.piranha.application.battle.impl;
 
 import static java.util.Objects.requireNonNull;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.application.battle.util.MoveableAdder.MoveableAdderBuilder;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
@@ -30,20 +30,21 @@ import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilde
 import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 
-class MoveableAdderTest {
+class MoveableAdderImplTest {
 
    @Test
    void testIsCycleDone_NotDone() {
 
       // Given
       int counter = 50;
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+      MoveableAdderImpl moveableAdder = MoveableAdderBuilder.builder()
             .withCounter(counter)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .build();
 
       // When
-      boolean isActualCycleOver = moveableAdder.isCycleOver(counter - 1);
+      incrementCounter(counter - 1, moveableAdder);
+      boolean isActualCycleOver = moveableAdder.handleCycle();
 
       // Then
       assertThat(isActualCycleOver, is(false));
@@ -54,17 +55,24 @@ class MoveableAdderTest {
 
       // Given
       int counter = 50;
-      MoveableAdder moveableAdder = MoveableAdderBuilder.builder()
+      MoveableAdderImpl moveableAdder = MoveableAdderBuilder.builder()
             .withCounter(counter)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withPadding(10)
             .build();
 
       // When
-      boolean isActualCycleOver = moveableAdder.isCycleOver(counter + 1);
+      incrementCounter(counter, moveableAdder);
+      boolean isActualCycleOver = moveableAdder.handleCycle();
 
       // Then
       assertThat(isActualCycleOver, is(true));
+   }
+
+   private void incrementCounter(int counter, MoveableAdderImpl moveableAdder) {
+      for (int i = 0; i < counter; i++) {
+         moveableAdder.incrementCounter();
+      }
    }
 
    @Test
@@ -293,8 +301,8 @@ class MoveableAdderTest {
    }
 
    private static class TestCaseBuilder {
-      public EvasionStateMachineConfig evasionStateMachineConfig;
-      private MoveableAdder moveableAdder;
+      private EvasionStateMachineConfig evasionStateMachineConfig;
+      private MoveableAdderImpl moveableAdder;
       private Grid grid;
 
       private TestCaseBuilder() {
@@ -341,7 +349,7 @@ class MoveableAdderTest {
          return this;
       }
 
-      private TestCaseBuilder withMoveableAdder(MoveableAdder moveableAdder) {
+      private TestCaseBuilder withMoveableAdder(MoveableAdderImpl moveableAdder) {
          this.moveableAdder = moveableAdder;
          return this;
       }

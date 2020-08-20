@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
-import com.myownb3.piranha.application.battle.util.MoveableAdder;
 import com.myownb3.piranha.audio.impl.AudioClipCloser;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
@@ -51,30 +50,27 @@ import com.myownb3.piranha.worker.WorkerThreadFactory;
 
 public class TankBattleApplicationImpl implements TankBattleApplication {
 
-   private MoveableAdder moveableAdder;
+   private MoveableAdderImpl moveableAdder;
    private Grid grid;
    private List<TankGridElement> tankGridElements;
    private List<TurretGridElement> turretGridElements;
    private EvasionStateMachineConfig evasionStateMachineConfig;
-   private int cycleCounter;
 
-   public TankBattleApplicationImpl(Grid grid, MoveableAdder moveableAdder, List<TankGridElement> tankGridElements,
+   public TankBattleApplicationImpl(Grid grid, MoveableAdderImpl moveableAdder, List<TankGridElement> tankGridElements,
          List<TurretGridElement> turretGridElements, EvasionStateMachineConfig evasionStateMachineConfig) {
       this.grid = grid;
       this.evasionStateMachineConfig = evasionStateMachineConfig;
       this.moveableAdder = moveableAdder;
       this.tankGridElements = tankGridElements;
       this.turretGridElements = turretGridElements;
-      this.cycleCounter = 0;
    }
 
    @Override
    public void run() {
-      cycleCounter++;
       callAutodetect();
-      if (moveableAdder.isCycleOver(cycleCounter)) {
+      moveableAdder.incrementCounter();
+      if (moveableAdder.handleCycle()) {
          checkAndAddNewMoveables();
-         cycleCounter = 0;
       }
    }
 
@@ -316,7 +312,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
    }
 
    public static class TankBattleApplicationBuilder {
-      private MoveableAdder moveableAdder;
+      private MoveableAdderImpl moveableAdder;
       private Grid grid;
       private List<TankGridElement> tankGridElements;
       private List<TurretGridElement> turretGridElements;
@@ -332,7 +328,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationBuilder withMoveableAdder(MoveableAdder moveableAdder) {
+      public TankBattleApplicationBuilder withMoveableAdder(MoveableAdderImpl moveableAdder) {
          this.moveableAdder = moveableAdder;
          return this;
       }
