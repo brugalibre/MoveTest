@@ -49,7 +49,7 @@ import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
-import com.myownb3.piranha.ui.constants.ImageConstants;
+import com.myownb3.piranha.ui.image.constants.ImageConsts;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
 import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementImagePainter;
@@ -354,8 +354,8 @@ public class TankTestWithImageLauncher {
 
       tankBattleApplication.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
-      mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
+      mainWindow.withBackground(ImageConsts.DEFAULT_BACKGROUND);
+      mainWindow.withImageIcon(ImageConsts.TANK_IMAGE);
       List<Renderer<?>> renderers = createRenderer4GridElements(tankBattleApplication);
 
       mainWindow.addSpielfeld(renderers, grid);
@@ -376,18 +376,18 @@ public class TankTestWithImageLauncher {
    }
 
    private Function<? super TurretGridElement, ? extends TurretGridElementImagePainter> buildTurretGridElementImagePainter() {
-      return turretGridElement -> new TurretGridElementImagePainter(turretGridElement, ImageConstants.GUN_CARRIAGE_IMAGE,
-            ImageConstants.GUN_IMAGE);
+      return turretGridElement -> new TurretGridElementImagePainter(turretGridElement, ImageConsts.GUN_CARRIAGE_IMAGE,
+            ImageConsts.GUN_IMAGE);
    }
 
    private Function<? super TankGridElement, ? extends TankGridElementImagePainter> buildTankGridElementImagePainter() {
       return tankGridElement -> {
          if (tankGridElement.getTurret() instanceof TurretCluster) {
-            return new TankGridElementImagePainter(tankGridElement, ImageConstants.TANK_HULL_SYMECTRIC_IMAGE,
-                  ImageConstants.GUN_CARRIAGE_IMAGE, ImageConstants.GUN_IMAGE);
+            return new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_SYMECTRIC_IMAGE,
+                  ImageConsts.GUN_CARRIAGE_IMAGE, ImageConsts.GUN_IMAGE);
          } else {
-            return new TankGridElementImagePainter(tankGridElement, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
-                  ImageConstants.GUN_IMAGE);
+            return new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_IMAGE, ImageConsts.GUN_CARRIAGE_IMAGE,
+                  ImageConsts.GUN_IMAGE);
          }
       };
    }

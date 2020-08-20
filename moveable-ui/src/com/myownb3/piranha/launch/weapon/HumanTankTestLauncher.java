@@ -69,7 +69,7 @@ import com.myownb3.piranha.launch.weapon.listener.MouseListener;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
-import com.myownb3.piranha.ui.constants.ImageConstants;
+import com.myownb3.piranha.ui.image.constants.ImageConsts;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
@@ -421,8 +421,8 @@ public class HumanTankTestLauncher {
       tankBattleApplication.prepare();
       WorkerThreadFactory.INSTANCE.restart();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), PADDING, 0);
-      mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
-      mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
+      mainWindow.withBackground(ImageConsts.DEFAULT_BACKGROUND);
+      mainWindow.withImageIcon(ImageConsts.TANK_IMAGE);
       mainWindow.addMouseListener(new MouseListener(PADDING, turretStrategyHandler));
       mainWindow.addKeyListener(new KeyListener(humanTankEngine));
 
@@ -438,11 +438,11 @@ public class HumanTankTestLauncher {
    private List<Renderer<?>> addRenderersWithImage(TankBattleApplication tankBattleApplication) {
       List<Renderer<?>> renderers = new ArrayList<>();
       for (TankGridElement tankGridElement : tankBattleApplication.getTankGridElements()) {
-         renderers.add(new TankGridElementImagePainter(tankGridElement, ImageConstants.TANK_HULL_IMAGE, ImageConstants.GUN_CARRIAGE_IMAGE,
-               ImageConstants.GUN_IMAGE));
+         renderers.add(new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_IMAGE, ImageConsts.GUN_CARRIAGE_IMAGE,
+               ImageConsts.GUN_IMAGE));
       }
       for (TurretGridElement turretGridElement : tankBattleApplication.getTurretGridElements()) {
-         renderers.add(new TurretGridElementImagePainter(turretGridElement, ImageConstants.GUN_CARRIAGE_IMAGE, ImageConstants.GUN_IMAGE));
+         renderers.add(new TurretGridElementImagePainter(turretGridElement, ImageConsts.GUN_CARRIAGE_IMAGE, ImageConsts.GUN_IMAGE));
       }
       return renderers;
    }

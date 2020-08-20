@@ -1,7 +1,7 @@
 package com.myownb3.piranha.ui.render.impl.explosion;
 
-import static com.myownb3.piranha.ui.constants.ImageConstants.EXPLOSION_FRAME_PATH;
-import static com.myownb3.piranha.ui.constants.ImageConstants.EXPLOSION_IMAGE_SUFFIX;
+import static com.myownb3.piranha.ui.image.constants.ImageConsts.EXPLOSION_FRAME_PATH;
+import static com.myownb3.piranha.ui.image.constants.ImageConsts.EXPLOSION_IMAGE_SUFFIX;
 
 import com.myownb3.piranha.ui.render.impl.image.ImageSeries;
 

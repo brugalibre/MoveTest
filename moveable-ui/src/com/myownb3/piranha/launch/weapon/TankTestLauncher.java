@@ -47,7 +47,7 @@ import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.ui.application.MainWindow;
 import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConfig;
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
-import com.myownb3.piranha.ui.constants.ImageConstants;
+import com.myownb3.piranha.ui.image.constants.ImageConsts;
 import com.myownb3.piranha.ui.render.Renderer;
 
 public class TankTestLauncher {
@@ -387,8 +387,8 @@ public class TankTestLauncher {
 
       tankBattleApplication.prepare();
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
-      mainWindow.withBackground(ImageConstants.DEFAULT_BACKGROUND);
-      mainWindow.withImageIcon(ImageConstants.TANK_IMAGE);
+      mainWindow.withBackground(ImageConsts.DEFAULT_BACKGROUND);
+      mainWindow.withImageIcon(ImageConsts.TANK_IMAGE);
 
       List<Renderer<?>> renderers = createRenderer4TankBattleApplication(tankBattleApplication);
       mainWindow.addSpielfeld(renderers, grid);

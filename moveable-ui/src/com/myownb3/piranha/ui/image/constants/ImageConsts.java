@@ -1,6 +1,6 @@
-package com.myownb3.piranha.ui.constants;
+package com.myownb3.piranha.ui.image.constants;
 
-public class ImageConstants {
+public class ImageConsts {
    private static final String IMAGE_SUFFIX = ".png";
 
    public static final String EXPLOSION_FRAME_PATH = "res/image/explosion/frame";
@@ -25,7 +25,7 @@ public class ImageConstants {
 
    public static final String MISSILE_IMAGE_SUFFIX = IMAGE_SUFFIX;
 
-   private ImageConstants() {
+   private ImageConsts() {
       // private
    }
 }

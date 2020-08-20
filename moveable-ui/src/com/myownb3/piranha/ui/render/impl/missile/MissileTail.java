@@ -1,7 +1,7 @@
 package com.myownb3.piranha.ui.render.impl.missile;
 
-import static com.myownb3.piranha.ui.constants.ImageConstants.MISSILE_IMAGE_SUFFIX;
-import static com.myownb3.piranha.ui.constants.ImageConstants.MISSILE_TAIL_FRAME_PATH;
+import static com.myownb3.piranha.ui.image.constants.ImageConsts.MISSILE_IMAGE_SUFFIX;
+import static com.myownb3.piranha.ui.image.constants.ImageConsts.MISSILE_TAIL_FRAME_PATH;
 
 import com.myownb3.piranha.ui.render.impl.image.ImageSeries;
 
