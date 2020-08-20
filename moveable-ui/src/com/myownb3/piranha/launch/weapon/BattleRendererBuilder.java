@@ -10,6 +10,8 @@ import com.myownb3.piranha.application.battle.TankBattleApplication;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
+import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
+import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementImagePainter;
 
 public class BattleRendererBuilder {
 
@@ -23,5 +25,18 @@ public class BattleRendererBuilder {
       return gridElements.stream()
             .map(gridElement -> new GridElementPainter(gridElement, getColor(gridElement)))
             .collect(Collectors.toList());
+   }
+
+   public static List<Renderer<?>> createImageRenderer4TankBattleApplication(TankBattleApplication tankBattleApplication) {
+      List<Renderer<?>> renderers = new ArrayList<>();
+      renderers.addAll(tankBattleApplication.getTurretGridElements()
+            .stream()
+            .map(TurretGridElementImagePainter::new)
+            .collect(Collectors.toList()));
+      renderers.addAll(tankBattleApplication.getTankGridElements()
+            .stream()
+            .map(TankGridElementImagePainter::new)
+            .collect(Collectors.toList()));
+      return renderers;
    }
 }

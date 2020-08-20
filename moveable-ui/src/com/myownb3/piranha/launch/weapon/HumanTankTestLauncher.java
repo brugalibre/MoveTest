@@ -48,6 +48,7 @@ import com.myownb3.piranha.core.grid.MirrorGrid;
 import com.myownb3.piranha.core.grid.MirrorGrid.MirrorGridBuilder;
 import com.myownb3.piranha.core.grid.gridelement.constants.GridElementConst;
 import com.myownb3.piranha.core.grid.gridelement.lazy.GenericLazyGridElement;
+import com.myownb3.piranha.core.grid.gridelement.shape.circle.CircleImpl.CircleBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.dimension.DimensionInfoImpl.DimensionInfoBuilder;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Orientation;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.RectangleImpl.RectangleBuilder;
@@ -91,7 +92,7 @@ public class HumanTankTestLauncher {
       // Common
       double tankTurretHeight = GridElementConst.DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM;
       double tankHeightFromGround = GridElementConst.DEFAULT_TANK_HEIGHT_FROM_BOTTOM;
-      int tankGunCarriageRadius = 26;
+      int tankGunCarriageWidth = 26;
       double gunHeight = 50;
       double gunWidth = 14;
       int tankWidth = 70;
@@ -100,6 +101,7 @@ public class HumanTankTestLauncher {
       int missileVelocity = 60;
       double turretRotationSpeed = 5;
       int moveableVelocity = 35;
+      int amountOfCirclePoints = 15;
 
       // Rebel
       Position rebelTankPos = Positions.of(500, 720).rotate(80);
@@ -112,9 +114,12 @@ public class HumanTankTestLauncher {
       // imperial
       double imperialHealth = 200;
       double imperialTurretHealth = 100;
+      int imperialTankGunCarriageWidth = 35;
       int imperialTankVelocity = 20;
+      double imperialGunHeight = 45;
+      double imperialGunWidth = 8;
       Position turretNorthPos = Positions.of(700, 70).rotate(45);
-      Position turretSouthPos = Positions.of(930, 930).rotate(125);
+      Position turretSouthPos = Positions.of(900, 730).rotate(125);
       Position imperialTankPos = Positions.of(200, 100);
       List<EndPosition> imperialTankEndPositions = new ArrayList<>();
       imperialTankEndPositions.add(EndPositions.of(Positions.of(200, 600), 10));
@@ -180,8 +185,8 @@ public class HumanTankTestLauncher {
                         .build())
                   .build())
             .withShape(RectangleBuilder.builder()
-                  .withWidth(tankGunCarriageRadius)
-                  .withHeight(tankGunCarriageRadius)
+                  .withWidth(tankGunCarriageWidth)
+                  .withHeight(tankGunCarriageWidth)
                   .withCenter(rebelTankPos)
                   .build())
             .build();
@@ -190,6 +195,7 @@ public class HumanTankTestLauncher {
       DelegateOnGunFireListener delegateOnGunFireListener = new DelegateOnGunFireListener();
       GenericLazyGridElement<TurretGridElement> lazyTurretGridElement = new GenericLazyGridElement<>();
       GenericLazyGridElement<TurretGridElement> lazySouthTurretGridElement = new GenericLazyGridElement<>();
+
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
             .withMoveableAdder(MoveableAdderBuilder.builder()
@@ -252,13 +258,13 @@ public class HumanTankTestLauncher {
                                     .withProjectileDamage(100)
                                     .build())
                               .build())
-                        .withGunCarriageShape(RectangleBuilder.builder()
-                              .withWidth(tankGunCarriageRadius)
-                              .withHeight(tankGunCarriageRadius)
+                        .withGunCarriageShape(CircleBuilder.builder()
+                              .withRadius(imperialTankGunCarriageWidth / 2d)
+                              .withAmountOfPoints(amountOfCirclePoints)
                               .withCenter(imperialTankPos)
                               .build())
-                        .withGunHeight(gunHeight)
-                        .withGunWidth(gunWidth)
+                        .withGunHeight(imperialGunHeight)
+                        .withGunWidth(imperialGunWidth)
                         .withTurretPosition(imperialTankPos)
                         .withTurretRotationSpeed(turretRotationSpeed)
                         .build())
@@ -363,18 +369,18 @@ public class HumanTankTestLauncher {
                               .withVelocity(projectileVelocity)
                               .build())
                         .build())
-                  .withGunCarriageShape(RectangleBuilder.builder()
-                        .withWidth(tankGunCarriageRadius)
-                        .withHeight(tankGunCarriageRadius)
+                  .withGunCarriageShape(CircleBuilder.builder()
+                        .withRadius(imperialTankGunCarriageWidth / 2d)
+                        .withAmountOfPoints(amountOfCirclePoints)
                         .withCenter(turretNorthPos)
                         .build())
-                  .withGunHeight(gunHeight)
-                  .withGunWidth(gunWidth)
+                  .withGunHeight(imperialGunHeight)
+                  .withGunWidth(imperialGunWidth)
                   .withTurretPosition(turretNorthPos)
                   .withTurretRotationSpeed(turretRotationSpeed)
                   .build(), lazyTurretGridElement)
             .addTurretGridElement(TankBattleApplicationTurretBuilder.builder()
-                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withGrid(grid)
                   .withDetectorConfig(southTurretDetectorConfig)
                   .withProjectileType(ProjectileTypes.BULLET)
@@ -405,8 +411,8 @@ public class HumanTankTestLauncher {
                               .build())
                         .build())
                   .withGunCarriageShape(RectangleBuilder.builder()
-                        .withWidth(tankGunCarriageRadius)
-                        .withHeight(tankGunCarriageRadius)
+                        .withWidth(tankGunCarriageWidth)
+                        .withHeight(tankGunCarriageWidth)
                         .withCenter(turretSouthPos)
                         .build())
                   .withGunHeight(gunHeight)
@@ -438,11 +444,10 @@ public class HumanTankTestLauncher {
    private List<Renderer<?>> addRenderersWithImage(TankBattleApplication tankBattleApplication) {
       List<Renderer<?>> renderers = new ArrayList<>();
       for (TankGridElement tankGridElement : tankBattleApplication.getTankGridElements()) {
-         renderers.add(new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_IMAGE, ImageConsts.GUN_CARRIAGE_IMAGE,
-               ImageConsts.GUN_IMAGE));
+         renderers.add(new TankGridElementImagePainter(tankGridElement));
       }
       for (TurretGridElement turretGridElement : tankBattleApplication.getTurretGridElements()) {
-         renderers.add(new TurretGridElementImagePainter(turretGridElement, ImageConsts.GUN_CARRIAGE_IMAGE, ImageConsts.GUN_IMAGE));
+         renderers.add(new TurretGridElementImagePainter(turretGridElement));
       }
       return renderers;
    }

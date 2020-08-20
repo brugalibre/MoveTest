@@ -1,32 +1,34 @@
 package com.myownb3.piranha.ui.render.impl.weapon.turret;
 
+import static com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementPaintUtil.getGunCarriageImageRes;
+import static com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementPaintUtil.getGunImageLocation;
+
 import java.awt.Color;
 
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShape;
+import com.myownb3.piranha.ui.image.ImageResource;
 import com.myownb3.piranha.ui.render.RenderContext;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
-import com.myownb3.piranha.ui.render.impl.shape.PolygonPainter;
 
 public class TurretGridElementImagePainter extends GridElementPainter {
 
    private TurretShapeImagePainter turretShapeImagePainter;
-   private PolygonPainter gunCarriagePainter;
-   private PolygonPainter gunPainter;
 
-   public TurretGridElementImagePainter(TurretGridElement turretGridElement, String gunCarriageImageLocation, String gunImageLocation) {
+   public TurretGridElementImagePainter(TurretGridElement turretGridElement) {
+      this(turretGridElement, getGunCarriageImageRes(turretGridElement.getBelligerentParty()),
+            getGunImageLocation(turretGridElement.getBelligerentParty()));
+   }
+
+   private TurretGridElementImagePainter(TurretGridElement turretGridElement, ImageResource gunCarriageImage, String gunImageLocation) {
       super(turretGridElement, Color.BLACK);
       TurretShape turretShape = (TurretShape) turretGridElement.getShape();
-      turretShapeImagePainter = new TurretShapeImagePainter(turretShape, gunCarriageImageLocation, gunImageLocation);
-      this.gunCarriagePainter = new PolygonPainter(turretShape.getGunCarriageShape(), java.awt.Color.RED);
-      this.gunPainter = new PolygonPainter(turretShape.getGunShape().getBarrel(), java.awt.Color.BLUE);
+      this.turretShapeImagePainter = new TurretShapeImagePainter(turretShape, gunCarriageImage, gunImageLocation);
    }
 
    @Override
    protected void renderGridElement(RenderContext graphicsCtx) {
-      //      gunPainter.render(graphicsCtx);
-      //      gunCarriagePainter.render(graphicsCtx);
       turretShapeImagePainter.render(graphicsCtx);
    }
 

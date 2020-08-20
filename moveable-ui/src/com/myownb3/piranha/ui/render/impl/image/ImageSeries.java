@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import com.myownb3.piranha.ui.image.ImageScaler;
 
 /**
- * Represents a serie of BufferedImages
+ * Represents a series of BufferedImages
  * 
  * @author Dominic
  *

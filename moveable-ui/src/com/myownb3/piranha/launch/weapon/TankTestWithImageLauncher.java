@@ -1,12 +1,11 @@
 package com.myownb3.piranha.launch.weapon;
 
 import static com.myownb3.piranha.core.battle.destruction.DestructionHelper.getIsDestroyedBooleanSupplier;
+import static com.myownb3.piranha.launch.weapon.BattleRendererBuilder.createImageRenderer4TankBattleApplication;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
@@ -22,12 +21,10 @@ import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.config.GunConfigImpl.GunConfigBuilder;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.config.ProjectileConfigImpl.ProjectileConfigBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
-import com.myownb3.piranha.core.battle.weapon.turret.cluster.TurretCluster;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncedPositionEvaluatorImpl;
 import com.myownb3.piranha.core.collision.bounce.impl.BouncingCollisionDetectionHandlerImpl.BouncingCollisionDetectionHandlerBuilder;
 import com.myownb3.piranha.core.detector.DetectorImpl.DetectorBuilder;
@@ -51,8 +48,6 @@ import com.myownb3.piranha.ui.application.evasionstatemachine.config.DefaultConf
 import com.myownb3.piranha.ui.application.impl.UILogicUtil;
 import com.myownb3.piranha.ui.image.constants.ImageConsts;
 import com.myownb3.piranha.ui.render.Renderer;
-import com.myownb3.piranha.ui.render.impl.weapon.tank.TankGridElementImagePainter;
-import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementImagePainter;
 
 public class TankTestWithImageLauncher {
    private static final int MAX_Y = 820;
@@ -95,7 +90,7 @@ public class TankTestWithImageLauncher {
       int tankWidth = 70;
       int tankHeight = 90;
       int tankVelocity = 25;
-      int gunCarriageRadius = 30;
+      int gunCarriageWidth = 30;
       double gunHeight = 50;
       double gunWidth = 14;
       int battleTankGunCarriageRadius = 25;
@@ -195,8 +190,8 @@ public class TankTestWithImageLauncher {
                                     .build())
                               .build())
                         .withGunCarriageShape(RectangleBuilder.builder()
-                              .withHeight(gunCarriageRadius)
-                              .withWidth(gunCarriageRadius)
+                              .withHeight(gunCarriageWidth)
+                              .withWidth(gunCarriageWidth)
                               .withCenter(tankTurretPos)
                               .build())
                         .withGunHeight(gunHeight)
@@ -311,8 +306,8 @@ public class TankTestWithImageLauncher {
                               .build())
                         .build())
                   .withGunCarriageShape(RectangleBuilder.builder()
-                        .withHeight(gunCarriageRadius)
-                        .withWidth(gunCarriageRadius)
+                        .withHeight(gunCarriageWidth)
+                        .withWidth(gunCarriageWidth)
                         .withCenter(northTurretPos)
                         .build())
                   .withGunHeight(gunHeight)
@@ -341,8 +336,8 @@ public class TankTestWithImageLauncher {
                               .build())
                         .build())
                   .withGunCarriageShape(RectangleBuilder.builder()
-                        .withHeight(gunCarriageRadius)
-                        .withWidth(gunCarriageRadius)
+                        .withHeight(gunCarriageWidth)
+                        .withWidth(gunCarriageWidth)
                         .withCenter(southTurretPos)
                         .build())
                   .withGunHeight(gunHeight)
@@ -356,40 +351,10 @@ public class TankTestWithImageLauncher {
       MainWindow mainWindow = new MainWindow(grid.getDimension().getWidth(), grid.getDimension().getHeight(), padding, width);
       mainWindow.withBackground(ImageConsts.DEFAULT_BACKGROUND);
       mainWindow.withImageIcon(ImageConsts.TANK_IMAGE);
-      List<Renderer<?>> renderers = createRenderer4GridElements(tankBattleApplication);
+      List<Renderer<?>> renderers = createImageRenderer4TankBattleApplication(tankBattleApplication);
 
       mainWindow.addSpielfeld(renderers, grid);
       showGuiAndStartPainter(mainWindow, grid, renderers, tankBattleApplication, delegateOnGunFireListener);
-   }
-
-   private List<Renderer<?>> createRenderer4GridElements(TankBattleApplication tankBattleApplication) {
-      List<Renderer<?>> renderers = new ArrayList<>();
-      renderers.addAll(tankBattleApplication.getTurretGridElements()
-            .stream()
-            .map(buildTurretGridElementImagePainter())
-            .collect(Collectors.toList()));
-      renderers.addAll(tankBattleApplication.getTankGridElements()
-            .stream()
-            .map(buildTankGridElementImagePainter())
-            .collect(Collectors.toList()));
-      return renderers;
-   }
-
-   private Function<? super TurretGridElement, ? extends TurretGridElementImagePainter> buildTurretGridElementImagePainter() {
-      return turretGridElement -> new TurretGridElementImagePainter(turretGridElement, ImageConsts.GUN_CARRIAGE_IMAGE,
-            ImageConsts.GUN_IMAGE);
-   }
-
-   private Function<? super TankGridElement, ? extends TankGridElementImagePainter> buildTankGridElementImagePainter() {
-      return tankGridElement -> {
-         if (tankGridElement.getTurret() instanceof TurretCluster) {
-            return new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_SYMECTRIC_IMAGE,
-                  ImageConsts.GUN_CARRIAGE_IMAGE, ImageConsts.GUN_IMAGE);
-         } else {
-            return new TankGridElementImagePainter(tankGridElement, ImageConsts.TANK_HULL_IMAGE, ImageConsts.GUN_CARRIAGE_IMAGE,
-                  ImageConsts.GUN_IMAGE);
-         }
-      };
    }
 
    private static void showGuiAndStartPainter(MainWindow mainWindow, Grid grid, List<Renderer<?>> renderers,

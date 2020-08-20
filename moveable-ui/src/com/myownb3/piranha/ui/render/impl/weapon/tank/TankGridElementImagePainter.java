@@ -1,24 +1,27 @@
 package com.myownb3.piranha.ui.render.impl.weapon.tank;
 
+import static com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementPaintUtil.getGunCarriageImageRes;
+import static com.myownb3.piranha.ui.render.impl.weapon.turret.TurretGridElementPaintUtil.getGunImageLocation;
 import static java.awt.Color.BLACK;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.turret.cluster.shape.TurretClusterShape;
 import com.myownb3.piranha.core.battle.weapon.turret.shape.TurretShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
+import com.myownb3.piranha.ui.image.ImageResource;
+import com.myownb3.piranha.ui.image.constants.ImageConsts;
 import com.myownb3.piranha.ui.render.RenderContext;
-import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.GridElementPainter;
 import com.myownb3.piranha.ui.render.impl.drawmode.ColorSetMode;
 import com.myownb3.piranha.ui.render.impl.image.ImagePainter;
-import com.myownb3.piranha.ui.render.impl.shape.PolygonPainter;
 import com.myownb3.piranha.ui.render.impl.shape.rectangle.RectanglePaintUtil;
 import com.myownb3.piranha.ui.render.impl.weapon.turret.TurretShapeImagePainter;
 
@@ -26,34 +29,44 @@ public class TankGridElementImagePainter extends GridElementPainter {
 
    private ImagePainter tankHullImagePainter;
    private List<TurretShapeImagePainter> turretImagePainters;
-   private Drawable<? extends Shape> tankHullPainter;
 
-   public TankGridElementImagePainter(TankGridElement tank, String tankHullImageLocation, String gunCarriageImageLocation,
-         String gunImageLocation) {
+   public TankGridElementImagePainter(TankGridElement tank) {
       super(tank, BLACK);
-      this.tankHullImagePainter = buildTankHullImagePainter(tank.getShape(), tankHullImageLocation);
-      this.tankHullPainter = new PolygonPainter(tank.getShape().getHull(), Color.BLACK);
-      this.turretImagePainters = new ArrayList<>();
       Shape turretShape = tank.getTurret().getShape();
+      this.tankHullImagePainter = buildTankHullImagePainter(tank.getShape(), getTankHullImageLocation(tank.getBelligerentParty(), turretShape));
+      this.turretImagePainters = new ArrayList<>();
+      ImageResource gunCarriageImageRes = getGunCarriageImageRes(tank.getBelligerentParty());
+      String gunImageLocation = getGunImageLocation(tank.getBelligerentParty());
+      buildTankGridElementInternal(turretShape, gunCarriageImageRes, gunImageLocation);
+   }
+
+   private void buildTankGridElementInternal(Shape turretShape, ImageResource gunCarriageImageRes, String gunImageLocation) {
       if (turretShape instanceof TurretShape) {
-         addTurretShape(gunCarriageImageLocation, gunImageLocation, (TurretShape) turretShape);
-      } else if (turretShape instanceof TurretClusterShape) {
+         addTurretShape(gunCarriageImageRes, gunImageLocation, (TurretShape) turretShape);
+      } else if (hasTurretCluster(turretShape)) {
          List<Shape> turretShapes = ((TurretClusterShape) turretShape).getTurretShapes();
-         addTurretShapes(gunCarriageImageLocation, gunImageLocation, turretShapes);
+         addTurretShapes(gunCarriageImageRes, gunImageLocation, turretShapes);
       } else {
          throw new IllegalStateException("Unsupported TurretShape '" + turretShape + "'");
       }
    }
 
-   private void addTurretShape(String gunCarriageImageLocation, String gunImageLocation, TurretShape turretShape) {
-      TurretShapeImagePainter turretImagePainter = new TurretShapeImagePainter(turretShape, gunCarriageImageLocation, gunImageLocation);
+   private String getTankHullImageLocation(BelligerentParty belligerentParty, Shape turretShape) {
+      if (belligerentParty == BelligerentPartyConst.GALACTIC_EMPIRE) {
+         return ImageConsts.TANK_HULL_IMAGE_V2;
+      }
+      return hasTurretCluster(turretShape) ? ImageConsts.TANK_HULL_SYMECTRIC_IMAGE : ImageConsts.TANK_HULL_IMAGE;
+   }
+
+   private void addTurretShape(ImageResource gunCarriageImageRes, String gunImageLocation, TurretShape turretShape) {
+      TurretShapeImagePainter turretImagePainter = new TurretShapeImagePainter(turretShape, gunCarriageImageRes, gunImageLocation);
       turretImagePainters.add(turretImagePainter);
    }
 
-   private void addTurretShapes(String gunCarriageImageLocation, String gunImageLocation, List<Shape> turretShapes) {
+   private void addTurretShapes(ImageResource gunCarriageImageRes, String gunImageLocation, List<Shape> turretShapes) {
       for (Shape shape : turretShapes) {
          TurretShape turretShape = requireAs(shape, TurretShape.class);
-         addTurretShape(gunCarriageImageLocation, gunImageLocation, turretShape);
+         addTurretShape(gunCarriageImageRes, gunImageLocation, turretShape);
       }
    }
 
@@ -72,6 +85,10 @@ public class TankGridElementImagePainter extends GridElementPainter {
       //      tankHullPainter.render(graphicsCtx);
       tankHullImagePainter.render(graphicsCtx);
       turretImagePainters.forEach(turretImagePainter -> turretImagePainter.render(graphicsCtx));
+   }
+
+   private boolean hasTurretCluster(Shape turretShape) {
+      return turretShape instanceof TurretClusterShape;
    }
 
    @Override

@@ -79,14 +79,23 @@ public abstract class Drawable<E> implements Renderer<E> {
 
    protected BufferedImage readAndScaleImage4RectangleShape(com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle shape,
          String imageLocation) {
+      BufferedImage bufferedImage = readImage(imageLocation);
+      double scaleHeight = shape.getHeight();
+      double scaleWidth = shape.getWidth();
+      return ImageReader.resizeImg(bufferedImage, scaleHeight, scaleWidth);
+   }
+
+   private BufferedImage readImage(String imageLocation) {
       try {
-         BufferedImage bufferedImage = ImageIO.read(new File(imageLocation));
-         double scaleHeight = shape.getHeight();
-         double scaleWidth = shape.getWidth();
-         return ImageReader.resizeImg(bufferedImage, scaleHeight, scaleWidth);
+         return ImageIO.read(new File(imageLocation));
       } catch (IOException e) {
          throw new IllegalStateException("Image '" + imageLocation + "' not loadable");
       }
+   }
+
+   protected BufferedImage readAndScaleImage4CircleShape(double scaleRadius, String imageLocation) {
+      BufferedImage bufferedImage = readImage(imageLocation);
+      return ImageReader.resizeImg(bufferedImage, 2d * scaleRadius, 2d * scaleRadius);
    }
 
    @SuppressWarnings("unchecked")
