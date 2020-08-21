@@ -9,12 +9,13 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import com.myownb3.piranha.application.battle.TankBattleApplication;
+import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
+import com.myownb3.piranha.application.battle.impl.MultiMoveableAdderImpl.MultiMovealbeAdderBuilder;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationBuilder;
 import com.myownb3.piranha.application.battle.impl.TankBattleApplicationImpl.TankBattleApplicationTankBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationHumanTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTankTurretBuilder;
 import com.myownb3.piranha.application.battle.impl.turret.TankBattleApplicationTurretBuilder;
-import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
@@ -128,7 +129,7 @@ public class HumanTankTestLauncher {
       int missileCounterMeasureDetectionDistance = 100;
 
       DetectorConfig detectorConfig = DetectorConfigBuilder.builder()
-            .withDetectorReach(320)
+            .withDetectorReach(400)
             .withDetectorAngle(180)
             .build();
       DetectorConfig southTurretDetectorConfig = DetectorConfigBuilder.builder()
@@ -198,11 +199,19 @@ public class HumanTankTestLauncher {
 
       TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
             .withGrid(grid)
-            .withMoveableAdder(MoveableAdderBuilder.builder()
-                  .withMoveableVelocity(moveableVelocity)
-                  .withCounter(200)
-                  .withPadding(PADDING)
-                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+            .withMoveableAdder(MultiMovealbeAdderBuilder.builder()
+                  .addMoveableAdder(MoveableAdderBuilder.builder()
+                        .withMoveableVelocity(moveableVelocity)
+                        .withCounter(500)
+                        .withPadding(PADDING)
+                        .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
+                        .build())
+                  .addMoveableAdder(MoveableAdderBuilder.builder()
+                        .withMoveableVelocity(moveableVelocity)
+                        .withCounter(400)
+                        .withPadding(PADDING)
+                        .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                        .build())
                   .build())
             .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(imperialTankHolder, TankBattleApplicationTankBuilder.builder()

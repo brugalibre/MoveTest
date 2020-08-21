@@ -105,6 +105,11 @@ public class MoveableObstacleImpl extends AbstractMoveable implements Obstacle, 
          return this;
       }
 
+      public MoveableObstacleBuilder withBelligerentParty(BelligerentParty belligerentParty) {
+         this.belligerentParty = belligerentParty;
+         return this;
+      }
+
       public MoveableObstacleBuilder withDestructionHelper(DestructionHelper destructionHelper) {
          this.destructionHelper = destructionHelper;
          return this;

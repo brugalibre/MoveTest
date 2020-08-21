@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
@@ -26,7 +27,6 @@ import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape.PositionShapeBuilder;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
-import com.myownb3.piranha.core.moveables.AbstractMoveableBuilder.MoveableBuilder;
 import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 
@@ -95,7 +95,7 @@ class MoveableAdderImplTest {
                   .withMinY(50)
                   .build())
             .addExistingObstacle()
-            .addExistingMoveable()
+            .addExistingMoveable(5, BelligerentPartyConst.REBEL_ALLIANCE)
             .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
             .build();
 
@@ -103,7 +103,37 @@ class MoveableAdderImplTest {
       List<GridElement> actualNewAddeMoveables = tcb.moveableAdder.check4NewMoveables2Add(tcb.grid, tcb.evasionStateMachineConfig);
 
       // Then
-      assertThat(actualNewAddeMoveables.size(), is(0));
+      assertThat(actualNewAddeMoveables.size(), is(1));
+   }
+
+   @Test
+   void testCheck4NewMoveables2Add_OneMoveableToAdd_IgnoreMoveableFromOtherParty() {
+
+      // Given
+      int counter = 50;
+      int amountOfNonMoveables = 1;
+      int amountOfMoveables = 1;
+
+      TestCaseBuilder tcb = new TestCaseBuilder()
+            .withMoveableAdder(spy(MoveableAdderBuilder.builder()
+                  .withCounter(counter)
+                  .withAmountOfMoveables(amountOfMoveables)
+                  .withAmountOfNonMoveables(amountOfNonMoveables)
+                  .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
+                  .build()))
+            .withGrid(GridBuilder.builder()
+                  .withMaxX(50)
+                  .withMinY(50)
+                  .build())
+            .addExistingMoveable(5, BelligerentPartyConst.REBEL_ALLIANCE)
+            .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
+            .build();
+
+      // When
+      List<GridElement> actualNewAddeMoveables = tcb.moveableAdder.check4NewMoveables2Add(tcb.grid, tcb.evasionStateMachineConfig);
+
+      // Then
+      assertThat(actualNewAddeMoveables.size(), is(2));
    }
 
    @Test
@@ -187,7 +217,7 @@ class MoveableAdderImplTest {
                   .withMaxX(50)
                   .withMinY(50)
                   .build())
-            .addExistingMoveable(-5)
+            .addExistingMoveable(-5, BelligerentPartyConst.REBEL_ALLIANCE)
             .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
             .build();
 
@@ -217,7 +247,7 @@ class MoveableAdderImplTest {
                   .withMaxX(50)
                   .withMinY(50)
                   .build())
-            .addExistingMoveable(5)
+            .addExistingMoveable(5, BelligerentPartyConst.REBEL_ALLIANCE)
             .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
             .build();
 
@@ -287,7 +317,7 @@ class MoveableAdderImplTest {
                   .withMaxX(50)
                   .withMinY(50)
                   .build())
-            .addExistingMoveable()
+            .addExistingMoveable(5, BelligerentPartyConst.GALACTIC_EMPIRE)
             .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
             .build();
 
@@ -324,19 +354,7 @@ class MoveableAdderImplTest {
          return this;
       }
 
-      public TestCaseBuilder addExistingMoveable() {
-         requireNonNull(grid);
-         MoveableBuilder.builder()
-               .withGrid(grid)
-               .withShape(PositionShapeBuilder.builder()
-                     .withPosition(Positions.of(5, 5))
-                     .build())
-               .withHandler(moveable -> true)
-               .build();
-         return this;
-      }
-
-      public TestCaseBuilder addExistingMoveable(double health) {
+      public TestCaseBuilder addExistingMoveable(double health, BelligerentParty belligerentParty) {
          requireNonNull(grid);
          MoveableObstacleBuilder.builder()
                .withGrid(grid)
@@ -344,6 +362,7 @@ class MoveableAdderImplTest {
                      .withPosition(Positions.of(5, 5))
                      .build())
                .withHealth(health)
+               .withBelligerentParty(belligerentParty)
                .withVelocity(5)
                .build();
          return this;

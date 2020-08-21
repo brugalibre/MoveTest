@@ -12,6 +12,7 @@ import com.myownb3.piranha.application.Application;
 import com.myownb3.piranha.application.battle.MoveableAdder;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
+import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.shape.TIEFighterShapeImpl.TIEFighterShapeBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
@@ -121,6 +122,7 @@ public class MoveableAdderImpl implements MoveableAdder {
             .filter(isNotProjectile())
             .filter(isObstacle())
             .filter(isGridElementAlive())
+            .filter(isSameBelligerentParty())
             .count();
    }
 
@@ -130,7 +132,12 @@ public class MoveableAdderImpl implements MoveableAdder {
             .filter(isNotProjectile())
             .filter(isNotTank())
             .filter(isGridElementAlive())
+            .filter(isSameBelligerentParty())
             .count();
+   }
+
+   private Predicate<? super GridElement> isSameBelligerentParty() {
+      return gridElement -> ((Belligerent) gridElement).getBelligerentParty() == belligerentParty;
    }
 
    private Moveable buildNewMoveable(Grid grid, EvasionStateMachineConfig evasionStateMachineConfig, int padding) {

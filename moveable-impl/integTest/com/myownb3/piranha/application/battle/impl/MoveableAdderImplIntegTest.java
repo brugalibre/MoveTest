@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.myownb3.piranha.application.battle.MoveableAdder;
 import com.myownb3.piranha.application.battle.impl.MoveableAdderImpl.MoveableAdderBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentPartyConst;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileConfig;
@@ -115,9 +116,9 @@ class MoveableAdderImplIntegTest {
    }
 
    private static class TestCaseBuilder {
-      public ProjectileGridElement projectile;
-      public EvasionStateMachineConfig evasionStateMachineConfig;
-      private MoveableAdderImpl moveableAdder;
+      private ProjectileGridElement projectile;
+      private EvasionStateMachineConfig evasionStateMachineConfig;
+      private MoveableAdder moveableAdder;
       private Grid grid;
 
       private TestCaseBuilder() {
