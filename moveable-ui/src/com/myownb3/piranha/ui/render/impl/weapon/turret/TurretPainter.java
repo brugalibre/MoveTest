@@ -34,8 +34,8 @@ public class TurretPainter extends AbstractShapePainter<Shape> {
    }
 
    private void createAndAddGunAndGunCarriagePainter(Color color, TurretShape turretShape) {
-      this.shapeGunPainters.add(ShapePainterFactory.getShapePainter(turretShape.getGunShape(), color, false));
-      this.shapeGunCarriagePainters.add(ShapePainterFactory.getShapePainter(turretShape.getGunCarriageShape(), color, false));
+      this.shapeGunPainters.add(ShapePainterFactory.getShapePainter(turretShape.getGunShape(), color));
+      this.shapeGunCarriagePainters.add(ShapePainterFactory.getShapePainter(turretShape.getGunCarriageShape(), color));
    }
 
    @Override

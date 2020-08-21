@@ -62,7 +62,7 @@ public class GridElementColorUtil {
       if (isGalacticEmpire(belligerentParty)) {
          return DARKER_DARKER_GRAY;
       }
-      return Color.RED;
+      return new Color(46, 125, 50);
    }
 
    public static Color getTankColor(BelligerentParty belligerentParty) {

@@ -19,10 +19,10 @@ public class GunPainter extends AbstractShapePainter<GunShape> {
 
    public GunPainter(GunShape gunShape, Color color) {
       super(gunShape);
-      barrelPainter = ShapePainterFactory.getShapePainter(gunShape.getBarrel(), color, false);
+      barrelPainter = ShapePainterFactory.getShapePainter(gunShape.getBarrel(), color);
       muzzlePainterOpt = Optional.empty();
       if (gunShape.getMuzzleBrake().isPresent()) {
-         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(gunShape.getMuzzleBrake().get(), color, false));
+         muzzlePainterOpt = Optional.of(ShapePainterFactory.getShapePainter(gunShape.getMuzzleBrake().get(), color));
       }
    }
 

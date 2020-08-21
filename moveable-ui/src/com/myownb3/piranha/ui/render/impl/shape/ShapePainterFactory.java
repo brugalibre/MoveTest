@@ -6,6 +6,7 @@ package com.myownb3.piranha.ui.render.impl.shape;
 import java.awt.Color;
 
 import com.myownb3.piranha.core.battle.belligerent.galacticempire.tfighter.TIEFighterShape;
+import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileGridElement;
 import com.myownb3.piranha.core.battle.weapon.gun.projectile.ProjectileTypes;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
@@ -19,6 +20,8 @@ import com.myownb3.piranha.core.grid.gridelement.shape.circle.Circle;
 import com.myownb3.piranha.core.grid.gridelement.shape.position.PositionShape;
 import com.myownb3.piranha.core.grid.gridelement.shape.rectangle.Rectangle;
 import com.myownb3.piranha.core.grid.gridelement.wall.WallGridElement;
+import com.myownb3.piranha.core.moveables.AutoMoveable;
+import com.myownb3.piranha.core.moveables.controller.AutoMoveableController;
 import com.myownb3.piranha.ui.render.impl.Drawable;
 import com.myownb3.piranha.ui.render.impl.shape.circle.CirclePainter;
 import com.myownb3.piranha.ui.render.impl.shape.position.PositionPainter;
@@ -51,11 +54,16 @@ public class ShapePainterFactory {
          if (((ProjectileGridElement) gridElement).getProjectileType() != ProjectileTypes.BULLET) {
             return new PolygonPainter(shape, color);
          }
+      } else if (isAutoMoveable(gridElement)) {
+         if (isTIEFighterShape(shape)) {
+            Color tieFighterColor = GridElementColorUtil.getObstacleColor(getBelligerentParty(gridElement));
+            return new TIEFighterShapePainter((TIEFighterShape) shape, tieFighterColor);
+         }
       }
-      return getShapePainter(shape, color, false);
+      return getShapePainter(shape, color);
    }
 
-   public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color, boolean drawBorder) {
+   public static Drawable<? extends Shape> getShapePainter(Shape shape, Color color) {
       if (shape instanceof Circle) {
          return new CirclePainter((Circle) shape, PaintMode.SHAPE, color, 1, 1);
       } else if (shape instanceof PositionShape) {
@@ -66,10 +74,21 @@ public class ShapePainterFactory {
          return new TurretPainter(shape, color);
       } else if (shape instanceof GunShape) {
          return new GunPainter((GunShape) shape, color);
-      } else if (shape instanceof TIEFighterShape) {
-         return new TIEFighterShapePainter((TIEFighterShape) shape, color.darker());
       } else {
          throw new IllegalStateException("Unknown Shape '" + shape + "'!");
       }
+   }
+
+   private static boolean isTIEFighterShape(Shape shape) {
+      return shape instanceof TIEFighterShape;
+   }
+
+   private static boolean isAutoMoveable(GridElement gridElement) {
+      return gridElement instanceof AutoMoveable || gridElement instanceof AutoMoveableController;
+   }
+
+   private static BelligerentParty getBelligerentParty(GridElement gridElement) {
+      return gridElement instanceof AutoMoveable ? ((AutoMoveable) gridElement).getBelligerentParty()
+            : ((AutoMoveableController) gridElement).getBelligerentParty();
    }
 }

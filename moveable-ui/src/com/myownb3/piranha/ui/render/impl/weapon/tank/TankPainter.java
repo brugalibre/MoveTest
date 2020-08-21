@@ -20,8 +20,8 @@ public class TankPainter extends AbstractShapePainter<TankShape> {
    public TankPainter(Tank tank, Color tankColor, Color turretColor) {
       super(tank.getShape());
       TankShape tankShape = tank.getShape();
-      this.turretPainter = ShapePainterFactory.getShapePainter(tankShape.getTurretShape(), turretColor, false);
-      this.tankHullPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor, false);
+      this.turretPainter = ShapePainterFactory.getShapePainter(tankShape.getTurretShape(), turretColor);
+      this.tankHullPainter = ShapePainterFactory.getShapePainter(tankShape.getHull(), tankColor);
    }
 
    @Override

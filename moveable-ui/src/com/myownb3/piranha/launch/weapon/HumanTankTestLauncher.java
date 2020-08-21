@@ -109,14 +109,14 @@ public class HumanTankTestLauncher {
       int rebelTankEngineAccelerationSpeed = 1300;
       double rebelTankEngineManuallySlowDownSpeed = 200;
       double rebelTankEngineNaturallySlowDownSpeed = 900;
-      int rebelTankVelocity = 55;
+      int rebelTankVelocity = 15;
       double rebelHealth = 350;
 
       // imperial
       double imperialHealth = 200;
       double imperialTurretHealth = 100;
       int imperialTankGunCarriageWidth = 35;
-      int imperialTankVelocity = 20;
+      int imperialTankVelocity = 10;
       double imperialGunHeight = 45;
       double imperialGunWidth = 8;
       Position turretNorthPos = Positions.of(700, 70).rotate(45);
@@ -212,6 +212,7 @@ public class HumanTankTestLauncher {
                         .withPadding(PADDING)
                         .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                         .build())
+                  .setAsync()
                   .build())
             .withEvasionStateMachineConfig(DefaultConfig.INSTANCE.getDefaultEvasionStateMachineConfig())
             .addTankGridElement(imperialTankHolder, TankBattleApplicationTankBuilder.builder()
