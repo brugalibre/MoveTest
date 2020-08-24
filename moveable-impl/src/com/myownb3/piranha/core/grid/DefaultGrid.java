@@ -36,6 +36,7 @@ import com.myownb3.piranha.util.MathUtil;
  */
 public class DefaultGrid implements Grid {
 
+   private static final int SMALLEST_STEP_WITH_MULTIPLCATOR = 4;
    private List<GridElement> gridElements;
    private boolean checkLowerBoundarys;
    protected int maxX;
@@ -132,7 +133,7 @@ public class DefaultGrid implements Grid {
    }
 
    private double getCollisionCheckDistance(GridElement gridElement) {
-      return gridElement.getDimensionInfo().getDimensionRadius() + 2 * gridElement.getSmallestStepWith();
+      return SMALLEST_STEP_WITH_MULTIPLCATOR * gridElement.getSmallestStepWith();
    }
 
    /**
