@@ -2,6 +2,7 @@ package com.myownb3.piranha.audio.impl;
 
 import static java.util.Objects.nonNull;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.function.BooleanSupplier;
 
@@ -64,7 +65,7 @@ public class AudioClipImpl implements AudioClip {
    }
 
    private AudioInputStream getAudioInputStream(String audioRessource) throws UnsupportedAudioFileException, IOException {
-      return AudioSystem.getAudioInputStream(getClass().getClassLoader().getResourceAsStream(audioRessource));
+      return AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getClassLoader().getResourceAsStream(audioRessource)));
    }
 
    @Override
