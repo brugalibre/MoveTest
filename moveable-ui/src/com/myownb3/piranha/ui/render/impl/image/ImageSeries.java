@@ -3,13 +3,11 @@ package com.myownb3.piranha.ui.render.impl.image;
 import static java.lang.Math.max;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
+import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.image.ImageScaler;
 
 /**
@@ -64,7 +62,7 @@ public abstract class ImageSeries {
       for (int i = 1; i < getImageSerieSize(); i++) {
          try {
             String path = getNextImagePathName(i);
-            BufferedImage bufferedImage = ImageIO.read(new File(path));
+            BufferedImage bufferedImage = ImageReader.readBufferedImage(path);
             bufferedImage = resizeImageIfNecessary(bufferedImage, dimensionRadius, resizeSmaller);
             newImages.add(bufferedImage);
          } catch (IOException e) {

@@ -8,17 +8,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import com.myownb3.piranha.core.grid.Dimension;
 import com.myownb3.piranha.core.grid.Grid;
+import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.image.ImageScaler;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.Graphics2DContext;
@@ -53,7 +52,7 @@ public class SpielFeld extends JComponent {
    private void loadImageOpt(String backgroundImage, Dimension gridDimension) {
       BufferedImage bufferedImage = null;
       try {
-         bufferedImage = ImageIO.read(new File(backgroundImage));
+         bufferedImage = ImageReader.readBufferedImage(backgroundImage);
          double scaledWidth = ((double) gridDimension.getWidth() / bufferedImage.getWidth()) * bufferedImage.getWidth();
          double scaledHeight = ((double) gridDimension.getHeight() / bufferedImage.getHeight()) * bufferedImage.getHeight();
          bufferedImage = ImageScaler.scaleImage(bufferedImage, scaledWidth + 30, scaledHeight);

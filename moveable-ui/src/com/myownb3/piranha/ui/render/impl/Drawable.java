@@ -2,12 +2,9 @@ package com.myownb3.piranha.ui.render.impl;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-
-import javax.imageio.ImageIO;
 
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.ui.image.ImageReader;
@@ -87,7 +84,7 @@ public abstract class Drawable<E> implements Renderer<E> {
 
    private BufferedImage readImage(String imageLocation) {
       try {
-         return ImageIO.read(new File(imageLocation));
+         return ImageReader.readBufferedImage(imageLocation);
       } catch (IOException e) {
          throw new IllegalStateException("Image '" + imageLocation + "' not loadable");
       }

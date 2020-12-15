@@ -8,12 +8,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +22,7 @@ import javax.swing.WindowConstants;
 import com.myownb3.piranha.core.grid.Grid;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
 import com.myownb3.piranha.launch.weapon.listener.MouseListener;
+import com.myownb3.piranha.ui.image.ImageReader;
 import com.myownb3.piranha.ui.image.ImageScaler;
 import com.myownb3.piranha.ui.render.Renderer;
 import com.myownb3.piranha.ui.render.impl.PositionListPainter;
@@ -64,9 +63,8 @@ public class MainWindow {
    }
 
    public void withImageIcon(String tankImage) {
-
       try {
-         BufferedImage bufferedImage = ImageIO.read(new File(tankImage));
+         BufferedImage bufferedImage = ImageReader.readBufferedImage(tankImage);
          bufferedImage = ImageScaler.scaleImage(bufferedImage, bufferedImage.getWidth() * 2d, bufferedImage.getHeight() * 2d);
          contentWindow.setIconImage(new ImageIcon(bufferedImage).getImage());
       } catch (IOException e) {
