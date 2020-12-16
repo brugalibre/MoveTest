@@ -98,7 +98,7 @@ public class MoveableAdderImpl implements MoveableAdder {
     * Handles a new cycle on a {@link Application}
     * Return <code>true</code> if the current cycle is over, which means that the internal <code>cycleCounter</code> is greater or equal
     * then the counter size defined by this {@link MoveableAdderImpl} or <code>false</code> if not
-    * This internal <code>cycleCounter</code> is resetet to <code>0</code> if this method returns <code>true</code>
+    * This internal <code>cycleCounter</code> is reseted to <code>0</code> if this method returns <code>true</code>
     * 
     * 
     * @return <code>true</code> if the current cycle is over and <code>false</code> if not

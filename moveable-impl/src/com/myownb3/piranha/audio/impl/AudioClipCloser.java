@@ -73,7 +73,7 @@ public class AudioClipCloser implements Callable<Optional<Void>> {
    }
 
    /**
-    * Stopts this {@link AudioClipCloser}
+    * Stops this {@link AudioClipCloser}
     */
    public void stop() {
       this.isRunning = false;

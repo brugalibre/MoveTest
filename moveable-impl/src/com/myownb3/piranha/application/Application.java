@@ -17,7 +17,7 @@ public interface Application {
 
    /**
     * Prepares this {@link Application}
-    * This inclues e.g. preparing the {@link Grid} and or the {@link WorkerThreadFactory}
+    * This includes e.g. preparing the {@link Grid} and or the {@link WorkerThreadFactory}
     */
    void prepare();
 }
