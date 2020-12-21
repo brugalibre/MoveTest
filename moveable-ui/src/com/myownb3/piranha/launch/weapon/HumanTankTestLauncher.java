@@ -347,7 +347,7 @@ public class HumanTankTestLauncher {
                         .withPositionTransformator(pos -> pos.movePositionForward(150))
                         .withGunCarriage(gunCarriage)
                         .build())
-                  .build(imperialTankHolder))
+                  .build(rebelTankHolder))
             .addTurretGridElement(TankBattleApplicationTurretBuilder.builder()
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                   .withGrid(grid)
