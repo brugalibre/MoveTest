@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.battle.weapon.tank.engine;
+package com.myownb3.piranha.core.moveables.engine;
 
 import static java.util.Objects.requireNonNull;
 
@@ -6,22 +6,19 @@ import java.util.Optional;
 
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
-import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
-import com.myownb3.piranha.core.moveables.engine.EngineStates;
-import com.myownb3.piranha.core.moveables.engine.MovingDirections;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.EngineAcceleratorImpl.EngineAcceleratorBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.EngineTransmissionConfigImpl.EngineTransmissionConfigBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.GearImpl.GearBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio;
 
-public class TankEngineImpl implements TankEngine {
+public class MoveableEngineImpl implements MoveableEngine {
 
    private MoveableController moveableController;
    private Optional<EngineAudio> engineAudioOpt;
    private EngineStateHandler engineStateHandler;
    private EngineStates engineState;
 
-   private TankEngineImpl(MoveableController moveableController, EngineStateHandler engineStateHandler, EngineAudio engineAudio) {
+   private MoveableEngineImpl(MoveableController moveableController, EngineStateHandler engineStateHandler, EngineAudio engineAudio) {
       this.moveableController = requireNonNull(moveableController);
       this.engineAudioOpt = Optional.ofNullable(engineAudio);
       this.engineStateHandler = engineStateHandler;
@@ -46,33 +43,33 @@ public class TankEngineImpl implements TankEngine {
       return moveableController.getMoveable();
    }
 
-   public static class TankEngineBuilder {
+   public static class MoveableEngineBuilder {
 
       private MoveableController moveableController;
       private EngineAudio engineAudio;
       private int velocity;
       private EngineStateHandler engineStateHandler;
 
-      private TankEngineBuilder() {
+      private MoveableEngineBuilder() {
          // private
       }
 
-      public TankEngineBuilder withMoveableController(MoveableController moveableController) {
+      public MoveableEngineBuilder withMoveableController(MoveableController moveableController) {
          this.moveableController = moveableController;
          return this;
       }
 
-      public TankEngineBuilder withVelocity(int velocity) {
+      public MoveableEngineBuilder withVelocity(int velocity) {
          this.velocity = velocity;
          return this;
       }
 
-      public TankEngineBuilder withEngineStateHandler(EngineStateHandler engineStateHandler) {
+      public MoveableEngineBuilder withEngineStateHandler(EngineStateHandler engineStateHandler) {
          this.engineStateHandler = engineStateHandler;
          return this;
       }
 
-      public TankEngineBuilder withDefaultEngineStateHandler() {
+      public MoveableEngineBuilder withDefaultEngineStateHandler() {
          int acceleratingSpeed = 1800;
          double manuallySlowDownSpeed = 200;
          double naturallySlowDownSpeed = 900;
@@ -96,19 +93,19 @@ public class TankEngineImpl implements TankEngine {
          return this;
       }
 
-      public TankEngineBuilder withEngineAudio(EngineAudio engineAudio) {
+      public MoveableEngineBuilder withEngineAudio(EngineAudio engineAudio) {
          this.engineAudio = engineAudio;
          return this;
       }
 
-      public TankEngineImpl build() {
+      public MoveableEngineImpl build() {
          requireNonNull(moveableController);
          requireNonNull(engineStateHandler);
-         return new TankEngineImpl(moveableController, engineStateHandler, engineAudio);
+         return new MoveableEngineImpl(moveableController, engineStateHandler, engineAudio);
       }
 
-      public static TankEngineBuilder builder() {
-         return new TankEngineBuilder();
+      public static MoveableEngineBuilder builder() {
+         return new MoveableEngineBuilder();
       }
 
    }

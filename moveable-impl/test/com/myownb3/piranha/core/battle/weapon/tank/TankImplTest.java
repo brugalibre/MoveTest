@@ -27,7 +27,7 @@ import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -51,7 +51,7 @@ class TankImplTest {
       double health = 4;
       OnDestroyedCallbackHandler onDestroyedCallbackHandler = mock(OnDestroyedCallbackHandler.class);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
             .withTurret(TurretBuilder.builder()
@@ -125,7 +125,7 @@ class TankImplTest {
       // When
       Grid grid = mock(Grid.class);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(TankDetectorBuilder.builder()
                   .withGrid(grid)
                   .withDetector(DetectorBuilder.builder()
@@ -198,7 +198,7 @@ class TankImplTest {
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTurret(turret)
             .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
             .withHull(RectangleBuilder.builder()
@@ -225,7 +225,7 @@ class TankImplTest {
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
@@ -251,7 +251,7 @@ class TankImplTest {
       when(turret.getShape()).thenReturn(mock(TurretShapeImpl.class));
       when(turret.getShape().getCenter()).thenReturn(turretPos);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
                   .withCenter(Positions.of(5, 5))
@@ -284,7 +284,7 @@ class TankImplTest {
       when(turret.getShape().getCenter()).thenReturn(turretPos);
 
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
@@ -299,7 +299,7 @@ class TankImplTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getTankEngine()).moveForward();
+      verify(tank.getMoveableEngine()).moveForward();
       verify(turret).autodetect();
    }
 
@@ -318,7 +318,7 @@ class TankImplTest {
       when(turret.getShape().getCenter()).thenReturn(turretPos);
 
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
@@ -333,7 +333,7 @@ class TankImplTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getTankEngine()).moveForward();
+      verify(tank.getMoveableEngine()).moveForward();
    }
 
    @Test
@@ -347,7 +347,7 @@ class TankImplTest {
 
       Turret turret = mockShootingTurret(turretPos);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
@@ -362,8 +362,8 @@ class TankImplTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getTankEngine(), never()).moveForward();
-      verify(tank.getTankEngine()).stopMoveForward();
+      verify(tank.getMoveableEngine(), never()).moveForward();
+      verify(tank.getMoveableEngine()).stopMoveForward();
    }
 
    @Test
@@ -379,7 +379,7 @@ class TankImplTest {
       TankDetector detector = mock(TankDetector.class);
       when(detector.isUnderFire()).thenReturn(true);
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(detector)
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
@@ -394,7 +394,7 @@ class TankImplTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getTankEngine()).moveForward();
+      verify(tank.getMoveableEngine()).moveForward();
    }
 
    private static Turret mockShootingTurret(Position turretPos) {
@@ -419,7 +419,7 @@ class TankImplTest {
       when(turret.getShape().getCenter()).thenReturn(turretPos);
 
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTankDetector(mock(TankDetector.class))
             .withTurret(turret)
             .withHull(RectangleBuilder.builder()
@@ -449,7 +449,7 @@ class TankImplTest {
 
       // When
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)
@@ -511,7 +511,7 @@ class TankImplTest {
       double gunHeight = 10;
       double gunWidth = 4;
       Tank tank = TankBuilder.builder()
-            .withTankEngine(mock(TankEngine.class))
+            .withMoveableEngine(mock(MoveableEngine.class))
             .withTurret(TurretBuilder.builder()
                   .withDetector(DetectorBuilder.builder()
                         .withAngleInc(1)

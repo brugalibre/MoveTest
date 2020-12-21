@@ -85,7 +85,7 @@ class TankBattleApplicationImplIntegTest {
                   .withTankPos(tankPos)
                   .withTankWidth(40)
                   .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(10)

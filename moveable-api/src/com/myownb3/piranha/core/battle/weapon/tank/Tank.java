@@ -3,11 +3,11 @@ package com.myownb3.piranha.core.battle.weapon.tank;
 import com.myownb3.piranha.core.battle.belligerent.Belligerent;
 import com.myownb3.piranha.core.battle.destruction.Destructible;
 import com.myownb3.piranha.core.battle.weapon.AutoDetectable;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 
 /**
  * The {@link Tank} interface represents a tank which usually has a {@link Turret} on top
@@ -33,7 +33,7 @@ public interface Tank extends AutoDetectable, Belligerent, Destructible, Collisi
    Position getPosition();
 
    /**
-    * @return the {@link TankEngine} of this {@link Tank}
+    * @return the {@link MoveableEngine} of this {@link Tank}
     */
-   TankEngine getTankEngine();
+   MoveableEngine getMoveableEngine();
 }

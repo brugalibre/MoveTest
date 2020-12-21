@@ -8,14 +8,15 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.EngineAcceleratorImpl.EngineAcceleratorBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.EngineTransmissionConfigImpl.EngineTransmissionConfigBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.GearImpl.GearBuilder;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine.HumanMoveableEngineBuilder;
 
-class HumanTankEngineIntegTest {
+class HumanMoveableEngineIntegTest {
 
    @Test
    void testOnForward_AndMove() throws InterruptedException {
@@ -46,30 +47,30 @@ class HumanTankEngineIntegTest {
             .withManuallySlowDownSpeed(manuallySlowDownSpeed)
             .withNaturallySlowDownSpeed(naturallySlowDownSpeed)
             .build());
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(velocity)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onForwardPressed(true);
-      humanTankEngine.moveForward(); // switch state accelerating 
-      humanTankEngine.moveForward(); // accelerate from 0 -> 1
-      humanTankEngine.moveForward(); // start accelerating from 1 -> 2
+      humanMoveableEngine.onForwardPressed(true);
+      humanMoveableEngine.moveForward(); // switch state accelerating 
+      humanMoveableEngine.moveForward(); // accelerate from 0 -> 1
+      humanMoveableEngine.moveForward(); // start accelerating from 1 -> 2
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // done accelerating from 1 -> 2
-      humanTankEngine.moveForward(); // start accelerating from 2 -> 3
+      humanMoveableEngine.moveForward(); // done accelerating from 1 -> 2
+      humanMoveableEngine.moveForward(); // start accelerating from 2 -> 3
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // done accelerating from 2 -> 3
-      humanTankEngine.moveForward(); // start 'moving forwards'
+      humanMoveableEngine.moveForward(); // done accelerating from 2 -> 3
+      humanMoveableEngine.moveForward(); // start 'moving forwards'
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // state 'moving forwards'
+      humanMoveableEngine.moveForward(); // state 'moving forwards'
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // state 'moving forwards'
+      humanMoveableEngine.moveForward(); // state 'moving forwards'
 
       // Then
-      verify(humanTankEngine.getMoveable(), times(8)).moveForward();
+      verify(humanMoveableEngine.getMoveable(), times(8)).moveForward();
       assertThat(engineStateHandler.getCurrentVelocity(), is(velocity));
    }
 
@@ -102,30 +103,30 @@ class HumanTankEngineIntegTest {
             .withManuallySlowDownSpeed(manuallySlowDownSpeed)
             .withNaturallySlowDownSpeed(naturallySlowDownSpeed)
             .build());
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(velocity)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onBackwardPressed(true);
-      humanTankEngine.moveForward(); // switch state accelerating 
-      humanTankEngine.moveForward(); // accelerate from 0 -> 1
-      humanTankEngine.moveForward(); // start accelerating from 1 -> 2
+      humanMoveableEngine.onBackwardPressed(true);
+      humanMoveableEngine.moveForward(); // switch state accelerating 
+      humanMoveableEngine.moveForward(); // accelerate from 0 -> 1
+      humanMoveableEngine.moveForward(); // start accelerating from 1 -> 2
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // done accelerating from 1 -> 2
-      humanTankEngine.moveForward(); // start accelerating from 2 -> 3
+      humanMoveableEngine.moveForward(); // done accelerating from 1 -> 2
+      humanMoveableEngine.moveForward(); // start accelerating from 2 -> 3
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // done accelerating from 2 -> 3
-      humanTankEngine.moveForward(); // start 'moving backwards'
+      humanMoveableEngine.moveForward(); // done accelerating from 2 -> 3
+      humanMoveableEngine.moveForward(); // start 'moving backwards'
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // state 'moving backwards'
+      humanMoveableEngine.moveForward(); // state 'moving backwards'
       Thread.sleep(1000);
-      humanTankEngine.moveForward(); // state 'moving backwards'
+      humanMoveableEngine.moveForward(); // state 'moving backwards'
 
       // Then
-      verify(humanTankEngine.getMoveable(), times(8)).moveBackward();
+      verify(humanMoveableEngine.getMoveable(), times(8)).moveBackward();
       assertThat(engineStateHandler.getCurrentVelocity(), is(velocity));
    }
 }

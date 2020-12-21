@@ -11,15 +11,16 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.Moveable;
 import com.myownb3.piranha.core.moveables.controller.MoveableController;
 import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
 import com.myownb3.piranha.core.moveables.engine.EngineStates;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio;
 
-class TankEngineImplTest {
+class MoveableEngineImplTest {
 
    @Test
    void testWithCustomEngineStateHandler() {
@@ -27,7 +28,7 @@ class TankEngineImplTest {
       // Given
       EngineAudio engineAudio = mock(EngineAudio.class);
       EngineStateHandler engineStateHandler = mock(EngineStateHandler.class);
-      TankEngineImpl tankEngineImpl = TankEngineBuilder.builder()
+      MoveableEngineImpl moveableEngineImpl = MoveableEngineBuilder.builder()
             .withMoveableController(mock(MoveableController.class))
             .withEngineAudio(engineAudio)
             .withVelocity(10)
@@ -35,7 +36,7 @@ class TankEngineImplTest {
             .build();
 
       // When
-      tankEngineImpl.moveForward();
+      moveableEngineImpl.moveForward();
 
       // Then
       verify(engineStateHandler).handleEngineState(any(), any());
@@ -48,7 +49,7 @@ class TankEngineImplTest {
 
       // Given
       EngineAudio engineAudio = mock(EngineAudio.class);
-      TankEngineImpl tankEngineImpl = TankEngineBuilder.builder()
+      MoveableEngineImpl moveableEngineImpl = MoveableEngineBuilder.builder()
             .withMoveableController(moveableController)
             .withEngineAudio(engineAudio)
             .withVelocity(10)
@@ -56,7 +57,7 @@ class TankEngineImplTest {
             .build();
 
       // When
-      tankEngineImpl.stopMoveForward();
+      moveableEngineImpl.stopMoveForward();
 
       // Then
       verify(moveableController, never()).leadMoveable();
@@ -70,7 +71,7 @@ class TankEngineImplTest {
 
       // Given
       EngineAudio engineAudio = mock(EngineAudio.class);
-      TankEngineImpl tankEngineImpl = TankEngineBuilder.builder()
+      MoveableEngineImpl moveableEngineImpl = MoveableEngineBuilder.builder()
             .withMoveableController(moveableController)
             .withEngineAudio(engineAudio)
             .withVelocity(10)
@@ -78,7 +79,7 @@ class TankEngineImplTest {
             .build();
 
       // When
-      tankEngineImpl.moveForward();
+      moveableEngineImpl.moveForward();
 
       // Then
       verify(moveableController).leadMoveable();
@@ -93,13 +94,13 @@ class TankEngineImplTest {
       Mockito.when(moveableController.getMoveable()).thenReturn(expectedMoveable);
 
       // Given
-      TankEngineImpl tankEngineImpl = TankEngineBuilder.builder()
+      MoveableEngineImpl moveableEngineImpl = MoveableEngineBuilder.builder()
             .withMoveableController(moveableController)
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      Moveable actualMoveable = tankEngineImpl.getMoveable();
+      Moveable actualMoveable = moveableEngineImpl.getMoveable();
 
       // Then
       assertThat(actualMoveable, is(expectedMoveable));

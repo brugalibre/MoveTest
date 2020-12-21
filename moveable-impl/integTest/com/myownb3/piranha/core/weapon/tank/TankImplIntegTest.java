@@ -26,8 +26,6 @@ import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
@@ -49,6 +47,8 @@ import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 
 class TankImplIntegTest {
@@ -91,13 +91,13 @@ class TankImplIntegTest {
    private Tank mockTank(double dimensionRadius, TankShape shape) {
       Tank tank = mock(Tank.class);
       when(tank.getShape()).thenReturn(shape);
-      TankEngineImpl tankEngine = mock(TankEngineImpl.class);
-      when(tank.getTankEngine()).thenReturn(tankEngine);
+      MoveableEngineImpl moveableEngine = mock(MoveableEngineImpl.class);
+      when(tank.getMoveableEngine()).thenReturn(moveableEngine);
       return tank;
    }
 
    @Test
-   void testBuildDefaultTankEngine() {
+   void testBuildDefaultMoveableEngine() {
 
       // Given
       Position tankPos = Positions.of(10, 10);
@@ -145,7 +145,7 @@ class TankImplIntegTest {
                   .build())
             .build());
       Tank tank = TankBuilder.builder()
-            .withTankEngine(TankEngineBuilder.builder()
+            .withMoveableEngine(MoveableEngineBuilder.builder()
                   .withVelocity(10)
                   .withDefaultEngineStateHandler()
                   .withEngineAudio(EngineAudioBuilder.builder()
@@ -222,7 +222,7 @@ class TankImplIntegTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getTankEngine().getMoveable()).moveForward2EndPos();
+      verify(tank.getMoveableEngine().getMoveable()).moveForward2EndPos();
       verify(tankDetector).autodetect();
    }
 }

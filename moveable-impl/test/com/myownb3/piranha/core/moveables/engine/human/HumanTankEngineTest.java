@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.battle.weapon.tank.engine.human;
+package com.myownb3.piranha.core.moveables.engine.human;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,14 +11,14 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
 import com.myownb3.piranha.core.moveables.engine.EngineStates;
 import com.myownb3.piranha.core.moveables.engine.MovingDirections;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine.HumanMoveableEngineBuilder;
 
-class HumanTankEngineTest {
+class HumanMoveableEngineTest {
 
    @Test
    void testOnForward_DontMove() {
@@ -27,18 +27,18 @@ class HumanTankEngineTest {
       EngineStateHandler engineStateHandler = mock(EngineStateHandler.class);
       when(engineStateHandler.handleEngineState(any(), any())).thenReturn(EngineStates.SLOWINGDOWN_NATURALLY);
       when(engineStateHandler.getCurrentVelocity()).thenReturn(50);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onBackwardPressed(false);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onBackwardPressed(false);
+      humanMoveableEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveForward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
@@ -48,19 +48,19 @@ class HumanTankEngineTest {
       EngineStateHandler engineStateHandler = mock(EngineStateHandler.class);
       when(engineStateHandler.handleEngineState(any(), any())).thenReturn(EngineStates.SLOWINGDOWN_NATURALLY);
       when(engineStateHandler.isEngineMovingForward()).thenReturn(true);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onBackwardPressed(true);
-      MovingDirections newMovingDirection = humanTankEngine.evalNewMovingDirection();
+      humanMoveableEngine.onBackwardPressed(true);
+      MovingDirections newMovingDirection = humanMoveableEngine.evalNewMovingDirection();
 
       // Then
       assertThat(newMovingDirection, is(MovingDirections.NONE));
-      verify(humanTankEngine.getMoveable(), never()).moveForward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
@@ -70,19 +70,19 @@ class HumanTankEngineTest {
       EngineStateHandler engineStateHandler = mock(EngineStateHandler.class);
       when(engineStateHandler.handleEngineState(any(), any())).thenReturn(EngineStates.SLOWINGDOWN_NATURALLY);
       when(engineStateHandler.isEngineMovingBackward()).thenReturn(true);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onForwardPressed(true);
-      MovingDirections newMovingDirection = humanTankEngine.evalNewMovingDirection();
+      humanMoveableEngine.onForwardPressed(true);
+      MovingDirections newMovingDirection = humanMoveableEngine.evalNewMovingDirection();
 
       // Then
       assertThat(newMovingDirection, is(MovingDirections.NONE));
-      verify(humanTankEngine.getMoveable(), never()).moveForward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
@@ -90,14 +90,14 @@ class HumanTankEngineTest {
 
       // Given
       EngineAudio engineAudio = mock(EngineAudio.class);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .withEngineAudio(engineAudio)
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      humanTankEngine.stopMoveForward();
+      humanMoveableEngine.stopMoveForward();
 
       // Then
       verify(engineAudio).playEngineAudio(eq(EngineStates.IDLE));
@@ -107,7 +107,7 @@ class HumanTankEngineTest {
    void testOnForward_WithAudio() {
       // Given
       EngineAudio engineAudio = mock(EngineAudio.class);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .withEngineAudio(engineAudio)
             .withVelocity(5)
@@ -115,8 +115,8 @@ class HumanTankEngineTest {
             .build();
 
       // When
-      humanTankEngine.onForwardPressed(true);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onForwardPressed(true);
+      humanMoveableEngine.moveForward();
 
       // Then
       verify(engineAudio).playEngineAudio(any());
@@ -125,32 +125,32 @@ class HumanTankEngineTest {
    @Test
    void testOnForward_ButDontMove_StopedPressingForward() {
       // Given
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      humanTankEngine.onForwardPressed(false);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onForwardPressed(false);
+      humanMoveableEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveForward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
    void testOnForward_ButDontMove() {
       // Given
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      humanTankEngine.onForwardPressed(true);
+      humanMoveableEngine.onForwardPressed(true);
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveForward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveForward();
    }
 
    @Test
@@ -159,15 +159,15 @@ class HumanTankEngineTest {
       EndPointMoveable moveable = mock(EndPointMoveable.class);
       EngineStateHandler engineStateHandler = mock(EngineStateHandler.class);
       when(engineStateHandler.handleEngineState(any(), any())).thenReturn(EngineStates.NONE);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withEngineStateHandler(engineStateHandler)
             .build();
 
       // When
-      humanTankEngine.onBackwardPressed(true);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onBackwardPressed(true);
+      humanMoveableEngine.moveForward();
 
       // Then
       verify(engineStateHandler).handleEngineState(any(), any());
@@ -176,54 +176,54 @@ class HumanTankEngineTest {
    @Test
    void testOnBackward_ButDontMove_StopedPressingForward() {
       // Given
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> mock(EndPointMoveable.class))
             .withDefaultEngineStateHandler()
             .withVelocity(180)
             .build();
 
       // When
-      humanTankEngine.onBackwardPressed(false);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onBackwardPressed(false);
+      humanMoveableEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable(), never()).moveBackward();
+      verify(humanMoveableEngine.getMoveable(), never()).moveBackward();
    }
 
    @Test
    void testOnTurnRight() {
       // Given
       EndPointMoveable moveable = mock(EndPointMoveable.class);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      humanTankEngine.onTurnRightPressed(true);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onTurnRightPressed(true);
+      humanMoveableEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable()).makeTurn(eq(humanTankEngine.turnAngle));
+      verify(humanMoveableEngine.getMoveable()).makeTurn(eq(humanMoveableEngine.turnAngle));
    }
 
    @Test
    void testOnTurnLeft() {
       // Given
       EndPointMoveable moveable = mock(EndPointMoveable.class);
-      HumanTankEngine humanTankEngine = HumanTankEngineBuilder.builder()
+      HumanMoveableEngine humanMoveableEngine = HumanMoveableEngineBuilder.builder()
             .withLazyMoveable(() -> moveable)
             .withVelocity(180)
             .withDefaultEngineStateHandler()
             .build();
 
       // When
-      humanTankEngine.onTurnLeftPressed(true);
-      humanTankEngine.moveForward();
+      humanMoveableEngine.onTurnLeftPressed(true);
+      humanMoveableEngine.moveForward();
 
       // Then
-      verify(humanTankEngine.getMoveable()).makeTurn(eq(-humanTankEngine.turnAngle));
+      verify(humanMoveableEngine.getMoveable()).makeTurn(eq(-humanMoveableEngine.turnAngle));
    }
 
 }

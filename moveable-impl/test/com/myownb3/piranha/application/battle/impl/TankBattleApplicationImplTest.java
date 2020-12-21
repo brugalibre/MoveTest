@@ -45,7 +45,6 @@ import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
@@ -71,6 +70,7 @@ import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.EndPositions;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 
@@ -271,7 +271,7 @@ class TankBattleApplicationImplTest {
                   .withTankPos(tankPos)
                   .withTankWidth(tankWidth)
                   .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(1)
@@ -389,7 +389,7 @@ class TankBattleApplicationImplTest {
                   .withTankTurretHeight(tankTurretHeight)
                   .withTankWidth(2 * tankWidth / 3d)
                   .withTankStrategy(TankStrategy.ALWAYS_MOVE_AND_SHOOT)
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE_VAR2)
                   .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(180)
@@ -495,7 +495,7 @@ class TankBattleApplicationImplTest {
       double rebelHealth = 0;
 
       TankDetector tankDetector = mock(TankDetector.class);
-      HumanTankEngine humanTankEngine = mock(HumanTankEngine.class);
+      HumanMoveableEngine humanMoveableEngine = mock(HumanMoveableEngine.class);
       double gunWidth = 5;
       GunCarriage gunCarriage = buildGunCarriage(DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM, rebelTankPos, gunWidth);
       HumanControlledTurretStrategyHandler turretStrategyHandler = mock(HumanControlledTurretStrategyHandler.class);
@@ -515,9 +515,9 @@ class TankBattleApplicationImplTest {
                   .withTankWidth(tankWidth)
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
-                  .withTankEngine(humanTankEngine)
+                  .withMoveableEngine(humanMoveableEngine)
                   .withTankDetector(tankDetector)
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
                   .addTurret(TankBattleApplicationHumanTurretBuilder.builder()
                         .withGrid(grid)
@@ -535,7 +535,7 @@ class TankBattleApplicationImplTest {
       assertThat(tankBattleApplication.getTurretGridElements().isEmpty(), is(true));
       assertThat(turretGridElements.size(), is(1));
       TankGridElement humanTankGridElement = turretGridElements.get(0);
-      assertThat(humanTankGridElement.getTankEngine(), is(humanTankEngine));
+      assertThat(humanTankGridElement.getMoveableEngine(), is(humanMoveableEngine));
    }
 
    @Test
@@ -562,9 +562,9 @@ class TankBattleApplicationImplTest {
                   .withTankWidth(90)
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
-                  .withTankEngine(mock(HumanTankEngine.class))
+                  .withMoveableEngine(mock(HumanMoveableEngine.class))
                   .withTankDetector(mock(TankDetector.class))
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
                   .addTurret(TankBattleApplicationHumanTurretBuilder.builder()
                         .withGrid(grid)

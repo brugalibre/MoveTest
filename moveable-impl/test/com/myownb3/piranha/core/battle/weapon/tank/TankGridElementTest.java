@@ -27,9 +27,6 @@ import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement.TankGridEleme
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.tank.turret.TankTurretBuilder;
@@ -63,6 +60,9 @@ import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
@@ -94,7 +94,7 @@ class TankGridElementTest {
             .withTurretHeightFromBottom(turretHeightFromGround)
             .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(TankBuilder.builder()
-                  .withTankEngine(mock(TankEngine.class))
+                  .withMoveableEngine(mock(MoveableEngine.class))
                   .withTankDetector(mock(TankDetector.class))
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTurret(TankTurretBuilder.builder()
@@ -164,7 +164,7 @@ class TankGridElementTest {
             .withTurretHeightFromBottom(turretHeightFromGround)
             .withEvasionStateMachine(mock(EvasionStateMachine.class))
             .withTank(TankBuilder.builder()
-                  .withTankEngine(mock(TankEngine.class))
+                  .withMoveableEngine(mock(MoveableEngine.class))
                   .withTankDetector(mock(TankDetector.class))
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTurret(TankTurretBuilder.builder()
@@ -308,7 +308,7 @@ class TankGridElementTest {
                         .build())
                   .build())
             .withTank(TankBuilder.builder()
-                  .withTankEngine(TankEngineBuilder.builder()
+                  .withMoveableEngine(MoveableEngineBuilder.builder()
                         .withMoveableController(MoveableControllerBuilder.builder()
                               .withStrategie(MovingStrategy.FORWARD_INCREMENTAL)
                               .withEndPositions(rebelTankEndPositions)
@@ -402,11 +402,11 @@ class TankGridElementTest {
             .build();
 
       tankHolder.setAndReturnTank(tank);
-      TankEngine tankEngine = tank.getTankEngine();
+      MoveableEngine moveableEngine = tank.getMoveableEngine();
 
       // Then
       assertThat(tank.getPosition(), is(tankPos));
-      assertThat(tankEngine, is(notNullValue()));
+      assertThat(moveableEngine, is(notNullValue()));
    }
 
    @Test
@@ -425,7 +425,7 @@ class TankGridElementTest {
       // When
       boolean isTankAvoidable = tankGridElement.isAvoidable();
       tankGridElement.getTurret();
-      tankGridElement.getTankEngine();
+      tankGridElement.getMoveableEngine();
       tankGridElement.getShape();
       Belligerent belligerent = mock(Belligerent.class);
       when(belligerent.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
@@ -439,7 +439,7 @@ class TankGridElementTest {
       verify(tank, times(3)).getBelligerentParty();
       verify(tank).isDestroyed();
       verify(tank).autodetect();
-      verify(tank).getTankEngine();
+      verify(tank).getMoveableEngine();
       verify(tank).getTurret();
       verify(tank).onCollision(Collections.emptyList());
       assertThat(isTankAvoidable, is(true));
@@ -454,8 +454,8 @@ class TankGridElementTest {
       when(shape.getTurretShape()).thenReturn(turretShapeImpl);
       when(shape.getCenter()).thenReturn(shapeCenter);
       when(shape.getDimensionRadius()).thenReturn(dimensionRadius);
-      TankEngineImpl tankEngine = mock(TankEngineImpl.class);
-      when(tank.getTankEngine()).thenReturn(tankEngine);
+      MoveableEngineImpl moveableEngine = mock(MoveableEngineImpl.class);
+      when(tank.getMoveableEngine()).thenReturn(moveableEngine);
       when(tank.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       return tank;
    }

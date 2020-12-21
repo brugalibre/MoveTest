@@ -1,4 +1,4 @@
-package com.myownb3.piranha.core.battle.weapon.tank.engine.human;
+package com.myownb3.piranha.core.moveables.engine.human;
 
 import static com.myownb3.piranha.core.moveables.engine.MovingDirections.BACKWARDS;
 import static com.myownb3.piranha.core.moveables.engine.MovingDirections.FORWARDS;
@@ -9,17 +9,17 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.myownb3.piranha.annotation.Visible4Testing;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
 import com.myownb3.piranha.core.moveables.EndPointMoveable;
 import com.myownb3.piranha.core.moveables.engine.EngineStateHandler;
 import com.myownb3.piranha.core.moveables.engine.EngineStates;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.moveables.engine.MovingDirections;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.EngineAcceleratorImpl.EngineAcceleratorBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.EngineTransmissionConfigImpl.EngineTransmissionConfigBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.GearImpl.GearBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio;
 
-public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallbackHandler {
+public class HumanMoveableEngine implements MoveableEngine, HumanToEngineInteractionCallbackHandler {
 
    private Supplier<EndPointMoveable> endPointMoveableSupplier;
    // User input variables
@@ -36,7 +36,7 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
    @Visible4Testing
    double turnAngle = 5.0;
 
-   private HumanTankEngine(Supplier<EndPointMoveable> endPointMoveableSupplier, EngineStateHandler engineStateHandler, EngineAudio engineAudio) {
+   private HumanMoveableEngine(Supplier<EndPointMoveable> endPointMoveableSupplier, EngineStateHandler engineStateHandler, EngineAudio engineAudio) {
       this.endPointMoveableSupplier = endPointMoveableSupplier;
       this.engineAudioOpt = Optional.ofNullable(engineAudio);
       this.engineState = EngineStates.IDLE;
@@ -141,36 +141,36 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
       isTurnRightPressed = false;
    }
 
-   public static class HumanTankEngineBuilder {
+   public static class HumanMoveableEngineBuilder {
       private Supplier<EndPointMoveable> endPointMoveableSupplier;
       private EngineAudio engineAudio;
       private int velocity;
       private EngineStateHandler engineStateHandler;
 
-      private HumanTankEngineBuilder() {
+      private HumanMoveableEngineBuilder() {
          // private
       }
 
-      public static HumanTankEngineBuilder builder() {
-         return new HumanTankEngineBuilder();
+      public static HumanMoveableEngineBuilder builder() {
+         return new HumanMoveableEngineBuilder();
       }
 
-      public HumanTankEngineBuilder withLazyMoveable(Supplier<EndPointMoveable> endPointMoveableSupplier) {
+      public HumanMoveableEngineBuilder withLazyMoveable(Supplier<EndPointMoveable> endPointMoveableSupplier) {
          this.endPointMoveableSupplier = endPointMoveableSupplier;
          return this;
       }
 
-      public HumanTankEngineBuilder withVelocity(int velocity) {
+      public HumanMoveableEngineBuilder withVelocity(int velocity) {
          this.velocity = velocity;
          return this;
       }
 
-      public HumanTankEngineBuilder withEngineStateHandler(EngineStateHandler engineStateHandler) {
+      public HumanMoveableEngineBuilder withEngineStateHandler(EngineStateHandler engineStateHandler) {
          this.engineStateHandler = engineStateHandler;
          return this;
       }
 
-      public HumanTankEngineBuilder withDefaultEngineStateHandler() {
+      public HumanMoveableEngineBuilder withDefaultEngineStateHandler() {
          int accelerationSpeed = 1300;
          double manuallySlowDownSpeed = 200;
          double naturallySlowDownSpeed = 900;
@@ -184,7 +184,7 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
                      .addGear(GearBuilder.builder()
                            .withAccelerationSpeed(accelerationSpeed)
                            .withMaxVelocity(2 * velocity / 3)
-                           .withNumber(1)
+                           .withNumber(2)
                            .buil())
                      .addGear(GearBuilder.builder()
                            .withAccelerationSpeed(accelerationSpeed)
@@ -198,15 +198,15 @@ public class HumanTankEngine implements TankEngine, HumanToTankInteractionCallba
          return this;
       }
 
-      public HumanTankEngineBuilder withEngineAudio(EngineAudio engineAudio) {
+      public HumanMoveableEngineBuilder withEngineAudio(EngineAudio engineAudio) {
          this.engineAudio = engineAudio;
          return this;
       }
 
-      public HumanTankEngine build() {
+      public HumanMoveableEngine build() {
          requireNonNull(engineStateHandler);
          requireNonNull(endPointMoveableSupplier);
-         return new HumanTankEngine(endPointMoveableSupplier, engineStateHandler, engineAudio);
+         return new HumanMoveableEngine(endPointMoveableSupplier, engineStateHandler, engineAudio);
       }
    }
 }

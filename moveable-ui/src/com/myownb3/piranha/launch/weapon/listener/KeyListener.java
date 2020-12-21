@@ -2,12 +2,12 @@ package com.myownb3.piranha.launch.weapon.listener;
 
 import java.awt.event.KeyEvent;
 
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanToTankInteractionCallbackHandler;
+import com.myownb3.piranha.core.moveables.engine.human.HumanToEngineInteractionCallbackHandler;
 
 public class KeyListener implements java.awt.event.KeyListener {
-   private HumanToTankInteractionCallbackHandler callbackHandler;
+   private HumanToEngineInteractionCallbackHandler callbackHandler;
 
-   public KeyListener(HumanToTankInteractionCallbackHandler callbackHandler) {
+   public KeyListener(HumanToEngineInteractionCallbackHandler callbackHandler) {
       this.callbackHandler = callbackHandler;
    }
 

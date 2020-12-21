@@ -3,7 +3,7 @@ package com.myownb3.piranha.core.battle.weapon.tank.strategy.handler.impl;
 import static java.util.Objects.requireNonNull;
 
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 
@@ -15,22 +15,22 @@ import com.myownb3.piranha.core.battle.weapon.turret.Turret;
  */
 public class TankStrategyHandleInput {
 
-   private TankEngine tankEngine;
+   private MoveableEngine moveableEngine;
    private TankDetector tankDetector;
    private Turret turret;
 
-   private TankStrategyHandleInput(Turret turret, TankEngine tankEngine, TankDetector tankDetector) {
+   private TankStrategyHandleInput(Turret turret, MoveableEngine moveableEngine, TankDetector tankDetector) {
       this.turret = requireNonNull(turret, "A TankStrategyHandlerInput always needs a Turret!");
-      this.tankEngine = requireNonNull(tankEngine, "A TankStrategyHandlerInput always needs a TankEngine!");
+      this.moveableEngine = requireNonNull(moveableEngine, "A TankStrategyHandlerInput always needs a MoveableEngine!");
       this.tankDetector = tankDetector;
    }
 
    /**
     * 
-    * @return the {@link TankEngine} of this input
+    * @return the {@link MoveableEngine} of this input
     */
-   public TankEngine getTankEngine() {
-      return tankEngine;
+   public MoveableEngine getMoveableEngine() {
+      return moveableEngine;
    }
 
    /**
@@ -49,7 +49,7 @@ public class TankStrategyHandleInput {
       return turret;
    }
 
-   public static TankStrategyHandleInput of(Turret turret, TankEngine tankEngine, TankDetector tankDetector) {
-      return new TankStrategyHandleInput(turret, tankEngine, tankDetector);
+   public static TankStrategyHandleInput of(Turret turret, MoveableEngine moveableEngine, TankDetector tankDetector) {
+      return new TankStrategyHandleInput(turret, moveableEngine, tankDetector);
    }
 }

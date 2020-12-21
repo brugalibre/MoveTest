@@ -33,8 +33,6 @@ import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.human.HumanTankEngine.HumanTankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.target.TargetGridElementEvaluatorImpl.TargetGridElementEvaluatorBuilder;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
@@ -64,6 +62,8 @@ import com.myownb3.piranha.core.moveables.engine.accelerate.impl.EngineAccelerat
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.EngineTransmissionConfigImpl.EngineTransmissionConfigBuilder;
 import com.myownb3.piranha.core.moveables.engine.accelerate.impl.transmission.GearImpl.GearBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine;
+import com.myownb3.piranha.core.moveables.engine.human.HumanMoveableEngine.HumanMoveableEngineBuilder;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
 import com.myownb3.piranha.launch.weapon.listener.DelegateOnGunFireListener;
 import com.myownb3.piranha.launch.weapon.listener.KeyListener;
@@ -155,9 +155,8 @@ public class HumanTankTestLauncher {
       TankHolder imperialTankHolder = new TankHolder();
       TankHolder rebelTankHolder = new TankHolder();
 
-      HumanTankEngine humanTankEngine =
-            buildHumanTankEngine(rebelTankEngineAccelerationSpeed, rebelTankEngineManuallySlowDownSpeed, rebelTankEngineNaturallySlowDownSpeed,
-                  rebelTankVelocity, rebelTankHolder);
+      HumanMoveableEngine humanTankEngine = buildHumanMoveableEngine(rebelTankEngineAccelerationSpeed,
+            rebelTankEngineManuallySlowDownSpeed, rebelTankEngineNaturallySlowDownSpeed, rebelTankVelocity, rebelTankHolder);
       GunCarriage gunCarriage = DefaultGunCarriageBuilder.builder()
             .withRotationSpeed(5)
             .withGun(DefaultGunBuilder.builder()
@@ -227,7 +226,7 @@ public class HumanTankTestLauncher {
                   .withTankWidth(tankWidth)
                   .withBelligerentParty(BelligerentPartyConst.GALACTIC_EMPIRE)
                   .withTankStrategy(TankStrategy.WAIT_WHILE_SHOOTING_MOVE_UNDER_FIRE)
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(1)
@@ -290,7 +289,7 @@ public class HumanTankTestLauncher {
                   .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
                   .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
                   .withDefaultOnDestructionHandler(() -> grid.remove(rebelTankHolder.getTankGridElement()))
-                  .withTankEngine(humanTankEngine)
+                  .withMoveableEngine(humanTankEngine)
                   .withTankDetector(TankDetectorBuilder.builder()
                         .withTankGridElement(() -> rebelTankHolder.getTankGridElement())
                         .withGrid(grid)
@@ -328,7 +327,7 @@ public class HumanTankTestLauncher {
                               .withEvasionDistance(missileCounterMeasureDetectionDistance)
                               .build())
                         .build())
-                  .withTankEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
+                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
                   .withEvasionStateMachineConfig(EvasionStateMachineConfigBuilder.builder()
                         .withReturningAngleIncMultiplier(1)
                         .withOrientationAngle(1)
@@ -462,9 +461,9 @@ public class HumanTankTestLauncher {
       return renderers;
    }
 
-   private HumanTankEngine buildHumanTankEngine(int rebelTankEngineAccelerationSpeed, double rebelTankEngineManuallySlowDownSpeed,
-         double rebelTankEngineNaturallySlowDownSpeed, int rebelTankVelocity, TankHolder rebelTankHolder) {
-      return HumanTankEngineBuilder.builder()
+   private HumanMoveableEngine buildHumanMoveableEngine(int rebelMoveableEngineAccelerationSpeed, double rebelMoveableEngineManuallySlowDownSpeed,
+         double rebelMoveableEngineNaturallySlowDownSpeed, int rebelTankVelocity, TankHolder rebelTankHolder) {
+      return HumanMoveableEngineBuilder.builder()
             .withEngineAudio(EngineAudioBuilder.builder()
                   .withDefaultAudio()
                   .build())
@@ -473,23 +472,23 @@ public class HumanTankTestLauncher {
             .withEngineStateHandler(new EngineStateHandler(EngineAcceleratorBuilder.builder()
                   .withEngineTransmissionConfig(EngineTransmissionConfigBuilder.builder()
                         .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed / 3)
+                              .withAccelerationSpeed(rebelMoveableEngineAccelerationSpeed / 3)
                               .withMaxVelocity(rebelTankVelocity / 3)
                               .withNumber(1)
                               .buil())
                         .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(2 * rebelTankEngineAccelerationSpeed / 3)
+                              .withAccelerationSpeed(2 * rebelMoveableEngineAccelerationSpeed / 3)
                               .withMaxVelocity(2 * rebelTankVelocity / 3)
                               .withNumber(1)
                               .buil())
                         .addGear(GearBuilder.builder()
-                              .withAccelerationSpeed(rebelTankEngineAccelerationSpeed)
+                              .withAccelerationSpeed(rebelMoveableEngineAccelerationSpeed)
                               .withMaxVelocity(rebelTankVelocity)
                               .withNumber(3)
                               .buil())
                         .build())
-                  .withManuallySlowDownSpeed(rebelTankEngineManuallySlowDownSpeed)
-                  .withNaturallySlowDownSpeed(rebelTankEngineNaturallySlowDownSpeed)
+                  .withManuallySlowDownSpeed(rebelMoveableEngineManuallySlowDownSpeed)
+                  .withNaturallySlowDownSpeed(rebelMoveableEngineNaturallySlowDownSpeed)
                   .build()))
             .build();
    }

@@ -22,8 +22,6 @@ import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.TankImpl.TankBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetectorImpl.TankDetectorBuilder;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngineImpl.TankEngineBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.battle.weapon.turret.TurretGridElement;
@@ -44,6 +42,8 @@ import com.myownb3.piranha.core.grid.position.EndPosition;
 import com.myownb3.piranha.core.grid.position.Position;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachineConfig;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineImpl.EvasionStateMachineBuilder;
@@ -118,7 +118,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
       private double tankHeight;
       private double tankWidth;
       private TankStrategy tankStrategy;
-      private String tankEngineAudioResource;
+      private String moveableEngineAudioResource;
       private EvasionStateMachineConfig evasionStateMachineConfig;
       private double tankTurretHeight;
       private Tank tank;
@@ -126,7 +126,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
       private BelligerentParty belligerentParty;
       private double tankHealth;
       private TankDetector tankDetector;
-      private TankEngine tankEngine;
+      private MoveableEngine moveableEngine;
       private OnDestroyedCallbackHandler onDestroyedCallbackHandler;
 
       private TankBattleApplicationTankBuilder() {
@@ -169,8 +169,8 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationTankBuilder withTankEngineAudioResource(String tankEngineAudioResource) {
-         this.tankEngineAudioResource = tankEngineAudioResource;
+      public TankBattleApplicationTankBuilder withMoveableEngineAudioResource(String moveableEngineAudioResource) {
+         this.moveableEngineAudioResource = moveableEngineAudioResource;
          return this;
       }
 
@@ -199,8 +199,8 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      public TankBattleApplicationTankBuilder withTankEngine(TankEngine tankEngine) {
-         this.tankEngine = tankEngine;
+      public TankBattleApplicationTankBuilder withMoveableEngine(MoveableEngine moveableEngine) {
+         this.moveableEngine = moveableEngine;
          return this;
       }
 
@@ -219,7 +219,7 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
                .withBelligerentParty(belligerentParty)
                .withHealth(tankHealth)
                .withOnDestroyedCallbackHandler(onDestroyedCallbackHandler)
-               .withTankEngine(getTankEngine(tankHolder))
+               .withMoveableEngine(getMoveableEngine(tankHolder))
                .withTankDetector(getTankDetector(tankHolder))
                .withTurret(getTankTurret())
                .withHull(RectangleBuilder.builder()
@@ -234,18 +234,18 @@ public class TankBattleApplicationImpl implements TankBattleApplication {
          return this;
       }
 
-      private TankEngine getTankEngine(TankHolder tankHolder) {
-         if (nonNull(tankEngine)) {
-            return tankEngine;
+      private MoveableEngine getMoveableEngine(TankHolder tankHolder) {
+         if (nonNull(moveableEngine)) {
+            return moveableEngine;
          }
-         return TankEngineBuilder.builder()
+         return MoveableEngineBuilder.builder()
                .withVelocity(engineVelocity)
                .withDefaultEngineStateHandler()
                .withEngineAudio(EngineAudioBuilder.builder()
                      .withDefaultAudio()
                      .withEngineMoveAudio(AudioClipBuilder.builder()
                            .withRestartRunningAudio(false)
-                           .withAudioResource(tankEngineAudioResource)
+                           .withAudioResource(moveableEngineAudioResource)
                            .build())
                      .build())
                .withMoveableController(MoveableControllerBuilder.builder()

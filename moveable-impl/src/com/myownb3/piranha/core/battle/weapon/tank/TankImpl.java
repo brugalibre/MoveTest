@@ -12,7 +12,7 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
-import com.myownb3.piranha.core.battle.weapon.tank.engine.TankEngine;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
@@ -27,21 +27,21 @@ import com.myownb3.piranha.core.grid.position.Position;
 public class TankImpl implements Tank {
 
    private Turret turret;
-   private TankEngine tankEngine;
+   private MoveableEngine moveableEngine;
    private TankShape tankShape;
    private BelligerentParty belligerentParty;
    private DestructionHelper destructionHelper;
    private TankStrategyHandler tankStrategyHandler;
 
-   private TankImpl(Turret turret, TankEngine tankEngine, TankShape tankShape, BelligerentParty belligerentParty, TankDetector tankDetector,
+   private TankImpl(Turret turret, MoveableEngine moveableEngine, TankShape tankShape, BelligerentParty belligerentParty, TankDetector tankDetector,
          DestructionHelper destructionHelper, TankStrategy tankStrategy) {
       this.turret = turret;
-      this.tankEngine = tankEngine;
+      this.moveableEngine = moveableEngine;
       this.tankShape = tankShape;
       this.belligerentParty = belligerentParty;
       this.destructionHelper = destructionHelper;
       this.tankStrategyHandler = TankStrategyHandlercFactory.INSTANCE.createTankStrategyHandler(tankStrategy,
-            TankStrategyHandleInput.of(this.getTurret(), tankEngine, tankDetector));
+            TankStrategyHandleInput.of(this.getTurret(), moveableEngine, tankDetector));
    }
 
    @Override
@@ -70,8 +70,8 @@ public class TankImpl implements Tank {
    }
 
    @Override
-   public TankEngine getTankEngine() {
-      return tankEngine;
+   public MoveableEngine getMoveableEngine() {
+      return moveableEngine;
    }
 
    @Override
@@ -88,7 +88,7 @@ public class TankImpl implements Tank {
 
       private Turret turret;
       private Shape tankHull;
-      private TankEngine tankEngine;
+      private MoveableEngine moveableEngine;
       private BelligerentParty belligerentParty;
       private TankDetector tankDetector;
       private double health;
@@ -125,8 +125,8 @@ public class TankImpl implements Tank {
          return this;
       }
 
-      public TankBuilder withTankEngine(TankEngine tankEngine) {
-         this.tankEngine = tankEngine;
+      public TankBuilder withMoveableEngine(MoveableEngine moveableEngine) {
+         this.moveableEngine = moveableEngine;
          return this;
       }
 
@@ -144,7 +144,7 @@ public class TankImpl implements Tank {
          TankShape tankShape = buildTankShape();
          DestructionHelper destructionHelper = buildDestructionHelper(health);
          requireNonNull(tankStrategy);
-         return new TankImpl(turret, tankEngine, tankShape, belligerentParty, tankDetector, destructionHelper, tankStrategy);
+         return new TankImpl(turret, moveableEngine, tankShape, belligerentParty, tankDetector, destructionHelper, tankStrategy);
       }
 
       private DestructionHelper buildDestructionHelper(double health) {
