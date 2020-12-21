@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
-import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.grid.Grid;
@@ -82,11 +81,6 @@ public class TankGridElement extends EndPointMoveableImpl implements Tank {
    @Override
    public void onCollision(List<GridElement> gridElements) {
       tank.onCollision(gridElements);
-   }
-
-   @Override
-   public MoveableEngine getMoveableEngine() {
-      return tank.getMoveableEngine();
    }
 
    public static class TankGridElementBuilder {

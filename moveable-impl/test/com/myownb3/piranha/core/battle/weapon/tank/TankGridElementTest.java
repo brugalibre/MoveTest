@@ -1,7 +1,6 @@
 package com.myownb3.piranha.core.battle.weapon.tank;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -61,7 +60,6 @@ import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
 import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
-import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl;
 import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.statemachine.EvasionStateMachine;
 import com.myownb3.piranha.core.statemachine.impl.EvasionStateMachineConfigBuilder;
@@ -402,11 +400,9 @@ class TankGridElementTest {
             .build();
 
       tankHolder.setAndReturnTank(tank);
-      MoveableEngine moveableEngine = tank.getMoveableEngine();
 
       // Then
       assertThat(tank.getPosition(), is(tankPos));
-      assertThat(moveableEngine, is(notNullValue()));
    }
 
    @Test
@@ -425,7 +421,6 @@ class TankGridElementTest {
       // When
       boolean isTankAvoidable = tankGridElement.isAvoidable();
       tankGridElement.getTurret();
-      tankGridElement.getMoveableEngine();
       tankGridElement.getShape();
       Belligerent belligerent = mock(Belligerent.class);
       when(belligerent.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
@@ -439,7 +434,6 @@ class TankGridElementTest {
       verify(tank, times(3)).getBelligerentParty();
       verify(tank).isDestroyed();
       verify(tank).autodetect();
-      verify(tank).getMoveableEngine();
       verify(tank).getTurret();
       verify(tank).onCollision(Collections.emptyList());
       assertThat(isTankAvoidable, is(true));
@@ -454,8 +448,6 @@ class TankGridElementTest {
       when(shape.getTurretShape()).thenReturn(turretShapeImpl);
       when(shape.getCenter()).thenReturn(shapeCenter);
       when(shape.getDimensionRadius()).thenReturn(dimensionRadius);
-      MoveableEngineImpl moveableEngine = mock(MoveableEngineImpl.class);
-      when(tank.getMoveableEngine()).thenReturn(moveableEngine);
       when(tank.getBelligerentParty()).thenReturn(BelligerentPartyConst.GALACTIC_EMPIRE);
       return tank;
    }

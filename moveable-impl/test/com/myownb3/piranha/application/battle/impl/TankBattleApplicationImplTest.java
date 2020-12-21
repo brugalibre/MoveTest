@@ -41,7 +41,6 @@ import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShape;
 import com.myownb3.piranha.core.battle.weapon.gun.shape.GunShapeImpl.GunShapeBuilder;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl;
 import com.myownb3.piranha.core.battle.weapon.guncarriage.DefaultGunCarriageImpl.DefaultGunCarriageBuilder;
-import com.myownb3.piranha.core.battle.weapon.guncarriage.GunCarriage;
 import com.myownb3.piranha.core.battle.weapon.tank.TankGridElement;
 import com.myownb3.piranha.core.battle.weapon.tank.TankHolder;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
@@ -480,62 +479,6 @@ class TankBattleApplicationImplTest {
       assertThat(tankGridElement.getPosition(), is(battleShipPos));
       assertThat(tankGridElement.getBelligerentParty(), is(BelligerentPartyConst.GALACTIC_EMPIRE));
       assertThat(TurretCluster.class.isAssignableFrom(tankGridElement.getTurret().getClass()), is(true));
-   }
-
-   @Test
-   void testBuildTankBattleApplication_WithHumanTankAndTurretImpl() {
-
-      // Given
-      Grid grid = mock(Grid.class);
-      int tankWidth = 40;
-      int tankHeight = 90;
-
-      Position rebelTankPos = Positions.of(450, 600).rotate(80);
-      TankHolder rebelTankHolder = new TankHolder();
-      double rebelHealth = 0;
-
-      TankDetector tankDetector = mock(TankDetector.class);
-      HumanMoveableEngine humanMoveableEngine = mock(HumanMoveableEngine.class);
-      double gunWidth = 5;
-      GunCarriage gunCarriage = buildGunCarriage(DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM, rebelTankPos, gunWidth);
-      HumanControlledTurretStrategyHandler turretStrategyHandler = mock(HumanControlledTurretStrategyHandler.class);
-
-      // When
-      TankBattleApplication tankBattleApplication = TankBattleApplicationBuilder.builder()
-            .withGrid(grid)
-            .withMoveableAdder(mock(MoveableAdderImpl.class))
-            .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
-            .addTankGridElement(rebelTankHolder, TankBattleApplicationTankBuilder.builder()
-                  .withGrid(grid)
-                  .withHealth(rebelHealth)
-                  .withTankHeight(tankHeight)
-                  .withEngineVelocity(25)
-                  .withTankTurretHeight(DEFAULT_TANK_TURRET_HEIGHT_FROM_BOTTOM)
-                  .withTankPos(rebelTankPos)
-                  .withTankWidth(tankWidth)
-                  .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                  .withTankStrategy(TankStrategy.HUMAN_CONTROLLED)
-                  .withMoveableEngine(humanMoveableEngine)
-                  .withTankDetector(tankDetector)
-                  .withMoveableEngineAudioResource(AudioConstants.TANK_TRACK_RATTLE)
-                  .withEvasionStateMachineConfig(mock(EvasionStateMachineConfig.class))
-                  .addTurret(TankBattleApplicationHumanTurretBuilder.builder()
-                        .withGrid(grid)
-                        .withBelligerentParty(BelligerentPartyConst.REBEL_ALLIANCE)
-                        .withProjectileType(ProjectileTypes.BULLET)
-                        .withTurretStrategyHandler(turretStrategyHandler)
-                        .withPositionTransformator(pos -> pos.movePositionForward(150))
-                        .withGunCarriage(gunCarriage)
-                        .build())
-                  .build(rebelTankHolder))
-            .build();
-
-      // Then
-      List<TankGridElement> turretGridElements = tankBattleApplication.getTankGridElements();
-      assertThat(tankBattleApplication.getTurretGridElements().isEmpty(), is(true));
-      assertThat(turretGridElements.size(), is(1));
-      TankGridElement humanTankGridElement = turretGridElements.get(0);
-      assertThat(humanTankGridElement.getMoveableEngine(), is(humanMoveableEngine));
    }
 
    @Test

@@ -7,7 +7,6 @@ import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.collision.CollisionSensitive;
 import com.myownb3.piranha.core.grid.position.Position;
-import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 
 /**
  * The {@link Tank} interface represents a tank which usually has a {@link Turret} on top
@@ -31,9 +30,4 @@ public interface Tank extends AutoDetectable, Belligerent, Destructible, Collisi
     * @return the {@link Position} of this {@link Tank}
     */
    Position getPosition();
-
-   /**
-    * @return the {@link MoveableEngine} of this {@link Tank}
-    */
-   MoveableEngine getMoveableEngine();
 }

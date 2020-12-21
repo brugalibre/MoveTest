@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import com.myownb3.piranha.annotation.Visible4Testing;
 import com.myownb3.piranha.audio.constants.AudioConstants;
 import com.myownb3.piranha.audio.impl.AudioClipImpl.AudioClipBuilder;
 import com.myownb3.piranha.core.battle.belligerent.party.BelligerentParty;
@@ -12,7 +13,6 @@ import com.myownb3.piranha.core.battle.destruction.DestructionHelper;
 import com.myownb3.piranha.core.battle.destruction.DestructionHelper.DestructionHelperBuilder;
 import com.myownb3.piranha.core.battle.destruction.OnDestroyedCallbackHandler;
 import com.myownb3.piranha.core.battle.weapon.tank.detector.TankDetector;
-import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShape;
 import com.myownb3.piranha.core.battle.weapon.tank.shape.TankShapeImpl.TankShapeBuilder;
 import com.myownb3.piranha.core.battle.weapon.tank.strategy.TankStrategy;
@@ -23,11 +23,13 @@ import com.myownb3.piranha.core.battle.weapon.turret.Turret;
 import com.myownb3.piranha.core.grid.gridelement.GridElement;
 import com.myownb3.piranha.core.grid.gridelement.shape.Shape;
 import com.myownb3.piranha.core.grid.position.Position;
+import com.myownb3.piranha.core.moveables.engine.MoveableEngine;
 
 public class TankImpl implements Tank {
 
+   @Visible4Testing
+   MoveableEngine moveableEngine;
    private Turret turret;
-   private MoveableEngine moveableEngine;
    private TankShape tankShape;
    private BelligerentParty belligerentParty;
    private DestructionHelper destructionHelper;
@@ -67,11 +69,6 @@ public class TankImpl implements Tank {
    @Override
    public BelligerentParty getBelligerentParty() {
       return belligerentParty;
-   }
-
-   @Override
-   public MoveableEngine getMoveableEngine() {
-      return moveableEngine;
    }
 
    @Override

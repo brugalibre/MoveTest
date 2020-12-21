@@ -47,7 +47,6 @@ import com.myownb3.piranha.core.grid.position.Positions;
 import com.myownb3.piranha.core.moveables.MoveResult;
 import com.myownb3.piranha.core.moveables.controller.MoveableController.MoveableControllerBuilder;
 import com.myownb3.piranha.core.moveables.controller.MovingStrategy;
-import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl;
 import com.myownb3.piranha.core.moveables.engine.MoveableEngineImpl.MoveableEngineBuilder;
 import com.myownb3.piranha.core.moveables.engine.audio.EngineAudio.EngineAudioBuilder;
 
@@ -66,7 +65,7 @@ class TankImplIntegTest {
                   .withMinX(50)
                   .withDefaultCollisionDetectionHandler()
                   .build())
-            .withTank(mockTank(10.0, TankShapeBuilder.builder()
+            .withTank(mockTank(TankShapeBuilder.builder()
                   .withHull(RectangleBuilder.builder()
                         .withCenter(tankStartPos)
                         .withHeight(5)
@@ -88,11 +87,9 @@ class TankImplIntegTest {
       assertThat(tankGridElement.getPosition(), is(expectedTanEndPos));
    }
 
-   private Tank mockTank(double dimensionRadius, TankShape shape) {
+   private Tank mockTank(TankShape shape) {
       Tank tank = mock(Tank.class);
       when(tank.getShape()).thenReturn(shape);
-      MoveableEngineImpl moveableEngine = mock(MoveableEngineImpl.class);
-      when(tank.getMoveableEngine()).thenReturn(moveableEngine);
       return tank;
    }
 
@@ -222,7 +219,6 @@ class TankImplIntegTest {
       tank.autodetect();
 
       // Then
-      verify(tank.getMoveableEngine().getMoveable()).moveForward2EndPos();
       verify(tankDetector).autodetect();
    }
 }
