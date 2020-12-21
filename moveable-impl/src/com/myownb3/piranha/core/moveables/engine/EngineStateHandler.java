@@ -167,10 +167,10 @@ public class EngineStateHandler {
    }
 
    private boolean isMovingBackwards(MovingDirections movingDirection) {
-      return movingDirection == MovingDirections.BACKWARDS;
+      return movingDirection == MovingDirections.BACKWARD;
    }
 
    private static boolean isMovingForwards(MovingDirections movingDirection) {
-      return movingDirection == MovingDirections.FORWARDS;
+      return movingDirection == MovingDirections.FORWARD;
    }
 }

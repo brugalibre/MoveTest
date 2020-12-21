@@ -1,7 +1,7 @@
 package com.myownb3.piranha.core.moveables.engine.human;
 
-import static com.myownb3.piranha.core.moveables.engine.MovingDirections.BACKWARDS;
-import static com.myownb3.piranha.core.moveables.engine.MovingDirections.FORWARDS;
+import static com.myownb3.piranha.core.moveables.engine.MovingDirections.BACKWARD;
+import static com.myownb3.piranha.core.moveables.engine.MovingDirections.FORWARD;
 import static com.myownb3.piranha.core.moveables.engine.MovingDirections.NONE;
 import static java.util.Objects.requireNonNull;
 
@@ -46,9 +46,9 @@ public class HumanMoveableEngine implements MoveableEngine, HumanToEngineInterac
 
    @Override
    public void moveForward() {
-      if (movingDirection == FORWARDS) {
+      if (movingDirection == FORWARD) {
          getMoveable().moveForward();
-      } else if (movingDirection == BACKWARDS) {
+      } else if (movingDirection == BACKWARD) {
          getMoveable().moveBackward();
       }
       if (isTurnLeftPressed) {
@@ -73,9 +73,9 @@ public class HumanMoveableEngine implements MoveableEngine, HumanToEngineInterac
 
    private MovingDirections getMovingDirection4EngineStateHandler() {
       if (isForwardsPressed) {
-         return FORWARDS;
+         return FORWARD;
       } else if (isBackwardsPressed) {
-         return BACKWARDS;
+         return BACKWARD;
       }
       return NONE;
    }
@@ -92,15 +92,15 @@ public class HumanMoveableEngine implements MoveableEngine, HumanToEngineInterac
          case SLOWINGDOWN: // Fall throuh
          case SLOWINGDOWN_NATURALLY:
             if (isForwardsPressed && !engineStateHandler.isEngineMovingBackward()) {
-               return FORWARDS;
+               return FORWARD;
             } else if (isBackwardsPressed && !engineStateHandler.isEngineMovingForward()) {
-               return BACKWARDS;
+               return BACKWARD;
             }
             return engineStateHandler.getCurrentVelocity() > 0 ? movingDirection : NONE;
          case MOVING_BACKWARDS:
-            return BACKWARDS;
+            return BACKWARD;
          case MOVING_FORWARDS:
-            return FORWARDS;
+            return FORWARD;
          default:
             return NONE;
       }

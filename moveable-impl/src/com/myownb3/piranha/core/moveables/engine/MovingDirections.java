@@ -9,10 +9,10 @@ package com.myownb3.piranha.core.moveables.engine;
 public enum MovingDirections {
 
    /** Indicates that the engine is moving forwards */
-   FORWARDS,
+   FORWARD,
 
    /** Indicates that the engine is moving backwards */
-   BACKWARDS,
+   BACKWARD,
 
    /** Indicates that the engine is neither moving backward nor forward */
    NONE,

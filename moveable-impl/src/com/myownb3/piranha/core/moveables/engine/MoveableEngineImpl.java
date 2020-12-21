@@ -28,7 +28,7 @@ public class MoveableEngineImpl implements MoveableEngine {
    @Override
    public void moveForward() {
       moveableController.leadMoveable();
-      engineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, engineState);
+      engineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, engineState);
       engineAudioOpt.ifPresent(engineAudio -> engineAudio.playEngineAudio(engineState));
    }
 

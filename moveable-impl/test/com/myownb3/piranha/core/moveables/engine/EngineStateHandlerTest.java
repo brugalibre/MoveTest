@@ -64,7 +64,7 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -79,7 +79,7 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -94,7 +94,7 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.SLOWINGDOWN;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -124,7 +124,7 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.MOVING_FORWARDS;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -153,7 +153,7 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.MOVING_BACKWARDS;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -169,8 +169,8 @@ class EngineStateHandlerTest {
       EngineStates currentEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
-      actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);// 2nd time since we have to gears
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
+      actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);// 2nd time since we have to gears
 
       // Then
       assertThat(actualEngineState, is(MOVING_FORWARDS));
@@ -187,7 +187,7 @@ class EngineStateHandlerTest {
       EngineStates currentEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(ACCELERATING));
@@ -204,7 +204,7 @@ class EngineStateHandlerTest {
       EngineStates currentEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState, is(ACCELERATING));
@@ -221,8 +221,8 @@ class EngineStateHandlerTest {
       EngineStates currentEngineState = EngineStates.ACCELERATING;
 
       // When
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
-      actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);// 2nd times, since we have to gears
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
+      actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);// 2nd times, since we have to gears
 
       // Then
       assertThat(actualEngineState, is(MOVING_BACKWARDS));
@@ -261,9 +261,9 @@ class EngineStateHandlerTest {
       // When
 
       // First accelerate, so that we are in the 2nd gear
-      EngineStates actualEngineState0 = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
-      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
-      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, currentEngineState);
+      EngineStates actualEngineState0 = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
+      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
+      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.FORWARD, currentEngineState);
       EngineStates actualEngineState3 = engineStateHandler.handleEngineState(MovingDirections.NONE, currentEngineState);
 
       // Then
@@ -317,10 +317,10 @@ class EngineStateHandlerTest {
       EngineStateHandler engineStateHandler = new EngineStateHandler(engineAccelerator);
 
       // When
-      engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.IDLE); // initial move forward, so we have a direction
-      engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, EngineStates.SLOWINGDOWN);
+      engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.IDLE); // initial move forward, so we have a direction
+      engineStateHandler.handleEngineState(MovingDirections.BACKWARD, EngineStates.SLOWINGDOWN);
       Thread.sleep(50);
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, EngineStates.SLOWINGDOWN);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, EngineStates.SLOWINGDOWN);
 
       // Then
       assertThat(actualEngineState, is(IDLE));
@@ -339,10 +339,10 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState2 = EngineStates.SLOWINGDOWN;
 
       // When
-      engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.IDLE); // initial move forward, so we have a direction
-      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.IDLE); // initial move forward, so we have a direction
+      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
       Thread.sleep((long) (acceleratingSpeed / 2d));
-      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState1, is(expectedEngineState1));
@@ -359,10 +359,10 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState = EngineStates.IDLE;
 
       // When
-      engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, EngineStates.IDLE);
-      engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.SLOWINGDOWN);
+      engineStateHandler.handleEngineState(MovingDirections.BACKWARD, EngineStates.IDLE);
+      engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.SLOWINGDOWN);
       Thread.sleep(500);
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.SLOWINGDOWN);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.SLOWINGDOWN);
 
       // Then
       assertThat(actualEngineState, is(expectedEngineState));
@@ -378,10 +378,10 @@ class EngineStateHandlerTest {
       EngineStateHandler engineStateHandler = new EngineStateHandler(engineAccelerator);
 
       // When
-      EngineStates handleEngineAccelerating = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.IDLE); // initial move forward, so we have a direction
-      EngineStates handleEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, handleEngineAccelerating);
+      EngineStates handleEngineAccelerating = engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.IDLE); // initial move forward, so we have a direction
+      EngineStates handleEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, handleEngineAccelerating);
       Thread.sleep(50);
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, handleEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, handleEngineState);
 
       // Then
       assertThat(actualEngineState, is(ACCELERATING));
@@ -400,10 +400,10 @@ class EngineStateHandlerTest {
       EngineStates expectedEngineState2 = EngineStates.SLOWINGDOWN;
 
       // When
-      engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.IDLE);
-      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.IDLE);
+      EngineStates actualEngineState1 = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
       Thread.sleep((long) (acceleratingSpeed / 2d));
-      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, currentEngineState);
+      EngineStates actualEngineState2 = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, currentEngineState);
 
       // Then
       assertThat(actualEngineState1, is(expectedEngineState1));
@@ -420,10 +420,10 @@ class EngineStateHandlerTest {
       EngineStateHandler engineStateHandler = new EngineStateHandler(engineAccelerator);
 
       // When
-      engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.IDLE);
-      EngineStates handleEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, EngineStates.SLOWINGDOWN_NATURALLY);
+      engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.IDLE);
+      EngineStates handleEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, EngineStates.SLOWINGDOWN_NATURALLY);
       Thread.sleep(500);
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, handleEngineState);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, handleEngineState);
 
       // Then
       assertThat(actualEngineState, is(EngineStates.IDLE));
@@ -438,9 +438,9 @@ class EngineStateHandlerTest {
       EngineStateHandler engineStateHandler = new EngineStateHandler(engineAccelerator);
 
       // When
-      EngineStates engineStateAccelerating = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, EngineStates.IDLE);// start accelerating
-      EngineStates engineStateMovingBackwards = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, engineStateAccelerating);// start moving backwards
-      EngineStates engineStateSlowingDownNaturally = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, engineStateMovingBackwards);// move forward
+      EngineStates engineStateAccelerating = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, EngineStates.IDLE);// start accelerating
+      EngineStates engineStateMovingBackwards = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, engineStateAccelerating);// start moving backwards
+      EngineStates engineStateSlowingDownNaturally = engineStateHandler.handleEngineState(MovingDirections.FORWARD, engineStateMovingBackwards);// move forward
       EngineStates engineStateSlowingDown = engineStateHandler.handleEngineState(MovingDirections.NONE, engineStateSlowingDownNaturally);
       Thread.sleep(500);
       EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.NONE, engineStateSlowingDown);
@@ -460,12 +460,12 @@ class EngineStateHandlerTest {
       EngineStateHandler engineStateHandler = new EngineStateHandler(engineAccelerator);
 
       // When
-      EngineStates engineStateAccelerating = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, EngineStates.IDLE);// start accelerating
-      EngineStates engineStateMovingBackwards = engineStateHandler.handleEngineState(MovingDirections.BACKWARDS, engineStateAccelerating);// start moving backwards
-      EngineStates engineStateSlowingDownNaturally = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, engineStateMovingBackwards);// move forward
-      EngineStates engineStateSlowingDown = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, engineStateSlowingDownNaturally);
+      EngineStates engineStateAccelerating = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, EngineStates.IDLE);// start accelerating
+      EngineStates engineStateMovingBackwards = engineStateHandler.handleEngineState(MovingDirections.BACKWARD, engineStateAccelerating);// start moving backwards
+      EngineStates engineStateSlowingDownNaturally = engineStateHandler.handleEngineState(MovingDirections.FORWARD, engineStateMovingBackwards);// move forward
+      EngineStates engineStateSlowingDown = engineStateHandler.handleEngineState(MovingDirections.FORWARD, engineStateSlowingDownNaturally);
       Thread.sleep(500);
-      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARDS, engineStateSlowingDown);
+      EngineStates actualEngineState = engineStateHandler.handleEngineState(MovingDirections.FORWARD, engineStateSlowingDown);
 
       // Then
       assertThat(engineStateAccelerating, is(EngineStates.ACCELERATING));
