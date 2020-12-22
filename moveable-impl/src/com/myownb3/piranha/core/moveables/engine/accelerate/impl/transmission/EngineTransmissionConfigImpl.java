@@ -17,7 +17,16 @@ public class EngineTransmissionConfigImpl implements EngineTransmissionConfig {
    }
 
    @Override
-   public Gear getGear(int number) {
+   public double getCurrentAccelerationSpeed(int number) {
+      return getCurrentGear(number).getAccelerationSpeed();
+   }
+
+   @Override
+   public int getCurrentMaxVelocity(int number) {
+      return getCurrentGear(number).getMaxVelocity();
+   }
+
+   private Gear getCurrentGear(int number) {
       return gears.get(--number);
    }
 

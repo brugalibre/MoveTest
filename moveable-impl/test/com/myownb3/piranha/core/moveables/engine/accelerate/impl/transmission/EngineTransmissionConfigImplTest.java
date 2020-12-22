@@ -18,27 +18,27 @@ class EngineTransmissionConfigImplTest {
       // Given
       int maxVelocityOf2ndGear = 4;
       double accelerationSpeed2ndGear = 5.0;
+      Gear gear2 = GearBuilder.builder()
+            .withAccelerationSpeed(accelerationSpeed2ndGear)
+            .withMaxVelocity(maxVelocityOf2ndGear)
+            .withNumber(2)
+            .buil();
       EngineTransmissionConfig engineTransmissionConfig = EngineTransmissionConfigBuilder.builder()
             .addGear(GearBuilder.builder()
                   .withAccelerationSpeed(1)
                   .withMaxVelocity(3)
                   .withNumber(1)
                   .buil())
-            .addGear(GearBuilder.builder()
-                  .withAccelerationSpeed(accelerationSpeed2ndGear)
-                  .withMaxVelocity(maxVelocityOf2ndGear)
-                  .withNumber(2)
-                  .buil())
+            .addGear(gear2)
             .build();
 
       // When
-      Gear gear = engineTransmissionConfig.getGear(2);
       int actualAmountOfGears = engineTransmissionConfig.getAmountOfGears();
 
       // Then
-      assertThat(gear.getMaxVelocity(), is(maxVelocityOf2ndGear));
-      assertThat(gear.getAccelerationSpeed(), is(accelerationSpeed2ndGear));
-      assertThat(gear.getNumber(), is(2));
+      assertThat(gear2.getMaxVelocity(), is(maxVelocityOf2ndGear));
+      assertThat(gear2.getAccelerationSpeed(), is(accelerationSpeed2ndGear));
+      assertThat(gear2.getNumber(), is(2));
       assertThat(actualAmountOfGears, is(2));
    }
 

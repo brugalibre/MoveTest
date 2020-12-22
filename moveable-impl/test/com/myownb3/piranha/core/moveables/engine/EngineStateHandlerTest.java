@@ -249,7 +249,8 @@ class EngineStateHandlerTest {
             .addGear(gear2)
             .addGear(gear2)
             .build());
-      doReturn(gear2).when(transmissionConfigImpl).getGear(anyInt());
+      doReturn(acceleratingSpeed).when(transmissionConfigImpl).getCurrentAccelerationSpeed(anyInt());
+      doReturn(1).when(transmissionConfigImpl).getCurrentMaxVelocity(anyInt());
       EngineAccelerator engineAccelerator = EngineAcceleratorBuilder.builder()
             .withEngineTransmissionConfig(transmissionConfigImpl)
             .withManuallySlowDownSpeed(manuallySlowDownSpeed)
@@ -524,7 +525,9 @@ class EngineStateHandlerTest {
                      .withNumber(2)
                      .buil())
                .build());
-         doReturn(gear1).when(transmissionConfigImpl).getGear(anyInt());
+
+         doReturn(gear1.getAccelerationSpeed()).when(transmissionConfigImpl).getCurrentAccelerationSpeed(anyInt());
+         doReturn(gear1.getMaxVelocity()).when(transmissionConfigImpl).getCurrentMaxVelocity(anyInt());
       } else {
          transmissionConfigImpl = spy(EngineTransmissionConfigBuilder.builder()
                .addGear(gear1)

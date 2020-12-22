@@ -9,15 +9,22 @@ package com.myownb3.piranha.core.moveables.engine.accelerate.transmission;
 public interface EngineTransmissionConfig {
 
    /**
-    * Returns the {@link Gear} for the given number
-    * 
-    * @param number
+    * @return the max velocity which is possible at the current {@link Gear}
+    * @param gearNumber
     *        the number of the {@link Gear}
-    * @return the {@link Gear} for the given number
     * @throws IndexOutOfBoundsException
     *         if there is no {@link Gear} for the specified number
     */
-   Gear getGear(int number);
+   int getCurrentMaxVelocity(int gearNumber);
+
+   /**
+    * @return the acceleration speed of the engine at the current {@link Gear}
+    * @param gearNumber
+    *        the number of the {@link Gear}
+    * @throws IndexOutOfBoundsException
+    *         if there is no {@link Gear} for the specified number
+    */
+   double getCurrentAccelerationSpeed(int gearNumber);
 
    /**
     * @return the amount of {@link Gear}s of this {@link EngineTransmissionConfig}

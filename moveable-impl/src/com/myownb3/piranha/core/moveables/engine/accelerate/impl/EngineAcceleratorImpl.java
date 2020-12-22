@@ -88,7 +88,7 @@ public class EngineAcceleratorImpl implements EngineAccelerator {
       if (currentGrading == ZERO) {
          return 0;
       }
-      return engineTransmissionConfig.getGear(currentGrading).getMaxVelocity();
+      return engineTransmissionConfig.getCurrentMaxVelocity(currentGrading);
    }
 
    /**
@@ -103,7 +103,7 @@ public class EngineAcceleratorImpl implements EngineAccelerator {
             if (currentGrading == 0) {
                return 0;
             }
-            return engineTransmissionConfig.getGear(currentGrading).getAccelerationSpeed();
+            return engineTransmissionConfig.getCurrentAccelerationSpeed(currentGrading);
          case SLOWINGDOWN:
             return manuallySlowDownSpeed;
          case SLOWINGDOWN_NATURALLY:
