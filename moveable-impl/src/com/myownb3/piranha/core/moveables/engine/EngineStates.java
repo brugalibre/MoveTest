@@ -8,13 +8,13 @@ package com.myownb3.piranha.core.moveables.engine;
  */
 public enum EngineStates {
 
-   /** The engine is running but still dile */
+   /** The engine is running but still idle */
    IDLE,
 
    /** The engine is accelerating */
    ACCELERATING,
 
-   /** The engine is slowing down, triggered by hitting the brakes */
+   /** The engine is slowing down, triggered by hitting the breakes */
    SLOWINGDOWN,
 
    /** The engine is slowing down naturally. This means by stop accelerating */
